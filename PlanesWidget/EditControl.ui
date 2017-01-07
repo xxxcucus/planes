@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EditControlForm</class>
+ <widget class="QWidget" name="EditControlForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>620</width>
+    <height>85</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLineEdit" name="infoLineEdit">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="statusLineEdit">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="addPlaneButton">
+         <property name="toolTip">
+          <string>Press and hover the mouse over your grid</string>
+         </property>
+         <property name="whatsThis">
+          <string>Press and hover the mouse over your grid</string>
+         </property>
+         <property name="text">
+          <string>Add plane</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="movePlaneButton">
+         <property name="toolTip">
+          <string>Press and follow the instructions in the text box above</string>
+         </property>
+         <property name="whatsThis">
+          <string/>
+         </property>
+         <property name="text">
+          <string>Move plane</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="rotatePlaneButton">
+         <property name="toolTip">
+          <string>Press and follow the instructions in the text box above</string>
+         </property>
+         <property name="text">
+          <string>Rotate plane</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="deletePlaneButton">
+         <property name="toolTip">
+          <string>Press and follow the instructions in the text box above</string>
+         </property>
+         <property name="text">
+          <string>Delete plane</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="cancelButton">
+         <property name="toolTip">
+          <string>Cancel the current operation</string>
+         </property>
+         <property name="text">
+          <string>Cancel</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="doneButton">
+         <property name="toolTip">
+          <string>Finish editing the planes ; start playing</string>
+         </property>
+         <property name="text">
+          <string>Done</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
