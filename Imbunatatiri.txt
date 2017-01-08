@@ -3,3 +3,5 @@ Nu mai desena numarul de linii in planes widget.
 GraphicsView
 
 - la resize mareste si dimensiunea textului
+
+Imbunatatiri usability pentru editarea boardului

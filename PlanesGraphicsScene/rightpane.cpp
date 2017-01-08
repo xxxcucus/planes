@@ -4,14 +4,12 @@
 
 RightPane::RightPane(QWidget* parent) : QTabWidget(parent)
 {
-    m_Scene = new QGraphicsScene();
-    m_Scene->addText("Hello world!");
-    m_View = new QGraphicsView(m_Scene);
-
     QWidget* helpWidget = new QWidget();
     defineHelpWindow(helpWidget);
 
-    addTab(m_View, "Boards");
+    m_GameBoard = new GameBoard();
+
+    addTab(m_GameBoard->getView(), "Boards");
     addTab(helpWidget, "Help");
 }
 

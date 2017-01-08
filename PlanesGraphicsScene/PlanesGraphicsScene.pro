@@ -5,7 +5,8 @@ SOURCES += \
     boardrectangle.cpp \
     leftpane.cpp \
     gamestatsframe.cpp \
-    rightpane.cpp
+    rightpane.cpp \
+    gameboard.cpp
 
 
 HEADERS += \
@@ -14,7 +15,8 @@ HEADERS += \
     boardrectangle.h \
     leftpane.h \
     gamestatsframe.h \
-    rightpane.h
+    rightpane.h \
+    gameboard.h
 
 QT += widgets
 

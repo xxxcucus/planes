@@ -2,9 +2,8 @@
 #define RIGHTPANE_H
 
 #include <QTabWidget>
+#include "gameboard.h"
 
-class QGraphicsScene;
-class QGraphicsView;
 
 class RightPane : public QTabWidget
 {
@@ -12,9 +11,11 @@ class RightPane : public QTabWidget
 public:
     explicit RightPane(QWidget* parent = nullptr);
 
+public slots:
+    inline void resetGameBoard() { m_GameBoard->reset(); }
+
 private:
-    QGraphicsScene* m_Scene;
-    QGraphicsView* m_View;
+    GameBoard* m_GameBoard;
 
 private:
     void defineHelpWindow(QWidget* w);
