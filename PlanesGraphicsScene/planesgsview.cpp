@@ -10,7 +10,7 @@ PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cL
     m_LeftPane = new LeftPane(this);
     m_LeftPane->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 
-    m_RightPane = new RightPane(this);
+    m_RightPane = new RightPane(*m_playerGrid, *m_computerGrid, this);
 
     hLayout->addWidget(m_LeftPane);
     hLayout->addWidget(m_RightPane);

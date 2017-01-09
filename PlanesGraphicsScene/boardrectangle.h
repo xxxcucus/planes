@@ -9,7 +9,7 @@ public:
     enum class GameStatus { Empty, PlaneGuessed, PlaneHeadGuessed, TestedNotPlane };
     enum class Type { Empty, PlaneHead, Plane };
 
-    explicit BoardRectangle(QGraphicsItem* parent = 0): QGraphicsItem(parent) {}
+    explicit BoardRectangle(int row, int col, int width, QGraphicsItem* parent = 0);
     virtual ~BoardRectangle() {}
 
     inline void setWidth(int width) {
@@ -62,6 +62,8 @@ private:
     bool m_Selected = false;
     bool m_ShowPlane = false;
     bool m_ShowGuesses = false;
+    int m_GridRow = -1;
+    int m_GridCol = -1;
 };
 
 #endif // BOARDRECTANGLE_H

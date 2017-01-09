@@ -2,6 +2,11 @@
 
 #include <QPainter>
 
+BoardRectangle::BoardRectangle(int row, int col, int width, QGraphicsItem* parent) : QGraphicsItem(parent),
+    m_Width(width), m_GridRow(row), m_GridCol(col)
+{
+}
+
 void BoardRectangle::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
     Q_UNUSED(option)
     Q_UNUSED(widget)

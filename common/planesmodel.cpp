@@ -12,11 +12,11 @@ PlanesModel::PlanesModel(int rowNo, int colNo, int planeNo):
 
 
     //builds the plane grid objects
-    m_playerGrid = new PlaneGrid(m_rowNo,m_colNo,m_planeNo, false);
-    m_computerGrid = new PlaneGrid(m_rowNo,m_colNo,m_planeNo,true);
+    m_playerGrid = new PlaneGrid(m_rowNo, m_colNo, m_planeNo, false);
+    m_computerGrid = new PlaneGrid(m_rowNo, m_colNo, m_planeNo, true);
 
     //builds the computer logic object
-    m_computerLogic = new ComputerLogic(m_rowNo,m_colNo,m_planeNo);
+    m_computerLogic = new ComputerLogic(m_rowNo, m_colNo, m_planeNo);
 
 }
 

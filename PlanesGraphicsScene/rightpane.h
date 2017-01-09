@@ -9,7 +9,7 @@ class RightPane : public QTabWidget
 {
     Q_OBJECT
 public:
-    explicit RightPane(QWidget* parent = nullptr);
+    explicit RightPane(PlaneGrid& pGrid, PlaneGrid& cGrid, QWidget* parent = nullptr);
 
 public slots:
     inline void resetGameBoard() { m_GameBoard->reset(); }
