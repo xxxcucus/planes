@@ -1,34 +1,22 @@
-#ifndef BOARDRECTANGLE_H
-#define BOARDRECTANGLE_H
+#ifndef PLAYAREAGRIDSQUARE_H
+#define PLAYAREAGRIDSQUARE_H
 
-#include <QGraphicsItem>
+#include "gridsquare.h"
 
-class BoardRectangle : public QGraphicsItem
+class PlayAreaGridSquare : public GridSquare
 {
 public:
     enum class GameStatus { Empty, PlaneGuessed, PlaneHeadGuessed, TestedNotPlane };
     enum class Type { Empty, PlaneHead, Plane };
 
-    explicit BoardRectangle(int row, int col, int width, QGraphicsItem* parent = 0);
-    virtual ~BoardRectangle() {}
-
-    inline void setWidth(int width) {
-        if (m_Width == width)
-            return;
-        prepareGeometryChange();
-        m_Width = width;
-    }
-    inline int getWidth() const { return m_Width; }
-    inline QRectF boundingRect() const {
-        return QRectF(0, 0, m_Width, m_Width);
-    }
-    inline void setGameStatus(BoardRectangle::GameStatus st) {
+    PlayAreaGridSquare(int row, int col, int width, QGraphicsItem* parent = 0) : GridSquare(row, col, width, parent) {}
+    inline void setGameStatus(PlayAreaGridSquare::GameStatus st) {
         if (m_Status == st)
             return;
         prepareGeometryChange();
         m_Status = st;
     }
-    inline void setType(BoardRectangle::Type tp) {
+    inline void setType(PlayAreaGridSquare::Type tp) {
         if (m_Type == tp)
             return;
         prepareGeometryChange();
@@ -56,14 +44,11 @@ private:
     void drawTestedNotPlane(QPainter* painter);
 
 private:
-    BoardRectangle::Type m_Type = Type::Empty;
-    BoardRectangle::GameStatus m_Status = GameStatus::Empty;
-    int m_Width = 75;
+    PlayAreaGridSquare::Type m_Type = Type::Empty;
+    PlayAreaGridSquare::GameStatus m_Status = GameStatus::Empty;
     bool m_Selected = false;
     bool m_ShowPlane = false;
     bool m_ShowGuesses = false;
-    int m_GridRow = -1;
-    int m_GridCol = -1;
 };
 
-#endif // BOARDRECTANGLE_H
+#endif // PLAYAREAGRIDSQUARE_H

@@ -1,13 +1,7 @@
-#include "boardrectangle.h"
-
+#include "playareagridsquare.h"
 #include <QPainter>
 
-BoardRectangle::BoardRectangle(int row, int col, int width, QGraphicsItem* parent) : QGraphicsItem(parent),
-    m_Width(width), m_GridRow(row), m_GridCol(col)
-{
-}
-
-void BoardRectangle::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+void PlayAreaGridSquare::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
@@ -30,7 +24,7 @@ void BoardRectangle::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
     }
 }
 
-void BoardRectangle::drawCommonGraphics(QPainter* painter)
+void PlayAreaGridSquare::drawCommonGraphics(QPainter* painter)
 {
     if (m_Selected) {
         painter->fillRect(boundingRect(), Qt::blue);
@@ -56,21 +50,21 @@ void BoardRectangle::drawCommonGraphics(QPainter* painter)
     painter->drawRect(boundingRect());
 }
 
-void BoardRectangle::drawPlaneGuessed(QPainter* painter)
+void PlayAreaGridSquare::drawPlaneGuessed(QPainter* painter)
 {
     painter->setPen(Qt::red);
     painter->drawLine(0, 0, m_Width/2, m_Width);
     painter->drawLine(m_Width/2, m_Width, m_Width, 0);
 }
 
-void BoardRectangle::drawPlaneHeadGuessed(QPainter* painter)
+void PlayAreaGridSquare::drawPlaneHeadGuessed(QPainter* painter)
 {
     painter->setPen(Qt::red);
     painter->drawLine(0, 0, m_Width, m_Width);
     painter->drawLine(0, m_Width, m_Width, 0);
 }
 
-void BoardRectangle::drawTestedNotPlane(QPainter* painter)
+void PlayAreaGridSquare::drawTestedNotPlane(QPainter* painter)
 {
     painter->setPen(Qt::red);
     painter->drawEllipse(m_Width/3, m_Width/3, m_Width/3, m_Width/3);

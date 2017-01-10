@@ -2,21 +2,23 @@ SOURCES += \
     main.cpp \
     planesgswindow.cpp \
     planesgsview.cpp \
-    boardrectangle.cpp \
     leftpane.cpp \
     gamestatsframe.cpp \
     rightpane.cpp \
-    gameboard.cpp
+    gameboard.cpp \
+    gridsquare.cpp \
+    playareagridsquare.cpp
 
 
 HEADERS += \
     planesgswindow.h \
     planesgsview.h \
-    boardrectangle.h \
     leftpane.h \
     gamestatsframe.h \
     rightpane.h \
-    gameboard.h
+    gameboard.h \
+    gridsquare.h \
+    playareagridsquare.h
 
 QT += widgets
 

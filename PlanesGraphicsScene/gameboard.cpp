@@ -1,5 +1,6 @@
 #include "gameboard.h"
-#include "boardrectangle.h"
+#include "gridsquare.h"
+#include "playareagridsquare.h"
 
 GameBoard::GameBoard(PlaneGrid& pGrid, PlaneGrid& cGrid): m_PlayerGrid(pGrid), m_ComputerGrid(cGrid)
 {
@@ -10,10 +11,22 @@ GameBoard::GameBoard(PlaneGrid& pGrid, PlaneGrid& cGrid): m_PlayerGrid(pGrid), m
 
 void GameBoard::showEditorBoard()
 {
-    for (int i = 0; i < m_PlayerGrid.getRowNo(); i++)
-        for (int j = 0; j < m_PlayerGrid.getColNo(); j++) {
-            BoardRectangle* br = new BoardRectangle(i, j, m_SquareWidth);
-            m_Scene->addItem(br);
-            br->setPos(i * m_SquareWidth, j * m_SquareWidth);
+    int rows = m_PlayerGrid.getRowNo() + 2 * m_PaddingEditingBoard;
+    int cols = m_PlayerGrid.getColNo() + 2 * m_PaddingEditingBoard;
+
+
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < cols; j++) {
+
+            if (i < m_PaddingEditingBoard || abs(i - rows) <= m_PaddingEditingBoard
+                    || j < m_PaddingEditingBoard || abs (j - cols) <= m_PaddingEditingBoard) {
+                GridSquare* br = new GridSquare(i, j, m_SquareWidth);
+                m_Scene->addItem(br);
+                br->setPos(i * m_SquareWidth, j * m_SquareWidth);
+            } else {
+                PlayAreaGridSquare* pabr = new PlayAreaGridSquare(i, j, m_SquareWidth);
+                m_Scene->addItem(pabr);
+                pabr->setPos(i * m_SquareWidth, j * m_SquareWidth);
+            }
         }
 }

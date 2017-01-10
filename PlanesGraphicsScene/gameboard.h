@@ -5,6 +5,7 @@
 #include <QGraphicsView>
 #include "planegrid.h"
 
+///the board containing the playing grids and additional cells for editing
 class GameBoard
 {
 public:
@@ -30,7 +31,8 @@ private:
     PlaneGrid& m_PlayerGrid;
     PlaneGrid& m_ComputerGrid;
 
-    const int m_SquareWidth = 50;
+    const int m_SquareWidth = 30;
+    const int m_PaddingEditingBoard = 3;
 
 };
 
