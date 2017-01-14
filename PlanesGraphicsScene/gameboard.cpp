@@ -17,7 +17,6 @@ void GameBoard::showEditorBoard()
 
     for (int i = 0; i < rows; i++)
         for (int j = 0; j < cols; j++) {
-
             if (i < m_PaddingEditingBoard || abs(i - rows) <= m_PaddingEditingBoard
                     || j < m_PaddingEditingBoard || abs (j - cols) <= m_PaddingEditingBoard) {
                 GridSquare* br = new GridSquare(i, j, m_SquareWidth);

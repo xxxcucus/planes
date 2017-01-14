@@ -4,6 +4,7 @@
 #include <QComboBox>
 #include <QGridLayout>
 #include <QPushButton>
+#include <QSpacerItem>
 
 LeftPane::LeftPane(QWidget *parent) : QTabWidget(parent)
 {
@@ -16,24 +17,26 @@ LeftPane::LeftPane(QWidget *parent) : QTabWidget(parent)
     m_GameWidget = new QWidget();
     m_GameWidget->setLayout(vLayout);
 
-    QWidget* editBoardWidget = new QWidget();
-    QPushButton* addPlaneButton = new QPushButton("Add plane");
-    QPushButton* movePlaneButton = new QPushButton("Move plane");
+    QWidget* editBoardWidget = new QWidget();    
     QPushButton* selectPlaneButton = new QPushButton("Select plane");
     QPushButton* rotatePlaneButton = new QPushButton("Rotate plane");
-    QPushButton* deletePlaneButton = new QPushButton("Delete plane");
-    QPushButton* cancelButton = new QPushButton("Cancel");
+    QPushButton* leftPlaneButton = new QPushButton("Plane to left");
+    QPushButton* rightPlaneButton = new QPushButton("Plane to right");
+    QPushButton* upPlaneButton = new QPushButton("Plane upwards");
+    QPushButton* downPlaneButton = new QPushButton("Plane downwards");
     QPushButton* doneButton = new QPushButton("Done editing");
-    QVBoxLayout* vLayout1 = new QVBoxLayout();
-    vLayout1->addWidget(addPlaneButton);
-    vLayout1->addWidget(movePlaneButton);
-    vLayout1->addWidget(rotatePlaneButton);
-    vLayout1->addWidget(selectPlaneButton);
-    vLayout1->addWidget(deletePlaneButton);
-    vLayout1->addWidget(cancelButton);
-    vLayout1->addWidget(doneButton);
-    vLayout1->addStretch(5);
-    editBoardWidget->setLayout(vLayout1);
+    QSpacerItem* spacer = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    QGridLayout* gridLayout = new QGridLayout();
+    gridLayout->addWidget(selectPlaneButton, 0, 0, 1, 3);
+    gridLayout->addWidget(rotatePlaneButton, 1, 0, 1, 3);
+    gridLayout->addWidget(upPlaneButton, 2, 1);
+    gridLayout->addWidget(leftPlaneButton, 3, 0);
+    gridLayout->addWidget(rightPlaneButton, 3, 2);
+    gridLayout->addWidget(downPlaneButton, 4, 1);
+    gridLayout->addWidget(doneButton, 5, 0, 1, 3);
+    gridLayout->addItem(spacer, 6, 0, 1, 3);
+    gridLayout->setRowStretch(6, 5);
+    editBoardWidget->setLayout(gridLayout);
 
     addTab(m_GameWidget, "Game");
     addTab(editBoardWidget, "BoardEditing");
