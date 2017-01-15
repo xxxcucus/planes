@@ -1,6 +1,7 @@
 #include "gameboard.h"
 #include "gridsquare.h"
 #include "playareagridsquare.h"
+#include "plane.h"
 
 GameBoard::GameBoard(PlaneGrid& pGrid, PlaneGrid& cGrid): m_PlayerGrid(pGrid), m_ComputerGrid(cGrid)
 {
@@ -28,4 +29,46 @@ void GameBoard::showEditorBoard()
                 pabr->setPos(i * m_SquareWidth, j * m_SquareWidth);
             }
         }
+}
+
+
+///shows the planes on the grid
+void GameBoard::displayComputerPlanes() {
+
+}
+
+///@todo: deal with overlapping planes
+void GameBoard::displayPlayerPlanes() {
+    for (int i = 0; i < m_PlayerGrid.getPlaneNo(); i++) {
+        Plane pl;
+        if (!m_PlayerGrid.getPlane(i, pl))
+            continue;
+        PlanePointIterator ppi(pl);
+        QPoint head = pl.head();
+        while (ppi.hasNext()) {
+            QPoint pt = ppi.next();
+        }
+    }
+}
+
+
+///shows the computer guess on the grid
+void GameBoard::displayComputerGuesses() {
+
+}
+
+///shows the player guess on the grid
+void GameBoard::displayPlayerGuesses() {
+
+}
+
+
+///initializes the computer grid
+void GameBoard::initializeComputerGrid() {
+//    m_ComputerGrid.initGridByAutomaticGeneration();
+}
+
+///initializes the player grid
+void GameBoard::initializePlayerGrid() {
+//    m_PlayerGrid.initGridByAutomaticGeneration();
 }

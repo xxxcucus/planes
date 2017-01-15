@@ -20,6 +20,23 @@ public:
         showEditorBoard();
     }
 
+    ///shows the planes on the grid
+    void displayPlayerPlanes();
+    ///shows the planes on the grid
+    void displayComputerPlanes();
+    ///shows the computer guess on the grid
+    void displayComputerGuesses();
+    ///shows the player guesses on the grid
+    void displayPlayerGuesses();
+    ///initializes the player grid
+    ///generates the planes in standard positions
+    ///so that the player can move them to
+    /// the desired positions
+    void initializePlayerGrid();
+    ///initializes the computer grid
+    void initializeComputerGrid();
+
+
 private:
     inline void clearBoard() { m_Scene->clear();}
     void showEditorBoard();
@@ -31,8 +48,14 @@ private:
     PlaneGrid& m_PlayerGrid;
     PlaneGrid& m_ComputerGrid;
 
+    ///the width of a square inside the player grid
     const int m_SquareWidth = 30;
+    ///padding is added so that the plane is always completely
+    /// shown also when not completely inside the game area
     const int m_PaddingEditingBoard = 3;
+
+    ///initialy a grid with m_Rows + 2 * m_Padding width is built
+    ///in this grid the position of the players' planes are decided
 
 };
 

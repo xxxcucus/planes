@@ -18,10 +18,10 @@ void PlaneGrid::initGrid()
 {
     resetGrid();
 
-    if(m_isComputer)
+//    if(m_isComputer)
         initGridByAutomaticGeneration();
-    else
-        initGridByUserInteraction();
+//    else
+//        initGridByUserInteraction();
 
     //compute list of plane points - needed for the guessing process
     computePlanePointsList();

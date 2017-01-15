@@ -8,6 +8,7 @@
 
 //implements the logic of planes in a grid
 //lists of plane positions and orientations
+//the object knows where the planes are
 class PlaneGrid: public QObject
 {
     Q_OBJECT

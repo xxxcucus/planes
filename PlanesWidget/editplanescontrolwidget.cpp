@@ -23,10 +23,10 @@ EditPlanesControlWidget::EditPlanesControlWidget(GameRenderArea *renderArea, QWi
 void EditPlanesControlWidget::addPlane_clicked()
 {
     //update state of buttons
-    if(m_RenderArea->addMorePlanes())
-        addPlaneButton->setEnabled(true);
-    else
-        addPlaneButton->setEnabled(false);
+//    if(m_RenderArea->addMorePlanes())
+//        addPlaneButton->setEnabled(true);
+//    else
+//        addPlaneButton->setEnabled(false);
     movePlaneButton->setEnabled(false);
     deletePlaneButton->setEnabled(false);
     rotatePlaneButton->setEnabled(false);
@@ -42,10 +42,10 @@ void EditPlanesControlWidget::movePlane_clicked()
     if(m_RenderArea->setOperation(GameRenderArea::Move_plane))
     {
         //update state of buttons
-        if(m_RenderArea->addMorePlanes())
-            addPlaneButton->setEnabled(true);
-        else
-            addPlaneButton->setEnabled(false);
+//        if(m_RenderArea->addMorePlanes())
+//            addPlaneButton->setEnabled(true);
+//        else
+//            addPlaneButton->setEnabled(false);
         movePlaneButton->setEnabled(true);
         deletePlaneButton->setEnabled(false);
         rotatePlaneButton->setEnabled(false);
@@ -61,10 +61,10 @@ void EditPlanesControlWidget::deletePlane_clicked()
     if(m_RenderArea->setOperation(GameRenderArea::Delete_plane))
     {
         //update state of buttons
-        if(m_RenderArea->addMorePlanes())
-            addPlaneButton->setEnabled(true);
-        else
-            addPlaneButton->setEnabled(false);
+//        if(m_RenderArea->addMorePlanes())
+//            addPlaneButton->setEnabled(true);
+//        else
+//            addPlaneButton->setEnabled(false);
         movePlaneButton->setEnabled(false);
         deletePlaneButton->setEnabled(true);
         rotatePlaneButton->setEnabled(false);
@@ -79,10 +79,10 @@ void EditPlanesControlWidget::rotatePlane_clicked()
     if(m_RenderArea->setOperation(GameRenderArea::Rotate_plane))
     {
         //update state of buttons
-        if(m_RenderArea->addMorePlanes())
-            addPlaneButton->setEnabled(true);
-        else
-            addPlaneButton->setEnabled(false);
+//        if(m_RenderArea->addMorePlanes())
+//            addPlaneButton->setEnabled(true);
+//        else
+//            addPlaneButton->setEnabled(false);
         movePlaneButton->setEnabled(false);
         deletePlaneButton->setEnabled(false);
         rotatePlaneButton->setEnabled(true);
@@ -94,10 +94,10 @@ void EditPlanesControlWidget::rotatePlane_clicked()
 void EditPlanesControlWidget::cancel_clicked()
 {
     //update state of buttons
-    if(m_RenderArea->addMorePlanes())
-        addPlaneButton->setEnabled(true);
-    else
-        addPlaneButton->setEnabled(false);
+//    if(m_RenderArea->addMorePlanes())
+//        addPlaneButton->setEnabled(true);
+//    else
+//        addPlaneButton->setEnabled(false);
     movePlaneButton->setEnabled(true);
     deletePlaneButton->setEnabled(true);
     rotatePlaneButton->setEnabled(true);
@@ -148,7 +148,7 @@ void EditPlanesControlWidget::activateDoneButton()
 
 void EditPlanesControlWidget::initButtons()
 {
-    addPlaneButton->setEnabled(true);
+//    addPlaneButton->setEnabled(true);
     cancelButton->setEnabled(true);
     movePlaneButton->setEnabled(true);
     deletePlaneButton->setEnabled(true);
