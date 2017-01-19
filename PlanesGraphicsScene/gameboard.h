@@ -1,9 +1,12 @@
 #ifndef GAMEBOARD_H
 #define GAMEBOARD_H
 
+#include <map>
+
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include "planegrid.h"
+#include "gridsquare.h"
 
 ///the board containing the playing grids and additional cells for editing
 class GameBoard
@@ -20,6 +23,10 @@ public:
         showEditorBoard();
     }
 
+private:
+    inline void clearBoard() { m_Scene->clear();}
+    void showEditorBoard();
+    void initializeBoardEditingItems();
     ///shows the planes on the grid
     void displayPlayerPlanes();
     ///shows the planes on the grid
@@ -28,18 +35,6 @@ public:
     void displayComputerGuesses();
     ///shows the player guesses on the grid
     void displayPlayerGuesses();
-    ///initializes the player grid
-    ///generates the planes in standard positions
-    ///so that the player can move them to
-    /// the desired positions
-    void initializePlayerGrid();
-    ///initializes the computer grid
-    void initializeComputerGrid();
-
-
-private:
-    inline void clearBoard() { m_Scene->clear();}
-    void showEditorBoard();
 
 private:
     QGraphicsScene* m_Scene;
@@ -57,6 +52,7 @@ private:
     ///initialy a grid with m_Rows + 2 * m_Padding width is built
     ///in this grid the position of the players' planes are decided
 
+    std::map<std::pair<int, int>, GridSquare*> m_SceneItems;
 };
 
 #endif // GAMEBOARD_H

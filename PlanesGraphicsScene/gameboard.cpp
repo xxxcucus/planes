@@ -10,7 +10,7 @@ GameBoard::GameBoard(PlaneGrid& pGrid, PlaneGrid& cGrid): m_PlayerGrid(pGrid), m
     m_View = new QGraphicsView(m_Scene);
 }
 
-void GameBoard::showEditorBoard()
+void GameBoard::initializeBoardEditingItems()
 {
     int rows = m_PlayerGrid.getRowNo() + 2 * m_PaddingEditingBoard;
     int cols = m_PlayerGrid.getColNo() + 2 * m_PaddingEditingBoard;
@@ -23,14 +23,22 @@ void GameBoard::showEditorBoard()
                 GridSquare* br = new GridSquare(i, j, m_SquareWidth);
                 m_Scene->addItem(br);
                 br->setPos(i * m_SquareWidth, j * m_SquareWidth);
+                m_SceneItems[std::make_pair(i, j)] = br;
             } else {
                 PlayAreaGridSquare* pabr = new PlayAreaGridSquare(i, j, m_SquareWidth);
                 m_Scene->addItem(pabr);
                 pabr->setPos(i * m_SquareWidth, j * m_SquareWidth);
+                m_SceneItems[std::make_pair(i,j)] = pabr;
             }
         }
 }
 
+
+void GameBoard::showEditorBoard()
+{
+    initializeBoardEditingItems();
+    displayPlayerPlanes();
+}
 
 ///shows the planes on the grid
 void GameBoard::displayComputerPlanes() {
@@ -43,10 +51,15 @@ void GameBoard::displayPlayerPlanes() {
         Plane pl;
         if (!m_PlayerGrid.getPlane(i, pl))
             continue;
-        PlanePointIterator ppi(pl);
+
         QPoint head = pl.head();
+        m_SceneItems[std::make_pair(head.x() + m_PaddingEditingBoard, head.y() + m_PaddingEditingBoard)]->setType(GridSquare::Type::PlaneHead);
+        PlanePointIterator ppi(pl);
+        ///ignore the plane head
+        ppi.next();
         while (ppi.hasNext()) {
             QPoint pt = ppi.next();
+            m_SceneItems[std::make_pair(pt.x() + m_PaddingEditingBoard, pt.y() + m_PaddingEditingBoard)]->setType(GridSquare::Type::Plane);
         }
     }
 }
@@ -62,13 +75,3 @@ void GameBoard::displayPlayerGuesses() {
 
 }
 
-
-///initializes the computer grid
-void GameBoard::initializeComputerGrid() {
-//    m_ComputerGrid.initGridByAutomaticGeneration();
-}
-
-///initializes the player grid
-void GameBoard::initializePlayerGrid() {
-//    m_PlayerGrid.initGridByAutomaticGeneration();
-}

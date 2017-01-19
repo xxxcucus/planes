@@ -6,8 +6,6 @@
 class PlayAreaGridSquare : public GridSquare
 {
 public:
-    enum class GameStatus { Empty, PlaneGuessed, PlaneHeadGuessed, TestedNotPlane };
-    enum class Type { Empty, PlaneHead, Plane };
 
     PlayAreaGridSquare(int row, int col, int width, QGraphicsItem* parent = 0) : GridSquare(row, col, width, parent) {}
     inline void setGameStatus(PlayAreaGridSquare::GameStatus st) {
@@ -16,12 +14,7 @@ public:
         prepareGeometryChange();
         m_Status = st;
     }
-    inline void setType(PlayAreaGridSquare::Type tp) {
-        if (m_Type == tp)
-            return;
-        prepareGeometryChange();
-        m_Type = tp;
-    }
+
     inline void showPlane(bool val) {
         if (m_ShowPlane == val)
             return;
@@ -44,10 +37,9 @@ private:
     void drawTestedNotPlane(QPainter* painter);
 
 private:
-    PlayAreaGridSquare::Type m_Type = Type::Empty;
     PlayAreaGridSquare::GameStatus m_Status = GameStatus::Empty;
     bool m_Selected = false;
-    bool m_ShowPlane = false;
+    bool m_ShowPlane = true;
     bool m_ShowGuesses = false;
 };
 
