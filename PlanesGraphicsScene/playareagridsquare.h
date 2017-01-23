@@ -28,7 +28,7 @@ public:
         m_ShowGuesses = val;
     }
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
 private:
     void drawCommonGraphics(QPainter* painter);
@@ -38,7 +38,6 @@ private:
 
 private:
     PlayAreaGridSquare::GameStatus m_Status = GameStatus::Empty;
-    bool m_Selected = false;
     bool m_ShowPlane = true;
     bool m_ShowGuesses = false;
 };

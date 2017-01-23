@@ -6,7 +6,6 @@
 GameBoard::GameBoard(PlaneGrid& pGrid, PlaneGrid& cGrid): m_PlayerGrid(pGrid), m_ComputerGrid(cGrid)
 {
     m_Scene = new QGraphicsScene();
-    m_Scene->addText("Hello world!");
     m_View = new QGraphicsView(m_Scene);
 }
 
@@ -52,15 +51,10 @@ void GameBoard::displayPlayerPlanes() {
         if (!m_PlayerGrid.getPlane(i, pl))
             continue;
 
-        QPoint head = pl.head();
-        m_SceneItems[std::make_pair(head.x() + m_PaddingEditingBoard, head.y() + m_PaddingEditingBoard)]->setType(GridSquare::Type::PlaneHead);
-        PlanePointIterator ppi(pl);
-        ///ignore the plane head
-        ppi.next();
-        while (ppi.hasNext()) {
-            QPoint pt = ppi.next();
-            m_SceneItems[std::make_pair(pt.x() + m_PaddingEditingBoard, pt.y() + m_PaddingEditingBoard)]->setType(GridSquare::Type::Plane);
-        }
+        if (i != m_SelectedPlane)
+            showPlane(pl);
+        else
+            showSelectedPlane(pl);
     }
 }
 
@@ -75,3 +69,28 @@ void GameBoard::displayPlayerGuesses() {
 
 }
 
+void GameBoard::showPlane(const Plane &pl)
+{
+    QPoint head = pl.head();
+    m_SceneItems[std::make_pair(head.x() + m_PaddingEditingBoard, head.y() + m_PaddingEditingBoard)]->setType(GridSquare::Type::PlaneHead);
+    PlanePointIterator ppi(pl);
+    ///ignore the plane head
+    ppi.next();
+    while (ppi.hasNext()) {
+        QPoint pt = ppi.next();
+        m_SceneItems[std::make_pair(pt.x() + m_PaddingEditingBoard, pt.y() + m_PaddingEditingBoard)]->setType(GridSquare::Type::Plane);
+    }
+}
+
+void GameBoard::showSelectedPlane(const Plane &pl)
+{
+    QPoint head = pl.head();
+    m_SceneItems[std::make_pair(head.x() + m_PaddingEditingBoard, head.y() + m_PaddingEditingBoard)]->setSelected(true);
+    PlanePointIterator ppi(pl);
+    ///ignore the plane head
+    ppi.next();
+    while (ppi.hasNext()) {
+        QPoint pt = ppi.next();
+        m_SceneItems[std::make_pair(pt.x() + m_PaddingEditingBoard, pt.y() + m_PaddingEditingBoard)]->setSelected(true);
+    }
+}

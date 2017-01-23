@@ -36,6 +36,9 @@ private:
     ///shows the player guesses on the grid
     void displayPlayerGuesses();
 
+    void showPlane(const Plane& pl);
+    void showSelectedPlane(const Plane& pl);
+
 private:
     QGraphicsScene* m_Scene;
     QGraphicsView* m_View;
@@ -53,6 +56,9 @@ private:
     ///in this grid the position of the players' planes are decided
 
     std::map<std::pair<int, int>, GridSquare*> m_SceneItems;
+
+    ///which plane can be moved on the editor board
+    int m_SelectedPlane = 0;
 };
 
 #endif // GAMEBOARD_H

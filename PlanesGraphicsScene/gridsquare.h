@@ -31,11 +31,13 @@ public:
     }
 
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+    void setSelected(bool val) { m_Selected = val; }
 
 protected:
     int m_Width = 30;
     int m_GridRow = -1;
     int m_GridCol = -1;
+    bool m_Selected = false;
 
     GridSquare::Type m_Type = Type::Empty;
 };
