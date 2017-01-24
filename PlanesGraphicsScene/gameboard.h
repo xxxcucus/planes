@@ -29,6 +29,8 @@ private:
     void initializeBoardEditingItems();
     ///shows the planes on the grid
     void displayPlayerPlanes();
+    ///hide player planes
+    void hidePlayerPlanes();
     ///shows the planes on the grid
     void displayComputerPlanes();
     ///shows the computer guess on the grid

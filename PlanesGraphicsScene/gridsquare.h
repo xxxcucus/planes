@@ -32,6 +32,10 @@ public:
 
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     void setSelected(bool val) { m_Selected = val; }
+    void clearPlaneOptions() {
+        m_Selected = false;
+        m_Type = Type::Empty;
+    }
 
 protected:
     int m_Width = 30;

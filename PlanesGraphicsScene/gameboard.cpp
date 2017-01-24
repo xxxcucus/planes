@@ -58,6 +58,16 @@ void GameBoard::displayPlayerPlanes() {
     }
 }
 
+void GameBoard::hidePlayerPlanes()
+{
+    int rows = m_PlayerGrid.getRowNo() + 2 * m_PaddingEditingBoard;
+    int cols = m_PlayerGrid.getColNo() + 2 * m_PaddingEditingBoard;
+
+
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < cols; j++)
+            m_SceneItems[std::make_pair(i, j)]->clearPlaneOptions();
+}
 
 ///shows the computer guess on the grid
 void GameBoard::displayComputerGuesses() {
