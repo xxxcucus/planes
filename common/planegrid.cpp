@@ -1,5 +1,6 @@
 #include "planegrid.h"
 #include <QList>
+#include <QDebug>
 #include <QPoint>
 #include <cstdlib>
 
@@ -18,11 +19,9 @@ void PlaneGrid::initGrid()
 {
     resetGrid();
 
-//    if(m_isComputer)
-        initGridByAutomaticGeneration();
-//    else
-//        initGridByUserInteraction();
-
+    initGridByAutomaticGeneration();
+    if (!m_isComputer)
+        emit initPlayerGrid();
     //compute list of plane points - needed for the guessing process
     computePlanePointsList();
 }
@@ -139,7 +138,6 @@ int idx = Plane::generateRandomNumber(4);
 //let's the user generate his own planes
 void PlaneGrid::initGridByUserInteraction() const
 {
-
     emit initPlayerGrid();
 }
 

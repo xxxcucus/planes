@@ -20,7 +20,7 @@ signals:
 public slots:
 
     inline void activateBoardEditingTab() {
-        m_LeftPane->setCurrentIndex(1);
+        m_LeftPane->activateEditorTab();
     }
 
 private:

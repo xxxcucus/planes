@@ -38,6 +38,6 @@ LeftPane::LeftPane(QWidget *parent) : QTabWidget(parent)
     gridLayout->setRowStretch(6, 5);
     editBoardWidget->setLayout(gridLayout);
 
-    addTab(m_GameWidget, "Game");
-    addTab(editBoardWidget, "BoardEditing");
+    m_GameTabIndex = addTab(m_GameWidget, "Game");
+    m_EditorTabIndex = addTab(editBoardWidget, "BoardEditing");
 }

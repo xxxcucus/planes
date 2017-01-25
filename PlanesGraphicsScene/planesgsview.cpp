@@ -1,6 +1,6 @@
 #include "planesgsview.h"
 
-
+#include <QDebug>
 #include <QHBoxLayout>
 
 PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLogic, PlaneRound *rd, QWidget *parent)
