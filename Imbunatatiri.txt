@@ -4,8 +4,13 @@ GraphicsView
 
 - la resize mareste si dimensiunea textului
 
-Imbunatatiri usability pentru editarea boardului
+
 De facut ca aplicatia sa functioneze tot timpul in full screen.
 De calculat in functie de rezolutia ecranului daca se poate afisa jocul sau nu.
 De scalat toate elementele in functie de rezolutia ecranului.
 De scris un layout manager.
+
+Imbunatatiri usability pentru editarea boardului
+- Select plane, 
+
+Desenarea conturului cu alb cand 2 avioane se ating.
