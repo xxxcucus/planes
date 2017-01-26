@@ -3,6 +3,8 @@
 #include "playareagridsquare.h"
 #include "plane.h"
 
+#include <QDebug>
+
 GameBoard::GameBoard(PlaneGrid& pGrid, PlaneGrid& cGrid): m_PlayerGrid(pGrid), m_ComputerGrid(cGrid)
 {
     m_Scene = new QGraphicsScene();
@@ -103,4 +105,39 @@ void GameBoard::showSelectedPlane(const Plane &pl)
         QPoint pt = ppi.next();
         m_SceneItems[std::make_pair(pt.x() + m_PaddingEditingBoard, pt.y() + m_PaddingEditingBoard)]->setSelected(true);
     }
+}
+
+void GameBoard::selectPlaneClicked(bool)
+{
+    qDebug() << "select plane";
+}
+
+void GameBoard::rotatePlaneClicked(bool)
+{
+    qDebug() << "rotate plane";
+}
+
+void GameBoard::upPlaneClicked(bool )
+{
+    qDebug() << "up plane";
+}
+
+void GameBoard::downPlaneClicked(bool )
+{
+    qDebug() << "down plane";
+}
+
+void GameBoard::leftPlaneClicked(bool )
+{
+    qDebug() << "left plane";
+}
+
+void GameBoard::rightPlaneClicked(bool )
+{
+    qDebug() << "right plane";
+}
+
+void GameBoard::doneClicked(bool )
+{
+    qDebug() << "done";
 }

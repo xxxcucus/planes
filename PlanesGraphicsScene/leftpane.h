@@ -3,6 +3,7 @@
 
 #include <QDebug>
 #include <QTabWidget>
+#include <QPushButton>
 #include "gamestatsframe.h"
 
 class LeftPane : public QTabWidget
@@ -15,6 +16,13 @@ public:
     inline void activateEditorTab() { setCurrentIndex(m_EditorTabIndex); }
 
 signals:
+    void selectPlaneClicked(bool);
+    void rotatePlaneClicked(bool);
+    void upPlaneClicked(bool);
+    void downPlaneClicked(bool);
+    void leftPlaneClicked(bool);
+    void rightPlaneClicked(bool);
+    void doneClicked(bool);
 
 public slots:
 
@@ -27,6 +35,16 @@ private:
 
     int m_GameTabIndex = -1;
     int m_EditorTabIndex = -1;
+
+    ///butons to edit the position of the planes
+    QPushButton* m_selectPlaneButton;
+    QPushButton* m_rotatePlaneButton;
+    QPushButton* m_leftPlaneButton;
+    QPushButton* m_rightPlaneButton;
+    QPushButton* m_upPlaneButton;
+    QPushButton* m_downPlaneButton;
+    QPushButton* m_doneButton;
+
 };
 
 #endif // PLANESGSLEFTPANE_H

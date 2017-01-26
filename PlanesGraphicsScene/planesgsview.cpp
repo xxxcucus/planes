@@ -16,7 +16,20 @@ PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cL
     hLayout->addWidget(m_RightPane);
     setLayout(hLayout);
 
+    ///controls for editing the player's board in the first round of the game
+    connect(m_LeftPane, SIGNAL(selectPlaneClicked(bool)), m_RightPane, SLOT(selectPlaneClicked(bool)));
+    connect(m_LeftPane, SIGNAL(rotatePlaneClicked(bool)), m_RightPane, SLOT(rotatePlaneClicked(bool)));
+    connect(m_LeftPane, SIGNAL(upPlaneClicked(bool)), m_RightPane, SLOT(upPlaneClicked(bool)));
+    connect(m_LeftPane, SIGNAL(downPlaneClicked(bool)), m_RightPane, SLOT(downPlaneClicked(bool)));
+    connect(m_LeftPane, SIGNAL(leftPlaneClicked(bool)), m_RightPane, SLOT(leftPlaneClicked(bool)));
+    connect(m_LeftPane, SIGNAL(rightPlaneClicked(bool)), m_RightPane, SLOT(rightPlaneClicked(bool)));
+    connect(m_LeftPane, SIGNAL(doneClicked(bool)), m_RightPane, SLOT(doneClicked(bool)));
+
+    ///activate the board editing tab in the left pane
     connect(m_playerGrid, SIGNAL(initPlayerGrid()), this, SLOT(activateBoardEditingTab()));
+    ///reset the game board when starting the game
+    connect(m_round, SIGNAL(initGraphics()), m_RightPane, SLOT(resetGameBoard()));
+
 
 //    connect(playerGrid, SIGNAL(initPlayerGrid()),
 //                     editPlanesWidget, SLOT(initButtons()));
@@ -50,8 +63,6 @@ PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cL
 //                     gameStatsWidget, SLOT(roundEndet()));
 //    connect(gameStatsWidget, SIGNAL(startGame()),
 //                     round, SLOT(play()));
-    connect(m_round, SIGNAL(initGraphics()),
-                     m_RightPane, SLOT(resetGameBoard()));
 //    connect(round, SIGNAL(statsUpdated(GameStatistics)),
 //                     gameStatsWidget, SLOT(updateStats(GameStatistics)));
 

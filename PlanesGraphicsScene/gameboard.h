@@ -23,6 +23,15 @@ public:
         showEditorBoard();
     }
 
+    ///functions to edit the player's game board
+    void selectPlaneClicked(bool );
+    void rotatePlaneClicked(bool );
+    void upPlaneClicked(bool );
+    void downPlaneClicked(bool );
+    void leftPlaneClicked(bool );
+    void rightPlaneClicked(bool );
+    void doneClicked(bool );
+
 private:
     inline void clearBoard() { m_Scene->clear();}
     void showEditorBoard();

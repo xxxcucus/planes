@@ -13,6 +13,13 @@ public:
 
 public slots:
     inline void resetGameBoard() { m_GameBoard->reset(); }
+    void selectPlaneClicked(bool);
+    void rotatePlaneClicked(bool);
+    void upPlaneClicked(bool);
+    void downPlaneClicked(bool);
+    void leftPlaneClicked(bool);
+    void rightPlaneClicked(bool);
+    void doneClicked(bool);
 
 private:
     GameBoard* m_GameBoard;
