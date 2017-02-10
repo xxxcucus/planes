@@ -109,32 +109,50 @@ void GameBoard::showSelectedPlane(const Plane &pl)
 
 void GameBoard::selectPlaneClicked(bool)
 {
-    qDebug() << "select plane";
+    m_SelectedPlane = (m_SelectedPlane + 1) % m_PlayerGrid.getPlaneNo();
+    qDebug() << "select plane " << m_SelectedPlane;
+    hidePlayerPlanes();
+    displayPlayerPlanes();
 }
 
 void GameBoard::rotatePlaneClicked(bool)
 {
     qDebug() << "rotate plane";
+    m_PlayerGrid.rotatePlane(m_SelectedPlane);
+    hidePlayerPlanes();
+    displayPlayerPlanes();
 }
 
 void GameBoard::upPlaneClicked(bool )
 {
     qDebug() << "up plane";
+    m_PlayerGrid.movePlaneUpwards(m_SelectedPlane);
+    hidePlayerPlanes();
+    displayPlayerPlanes();
 }
 
 void GameBoard::downPlaneClicked(bool )
 {
     qDebug() << "down plane";
+    m_PlayerGrid.movePlaneDownwards(m_SelectedPlane);
+    hidePlayerPlanes();
+    displayPlayerPlanes();
 }
 
 void GameBoard::leftPlaneClicked(bool )
 {
     qDebug() << "left plane";
+    m_PlayerGrid.movePlaneLeft(m_SelectedPlane);
+    hidePlayerPlanes();
+    displayPlayerPlanes();
 }
 
 void GameBoard::rightPlaneClicked(bool )
 {
     qDebug() << "right plane";
+    m_PlayerGrid.movePlaneRight(m_SelectedPlane);
+    hidePlayerPlanes();
+    displayPlayerPlanes();
 }
 
 void GameBoard::doneClicked(bool )

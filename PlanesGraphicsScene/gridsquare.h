@@ -31,8 +31,16 @@ public:
     }
 
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
-    void setSelected(bool val) { m_Selected = val; }
+    void setSelected(bool val) {
+        if (m_Selected == val)
+            return;
+        prepareGeometryChange();
+        m_Selected = val;
+    }
     void clearPlaneOptions() {
+        if (!m_Selected && m_Type == Type::Empty)
+            return;
+        prepareGeometryChange();
         m_Selected = false;
         m_Type = Type::Empty;
     }

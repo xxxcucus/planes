@@ -273,6 +273,54 @@ bool PlaneGrid::getPlane(int pos, Plane &pl) const
     return true;
 }
 
+bool PlaneGrid::rotatePlane(int idx)
+{
+    if (idx < 0 || idx >= m_planeList.size())
+        return false;
+    Plane& pl = m_planeList[idx];
+    pl.rotate();
+    ///@todo: don't know how this will work when the plane comes out of the grid
+    computePlanePointsList();
+    return true;
+}
+
+bool PlaneGrid::movePlaneUpwards(int idx)
+{
+    if (idx < 0 || idx >= m_planeList.size())
+        return false;
+    Plane& pl = m_planeList[idx];
+    pl.translateWhenHeadPosValid(0, -1, m_rowNo, m_colNo);
+    return true;
+}
+
+bool PlaneGrid::movePlaneDownwards(int idx)
+{
+    if (idx < 0 || idx >= m_planeList.size())
+        return false;
+    Plane& pl = m_planeList[idx];
+    pl.translateWhenHeadPosValid(0, 1, m_rowNo, m_colNo);
+    return true;
+}
+
+bool PlaneGrid::movePlaneLeft(int idx)
+{
+    if (idx < 0 || idx >= m_planeList.size())
+        return false;
+    Plane& pl = m_planeList[idx];
+    pl.translateWhenHeadPosValid(-1, 0, m_rowNo, m_colNo);
+    return true;
+}
+
+bool PlaneGrid::movePlaneRight(int idx)
+{
+    if (idx < 0 || idx >= m_planeList.size())
+        return false;
+    Plane& pl = m_planeList[idx];
+    pl.translateWhenHeadPosValid(1, 0, m_rowNo, m_colNo);
+    return true;
+}
+
+
 
 //for a given QPoint checks to what type of point it corresponds in the grid
 GuessPoint::Type PlaneGrid::getGuessResult(QPoint qp) const
@@ -285,3 +333,5 @@ GuessPoint::Type PlaneGrid::getGuessResult(QPoint qp) const
 
     return GuessPoint::Miss;
 }
+
+

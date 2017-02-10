@@ -61,6 +61,11 @@ public:
     //finds how good is a guess
     GuessPoint::Type getGuessResult(QPoint qp) const;
 
+    bool rotatePlane(int idx);
+    bool movePlaneUpwards(int idx);
+    bool movePlaneDownwards(int idx);
+    bool movePlaneLeft(int idx);
+    bool movePlaneRight(int idx);
 
 private:
     //generates a plane at a random position on the grid

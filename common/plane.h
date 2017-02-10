@@ -35,6 +35,9 @@ public:
     Plane operator+(const QPoint &qp);
     //clockwise rotation of planes
     void rotate();
+    //translation with given offset in a grid with row and col rows and columns
+    //if the future head position is not valid do not translate
+    void translateWhenHeadPosValid(int offsetX, int offsetY, int row, int col);
     //returns whether a plane position is valid in a grid with row and col
     bool isPositionValid(int row, int col) const;
     //generates a random number from 0 and valmax-1

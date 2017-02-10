@@ -143,14 +143,25 @@ QString Plane::toString() const
     return toReturn;
 }
 
+void Plane::translateWhenHeadPosValid(int offsetX, int offsetY, int row, int col)
+{
+    if ((m_row + offsetX < 0) || (m_row + offsetX >= row)) {
+        return;
+    }
 
+    if ((m_col + offsetY < 0) || (m_col + offsetY >= col)) {
+        return;
+    }
+
+    m_row += offsetX;
+    m_col += offsetY;
+}
 
 //implements plane translation
 Plane Plane::operator+ (const QPoint &qp)
 {
     return Plane(this->m_row+qp.x(), this->m_col+qp.y(), this->m_orient);
 }
-
 
 //constructor
 PlanePointIterator::PlanePointIterator(const Plane &pl):
