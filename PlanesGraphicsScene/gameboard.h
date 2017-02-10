@@ -9,8 +9,9 @@
 #include "gridsquare.h"
 
 ///the board containing the playing grids and additional cells for editing
-class GameBoard
+class GameBoard : public QObject
 {
+    Q_OBJECT
 public:
     GameBoard(PlaneGrid& pGrid, PlaneGrid& cGrid);
 
@@ -32,6 +33,10 @@ public:
     void rightPlaneClicked(bool );
     void doneClicked(bool );
 
+
+signals:
+    void planesOverlap(bool);
+
 private:
     inline void clearBoard() { m_Scene->clear();}
     void showEditorBoard();
@@ -49,6 +54,8 @@ private:
 
     void showPlane(const Plane& pl);
     void showSelectedPlane(const Plane& pl);
+
+    void updateEditorBoard();
 
 private:
     QGraphicsScene* m_Scene;

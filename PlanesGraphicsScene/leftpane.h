@@ -25,6 +25,11 @@ signals:
     void doneClicked(bool);
 
 public slots:
+    /**
+     * @brief When planes overlap deactivate the done button
+     * @param planesOverlap - received info from corresponding signal
+     */
+    void activateDoneButton(bool planesOverlap);
 
 private:
     GameStatsFrame* m_PlayerStatsFrame;

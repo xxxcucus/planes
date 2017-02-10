@@ -49,3 +49,8 @@ LeftPane::LeftPane(QWidget *parent) : QTabWidget(parent)
     m_GameTabIndex = addTab(m_GameWidget, "Game");
     m_EditorTabIndex = addTab(m_BoardEditingWidget, "BoardEditing");
 }
+
+void LeftPane::activateDoneButton(bool planesOverlap)
+{
+    m_doneButton->setEnabled(!planesOverlap);
+}

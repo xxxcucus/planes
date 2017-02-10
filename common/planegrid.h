@@ -6,9 +6,9 @@
 #include <QPoint>
 #include <QObject>
 
-//implements the logic of planes in a grid
-//lists of plane positions and orientations
-//the object knows where the planes are
+/**Implements the logic of planes in a grid.
+*Manages a list of plane positions and orientations.
+*/
 class PlaneGrid: public QObject
 {
     Q_OBJECT
@@ -23,8 +23,8 @@ class PlaneGrid: public QObject
     QList <Plane> m_planeList;
     //list of all points on the planes
     QList <QPoint> m_listPlanePoints;
-    //list of guesses
-    //QList <GuessPoint> m_guessPointList;
+    //whether planes overlap. is computed every time the plane points are computed again.
+    bool m_PlanesOverlap = false;
 
 public:
     //constructor
@@ -66,6 +66,8 @@ public:
     bool movePlaneDownwards(int idx);
     bool movePlaneLeft(int idx);
     bool movePlaneRight(int idx);
+
+    inline bool doPlanesOverlap() { return m_PlanesOverlap; }
 
 private:
     //generates a plane at a random position on the grid

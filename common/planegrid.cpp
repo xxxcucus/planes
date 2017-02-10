@@ -162,10 +162,9 @@ bool PlaneGrid::isPointOnPlane(int row, int col) const
 bool PlaneGrid::computePlanePointsList()
 {
     m_listPlanePoints.clear();
-
     bool returnValue = true;
 
-    for(int i=0;i<m_planeList.size();i++)
+    for(int i = 0; i < m_planeList.size(); i++)
     {
         Plane pl = m_planeList.at(i);
         PlanePointIterator ppi(pl);
@@ -180,6 +179,7 @@ bool PlaneGrid::computePlanePointsList()
         }
     }
 
+    m_PlanesOverlap = !returnValue;
     return returnValue;
 }
 
@@ -290,6 +290,7 @@ bool PlaneGrid::movePlaneUpwards(int idx)
         return false;
     Plane& pl = m_planeList[idx];
     pl.translateWhenHeadPosValid(0, -1, m_rowNo, m_colNo);
+    computePlanePointsList();
     return true;
 }
 
@@ -299,6 +300,7 @@ bool PlaneGrid::movePlaneDownwards(int idx)
         return false;
     Plane& pl = m_planeList[idx];
     pl.translateWhenHeadPosValid(0, 1, m_rowNo, m_colNo);
+    computePlanePointsList();
     return true;
 }
 
@@ -308,6 +310,7 @@ bool PlaneGrid::movePlaneLeft(int idx)
         return false;
     Plane& pl = m_planeList[idx];
     pl.translateWhenHeadPosValid(-1, 0, m_rowNo, m_colNo);
+    computePlanePointsList();
     return true;
 }
 
@@ -317,6 +320,7 @@ bool PlaneGrid::movePlaneRight(int idx)
         return false;
     Plane& pl = m_planeList[idx];
     pl.translateWhenHeadPosValid(1, 0, m_rowNo, m_colNo);
+    computePlanePointsList();
     return true;
 }
 

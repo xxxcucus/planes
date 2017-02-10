@@ -11,6 +11,8 @@ RightPane::RightPane(PlaneGrid& pGrid, PlaneGrid& cGrid, QWidget* parent) : QTab
 
     addTab(m_GameBoard->getView(), "Boards");
     addTab(helpWidget, "Help");
+
+    connect(m_GameBoard, SIGNAL(planesOverlap(bool)), this, SIGNAL(planesOverlap(bool)));
 }
 
 void RightPane::defineHelpWindow(QWidget* w)

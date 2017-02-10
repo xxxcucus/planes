@@ -119,43 +119,45 @@ void GameBoard::rotatePlaneClicked(bool)
 {
     qDebug() << "rotate plane";
     m_PlayerGrid.rotatePlane(m_SelectedPlane);
-    hidePlayerPlanes();
-    displayPlayerPlanes();
-}
+    updateEditorBoard();}
 
 void GameBoard::upPlaneClicked(bool )
 {
     qDebug() << "up plane";
     m_PlayerGrid.movePlaneUpwards(m_SelectedPlane);
-    hidePlayerPlanes();
-    displayPlayerPlanes();
-}
+    updateEditorBoard();}
 
 void GameBoard::downPlaneClicked(bool )
 {
     qDebug() << "down plane";
     m_PlayerGrid.movePlaneDownwards(m_SelectedPlane);
-    hidePlayerPlanes();
-    displayPlayerPlanes();
-}
+    updateEditorBoard();}
 
 void GameBoard::leftPlaneClicked(bool )
 {
     qDebug() << "left plane";
     m_PlayerGrid.movePlaneLeft(m_SelectedPlane);
-    hidePlayerPlanes();
-    displayPlayerPlanes();
-}
+    updateEditorBoard();}
 
 void GameBoard::rightPlaneClicked(bool )
 {
     qDebug() << "right plane";
     m_PlayerGrid.movePlaneRight(m_SelectedPlane);
-    hidePlayerPlanes();
-    displayPlayerPlanes();
+    updateEditorBoard();
 }
 
 void GameBoard::doneClicked(bool )
 {
     qDebug() << "done";
+
+}
+
+void GameBoard::updateEditorBoard()
+{
+    hidePlayerPlanes();
+    if (m_PlayerGrid.doPlanesOverlap())
+        emit planesOverlap(true);
+    else
+        emit planesOverlap(false);
+    displayPlayerPlanes();
 }

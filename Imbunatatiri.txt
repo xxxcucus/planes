@@ -12,5 +12,11 @@ De scris un layout manager.
 Imbunatatiri usability pentru editarea boardului
 - Select plane, Move left, Move right, Move up, Move down.
 Afisarea cu alta culoare a partilor din avioane care se suprapun.
+PlaneGrid tb sa pastreze o lista cu patratelele care se suprapun.
 
-Desenarea conturului cu alb cand 2 avioane se ating.
+Desenarea conturului cu alb cand 2 avioane se ating. - 
+probabil posibil cu usurinta numai atunci cand exista un obiect avion.
+
+Impiedica suprapunerea avioanelor.
+
+Deactiveaza butonul done cand unul din avioane este afara din grid.

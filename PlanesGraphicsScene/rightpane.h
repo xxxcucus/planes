@@ -21,6 +21,9 @@ public slots:
     void rightPlaneClicked(bool);
     void doneClicked(bool);
 
+signals:
+    void planesOverlap(bool);
+
 private:
     GameBoard* m_GameBoard;
 
