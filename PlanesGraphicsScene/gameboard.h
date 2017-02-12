@@ -37,7 +37,7 @@ signals:
     void planesOverlap(bool);
 
 private:
-    inline void clearBoard() { m_Scene->clear();}
+    void clearBoard();
     /*void showEditorBoard();*/
     /**
      * @brief Generates the graphics scene items for the board
@@ -76,8 +76,9 @@ private:
 
     ///initialy a grid with m_Rows + 2 * m_Padding width is built
     ///in this grid the position of the players' planes are decided
-
-    std::map<std::pair<int, int>, GridSquare*> m_SceneItems;
+    std::map<std::pair<int, int>, GridSquare*> m_PlayerSceneItems;
+    ///the computer grid
+    std::map<std::pair<int, int>, GridSquare*> m_ComputerSceneItems;
 
     ///which plane can be moved on the editor board
     int m_SelectedPlane = 0;

@@ -9,6 +9,10 @@ GameBoard::GameBoard(PlaneGrid& pGrid, PlaneGrid& cGrid): m_PlayerGrid(pGrid), m
 {
     m_Scene = new QGraphicsScene();
     m_View = new QGraphicsView(m_Scene);
+    ///simplification for the case when the two grids have always the same dimensions
+    int minViewSizeX = (m_PlayerGrid.getColNo() + 2 * m_PaddingEditingBoard) * m_BigSquareWidth + m_ComputerGrid.getColNo() * m_SmallSquareWidth + 10;
+    int minViewSizeY = (m_PlayerGrid.getRowNo() + 2 * m_PaddingEditingBoard) * m_BigSquareWidth + m_ComputerGrid.getRowNo() * m_SmallSquareWidth + 10;
+    m_View->setMinimumSize(minViewSizeX, minViewSizeY);
 }
 
 void GameBoard::reset()
@@ -18,6 +22,12 @@ void GameBoard::reset()
     m_LowerGridUsesBigSquares = true;
     generateBoardItems();
     displayPlayerPlanes();
+}
+
+///@todo: deleted the items from m_PlayerSceneItems and m_ComputerSceneItems
+void GameBoard::clearBoard()
+{
+    m_Scene->clear();
 }
 
 void GameBoard::generateBoardItems()
@@ -36,25 +46,44 @@ void GameBoard::generateBoardItems()
 
 void GameBoard::generateBoardItemsEditingStage()
 {
+///calculate the positions of the two grids
+    int playerSquareWidth = m_LowerGridUsesBigSquares ? m_BigSquareWidth : m_SmallSquareWidth;
+    int computerSquareWidth = m_LowerGridUsesBigSquares ? m_SmallSquareWidth : m_BigSquareWidth;
+    int playerBoardOffsetX = 0;
+    int playerBoardOffsetY = m_ComputerGrid.getRowNo() * computerSquareWidth;
+    int computerBoardOffsetX = (m_PlayerGrid.getColNo() + 2 * m_PaddingEditingBoard) * playerSquareWidth;
+    int computerBoardOffsetY = 0;
+
+
+    ///generate player scene items
     int rows = m_PlayerGrid.getRowNo() + 2 * m_PaddingEditingBoard;
     int cols = m_PlayerGrid.getColNo() + 2 * m_PaddingEditingBoard;
-
-    int squareWidth = m_LowerGridUsesBigSquares ? m_BigSquareWidth : m_SmallSquareWidth;
 
     for (int i = 0; i < rows; i++)
         for (int j = 0; j < cols; j++) {
             if (i < m_PaddingEditingBoard || abs(i - rows) <= m_PaddingEditingBoard
                     || j < m_PaddingEditingBoard || abs (j - cols) <= m_PaddingEditingBoard) {
-                GridSquare* br = new GridSquare(i, j, squareWidth);
+                GridSquare* br = new GridSquare(i, j, playerSquareWidth);
                 m_Scene->addItem(br);
-                br->setPos(i * squareWidth, j * squareWidth);
-                m_SceneItems[std::make_pair(i, j)] = br;
+                br->setPos(playerBoardOffsetX + i * playerSquareWidth, playerBoardOffsetY + j * playerSquareWidth);
+                m_PlayerSceneItems[std::make_pair(i, j)] = br;
             } else {
-                PlayAreaGridSquare* pabr = new PlayAreaGridSquare(i, j, squareWidth);
+                PlayAreaGridSquare* pabr = new PlayAreaGridSquare(i, j, playerSquareWidth);
                 m_Scene->addItem(pabr);
-                pabr->setPos(i * squareWidth, j * squareWidth);
-                m_SceneItems[std::make_pair(i,j)] = pabr;
+                pabr->setPos(playerBoardOffsetX + i * playerSquareWidth, playerBoardOffsetY + j * playerSquareWidth);
+                m_PlayerSceneItems[std::make_pair(i,j)] = pabr;
             }
+        }
+
+    ///generate computer grid
+    rows = m_ComputerGrid.getRowNo();
+    cols = m_ComputerGrid.getColNo();
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < cols; j++) {
+            PlayAreaGridSquare* pabr = new PlayAreaGridSquare(i, j, computerSquareWidth);
+            m_Scene->addItem(pabr);
+            pabr->setPos(computerBoardOffsetX + i * computerSquareWidth, computerBoardOffsetY + j * computerSquareWidth);
+            m_ComputerSceneItems[std::make_pair(i, j)] = pabr;
         }
 }
 
@@ -97,7 +126,7 @@ void GameBoard::hidePlayerPlanes()
 
     for (int i = 0; i < rows; i++)
         for (int j = 0; j < cols; j++)
-            m_SceneItems[std::make_pair(i, j)]->clearPlaneOptions();
+            m_PlayerSceneItems[std::make_pair(i, j)]->clearPlaneOptions();
 }
 
 ///shows the computer guess on the grid
@@ -113,26 +142,26 @@ void GameBoard::displayPlayerGuesses() {
 void GameBoard::showPlane(const Plane &pl)
 {
     QPoint head = pl.head();
-    m_SceneItems[std::make_pair(head.x() + m_PaddingEditingBoard, head.y() + m_PaddingEditingBoard)]->setType(GridSquare::Type::PlaneHead);
+    m_PlayerSceneItems[std::make_pair(head.x() + m_PaddingEditingBoard, head.y() + m_PaddingEditingBoard)]->setType(GridSquare::Type::PlaneHead);
     PlanePointIterator ppi(pl);
     ///ignore the plane head
     ppi.next();
     while (ppi.hasNext()) {
         QPoint pt = ppi.next();
-        m_SceneItems[std::make_pair(pt.x() + m_PaddingEditingBoard, pt.y() + m_PaddingEditingBoard)]->setType(GridSquare::Type::Plane);
+        m_PlayerSceneItems[std::make_pair(pt.x() + m_PaddingEditingBoard, pt.y() + m_PaddingEditingBoard)]->setType(GridSquare::Type::Plane);
     }
 }
 
 void GameBoard::showSelectedPlane(const Plane &pl)
 {
     QPoint head = pl.head();
-    m_SceneItems[std::make_pair(head.x() + m_PaddingEditingBoard, head.y() + m_PaddingEditingBoard)]->setSelected(true);
+    m_PlayerSceneItems[std::make_pair(head.x() + m_PaddingEditingBoard, head.y() + m_PaddingEditingBoard)]->setSelected(true);
     PlanePointIterator ppi(pl);
     ///ignore the plane head
     ppi.next();
     while (ppi.hasNext()) {
         QPoint pt = ppi.next();
-        m_SceneItems[std::make_pair(pt.x() + m_PaddingEditingBoard, pt.y() + m_PaddingEditingBoard)]->setSelected(true);
+        m_PlayerSceneItems[std::make_pair(pt.x() + m_PaddingEditingBoard, pt.y() + m_PaddingEditingBoard)]->setSelected(true);
     }
 }
 
