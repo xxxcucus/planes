@@ -13,16 +13,15 @@ class GameBoard : public QObject
 {
     Q_OBJECT
 public:
+    enum class GameStages { BoardEditing, Game };
+
     GameBoard(PlaneGrid& pGrid, PlaneGrid& cGrid);
 
     inline QWidget* getView() { return m_View; }
 
     ///deletes all the objects in the graphicscene
     ///and creates the board for placing the planes
-    inline void reset() {
-        clearBoard();
-        showEditorBoard();
-    }
+    void reset();
 
     ///functions to edit the player's game board
     void selectPlaneClicked(bool );
@@ -39,8 +38,13 @@ signals:
 
 private:
     inline void clearBoard() { m_Scene->clear();}
-    void showEditorBoard();
-    void initializeBoardEditingItems();
+    /*void showEditorBoard();*/
+    /**
+     * @brief Generates the graphics scene items for the board
+     */
+    void generateBoardItems();
+    void generateBoardItemsEditingStage();
+    void generateBoardItemsGameStage();
     ///shows the planes on the grid
     void displayPlayerPlanes();
     ///hide player planes
@@ -54,7 +58,6 @@ private:
 
     void showPlane(const Plane& pl);
     void showSelectedPlane(const Plane& pl);
-
     void updateEditorBoard();
 
 private:
@@ -64,8 +67,9 @@ private:
     PlaneGrid& m_PlayerGrid;
     PlaneGrid& m_ComputerGrid;
 
-    ///the width of a square inside the player grid
-    const int m_SquareWidth = 30;
+    ///widths of a square inside the grid
+    const int m_BigSquareWidth = 30;
+    const int m_SmallSquareWidth = 20;
     ///padding is added so that the plane is always completely
     /// shown also when not completely inside the game area
     const int m_PaddingEditingBoard = 3;
@@ -77,6 +81,14 @@ private:
 
     ///which plane can be moved on the editor board
     int m_SelectedPlane = 0;
+
+    ///the game has two parts: player edits his board, game is played against the computer
+    GameStages m_CurStage = GameStages::BoardEditing;
+
+    ///two grids are shown at the same time in the game board
+    /// one in the lowest left corner and one in the highest right corner
+    /// depending on the current setting one uses big squares and the other small squares
+    bool m_LowerGridUsesBigSquares = false;
 };
 
 #endif // GAMEBOARD_H

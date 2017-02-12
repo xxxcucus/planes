@@ -11,35 +11,64 @@ GameBoard::GameBoard(PlaneGrid& pGrid, PlaneGrid& cGrid): m_PlayerGrid(pGrid), m
     m_View = new QGraphicsView(m_Scene);
 }
 
-void GameBoard::initializeBoardEditingItems()
+void GameBoard::reset()
+{
+    clearBoard();
+    m_CurStage = GameStages::BoardEditing;
+    m_LowerGridUsesBigSquares = true;
+    generateBoardItems();
+    displayPlayerPlanes();
+}
+
+void GameBoard::generateBoardItems()
+{
+    switch(m_CurStage) {
+        case GameStages::BoardEditing:
+            generateBoardItemsEditingStage();
+            break;
+        case GameStages::Game:
+            generateBoardItemsGameStage();
+            break;
+        default:
+            break;
+    }
+}
+
+void GameBoard::generateBoardItemsEditingStage()
 {
     int rows = m_PlayerGrid.getRowNo() + 2 * m_PaddingEditingBoard;
     int cols = m_PlayerGrid.getColNo() + 2 * m_PaddingEditingBoard;
 
+    int squareWidth = m_LowerGridUsesBigSquares ? m_BigSquareWidth : m_SmallSquareWidth;
 
     for (int i = 0; i < rows; i++)
         for (int j = 0; j < cols; j++) {
             if (i < m_PaddingEditingBoard || abs(i - rows) <= m_PaddingEditingBoard
                     || j < m_PaddingEditingBoard || abs (j - cols) <= m_PaddingEditingBoard) {
-                GridSquare* br = new GridSquare(i, j, m_SquareWidth);
+                GridSquare* br = new GridSquare(i, j, squareWidth);
                 m_Scene->addItem(br);
-                br->setPos(i * m_SquareWidth, j * m_SquareWidth);
+                br->setPos(i * squareWidth, j * squareWidth);
                 m_SceneItems[std::make_pair(i, j)] = br;
             } else {
-                PlayAreaGridSquare* pabr = new PlayAreaGridSquare(i, j, m_SquareWidth);
+                PlayAreaGridSquare* pabr = new PlayAreaGridSquare(i, j, squareWidth);
                 m_Scene->addItem(pabr);
-                pabr->setPos(i * m_SquareWidth, j * m_SquareWidth);
+                pabr->setPos(i * squareWidth, j * squareWidth);
                 m_SceneItems[std::make_pair(i,j)] = pabr;
             }
         }
 }
 
-
-void GameBoard::showEditorBoard()
+void GameBoard::generateBoardItemsGameStage()
 {
+
+}
+
+/*void GameBoard::showEditorBoard()
+{
+    m_LowerGridUsesBigSquares = true;
     initializeBoardEditingItems();
     displayPlayerPlanes();
-}
+}*/
 
 ///shows the planes on the grid
 void GameBoard::displayComputerPlanes() {
@@ -161,3 +190,4 @@ void GameBoard::updateEditorBoard()
         emit planesOverlap(false);
     displayPlayerPlanes();
 }
+
