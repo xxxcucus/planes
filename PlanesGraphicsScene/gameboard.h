@@ -34,7 +34,7 @@ public:
 
 
 signals:
-    void planesOverlap(bool);
+    void planePositionNotValid(bool);
 
 private:
     void clearBoard();

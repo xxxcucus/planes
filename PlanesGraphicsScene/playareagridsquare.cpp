@@ -46,7 +46,10 @@ void PlayAreaGridSquare::drawCommonGraphics(QPainter* painter)
         }
     }
 
-    painter->setPen(Qt::black);
+    if ((m_ShowPlane && m_Type != Type::Empty) || m_Selected)
+        painter->setPen(Qt::magenta);
+    else
+        painter->setPen(Qt::black);
     painter->drawRect(boundingRect());
 }
 

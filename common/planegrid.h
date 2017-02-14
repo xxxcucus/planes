@@ -25,6 +25,8 @@ class PlaneGrid: public QObject
     QList <QPoint> m_listPlanePoints;
     //whether planes overlap. is computed every time the plane points are computed again.
     bool m_PlanesOverlap = false;
+    //whether a plane is outside of the grid
+    bool m_PlaneOutsideGrid = false;
 
 public:
     //constructor
@@ -68,11 +70,19 @@ public:
     bool movePlaneRight(int idx);
 
     inline bool doPlanesOverlap() { return m_PlanesOverlap; }
+    inline bool isPlaneOutsideGrid() { return m_PlaneOutsideGrid; }
+
+    inline bool isPointInGrid(const QPoint& qp) {
+        if (qp.x() < 0 || qp.y() < 0)
+            return false;
+        if (qp.x() >= getColNo() || qp.y() >= getRowNo())
+            return false;
+        return true;
+    }
 
 private:
     //generates a plane at a random position on the grid
     Plane generateRandomPlane() const;
-
 
     //generates a random plane orientation
     Plane::Orientation generateRandomPlaneOrientation() const;
@@ -87,7 +97,6 @@ private:
     bool isPointHead(int row, int col) const;
     //verifies if a plane position is valid within the grid
     bool isPlanePosValid(Plane pl) const;
-
 
 signals:
     void initPlayerGrid() const;  //emitted to notify the start of the user editing the plane lists

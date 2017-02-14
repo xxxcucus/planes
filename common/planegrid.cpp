@@ -172,6 +172,8 @@ bool PlaneGrid::computePlanePointsList()
         while(ppi.hasNext())
         {
             QPoint qp = ppi.next();
+            if (!m_PlaneOutsideGrid && !isPointInGrid(qp))
+                m_PlaneOutsideGrid = true;
             if(!isPointOnPlane(qp.x(),qp.y()))
                 m_listPlanePoints.append(qp);
             else

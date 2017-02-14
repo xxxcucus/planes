@@ -213,10 +213,10 @@ void GameBoard::doneClicked(bool )
 void GameBoard::updateEditorBoard()
 {
     hidePlayerPlanes();
-    if (m_PlayerGrid.doPlanesOverlap())
-        emit planesOverlap(true);
+    if (m_PlayerGrid.doPlanesOverlap() || m_PlayerGrid.isPlaneOutsideGrid())
+        emit planePositionNotValid(true);
     else
-        emit planesOverlap(false);
+        emit planePositionNotValid(false);
     displayPlayerPlanes();
 }
 
