@@ -30,7 +30,7 @@ PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cL
     ///reset the game board when starting the game
     connect(m_round, SIGNAL(initGraphics()), m_RightPane, SLOT(resetGameBoard()));
 
-    connect(m_RightPane, SIGNAL(planesOverlap(bool)), m_LeftPane, SLOT(activateDoneButton(bool)));
+    connect(m_RightPane, SIGNAL(planePositionNotValid(bool)), m_LeftPane, SLOT(activateDoneButton(bool)));
 
 //    connect(playerGrid, SIGNAL(initPlayerGrid()),
 //                     editPlanesWidget, SLOT(initButtons()));

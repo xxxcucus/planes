@@ -14,7 +14,7 @@ RightPane::RightPane(PlaneGrid& pGrid, PlaneGrid& cGrid, QWidget* parent) : QTab
     addTab(m_ComputerBoard->getView(), "Computer Board");
     addTab(helpWidget, "Help");
 
-    connect(m_PlayerBoard, SIGNAL(planesOverlap(bool)), this, SIGNAL(planesOverlap(bool)));
+    connect(m_PlayerBoard, SIGNAL(planePositionNotValid(bool)), this, SIGNAL(planePositionNotValid(bool)));
 }
 
 RightPane::~RightPane()
