@@ -14,9 +14,7 @@ class GameBoard : public QObject
     Q_OBJECT
 public:
     enum class GameStages { BoardEditing, Game };
-
     GameBoard(PlaneGrid& pGrid, PlaneGrid& cGrid);
-
     inline QWidget* getView() { return m_View; }
 
     ///deletes all the objects in the graphicscene

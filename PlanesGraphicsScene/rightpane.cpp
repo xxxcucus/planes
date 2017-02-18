@@ -7,12 +7,20 @@ RightPane::RightPane(PlaneGrid& pGrid, PlaneGrid& cGrid, QWidget* parent) : QTab
     QWidget* helpWidget = new QWidget();
     defineHelpWindow(helpWidget);
 
-    m_GameBoard = new GameBoard(pGrid, cGrid);
+    m_PlayerBoard = new PlayerBoard(pGrid);
+    m_ComputerBoard = new ComputerBoard(cGrid);
 
-    addTab(m_GameBoard->getView(), "Boards");
+    addTab(m_PlayerBoard->getView(), "Player Board");
+    addTab(m_ComputerBoard->getView(), "Computer Board");
     addTab(helpWidget, "Help");
 
-    connect(m_GameBoard, SIGNAL(planesOverlap(bool)), this, SIGNAL(planesOverlap(bool)));
+    connect(m_PlayerBoard, SIGNAL(planesOverlap(bool)), this, SIGNAL(planesOverlap(bool)));
+}
+
+RightPane::~RightPane()
+{
+    delete m_PlayerBoard;
+    delete m_ComputerBoard;
 }
 
 void RightPane::defineHelpWindow(QWidget* w)
@@ -23,32 +31,32 @@ void RightPane::defineHelpWindow(QWidget* w)
 
 void RightPane::selectPlaneClicked(bool val)
 {
-    m_GameBoard->selectPlaneClicked(val);
+    m_PlayerBoard->selectPlaneClicked(val);
 }
 
 void RightPane::rotatePlaneClicked(bool val)
 {
-    m_GameBoard->rotatePlaneClicked(val);
+    m_PlayerBoard->rotatePlaneClicked(val);
 }
 
 void RightPane::upPlaneClicked(bool val)
 {
-    m_GameBoard->upPlaneClicked(val);
+    m_PlayerBoard->upPlaneClicked(val);
 }
 
 void RightPane::downPlaneClicked(bool val)
 {
-    m_GameBoard->downPlaneClicked(val);
+    m_PlayerBoard->downPlaneClicked(val);
 }
 
 void RightPane::leftPlaneClicked(bool val)
 {
-    m_GameBoard->leftPlaneClicked(val);
+    m_PlayerBoard->leftPlaneClicked(val);
 }
 
 void RightPane::rightPlaneClicked(bool val)
 {
-    m_GameBoard->rightPlaneClicked(val);
+    m_PlayerBoard->rightPlaneClicked(val);
 }
 
 void RightPane::doneClicked(bool val)

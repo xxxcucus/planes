@@ -7,7 +7,10 @@ SOURCES += \
     rightpane.cpp \
     gameboard.cpp \
     gridsquare.cpp \
-    playareagridsquare.cpp
+    playareagridsquare.cpp \
+    playerboard.cpp \
+    genericboard.cpp \
+    computerboard.cpp
 
 
 HEADERS += \
@@ -18,7 +21,10 @@ HEADERS += \
     rightpane.h \
     gameboard.h \
     gridsquare.h \
-    playareagridsquare.h
+    playareagridsquare.h \
+    playerboard.h \
+    genericboard.h \
+    computerboard.h
 
 QT += widgets
 CONFIG += console
