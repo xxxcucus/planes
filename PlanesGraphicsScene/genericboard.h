@@ -19,6 +19,7 @@ public:
     ///deletes all the objects in the graphicscene
     ///and creates the board for placing the planes
     void reset();
+    inline void setGameStage(GameStages stage) { m_CurStage = stage; }
 
 signals:
     void planePositionNotValid(bool);

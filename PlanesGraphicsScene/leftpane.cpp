@@ -41,6 +41,7 @@ LeftPane::LeftPane(QWidget *parent) : QTabWidget(parent)
     connect(m_selectPlaneButton, SIGNAL(clicked(bool)), this, SIGNAL(selectPlaneClicked(bool)));
     connect(m_rotatePlaneButton, SIGNAL(clicked(bool)), this, SIGNAL(rotatePlaneClicked(bool)));
     connect(m_doneButton, SIGNAL(clicked(bool)), this, SIGNAL(doneClicked(bool)));
+    connect(m_doneButton, SIGNAL(clicked(bool)), this, SLOT(doneClickedSlot()));
     connect(m_upPlaneButton, SIGNAL(clicked(bool)), this, SIGNAL(upPlaneClicked(bool)));
     connect(m_downPlaneButton, SIGNAL(clicked(bool)), this, SIGNAL(downPlaneClicked(bool)));
     connect(m_leftPlaneButton, SIGNAL(clicked(bool)), this, SIGNAL(leftPlaneClicked(bool)));
@@ -48,9 +49,15 @@ LeftPane::LeftPane(QWidget *parent) : QTabWidget(parent)
 
     m_GameTabIndex = addTab(m_GameWidget, "Game");
     m_EditorTabIndex = addTab(m_BoardEditingWidget, "BoardEditing");
+    setCurrentIndex(1);
 }
 
 void LeftPane::activateDoneButton(bool planesOverlap)
 {
     m_doneButton->setEnabled(!planesOverlap);
+}
+
+void LeftPane::doneClickedSlot()
+{
+    setCurrentIndex(0);
 }

@@ -12,14 +12,22 @@ class PlayerBoard : public GenericBoard
 public:
     PlayerBoard(PlaneGrid& grid, int squareWidth = 30) : GenericBoard(grid, squareWidth) {}
 
-    ///functions to edit the player's game board
+    /**
+     * functions to edit the player's game board
+     */
+
+    /**
+     * The selected plane changes
+     */
     void selectPlaneClicked(bool );
+    /**
+     * @brief Operations with the selected plane.
+     */
     void rotatePlaneClicked(bool );
     void upPlaneClicked(bool );
     void downPlaneClicked(bool );
     void leftPlaneClicked(bool );
     void rightPlaneClicked(bool );
-    void doneClicked(bool );
 };
 
 #endif // PLAYERBOARD_H

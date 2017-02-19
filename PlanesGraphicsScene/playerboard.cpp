@@ -44,8 +44,3 @@ void PlayerBoard::rightPlaneClicked(bool )
     updateEditorBoard();
 }
 
-void PlayerBoard::doneClicked(bool )
-{
-    qDebug() << "done";
-
-}

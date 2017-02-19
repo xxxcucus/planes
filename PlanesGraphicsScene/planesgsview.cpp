@@ -46,10 +46,8 @@ PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cL
 //                     editPlanesWidget, SLOT(deactivateDoneButton()));
 //    connect(playerArea, SIGNAL(activateDone()),
 //                     editPlanesWidget, SLOT(activateDoneButton()));
-//    connect(editPlanesWidget, SIGNAL(doneClicked()),
-//                     playerArea, SLOT(changeMode()));
-//    connect(editPlanesWidget, SIGNAL(doneClicked()),
-//                     round, SLOT(playStep()));
+
+    connect(m_LeftPane, SIGNAL(doneClicked(bool)), m_round, SLOT(playStep()));
 //    connect(round, SIGNAL(computerMoveGenerated(GuessPoint)),
 //                     playerArea, SLOT(showMove(GuessPoint)));
 //    connect(round, SIGNAL(needPlayerGuess()),

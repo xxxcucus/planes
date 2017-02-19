@@ -23,7 +23,13 @@ public slots:
     void downPlaneClicked(bool);
     void leftPlaneClicked(bool);
     void rightPlaneClicked(bool);
+
+    /**
+     * @brief Switch to computer tab and start looking for planes.
+     * Change the internal state of the player's and computer's boards to game stage
+     */
     void doneClicked(bool);
+
 
 signals:
     void planePositionNotValid(bool);

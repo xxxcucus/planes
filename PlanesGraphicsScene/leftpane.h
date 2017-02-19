@@ -31,6 +31,11 @@ public slots:
      */
     void activateDoneButton(bool planesOverlap);
 
+    /**
+     * @brief Activate the game tab when the done button is clicked
+     */
+    void doneClickedSlot();
+
 private:
     GameStatsFrame* m_PlayerStatsFrame;
     GameStatsFrame* m_ComputerStatsFrame;
