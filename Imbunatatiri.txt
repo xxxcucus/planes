@@ -1,22 +1,26 @@
-Nu mai desena numarul de linii in planes widget.
+I.1 Nu mai desena numarul de linii in planes widget. - ok
 
-GraphicsView
+I.2 la resize mareste si dimensiunea textului din panelul din stanga. 
 
-- la resize mareste si dimensiunea textului
+Gen.1 De facut ca aplicatia sa functioneze la o rezolutie dependenta de rezolutia ecranului.
+Se foloseste QWidgetDesktop. Se poate porni o mica aplicatie care scrie in QSettings rezolutia 
+si pozitia ferestrei pe ecran.
 
-De facut ca aplicatia sa functioneze tot timpul in full screen.
-De calculat in functie de rezolutia ecranului daca se poate afisa jocul sau nu.
-De scalat toate elementele in functie de rezolutia ecranului.
+I.3 De scalat toate elementele in functie de rezolutia ecranului.
 De scris un layout manager.
 
-Imbunatatiri usability pentru editarea boardului
-- Select plane, Move left, Move right, Move up, Move down.
-Afisarea cu alta culoare a partilor din avioane care se suprapun.
+I.4 Imbunatatiri usability pentru editarea boardului
+- Select plane, Move left, Move right, Move up, Move down. - done
+
+I.5 Afisarea cu alta culoare a partilor din avioane care se suprapun.
 PlaneGrid tb sa pastreze o lista cu patratelele care se suprapun.
 
-Desenarea conturului cu alb cand 2 avioane se ating. - 
+I.6 Desenarea conturului cu alb cand 2 avioane se ating. - 
 probabil posibil cu usurinta numai atunci cand exista un obiect avion.
 
-Impiedica suprapunerea avioanelor.
+I.7 Impiedica suprapunerea avioanelor.
+Deactiveaza butonul done cand unul din avioane este afara din grid. -done
 
-Deactiveaza butonul done cand unul din avioane este afara din grid.
+
+II.1 Viitorul program contine 2 aplicatii: unul care este engine-ul si cealalta interfata.
+Ambele sunt conectate prin dbus.
