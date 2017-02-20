@@ -164,6 +164,7 @@ bool PlaneGrid::computePlanePointsList()
     m_listPlanePoints.clear();
     bool returnValue = true;
 
+    m_PlaneOutsideGrid = false;
     for(int i = 0; i < m_planeList.size(); i++)
     {
         Plane pl = m_planeList.at(i);
@@ -172,7 +173,7 @@ bool PlaneGrid::computePlanePointsList()
         while(ppi.hasNext())
         {
             QPoint qp = ppi.next();
-            if (!m_PlaneOutsideGrid && !isPointInGrid(qp))
+            if (!isPointInGrid(qp))
                 m_PlaneOutsideGrid = true;
             if(!isPointOnPlane(qp.x(),qp.y()))
                 m_listPlanePoints.append(qp);
