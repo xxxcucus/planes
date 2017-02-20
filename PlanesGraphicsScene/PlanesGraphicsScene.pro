@@ -5,7 +5,6 @@ SOURCES += \
     leftpane.cpp \
     gamestatsframe.cpp \
     rightpane.cpp \
-    gameboard.cpp \
     gridsquare.cpp \
     playareagridsquare.cpp \
     playerboard.cpp \
@@ -19,7 +18,6 @@ HEADERS += \
     leftpane.h \
     gamestatsframe.h \
     rightpane.h \
-    gameboard.h \
     gridsquare.h \
     playareagridsquare.h \
     playerboard.h \
