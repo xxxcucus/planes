@@ -49,7 +49,7 @@ LeftPane::LeftPane(QWidget *parent) : QTabWidget(parent)
 
     m_GameTabIndex = addTab(m_GameWidget, "Game");
     m_EditorTabIndex = addTab(m_BoardEditingWidget, "BoardEditing");
-    setCurrentIndex(1);
+    activateEditorTab();
 }
 
 void LeftPane::activateDoneButton(bool planesOverlap)
@@ -59,5 +59,25 @@ void LeftPane::activateDoneButton(bool planesOverlap)
 
 void LeftPane::doneClickedSlot()
 {
-    setCurrentIndex(0);
+    activateGameTab();
+    m_selectPlaneButton->setEnabled(false);
+    m_rotatePlaneButton->setEnabled(false);
+    m_leftPlaneButton->setEnabled(false);
+    m_rightPlaneButton->setEnabled(false);
+    m_upPlaneButton->setEnabled(false);
+    m_downPlaneButton->setEnabled(false);
+    m_doneButton->setEnabled(false);
+}
+
+void LeftPane::activateEditingBoard()
+{
+    activateEditorTab();
+    ///activate the buttons in the editor tab
+    m_selectPlaneButton->setEnabled(true);
+    m_rotatePlaneButton->setEnabled(true);
+    m_leftPlaneButton->setEnabled(true);
+    m_rightPlaneButton->setEnabled(true);
+    m_upPlaneButton->setEnabled(true);
+    m_downPlaneButton->setEnabled(true);
+    m_doneButton->setEnabled(true);
 }

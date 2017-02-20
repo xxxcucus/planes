@@ -15,7 +15,7 @@ void GenericBoard::reset()
     displayPlanes();
 }
 
-///@todo: deleted the items from m_PlayerSceneItems and m_ComputerSceneItems
+///@todo: deleted the items from m_SceneItems
 void GenericBoard::clearBoard()
 {
     m_Scene->clear();

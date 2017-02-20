@@ -29,23 +29,19 @@ PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cL
     connect(m_playerGrid, SIGNAL(initPlayerGrid()), this, SLOT(activateBoardEditingTab()));
     ///reset the game board when starting the game
     connect(m_round, SIGNAL(initGraphics()), m_RightPane, SLOT(resetGameBoard()));
+    connect(m_round, SIGNAL(initGraphics()), m_LeftPane, SLOT(activateEditingBoard()));
 
     connect(m_RightPane, SIGNAL(planePositionNotValid(bool)), m_LeftPane, SLOT(activateDoneButton(bool)));
 
 //    connect(playerGrid, SIGNAL(initPlayerGrid()),
 //                     editPlanesWidget, SLOT(initButtons()));
-//    connect(playerArea, SIGNAL(operationEndet()),
-//                     editPlanesWidget, SLOT(cancel_clicked()));
 //    connect(playerArea,SIGNAL(displayMsg(QString)),
 //                     editPlanesWidget, SLOT(displayMsg(QString)));
 //    connect(playerArea, SIGNAL(enoughPlanes()),
 //                     editPlanesWidget, SLOT(deactivateAddPlane()));
 //    connect(playerArea, SIGNAL(displayStatusMsg(QString)),
 //                     editPlanesWidget, SLOT(displayStatusMsg(QString)));
-//    connect(playerArea, SIGNAL(notEnoughPlanes()),
-//                     editPlanesWidget, SLOT(deactivateDoneButton()));
-//    connect(playerArea, SIGNAL(activateDone()),
-//                     editPlanesWidget, SLOT(activateDoneButton()));
+
 
     connect(m_LeftPane, SIGNAL(doneClicked(bool)), m_round, SLOT(playStep()));
 //    connect(round, SIGNAL(computerMoveGenerated(GuessPoint)),

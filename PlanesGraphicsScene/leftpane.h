@@ -36,6 +36,11 @@ public slots:
      */
     void doneClickedSlot();
 
+    /**
+     * @brief activates the editing board tab and the buttons in it
+     */
+    void activateEditingBoard();
+
 private:
     GameStatsFrame* m_PlayerStatsFrame;
     GameStatsFrame* m_ComputerStatsFrame;
