@@ -221,7 +221,7 @@ void GameRenderArea::mousePressEventComputerGame(QMouseEvent *event)
     {
         //queries the m_grid object
         //about the point currently selected with the mouse
-        QPoint qp(m_curMouseRow,m_curMouseCol);
+        QPoint qp(m_curMouseRow, m_curMouseCol);
         GuessPoint::Type tp= m_grid->getGuessResult(qp);
 
         //the m_grid object returns whether is a miss, hit or dead
