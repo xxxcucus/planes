@@ -33,6 +33,7 @@ public slots:
 
 signals:
     void planePositionNotValid(bool);
+    void showComputerMove(const GuessPoint&);
 
 private:
     PlayerBoard* m_PlayerBoard;

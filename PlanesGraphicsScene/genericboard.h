@@ -24,6 +24,12 @@ public:
 signals:
     void planePositionNotValid(bool);
 
+public slots:
+    /**
+     * @brief shows a guess made by computer or player
+     */
+    void showMove(const GuessPoint&);
+
 protected:
     void clearBoard();
     /**
@@ -42,6 +48,7 @@ protected:
 
     void showPlane(const Plane& pl);
     void showSelectedPlane(const Plane& pl);
+    void showGuessPoint(const GuessPoint& gp);
     /**
      * @brief Hides planes, checks if their position is valid and then displays them again.
      */
@@ -67,6 +74,9 @@ protected:
 
     ///the game has two parts: player edits his board, game is played against the computer
     GameStages m_CurStage = GameStages::BoardEditing;
+
+    ///list of guesses made up to now
+    QList<GuessPoint> m_GuessList;
 };
 
 

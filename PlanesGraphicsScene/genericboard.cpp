@@ -1,6 +1,8 @@
 #include "genericboard.h"
 #include "playareagridsquare.h"
 
+#include <QDebug>
+
 GenericBoard::GenericBoard(PlaneGrid& grid, int squareWidth) : m_Grid(grid), m_SquareWidth(squareWidth)
 {
     m_Scene = new QGraphicsScene();
@@ -58,6 +60,9 @@ void GenericBoard::generateBoardItemsEditingStage()
         }
 }
 
+///@todo: to implement this
+///the square grids are all with the flag showGuesses active
+/// do we need this function ?
 void GenericBoard::generateBoardItemsGameStage()
 {
     generateBoardItemsEditingStage();
@@ -85,9 +90,11 @@ void GenericBoard::hidePlanes()
             m_SceneItems[std::make_pair(i, j)]->clearPlaneOptions();
 }
 
-///shows the player guess on the grid
+///shows the guesses on the grid
 void GenericBoard::displayGuesses() {
-
+    for (GuessPoint gp : m_GuessList) {
+        showGuessPoint(gp);
+    }
 }
 
 void GenericBoard::showPlane(const Plane &pl)
@@ -127,3 +134,28 @@ void GenericBoard::updateEditorBoard()
     displayPlanes();
 }
 
+void GenericBoard::showMove(const GuessPoint& gp)
+{
+    m_GuessList.push_back(gp);
+    hidePlanes();
+    displayPlanes();
+    displayGuesses();
+}
+
+void GenericBoard::showGuessPoint(const GuessPoint &gp)
+{
+    qDebug() << "show guess point " << gp.m_row << " " << gp.m_col;
+    GridSquare::GameStatus st = GridSquare::GameStatus::TestedNotPlane;
+    if (gp.isHit())
+        st = GridSquare::GameStatus::PlaneGuessed;
+    if (gp.isDead())
+        st = GridSquare::GameStatus::PlaneHeadGuessed;
+    ///not sure about -1 here
+    PlayAreaGridSquare* pags = dynamic_cast<PlayAreaGridSquare*>(m_SceneItems[std::make_pair(gp.m_col - 1 + m_PaddingEditingBoard, gp.m_row - 1 + m_PaddingEditingBoard)]);
+    if (!pags) {
+        qDebug() << "Dynamic cast did not succeed !";
+        return;
+    }
+    pags->showGuesses(true);
+    pags->setGameStatus(st);
+}

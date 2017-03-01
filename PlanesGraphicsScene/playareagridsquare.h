@@ -21,7 +21,7 @@ public:
         prepareGeometryChange();
         m_ShowPlane = val;
     }
-    inline void showGuesse(bool val) {
+    inline void showGuesses(bool val) {
         if (m_ShowGuesses == val)
             return;
         prepareGeometryChange();

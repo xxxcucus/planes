@@ -2,6 +2,7 @@
 
 #include <QList>
 #include <QPoint>
+#include <QDebug>
 #include <cstdlib>
 
 //constructor
@@ -76,7 +77,6 @@ PlaneRound::PlaneRound(PlaneGrid *playerGrid, PlaneGrid *computerGrid, ComputerL
 //resets the PlaneRound object
 void PlaneRound::reset()
 {
-
     m_PlayerGrid->resetGrid();
     m_ComputerGrid->resetGrid();
 

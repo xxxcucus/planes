@@ -21,7 +21,12 @@ probabil posibil cu usurinta numai atunci cand exista un obiect avion.
 I.7 Impiedica suprapunerea avioanelor.
 Deactiveaza butonul done cand unul din avioane este afara din grid. -done
 
-
 II.1 Viitorul program contine 2 aplicatii: unul care este engine-ul si cealalta interfata.
 Ambele sunt conectate prin dbus. Interfata grafica este in stil mobile: butoane mari pt 
 apasare cu degetul.
+
+Gen.2 Afisare cu OpenGL
+
+I.8 Imbunatateste sistemul de gestiune al starilor jocului.
+
+I.9 Pastreaza o singura lista cu guesspoints in joc (in planeround sau in planegrid)

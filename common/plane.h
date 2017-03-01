@@ -59,10 +59,6 @@ public:
     void orientation(Orientation orient) {m_orient = orient; }
 };
 
-
-
-
-
 //iterates over the points that make a plane
 class PlanePointIterator : public ListIterator<QPoint>
 {
@@ -72,7 +68,6 @@ public:
 
 private:
     void generateList();
-
 };
 
 //lists the relatives positions of all planes that pass through the point (0,0)
@@ -81,7 +76,6 @@ class PlaneIntersectingPointIterator: public ListIterator<Plane>
     QPoint m_point;
 
 public:        
-
     //constructor taking a QPoint
     PlaneIntersectingPointIterator(const QPoint &qp=QPoint(0,0));
 
@@ -105,8 +99,6 @@ private:
     //generates the list points influencing the point (0,0)
     void generateList();
 };
-
-
 
 //describes a guess together with its result Miss,Hit or Dead
 class GuessPoint
@@ -135,7 +127,6 @@ public:
     bool isDead() const {return m_type == Dead;}
     bool isHit() const {return m_type == Hit;}
     bool isMiss() const {return m_type == Miss;}
-
 };
 
 #endif // PLANE_H

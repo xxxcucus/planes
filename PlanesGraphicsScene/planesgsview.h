@@ -23,6 +23,8 @@ public slots:
         m_LeftPane->activateEditorTab();
     }
 
+    void displayStatusMsg(const QString& str);
+
 private:
 
     //PlaneGrid objects manage the logic of a set of planes on a grid
