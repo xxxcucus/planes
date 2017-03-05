@@ -25,20 +25,6 @@ void GenericBoard::clearBoard()
 
 void GenericBoard::generateBoardItems()
 {
-    switch(m_CurStage) {
-        case GameStages::BoardEditing:
-            generateBoardItemsEditingStage();
-            break;
-        case GameStages::Game:
-            generateBoardItemsGameStage();
-            break;
-        default:
-            break;
-    }
-}
-
-void GenericBoard::generateBoardItemsEditingStage()
-{
     ///generate player scene items
     int rows = m_Grid.getRowNo() + 2 * m_PaddingEditingBoard;
     int cols = m_Grid.getColNo() + 2 * m_PaddingEditingBoard;
@@ -58,14 +44,6 @@ void GenericBoard::generateBoardItemsEditingStage()
                 m_SceneItems[std::make_pair(i,j)] = pabr;
             }
         }
-}
-
-///@todo: to implement this
-///the square grids are all with the flag showGuesses active
-/// do we need this function ?
-void GenericBoard::generateBoardItemsGameStage()
-{
-    generateBoardItemsEditingStage();
 }
 
 ///@todo: deal with overlapping planes

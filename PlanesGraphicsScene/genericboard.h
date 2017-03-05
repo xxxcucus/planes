@@ -35,9 +35,7 @@ protected:
     /**
      * @brief Generates the graphics scene items for the board
      */
-    void generateBoardItems();
-    virtual void generateBoardItemsEditingStage();
-    virtual void generateBoardItemsGameStage();
+    virtual void generateBoardItems();
     ///shows the planes on the grid
     void displayPlanes();
     ///hide the planes
