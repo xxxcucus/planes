@@ -84,7 +84,7 @@ signals:
     //signals that a guess from the player is needed
     void needPlayerGuess() const;
     //signals that computer has generated a move
-    void computerMoveGenerated(GuessPoint gp);
+    void computerMoveGenerated(const GuessPoint& gp);
     //signals that a message has to be displayed in the edit control window
     void displayStatusMessage(QString text);
     //signals that the round has endet
@@ -97,7 +97,7 @@ signals:
 public slots:
 
     //received a player guess from the computer render area
-    void receivedPlayerGuess(GuessPoint gp);
+    void receivedPlayerGuess(const GuessPoint& gp);
     //plays one step
     void playStep();
     //plays the game

@@ -5,7 +5,7 @@
 
 GenericBoard::GenericBoard(PlaneGrid& grid, int squareWidth) : m_Grid(grid), m_SquareWidth(squareWidth)
 {
-    m_Scene = new QGraphicsScene();
+    m_Scene = new CustomGraphicsScene();
     m_View = new QGraphicsView(m_Scene);
 }
 
@@ -35,12 +35,12 @@ void GenericBoard::generateBoardItems()
                     || j < m_PaddingEditingBoard || abs (j - cols) <= m_PaddingEditingBoard) {
                 GridSquare* br = new GridSquare(i, j, m_SquareWidth);
                 m_Scene->addItem(br);
-                br->setPos(i * m_SquareWidth, j * m_SquareWidth);
+                br->setPos(j * m_SquareWidth, i * m_SquareWidth);
                 m_SceneItems[std::make_pair(i, j)] = br;
             } else {
                 PlayAreaGridSquare* pabr = new PlayAreaGridSquare(i, j, m_SquareWidth);
                 m_Scene->addItem(pabr);
-                pabr->setPos(i * m_SquareWidth, j * m_SquareWidth);
+                pabr->setPos(j * m_SquareWidth, i * m_SquareWidth);
                 m_SceneItems[std::make_pair(i,j)] = pabr;
             }
         }

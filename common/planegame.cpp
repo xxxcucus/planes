@@ -170,7 +170,7 @@ void PlaneRound::readPlayerMove() const
 }
 
 //treats a player's guess
-void PlaneRound::receivedPlayerGuess(GuessPoint gp)
+void PlaneRound::receivedPlayerGuess(const GuessPoint& gp)
 {
     //update the game statistics
     updateGameStats(gp, false);

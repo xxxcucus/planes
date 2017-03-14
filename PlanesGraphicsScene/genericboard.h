@@ -6,6 +6,7 @@
 
 #include "planegrid.h"
 #include "gridsquare.h"
+#include "customgraphicsscene.h"
 
 ///the board where the player lays his/her planes and where the computer tries to guess their position
 class GenericBoard : public QObject
@@ -53,7 +54,7 @@ protected:
     void updateEditorBoard();
 
 protected:
-    QGraphicsScene* m_Scene;
+    CustomGraphicsScene* m_Scene;
     QGraphicsView* m_View;
 
     PlaneGrid& m_Grid;
@@ -71,6 +72,7 @@ protected:
     int m_SelectedPlane = 0;
 
     ///the game has two parts: player edits his board, game is played against the computer
+    ///@todo: do we need this ?
     GameStages m_CurStage = GameStages::BoardEditing;
 
     ///list of guesses made up to now

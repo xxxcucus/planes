@@ -9,7 +9,8 @@ SOURCES += \
     playareagridsquare.cpp \
     playerboard.cpp \
     genericboard.cpp \
-    computerboard.cpp
+    computerboard.cpp \
+    customgraphicsscene.cpp
 
 
 HEADERS += \
@@ -22,7 +23,8 @@ HEADERS += \
     playareagridsquare.h \
     playerboard.h \
     genericboard.h \
-    computerboard.h
+    computerboard.h \
+    customgraphicsscene.h
 
 QT += widgets
 CONFIG += console

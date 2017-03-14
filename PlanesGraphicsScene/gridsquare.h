@@ -45,6 +45,14 @@ public:
         m_Type = Type::Empty;
     }
 
+    inline int getRow() {
+        return m_GridRow;
+    }
+
+    inline int getCol() {
+        return m_GridCol;
+    }
+
 protected:
     int m_Width = 30;
     int m_GridRow = -1;

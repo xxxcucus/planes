@@ -11,7 +11,6 @@ class RightPane : public QTabWidget
 public:
     explicit RightPane(PlaneGrid& pGrid, PlaneGrid& cGrid, QWidget* parent = nullptr);
     ~RightPane();
-
 public slots:
     inline void resetGameBoard() {
         m_PlayerBoard->reset();
@@ -29,16 +28,13 @@ public slots:
      * Change the internal state of the player's and computer's boards to game stage
      */
     void doneClicked(bool);
-
-
 signals:
     void planePositionNotValid(bool);
     void showComputerMove(const GuessPoint&);
-
+    void guessMade(const GuessPoint& gp);
 private:
     PlayerBoard* m_PlayerBoard;
     ComputerBoard* m_ComputerBoard;
-
 private:
     void defineHelpWindow(QWidget* w);
 };
