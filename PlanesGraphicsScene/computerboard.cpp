@@ -10,7 +10,14 @@ ComputerBoard::ComputerBoard(PlaneGrid& grid, int squareWidth) : GenericBoard(gr
 
 void ComputerBoard::gridSquareClicked(int row, int col)
 {
-    QPoint qp(row, col);
+    if (row < m_PaddingEditingBoard || col < m_PaddingEditingBoard)
+        return;
+    if (row >= m_Grid.getRowNo() + m_PaddingEditingBoard)
+        return;
+    if (col >= m_Grid.getRowNo() + m_PaddingEditingBoard)
+        return;
+
+    QPoint qp(col - m_PaddingEditingBoard, row - m_PaddingEditingBoard);
     GuessPoint::Type tp = m_Grid.getGuessResult(qp);
 
     qDebug() << "Guess " << tp;
