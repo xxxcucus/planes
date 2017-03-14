@@ -5,6 +5,7 @@
 #include <QTabWidget>
 #include <QPushButton>
 #include "gamestatsframe.h"
+#include "planegame.h"
 
 class LeftPane : public QTabWidget
 {
@@ -41,6 +42,11 @@ public slots:
      */
     void activateEditingBoard();
 
+    /*
+     * @brief Updates the statistics in the left pane
+     */
+    void updateGameStatistics(const GameStatistics& gs);
+
 private:
     GameStatsFrame* m_PlayerStatsFrame;
     GameStatsFrame* m_ComputerStatsFrame;
@@ -59,7 +65,6 @@ private:
     QPushButton* m_upPlaneButton;
     QPushButton* m_downPlaneButton;
     QPushButton* m_doneButton;
-
 };
 
 #endif // PLANESGSLEFTPANE_H

@@ -51,8 +51,6 @@ void EditPlanesControlWidget::movePlane_clicked()
         rotatePlaneButton->setEnabled(false);
         displayMsg(tr("Click on plane's head to select it."));
     }
-
-
 }
 
 void EditPlanesControlWidget::deletePlane_clicked()
@@ -113,7 +111,6 @@ void EditPlanesControlWidget::done_clicked()
 {
     //close();
     deactivateButtons();
-
     emit doneClicked();
 }
 
@@ -128,13 +125,10 @@ void EditPlanesControlWidget::displayStatusMsg(QString msg)
     statusLineEdit->setText(msg);
 }
 
-
 void EditPlanesControlWidget::deactivateAddPlane()
 {
     addPlaneButton->setEnabled(false);
-
 }
-
 
 void EditPlanesControlWidget::deactivateDoneButton()
 {
@@ -153,7 +147,7 @@ void EditPlanesControlWidget::initButtons()
     movePlaneButton->setEnabled(true);
     deletePlaneButton->setEnabled(true);
     rotatePlaneButton->setEnabled(true);
-    doneButton->setEnabled(false);
+    doneButton->setEnabled(true);
 }
 
 void EditPlanesControlWidget::deactivateButtons()
@@ -165,8 +159,6 @@ void EditPlanesControlWidget::deactivateButtons()
     deletePlaneButton->setEnabled(false);
     rotatePlaneButton->setEnabled(false);
     doneButton->setEnabled(false);
-
     infoLineEdit->setText("");
     statusLineEdit->setText("");
-
 }

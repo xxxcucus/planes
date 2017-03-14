@@ -81,3 +81,8 @@ void LeftPane::activateEditingBoard()
     m_downPlaneButton->setEnabled(true);
     m_doneButton->setEnabled(true);
 }
+
+void LeftPane::updateGameStatistics(const GameStatistics &gs)
+{
+
+}

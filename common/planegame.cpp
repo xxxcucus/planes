@@ -27,7 +27,7 @@ void GameStatistics::reset()
 }
 
 //updates the statistical data for one round with a new GuessPoint
-void GameStatistics::updateStats(GuessPoint gp, bool isComputer)
+void GameStatistics::updateStats(const GuessPoint& gp, bool isComputer)
 {
     if(isComputer)
     {
@@ -236,7 +236,7 @@ void PlaneRound::playStep()
 }
 
 //based on a guesspoint updates the game stats
-void PlaneRound::updateGameStats(GuessPoint gp, bool isComputer)
+void PlaneRound::updateGameStats(const GuessPoint& gp, bool isComputer)
 {
     m_gameStats.updateStats(gp, isComputer);
     emit statsUpdated(m_gameStats);

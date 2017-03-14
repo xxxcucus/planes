@@ -31,7 +31,7 @@ struct GameStatistics
     //resets the fields related to one round of the game
     void reset();
     //updates the statistics for one round with one guess
-    void updateStats(GuessPoint gp, bool isComputer);
+    void updateStats(const GuessPoint& gp, bool isComputer);
     //adds to the score
     void updateWins(bool isComputerWinner);
 
@@ -78,7 +78,7 @@ public:
     //inits a new round
     void initRound();
     //update game statistics
-    void updateGameStats(GuessPoint gp, bool isComputer);
+    void updateGameStats(const GuessPoint& gp, bool isComputer);
 
 signals:
     //signals that a guess from the player is needed
@@ -92,7 +92,7 @@ signals:
     //signals that the render areas should be reset
     void initGraphics();
     //signals that statistics have to be updated on screen
-    void statsUpdated(GameStatistics gs);
+    void statsUpdated(const GameStatistics& gs);
 
 public slots:
 
