@@ -55,8 +55,7 @@ PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cL
 //                     gameStatsWidget, SLOT(roundEndet()));
 //    connect(gameStatsWidget, SIGNAL(startGame()),
 //                     round, SLOT(play()));
-//    connect(round, SIGNAL(statsUpdated(GameStatistics)),
-//                     gameStatsWidget, SLOT(updateStats(GameStatistics)));
+    connect(m_round, SIGNAL(statsUpdated(const GameStatistics&)), m_LeftPane, SLOT(updateGameStatistics(const GameStatistics&)));
 
 //    connect(listWidget, SIGNAL(currentRowChanged(int)),
 //                stackedLayout, SLOT(setCurrentIndex(int)));

@@ -14,7 +14,9 @@ class GameStatsFrame : public QFrame
 
 public:
     explicit GameStatsFrame(const QString& title, QWidget* parent = nullptr);
+    void updateDisplayedValues(int moves, int misses, int hits, int kills);
 
+public:
     QLabel* m_noMovesLabel = new QLabel("0");
     QLabel* m_noMissesLabel = new QLabel("0");
     QLabel* m_noHitsLabel = new QLabel("0");

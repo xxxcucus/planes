@@ -30,3 +30,11 @@ GameStatsFrame::GameStatsFrame(const QString& title, QWidget* parent): QFrame(pa
     setLayout(gridLayout);
     setFrameStyle(QFrame::Panel | QFrame::Raised);
 }
+
+void GameStatsFrame::updateDisplayedValues(int moves, int misses, int hits, int kills)
+{
+    m_noMissesLabel->setText(QString::number(moves));
+    m_noMissesLabel->setText(QString::number(misses));
+    m_noHitsLabel->setText(QString::number(hits));
+    m_noGuessesLabel->setText(QString::number(kills));
+}
