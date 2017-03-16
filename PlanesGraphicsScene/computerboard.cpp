@@ -6,6 +6,7 @@
 
 ComputerBoard::ComputerBoard(PlaneGrid& grid, int squareWidth) : GenericBoard(grid, squareWidth) {
     connect(m_Scene, SIGNAL(gridSquareClicked(int, int)), this, SLOT(gridSquareClicked(int, int)));
+    m_SelectedPlane = -1;
 }
 
 void ComputerBoard::gridSquareClicked(int row, int col)

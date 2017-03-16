@@ -53,11 +53,19 @@ public:
         return m_GridCol;
     }
 
+    inline void setColor(const QColor& color) {
+        if (m_Color == color)
+            return;
+        prepareGeometryChange();
+        m_Color = color;
+    }
+
 protected:
     int m_Width = 30;
     int m_GridRow = -1;
     int m_GridCol = -1;
     bool m_Selected = false;
+    QColor m_Color = QColor(0, 0, 0);
 
     GridSquare::Type m_Type = Type::Empty;
 };

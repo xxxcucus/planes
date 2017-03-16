@@ -30,6 +30,7 @@ public slots:
      * @brief shows a guess made by computer or player
      */
     void showMove(const GuessPoint&);
+    inline void setSelectedPlaneIndex(int idx) { m_SelectedPlane = idx; }
 
 protected:
     void clearBoard();
@@ -45,13 +46,14 @@ protected:
     ///shows the guesses on the grid
     void displayGuesses();
 
-    void showPlane(const Plane& pl);
+    void showPlane(const Plane& pl, const QColor& color);
     void showSelectedPlane(const Plane& pl);
     void showGuessPoint(const GuessPoint& gp);
     /**
      * @brief Hides planes, checks if their position is valid and then displays them again.
      */
     void updateEditorBoard();
+
 
 protected:
     CustomGraphicsScene* m_Scene;
@@ -77,6 +79,10 @@ protected:
 
     ///list of guesses made up to now
     QList<GuessPoint> m_GuessList;
+
+    ///grey colors to draw the planes
+    int m_MinPlaneBodyColor = 0;
+    int m_MaxPlaneBodyColor = 200;
 };
 
 

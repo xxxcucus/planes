@@ -69,5 +69,6 @@ void RightPane::doneClicked(bool val)
     Q_UNUSED(val)
     setCurrentIndex(1);
     m_PlayerBoard->setGameStage(GenericBoard::GameStages::Game);
+    m_PlayerBoard->setSelectedPlaneIndex(-1);
     m_ComputerBoard->setGameStage(GenericBoard::GameStages::Game);
 }

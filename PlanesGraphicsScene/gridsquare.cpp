@@ -21,7 +21,7 @@ void GridSquare::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
                 painter->fillRect(boundingRect(), Qt::green);
                 break;
             case Type::Plane:
-                painter->fillRect(boundingRect(), Qt::black);
+                painter->fillRect(boundingRect(), m_Color);
                 break;
         }
     } else {

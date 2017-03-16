@@ -48,12 +48,14 @@ void GenericBoard::generateBoardItems()
 
 ///@todo: deal with overlapping planes
 void GenericBoard::displayPlanes() {
+    int colorStep = (m_MaxPlaneBodyColor - m_MinPlaneBodyColor) / m_Grid.getPlaneNo();
     for (int i = 0; i < m_Grid.getPlaneNo(); i++) {
         Plane pl;
+        int greyLevel = m_MinPlaneBodyColor + i * colorStep;
         if (!m_Grid.getPlane(i, pl))
             continue;
         if (i != m_SelectedPlane)
-            showPlane(pl);
+            showPlane(pl, QColor(greyLevel, greyLevel, greyLevel));
         else
             showSelectedPlane(pl);
     }
@@ -75,29 +77,35 @@ void GenericBoard::displayGuesses() {
     }
 }
 
-void GenericBoard::showPlane(const Plane &pl)
+void GenericBoard::showPlane(const Plane &pl, const QColor& color)
 {
+    Q_UNUSED(color)
     QPoint head = pl.head();
-    m_SceneItems[std::make_pair(head.y() + m_PaddingEditingBoard, head.x() + m_PaddingEditingBoard)]->setType(GridSquare::Type::PlaneHead);
+    auto headGridSquareIndex = std::make_pair(head.y() + m_PaddingEditingBoard, head.x() + m_PaddingEditingBoard);
+    m_SceneItems[headGridSquareIndex]->setType(GridSquare::Type::PlaneHead);
     PlanePointIterator ppi(pl);
     ///ignore the plane head
     ppi.next();
     while (ppi.hasNext()) {
         QPoint pt = ppi.next();
-        m_SceneItems[std::make_pair(pt.y() + m_PaddingEditingBoard, pt.x() + m_PaddingEditingBoard)]->setType(GridSquare::Type::Plane);
+        auto pointGridSquareIndex = std::make_pair(pt.y() + m_PaddingEditingBoard, pt.x() + m_PaddingEditingBoard);
+        m_SceneItems[pointGridSquareIndex]->setType(GridSquare::Type::Plane);
+        m_SceneItems[pointGridSquareIndex]->setColor(color);
     }
 }
 
 void GenericBoard::showSelectedPlane(const Plane &pl)
 {
     QPoint head = pl.head();
-    m_SceneItems[std::make_pair(head.y() + m_PaddingEditingBoard, head.x() + m_PaddingEditingBoard)]->setSelected(true);
+    auto headGridSquareIndex = std::make_pair(head.y() + m_PaddingEditingBoard, head.x() + m_PaddingEditingBoard);
+    m_SceneItems[headGridSquareIndex]->setSelected(true);
     PlanePointIterator ppi(pl);
     ///ignore the plane head
     ppi.next();
     while (ppi.hasNext()) {
         QPoint pt = ppi.next();
-        m_SceneItems[std::make_pair(pt.y() + m_PaddingEditingBoard, pt.x() + m_PaddingEditingBoard)]->setSelected(true);
+        auto pointGridSquareIndex = std::make_pair(pt.y() + m_PaddingEditingBoard, pt.x() + m_PaddingEditingBoard);
+        m_SceneItems[pointGridSquareIndex]->setSelected(true);
     }
 }
 
