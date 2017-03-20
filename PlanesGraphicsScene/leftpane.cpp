@@ -99,5 +99,26 @@ void LeftPane::updateGameStatistics(const GameStatistics &gs)
 }
 
 void LeftPane::endRound() {
+    activateStartGameTab();
+}
 
+void LeftPane::activateGameTab() {
+    setCurrentIndex(m_GameTabIndex);
+    setTabEnabled(m_EditorTabIndex, false);
+    setTabEnabled(m_GameTabIndex, true);
+    setTabEnabled(m_GameStartIndex, false);
+}
+
+void LeftPane::activateEditorTab() {
+    setCurrentIndex(m_EditorTabIndex);
+    setTabEnabled(m_EditorTabIndex, true);
+    setTabEnabled(m_GameTabIndex, false);
+    setTabEnabled(m_GameStartIndex, false);
+}
+
+void LeftPane::activateStartGameTab() {
+    setCurrentIndex(m_GameStartIndex);
+    setTabEnabled(m_EditorTabIndex, false);
+    setTabEnabled(m_GameTabIndex, false);
+    setTabEnabled(m_GameStartIndex, true);
 }

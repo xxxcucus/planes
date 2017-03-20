@@ -14,9 +14,9 @@ class LeftPane : public QTabWidget
 public:
     explicit LeftPane(QWidget *parent = 0);
 
-    inline void activateGameTab() { setCurrentIndex(m_GameTabIndex);  }
-    inline void activateEditorTab() { setCurrentIndex(m_EditorTabIndex); }
-    inline void activateStartGameTab() { setCurrentIndex(m_GameStartIndex); }
+    void activateGameTab();
+    void activateEditorTab();
+    void activateStartGameTab();
 
 signals:
     void selectPlaneClicked(bool);
@@ -50,7 +50,7 @@ public slots:
     void updateGameStatistics(const GameStatistics& gs);
 
     /**
-     * @brief Update the general score in the start game tab.
+     * @brief
      * Hide the other tabs.
      */
 
