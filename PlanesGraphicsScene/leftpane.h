@@ -5,6 +5,7 @@
 #include <QTabWidget>
 #include <QPushButton>
 #include "gamestatsframe.h"
+#include "scoreframe.h"
 #include "planegame.h"
 
 class LeftPane : public QTabWidget
@@ -15,6 +16,7 @@ public:
 
     inline void activateGameTab() { setCurrentIndex(m_GameTabIndex);  }
     inline void activateEditorTab() { setCurrentIndex(m_EditorTabIndex); }
+    inline void activateStartGameTab() { setCurrentIndex(m_GameStartIndex); }
 
 signals:
     void selectPlaneClicked(bool);
@@ -53,9 +55,11 @@ private:
 
     QWidget* m_GameWidget;
     QWidget* m_BoardEditingWidget;
+    QWidget* m_StartGameWidget;
 
     int m_GameTabIndex = -1;
     int m_EditorTabIndex = -1;
+    int m_GameStartIndex = -1;
 
     ///butons to edit the position of the planes
     QPushButton* m_selectPlaneButton;
@@ -65,6 +69,8 @@ private:
     QPushButton* m_upPlaneButton;
     QPushButton* m_downPlaneButton;
     QPushButton* m_doneButton;
+
+    ScoreFrame* m_ScoreFrame;
 };
 
 #endif // PLANESGSLEFTPANE_H

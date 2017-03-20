@@ -10,7 +10,8 @@ SOURCES += \
     playerboard.cpp \
     genericboard.cpp \
     computerboard.cpp \
-    customgraphicsscene.cpp
+    customgraphicsscene.cpp \
+    scoreframe.cpp
 
 
 HEADERS += \
@@ -24,7 +25,8 @@ HEADERS += \
     playerboard.h \
     genericboard.h \
     computerboard.h \
-    customgraphicsscene.h
+    customgraphicsscene.h \
+    scoreframe.h
 
 QT += widgets
 CONFIG += console

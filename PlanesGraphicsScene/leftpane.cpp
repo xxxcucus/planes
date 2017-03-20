@@ -50,8 +50,13 @@ LeftPane::LeftPane(QWidget *parent) : QTabWidget(parent)
     m_GameTabIndex = addTab(m_GameWidget, "Game");
     m_EditorTabIndex = addTab(m_BoardEditingWidget, "BoardEditing");
 
-    QWidget* startGameWidget = new QWidget();
-    addTab(startGameWidget, "Start Game");
+    m_ScoreFrame = new ScoreFrame();
+    QVBoxLayout* vLayout1 = new QVBoxLayout();
+    vLayout1->addWidget(m_ScoreFrame);
+    vLayout1->addStretch(5);
+    m_StartGameWidget = new QWidget();
+    m_StartGameWidget->setLayout(vLayout1);
+    m_GameStartIndex = addTab(m_StartGameWidget, "Start Game");
 
     activateEditorTab();
 }
