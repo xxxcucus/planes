@@ -44,10 +44,18 @@ public slots:
      */
     void activateEditingBoard();
 
-    /*
+    /**
      * @brief Updates the statistics in the left pane
      */
     void updateGameStatistics(const GameStatistics& gs);
+
+    /**
+     * @brief Update the general score in the start game tab.
+     * Hide the other tabs.
+     */
+
+    void endRound();
+
 
 private:
     GameStatsFrame* m_PlayerStatsFrame;

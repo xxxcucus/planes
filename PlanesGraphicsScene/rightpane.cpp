@@ -69,3 +69,7 @@ void RightPane::doneClicked(bool val)
     m_PlayerBoard->setSelectedPlaneIndex(-1);
     m_ComputerBoard->setGameStage(GenericBoard::GameStages::Game);
 }
+
+void RightPane::endRound() {
+
+}
