@@ -37,3 +37,5 @@ Dupa ce se termina editarea - culoarea avionului curent se schimba. Pe tabla com
 I.11 Afisarea numai a taburilor necesare.
 
 I.12 In tabul cu butonul start game sa se afiseze scorul general.
+
+I.13 Nu permite click in tabla computerului decat in timpul jocului.

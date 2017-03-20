@@ -10,12 +10,9 @@ RightPane::RightPane(PlaneGrid& pGrid, PlaneGrid& cGrid, QWidget* parent) : QTab
     m_PlayerBoard = new PlayerBoard(pGrid);
     m_ComputerBoard = new ComputerBoard(cGrid);
 
-    QWidget* startGameWidget = new QWidget();
-
     addTab(m_PlayerBoard->getView(), "Player Board");
     addTab(m_ComputerBoard->getView(), "Computer Board");
     addTab(helpWidget, "Help");
-    addTab(startGameWidget, "Start Game");
 
     connect(m_PlayerBoard, SIGNAL(planePositionNotValid(bool)), this, SIGNAL(planePositionNotValid(bool)));
     connect(this, SIGNAL(showComputerMove(const GuessPoint&)), m_PlayerBoard, SLOT(showMove(const GuessPoint&)));

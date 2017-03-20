@@ -49,6 +49,10 @@ LeftPane::LeftPane(QWidget *parent) : QTabWidget(parent)
 
     m_GameTabIndex = addTab(m_GameWidget, "Game");
     m_EditorTabIndex = addTab(m_BoardEditingWidget, "BoardEditing");
+
+    QWidget* startGameWidget = new QWidget();
+    addTab(startGameWidget, "Start Game");
+
     activateEditorTab();
 }
 
