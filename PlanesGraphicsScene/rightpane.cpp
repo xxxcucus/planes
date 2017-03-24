@@ -71,5 +71,6 @@ void RightPane::doneClicked(bool val)
 }
 
 void RightPane::endRound() {
-
+    m_PlayerBoard->endRound();
+    m_ComputerBoard->endRound();
 }

@@ -9,6 +9,11 @@ class ComputerBoard : public GenericBoard
 public:
     ComputerBoard(PlaneGrid& grid, int squareWidth = 30);
 
+    /**
+     * @brief : Actions to be taken when the round ends.
+     */
+    void endRound() override;
+
 public slots:
     /*
      * What happens when the player clicks in the computer board

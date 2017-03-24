@@ -2,11 +2,15 @@
 #include "playareagridsquare.h"
 
 #include <QDebug>
+#include <QPropertyAnimation>
 
+///@todo: to add destructor
 GenericBoard::GenericBoard(PlaneGrid& grid, int squareWidth) : m_Grid(grid), m_SquareWidth(squareWidth)
 {
     m_Scene = new CustomGraphicsScene();
     m_View = new QGraphicsView(m_Scene);
+
+    m_RoundEndsAnimatedText = new AnimatedTextItem("Round ends");
 }
 
 void GenericBoard::reset()
@@ -109,7 +113,6 @@ void GenericBoard::showSelectedPlane(const Plane &pl)
     }
 }
 
-
 void GenericBoard::updateEditorBoard()
 {
     hidePlanes();
@@ -144,4 +147,15 @@ void GenericBoard::showGuessPoint(const GuessPoint &gp)
     }
     pags->showGuesses(true);
     pags->setGameStatus(st);
+}
+
+void GenericBoard::endRound() {
+    m_CurStage = GameStages::GameNotStarted;
+    m_Scene->addItem(m_RoundEndsAnimatedText);
+    qDebug() << "end round";
+    QPropertyAnimation* animation = new QPropertyAnimation(m_RoundEndsAnimatedText, "m_ScenePosition");
+    animation->setDuration(1000);
+    animation->setStartValue(QPoint(150, 300));
+    animation->setEndValue(QPoint(150, 200));
+    animation->start();
 }

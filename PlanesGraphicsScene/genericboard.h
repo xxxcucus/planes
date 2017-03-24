@@ -3,17 +3,19 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QPropertyAnimation>
 
 #include "planegrid.h"
 #include "gridsquare.h"
 #include "customgraphicsscene.h"
+#include "animatedtextitem.h"
 
 ///the board where the player lays his/her planes and where the computer tries to guess their position
 class GenericBoard : public QObject
 {
     Q_OBJECT
 public:
-    enum class GameStages { BoardEditing, Game };
+    enum class GameStages { GameNotStarted, BoardEditing, Game };
     GenericBoard(PlaneGrid& grid, int squareWidth = 30);
 
     inline QWidget* getView() { return m_View; }
@@ -21,6 +23,7 @@ public:
     ///and creates the board for placing the planes
     void reset();
     inline void setGameStage(GameStages stage) { m_CurStage = stage; }
+    virtual void endRound();
 
 signals:
     void planePositionNotValid(bool);
@@ -83,6 +86,8 @@ protected:
     ///grey colors to draw the planes
     int m_MinPlaneBodyColor = 0;
     int m_MaxPlaneBodyColor = 200;
+
+    AnimatedTextItem* m_RoundEndsAnimatedText;
 };
 
 

@@ -44,3 +44,6 @@ void PlayerBoard::rightPlaneClicked(bool )
     updateEditorBoard();
 }
 
+void PlayerBoard::endRound() {
+    GenericBoard::endRound();
+}

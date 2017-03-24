@@ -3,7 +3,6 @@
 
 #include <QDebug>
 
-
 ComputerBoard::ComputerBoard(PlaneGrid& grid, int squareWidth) : GenericBoard(grid, squareWidth) {
     connect(m_Scene, SIGNAL(gridSquareClicked(int, int)), this, SLOT(gridSquareClicked(int, int)));
     m_SelectedPlane = -1;
@@ -11,6 +10,8 @@ ComputerBoard::ComputerBoard(PlaneGrid& grid, int squareWidth) : GenericBoard(gr
 
 void ComputerBoard::gridSquareClicked(int row, int col)
 {
+    if (m_CurStage != GameStages::Game)
+        return;
     if (row < m_PaddingEditingBoard || col < m_PaddingEditingBoard)
         return;
     if (row >= m_Grid.getRowNo() + m_PaddingEditingBoard)
@@ -39,4 +40,8 @@ void ComputerBoard::gridSquareClicked(int row, int col)
         displayPlanes();
         displayGuesses();
     }
+}
+
+void ComputerBoard::endRound() {
+    GenericBoard::endRound();
 }

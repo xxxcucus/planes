@@ -28,6 +28,11 @@ public:
     void downPlaneClicked(bool );
     void leftPlaneClicked(bool );
     void rightPlaneClicked(bool );
+
+    /**
+     * @brief : Actions to be taken when the round ends.
+     */
+    void endRound() override;
 };
 
 #endif // PLAYERBOARD_H
