@@ -79,9 +79,9 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
                      round, SLOT(receivedPlayerGuess(GuessPoint)));
     connect(round, SIGNAL(displayStatusMessage(QString)),
                      editPlanesWidget, SLOT(displayStatusMsg(QString)));
-    connect(round, SIGNAL(roundEndet()),
+    connect(round, SIGNAL(roundEnds()),
                      computerArea, SLOT(roundEndet()));
-    connect(round, SIGNAL(roundEndet()),
+    connect(round, SIGNAL(roundEnds()),
                      gameStatsWidget, SLOT(roundEndet()));
     connect(gameStatsWidget, SIGNAL(startGame()),
                      round, SLOT(play()));

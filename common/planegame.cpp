@@ -211,7 +211,7 @@ void PlaneRound::receivedPlayerGuess(const GuessPoint& gp)
             }
 
         emit displayStatusMessage(text);
-        emit roundEndet();
+        emit roundEnds();
     }
 }
 

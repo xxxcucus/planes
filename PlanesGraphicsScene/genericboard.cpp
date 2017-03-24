@@ -11,6 +11,8 @@ GenericBoard::GenericBoard(PlaneGrid& grid, int squareWidth) : m_Grid(grid), m_S
     m_View = new QGraphicsView(m_Scene);
 
     m_RoundEndsAnimatedText = new AnimatedTextItem("Round ends");
+    m_RoundEndsAnimatedText->setFont(QFont("Timer", 20, QFont::Bold));
+    m_RoundEndsAnimatedText->setDefaultTextColor(Qt::red);
 }
 
 void GenericBoard::reset()
