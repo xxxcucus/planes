@@ -23,7 +23,7 @@ public:
     ///and creates the board for placing the planes
     void reset();
     inline void setGameStage(GameStages stage) { m_CurStage = stage; }
-    virtual void endRound();
+    virtual void endRound(bool isPlayerWinner);
 
 signals:
     void planePositionNotValid(bool);

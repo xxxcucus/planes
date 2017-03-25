@@ -54,7 +54,7 @@ public slots:
      * Hide the other tabs.
      */
 
-    void endRound();
+    void endRound(bool isPlayerWinner);
 
 
 private:

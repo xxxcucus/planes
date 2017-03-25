@@ -197,21 +197,19 @@ void PlaneRound::receivedPlayerGuess(const GuessPoint& gp)
         QString text = tr("Round endet.");
 
         if(isComputerWinner)
-            {
+        {
                 text+= tr(" Computer is winner!");
                 m_gameStats.updateWins(true);
                 emit statsUpdated(m_gameStats);
-            }
-        else
-            {
+        } else {
                 text+=tr(" Player is winner!");
                 m_gameStats.updateWins(false);
                 emit statsUpdated(m_gameStats);
 
-            }
+        }
 
         emit displayStatusMessage(text);
-        emit roundEnds();
+        emit roundEnds(!isComputerWinner);
     }
 }
 

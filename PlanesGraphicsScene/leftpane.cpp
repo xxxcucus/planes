@@ -98,7 +98,7 @@ void LeftPane::updateGameStatistics(const GameStatistics &gs)
     m_ScoreFrame->updateDisplayedValues(gs.m_computerWins, gs.m_playerWins);
 }
 
-void LeftPane::endRound() {
+void LeftPane::endRound(bool) {
     activateStartGameTab();
 }
 

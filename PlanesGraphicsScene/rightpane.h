@@ -33,7 +33,7 @@ public slots:
      * @brief Display winner message in the player and computer boards.
      * Block mouse click events in the computer board.
      */
-    void endRound();
+    void endRound(bool isPlayerWinner);
 
 signals:
     void planePositionNotValid(bool);

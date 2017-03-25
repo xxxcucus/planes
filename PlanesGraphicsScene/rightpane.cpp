@@ -70,7 +70,7 @@ void RightPane::doneClicked(bool val)
     m_ComputerBoard->setGameStage(GenericBoard::GameStages::Game);
 }
 
-void RightPane::endRound() {
-    m_PlayerBoard->endRound();
-    m_ComputerBoard->endRound();
+void RightPane::endRound(bool isPlayerWinner) {
+    m_PlayerBoard->endRound(isPlayerWinner);
+    m_ComputerBoard->endRound(isPlayerWinner);
 }

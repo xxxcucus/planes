@@ -21,7 +21,7 @@ public:
     inline void setPosition(QPoint position) {
         setPos(position.x(), position.y());
         m_ScenePosition = position;
-        qDebug() << "set position " << position.x() << " " << position.y();
+//        qDebug() << "set position " << position.x() << " " << position.y();
     }
 
 

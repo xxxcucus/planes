@@ -44,6 +44,6 @@ void PlayerBoard::rightPlaneClicked(bool )
     updateEditorBoard();
 }
 
-void PlayerBoard::endRound() {
-    GenericBoard::endRound();
+void PlayerBoard::endRound(bool isPlayerWinner) {
+    GenericBoard::endRound(isPlayerWinner);
 }

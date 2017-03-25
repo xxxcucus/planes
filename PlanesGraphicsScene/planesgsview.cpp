@@ -49,8 +49,8 @@ PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cL
 //                     computerArea, SLOT(activateGameMode()));
     connect(m_RightPane, SIGNAL(guessMade(const GuessPoint&)), m_round, SLOT(receivedPlayerGuess(const GuessPoint&)));
     connect(m_round, SIGNAL(displayStatusMessage(QString)), this, SLOT(displayStatusMsg(QString)));
-    connect(m_round, SIGNAL(roundEnds()), m_LeftPane, SLOT(endRound()));
-    connect(m_round, SIGNAL(roundEnds()), m_RightPane, SLOT(endRound()));
+    connect(m_round, SIGNAL(roundEnds(bool)), m_LeftPane, SLOT(endRound(bool)));
+    connect(m_round, SIGNAL(roundEnds(bool)), m_RightPane, SLOT(endRound(bool)));
 //    connect(gameStatsWidget, SIGNAL(startGame()),
 //                     round, SLOT(play()));
     connect(m_round, SIGNAL(statsUpdated(const GameStatistics&)), m_LeftPane, SLOT(updateGameStatistics(const GameStatistics&)));

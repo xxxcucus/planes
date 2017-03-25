@@ -50,7 +50,6 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
 
     setLayout(mainLayout);
 
-
     //builds the connections in the graphical user interface
     connect(playerGrid, SIGNAL(initPlayerGrid()),
                      editPlanesWidget, SLOT(initButtons()));
@@ -79,9 +78,9 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
                      round, SLOT(receivedPlayerGuess(GuessPoint)));
     connect(round, SIGNAL(displayStatusMessage(QString)),
                      editPlanesWidget, SLOT(displayStatusMsg(QString)));
-    connect(round, SIGNAL(roundEnds()),
+    connect(round, SIGNAL(roundEnds(bool)),
                      computerArea, SLOT(roundEndet()));
-    connect(round, SIGNAL(roundEnds()),
+    connect(round, SIGNAL(roundEnds(bool)),
                      gameStatsWidget, SLOT(roundEndet()));
     connect(gameStatsWidget, SIGNAL(startGame()),
                      round, SLOT(play()));
@@ -98,9 +97,6 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
                 this, SLOT(widgetSelected(int)));
     connect(this, SIGNAL(debugWidgetSelected()),
             choiceDebugWidget, SLOT(setLogic()));
-
-
-
 }
 
 //when a widget is selected

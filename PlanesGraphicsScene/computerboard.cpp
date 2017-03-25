@@ -42,6 +42,6 @@ void ComputerBoard::gridSquareClicked(int row, int col)
     }
 }
 
-void ComputerBoard::endRound() {
-    GenericBoard::endRound();
+void ComputerBoard::endRound(bool isPlayerWinner) {
+    GenericBoard::endRound(isPlayerWinner);
 }

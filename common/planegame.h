@@ -88,7 +88,7 @@ signals:
     //signals that a message has to be displayed in the edit control window
     void displayStatusMessage(QString text);
     //signals that the round has endet
-    void roundEnds();
+    void roundEnds(bool isPlayerWinner);
     //signals that the render areas should be reset
     void initGraphics();
     //signals that statistics have to be updated on screen

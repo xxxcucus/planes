@@ -151,13 +151,17 @@ void GenericBoard::showGuessPoint(const GuessPoint &gp)
     pags->setGameStatus(st);
 }
 
-void GenericBoard::endRound() {
+void GenericBoard::endRound(bool isPlayerWinner) {
+    if (isPlayerWinner)
+        m_RoundEndsAnimatedText->setPlainText("Player is winner!");
+    else
+        m_RoundEndsAnimatedText->setPlainText("Computer is winner!");
     m_CurStage = GameStages::GameNotStarted;
     m_Scene->addItem(m_RoundEndsAnimatedText);
     qDebug() << "end round";
     QPropertyAnimation* animation = new QPropertyAnimation(m_RoundEndsAnimatedText, "m_ScenePosition");
     animation->setDuration(1000);
-    animation->setStartValue(QPoint(150, 300));
-    animation->setEndValue(QPoint(150, 200));
+    animation->setStartValue(QPoint(m_Grid.getColNo() * m_SquareWidth / 2, (m_Grid.getRowNo() +  m_PaddingEditingBoard) * m_SquareWidth));
+    animation->setEndValue(QPoint(m_Grid.getColNo() * m_SquareWidth / 2, (m_Grid.getRowNo() +  m_PaddingEditingBoard) * m_SquareWidth / 2));
     animation->start();
 }
