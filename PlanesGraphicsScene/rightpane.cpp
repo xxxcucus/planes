@@ -74,3 +74,7 @@ void RightPane::endRound(bool isPlayerWinner) {
     m_PlayerBoard->endRound(isPlayerWinner);
     m_ComputerBoard->endRound(isPlayerWinner);
 }
+
+void RightPane::startNewGame() {
+    setCurrentIndex(0);
+}

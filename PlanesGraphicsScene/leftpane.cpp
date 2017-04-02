@@ -57,6 +57,7 @@ LeftPane::LeftPane(QWidget *parent) : QTabWidget(parent)
     m_StartGameWidget = new QWidget();
     m_StartGameWidget->setLayout(vLayout1);
     m_GameStartIndex = addTab(m_StartGameWidget, "Start Game");
+    connect(m_ScoreFrame, SIGNAL(startNewGame()), this, SIGNAL(startNewGame()));
 
     activateEditorTab();
 }

@@ -14,6 +14,8 @@ public:
      */
     void endRound(bool isPlayerWinner) override;
 
+    void generateBoardItems() override;
+
 public slots:
     /*
      * What happens when the player clicks in the computer board
@@ -23,6 +25,7 @@ public slots:
 
 signals:
     void guessMade(const GuessPoint& gp);
+
 
 };
 

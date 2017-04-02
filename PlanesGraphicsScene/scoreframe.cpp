@@ -21,6 +21,7 @@ ScoreFrame::ScoreFrame(QWidget* parent): QFrame(parent)
     gridLayout1->addWidget(m_StartGameButton, 3, 0);
     setLayout(gridLayout1);
     setFrameStyle(QFrame::Panel | QFrame::Raised);
+    connect(m_StartGameButton, SIGNAL(clicked(bool)), this, SIGNAL(startNewGame()));
 }
 
 void ScoreFrame::updateDisplayedValues(int computerScore, int playerScore)

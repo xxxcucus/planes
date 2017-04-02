@@ -22,6 +22,9 @@ public:
     QLabel* m_PlayerScoreLabel = new QLabel("0");
     QLabel* m_ComputerScoreLabel = new QLabel("0");
     QPushButton* m_StartGameButton;
+
+signals:
+    void startNewGame();
 };
 
 

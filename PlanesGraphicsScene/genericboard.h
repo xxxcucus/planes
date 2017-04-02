@@ -33,7 +33,7 @@ public slots:
      * @brief shows a guess made by computer or player
      */
     void showMove(const GuessPoint&);
-    inline void setSelectedPlaneIndex(int idx) { m_SelectedPlane = idx; }
+    void setSelectedPlaneIndex(int idx);
 
 protected:
     void clearBoard();

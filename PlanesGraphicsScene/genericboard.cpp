@@ -26,7 +26,14 @@ void GenericBoard::reset()
 ///@todo: deleted the items from m_SceneItems
 void GenericBoard::clearBoard()
 {
+    m_SceneItems.clear();
     m_Scene->clear();
+    m_GuessList.clear();
+
+    //animated text is deleted with m_Scene->clear
+    m_RoundEndsAnimatedText = new AnimatedTextItem("Round ends");
+    m_RoundEndsAnimatedText->setFont(QFont("Timer", 20, QFont::Bold));
+    m_RoundEndsAnimatedText->setDefaultTextColor(Qt::red);
 }
 
 void GenericBoard::generateBoardItems()
@@ -164,4 +171,11 @@ void GenericBoard::endRound(bool isPlayerWinner) {
     animation->setStartValue(QPoint(m_Grid.getColNo() * m_SquareWidth / 2, (m_Grid.getRowNo() +  m_PaddingEditingBoard) * m_SquareWidth));
     animation->setEndValue(QPoint(m_Grid.getColNo() * m_SquareWidth / 2, (m_Grid.getRowNo() +  m_PaddingEditingBoard) * m_SquareWidth / 2));
     animation->start();
+}
+
+void GenericBoard::setSelectedPlaneIndex(int idx) {
+    m_SelectedPlane = idx;
+    hidePlanes();
+    displayPlanes();
+    displayGuesses();
 }

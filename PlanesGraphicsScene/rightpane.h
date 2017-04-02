@@ -35,6 +35,8 @@ public slots:
      */
     void endRound(bool isPlayerWinner);
 
+    void startNewGame();
+
 signals:
     void planePositionNotValid(bool);
     void showComputerMove(const GuessPoint&);

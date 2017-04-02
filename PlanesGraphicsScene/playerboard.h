@@ -33,6 +33,11 @@ public:
      * @brief : Actions to be taken when the round ends.
      */
     void endRound(bool isPlayerWinner) override;
+
+    inline void generateBoardItems() override {
+        GenericBoard::generateBoardItems();
+        m_SelectedPlane = 0;
+    }
 };
 
 #endif // PLAYERBOARD_H

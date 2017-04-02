@@ -44,4 +44,22 @@ void ComputerBoard::gridSquareClicked(int row, int col)
 
 void ComputerBoard::endRound(bool isPlayerWinner) {
     GenericBoard::endRound(isPlayerWinner);
+    ///show the computer planes at the end of the round
+    for (auto sit : m_SceneItems) {
+        PlayAreaGridSquare* pags = dynamic_cast<PlayAreaGridSquare*>(sit.second);
+        if (pags)
+            pags->showPlane(true);
+    }
+}
+
+void ComputerBoard::generateBoardItems() {
+    GenericBoard::generateBoardItems();
+    m_SelectedPlane = -1;
+
+    ///do not display the planes in the computer grid
+    for (auto sit : m_SceneItems) {
+        PlayAreaGridSquare* pags = dynamic_cast<PlayAreaGridSquare*>(sit.second);
+        if (pags)
+            pags->showPlane(false);
+    }
 }
