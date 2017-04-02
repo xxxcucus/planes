@@ -7,7 +7,8 @@ Se foloseste QWidgetDesktop. Se poate porni o mica aplicatie care scrie in QSett
 si pozitia ferestrei pe ecran.
 
 I.3 De scalat toate elementele in functie de rezolutia ecranului.
-De scris un layout manager.
+De scris un layout manager. Dimensiunea textul se seteaza in functie de dimensiunea
+celulei de pe tabla de joc.
 
 I.4 Imbunatatiri usability pentru editarea boardului
 - Select plane, Move left, Move right, Move up, Move down. - done
