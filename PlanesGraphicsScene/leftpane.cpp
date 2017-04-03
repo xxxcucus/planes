@@ -47,7 +47,7 @@ LeftPane::LeftPane(QWidget *parent) : QTabWidget(parent)
     connect(m_leftPlaneButton, SIGNAL(clicked(bool)), this, SIGNAL(leftPlaneClicked(bool)));
     connect(m_rightPlaneButton, SIGNAL(clicked(bool)), this, SIGNAL(rightPlaneClicked(bool)));
 
-    m_GameTabIndex = addTab(m_GameWidget, "Game");
+    m_GameTabIndex = addTab(m_GameWidget, "Round");
     m_EditorTabIndex = addTab(m_BoardEditingWidget, "BoardEditing");
 
     m_ScoreFrame = new ScoreFrame();
@@ -56,7 +56,7 @@ LeftPane::LeftPane(QWidget *parent) : QTabWidget(parent)
     vLayout1->addStretch(5);
     m_StartGameWidget = new QWidget();
     m_StartGameWidget->setLayout(vLayout1);
-    m_GameStartIndex = addTab(m_StartGameWidget, "Start Game");
+    m_GameStartIndex = addTab(m_StartGameWidget, "Start Round");
     connect(m_ScoreFrame, SIGNAL(startNewGame()), this, SIGNAL(startNewGame()));
 
     activateEditorTab();
