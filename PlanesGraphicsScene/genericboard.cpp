@@ -159,17 +159,17 @@ void GenericBoard::showGuessPoint(const GuessPoint &gp)
 }
 
 void GenericBoard::endRound(bool isPlayerWinner) {
-    if (isPlayerWinner)
-        m_RoundEndsAnimatedText->setPlainText("Player is winner!");
-    else
-        m_RoundEndsAnimatedText->setPlainText("Computer is winner!");
+    QString winnerText = isPlayerWinner ? "Player wins!" : "Computer wins!";
+    m_RoundEndsAnimatedText->setPlainText(winnerText);
     m_CurStage = GameStages::GameNotStarted;
     m_Scene->addItem(m_RoundEndsAnimatedText);
     qDebug() << "end round";
     QPropertyAnimation* animation = new QPropertyAnimation(m_RoundEndsAnimatedText, "m_ScenePosition");
+    QFont f = m_RoundEndsAnimatedText->font();
+    QFontMetrics fm(f);
     animation->setDuration(1000);
-    animation->setStartValue(QPoint(m_Grid.getColNo() * m_SquareWidth / 2, (m_Grid.getRowNo() +  m_PaddingEditingBoard) * m_SquareWidth));
-    animation->setEndValue(QPoint(m_Grid.getColNo() * m_SquareWidth / 2, (m_Grid.getRowNo() +  m_PaddingEditingBoard) * m_SquareWidth / 2));
+    animation->setStartValue(QPoint((m_Grid.getColNo() + m_PaddingEditingBoard * 2)  * m_SquareWidth / 2 - fm.width(winnerText) / 2, (m_Grid.getRowNo() +  m_PaddingEditingBoard) * m_SquareWidth));
+    animation->setEndValue(QPoint((m_Grid.getColNo() + m_PaddingEditingBoard * 2) * m_SquareWidth / 2 - fm.width(winnerText) / 2, (m_PaddingEditingBoard) * m_SquareWidth / 2));
     animation->start();
 }
 
