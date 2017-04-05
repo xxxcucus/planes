@@ -39,3 +39,6 @@ else:unix: LIBS += -L$$OUT_PWD/../common/ -lcommon
 
 INCLUDEPATH += $$PWD/../common
 DEPENDPATH += $$PWD/../common
+
+RESOURCES += \
+    resources.qrc

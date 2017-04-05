@@ -1,11 +1,22 @@
 #include "rightpane.h"
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QHBoxLayout>
+#include <QTextEdit>
+#include <QFile>
 
 RightPane::RightPane(PlaneGrid& pGrid, PlaneGrid& cGrid, QWidget* parent) : QTabWidget(parent)
 {
     QWidget* helpWidget = new QWidget();
-    defineHelpWindow(helpWidget);
+    QHBoxLayout* layout = new QHBoxLayout();
+    QTextEdit* textEdit = new QTextEdit();
+    QFile file(":/help.html");
+    file.open(QFile::ReadOnly | QFile::Text);
+    QTextStream stream(&file);
+    textEdit->setHtml(stream.readAll());
+    layout->addWidget(textEdit);
+    helpWidget->setLayout(layout);
+//    defineHelpWindow(helpWidget);
 
     m_PlayerBoard = new PlayerBoard(pGrid);
     m_ComputerBoard = new ComputerBoard(cGrid);
@@ -27,7 +38,17 @@ RightPane::~RightPane()
 
 void RightPane::defineHelpWindow(QWidget* w)
 {
-    Q_UNUSED(w)
+    QHBoxLayout* layout = new QHBoxLayout();
+    QTextEdit* textEdit = new QTextEdit();
+    QFile file("qrc:/../doc/index.html");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QByteArray dump = file.readAll();
+    qDebug() << "contents: " << dump;
+    qDebug() << "error status:" << file.error();
+    textEdit->loadResource(QTextDocument::HtmlResource, QUrl("qrc://help.html"));
+    textEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    layout->addWidget(textEdit);
+    w->setLayout(layout);
 }
 
 
