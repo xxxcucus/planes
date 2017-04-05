@@ -37,6 +37,12 @@ Dupa ce se termina editarea - culoarea avionului curent se schimba. Pe tabla com
 
 I.11 Afisarea numai a taburilor necesare.
 
-I.12 In tabul cu butonul start game sa se afiseze scorul general.
+I.12 In tabul cu butonul start game sa se afiseze scorul general. - done
 
 I.13 Nu permite click in tabla computerului decat in timpul jocului.
+
+I.14 Culoarea tablei de joc si a zonei exterioare customizabile.
+
+I.15 Forma patratelelor alta decat patrata.
+
+I.16 Compilare cu cmake in linux si windows.
