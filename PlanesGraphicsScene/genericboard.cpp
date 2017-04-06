@@ -169,7 +169,7 @@ void GenericBoard::endRound(bool isPlayerWinner) {
     QFontMetrics fm(f);
     animation->setDuration(1000);
     animation->setStartValue(QPoint((m_Grid.getColNo() + m_PaddingEditingBoard * 2)  * m_SquareWidth / 2 - fm.width(winnerText) / 2, (m_Grid.getRowNo() +  m_PaddingEditingBoard) * m_SquareWidth));
-    animation->setEndValue(QPoint((m_Grid.getColNo() + m_PaddingEditingBoard * 2) * m_SquareWidth / 2 - fm.width(winnerText) / 2, (m_PaddingEditingBoard) * m_SquareWidth / 2));
+    animation->setEndValue(QPoint((m_Grid.getColNo() + m_PaddingEditingBoard * 2) * m_SquareWidth / 2 - fm.width(winnerText) / 2,  m_SquareWidth / 2));
     animation->start();
 }
 

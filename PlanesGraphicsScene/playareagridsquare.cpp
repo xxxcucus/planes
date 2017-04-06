@@ -5,6 +5,7 @@ void PlayAreaGridSquare::paint(QPainter* painter, const QStyleOptionGraphicsItem
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
+    painter->setRenderHint(QPainter::Antialiasing);
     drawCommonGraphics(painter);
 
     if (m_ShowGuesses) {
@@ -46,18 +47,22 @@ void PlayAreaGridSquare::drawCommonGraphics(QPainter* painter)
         }
     }
 
-    if ((m_ShowPlane && m_Type != Type::Empty) || m_Selected)
-        painter->setPen(Qt::magenta);
-    else
+//    if ((m_ShowPlane && m_Type != Type::Empty) || m_Selected)
+//        painter->setPen(Qt::magenta);
+//    else
         painter->setPen(Qt::black);
     painter->drawRect(boundingRect());
 }
 
 void PlayAreaGridSquare::drawPlaneGuessed(QPainter* painter)
 {
-    painter->setPen(Qt::red);
-    painter->drawLine(0, 0, m_Width/2, m_Width);
-    painter->drawLine(m_Width/2, m_Width, m_Width, 0);
+    QPainterPath fillPath;
+    fillPath.moveTo(0, m_Width / 2);
+    fillPath.lineTo(m_Width / 2, 0);
+    fillPath.lineTo(m_Width, m_Width / 2);
+    fillPath.lineTo(m_Width / 2, m_Width);
+    fillPath.lineTo(0, m_Width / 2);
+    painter->fillPath(fillPath, Qt::darkRed);
 }
 
 void PlayAreaGridSquare::drawPlaneHeadGuessed(QPainter* painter)
@@ -69,6 +74,7 @@ void PlayAreaGridSquare::drawPlaneHeadGuessed(QPainter* painter)
 
 void PlayAreaGridSquare::drawTestedNotPlane(QPainter* painter)
 {
-    painter->setPen(Qt::red);
-    painter->drawEllipse(m_Width/3, m_Width/3, m_Width/3, m_Width/3);
+    QPainterPath fillPath;
+    fillPath.addEllipse(m_Width/4, m_Width/4, m_Width/2, m_Width/2);
+    painter->fillPath(fillPath, Qt::red);
 }
