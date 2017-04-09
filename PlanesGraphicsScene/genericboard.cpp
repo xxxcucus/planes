@@ -8,7 +8,9 @@
 GenericBoard::GenericBoard(PlaneGrid& grid, int squareWidth) : m_Grid(grid), m_SquareWidth(squareWidth)
 {
     m_Scene = new CustomGraphicsScene();
-    m_View = new QGraphicsView(m_Scene);
+    m_View = new CustomGraphicsView(m_Scene);
+    m_View->setSceneSize((m_Grid.getColNo() + 2 * m_PaddingEditingBoard) * m_SquareWidth,
+                         (m_Grid.getRowNo() + 2 * m_PaddingEditingBoard) * m_SquareWidth);
 
     m_RoundEndsAnimatedText = new AnimatedTextItem("Round ends");
     m_RoundEndsAnimatedText->setFont(QFont("Timer", 20, QFont::Bold));

@@ -1,13 +1,12 @@
 #ifndef GENERICBOARD_H
 #define GENERICBOARD_H
 
-#include <QGraphicsScene>
-#include <QGraphicsView>
 #include <QPropertyAnimation>
 
 #include "planegrid.h"
 #include "gridsquare.h"
 #include "customgraphicsscene.h"
+#include "customgraphicsview.h"
 #include "animatedtextitem.h"
 
 ///the board where the player lays his/her planes and where the computer tries to guess their position
@@ -60,7 +59,7 @@ protected:
 
 protected:
     CustomGraphicsScene* m_Scene;
-    QGraphicsView* m_View;
+    CustomGraphicsView* m_View;
 
     PlaneGrid& m_Grid;
     int m_SquareWidth = 30;

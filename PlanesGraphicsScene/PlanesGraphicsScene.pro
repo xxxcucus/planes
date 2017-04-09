@@ -12,7 +12,8 @@ SOURCES += \
     computerboard.cpp \
     customgraphicsscene.cpp \
     scoreframe.cpp \
-    animatedtextitem.cpp
+    animatedtextitem.cpp \
+    customgraphicsview.cpp
 
 
 HEADERS += \
@@ -28,7 +29,8 @@ HEADERS += \
     computerboard.h \
     customgraphicsscene.h \
     scoreframe.h \
-    animatedtextitem.h
+    animatedtextitem.h \
+    customgraphicsview.h
 
 QT += widgets
 CONFIG += console
