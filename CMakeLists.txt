@@ -8,7 +8,12 @@ FIND_PACKAGE(Qt5Widgets)
 
 INCLUDE_DIRECTORIES(
 	${CMAKE_CURRENT_SOURCE_DIR}
+	${CMAKE_CURRENT_SOURCE_DIR}/common
+	${CMAKE_CURRENT_SOURCE_DIR}/PlanesWidget
+	${CMAKE_CURRENT_SOURCE_DIR}/PlanesGraphicsScene
 	${Qt5Widgets_INCLUDE_DIRS})
+
+MESSAGE("Source dir: " ${CMAKE_CURRENT_SOURCE_DIR})
 
 qt5_wrap_ui(UI_HEADERS
             EditControl.ui
@@ -17,21 +22,21 @@ qt5_wrap_ui(UI_HEADERS
 add_definitions(${Qt5Widgets_DEFINITIONS})
 
 add_executable(Planes 
-        baserenderarea.cpp
-	buttons.cpp
- 	choicedebugwidget.cpp
-        computerlogic.cpp
-        debugrenderarea.cpp
-	editplanescontrolwidget.cpp
-	gamerenderarea.cpp
-	gamestatswidget.cpp
-	main.cpp
-	plane.cpp
-	planegame.cpp
-	planegrid.cpp
-	planesmodel.cpp
-	planesview.cpp
-	planeswindow.cpp)
+        PlanesWidget/baserenderarea.cpp
+	PlanesWidget/buttons.cpp
+ 	PlanesWidget/choicedebugwidget.cpp
+        common/computerlogic.cpp
+        PlanesWidget/debugrenderarea.cpp
+	PlanesWidget/editplanescontrolwidget.cpp
+	PlanesWidget/gamerenderarea.cpp
+	PlanesWidget/gamestatswidget.cpp
+	PlanesWidget/main.cpp
+	common/plane.cpp
+	common/planegame.cpp
+	common/planegrid.cpp
+	common/planesmodel.cpp
+	PlanesWidget/planeswview.cpp
+	PlanesWidget/planeswwindow.cpp)
 
 target_link_libraries(Planes ${Qt5Widgets_LIBRARIES})
 
