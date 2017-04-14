@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 2.6)
 project (Planes)
 
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 FIND_PACKAGE(Qt5Widgets)
@@ -16,12 +17,12 @@ INCLUDE_DIRECTORIES(
 MESSAGE("Source dir: " ${CMAKE_CURRENT_SOURCE_DIR})
 
 qt5_wrap_ui(UI_HEADERS
-            EditControl.ui
-	    GameControl.ui)
+            PlanesWidget/EditControl.ui
+	    PlanesWidget/GameControl.ui)
 
 add_definitions(${Qt5Widgets_DEFINITIONS})
 
-add_executable(Planes 
+add_executable(PlanesWidget 
         PlanesWidget/baserenderarea.cpp
 	PlanesWidget/buttons.cpp
  	PlanesWidget/choicedebugwidget.cpp
@@ -38,6 +39,6 @@ add_executable(Planes
 	PlanesWidget/planeswview.cpp
 	PlanesWidget/planeswwindow.cpp)
 
-target_link_libraries(Planes ${Qt5Widgets_LIBRARIES})
+target_link_libraries(PlanesWidget ${Qt5Widgets_LIBRARIES})
 
-qt5_use_modules(Planes Widgets)
+qt5_use_modules(PlanesWidget Widgets)

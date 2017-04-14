@@ -1,3 +1,5 @@
 1. in a new build folder 
 
 	cmake -G "MinGW Makefiles" ..
+
+2. mingw32-make 
