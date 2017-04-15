@@ -3,3 +3,5 @@
 	cmake -G "MinGW Makefiles" ..
 
 2. mingw32-make 
+
+3. migw32-make package -- to create the installer

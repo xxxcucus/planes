@@ -71,3 +71,13 @@ add_executable(PlanesGraphicsScene
 target_link_libraries(PlanesGraphicsScene ${Qt5Widgets_LIBRARIES})
 
 qt5_use_modules(PlanesGraphicsScene Widgets)
+
+install(TARGETS PlanesGraphicsScene RUNTIME DESTINATION bin)
+set(CPACK_SOURCE_GENERATOR "ZIP")
+set(CPACK_GENERATOR "NSIS")
+
+set(CPACK_PACKAGE_DESCRIPTION "Board Game")
+set(CPACK_PACKAGE_VENDOR "Cristian Cucu")
+set(CPACK_PACKAGE_VERSION "0.1")
+set(CPACK_PACKAGE_SECTION "Games")
+include(CPack)
