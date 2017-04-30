@@ -7,16 +7,19 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
 cmake_policy(SET CMP0020 NEW)
 
-FIND_PACKAGE(Qt5Widgets)
+find_package(Qt5Widgets)
 
-INCLUDE_DIRECTORIES(
+include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_SOURCE_DIR}/common
 	${CMAKE_CURRENT_SOURCE_DIR}/PlanesWidget
 	${CMAKE_CURRENT_SOURCE_DIR}/PlanesGraphicsScene
 	${Qt5Widgets_INCLUDE_DIRS})
 
-MESSAGE("Source dir: " ${CMAKE_CURRENT_SOURCE_DIR})
+message("Source dir: " ${CMAKE_CURRENT_SOURCE_DIR})
+message(${Qt5Widgets_LIBRARIES})
+message(${Qt5Widgets_INCLUDE_DIRS})
+message("Qt dir: " ${QTDIR})
 
 qt5_wrap_ui(UI_HEADERS
             PlanesWidget/EditControl.ui
@@ -71,6 +74,12 @@ add_executable(PlanesGraphicsScene
 target_link_libraries(PlanesGraphicsScene ${Qt5Widgets_LIBRARIES})
 
 qt5_use_modules(PlanesGraphicsScene Widgets)
+
+install (FILES "c:/qt/tools/mingw530_32/bin/LIBGCC_S_DW2-1.DLL"
+	"c:/qt/tools/mingw530_32/bin/LIBSTDC++-6.DLL"
+	"c:/qt/5.7/mingw53_32/bin/QT5CORE.DLL"
+	"c:/qt/5.7/mingw53_32/bin/QT5GUI.DLL"
+	"c:/qt/5.7/mingw53_32/bin/QT5WIDGETS.DLL" DESTINATION lib)
 
 install(TARGETS PlanesGraphicsScene RUNTIME DESTINATION bin)
 set(CPACK_SOURCE_GENERATOR "ZIP")
