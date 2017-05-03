@@ -7,8 +7,8 @@ ScoreFrame::ScoreFrame(QWidget* parent): QFrame(parent)
     QString titleText = QString("<b> General Score</b>");
     QLabel* titleLabel = new QLabel();
     titleLabel->setText(titleText);
-    QLabel* computerScoreTextLabel = new QLabel("Computer Wins: ");
-    QLabel* playerScoreTextLabel = new QLabel("Player wins: ");
+    QLabel* computerScoreTextLabel = new QLabel("Computer: ");
+    QLabel* playerScoreTextLabel = new QLabel("Player: ");
     m_ComputerScoreLabel = new QLabel("0");
     m_PlayerScoreLabel = new QLabel("0");
     m_StartGameButton = new QPushButton("Start new round");
