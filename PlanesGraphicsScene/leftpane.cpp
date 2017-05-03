@@ -123,3 +123,21 @@ void LeftPane::activateStartGameTab() {
     setTabEnabled(m_GameTabIndex, false);
     setTabEnabled(m_GameStartIndex, true);
 }
+
+void LeftPane::setMinWidth()
+{
+    ///decide the minimum size based on the texts in the labels
+    QString textA("Plane upwards");
+    QString textB("Plane downwards");
+    QString textC("Plane left");
+    QString textD("Plane right");
+
+    QFontMetrics fm = fontMetrics();
+    setMinimumWidth(((fm.width(textB) + fm.width(textC) + fm.width(textD)) * 170) / 100);
+}
+
+void LeftPane::setMinHeight()
+{
+    QFontMetrics fm = fontMetrics();
+    setMinimumHeight(fm.height() * 12);
+}

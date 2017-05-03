@@ -17,6 +17,8 @@ public:
     void activateGameTab();
     void activateEditorTab();
     void activateStartGameTab();
+    void setMinWidth();
+    void setMinHeight();
 
 signals:
     void selectPlaneClicked(bool);
@@ -27,6 +29,8 @@ signals:
     void rightPlaneClicked(bool);
     void doneClicked(bool);
     void startNewGame();
+
+
 
 public slots:
     /**

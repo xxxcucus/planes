@@ -2,15 +2,18 @@
 
 #include <QDebug>
 #include <QHBoxLayout>
+#include "customhorizlayout.h"
 
 PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLogic, PlaneRound *rd, QWidget *parent)
     : QWidget(parent), m_playerGrid(pGrid), m_computerGrid(cGrid), m_computerLogic(cLogic), m_round(rd)
 {
-    QHBoxLayout* hLayout = new QHBoxLayout();
+    CustomHorizLayout* hLayout = new CustomHorizLayout(this);
     m_LeftPane = new LeftPane(this);
-    m_LeftPane->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+    m_LeftPane->setMinWidth();
+    //m_LeftPane->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 
     m_RightPane = new RightPane(*m_playerGrid, *m_computerGrid, this);
+    m_RightPane->setMinWidth();
 
     hLayout->addWidget(m_LeftPane);
     hLayout->addWidget(m_RightPane);

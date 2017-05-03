@@ -13,7 +13,8 @@ SOURCES += \
     customgraphicsscene.cpp \
     scoreframe.cpp \
     animatedtextitem.cpp \
-    customgraphicsview.cpp
+    customgraphicsview.cpp \
+    customhorizlayout.cpp
 
 
 HEADERS += \
@@ -30,7 +31,8 @@ HEADERS += \
     customgraphicsscene.h \
     scoreframe.h \
     animatedtextitem.h \
-    customgraphicsview.h
+    customgraphicsview.h \
+    customhorizlayout.h
 
 QT += widgets
 CONFIG += console

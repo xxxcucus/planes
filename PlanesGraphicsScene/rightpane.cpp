@@ -99,3 +99,8 @@ void RightPane::endRound(bool isPlayerWinner) {
 void RightPane::startNewGame() {
     setCurrentIndex(0);
 }
+
+void RightPane::setMinWidth()
+{
+    setMinimumWidth(m_PlayerBoard->getMinWidth());
+}

@@ -24,6 +24,10 @@ public:
     inline void setGameStage(GameStages stage) { m_CurStage = stage; }
     virtual void endRound(bool isPlayerWinner);
 
+    int getMinWidth() const {
+        return (m_Grid.getColNo() + 2 * m_PaddingEditingBoard) * m_SquareWidth;
+    }
+
 signals:
     void planePositionNotValid(bool);
 

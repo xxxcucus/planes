@@ -11,6 +11,9 @@ class RightPane : public QTabWidget
 public:
     explicit RightPane(PlaneGrid& pGrid, PlaneGrid& cGrid, QWidget* parent = nullptr);
     ~RightPane();
+
+    void setMinWidth();
+
 public slots:
     inline void resetGameBoard() {
         m_PlayerBoard->reset();
