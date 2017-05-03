@@ -58,6 +58,7 @@ add_executable(PlanesGraphicsScene
 	PlanesGraphicsScene/computerboard.cpp
 	PlanesGraphicsScene/customgraphicsscene.cpp
 	PlanesGraphicsScene/customgraphicsview.cpp
+	PlanesGraphicsScene/customhorizlayout.cpp
 	PlanesGraphicsScene/gamestatsframe.cpp
 	PlanesGraphicsScene/genericboard.cpp
 	PlanesGraphicsScene/gridsquare.cpp
