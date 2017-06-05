@@ -7,7 +7,7 @@ Window {
     height: 480
 
     BoardEditor {
-
+        verticalDist: 10
     }
 
     title: qsTr("Hello World")

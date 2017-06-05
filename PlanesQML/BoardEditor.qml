@@ -1,11 +1,14 @@
 import QtQuick 2.0
 
 Rectangle {
+    property int verticalDist : 10
+
     height: parent.height
     width: parent.width/3
     color: "blue"
 
     Button {
+        anchors.topMargin: verticalDist
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
         id: selectPlaneButton
@@ -13,6 +16,7 @@ Rectangle {
     }
 
     Button {
+        anchors.topMargin: verticalDist
         anchors.top: selectPlaneButton.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         id: rotatePlaneButton
@@ -20,6 +24,7 @@ Rectangle {
     }
 
     Button {
+        anchors.topMargin: verticalDist
         anchors.top: rotatePlaneButton.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         id: planeUpButton
@@ -27,6 +32,7 @@ Rectangle {
     }
 
     Button {
+        anchors.topMargin: verticalDist
         anchors.top: planeUpButton.bottom
         anchors.horizontalCenter: planeUpButton.left
         id: planeLeftButton
@@ -34,6 +40,7 @@ Rectangle {
     }
 
     Button {
+        anchors.topMargin: verticalDist
         anchors.top: planeUpButton.bottom
         anchors.horizontalCenter: planeUpButton.right
         id: planeRightButton
@@ -41,6 +48,7 @@ Rectangle {
     }
 
     Button {
+        anchors.topMargin: verticalDist
         anchors.top: planeLeftButton.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         id: planeDownButton
@@ -48,6 +56,7 @@ Rectangle {
     }
 
     Button {
+        anchors.topMargin: verticalDist
         anchors.top: planeDownButton.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         id: doneButton
