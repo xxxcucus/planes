@@ -28,19 +28,21 @@ qt5_wrap_ui(UI_HEADERS
 add_definitions(${Qt5Widgets_DEFINITIONS})
 
 add_executable(PlanesWidget 
-        PlanesWidget/baserenderarea.cpp
-	PlanesWidget/buttons.cpp
- 	PlanesWidget/choicedebugwidget.cpp
-        common/computerlogic.cpp
-        PlanesWidget/debugrenderarea.cpp
-	PlanesWidget/editplanescontrolwidget.cpp
-	PlanesWidget/gamerenderarea.cpp
-	PlanesWidget/gamestatswidget.cpp
-	PlanesWidget/main.cpp
 	common/plane.cpp
 	common/planegame.cpp
 	common/planegrid.cpp
 	common/planesmodel.cpp
+    common/computerlogic.cpp
+	common/guesspoint.cpp
+	common/planeiterators.cpp
+    PlanesWidget/baserenderarea.cpp
+	PlanesWidget/buttons.cpp
+ 	PlanesWidget/choicedebugwidget.cpp
+    PlanesWidget/debugrenderarea.cpp
+	PlanesWidget/editplanescontrolwidget.cpp
+	PlanesWidget/gamerenderarea.cpp
+	PlanesWidget/gamestatswidget.cpp
+	PlanesWidget/main.cpp
 	PlanesWidget/planeswview.cpp
 	PlanesWidget/planeswwindow.cpp)
 
@@ -49,11 +51,13 @@ target_link_libraries(PlanesWidget ${Qt5Widgets_LIBRARIES})
 qt5_use_modules(PlanesWidget Widgets)
 
 add_executable(PlanesGraphicsScene 
-        common/computerlogic.cpp
+	common/computerlogic.cpp
 	common/plane.cpp
 	common/planegame.cpp
 	common/planegrid.cpp
 	common/planesmodel.cpp
+	common/guesspoint.cpp
+	common/planeiterators.cpp
 	PlanesGraphicsScene/animatedtextitem.cpp
 	PlanesGraphicsScene/computerboard.cpp
 	PlanesGraphicsScene/customgraphicsscene.cpp
