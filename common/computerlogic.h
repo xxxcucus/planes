@@ -2,6 +2,8 @@
 #define COMPUTERLOGIC_H
 
 #include "plane.h"
+#include "guesspoint.h"
+#include "planeiterators.h"
 #include <QPoint>
 
 

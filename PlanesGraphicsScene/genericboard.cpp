@@ -1,5 +1,6 @@
 #include "genericboard.h"
 #include "playareagridsquare.h"
+#include "planeiterators.h"
 
 #include <QDebug>
 #include <QPropertyAnimation>

@@ -2,6 +2,7 @@
 #define PLANEGRID_H
 
 #include "plane.h"
+#include "guesspoint.h"
 #include <QList>
 #include <QPoint>
 #include <QObject>

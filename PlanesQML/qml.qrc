@@ -2,6 +2,8 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>Button.qml</file>
-        <file>BoardEditor.qml</file>
+        <file>BoardEditorControls.qml</file>
+        <file>GridSquare.qml</file>
+        <file>GenericBoard.qml</file>
     </qresource>
 </RCC>

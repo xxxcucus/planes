@@ -6,14 +6,16 @@ Window {
     width: 640
     height: 480
 
-    BoardEditor {
-        verticalDist: 10
+    Row {
+        anchors.fill: parent
+
+        BoardEditorControls {
+            verticalDist: 10
+        }
+
+        GenericBoard {
+
+        }
     }
 
-    title: qsTr("Hello World")
-
-    Text {
-        anchors.centerIn: parent
-        text: "Hello World!"
-    }
 }

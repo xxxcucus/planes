@@ -1,4 +1,5 @@
 #include "planegrid.h"
+#include "planeiterators.h"
 #include <QList>
 #include <QDebug>
 #include <QPoint>

@@ -2,6 +2,7 @@
 #define BASERENDERAREA_H
 #include <QWidget>
 #include "plane.h"
+#include "guesspoint.h"
 
 //Base class for displaying grids
 //It is a automatically scalable widget
