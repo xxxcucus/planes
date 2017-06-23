@@ -10,7 +10,7 @@ Window {
         anchors.fill: parent
 
         BoardEditorControls {
-            verticalDist: 10
+            //verticalDist: 10
         }
 
         GenericBoard {

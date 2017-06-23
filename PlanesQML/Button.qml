@@ -4,18 +4,22 @@ Rectangle {
     property string buttonText: "Button Text"
     id: button
     signal clicked()
-    border { width: 2; color: "black" }
+    border {
+        width: 2
+        color: "black"
+    }
     radius: 5
     color: marea.containsMouse ? "red" : "green"
-    width: 4 + buttonText.width
-    height: buttonText.height + 8
+    width: bText.width + bText.width/5
+    height: bText.height + bText.height/8
     onClicked: console.log("Clicked!")
 
     Text {
-        id: buttonText
+        id: bText
         text: parent.buttonText
+        font.family: "Arial"
         anchors {
-            verticalCenter: parent.verticalCenter
+            horizontalCenter: parent.horizontalCenter
         }
     }
 

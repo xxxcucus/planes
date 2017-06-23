@@ -5,5 +5,12 @@
         <file>BoardEditorControls.qml</file>
         <file>GridSquare.qml</file>
         <file>GenericBoard.qml</file>
+        <file>RotatePlane.qml</file>
+        <file>SelectPlane.qml</file>
+        <file>MovePlaneLeft.qml</file>
+        <file>MovePlaneRight.qml</file>
+        <file>MovePlaneDownwards.qml</file>
+        <file>MovePlaneUpwards.qml</file>
+        <file>DoneEditing.qml</file>
     </qresource>
 </RCC>
