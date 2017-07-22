@@ -3,6 +3,7 @@ import QtQuick 2.0
 Rectangle {
     id: back
     color: "red"
+    signal clicked
 
     Canvas {
         width: back.width
@@ -33,6 +34,14 @@ Rectangle {
             ctx.closePath();
             ctx.fill();
 
+        }
+    }
+
+    MouseArea {
+        width: parent.width
+        height: parent.height
+        onClicked: {
+            back.clicked()
         }
     }
 }

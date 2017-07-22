@@ -3,8 +3,8 @@ import QtQuick.Window 2.2
 
 Window {
     visible: true
-    width: 640
-    height: 480
+    width: 1000
+    height: 700
 
     Row {
         anchors.fill: parent
@@ -14,7 +14,6 @@ Window {
         }
 
         GenericBoard {
-
         }
     }
 

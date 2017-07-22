@@ -3,6 +3,8 @@ import QtQuick 2.0
 Rectangle {
     id: back
     color: "red"
+    property bool pressed: false
+    signal clicked
 
     Canvas {
         anchors.fill: parent
@@ -30,4 +32,11 @@ Rectangle {
         }
     }
 
+    MouseArea {
+        width: parent.width
+        height: parent.height
+        onClicked: {
+            back.clicked()
+        }
+    }
 }
