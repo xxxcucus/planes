@@ -14,6 +14,7 @@ class PlaneGrid: public QObject
 {
     Q_OBJECT
 
+private:
     //number of rows and columns
     int m_rowNo, m_colNo;
     //number of planes
@@ -31,7 +32,7 @@ class PlaneGrid: public QObject
 
 public:
     //constructor
-    PlaneGrid(int row, int col, int plane, bool isComputer);
+    PlaneGrid(int row, int col, int planesNo, bool isComputer);
     //initializes the grid
     void initGrid();
     //searches a plane in the list of planes
@@ -81,6 +82,10 @@ public:
         return true;
     }
 
+///for integration with QML
+    QList<QPoint> getPlanesPoints() { return m_listPlanePoints; }
+
+
 private:
     //generates a plane at a random position on the grid
     Plane generateRandomPlane() const;
@@ -101,6 +106,7 @@ private:
 
 signals:
     void initPlayerGrid() const;  //emitted to notify the start of the user editing the plane lists
+    void planesPointsChanged(); //emitted to notify that a new PlanePointsList was computed (one plane was moved)
 
 };
 

@@ -6,10 +6,10 @@
 #include <cstdlib>
 
 
-PlaneGrid::PlaneGrid(int row, int col, int plane, bool isComputer):
+PlaneGrid::PlaneGrid(int row, int col, int planesNo, bool isComputer):
     m_rowNo(row),
     m_colNo(col),
-    m_planeNo(plane),
+    m_planeNo(planesNo),
     m_isComputer(isComputer)
 {
     resetGrid();
@@ -184,6 +184,7 @@ bool PlaneGrid::computePlanePointsList()
     }
 
     m_PlanesOverlap = !returnValue;
+    emit planesPointsChanged();
     return returnValue;
 }
 
@@ -249,6 +250,7 @@ void PlaneGrid::resetGrid()
 {
     m_planeList.clear();
     m_listPlanePoints.clear();
+    emit planesPointsChanged();
     //m_guessPointList.clear();
 }
 
