@@ -13,7 +13,7 @@ class PlaneGridQML : public QObject
 
 public:
     PlaneGridQML(int rows, int cols, int planesNo, bool isComputer): m_PlaneGrid(rows, cols, planesNo, isComputer) {
-        connect(&m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SLOT(planesPointsChanged()));
+        connect(&m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SIGNAL(planesPointsChanged()));
     }
 
     Q_INVOKABLE QList<QPoint> getPlanesPoints() {
@@ -30,6 +30,10 @@ public:
     }
     Q_INVOKABLE bool getIsComputer() {
         return m_PlaneGrid.isComputer();
+    }
+
+    inline void initGrid() {
+        m_PlaneGrid.initGrid();
     }
 
 signals:

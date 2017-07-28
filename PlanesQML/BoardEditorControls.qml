@@ -27,7 +27,6 @@ Rectangle {
                     moveplaneright.color = "red"
                     moveplaneupwards.color = "red"
                     moveplanedownwards.color = "red"
-                    console.log(PlaneGrid.getRows());
                 }
             }
             SelectPlane {

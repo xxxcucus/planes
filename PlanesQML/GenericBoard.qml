@@ -3,6 +3,8 @@ import QtQuick 2.0
 Rectangle {
     property int gridSquaresOnLine: 10
     property int gridBorder: 3
+    property bool isComputer: false
+
     width: parent.width*2/3
     height: parent.height
     color: "yellow"
@@ -22,5 +24,10 @@ Rectangle {
                         index % (gridSquaresOnLine + 2 * gridBorder)  >= gridSquaresOnLine + gridBorder) ? "aqua" : "#ea7025"
             }
         }
+    }
+
+    Connections {
+        target: PlaneGrid
+        onPlanesPointsChanged: console.log("Planes points changed")
     }
 }
