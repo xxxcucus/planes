@@ -16,9 +16,14 @@ public:
         connect(&m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SIGNAL(planesPointsChanged()));
     }
 
-    Q_INVOKABLE QList<QPoint> getPlanesPoints() {
-        return m_PlaneGrid.getPlanesPoints();
+    Q_INVOKABLE int getPlanesPointsCount() {
+        return m_PlaneGrid.getPlanesPointsCount();
     }
+
+    Q_INVOKABLE QPoint getPlanePoint(int idx) {
+        return m_PlaneGrid.getPlanePoint(idx);
+    }
+
     Q_INVOKABLE int getRows() {
         return m_PlaneGrid.getRowNo();
     }

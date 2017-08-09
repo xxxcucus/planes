@@ -21,6 +21,7 @@ private:
     int m_planeNo;
     //whether the grid belongs to a user or to a player
     bool m_isComputer;
+    ///@todo: to replace QList with QVector
     //list of plane objects for the grid
     QList <Plane> m_planeList;
     //list of all points on the planes
@@ -47,8 +48,11 @@ public:
     void resetGrid();
     //returns whether a point is on a plane or not
     bool isPointOnPlane(int row, int col) const;
-    //computes the list of plane points
-    bool computePlanePointsList();
+    /***
+     * computes the list of plane points
+     * @param[in] - sendSignal, whether to send signal that a new configuration was computed
+     ***/
+    bool computePlanePointsList(bool sendSignal);
     //returns the size of the plane list
     int getPlaneListSize() const;
     //returns a plane from the list of planes
@@ -83,7 +87,8 @@ public:
     }
 
 ///for integration with QML
-    QList<QPoint> getPlanesPoints() { return m_listPlanePoints; }
+    int getPlanesPointsCount() { return m_listPlanePoints.size(); }
+    QPoint getPlanePoint(int idx) { return m_listPlanePoints[idx]; }
 
 
 private:

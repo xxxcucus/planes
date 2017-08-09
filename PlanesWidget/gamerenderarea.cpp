@@ -290,7 +290,7 @@ void GameRenderArea::resetOperation()
         emit enoughPlanes();
         emit displayStatusMsg(tr("You have drawn all the required planes."));
         //check to see if the planes draw overlap
-        if(m_grid->computePlanePointsList())
+        if(m_grid->computePlanePointsList(false))
             emit activateDone();
         else displayStatusMsg(tr("Some planes superimpose."));
     }

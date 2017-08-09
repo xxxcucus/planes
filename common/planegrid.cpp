@@ -24,7 +24,7 @@ void PlaneGrid::initGrid()
     if (!m_isComputer)
         emit initPlayerGrid();
     //compute list of plane points - needed for the guessing process
-    computePlanePointsList();
+    computePlanePointsList(true);
 }
 
 //randomly generates grid with planes
@@ -72,7 +72,7 @@ bool PlaneGrid::initGridByAutomaticGeneration()
             }
 
             //compute all the points on planes and check for intersections
-            if(!computePlanePointsList())
+            if(!computePlanePointsList(false))
             {
                 i.remove();
                 removePlane(pl);
@@ -160,7 +160,7 @@ bool PlaneGrid::isPointOnPlane(int row, int col) const
 
 //computes all the points on a plane
 //and returns false if planes intersect and true otherwise
-bool PlaneGrid::computePlanePointsList()
+bool PlaneGrid::computePlanePointsList(bool sendSignal)
 {
     m_listPlanePoints.clear();
     bool returnValue = true;
@@ -184,7 +184,8 @@ bool PlaneGrid::computePlanePointsList()
     }
 
     m_PlanesOverlap = !returnValue;
-    emit planesPointsChanged();
+    if (sendSignal)
+        emit planesPointsChanged();
     return returnValue;
 }
 
@@ -286,7 +287,7 @@ bool PlaneGrid::rotatePlane(int idx)
     Plane& pl = m_planeList[idx];
     pl.rotate();
     ///@todo: don't know how this will work when the plane comes out of the grid
-    computePlanePointsList();
+    computePlanePointsList(true);
     return true;
 }
 
@@ -296,7 +297,7 @@ bool PlaneGrid::movePlaneUpwards(int idx)
         return false;
     Plane& pl = m_planeList[idx];
     pl.translateWhenHeadPosValid(0, -1, m_rowNo, m_colNo);
-    computePlanePointsList();
+    computePlanePointsList(true);
     return true;
 }
 
@@ -306,7 +307,7 @@ bool PlaneGrid::movePlaneDownwards(int idx)
         return false;
     Plane& pl = m_planeList[idx];
     pl.translateWhenHeadPosValid(0, 1, m_rowNo, m_colNo);
-    computePlanePointsList();
+    computePlanePointsList(true);
     return true;
 }
 
@@ -316,7 +317,7 @@ bool PlaneGrid::movePlaneLeft(int idx)
         return false;
     Plane& pl = m_planeList[idx];
     pl.translateWhenHeadPosValid(-1, 0, m_rowNo, m_colNo);
-    computePlanePointsList();
+    computePlanePointsList(true);
     return true;
 }
 
@@ -326,7 +327,7 @@ bool PlaneGrid::movePlaneRight(int idx)
         return false;
     Plane& pl = m_planeList[idx];
     pl.translateWhenHeadPosValid(1, 0, m_rowNo, m_colNo);
-    computePlanePointsList();
+    computePlanePointsList(true);
     return true;
 }
 
