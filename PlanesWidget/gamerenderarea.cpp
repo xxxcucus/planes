@@ -404,7 +404,8 @@ bool GameRenderArea::tempPlaneIntersectsOtherPlanes() const
     while(ppi.hasNext())
     {
         QPoint qp = ppi.next();
-        if(m_grid->isPointOnPlane(qp.x(), qp.y()))
+        int idx = 0;
+        if(m_grid->isPointOnPlane(qp.x(), qp.y(), idx))
             return true;
     }
 

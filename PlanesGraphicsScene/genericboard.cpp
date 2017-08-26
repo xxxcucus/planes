@@ -95,7 +95,6 @@ void GenericBoard::displayGuesses() {
 
 void GenericBoard::showPlane(const Plane &pl, const QColor& color)
 {
-    Q_UNUSED(color)
     QPoint head = pl.head();
     auto headGridSquareIndex = std::make_pair(head.y() + m_PaddingEditingBoard, head.x() + m_PaddingEditingBoard);
     m_SceneItems[headGridSquareIndex]->setType(GridSquare::Type::PlaneHead);

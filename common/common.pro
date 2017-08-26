@@ -6,8 +6,7 @@ SOURCES += plane.cpp \
     planegrid.cpp \
     planesmodel.cpp \
     guesspoint.cpp \
-    planeiterators.cpp \
-    gridcoordinate.cpp
+    planeiterators.cpp
 HEADERS += plane.h \
     computerlogic.h \
     listiterator.h \
@@ -15,6 +14,5 @@ HEADERS += plane.h \
     planegrid.h \
     planesmodel.h \
     guesspoint.h \
-    planeiterators.h \
-    gridcoordinate.h
+    planeiterators.h
 

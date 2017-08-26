@@ -43,7 +43,7 @@ Rectangle {
                 var posX = PlaneGrid.getPlanePoint(i).x +  gridBorder
                 var posY = PlaneGrid.getPlanePoint(i).y +  gridBorder
                 var width = gridSquaresOnLine + 2 * gridBorder
-                squares.itemAt(posY * width + posX).color = "black"
+                squares.itemAt(posY * width + posX).color = PlaneGrid.getPlanePointColor(i)
             }
         }
     }

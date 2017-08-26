@@ -5,7 +5,6 @@
 #include <QPoint>
 #include <cstdlib>
 
-
 PlaneGrid::PlaneGrid(int row, int col, int planesNo, bool isComputer):
     m_rowNo(row),
     m_colNo(col),
@@ -43,8 +42,6 @@ bool PlaneGrid::initGridByAutomaticGeneration()
                 Plane pl(i,j,(Plane::Orientation)k);
                 listPossiblePositions.append(pl);
             }
-
-
 
     while(count<m_planeNo)
     {
@@ -95,23 +92,17 @@ bool PlaneGrid::initGridByAutomaticGeneration()
         //save the selected plane
         if(savePlane(pl))
             count++;
-
     } //while
     return true;
 }
-
-
-
 
 //generate a plane at a random grid position
 Plane PlaneGrid::generateRandomPlane() const
 {
     QPoint qp = generateRandomGridPosition();
     Plane::Orientation orient = generateRandomPlaneOrientation();
-
     return Plane(qp,orient);
 }
-
 
 //generates a random position on the grid
 QPoint PlaneGrid::generateRandomGridPosition() const
@@ -151,18 +142,22 @@ bool PlaneGrid::isPointHead(int row, int col) const
 }
 
 //returns whether a point is on a plane or not
-bool PlaneGrid::isPointOnPlane(int row, int col) const
+//and additionally the index position where the point occurs
+//in the list of planes
+bool PlaneGrid::isPointOnPlane(int row, int col, int& idx) const
 {
-
-    return m_listPlanePoints.contains(QPoint(row,col));
-
+    idx = m_listPlanePoints.indexOf(QPoint(row, col));
+    return (idx >= 0);
 }
 
 //computes all the points on a plane
 //and returns false if planes intersect and true otherwise
+//also detects if a plane lies outside of the grid
+//also marks to which plane does the point belong and wether is a plane head or not
 bool PlaneGrid::computePlanePointsList(bool sendSignal)
 {
     m_listPlanePoints.clear();
+    m_listPlanePointsAnnotations.clear();
     bool returnValue = true;
 
     m_PlaneOutsideGrid = false;
@@ -170,16 +165,24 @@ bool PlaneGrid::computePlanePointsList(bool sendSignal)
     {
         Plane pl = m_planeList.at(i);
         PlanePointIterator ppi(pl);
+        bool isHead = true;
 
         while(ppi.hasNext())
         {
             QPoint qp = ppi.next();
             if (!isPointInGrid(qp))
                 m_PlaneOutsideGrid = true;
-            if(!isPointOnPlane(qp.x(),qp.y()))
+            ///compute the point's annotation
+            int annotation = generateAnnotation(i, isHead);
+            int idx = 0;
+            if(!isPointOnPlane(qp.x(),qp.y(), idx)) {
                 m_listPlanePoints.append(qp);
-            else
+                m_listPlanePointsAnnotations.push_back(annotation);
+            } else {
                 returnValue = false;
+                m_listPlanePointsAnnotations[idx] |= annotation;
+            }
+            isHead = false;
         }
     }
 
@@ -192,9 +195,7 @@ bool PlaneGrid::computePlanePointsList(bool sendSignal)
 //searches a plane in the list of planes
 int PlaneGrid::searchPlane(Plane pl) const
 {
-
     return m_planeList.indexOf(pl);
-
 }
 
 //searches a plane with the head at a given position on the grid in the list of planes
@@ -234,22 +235,20 @@ bool PlaneGrid::removePlane(int idx, Plane &pl)
      pl = m_planeList.at(idx);
      //remove the plane from the list of planes
      m_planeList.removeAt(idx);
-
      return true;
-
 }
 
 //removes a plane from the grid
 void PlaneGrid::removePlane(Plane pl)
 {
     m_planeList.removeOne(pl);
-
 }
 
 //resets the plane grid
 void PlaneGrid::resetGrid()
 {
     m_planeList.clear();
+    m_listPlanePointsAnnotations.clear();
     m_listPlanePoints.clear();
     emit planesPointsChanged();
     //m_guessPointList.clear();
@@ -258,9 +257,7 @@ void PlaneGrid::resetGrid()
 //checks whether a plane is inside the grid
 bool PlaneGrid::isPlanePosValid(Plane pl) const
 {
-
     return pl.isPositionValid(m_rowNo, m_colNo);
-
 }
 
 //returns the size of the plane list
@@ -269,11 +266,10 @@ int PlaneGrid::getPlaneListSize() const
     return m_planeList.size();
 }
 
-
 //gets the plane at a given position in the list of planes
 bool PlaneGrid::getPlane(int pos, Plane &pl) const
 {
-    if(pos<0 || pos>=m_planeList.size())
+    if(pos < 0 || pos >= m_planeList.size())
         return false;
 
     pl = m_planeList.at(pos);
@@ -331,18 +327,34 @@ bool PlaneGrid::movePlaneRight(int idx)
     return true;
 }
 
-
-
 //for a given QPoint checks to what type of point it corresponds in the grid
 GuessPoint::Type PlaneGrid::getGuessResult(QPoint qp) const
 {
     if(isPointHead(qp.x(), qp.y()))
         return GuessPoint::Dead;
 
-    if(isPointOnPlane(qp.x(), qp.y()))
+    int idx = 0;
+    if(isPointOnPlane(qp.x(), qp.y(), idx))
         return GuessPoint::Hit;
 
     return GuessPoint::Miss;
 }
 
+int PlaneGrid::generateAnnotation(int planeNo, bool isHead) {
+    int annotation = 1;
+    int bitsShifted = 2 * planeNo;
+    if (isHead)
+        bitsShifted++;
+    annotation = annotation << bitsShifted;
+    return annotation;
+}
 
+std::vector<int> PlaneGrid::decodeAnnotation(int annotation) const {
+    std::vector<int> retVal;
+    for (int i = 0; i < m_planeNo; ++i) {
+        int mask = 0x3 << (2 * i);
+        if (mask & annotation)
+            retVal.push_back(i);
+    }
+    return retVal;
+}

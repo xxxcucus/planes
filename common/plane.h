@@ -30,14 +30,14 @@ public:
     //gives the planes orientation
     Orientation orientation() const {return m_orient; }
     //gives the plane head's row and column
-    int row() const {return m_row; }
-    int col() const {return m_col;}
+    int row() const { return m_row; }
+    int col() const { return m_col;}
     //sets the plane head position
-    void row(int row) {m_row = row; }
-    void col(int col) {m_col = col; }
-    void orientation(Orientation orient) {m_orient = orient; }
+    void row(int row) { m_row = row; }
+    void col(int col) { m_col = col; }
+    void orientation(Orientation orient) { m_orient = orient; }
     //gives the coordinates of the plane head
-    QPoint head() const {return QPoint(m_row,m_col); }
+    QPoint head() const { return QPoint(m_row,m_col); }
 
     //operators
     //compares two planes
@@ -56,7 +56,7 @@ public:
 
     //other utility functions
     //tests whether a QPoint is a planes head
-    bool isHead(const QPoint &qp) const {return qp==head();}
+    bool isHead(const QPoint &qp) const { return qp == head(); }
     //checks if a certain point on the grid is on the plane
     bool containsPoint(const QPoint &qp) const;
     //returns whether a plane position is valid in a grid with row and col

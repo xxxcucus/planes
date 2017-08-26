@@ -5,18 +5,14 @@
 
 namespace MyIterator
 {
-
 //defines an iterator over a QList
 
 template <class T>
 class ListIterator
 {
-
 protected:
-
     QList <T> m_internalList;
     int m_idx;
-
 
 public:
     //constructor
@@ -30,11 +26,7 @@ public:
     const T& next();
     //returns number of elements
     int itemNo() const;
-
-
 };
-
-
 
 template <class T>
 ListIterator<T>::ListIterator()
@@ -45,7 +37,6 @@ ListIterator<T>::ListIterator()
     reset();
 
 }
-
 
 template <class T>
 void ListIterator<T>::reset()
@@ -60,7 +51,6 @@ bool ListIterator<T>::hasNext() const
 
     return (m_idx<m_internalList.size()-1);
 }
-
 
 //during an iteration returns the next point
 template <class T>

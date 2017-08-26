@@ -31,6 +31,16 @@ private:
     //whether a plane is outside of the grid
     bool m_PlaneOutsideGrid = false;
 
+    ///for QML
+    QList<int> m_listPlanePointsAnnotations;
+    //the following annotations should exist
+    //00000001 - belonging to plane 1
+    //00000010 - head of plane 1
+    //00000100 - belonging to plane 2
+    //00001000 - head of plane 2
+    //00010000 - belonging to plane 3
+    //00100000 - head of plane 3
+
 public:
     //constructor
     PlaneGrid(int row, int col, int planesNo, bool isComputer);
@@ -47,7 +57,8 @@ public:
     //resets the plane grid
     void resetGrid();
     //returns whether a point is on a plane or not
-    bool isPointOnPlane(int row, int col) const;
+    //additionaly it returns the position of the point on the plane
+    bool isPointOnPlane(int row, int col, int& idx) const;
     /***
      * computes the list of plane points
      * @param[in] - sendSignal, whether to send signal that a new configuration was computed
@@ -87,8 +98,11 @@ public:
     }
 
 ///for integration with QML
-    int getPlanesPointsCount() { return m_listPlanePoints.size(); }
-    QPoint getPlanePoint(int idx) { return m_listPlanePoints[idx]; }
+    int getPlanesPointsCount() const { return m_listPlanePoints.size(); }
+    QPoint getPlanePoint(int idx) const { return m_listPlanePoints[idx]; }
+    int getPlanePointAnnotation(int idx) const { return m_listPlanePointsAnnotations[idx]; }
+    //transforms the annotation in a list of plane ids
+    std::vector<int> decodeAnnotation(int annotation) const;
 
 
 private:
@@ -108,6 +122,13 @@ private:
     bool isPointHead(int row, int col) const;
     //verifies if a plane position is valid within the grid
     bool isPlanePosValid(Plane pl) const;
+
+    ///for QML
+    //generates annotation for one point on a given plane
+    //this is not the final annotation of the point
+    //when it belongs to more planes the function is called
+    //more times and the results are combined
+    int generateAnnotation(int planeNo, bool isHead);
 
 signals:
     void initPlayerGrid() const;  //emitted to notify the start of the user editing the plane lists
