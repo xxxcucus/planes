@@ -90,11 +90,260 @@ public:
 };
 \end{lstlisting}
 \textbf{Simple concepts}: class definition, member variable declaration, classs method declaration, setters and getters\newline
-\textbf{Advanced concepts}: constructor definition, static methods, enums, access types (private, int, protected), operators\newline
-\marginpar{correctly define the above terms}
-\marginpar{define styles for SimpleConcepts and AdvancedConcepts}
-\subsection {Method Implementation}
+\textbf{Advanced concepts}: constructor definition, static methods, enums, access specifiers (private, public, protected), operators\newline
 
+
+In the above class definition appear types that are not pure C++ types, but are defined in the Qt library. They restrict the use of the Plane class to a Qt program \marginpar{Is this really so?} and are class design flaws. One is the QPoint type, which defines a 2D coordinate. The second is the QString which represents a string, the analog of std::string in the Qt library. We let the reader to correct these design errors as a practical exercise.  
+
+\subsection {Method Implementation}
+\begin{lstlisting}
+//Various constructors
+Plane::Plane()
+{
+    m_row = 0;
+    m_col = 0;
+    m_orient = NorthSouth;
+}
+
+Plane::Plane(int row, int col, Orientation orient)
+{
+    m_row = row;
+    m_col = col;
+    m_orient = orient;
+}
+
+Plane::Plane(const QPoint &qp, Orientation orient)
+{
+    m_row = qp.x();
+    m_col = qp.y();
+    m_orient = orient;
+}
+
+//equality operator
+bool Plane::operator==(const Plane &pl1) const
+{
+    return ((pl1.m_row == m_row) && (pl1.m_col == m_col) && (pl1.m_orient == m_orient));
+}
+
+//assignment operator
+void Plane::operator =(const Plane &pl1)
+{
+    m_row = pl1.m_row;
+    m_col = pl1.m_col;
+    m_orient = pl1.m_orient;
+}
+
+//Clockwise 90 degrees rotation of the plane
+void Plane::rotate()
+{
+    switch(m_orient)
+    {
+    case NorthSouth:
+        m_orient = EastWest;
+        break;
+    case EastWest:
+        m_orient = SouthNorth;
+        break;
+    case SouthNorth:
+        m_orient = WestEast;
+        break;
+    case WestEast:
+        m_orient = NorthSouth;
+        break;
+    default:
+        return;
+    }
+}
+
+//checks to see if a plane contains a certain point
+//uses a PlanePointIterator which enumerates
+//all the points on the plane
+bool Plane::containsPoint(const QPoint &qp) const
+{
+    PlanePointIterator ppi(*this);
+
+    while(ppi.hasNext())
+    {
+        QPoint qp1=ppi.next();
+        if(qp==qp1)
+            return true;
+    }
+
+    return false;
+}
+
+//Checks to see if the plane is
+//in its totality inside a grid
+//of size row X col
+bool Plane::isPositionValid(int row, int col) const
+{
+    PlanePointIterator ppi(*this);
+
+    while(ppi.hasNext())
+    {
+        QPoint qp = ppi.next();
+        if(qp.x()<0 || qp.x()>=row)
+            return false;
+        if(qp.y()<0 || qp.y()>=col)
+            return false;
+    }
+
+    return true;
+
+}
+
+//utility function
+//generates a random number
+int Plane::generateRandomNumber(int valmax)
+{
+    double rnd = rand()/ static_cast<double>(RAND_MAX);
+    if (rnd==1.0)
+        rnd = 0.5;
+    int val = static_cast<double>(valmax)*rnd;
+
+    return val;
+}
+
+//constructs a string representation of a plane
+QString Plane::toString() const
+{
+    QString toReturn = "";
+
+    toReturn += "Plane head: ";
+    toReturn += QString::number(m_row);
+    toReturn += "-";
+    toReturn += QString::number(m_col);
+    toReturn += " oriented: ";
+
+    switch(m_orient)
+    {
+    case NorthSouth:
+        toReturn+= "NorthSouth";
+        break;
+    case SouthNorth:
+        toReturn+= "SouthNorth";
+        break;
+    case EastWest:
+        toReturn+= "EastWest";
+        break;
+    case WestEast:
+        toReturn+= "WestEast";
+        break;
+    default:
+        ;
+    }
+
+    return toReturn;
+}
+
+void Plane::translateWhenHeadPosValid(int offsetX, int offsetY, int row, int col)
+{
+    if ((m_row + offsetX < 0) || (m_row + offsetX >= row)) {
+        return;
+    }
+
+    if ((m_col + offsetY < 0) || (m_col + offsetY >= col)) {
+        return;
+    }
+
+    m_row += offsetX;
+    m_col += offsetY;
+}
+
+//implements plane translation
+Plane Plane::operator+ (const QPoint &qp)
+{
+    return Plane(this->m_row+qp.x(), this->m_col+qp.y(), this->m_orient);
+}
+\end{lstlisting}
+
+The implementation of the member functions of the class Plane is trivial. One thing requires an explanation : the class PlanePointIterator. It has to do to the fact that it exists nowhere in the Plane class definition an explicit representation of the points of the game board corresponding to the plane, in other words of the form of a plane. The only things that are defined are the point of origin or the head as well as the orientation of the plane. Thus the class is general allowing the use of any plane form as long as a plane head and orientation are given. In order to allow to work with the plane's form the class PlanePointIterator is used. It encapsulates the form of the plane but also gives a method to \textit iterate on the grid positions corresponding to the plane. 
+
+\textbf {Advanced concepts} : Iterators
+ 
+\subsection{PlanePointIterator Class}
+
+\begin{lstlisting}
+//iterates over the points that make a plane
+class PlanePointIterator : public ListIterator<QPoint>
+{
+    Plane m_plane;
+public:
+    PlanePointIterator(const Plane &pl);
+
+private:
+    void generateList();
+};
+\end{lstlisting}
+
+\begin{lstlisting}
+namespace MyIterator
+{
+//defines an iterator over a QList
+template <class T>
+class ListIterator
+{
+protected:
+    QList <T> m_internalList;
+    int m_idx;
+
+public:
+    //constructor
+    ListIterator();
+
+    //sets the position of the iterator before the first  element
+    void reset();
+    //during an iteration checks to see if there is a next element
+    bool hasNext() const;
+    //during an iteration returns the next element
+    const T& next();
+    //returns number of elements
+    int itemNo() const;
+};
+
+template <class T>
+ListIterator<T>::ListIterator()
+{
+    //generates the list of points
+    m_internalList.clear();
+    //puts the index one before the first element in the list
+    reset();
+
+}
+
+template <class T>
+void ListIterator<T>::reset()
+{
+    m_idx = -1;
+}
+
+//during a point iteration checks to see if there is a next point
+template <class T>
+bool ListIterator<T>::hasNext() const
+{
+
+    return (m_idx<m_internalList.size()-1);
+}
+
+//during an iteration returns the next point
+template <class T>
+const T& ListIterator<T>::next()
+{
+    return  m_internalList[++m_idx];
+}
+
+//returns number of points on the plane
+template <class T>
+int ListIterator<T>::itemNo() const
+{
+    return m_internalList.size();
+}
+}
+\end{lstlisting}
+
+PlanePointIterator is an iterator that provides access to the positions occupied by the plane on the game board. It works are follows: first it receives an object of the class Plane, from which it receives the positions of the plane's head as well as its orientation.
+
+The reader interested in defining new types of plane forms (maybe call them battleships for example) is invited to reimplement the PlanePointIterator class as a practical exercise.
 
 \subsection {C++ Concepts}
 
@@ -109,7 +358,6 @@ Between the two parantheses  are included member variable declarations and metho
 
 \subsubsection {Member Variable Declaration}
 When object is seen as a box with pieces the member variables are the denomination of the placeholders for the pieces. The values of the member variables can be thought as descriptions of the object's state. Each member variable declaration consist of a type name and a variable name. The type name corresponds to the type of the variable, for example simple types as int, char, double or class types.
-
 The listing below shows the member variable declarations in the Plane class.
 \begin{lstlisting}
 class {
@@ -123,7 +371,6 @@ The methods of a class are declared in the corpus of the class and are analogous
 
 \subsubsection {Setters and Getters}
 Setters and getters are methods of a class that either change or read a member variable's value. Normally the member variables are not directly visible to the user of an object, but only through the means of class methods of which the simplest are the getters and the setters.
-
 \begin{lstlisting}
     int row() const { return m_row; }
     int col() const { return m_col;}
@@ -133,31 +380,59 @@ Setters and getters are methods of a class that either change or read a member v
 
 \subsubsection {Constructor definition}
 Constructors of a class are functions that are always called when the object is created. One of their task is the initialization of the member variables.
-
 \begin{lstlisting}
     Plane();
     Plane(int row, int col, Orientation orient);
     Plane(const QPoint &qp, Orientation orient);
 \end{lstlisting}
-
 In the Plane class declaration we declare three constructors. The declaration is similar to a class method declaration except for they have no return types. The three constructors initialize the three member variables of the class Plane with the data that they receive as parameters. 
 
 \subsubsection {Static methods}
-
-Class methods are called with an object of their associated class. Static methods do not require an object of the associated class. The Plane class has only one such method which generates a random number.
-
+Class methods are called with an object of their associated class. Static class methods do not require an object of the associated class. The Plane class has only one such method which generates a random number.
 \begin{lstlisting}
 static int generateRandomNumber(int valmax);
 \end{lstlisting}
 
 \subsubsection {Enums}
+
 \begin{lstlisting}
     enum Orientation {NorthSouth=0, SouthNorth=1, WestEast=2, EastWest=3};
 \end{lstlisting}
+Enums are basic types for which the variable values are listed at the time of type definition. In our case the new type is called Orientation and variables of this type can have the following values: NorthSouth, SouthNorth, WestEast, EastWest. For enums the associated variable values can be explicitly converted to int. As shown in the example above the conversion to int can be specified directly in the enum definition. Sometimes one desires to avoid such a conversion and to enforce a strict type checking when assigning enum variables to values. In this case one should use the 'enum class' instead of the simple enum.  
 
-Enums like the one defined above are basic types for which the variable values are listed at the time of type definition. In our case the new type is called Orientation and variables of this type can have the following values: NorthSouth, SouthNorth, WestEast, EastWest. For enums the associated variable values can be explicitly converted to int. As shown in the example above the conversion to int can be specified directly in the enum definition. Sometimes one desires to avoid such a conversion and to enforce a strict type checking when assigning enum variables to values. In this case one should use the 'enum class' instead of the simple enum.  
+\subsubsection {Access Specifiers}
+Elements of classes (methods or member variables) can have specified different levels of access to the class user. These are 
+\begin{itemize}
+\item public, the element is accessible from all functions
+\item private, the element is accessible only from the class methods
+\item protected, the element is accessible from the class methods or from derived class methods
+\end{itemize}  
+In the code above the member variables have private access specifiers and such they are not accessible directly from functions other than the class methods. However setter and getter functions are defined in order to allow access to these members. 
 
-\subsubsection {Access types}
 \subsubsection {Operators}
+Operators such as
+\begin{lstlisting}
+    bool operator==(const Plane &pl1) const;
+    void operator=(const Plane &pl1);
+    Plane operator+(const QPoint &qp);
+\end{lstlisting}
+are syntactic sugar meant to simplify coding. For example, when defining \textit{operator==} one can directly write the comparison \textit{ plane1 == plane2 } with the meaning of a test of equality (if the operator definition respects the semantics of an identity test). 
+
+\subsubsection {Iterators}
+
+Iterators are methods to obtain sequential access to the members of a data storage value (e.g. vector, list, set). No assumption about the order in which the data is retrieved should be made. In the simplest scenario an iterator is initialized, an action is performed to the data pointed by the iterator, then the iterator is incremented to the next position and so further until the end of data structure is reached. For a C++ style iterator this would look like this:
+
+\begin{lstlisting}
+	auto it = storage.begin();
+	while (it != storage.end()) {
+		do_something(*it);
+    	++it;
+	}
+\end{lstlisting}
+
+For a Java style iterator this would be:
+
+\begin{lstlisting}
+\end{lstlisting}
 
 \end{document}
