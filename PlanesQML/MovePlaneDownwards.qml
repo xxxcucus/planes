@@ -3,7 +3,6 @@ import QtQuick 2.0
 Rectangle {
     id: back
     color: "red"
-    property bool pressed: false
     signal clicked
 
     Canvas {
@@ -37,7 +36,14 @@ Rectangle {
         width: parent.width
         height: parent.height
         onClicked: {
-            back.clicked()
+            console.log("Plane downwards clicked")
+            anim.start()
         }
     }
+
+    SequentialAnimation {
+        id: anim
+        PropertyAnimation { target: back; property: "color"; to: "green"; duration:50 }
+        PropertyAnimation { target: back; property: "color"; to: "red"; duration: 50 }
+        }
 }

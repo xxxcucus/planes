@@ -4,7 +4,6 @@
 #include <QString>
 #include <QDebug>
 
-
 //Various constructors
 Plane::Plane()
 {
@@ -12,7 +11,6 @@ Plane::Plane()
     m_col = 0;
     m_orient = NorthSouth;
 }
-
 
 Plane::Plane(int row, int col, Orientation orient)
 {
@@ -33,6 +31,7 @@ bool Plane::operator==(const Plane &pl1) const
 {
     return ((pl1.m_row == m_row) && (pl1.m_col == m_col) && (pl1.m_orient == m_orient));
 }
+
 //assignment operator
 void Plane::operator =(const Plane &pl1)
 {

@@ -20,79 +20,31 @@ Rectangle {
                 id: rotateplane
                 width: panel1.width/3
                 height: panel1.height/6
-                onClicked: {
-                    rotateplane.color = "linen"
-                    selectplane.color = "red"
-                    moveplaneleft.color = "red"
-                    moveplaneright.color = "red"
-                    moveplaneupwards.color = "red"
-                    moveplanedownwards.color = "red"
-                }
             }
             SelectPlane {
                 id: selectplane
                 width: panel1.width/3
                 height: panel1.height/6
-                onClicked: {
-                    rotateplane.color = "red"
-                    selectplane.color = "linen"
-                    moveplaneleft.color = "red"
-                    moveplaneright.color = "red"
-                    moveplaneupwards.color = "red"
-                    moveplanedownwards.color = "red"
-                }
             }
             MovePlaneLeft {
                 id: moveplaneleft
                 width: panel1.width/3
                 height: panel1.height/6
-                onClicked: {
-                    rotateplane.color = "red"
-                    selectplane.color = "red"
-                    moveplaneleft.color = "linen"
-                    moveplaneright.color = "red"
-                    moveplaneupwards.color = "red"
-                    moveplanedownwards.color = "red"
-                }
             }
             MovePlaneRight {
                 id: moveplaneright
                 width: panel1.width/3
                 height: panel1.height/6
-                onClicked: {
-                    rotateplane.color = "red"
-                    selectplane.color = "red"
-                    moveplaneleft.color = "red"
-                    moveplaneright.color = "linen"
-                    moveplaneupwards.color = "red"
-                    moveplanedownwards.color = "red"
-                }
             }
             MovePlaneUpwards {
                 id: moveplaneupwards
                 width: panel1.width/3
                 height: panel1.height/6
-                onClicked: {
-                    rotateplane.color = "red"
-                    selectplane.color = "red"
-                    moveplaneleft.color = "red"
-                    moveplaneright.color = "red"
-                    moveplaneupwards.color = "linen"
-                    moveplanedownwards.color = "red"
-                }
             }
             MovePlaneDownwards {
                 id: moveplanedownwards
                 width: panel1.width/3
                 height: panel1.height/6
-                onClicked: {
-                    rotateplane.color = "red"
-                    selectplane.color = "red"
-                    moveplaneleft.color = "red"
-                    moveplaneright.color = "red"
-                    moveplaneupwards.color = "red"
-                    moveplanedownwards.color = "linen"
-                }
             }
         }
     }

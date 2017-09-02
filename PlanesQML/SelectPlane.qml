@@ -50,7 +50,14 @@ Rectangle {
         width: parent.width
         height: parent.height
         onClicked: {
-            back.clicked()
+            console.log("Select clicked")
+            anim.start()
         }
     }
+
+    SequentialAnimation {
+        id: anim
+        PropertyAnimation { target: back; property: "color"; to: "green"; duration:50 }
+        PropertyAnimation { target: back; property: "color"; to: "red"; duration: 50 }
+        }
 }
