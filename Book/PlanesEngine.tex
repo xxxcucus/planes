@@ -7,6 +7,15 @@
     basicstyle=\footnotesize,% basic font setting
     breaklines
 }
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
 
 
 \title{Application Logic for the Game of Planes}
@@ -17,17 +26,31 @@
 \newpage
 \section{Introduction}
 In the following I will explain the creation of the application's core which in our case is the logic of the game of planes. This part of the project should be independent of the graphical interface and should allow generic communication with it.
-\section{The Game of Planes}
+\subsection{Game Description}
+The game is a variant of the classical \href{https://en.wikipedia.org/wiki/Battleship_(game)}{battleship game}. The ships will be here called planes and are shown in \ref{fig:board}.
+\begin{figure}[h]
+  \includegraphics[width = \textwidth]{BoardWithPlanes.png}
+  \caption{Board game with 3 planes}
+  \label{fig:board}
+\end{figure}
 \marginpar{insert caption with the game board}
-\section{Requirement Analysis}
-Without thinking too much we notice that we need an object that describes a plane object which should at least contain information about the position of the plane on the game grid, the orientation of the plane, the shape of a plane. Since we have mentioned it above we would also need a game board/grid object. It should not be restricted to a specific geometry, should know where each plane is positioned and how many planes there are. Since the game is played against the computer there should be a kind of strategy object that decides the computer's next move.
-\section{The Plane Object}
-What defines a plane object ? Firstly the position of its head  (plane front) and its orientation. In order to define position we need a reference system in the plane grid. At the moment we do not bind explicitly the plane with a reference system or a game board. We assume that each plane exists somewhere in its own reference system and in its own rectangular grid. 
+\subsection{Requirement Analysis}
+We need an object that describes a plane object which should at least contain information about the position of the plane on the game grid, the orientation of the plane, the shape of a plane. Additionaly we would need a game board/grid object. It should not be restricted to a specific geometry, should know where each plane is positioned and how many planes there are. Since the game is played against the computer there should be a kind of strategy object that decides the computer's next move.
+A graphical interface for editing the board and playing the game is also required together with the associated controller objects.
 
-There can be 4 possible orientations which are declared in the Plane::Orientation enum.  
+
+\section{The Plane Object}
+A plane object is defined through the position of its head  (plane front) and its orientation (see \ref{fig:plane_orientations}).  We assume that each plane exists somewhere in its own reference system and in its own rectangular grid - that is a plane object is not explicitly related to a game board object. 
 
 \marginpar{insert caption with 4 plane orientations}
-
+\begin{figure}[h]
+  \includegraphics[width = 3cm]{PlaneEastWest.png}
+  \includegraphics[width = 3cm]{PlaneWestEast.png}
+  \includegraphics[width = 3cm]{PlaneNorthSouth.png}
+  \includegraphics[width = 3cm]{PlaneSouthNorth.png}
+  \caption{Possible plane orientations}
+  \label{fig:plane_orientations}
+\end{figure}
 
 \subsection{Class declaration}
 \begin{lstlisting}
@@ -257,7 +280,7 @@ Plane Plane::operator+ (const QPoint &qp)
 }
 \end{lstlisting}
 
-The implementation of the member functions of the class Plane is trivial. One thing requires an explanation : the class PlanePointIterator. It has to do to the fact that it exists nowhere in the Plane class definition an explicit representation of the points of the game board corresponding to the plane, in other words of the form of a plane. The only things that are defined are the point of origin or the head as well as the orientation of the plane. Thus the class is general allowing the use of any plane form as long as a plane head and orientation are given. In order to allow to work with the plane's form the class PlanePointIterator is used. It encapsulates the form of the plane but also gives a method to \textit iterate on the grid positions corresponding to the plane. 
+The implementation of the member functions of the class Plane is trivial. One thing requires an explanation : the class PlanePointIterator. It has to do with the fact that it exists nowhere in the Plane class definition an explicit representation of the points of the game board corresponding to the plane, in other words of the form of a plane. The only things that are defined are the point of origin or the head as well as the orientation of the plane. Thus the class is general allowing the use of any plane form as long as a plane head and orientation are given. In order to allow to work with the plane's form the class PlanePointIterator is used. It encapsulates the form of the plane but also gives a method to \textit iterate on the grid positions corresponding to the plane. 
 
 \textbf {Advanced concepts} : Iterators
  
@@ -423,16 +446,21 @@ are syntactic sugar meant to simplify coding. For example, when defining \textit
 Iterators are methods to obtain sequential access to the members of a data storage value (e.g. vector, list, set). No assumption about the order in which the data is retrieved should be made. In the simplest scenario an iterator is initialized, an action is performed to the data pointed by the iterator, then the iterator is incremented to the next position and so further until the end of data structure is reached. For a C++ style iterator this would look like this:
 
 \begin{lstlisting}
-	auto it = storage.begin();
-	while (it != storage.end()) {
-		do_something(*it);
-    	++it;
+	auto it = storage.begin();    //initialization of the iterator at the beginning
+	while (it != storage.end()) {  // read data as long as the data end has not been encountered
+		do_something(*it);   //do something with the data pointed to by the iterator
+    	++it;   //go to the next position in the data storage
 	}
 \end{lstlisting}
 
 For a Java style iterator this would be:
 
 \begin{lstlisting}
+	auto it(storage);     //initialize iterator with data
+    while (it.hasNext()) { //as long as data is available
+		auto d = it.next(); //read the data and jump to the next value 
+        do_something(d);  //do something with the data
+    }
 \end{lstlisting}
 
 \end{document}
