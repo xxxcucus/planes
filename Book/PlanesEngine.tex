@@ -18,14 +18,15 @@
 }
 
 
-\title{Application Logic for the Game of Planes}
+\title{Development of the Planes Game}
 \date{2017-06-09}
 \author{Cristian Cucu}
 \begin{document}
 \maketitle
 \newpage
+\lstset{language=C++}
 \section{Introduction}
-In the following I will explain the creation of the application's core which in our case is the logic of the game of planes. This part of the project should be independent of the graphical interface and should allow generic communication with it.
+
 \subsection{Game Description}
 The game is a variant of the classical \href{https://en.wikipedia.org/wiki/Battleship_(game)}{battleship game}. The ships will be here called planes and are shown in \ref{fig:board}.
 \begin{figure}[h]
@@ -33,8 +34,8 @@ The game is a variant of the classical \href{https://en.wikipedia.org/wiki/Battl
   \caption{Board game with 3 planes}
   \label{fig:board}
 \end{figure}
-\marginpar{insert caption with the game board}
-\subsection{Requirement Analysis}
+
+\subsection{Requirements Analysis}
 We need an object that describes a plane object which should at least contain information about the position of the plane on the game grid, the orientation of the plane, the shape of a plane. Additionaly we would need a game board/grid object. It should not be restricted to a specific geometry, should know where each plane is positioned and how many planes there are. Since the game is played against the computer there should be a kind of strategy object that decides the computer's next move.
 A graphical interface for editing the board and playing the game is also required together with the associated controller objects.
 
@@ -42,7 +43,6 @@ A graphical interface for editing the board and playing the game is also require
 \section{The Plane Object}
 A plane object is defined through the position of its head  (plane front) and its orientation (see \ref{fig:plane_orientations}).  We assume that each plane exists somewhere in its own reference system and in its own rectangular grid - that is a plane object is not explicitly related to a game board object. 
 
-\marginpar{insert caption with 4 plane orientations}
 \begin{figure}[h]
   \includegraphics[width = 3cm]{PlaneEastWest.png}
   \includegraphics[width = 3cm]{PlaneWestEast.png}
@@ -53,11 +53,11 @@ A plane object is defined through the position of its head  (plane front) and it
 \end{figure}
 
 \subsection{Class declaration}
-\begin{lstlisting}
+\begin{lstlisting}[caption = {Plane class declaration}, captionpos = b, label=plane_declaration]
 class Plane
 {
 public:
-    enum Orientation {NorthSouth=0, SouthNorth=1, WestEast=2, EastWest=3};
+    enum Orientation {NorthSouth = 0, SouthNorth = 1, WestEast = 2, EastWest = 3};
 
 private:
     //plane orientation
@@ -69,7 +69,7 @@ public:
     //Various constructors
     Plane();
     Plane(int row, int col, Orientation orient);
-    Plane(const QPoint &qp, Orientation orient);
+    Plane(const QPoint& qp, Orientation orient);
 
     //setter and getters
     //gives the planes orientation
@@ -82,15 +82,15 @@ public:
     void col(int col) { m_col = col; }
     void orientation(Orientation orient) { m_orient = orient; }
     //gives the coordinates of the plane head
-    QPoint head() const { return QPoint(m_row,m_col); }
+    QPoint head() const { return QPoint(m_row, m_col); }
 
     //operators
     //compares two planes
-    bool operator==(const Plane &pl1) const;
+    bool operator==(const Plane& pl1) const;
     //equals operator
-    void operator=(const Plane &pl1);
+    void operator=(const Plane& pl1);
     //translates a plane by a QPoint
-    Plane operator+(const QPoint &qp);
+    Plane operator+(const QPoint& qp);
 
     //geometrical transformations
     //clockwise rotation of planes
@@ -101,10 +101,10 @@ public:
 
     //other utility functions
     //tests whether a QPoint is a planes head
-    bool isHead(const QPoint &qp) const { return qp == head(); }
+    bool isHead(const QPoint& qp) const { return qp == head(); }
     //checks if a certain point on the grid is on the plane
-    bool containsPoint(const QPoint &qp) const;
-    //returns whether a plane position is valid in a grid with row and col
+    bool containsPoint(const QPoint& qp) const;
+    //returns whether a plane position is valid (the plane is completely contained inside the grid) in a grid with row and col
     bool isPositionValid(int row, int col) const;
     //generates a random number from 0 and valmax-1
     static int generateRandomNumber(int valmax);
@@ -112,53 +112,44 @@ public:
     QString toString() const;
 };
 \end{lstlisting}
-\textbf{Simple concepts}: class definition, member variable declaration, classs method declaration, setters and getters\newline
-\textbf{Advanced concepts}: constructor definition, static methods, enums, access specifiers (private, public, protected), operators\newline
 
-
-In the above class definition appear types that are not pure C++ types, but are defined in the Qt library. They restrict the use of the Plane class to a Qt program \marginpar{Is this really so?} and are class design flaws. One is the QPoint type, which defines a 2D coordinate. The second is the QString which represents a string, the analog of std::string in the Qt library. We let the reader to correct these design errors as a practical exercise.  
+In the above class definition appear types that are not pure C++ types, but are defined in the Qt library. They restrict the use of the Plane class to a Qt program. One is the QPoint type, which defines a 2D coordinate. The second is the QString which represents a string, the analog of std::string in the Qt library. 
 
 \subsection {Method Implementation}
-\begin{lstlisting}
+\begin{lstlisting}[caption = {Plane class methods}, captionpos = b, label=plane_implementation]
 //Various constructors
-Plane::Plane()
-{
+Plane::Plane() {
     m_row = 0;
     m_col = 0;
     m_orient = NorthSouth;
 }
 
-Plane::Plane(int row, int col, Orientation orient)
-{
+Plane::Plane(int row, int col, Orientation orient) {
     m_row = row;
     m_col = col;
     m_orient = orient;
 }
 
-Plane::Plane(const QPoint &qp, Orientation orient)
-{
+Plane::Plane(const QPoint &qp, Orientation orient) {
     m_row = qp.x();
     m_col = qp.y();
     m_orient = orient;
 }
 
 //equality operator
-bool Plane::operator==(const Plane &pl1) const
-{
+bool Plane::operator==(const Plane &pl1) const {
     return ((pl1.m_row == m_row) && (pl1.m_col == m_col) && (pl1.m_orient == m_orient));
 }
 
 //assignment operator
-void Plane::operator =(const Plane &pl1)
-{
+void Plane::operator=(const Plane &pl1) {
     m_row = pl1.m_row;
     m_col = pl1.m_col;
     m_orient = pl1.m_orient;
 }
 
 //Clockwise 90 degrees rotation of the plane
-void Plane::rotate()
-{
+void Plane::rotate() {
     switch(m_orient)
     {
     case NorthSouth:
@@ -181,8 +172,7 @@ void Plane::rotate()
 //checks to see if a plane contains a certain point
 //uses a PlanePointIterator which enumerates
 //all the points on the plane
-bool Plane::containsPoint(const QPoint &qp) const
-{
+bool Plane::containsPoint(const QPoint &qp) const {
     PlanePointIterator ppi(*this);
 
     while(ppi.hasNext())
@@ -198,8 +188,7 @@ bool Plane::containsPoint(const QPoint &qp) const
 //Checks to see if the plane is
 //in its totality inside a grid
 //of size row X col
-bool Plane::isPositionValid(int row, int col) const
-{
+bool Plane::isPositionValid(int row, int col) const {
     PlanePointIterator ppi(*this);
 
     while(ppi.hasNext())
@@ -212,13 +201,11 @@ bool Plane::isPositionValid(int row, int col) const
     }
 
     return true;
-
 }
 
 //utility function
 //generates a random number
-int Plane::generateRandomNumber(int valmax)
-{
+int Plane::generateRandomNumber(int valmax) {
     double rnd = rand()/ static_cast<double>(RAND_MAX);
     if (rnd==1.0)
         rnd = 0.5;
@@ -228,6 +215,7 @@ int Plane::generateRandomNumber(int valmax)
 }
 
 //constructs a string representation of a plane
+//used for debugging purposes
 QString Plane::toString() const
 {
     QString toReturn = "";
@@ -259,8 +247,7 @@ QString Plane::toString() const
     return toReturn;
 }
 
-void Plane::translateWhenHeadPosValid(int offsetX, int offsetY, int row, int col)
-{
+void Plane::translateWhenHeadPosValid(int offsetX, int offsetY, int row, int col) {
     if ((m_row + offsetX < 0) || (m_row + offsetX >= row)) {
         return;
     }
@@ -274,99 +261,17 @@ void Plane::translateWhenHeadPosValid(int offsetX, int offsetY, int row, int col
 }
 
 //implements plane translation
-Plane Plane::operator+ (const QPoint &qp)
-{
-    return Plane(this->m_row+qp.x(), this->m_col+qp.y(), this->m_orient);
+Plane Plane::operator+(const QPoint &qp) {
+    return Plane(this->m_row + qp.x(), this->m_col + qp.y(), this->m_orient);
 }
+
 \end{lstlisting}
 
 The implementation of the member functions of the class Plane is trivial. One thing requires an explanation : the class PlanePointIterator. It has to do with the fact that it exists nowhere in the Plane class definition an explicit representation of the points of the game board corresponding to the plane, in other words of the form of a plane. The only things that are defined are the point of origin or the head as well as the orientation of the plane. Thus the class is general allowing the use of any plane form as long as a plane head and orientation are given. In order to allow to work with the plane's form the class PlanePointIterator is used. It encapsulates the form of the plane but also gives a method to \textit iterate on the grid positions corresponding to the plane. 
 
 \textbf {Advanced concepts} : Iterators
  
-\subsection{PlanePointIterator Class}
 
-\begin{lstlisting}
-//iterates over the points that make a plane
-class PlanePointIterator : public ListIterator<QPoint>
-{
-    Plane m_plane;
-public:
-    PlanePointIterator(const Plane &pl);
-
-private:
-    void generateList();
-};
-\end{lstlisting}
-
-\begin{lstlisting}
-namespace MyIterator
-{
-//defines an iterator over a QList
-template <class T>
-class ListIterator
-{
-protected:
-    QList <T> m_internalList;
-    int m_idx;
-
-public:
-    //constructor
-    ListIterator();
-
-    //sets the position of the iterator before the first  element
-    void reset();
-    //during an iteration checks to see if there is a next element
-    bool hasNext() const;
-    //during an iteration returns the next element
-    const T& next();
-    //returns number of elements
-    int itemNo() const;
-};
-
-template <class T>
-ListIterator<T>::ListIterator()
-{
-    //generates the list of points
-    m_internalList.clear();
-    //puts the index one before the first element in the list
-    reset();
-
-}
-
-template <class T>
-void ListIterator<T>::reset()
-{
-    m_idx = -1;
-}
-
-//during a point iteration checks to see if there is a next point
-template <class T>
-bool ListIterator<T>::hasNext() const
-{
-
-    return (m_idx<m_internalList.size()-1);
-}
-
-//during an iteration returns the next point
-template <class T>
-const T& ListIterator<T>::next()
-{
-    return  m_internalList[++m_idx];
-}
-
-//returns number of points on the plane
-template <class T>
-int ListIterator<T>::itemNo() const
-{
-    return m_internalList.size();
-}
-}
-\end{lstlisting}
-
-PlanePointIterator is an iterator that provides access to the positions occupied by the plane on the game board. It works are follows: first it receives an object of the class Plane, from which it receives the positions of the plane's head as well as its orientation.
-
-The reader interested in defining new types of plane forms (maybe call them battleships for example) is invited to reimplement the PlanePointIterator class as a practical exercise.
 
 \subsection {C++ Concepts}
 
@@ -441,26 +346,185 @@ Operators such as
 \end{lstlisting}
 are syntactic sugar meant to simplify coding. For example, when defining \textit{operator==} one can directly write the comparison \textit{ plane1 == plane2 } with the meaning of a test of equality (if the operator definition respects the semantics of an identity test). 
 
+\subsubsection {What is 'this' ? }
+TODO
+
+\section{PlanePointIterator Class}
+
+\subsection {Class declaration}
+
+\begin{lstlisting}
+//iterates over the points that make a plane
+class PlanePointIterator : public ListIterator<QPoint>
+{
+    Plane m_plane;
+public:
+    PlanePointIterator(const Plane &pl);
+
+private:
+    void generateList();
+};
+\end{lstlisting}
+
+The definition above says that the PlanePointIterator is defined as a type of ListIterator < QPoint >, which is defined (here I anticipate the ListIterator class definition which is given later) as an iterator over a list of QPoint objects. It receives a Plane object with which it generates, with the help of the private function generateList, the list of positions occupied by the plane on the game board. It is a type of Java-like iterator, but this will become apparent only after looking at the ListIterator class. 
+\marginpar {find a way to write template classes}
+
+\subsection {Method implementation}
+\begin{lstlisting}
+//constructor
+PlanePointIterator::PlanePointIterator(const Plane &pl):
+    MyIterator::ListIterator<QPoint>(),
+    m_plane(pl)
+{
+    generateList();
+}
+
+//the function that generates the list of points
+void PlanePointIterator::generateList()
+{
+    const QPoint pointsNorthSouth[] = {QPoint(0, 0), QPoint(0, 1), QPoint(-1, 1), QPoint(1, 1), QPoint(-2, 1), QPoint(2, 1), QPoint(0, 2),
+                                   QPoint(0, 3), QPoint(-1, 3), QPoint(1, 3)};
+
+    const QPoint pointsSouthNorth[] = {QPoint(0, 0), QPoint(0, -1), QPoint(-1, -1), QPoint(1, -1), QPoint(-2, -1), QPoint(2, -1), QPoint(0, -2),
+                                   QPoint(0, -3), QPoint(-1, -3), QPoint(1, -3)};
+
+    const QPoint pointsEastWest[] = {QPoint(0, 0), QPoint(1, 0), QPoint(1, -1), QPoint(1, 1), QPoint(1, -2), QPoint(1, 2), QPoint(2, 0),
+                                 QPoint(3, 0), QPoint(3, -1), QPoint(3, 1)};
+
+    const QPoint pointsWestEast[] = {QPoint(0, 0), QPoint(-1, 0), QPoint(-1, -1), QPoint(-1, 1), QPoint(-1, -2), QPoint(-1, 2), QPoint(-2, 0),
+                                 QPoint(-3, 0), QPoint(-3, 1), QPoint(-3, -1)};
+
+    const int size = 10;
+    for(int i = 0;i < size; ++i)
+    {
+        switch(m_plane.orientation())
+        {
+            case Plane::NorthSouth:
+                m_internalList << pointsNorthSouth[i] + m_plane.head();
+                break;
+            case Plane::SouthNorth:
+                m_internalList << pointsSouthNorth[i] + m_plane.head();
+                break;
+            case Plane::WestEast:
+                m_internalList << pointsWestEast[i] + m_plane.head();
+                break;
+            case Plane::EastWest:
+                m_internalList << pointsEastWest[i] + m_plane.head();
+                break;
+            default:
+                ;
+        }
+    }
+}
+
+\end{lstlisting}
+
+PlanePointIterator is an iterator that provides access to the positions occupied by the plane on the game board. It works are follows: first it receives an object of the class Plane, from which it receives the positions of the plane's head as well as its orientation.
+
+The reader interested in defining new types of plane forms (maybe call them battleships for example) is invited to reimplement the PlanePointIterator class as a practical exercise.
+
+\subsection {Implementation of ListIterator}
+\begin{lstlisting}
+namespace MyIterator
+{
+//defines an iterator over a QList
+template <class T>
+class ListIterator
+{
+protected:
+    QList <T> m_internalList;
+    int m_idx;
+
+public:
+    //constructor
+    ListIterator();
+
+    //sets the position of the iterator before the first  element
+    void reset();
+    //during an iteration checks to see if there is a next element
+    bool hasNext() const;
+    //during an iteration returns the next element
+    const T& next();
+    //returns number of elements
+    int itemNo() const;
+};
+
+template <class T>
+ListIterator<T>::ListIterator()
+{
+    //generates the list of points
+    m_internalList.clear();
+    //puts the index one before the first element in the list
+    reset();
+
+}
+
+template <class T>
+void ListIterator<T>::reset()
+{
+    m_idx = -1;
+}
+
+//during a point iteration checks to see if there is a next point
+template <class T>
+bool ListIterator<T>::hasNext() const
+{
+
+    return (m_idx<m_internalList.size()-1);
+}
+
+//during an iteration returns the next point
+template <class T>
+const T& ListIterator<T>::next()
+{
+    return  m_internalList[++m_idx];
+}
+
+//returns number of points on the plane
+template <class T>
+int ListIterator<T>::itemNo() const
+{
+    return m_internalList.size();
+}
+}
+\end{lstlisting}
+
+
+\subsection {C++ Concepts}
 \subsubsection {Iterators}
 
 Iterators are methods to obtain sequential access to the members of a data storage value (e.g. vector, list, set). No assumption about the order in which the data is retrieved should be made. In the simplest scenario an iterator is initialized, an action is performed to the data pointed by the iterator, then the iterator is incremented to the next position and so further until the end of data structure is reached. For a C++ style iterator this would look like this:
 
 \begin{lstlisting}
-	auto it = storage.begin();    //initialization of the iterator at the beginning
-	while (it != storage.end()) {  // read data as long as the data end has not been encountered
-		do_something(*it);   //do something with the data pointed to by the iterator
-    	++it;   //go to the next position in the data storage
+	//initialization of the iterator at the beginning
+	auto it = storage.begin();    
+	// read data as long as the data end has not been encountered	
+	while (it != storage.end()) {  
+		//do something with the data pointed to by the iterator		
+		do_something(*it);   
+		//go to the next position in the data storage 
+   		++it;   
 	}
 \end{lstlisting}
 
 For a Java style iterator this would be:
 
 \begin{lstlisting}
-	auto it(storage);     //initialize iterator with data
-    while (it.hasNext()) { //as long as data is available
-		auto d = it.next(); //read the data and jump to the next value 
-        do_something(d);  //do something with the data
+	//initialize iterator with data	
+	auto it(storage);     
+	//as long as data is available    
+	while (it.hasNext()) { 
+		//read the data and jump to the next value
+		auto d = it.next();  
+		//do something with the data
+        do_something(d);  
     }
 \end{lstlisting}
+\subsubsection {Templates}
+\subsubsection {Namespaces}
+\subsubsection {Class derivation}
+\subsubsection {Function parameters and their transmission}
+\subsubsection {Constness}
+
 
 \end{document}
