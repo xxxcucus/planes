@@ -5,44 +5,38 @@
 #include <QDebug>
 
 //Various constructors
-Plane::Plane()
-{
+Plane::Plane() {
     m_row = 0;
     m_col = 0;
     m_orient = NorthSouth;
 }
 
-Plane::Plane(int row, int col, Orientation orient)
-{
+Plane::Plane(int row, int col, Orientation orient) {
     m_row = row;
     m_col = col;
     m_orient = orient;
 }
 
-Plane::Plane(const QPoint &qp, Orientation orient)
-{
+Plane::Plane(const QPoint& qp, Orientation orient) {
     m_row = qp.x();
     m_col = qp.y();
     m_orient = orient;
 }
 
 //equality operator
-bool Plane::operator==(const Plane &pl1) const
-{
+bool Plane::operator==(const Plane& pl1) const {
     return ((pl1.m_row == m_row) && (pl1.m_col == m_col) && (pl1.m_orient == m_orient));
 }
 
 //assignment operator
-void Plane::operator =(const Plane &pl1)
-{
+void Plane::operator=(const Plane& pl1) {
     m_row = pl1.m_row;
     m_col = pl1.m_col;
     m_orient = pl1.m_orient;
 }
 
 //Clockwise 90 degrees rotation of the plane
-void Plane::rotate()
-{
+void Plane::rotate() {
     switch(m_orient)
     {
     case NorthSouth:
@@ -65,14 +59,13 @@ void Plane::rotate()
 //checks to see if a plane contains a certain point
 //uses a PlanePointIterator which enumerates
 //all the points on the plane
-bool Plane::containsPoint(const QPoint &qp) const
-{
+bool Plane::containsPoint(const QPoint& qp) const {
     PlanePointIterator ppi(*this);
 
     while(ppi.hasNext())
     {
-        QPoint qp1=ppi.next();
-        if(qp==qp1)
+        QPoint qp1 = ppi.next();
+        if(qp == qp1)
             return true;
     }
 
@@ -82,8 +75,7 @@ bool Plane::containsPoint(const QPoint &qp) const
 //Checks to see if the plane is
 //in its totality inside a grid
 //of size row X col
-bool Plane::isPositionValid(int row, int col) const
-{
+bool Plane::isPositionValid(int row, int col) const {
     PlanePointIterator ppi(*this);
 
     while(ppi.hasNext())
@@ -96,13 +88,11 @@ bool Plane::isPositionValid(int row, int col) const
     }
 
     return true;
-
 }
 
 //utility function
 //generates a random number
-int Plane::generateRandomNumber(int valmax)
-{
+int Plane::generateRandomNumber(int valmax) {
     double rnd = rand()/ static_cast<double>(RAND_MAX);
     if (rnd==1.0)
         rnd = 0.5;
@@ -112,6 +102,7 @@ int Plane::generateRandomNumber(int valmax)
 }
 
 //constructs a string representation of a plane
+//used for debugging purposes
 QString Plane::toString() const
 {
     QString toReturn = "";
@@ -125,16 +116,16 @@ QString Plane::toString() const
     switch(m_orient)
     {
     case NorthSouth:
-        toReturn+= "NorthSouth";
+        toReturn += "NorthSouth";
         break;
     case SouthNorth:
-        toReturn+= "SouthNorth";
+        toReturn += "SouthNorth";
         break;
     case EastWest:
-        toReturn+= "EastWest";
+        toReturn += "EastWest";
         break;
     case WestEast:
-        toReturn+= "WestEast";
+        toReturn += "WestEast";
         break;
     default:
         ;
@@ -143,8 +134,7 @@ QString Plane::toString() const
     return toReturn;
 }
 
-void Plane::translateWhenHeadPosValid(int offsetX, int offsetY, int row, int col)
-{
+void Plane::translateWhenHeadPosValid(int offsetX, int offsetY, int row, int col) {
     if ((m_row + offsetX < 0) || (m_row + offsetX >= row)) {
         return;
     }
@@ -158,8 +148,6 @@ void Plane::translateWhenHeadPosValid(int offsetX, int offsetY, int row, int col
 }
 
 //implements plane translation
-Plane Plane::operator+ (const QPoint &qp)
-{
-    return Plane(this->m_row+qp.x(), this->m_col+qp.y(), this->m_orient);
+Plane Plane::operator+(const QPoint& qp) {
+    return Plane(this->m_row + qp.x(), this->m_col + qp.y(), this->m_orient);
 }
-

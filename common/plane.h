@@ -12,7 +12,7 @@ using namespace MyIterator;
 class Plane
 {
 public:
-    enum Orientation {NorthSouth=0, SouthNorth=1, WestEast=2, EastWest=3};
+    enum Orientation {NorthSouth = 0, SouthNorth = 1, WestEast = 2, EastWest = 3};
 
 private:
     //plane orientation
@@ -24,7 +24,7 @@ public:
     //Various constructors
     Plane();
     Plane(int row, int col, Orientation orient);
-    Plane(const QPoint &qp, Orientation orient);
+    Plane(const QPoint& qp, Orientation orient);
 
     //setter and getters
     //gives the planes orientation
@@ -37,15 +37,15 @@ public:
     void col(int col) { m_col = col; }
     void orientation(Orientation orient) { m_orient = orient; }
     //gives the coordinates of the plane head
-    QPoint head() const { return QPoint(m_row,m_col); }
+    QPoint head() const { return QPoint(m_row, m_col); }
 
     //operators
     //compares two planes
-    bool operator==(const Plane &pl1) const;
+    bool operator==(const Plane& pl1) const;
     //equals operator
-    void operator=(const Plane &pl1);
+    void operator=(const Plane& pl1);
     //translates a plane by a QPoint
-    Plane operator+(const QPoint &qp);
+    Plane operator+(const QPoint& qp);
 
     //geometrical transformations
     //clockwise rotation of planes
@@ -56,10 +56,10 @@ public:
 
     //other utility functions
     //tests whether a QPoint is a planes head
-    bool isHead(const QPoint &qp) const { return qp == head(); }
+    bool isHead(const QPoint& qp) const { return qp == head(); }
     //checks if a certain point on the grid is on the plane
-    bool containsPoint(const QPoint &qp) const;
-    //returns whether a plane position is valid in a grid with row and col
+    bool containsPoint(const QPoint& qp) const;
+    //returns whether a plane position is valid (the plane is completely contained inside the grid) in a grid with row and col
     bool isPositionValid(int row, int col) const;
     //generates a random number from 0 and valmax-1
     static int generateRandomNumber(int valmax);

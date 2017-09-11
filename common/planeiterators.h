@@ -8,7 +8,7 @@ class PlanePointIterator : public ListIterator<QPoint>
 {
     Plane m_plane;
 public:
-    PlanePointIterator(const Plane &pl);
+    PlanePointIterator(const Plane& pl);
 
 private:
     void generateList();
@@ -21,7 +21,7 @@ class PlaneIntersectingPointIterator: public ListIterator<Plane>
 
 public:
     //constructor taking a QPoint
-    PlaneIntersectingPointIterator(const QPoint &qp=QPoint(0,0));
+    PlaneIntersectingPointIterator(const QPoint& qp = QPoint(0,0));
 
 private:
     //generates list of plane indexes that pass through (0,0)
@@ -35,7 +35,7 @@ class PointInfluenceIterator: ListIterator<QPoint>
 
 public:
     //constructor
-    PointInfluenceIterator(const QPoint &qp=QPoint(0,0));
+    PointInfluenceIterator(const QPoint& qp = QPoint(0,0));
 
 private:
     //generates the list points influencing the point (0,0)

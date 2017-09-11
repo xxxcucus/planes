@@ -1,7 +1,7 @@
 #include "planeiterators.h"
 
 //constructor
-PlanePointIterator::PlanePointIterator(const Plane &pl):
+PlanePointIterator::PlanePointIterator(const Plane& pl):
     MyIterator::ListIterator<QPoint>(),
     m_plane(pl)
 {
@@ -12,34 +12,34 @@ PlanePointIterator::PlanePointIterator(const Plane &pl):
 void PlanePointIterator::generateList()
 {
 
-    const QPoint pointsNorthSouth[] = {QPoint(0,0), QPoint(0,1), QPoint(-1,1), QPoint(1,1), QPoint(-2,1), QPoint(2,1), QPoint(0,2),
-                                   QPoint(0,3), QPoint(-1,3), QPoint(1,3)};
+    const QPoint pointsNorthSouth[] = {QPoint(0, 0), QPoint(0, 1), QPoint(-1, 1), QPoint(1, 1), QPoint(-2, 1), QPoint(2, 1), QPoint(0, 2),
+                                   QPoint(0, 3), QPoint(-1, 3), QPoint(1, 3)};
 
-    const QPoint pointsSouthNorth[] = {QPoint(0,0), QPoint(0,-1), QPoint(-1,-1), QPoint(1,-1), QPoint(-2,-1), QPoint(2,-1), QPoint(0,-2),
-                                   QPoint(0,-3), QPoint(-1,-3), QPoint(1,-3)};
+    const QPoint pointsSouthNorth[] = {QPoint(0, 0), QPoint(0, -1), QPoint(-1, -1), QPoint(1, -1), QPoint(-2, -1), QPoint(2, -1), QPoint(0, -2),
+                                   QPoint(0, -3), QPoint(-1, -3), QPoint(1, -3)};
 
-    const QPoint pointsEastWest[] = {QPoint(0,0), QPoint(1,0), QPoint(1,-1), QPoint(1,1), QPoint(1,-2), QPoint(1,2), QPoint(2,0),
-                                 QPoint(3,0), QPoint(3,-1), QPoint(3,1)};
+    const QPoint pointsEastWest[] = {QPoint(0, 0), QPoint(1, 0), QPoint(1, -1), QPoint(1, 1), QPoint(1, -2), QPoint(1, 2), QPoint(2, 0),
+                                 QPoint(3, 0), QPoint(3, -1), QPoint(3, 1)};
 
-    const QPoint pointsWestEast[] = {QPoint(0,0), QPoint(-1,0), QPoint(-1,-1), QPoint(-1,1), QPoint(-1,-2), QPoint(-1,2), QPoint(-2,0),
-                                 QPoint(-3,0), QPoint(-3,1), QPoint(-3,-1)};
+    const QPoint pointsWestEast[] = {QPoint(0, 0), QPoint(-1, 0), QPoint(-1, -1), QPoint(-1, 1), QPoint(-1, -2), QPoint(-1, 2), QPoint(-2, 0),
+                                 QPoint(-3, 0), QPoint(-3, 1), QPoint(-3, -1)};
 
     const int size = 10;
-    for(int i=0;i<size;i++)
+    for(int i = 0; i < size; ++i)
     {
         switch(m_plane.orientation())
         {
             case Plane::NorthSouth:
-                m_internalList << pointsNorthSouth[i]+m_plane.head();
+                m_internalList << pointsNorthSouth[i] + m_plane.head();
                 break;
             case Plane::SouthNorth:
-                m_internalList << pointsSouthNorth[i]+m_plane.head();
+                m_internalList << pointsSouthNorth[i] + m_plane.head();
                 break;
             case Plane::WestEast:
-                m_internalList << pointsWestEast[i]+m_plane.head();
+                m_internalList << pointsWestEast[i] + m_plane.head();
                 break;
             case Plane::EastWest:
-                m_internalList << pointsEastWest[i]+m_plane.head();
+                m_internalList << pointsEastWest[i] + m_plane.head();
                 break;
             default:
                 ;
@@ -64,15 +64,15 @@ void PlaneIntersectingPointIterator::generateList()
 
     //build a list of all possible positions that can possibly contain the (0,0) point
     //enum Orientation {NorthSouth=0, SouthNorth=1, WestEast=2, EastWest=3};
-    for(int i=-5+m_point.x();i<6+m_point.x();i++)
-        for(int j=-5+m_point.y();j<6+m_point.y();j++)
-            for(int k=0;k<4;k++)
+    for(int i=-5 + m_point.x();i < 6 + m_point.x(); i++)
+        for(int j=-5 + m_point.y();j<6 + m_point.y(); j++)
+            for(int k = 0;k < 4; k++)
             {
-                Plane pl(i,j,(Plane::Orientation)k);
+                Plane pl(i, j,(Plane::Orientation)k);
                 m_internalList.append(pl);
             }
 
-    QMutableListIterator <Plane> i(m_internalList);
+    QMutableListIterator<Plane> i(m_internalList);
 
     //elimintate all positions that do not contain (0,0)
     while(i.hasNext())
@@ -84,13 +84,10 @@ void PlaneIntersectingPointIterator::generateList()
             i.remove();
             continue;
         }
-
     }
-
-
 }
 
-PointInfluenceIterator::PointInfluenceIterator(const QPoint &qp):
+PointInfluenceIterator::PointInfluenceIterator(const QPoint& qp):
     MyIterator::ListIterator<QPoint>(),
     m_point(qp)
 {
@@ -102,8 +99,8 @@ void PointInfluenceIterator::generateList()
     m_internalList.clear();
 
     //searches in a range around the selected QPoint
-    for(int i=-10+m_point.x();i<10+m_point.y();i++)
-        for(int j=-10+m_point.y();j<10+m_point.y();j++)
+    for(int i = -10 + m_point.x(); i < 10 + m_point.y(); i++)
+        for(int j = -10 + m_point.y();j < 10 + m_point.y(); j++)
         {
             QPoint qp(i,j);
             //generates all planes intersecting the point
@@ -129,4 +126,3 @@ void PointInfluenceIterator::generateList()
             }
         }
 }
-
