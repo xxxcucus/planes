@@ -11,7 +11,7 @@ template <class T>
 class ListIterator
 {
 protected:
-    QList <T> m_internalList;
+    QList<T> m_internalList;
     int m_idx;
 
 public:
@@ -49,7 +49,7 @@ template <class T>
 bool ListIterator<T>::hasNext() const
 {
 
-    return (m_idx<m_internalList.size()-1);
+    return (m_idx < m_internalList.size()-1);
 }
 
 //during an iteration returns the next point

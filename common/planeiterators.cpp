@@ -64,9 +64,9 @@ void PlaneIntersectingPointIterator::generateList()
 
     //build a list of all possible positions that can possibly contain the (0,0) point
     //enum Orientation {NorthSouth=0, SouthNorth=1, WestEast=2, EastWest=3};
-    for(int i=-5 + m_point.x();i < 6 + m_point.x(); i++)
-        for(int j=-5 + m_point.y();j<6 + m_point.y(); j++)
-            for(int k = 0;k < 4; k++)
+    for(int i = -5 + m_point.x(); i < 6 + m_point.x(); i++)
+        for(int j = -5 + m_point.y(); j < 6 + m_point.y(); j++)
+            for(int k = 0; k < 4; k++)
             {
                 Plane pl(i, j,(Plane::Orientation)k);
                 m_internalList.append(pl);
@@ -100,7 +100,7 @@ void PointInfluenceIterator::generateList()
 
     //searches in a range around the selected QPoint
     for(int i = -10 + m_point.x(); i < 10 + m_point.y(); i++)
-        for(int j = -10 + m_point.y();j < 10 + m_point.y(); j++)
+        for(int j = -10 + m_point.y(); j < 10 + m_point.y(); j++)
         {
             QPoint qp(i,j);
             //generates all planes intersecting the point
@@ -111,7 +111,7 @@ void PointInfluenceIterator::generateList()
             //check to see if any of these planes correspond to the initial point
             while(pipi.hasNext())
             {
-                Plane pl= pipi.next();
+                Plane pl = pipi.next();
                 if(pl.isHead(m_point))
                 {
                     pointFound = true;
