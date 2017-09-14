@@ -38,6 +38,7 @@ Rectangle {
         onClicked: {
             console.log("Plane left clicked")
             anim.start()
+            PlaneGrid.moveLeftSelectedPlane()
         }
     }
 

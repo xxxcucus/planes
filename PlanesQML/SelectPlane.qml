@@ -52,6 +52,7 @@ Rectangle {
         onClicked: {
             console.log("Select clicked")
             anim.start()
+            PlaneGrid.toggleSelectedPlane()
         }
     }
 

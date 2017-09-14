@@ -18,17 +18,13 @@ Rectangle {
         property string colorBoard: "#ea7025"
         property string colorBorder: "aqua"
 
-
         Repeater {
             id: squares
-            model: (gridSquaresOnLine + 2 * gridBorder) * (gridSquaresOnLine + 2 * gridBorder)
+            model: grid.columns * grid.columns
 
             GridSquare {
                 width: 30
-                color: (index / (gridSquaresOnLine + 2 * gridBorder) < gridBorder ||
-                        index / (gridSquaresOnLine + 2 * gridBorder)  >= gridSquaresOnLine + gridBorder ||
-                        index % (gridSquaresOnLine + 2 * gridBorder) < gridBorder ||
-                        index % (gridSquaresOnLine + 2 * gridBorder)  >= gridSquaresOnLine + gridBorder) ? grid.colorBorder : grid.colorBoard
+                color: grid.colorBorder
             }
         }
     }
@@ -37,8 +33,19 @@ Rectangle {
         target: PlaneGrid
         onPlanesPointsChanged: {
             console.log("Planes points changed")
-            var pointsNo = PlaneGrid.getPlanesPointsCount()
             var i = 0
+
+            for (i = 0; i < grid.columns * grid.columns; i++) {
+                if (i / grid.columns < gridBorder ||
+                    i / grid.columns  >= gridSquaresOnLine + gridBorder ||
+                    i % grid.columns < gridBorder ||
+                    i % grid.columns  >= gridSquaresOnLine + gridBorder)
+                    squares.itemAt(i).color = grid.colorBorder
+                else
+                    squares.itemAt(i).color = grid.colorBoard
+            }
+
+            var pointsNo = PlaneGrid.getPlanesPointsCount()
             for (i = 0; i < pointsNo; i++) {
                 var posX = PlaneGrid.getPlanePoint(i).x +  gridBorder
                 var posY = PlaneGrid.getPlanePoint(i).y +  gridBorder

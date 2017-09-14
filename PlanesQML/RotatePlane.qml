@@ -33,7 +33,6 @@ Rectangle {
             ctx.lineTo(centerX + radius - radius/6 + radius/3, centerY);
             ctx.closePath();
             ctx.fill();
-
         }
     }
 
@@ -43,6 +42,7 @@ Rectangle {
         onClicked: {
             console.log("Rotate clicked")
             anim.start()
+            PlaneGrid.rotateSelectedPlane();
         }
     }
 

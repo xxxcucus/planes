@@ -39,6 +39,7 @@ Rectangle {
         onClicked: {
             console.log("Plane upwards clicked")
             anim.start()
+            PlaneGrid.moveUpSelectedPlane();
         }
     }
 

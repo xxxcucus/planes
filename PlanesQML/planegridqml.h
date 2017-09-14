@@ -43,6 +43,31 @@ public:
         return m_PlaneGrid.isComputer();
     }
 
+    Q_INVOKABLE void toggleSelectedPlane() {
+        m_SelectedPlane = (m_SelectedPlane + 1) % m_PlaneGrid.getPlaneNo();
+        emit planesPointsChanged();
+    }
+
+    Q_INVOKABLE void rotateSelectedPlane() {
+        m_PlaneGrid.rotatePlane(m_SelectedPlane);
+    }
+
+    Q_INVOKABLE void moveUpSelectedPlane() {
+        m_PlaneGrid.movePlaneUpwards(m_SelectedPlane);
+    }
+
+    Q_INVOKABLE void moveDownSelectedPlane() {
+        m_PlaneGrid.movePlaneDownwards(m_SelectedPlane);
+    }
+
+    Q_INVOKABLE void moveLeftSelectedPlane() {
+        m_PlaneGrid.movePlaneLeft(m_SelectedPlane);
+    }
+
+    Q_INVOKABLE void moveRightSelectedPlane() {
+        m_PlaneGrid.movePlaneRight(m_SelectedPlane);
+    }
+
     inline void initGrid() {
         m_PlaneGrid.initGrid();
     }
@@ -56,6 +81,8 @@ private:
     ///grey colors to draw the planes
     int m_MinPlaneBodyColor = 0;
     int m_MaxPlaneBodyColor = 200;
+
+    int m_SelectedPlane = 0;
 };
 
 #endif // PLANEGRIDQML_H
