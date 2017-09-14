@@ -269,10 +269,6 @@ Plane Plane::operator+(const QPoint &qp) {
 
 The implementation of the member functions of the class Plane is trivial. One thing requires an explanation : the class PlanePointIterator. It has to do with the fact that it exists nowhere in the Plane class definition an explicit representation of the points of the game board corresponding to the plane, in other words of the form of a plane. The only things that are defined are the point of origin or the head as well as the orientation of the plane. Thus the class is general allowing the use of any plane form as long as a plane head and orientation are given. In order to allow to work with the plane's form the class PlanePointIterator is used. It encapsulates the form of the plane but also gives a method to \textit iterate on the grid positions corresponding to the plane. 
 
-\textbf {Advanced concepts} : Iterators
- 
-
-
 \subsection {C++ Concepts}
 
 \subsubsection {Class Definition}
