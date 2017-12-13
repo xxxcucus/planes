@@ -13,8 +13,6 @@
 //destroy the plane grids and computerlogic
 class PlanesModel
 {
-
-
     //size of the grid and number of planes
     int m_rowNo;
     int m_colNo;
@@ -37,7 +35,6 @@ public:
     PlaneGrid* computerGrid()  {return m_computerGrid; }
 
     ComputerLogic* computerLogic()  {return m_computerLogic; }
-
 };
 
 #endif // PLANESMODEL_H
