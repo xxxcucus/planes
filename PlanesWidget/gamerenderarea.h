@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include "plane.h"
-#include "planegame.h"
+#include "planeround.h"
 #include "baserenderarea.h"
 
 

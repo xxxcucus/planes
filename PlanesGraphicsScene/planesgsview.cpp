@@ -35,21 +35,8 @@ PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cL
     connect(m_round, SIGNAL(initGraphics()), m_LeftPane, SLOT(activateEditingBoard()));
 
     connect(m_RightPane, SIGNAL(planePositionNotValid(bool)), m_LeftPane, SLOT(activateDoneButton(bool)));
-
-//    connect(playerGrid, SIGNAL(initPlayerGrid()),
-//                     editPlanesWidget, SLOT(initButtons()));
-//    connect(playerArea,SIGNAL(displayMsg(QString)),
-//                     editPlanesWidget, SLOT(displayMsg(QString)));
-//    connect(playerArea, SIGNAL(enoughPlanes()),
-//                     editPlanesWidget, SLOT(deactivateAddPlane()));
-//    connect(playerArea, SIGNAL(displayStatusMsg(QString)),
-//                     editPlanesWidget, SLOT(displayStatusMsg(QString)));
-
-
     connect(m_LeftPane, SIGNAL(doneClicked(bool)), m_round, SLOT(playStep()));
     connect(m_round, SIGNAL(computerMoveGenerated(const GuessPoint&)), m_RightPane, SIGNAL(showComputerMove(const GuessPoint&)));
-//    connect(round, SIGNAL(needPlayerGuess()),
-//                     computerArea, SLOT(activateGameMode()));
     connect(m_RightPane, SIGNAL(guessMade(const GuessPoint&)), m_round, SLOT(receivedPlayerGuess(const GuessPoint&)));
     connect(m_round, SIGNAL(displayStatusMessage(QString)), this, SLOT(displayStatusMsg(QString)));
     connect(m_round, SIGNAL(roundEnds(bool)), m_LeftPane, SLOT(endRound(bool)));
@@ -57,13 +44,6 @@ PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cL
     connect(m_LeftPane, SIGNAL(startNewGame()), m_round, SLOT(play()));
     connect(m_LeftPane, SIGNAL(startNewGame()), m_RightPane, SLOT(startNewGame()));
     connect(m_round, SIGNAL(statsUpdated(const GameStatistics&)), m_LeftPane, SLOT(updateGameStatistics(const GameStatistics&)));
-
-//    connect(listWidget, SIGNAL(currentRowChanged(int)),
-//                stackedLayout, SLOT(setCurrentIndex(int)));
-//    connect(listWidget, SIGNAL(currentRowChanged(int)),
-//                this, SLOT(widgetSelected(int)));
-//    connect(this, SIGNAL(debugWidgetSelected()),
-//            choiceDebugWidget, SLOT(setLogic()));
 }
 
 

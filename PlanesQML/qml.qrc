@@ -12,5 +12,7 @@
         <file>MovePlaneDownwards.qml</file>
         <file>MovePlaneUpwards.qml</file>
         <file>DoneEditing.qml</file>
+        <file>LeftPane.qml</file>
+        <file>RightPane.qml</file>
     </qresource>
 </RCC>

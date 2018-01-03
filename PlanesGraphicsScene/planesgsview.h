@@ -6,7 +6,7 @@
 #include "leftpane.h"
 #include "rightpane.h"
 #include "planegrid.h"
-#include "planegame.h"
+#include "planeround.h"
 
 
 class PlanesGSView : public QWidget

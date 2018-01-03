@@ -2,17 +2,19 @@ TEMPLATE = lib
 
 SOURCES += plane.cpp \
     computerlogic.cpp \
-    planegame.cpp \
     planegrid.cpp \
     planesmodel.cpp \
     guesspoint.cpp \
-    planeiterators.cpp
+    planeiterators.cpp \
+    gamestatistics.cpp \
+    planeround.cpp
 HEADERS += plane.h \
     computerlogic.h \
     listiterator.h \
-    planegame.h \
     planegrid.h \
     planesmodel.h \
     guesspoint.h \
-    planeiterators.h
+    planeiterators.h \
+    gamestatistics.h \
+    planeround.h
 

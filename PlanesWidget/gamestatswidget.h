@@ -2,7 +2,7 @@
 #define GAMESTATSWIDGET_H
 
 #include "ui_GameForm.h"
-#include "planegame.h"
+#include "planeround.h"
 
 //defines the widget that displays the game statistics
 //and contains the New Round button

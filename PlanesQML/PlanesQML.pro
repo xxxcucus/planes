@@ -4,7 +4,8 @@ QT += qml quick
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    planegridqml.cpp
+    planegridqml.cpp \
+    planegameqml.cpp
 
 RESOURCES += qml.qrc
 
@@ -19,7 +20,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES +=
 
 HEADERS += \
-    planegridqml.h
+    planegridqml.h \
+    planegameqml.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../common/release/ -lcommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../common/debug/ -lcommon
