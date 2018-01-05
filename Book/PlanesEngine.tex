@@ -342,8 +342,23 @@ Operators such as
 \end{lstlisting}
 are syntactic sugar meant to simplify coding. For example, when defining \textit{operator==} one can directly write the comparison \textit{ plane1 == plane2 } with the meaning of a test of equality (if the operator definition respects the semantics of an identity test). 
 
-\subsubsection {What is 'this' ? }
-TODO
+\subsubsection {What is '*this' ? }
+The function containsPoint(..) uses the operator '*this' with the meaning of the object calling the function. More exactly the constructor of the PlanePointIterator object with the name ppi receives as parameter the object on which the containsPoint() function is called.
+
+\begin{lstlisting}
+bool Plane::containsPoint(const QPoint& qp) const {
+    PlanePointIterator ppi(*this);
+
+    while(ppi.hasNext())
+    {
+        QPoint qp1 = ppi.next();
+        if(qp == qp1)
+            return true;
+    }
+
+    return false;
+}
+\end{lstlisting}
 
 \section{PlanePointIterator Class}
 
@@ -355,20 +370,19 @@ class PlanePointIterator : public ListIterator<QPoint>
 {
     Plane m_plane;
 public:
-    PlanePointIterator(const Plane &pl);
+    PlanePointIterator(const Plane& pl);
 
 private:
     void generateList();
 };
 \end{lstlisting}
 
-The definition above says that the PlanePointIterator is defined as a type of ListIterator < QPoint >, which is defined (here I anticipate the ListIterator class definition which is given later) as an iterator over a list of QPoint objects. It receives a Plane object with which it generates, with the help of the private function generateList, the list of positions occupied by the plane on the game board. It is a type of Java-like iterator, but this will become apparent only after looking at the ListIterator class. 
-\marginpar {find a way to write template classes}
+The definition above says that the PlanePointIterator is defined as a type of ListIterator \textless QPoint \textgreater which is defined (here I anticipate the ListIterator class definition which is given later) as an iterator over a list of QPoint objects. It receives a Plane object with which it generates, with the help of the private function generateList, the list of positions occupied by the plane on the game board. It is a type of Java-like iterator, but this will become apparent only after looking at the ListIterator class. 
 
 \subsection {Method implementation}
 \begin{lstlisting}
 //constructor
-PlanePointIterator::PlanePointIterator(const Plane &pl):
+PlanePointIterator::PlanePointIterator(const Plane& pl):
     MyIterator::ListIterator<QPoint>(),
     m_plane(pl)
 {
@@ -489,7 +503,7 @@ int ListIterator<T>::itemNo() const
 \subsection {C++ Concepts}
 \subsubsection {Iterators}
 
-Iterators are methods to obtain sequential access to the members of a data storage value (e.g. vector, list, set). No assumption about the order in which the data is retrieved should be made. In the simplest scenario an iterator is initialized, an action is performed to the data pointed by the iterator, then the iterator is incremented to the next position and so further until the end of data structure is reached. For a C++ style iterator this would look like this:
+Iterators are methods to obtain sequential access to the members of a data storage value (e.g. vector, list, set). No assumption about the order in which the data is retrieved should be made. In the simplest application scenario an iterator is initialized, an action is performed to the data pointed by the iterator, then the iterator is incremented to the next position and so further until the end of data structure is reached. For a C++ style iterator this would look like this:
 
 \begin{lstlisting}
 	//initialization of the iterator at the beginning
@@ -516,11 +530,26 @@ For a Java style iterator this would be:
         do_something(d);  
     }
 \end{lstlisting}
+\subsubsection {Member variable initialization with an initializer list}
+
+\begin{lstlisting}
+//constructor
+PlanePointIterator::PlanePointIterator(const Plane& pl):
+    MyIterator::ListIterator<QPoint>(),
+    m_plane(pl)
+{
+    generateList();
+}
+\end{lstlisting}
+
+The constructor of the PlanePointIterator class is interesting. It receives as parameter a Plane object. In its body calls the function generateList() to actually create the points corresponding to the plane. Before the function body it makes other two things. First it calls the default constructor of the basis class : MyIterator::ListIterator \textless QPoint \textgreater() and secondly it initializes its member variable m\textunderscore plane with the constructor parameter. This type of member variable initialization is called initialization with initializer list and it is the member variable initialization method recommended for C++. 
+
 \subsubsection {Templates}
 \subsubsection {Namespaces}
 \subsubsection {Class derivation}
 \subsubsection {Function parameters and their transmission}
 \subsubsection {Constness}
+\subsection {Constants}
 
 
 \end{document}
