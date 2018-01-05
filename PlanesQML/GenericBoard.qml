@@ -5,7 +5,7 @@ Rectangle {
     property int gridBorder: 3
     property bool isComputer: false
 
-    width: parent.width*2/3
+    width: parent.width
     height: parent.height
     color: "yellow"
 

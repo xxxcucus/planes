@@ -1,7 +1,8 @@
-import QtQuick 2.5
-import QtQuick.Controls 2.0
+import QtQuick 2.9
+import QtQuick.Controls 2.2
+import QtQuick.Window 2.3
 
-ApplicationWindow {
+Window {
     visible: true
     width: 1000
     height: 700
@@ -9,12 +10,20 @@ ApplicationWindow {
     Row {
         anchors.fill: parent
 
-        BoardEditorControls {
-            //verticalDist: 10
+        LeftPane {
+
         }
 
-        GenericBoard {
+        //BoardEditorControls {
+            //verticalDist: 10
+        //}
+
+        RightPane {
+
         }
+
+        //GenericBoard {
+        //}
     }
 
 }

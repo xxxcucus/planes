@@ -1,5 +1,40 @@
-import QtQuick 2.0
+import QtQuick 2.9
+import QtQuick.Controls 2.2
+import QtQuick.Layouts 1.3
 
-Item {
+Rectangle {
+    width: parent.width*2/3
+    height: parent.height
+
+TabBar {
+    width: parent.width
+    id: bar
+    TabButton {
+        text: "Computer Board"
+    }
+    TabButton {
+        text: "Player Board"
+    }
+    TabButton {
+        text: "Help"
+    }
+}
+
+StackLayout {
+    anchors.top: bar.bottom
+    currentIndex: bar.currentIndex
+    width:parent.width
+    height: parent.height - bar.height
+    GenericBoard {
+    }
+    GenericBoard {
+    }
+
+    Rectangle {
+       color: 'red'
+       width: parent.width
+       height: parent.height
+    }
+}
 
 }
