@@ -19,9 +19,9 @@ GuessPoint::GuessPoint(int row, int col, Type tp):
 }
 
 //equals operator
-bool GuessPoint::operator==(const GuessPoint &gp1) const
+bool GuessPoint::operator==(const GuessPoint& gp1) const
 {
-    if(m_row==gp1.m_row && m_col==gp1.m_col /*&& m_type==gp1.m_type*/)
+    if(m_row == gp1.m_row && m_col == gp1.m_col /*&& m_type==gp1.m_type*/)
         return true;
     else
         return false;

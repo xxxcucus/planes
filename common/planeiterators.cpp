@@ -49,7 +49,7 @@ void PlanePointIterator::generateList()
 
 //constructor for the iterator giving all the planes
 //passing through the point (0,0)
-PlaneIntersectingPointIterator::PlaneIntersectingPointIterator(const QPoint &qp):
+PlaneIntersectingPointIterator::PlaneIntersectingPointIterator(const QPoint& qp):
     MyIterator::ListIterator<Plane>(),
     m_point(qp)
 {
@@ -68,7 +68,7 @@ void PlaneIntersectingPointIterator::generateList()
         for(int j = -5 + m_point.y(); j < 6 + m_point.y(); j++)
             for(int k = 0; k < 4; k++)
             {
-                Plane pl(i, j,(Plane::Orientation)k);
+                Plane pl(i, j, (Plane::Orientation)k);
                 m_internalList.append(pl);
             }
 
@@ -102,7 +102,7 @@ void PointInfluenceIterator::generateList()
     for(int i = -10 + m_point.x(); i < 10 + m_point.y(); i++)
         for(int j = -10 + m_point.y(); j < 10 + m_point.y(); j++)
         {
-            QPoint qp(i,j);
+            QPoint qp(i, j);
             //generates all planes intersecting the point
             PlaneIntersectingPointIterator pipi(qp);
 

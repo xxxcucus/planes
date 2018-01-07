@@ -12,7 +12,7 @@ using namespace MyIterator;
 class Plane
 {
 public:
-    enum Orientation {NorthSouth = 0, SouthNorth = 1, WestEast = 2, EastWest = 3};
+    enum Orientation { NorthSouth = 0, SouthNorth = 1, WestEast = 2, EastWest = 3 };
 
 private:
     //plane orientation

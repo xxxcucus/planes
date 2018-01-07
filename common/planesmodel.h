@@ -20,21 +20,21 @@ class PlanesModel
 
     //PlaneGrid objects manage the logic of a set of planes on a grid
     //as well as various operations: save, remove, search, etc.
-    PlaneGrid *m_playerGrid;
-    PlaneGrid *m_computerGrid;
+    PlaneGrid* m_playerGrid;
+    PlaneGrid* m_computerGrid;
 
     //ComputerLogic is the object that keeps the
     //computer's strategy
-    ComputerLogic *m_computerLogic;
+    ComputerLogic* m_computerLogic;
 
 public:
     PlanesModel(int rowNo, int colNo, int planeNo);
     ~PlanesModel();
 
-    PlaneGrid* playerGrid()  {return m_playerGrid; }
-    PlaneGrid* computerGrid()  {return m_computerGrid; }
+    PlaneGrid* playerGrid()  { return m_playerGrid; }
+    PlaneGrid* computerGrid()  { return m_computerGrid; }
 
-    ComputerLogic* computerLogic()  {return m_computerLogic; }
+    ComputerLogic* computerLogic()  { return m_computerLogic; }
 };
 
 #endif // PLANESMODEL_H

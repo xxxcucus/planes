@@ -23,9 +23,9 @@ private:
     bool m_isComputer;
     ///@todo: to replace QList with QVector
     //list of plane objects for the grid
-    QList <Plane> m_planeList;
+    QList<Plane> m_planeList;
     //list of all points on the planes
-    QList <QPoint> m_listPlanePoints;
+    QList<QPoint> m_listPlanePoints;
     //whether planes overlap. is computed every time the plane points are computed again.
     bool m_PlanesOverlap = false;
     //whether a plane is outside of the grid
@@ -47,11 +47,11 @@ public:
     //initializes the grid
     void initGrid();
     //searches a plane in the list of planes
-    int searchPlane(Plane pl) const;
+    int searchPlane(const Plane& pl) const;
     //searches a plane for a given  plane head position
     int searchPlane(int row, int col) const;
     //adds a plane to the list of planes
-    bool savePlane(Plane pl);
+    bool savePlane(const Plane& pl);
     //removes a plane from the list of planes
     bool removePlane(int idx, Plane &pl);
     //resets the plane grid
@@ -69,16 +69,16 @@ public:
     //returns a plane from the list of planes
     bool getPlane(int pos, Plane &pl) const;
     //returns the number of planes that we should draw
-    int getPlaneNo() const {return m_planeNo; }
+    int getPlaneNo() const { return m_planeNo; }
     //returns whether the grid belongs to a computer or not
-    bool isComputer() const {return m_isComputer; }
+    bool isComputer() const { return m_isComputer; }
     //gets the size of the grid
-    int getRowNo() const {return m_rowNo; }
-    int getColNo() const {return m_colNo; }
+    int getRowNo() const { return m_rowNo; }
+    int getColNo() const { return m_colNo; }
     //generates a random position on the grid
     QPoint generateRandomGridPosition() const;
     //finds how good is a guess
-    GuessPoint::Type getGuessResult(QPoint qp) const;
+    GuessPoint::Type getGuessResult(const QPoint& qp) const;
 
     bool rotatePlane(int idx);
     bool movePlaneUpwards(int idx);
@@ -117,11 +117,11 @@ private:
     void initGridByUserInteraction() const;
 
     //removes a given plane from the list of planes
-    void removePlane(Plane pl);
+    void removePlane(const Plane& pl);
     //returns whether a point is head of a plane or not
     bool isPointHead(int row, int col) const;
     //verifies if a plane position is valid within the grid
-    bool isPlanePosValid(Plane pl) const;
+    bool isPlanePosValid(const Plane& pl) const;
 
     ///for QML
     //generates annotation for one point on a given plane

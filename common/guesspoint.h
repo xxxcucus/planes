@@ -18,16 +18,16 @@ public:
     GuessPoint(int row, int col, Type tp);
 
     //sets the result of the guess
-    void setType(Type tp) {m_type = tp;}
+    void setType(Type tp) { m_type = tp; }
     //tests to see whether a point lies in a list of guesses
     //static bool isGuess(QPoint qp, const QList <GuessPoint>& guessList);
 
     //compares two guess points
-    bool operator ==(const GuessPoint &pl1) const;
+    bool operator ==(const GuessPoint& pl1) const;
 
-    bool isDead() const {return m_type == Dead;}
-    bool isHit() const {return m_type == Hit;}
-    bool isMiss() const {return m_type == Miss;}
+    bool isDead() const { return m_type == Dead; }
+    bool isHit() const { return m_type == Hit; }
+    bool isMiss() const { return m_type == Miss; }
 };
 
 

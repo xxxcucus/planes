@@ -49,7 +49,7 @@ template <class T>
 bool ListIterator<T>::hasNext() const
 {
 
-    return (m_idx < m_internalList.size()-1);
+    return (m_idx < m_internalList.size() - 1);
 }
 
 //during an iteration returns the next point

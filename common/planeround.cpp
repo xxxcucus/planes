@@ -6,7 +6,7 @@
 #include <cstdlib>
 
 //constructor
-PlaneRound::PlaneRound(PlaneGrid *playerGrid, PlaneGrid *computerGrid, ComputerLogic* logic, bool isComputerFirst):
+PlaneRound::PlaneRound(PlaneGrid* playerGrid, PlaneGrid* computerGrid, ComputerLogic* logic, bool isComputerFirst):
     m_isComputerFirst(isComputerFirst),
     m_PlayerGrid(playerGrid),
     m_ComputerGrid(computerGrid),
@@ -52,7 +52,7 @@ void PlaneRound::play()
 }
 
 //returns whether the round endet or not and whether the player is the winner
-bool PlaneRound::isRoundEndet(bool &isPlayerWinner) const
+bool PlaneRound::isRoundEndet(bool& isPlayerWinner) const
 {
     //at equal scores computer wins
     isPlayerWinner = false;
@@ -67,19 +67,17 @@ bool PlaneRound::isRoundEndet(bool &isPlayerWinner) const
 }
 
 //decides whether all the planes have been guessed
-bool PlaneRound::enoughGuesses(PlaneGrid *pg, const QList <GuessPoint>& guessList ) const
+bool PlaneRound::enoughGuesses(PlaneGrid* pg, const QList<GuessPoint>& guessList ) const
 {
     int count = 0;
 
-    for(int i=0;i<guessList.size();i++)
-        {
-            GuessPoint gp = guessList.at(i);
-            if(gp.m_type == GuessPoint::Dead)
-                count++;
-        }
+    for(int i = 0;i < guessList.size(); i++) {
+        GuessPoint gp = guessList.at(i);
+        if(gp.m_type == GuessPoint::Dead)
+            count++;
+    }
 
-    return (count>=pg->getPlaneNo());
-
+    return (count >= pg->getPlaneNo());
 }
 
 //guesses a computer move
@@ -100,7 +98,6 @@ GuessPoint PlaneRound::guessComputerMove()
     m_computerGuessList.append(gp);
 
     return gp;
-
 }
 
 //request a move from the player
@@ -138,14 +135,13 @@ void PlaneRound::receivedPlayerGuess(const GuessPoint& gp)
 
         if(isComputerWinner)
         {
-                text+= tr(" Computer is winner!");
+                text += tr(" Computer is winner!");
                 m_gameStats.updateWins(true);
                 emit statsUpdated(m_gameStats);
         } else {
                 text+=tr(" Player is winner!");
                 m_gameStats.updateWins(false);
                 emit statsUpdated(m_gameStats);
-
         }
 
         emit displayStatusMessage(text);
@@ -165,9 +161,7 @@ void PlaneRound::playStep()
         emit computerMoveGenerated(gp);
         emit needPlayerGuess();
         emit displayStatusMessage(tr("Player's turn"));
-    }
-    else
-    {
+    } else {
     //if player is first waits for the player's guess
         emit needPlayerGuess();
     }

@@ -24,17 +24,17 @@ class PlaneRound: public QObject
     PlaneGrid* m_ComputerGrid;
 
     //the list of guesses for computer and player
-    QList <GuessPoint> m_computerGuessList;
-    QList <GuessPoint> m_playerGuessList;
+    QList<GuessPoint> m_computerGuessList;
+    QList<GuessPoint> m_playerGuessList;
 
     //the computer's strategy
-    ComputerLogic *m_computerLogic;
+    ComputerLogic* m_computerLogic;
 
 public:
     //constructs the round object
-    PlaneRound(PlaneGrid* playerGrid, PlaneGrid *computerGrid, ComputerLogic *logic, bool isComputerFirst);
+    PlaneRound(PlaneGrid* playerGrid, PlaneGrid* computerGrid, ComputerLogic* logic, bool isComputerFirst);
     //returns whether the round has ended or not and gives the winner
-    bool isRoundEndet(bool &isPlayerWinner) const;
+    bool isRoundEndet(bool& isPlayerWinner) const;
     //based on the available information makes the next move for the computer
     GuessPoint guessComputerMove();
     //reads the player's move
@@ -44,7 +44,7 @@ public:
     void reset();
 
     //tests whether all of the planes have been guessed
-    bool enoughGuesses(PlaneGrid *pg, const QList <GuessPoint>& guessList ) const;
+    bool enoughGuesses(PlaneGrid* pg, const QList<GuessPoint>& guessList ) const;
     //inits a new round
     void initRound();
     //update game statistics
