@@ -545,11 +545,43 @@ PlanePointIterator::PlanePointIterator(const Plane& pl):
 The constructor of the PlanePointIterator class is interesting. It receives as parameter a Plane object. In its body calls the function generateList() to actually create the points corresponding to the plane. Before the function body it makes other two things. First it calls the default constructor of the basis class : MyIterator::ListIterator \textless QPoint \textgreater() and secondly it initializes its member variable m\textunderscore plane with the constructor parameter. This type of member variable initialization is called initialization with initializer list and it is the member variable initialization method recommended for C++. 
 
 \subsubsection {Templates}
+
+Here below is the definition of class ListIterator, a so called template class. Actually this is a definition of many classes, each for every parameter type T. T is a parameter itself to the class definition. The type T is specified only when the class is being used. The ability to use template classes is one of the features specific to C++.
+
+Aside the parameter T the class definition of ListIterator is a normal class definition. ListIterator defines a Java-style iterator over a QList. Its member variables are a QList with type T elements and an index in the QList. The class manages these internal variables and offers functionality to return the element corresponding to the index in the list, to jump to the next element in the list, to reset the list index, and to return the number of elements in the list. Observe how the function next() returns an element of type T.
+
+\begin{lstlisting}
+template <class T>
+class ListIterator
+{
+protected:
+    QList <T> m_internalList;
+    int m_idx;
+
+public:
+    //constructor
+    ListIterator();
+
+    //sets the position of the iterator before the first  element
+    void reset();
+    //during an iteration checks to see if there is a next element
+    bool hasNext() const;
+    //during an iteration returns the next element
+    const T& next();
+    //returns number of elements
+    int itemNo() const;
+};
+\end{lstlisting}
+
+\subsubsection {References}
+
+Coming back to the function next() in the ListIterator class definition. It returns a so called 'const reference' to a value of type T.
+
 \subsubsection {Namespaces}
 \subsubsection {Class derivation}
 \subsubsection {Function parameters and their transmission}
 \subsubsection {Constness}
-\subsection {Constants}
+\subsubsection {Constants}
 
 
 \end{document}
