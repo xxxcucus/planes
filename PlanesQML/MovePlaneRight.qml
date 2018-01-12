@@ -38,7 +38,7 @@ Rectangle {
         onClicked: {
             console.log("Plane right clicked")
             anim.start()
-            PlaneGrid.moveRightSelectedPlane()
+            PlayerPlaneGrid.moveRightSelectedPlane()
         }
     }
 

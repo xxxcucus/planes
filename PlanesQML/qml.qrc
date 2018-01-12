@@ -4,7 +4,7 @@
         <file>Button.qml</file>
         <file>BoardEditorControls.qml</file>
         <file>GridSquare.qml</file>
-        <file>GenericBoard.qml</file>
+        <file>PlayerBoard.qml</file>
         <file>RotatePlane.qml</file>
         <file>SelectPlane.qml</file>
         <file>MovePlaneLeft.qml</file>
@@ -14,5 +14,6 @@
         <file>DoneEditing.qml</file>
         <file>LeftPane.qml</file>
         <file>RightPane.qml</file>
+        <file>ComputerBoard.qml</file>
     </qresource>
 </RCC>

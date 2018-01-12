@@ -38,7 +38,7 @@ Rectangle {
         onClicked: {
             console.log("Plane downwards clicked")
             anim.start()
-            PlaneGrid.moveDownSelectedPlane()
+            PlayerPlaneGrid.moveDownSelectedPlane()
         }
     }
 

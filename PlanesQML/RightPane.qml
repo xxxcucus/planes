@@ -10,10 +10,10 @@ TabBar {
     width: parent.width
     id: bar
     TabButton {
-        text: "Computer Board"
+        text: "Player Board"
     }
     TabButton {
-        text: "Player Board"
+        text: "Computer Board"
     }
     TabButton {
         text: "Help"
@@ -25,9 +25,8 @@ StackLayout {
     currentIndex: bar.currentIndex
     width:parent.width
     height: parent.height - bar.height
-    GenericBoard {
-    }
-    GenericBoard {
+
+    PlayerBoard {
     }
 
     Rectangle {
@@ -35,6 +34,13 @@ StackLayout {
        width: parent.width
        height: parent.height
     }
+
+    Rectangle {
+       color: 'blue'
+       width: parent.width
+       height: parent.height
+    }
+
 }
 
 }

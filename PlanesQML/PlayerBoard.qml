@@ -30,7 +30,7 @@ Rectangle {
     }
 
     Connections {
-        target: PlaneGrid
+        target: PlayerPlaneGrid
         onPlanesPointsChanged: {
             console.log("Planes points changed")
             var i = 0
@@ -45,12 +45,12 @@ Rectangle {
                     squares.itemAt(i).color = grid.colorBoard
             }
 
-            var pointsNo = PlaneGrid.getPlanesPointsCount()
+            var pointsNo = PlayerPlaneGrid.getPlanesPointsCount()
             for (i = 0; i < pointsNo; i++) {
-                var posX = PlaneGrid.getPlanePoint(i).x +  gridBorder
-                var posY = PlaneGrid.getPlanePoint(i).y +  gridBorder
+                var posX = PlayerPlaneGrid.getPlanePoint(i).x +  gridBorder
+                var posY = PlayerPlaneGrid.getPlanePoint(i).y +  gridBorder
                 var width = gridSquaresOnLine + 2 * gridBorder
-                squares.itemAt(posY * width + posX).color = PlaneGrid.getPlanePointColor(i)
+                squares.itemAt(posY * width + posX).color = PlayerPlaneGrid.getPlanePointColor(i)
             }
         }
     }

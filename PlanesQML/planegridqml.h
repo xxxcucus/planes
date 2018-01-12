@@ -17,6 +17,10 @@ public:
         connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SIGNAL(planesPointsChanged()));
     }
 
+    PlaneGridQML(PlaneGrid* planeGrid): m_PlaneGrid(planeGrid) {
+        connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SIGNAL(planesPointsChanged()));
+    }
+
     Q_INVOKABLE int getPlanesPointsCount() const {
         return m_PlaneGrid->getPlanesPointsCount();
     }
@@ -70,6 +74,10 @@ public:
 
     inline void initGrid() {
         m_PlaneGrid->initGrid();
+    }
+
+    inline void initGrid1() {
+        emit planesPointsChanged();
     }
 
 signals:

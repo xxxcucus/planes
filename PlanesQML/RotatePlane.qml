@@ -42,7 +42,7 @@ Rectangle {
         onClicked: {
             console.log("Rotate clicked")
             anim.start()
-            PlaneGrid.rotateSelectedPlane();
+            PlayerPlaneGrid.rotateSelectedPlane();
         }
     }
 
