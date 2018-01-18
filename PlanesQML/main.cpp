@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     PlaneGridQML player_pgq(mPlanesModel->playerGrid());
     PlaneGridQML computer_pgq(mPlanesModel->computerGrid());
     player_pgq.initGrid1();
-    //computer_pgq.initGrid();
+    computer_pgq.initGrid1();
 
     engine.rootContext()->setContextProperty("PlayerPlaneGrid", &player_pgq);
     engine.rootContext()->setContextProperty("ComputerPlaneGrid", &computer_pgq);

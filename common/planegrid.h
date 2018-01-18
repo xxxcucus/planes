@@ -100,6 +100,8 @@ public:
 ///for integration with QML
     int getPlanesPointsCount() const { return m_listPlanePoints.size(); }
     QPoint getPlanePoint(int idx) const { return m_listPlanePoints[idx]; }
+    //retrieves additional information about a plane point
+    //the plane idx, whether it is a plane head or not
     int getPlanePointAnnotation(int idx) const { return m_listPlanePointsAnnotations[idx]; }
     //transforms the annotation in a list of plane ids
     std::vector<int> decodeAnnotation(int annotation) const;

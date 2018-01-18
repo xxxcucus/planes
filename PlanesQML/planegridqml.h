@@ -6,19 +6,24 @@
  * ***/
 #include <QObject>
 #include <QColor>
+#include <QAbstractListModel>
 #include "planegrid.h"
 
-class PlaneGridQML : public QObject
+class PlaneGridQML : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
     PlaneGridQML(int rows, int cols, int planesNo, bool isComputer): m_PlaneGrid(new PlaneGrid(rows, cols, planesNo, isComputer)) {
         connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SIGNAL(planesPointsChanged()));
+        m_LineSize = m_PlaneGrid->getColNo() + 2 * m_Padding;
+        m_NoLines = m_PlaneGrid->getRowNo() + 2 * m_Padding;
     }
 
     PlaneGridQML(PlaneGrid* planeGrid): m_PlaneGrid(planeGrid) {
         connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SIGNAL(planesPointsChanged()));
+        m_LineSize = m_PlaneGrid->getColNo() + 2 * m_Padding;
+        m_NoLines = m_PlaneGrid->getRowNo() + 2 * m_Padding;
     }
 
     Q_INVOKABLE int getPlanesPointsCount() const {
@@ -80,6 +85,21 @@ public:
         emit planesPointsChanged();
     }
 
+    ///for QAbstractTableModel
+    enum QMLGridRoles {
+        ColorRole = Qt::UserRole + 1
+    };
+
+    /*
+    int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    QModelIndex parent(const QModelIndex &index) const override;
+    QModelIndex	index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;*/
+    QHash<int, QByteArray> roleNames() const override;
+
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 signals:
     void planesPointsChanged();
 
@@ -90,7 +110,10 @@ private:
     int m_MinPlaneBodyColor = 0;
     int m_MaxPlaneBodyColor = 200;
 
+    int m_Padding = 3;
     int m_SelectedPlane = 0;
+    int m_LineSize = 0;
+    int m_NoLines = 0;
 };
 
 #endif // PLANEGRIDQML_H

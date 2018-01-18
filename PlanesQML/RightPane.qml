@@ -29,10 +29,7 @@ StackLayout {
     PlayerBoard {
     }
 
-    Rectangle {
-       color: 'red'
-       width: parent.width
-       height: parent.height
+    ComputerBoard {
     }
 
     Rectangle {
