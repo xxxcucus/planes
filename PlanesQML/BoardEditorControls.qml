@@ -9,7 +9,7 @@ Rectangle {
         color: "green"
         anchors.top: parent.top
         width: parent.width
-        height: parent.height*3/4
+        height: parent.height * 3/4
 
         Grid {
             anchors.centerIn: parent

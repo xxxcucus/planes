@@ -3,7 +3,6 @@
         <file>main.qml</file>
         <file>Button.qml</file>
         <file>BoardEditorControls.qml</file>
-        <file>GridSquare.qml</file>
         <file>RotatePlane.qml</file>
         <file>SelectPlane.qml</file>
         <file>MovePlaneLeft.qml</file>

@@ -9,21 +9,10 @@ Window {
 
     Row {
         anchors.fill: parent
-
         LeftPane {
-
         }
-
-        //BoardEditorControls {
-            //verticalDist: 10
-        //}
-
         RightPane {
-
         }
-
-        //GenericBoard {
-        //}
     }
 
 }

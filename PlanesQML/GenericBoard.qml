@@ -34,8 +34,8 @@ Rectangle {
 
             model: board.boardModel
             delegate: Rectangle {
-                width : board.cellSize
-                height : board.cellSize
+                width: board.cellSize
+                height: board.cellSize
                 color: board.colorBackground
                 Rectangle {
                     anchors.centerIn: parent
