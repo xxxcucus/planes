@@ -26,10 +26,12 @@ StackLayout {
     width:parent.width
     height: parent.height - bar.height
 
-    PlayerBoard {
+    GenericBoard {
+        boardModel: PlayerPlaneGrid
     }
 
-    ComputerBoard {
+    GenericBoard {
+        boardModel: ComputerPlaneGrid
     }
 
     Rectangle {

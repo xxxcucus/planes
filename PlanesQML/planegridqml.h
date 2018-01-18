@@ -77,6 +77,10 @@ public:
         m_PlaneGrid->movePlaneRight(m_SelectedPlane);
     }
 
+    Q_INVOKABLE bool isComputer() {
+        return m_PlaneGrid->isComputer();
+    }
+
     inline void initGrid() {
         m_PlaneGrid->initGrid();
     }
