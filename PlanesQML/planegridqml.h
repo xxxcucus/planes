@@ -55,32 +55,44 @@ public:
 
     Q_INVOKABLE void toggleSelectedPlane() {
         m_SelectedPlane = (m_SelectedPlane + 1) % m_PlaneGrid->getPlaneNo();
+        beginResetModel();
         emit planesPointsChanged();
+        endResetModel();
     }
 
     Q_INVOKABLE void rotateSelectedPlane() {
         qDebug() << "Rotate selected plane";
+        beginResetModel();
         m_PlaneGrid->rotatePlane(m_SelectedPlane);
+        endResetModel();
     }
 
     Q_INVOKABLE void moveUpSelectedPlane() {
         qDebug() << "Move up selected plane";
+        beginResetModel();
         m_PlaneGrid->movePlaneUpwards(m_SelectedPlane);
+        endResetModel();
     }
 
     Q_INVOKABLE void moveDownSelectedPlane() {
         qDebug() << "Move down selected plane";
+        beginResetModel();
         m_PlaneGrid->movePlaneDownwards(m_SelectedPlane);
+        endResetModel();
     }
 
     Q_INVOKABLE void moveLeftSelectedPlane() {
         qDebug() << "Move left selected plane";
+        beginResetModel();
         m_PlaneGrid->movePlaneLeft(m_SelectedPlane);
+        endResetModel();
     }
 
     Q_INVOKABLE void moveRightSelectedPlane() {
         qDebug() << "Move right selected plane";
+        beginResetModel();
         m_PlaneGrid->movePlaneRight(m_SelectedPlane);
+        endResetModel();
     }
 
     Q_INVOKABLE bool isComputer() {
