@@ -7,6 +7,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
 cmake_policy(SET CMP0020 NEW)
 
+
 find_package(Qt5Widgets)
 
 include_directories(
@@ -29,12 +30,13 @@ add_definitions(${Qt5Widgets_DEFINITIONS})
 
 add_executable(PlanesWidget 
 	common/plane.cpp
-	common/planegame.cpp
 	common/planegrid.cpp
 	common/planesmodel.cpp
+	common/planeround.cpp
     common/computerlogic.cpp
 	common/guesspoint.cpp
 	common/planeiterators.cpp
+	common/gamestatistics.cpp
     PlanesWidget/baserenderarea.cpp
 	PlanesWidget/buttons.cpp
  	PlanesWidget/choicedebugwidget.cpp
@@ -51,13 +53,14 @@ target_link_libraries(PlanesWidget ${Qt5Widgets_LIBRARIES})
 qt5_use_modules(PlanesWidget Widgets)
 
 add_executable(PlanesGraphicsScene 
-	common/computerlogic.cpp
 	common/plane.cpp
-	common/planegame.cpp
 	common/planegrid.cpp
 	common/planesmodel.cpp
+	common/planeround.cpp
+    common/computerlogic.cpp
 	common/guesspoint.cpp
 	common/planeiterators.cpp
+	common/gamestatistics.cpp
 	PlanesGraphicsScene/animatedtextitem.cpp
 	PlanesGraphicsScene/computerboard.cpp
 	PlanesGraphicsScene/customgraphicsscene.cpp
