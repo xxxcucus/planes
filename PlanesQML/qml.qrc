@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>Button.qml</file>
         <file>BoardEditorControls.qml</file>
         <file>RotatePlane.qml</file>
         <file>SelectPlane.qml</file>
@@ -13,5 +12,6 @@
         <file>LeftPane.qml</file>
         <file>RightPane.qml</file>
         <file>GenericBoard.qml</file>
+        <file>ButtonPaintFunctions.js</file>
     </qresource>
 </RCC>
