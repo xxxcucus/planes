@@ -429,9 +429,9 @@ void PlanePointIterator::generateList()
 
 \end{lstlisting}
 
-PlanePointIterator is an iterator that provides access to the positions occupied by the plane on the game board. It works are follows: first it receives an object of the class Plane, from which it receives the positions of the plane's head as well as its orientation.
+PlanePointIterator is an iterator that provides access to the positions occupied by the plane on the game board. Its constructor receives as Parameter an object of the class Plane, which defines the position of the plane's head as well as its orientation. The method generateList() contains the positions of cells belonging to a plane relative to the position of its head for each of the four possible plane orientations. To calculate the positions of the cells corresponding to the plane it chooses the right set of relative positions according to the given plane orientation and then it adds them to the absolute position of the plane head.
 
-The reader interested in defining new types of plane forms (maybe call them battleships for example) is invited to reimplement the PlanePointIterator class as a practical exercise.
+To create a game with other forms of ships it is sufficient to reimplement the PlanePointIterator class.
 
 \subsection {Implementation of ListIterator}
 \begin{lstlisting}
@@ -498,7 +498,6 @@ int ListIterator<T>::itemNo() const
 }
 }
 \end{lstlisting}
-
 
 \subsection {C++ Concepts}
 \subsubsection {Iterators}
