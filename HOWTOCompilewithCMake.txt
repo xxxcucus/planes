@@ -1,7 +1,11 @@
+
+0. PAth to Qt should be specified in Environment variables. Now the path points to
+C:\Qt.5.10\5.10.0\mingw53_32\bin
+
 1. in a new build folder 
 
-	cmake -G "MinGW Makefiles" ..
+	cmake.exe -G "MinGW Makefiles" ..
 
-2. mingw32-make 
+2. mingw32-make.exe 
 
 3. migw32-make package -- to create the installer
