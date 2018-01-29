@@ -2,11 +2,10 @@ cmake_minimum_required (VERSION 2.6)
 project (PlanesWidget)
 
 cmake_policy(SET CMP0020 NEW)
-find_package(Qt5Widgets)
+
 
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
-	${CMAKE_CURRENT_SOURCE_DIR}/../
 	${CMAKE_CURRENT_SOURCE_DIR}/../common
 	${Qt5Widgets_INCLUDE_DIRS})
 

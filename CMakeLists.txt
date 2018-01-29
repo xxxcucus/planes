@@ -6,6 +6,9 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
 
+#find_package(Qt5 Core Widgets Quick)
+
+find_package(Qt5Widgets)
 
 #message("Source dir: " ${CMAKE_CURRENT_SOURCE_DIR})
 #message(${Qt5Widgets_LIBRARIES})
@@ -14,4 +17,5 @@ set(CMAKE_AUTORCC ON)
 
 add_subdirectory(PlanesWidget)
 add_subdirectory(PlanesGraphicsScene)
+add_subdirectory(PlanesQML)
 
