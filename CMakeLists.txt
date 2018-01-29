@@ -18,4 +18,5 @@ find_package(Qt5Widgets)
 add_subdirectory(PlanesWidget)
 add_subdirectory(PlanesGraphicsScene)
 add_subdirectory(PlanesQML)
+add_subdirectory(common)
 

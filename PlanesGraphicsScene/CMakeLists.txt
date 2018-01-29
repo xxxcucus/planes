@@ -7,14 +7,7 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../common
 	${Qt5Widgets_INCLUDE_DIRS})
 
-set(GS_SRCS 	../common/plane.cpp
-	../common/planegrid.cpp
-	../common/planesmodel.cpp
-	../common/planeround.cpp
-    ../common/computerlogic.cpp
-	../common/guesspoint.cpp
-	../common/planeiterators.cpp
-	../common/gamestatistics.cpp
+set(GS_SRCS 	
 	animatedtextitem.cpp
 	computerboard.cpp
 	customgraphicsscene.cpp
@@ -36,7 +29,9 @@ set(GS_SRCS 	../common/plane.cpp
 add_executable(PlanesGraphicsScene 
 	${GS_SRCS}
 	resources.qrc)
-target_link_libraries(PlanesGraphicsScene ${Qt5Widgets_LIBRARIES})
+target_link_libraries(PlanesGraphicsScene
+	libCommon
+	${Qt5Widgets_LIBRARIES})
 qt5_use_modules(PlanesGraphicsScene Widgets)
 
 #install (FILES "c:/qt/tools/mingw530_32/bin/LIBGCC_S_DW2-1.DLL"

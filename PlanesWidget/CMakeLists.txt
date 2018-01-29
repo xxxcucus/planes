@@ -9,14 +9,7 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../common
 	${Qt5Widgets_INCLUDE_DIRS})
 
-set(WIDGET_SRCS 	../common/plane.cpp
-	../common/planegrid.cpp
-	../common/planesmodel.cpp
-	../common/planeround.cpp
-    ../common/computerlogic.cpp
-	../common/guesspoint.cpp
-	../common/planeiterators.cpp
-	../common/gamestatistics.cpp
+set(WIDGET_SRCS 	
     baserenderarea.cpp
 	buttons.cpp
  	choicedebugwidget.cpp
@@ -35,6 +28,8 @@ qt5_wrap_ui(UI_HEADERS
 
 add_definitions(${Qt5Widgets_DEFINITIONS})
 add_executable(PlanesWidget ${WIDGET_SRCS})
-target_link_libraries(PlanesWidget ${Qt5Widgets_LIBRARIES})
+target_link_libraries(PlanesWidget 
+	libCommon
+	${Qt5Widgets_LIBRARIES})
 qt5_use_modules(PlanesWidget Widgets)
 
