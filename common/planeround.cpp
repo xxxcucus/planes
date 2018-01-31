@@ -46,6 +46,7 @@ void PlaneRound::play()
     initRound();
 
     emit initGraphics();
+    emit statsUpdated(m_gameStats);
     //after the player has finished editing the board
     //a signal is emited and the corresponding slot
     //deals with the player move
