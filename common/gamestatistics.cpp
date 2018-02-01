@@ -24,8 +24,7 @@ void GameStatistics::reset()
 //updates the statistical data for one round with a new GuessPoint
 void GameStatistics::updateStats(const GuessPoint& gp, bool isComputer)
 {
-    if(isComputer)
-    {
+    if (isComputer) {
         m_computerMoves++;
         if(gp.m_type == GuessPoint::Dead)
             m_computerDead++;
@@ -33,9 +32,7 @@ void GameStatistics::updateStats(const GuessPoint& gp, bool isComputer)
             m_computerHits++;
         if(gp.m_type == GuessPoint::Miss)
             m_computerMisses++;
-    }
-    else
-    {
+    } else {
         m_playerMoves++;
         if(gp.m_type == GuessPoint::Dead)
             m_playerDead++;
@@ -44,7 +41,6 @@ void GameStatistics::updateStats(const GuessPoint& gp, bool isComputer)
         if(gp.m_type == GuessPoint::Miss)
             m_playerMisses++;
     }
-
 }
 
 //updates the score

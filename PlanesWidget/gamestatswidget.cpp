@@ -36,7 +36,6 @@ void GameStatsWidget::roundEndet()
 
 void GameStatsWidget::updateStats(GameStatistics gs)
 {
-
     playerMovesSpinBox->setValue(gs.m_playerMoves);
     playerDeadSpinBox->setValue(gs.m_playerDead);
     playerHitsSpinBox->setValue(gs.m_playerHits);
@@ -48,7 +47,6 @@ void GameStatsWidget::updateStats(GameStatistics gs)
 
     playerScoreSpinBox->setValue(gs.m_playerWins);
     computerScoreSpinBox->setValue(gs.m_computerWins);
-
 }
 
 

@@ -61,7 +61,7 @@ bool PlaneRound::isRoundEndet(bool& isPlayerWinner) const
     bool playerFinished = enoughGuesses(m_PlayerGrid, m_computerGuessList);
     bool computerFinished = enoughGuesses(m_ComputerGrid, m_playerGuessList);
 
-    if(!computerFinished && playerFinished)
+    if (!computerFinished && playerFinished)
         isPlayerWinner=true;
 
     return(playerFinished || computerFinished);
@@ -72,9 +72,9 @@ bool PlaneRound::enoughGuesses(PlaneGrid* pg, const QList<GuessPoint>& guessList
 {
     int count = 0;
 
-    for(int i = 0;i < guessList.size(); i++) {
+    for(int i = 0; i < guessList.size(); i++) {
         GuessPoint gp = guessList.at(i);
-        if(gp.m_type == GuessPoint::Dead)
+        if (gp.m_type == GuessPoint::Dead)
             count++;
     }
 
@@ -118,7 +118,7 @@ void PlaneRound::receivedPlayerGuess(const GuessPoint& gp)
 
     //if the player is  first
     //run the computer's move
-    if(!m_isComputerFirst)
+    if (!m_isComputerFirst)
     {
         GuessPoint gp = guessComputerMove();
         updateGameStats(gp, true);
@@ -128,21 +128,20 @@ void PlaneRound::receivedPlayerGuess(const GuessPoint& gp)
     //play step is finished
     //verify if round is finished
     bool isComputerWinner = false;
-    if(!isRoundEndet(isComputerWinner))
+    if (!isRoundEndet(isComputerWinner))
         playStep();
     else
     {
         QString text = tr("Round endet.");
 
-        if(isComputerWinner)
-        {
-                text += tr(" Computer is winner!");
-                m_gameStats.updateWins(true);
-                emit statsUpdated(m_gameStats);
+        if (isComputerWinner) {
+            text += tr(" Computer is winner!");
+            m_gameStats.updateWins(true);
+            emit statsUpdated(m_gameStats);
         } else {
-                text+=tr(" Player is winner!");
-                m_gameStats.updateWins(false);
-                emit statsUpdated(m_gameStats);
+            text+=tr(" Player is winner!");
+            m_gameStats.updateWins(false);
+            emit statsUpdated(m_gameStats);
         }
 
         emit displayStatusMessage(text);
@@ -155,8 +154,7 @@ void PlaneRound::playStep()
 {
     //if computer is first guesses the computer move
     //and waits for the player's move
-    if(m_isComputerFirst)
-    {
+    if (m_isComputerFirst) {
         GuessPoint gp = guessComputerMove();
         updateGameStats(gp, true);
         emit computerMoveGenerated(gp);
