@@ -1,9 +1,13 @@
-import QtQuick 2.0
+import QtQuick 2.9
 import "ButtonPaintFunctions.js" as PaintFunctions
 
 Rectangle {
     id: back
-    color: "red"
+
+    property color enabledColor: "red"
+    property color disabledColor: "lightGray"
+
+    color: enabledColor
 
     Canvas {
         anchors.fill: parent
@@ -16,12 +20,20 @@ Rectangle {
         }
     }
 
+    Connections {
+        target: PlayerPlaneGrid
+        onPlanePositionNotValid: {
+            (val == true) ? back.state = "Disabled" : back.state = "Enabled"
+        }
+    }
+
     MouseArea {
         width: parent.width
         height: parent.height
         onClicked: {
             console.log("Done clicked")
-            anim.start()
+            if (state == "Enabled")
+                anim.start()
         }
     }
 
@@ -29,5 +41,22 @@ Rectangle {
         id: anim
         PropertyAnimation { target: back; property: "color"; to: "green"; duration: 50 }
         PropertyAnimation { target: back; property: "color"; to: "red"; duration: 50 }
-        }
+    }
+
+    states: [
+            State {
+                name: "Enabled"
+                PropertyChanges {
+                    target: back
+                    color: back.enabledColor
+                }
+            },
+            State {
+                name: "Disabled"
+                PropertyChanges {
+                    target: back
+                    color: back.disabledColor
+                }
+            }
+        ]
 }

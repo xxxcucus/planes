@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("ComputerPlaneGrid", &computer_pgq);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     //pgq.initGrid();
-    player_pgq.initGrid1();
+    //player_pgq.initGrid1();
 
     return app.exec();
 }

@@ -67,3 +67,10 @@ QVariant PlaneGridQML::data(const QModelIndex &index, int role) const {
 
     return retCol;
 }
+
+void PlaneGridQML::verifyPlanePositionValid() {
+    if (m_PlaneGrid->doPlanesOverlap() || m_PlaneGrid->isPlaneOutsideGrid())
+        emit planePositionNotValid(true);
+    else
+        emit planePositionNotValid(false);
+}

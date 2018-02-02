@@ -17,12 +17,14 @@ class PlaneGridQML : public QAbstractListModel
 public:
     PlaneGridQML(int rows, int cols, int planesNo, bool isComputer): m_PlaneGrid(new PlaneGrid(rows, cols, planesNo, isComputer)) {
         connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SIGNAL(planesPointsChanged()));
+        connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SLOT(verifyPlanePositionValid()));
         m_LineSize = m_PlaneGrid->getColNo() + 2 * m_Padding;
         m_NoLines = m_PlaneGrid->getRowNo() + 2 * m_Padding;
     }
 
     PlaneGridQML(PlaneGrid* planeGrid): m_PlaneGrid(planeGrid) {
         connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SIGNAL(planesPointsChanged()));
+        connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SLOT(verifyPlanePositionValid()));
         m_LineSize = m_PlaneGrid->getColNo() + 2 * m_Padding;
         m_NoLines = m_PlaneGrid->getRowNo() + 2 * m_Padding;
     }
@@ -112,18 +114,19 @@ public:
         ColorRole = Qt::UserRole + 1
     };
 
-    /*
-    int rowCount(const QModelIndex & parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-    QModelIndex parent(const QModelIndex &index) const override;
-    QModelIndex	index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;*/
     QHash<int, QByteArray> roleNames() const override;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 signals:
     void planesPointsChanged();
+    void planePositionNotValid(bool val);
+
+public slots:
+    /*
+     * Compute whether done button is active in the board editor
+     */
+    void verifyPlanePositionValid();
 
 private:
     PlaneGrid* m_PlaneGrid;
