@@ -9,7 +9,7 @@ Rectangle {
     property string colorBackground: "yellow"
     property string colorBoard: "#ea7025"
     property string colorBorder: "aqua"
-    property int cellSize : 35
+    property int cellSize : (Math.min(width, height) - 20) / (board.gridSquaresOnLine + 2 * board.gridBorder)
     property int spacing: 2
     property variant boardModel: ComputerPlaneGrid
     property bool isComputer: boardModel.isComputer()
