@@ -545,9 +545,9 @@ The constructor of the PlanePointIterator class is interesting. It receives as p
 
 \subsubsection {Templates}
 
-Here below is the definition of class ListIterator, a so called template class. Actually this is a definition of many classes, each for every parameter type T. T is a parameter itself to the class definition. The type T is specified only when the class is being used. The ability to use template classes is one of the features specific to C++.
+Here below is the definition of class ListIterator, a so called template class. Actually this is a definition of many classes, each for every parameter type T. T is a parameter itself to the class definition. The programmer specifies the type T only when an object of this class is instantiated. The ability to use template classes is one of the features specific to C++.
 
-Aside the parameter T the class definition of ListIterator is a normal class definition. ListIterator defines a Java-style iterator over a QList. Its member variables are a QList with type T elements and an index in the QList. The class manages these internal variables and offers functionality to return the element corresponding to the index in the list, to jump to the next element in the list, to reset the list index, and to return the number of elements in the list. Observe how the function next() returns an element of type T.
+Aside of the parameter T the class definition of ListIterator is a normal class definition. ListIterator defines a Java-style iterator over a QList. Its member variables are a QList with type T elements and an index in the QList. The class manages these internal variables and offers functionality to return the element corresponding to the index in the list, to jump to the next element in the list, to reset the list index, and to return the number of elements in the list. Observe how the function next() returns an element of type T.
 
 \begin{lstlisting}
 template <class T>
@@ -574,12 +574,14 @@ public:
 
 \subsubsection {References}
 
-Coming back to the function next() in the ListIterator class definition. It returns a so called 'const reference' to a value of type T.
+Coming back to the function next() in the ListIterator class definition. It returns a so called 'const reference' to a value of type T. This is advantageous when the objects of type T are big. The reference, specified here with the const T\&, points only to the data which is saved in the QList of the ListIterator. Had we declared the return type as only T, the next function would have created a copy of the next object ListIterator, which would have existed twice, once in the QList inside the ListIterator and once as the object created when returning from the next() function.
 
 \subsubsection {Namespaces}
 \subsubsection {Class derivation}
 \subsubsection {Function parameters and their transmission}
 \subsubsection {Constness}
+
+Refering again to the function next() in the ListIterator class definition, we comment on the const keyword. In this particular case it means that the reference returned by the function next() is const, that is the underlying data may not be changed. The compiler verifies that all operations performed on data returned by the function next() are also const, functions that do not change the object on which they are called. Generally the const property can be applied in C++ to functions, function parameters, function return values, member variables. 
 \subsubsection {Constants}
 
 
