@@ -6,9 +6,17 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
 
-#find_package(Qt5 Core Widgets Quick)
+if (UNIX)
+find_package(Qt5 COMPONENTS Core Widgets Quick)
+endif (UNIX)
 
+if (UNIX)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+endif (UNIX)
+
+if (WIN32)
 find_package(Qt5Widgets)
+endif (WIN32)
 
 #message("Source dir: " ${CMAKE_CURRENT_SOURCE_DIR})
 #message(${Qt5Widgets_LIBRARIES})
