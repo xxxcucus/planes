@@ -22,12 +22,13 @@ set(WIDGET_SRCS
 	planeswwindow.cpp)
 	
 
-qt5_wrap_ui(UI_HEADERS
-        PlanesWidget/EditControl.ui
-	    PlanesWidget/GameControl.ui)
+
+    qt5_wrap_ui(UI_HEADERS
+        EditControl.ui
+	GameForm.ui)
 
 add_definitions(${Qt5Widgets_DEFINITIONS})
-add_executable(PlanesWidget ${WIDGET_SRCS})
+add_executable(PlanesWidget ${WIDGET_SRCS} ${UI_HEADERS})
 target_link_libraries(PlanesWidget 
 	libCommon
 	${Qt5Widgets_LIBRARIES})
