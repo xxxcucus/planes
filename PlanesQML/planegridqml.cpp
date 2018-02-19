@@ -35,7 +35,7 @@ int PlaneGridQML::rowCount(const QModelIndex &parent) const {
 }
 
 QVariant PlaneGridQML::data(const QModelIndex &index, int role) const {
-    qDebug() << index.row() << " " << index.column();
+    //qDebug() << index.row() << " " << index.column();
 
     if (role != ColorRole)
         return QVariant();

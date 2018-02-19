@@ -23,7 +23,13 @@ Rectangle {
     Connections {
         target: PlayerPlaneGrid
         onPlanePositionNotValid: {
-            (val == true) ? back.state = "Disabled" : back.state = "Enabled"
+            if (val == true) {
+                back.state = "Disabled"
+                console.log("Plane position not valid")
+            } else {
+                back.state = "Enabled"
+                console.log("Plane position valid")
+            }
         }
     }
 
@@ -31,9 +37,10 @@ Rectangle {
         width: parent.width
         height: parent.height
         onClicked: {
-            console.log("Done clicked")
-            if (state == "Enabled")
+            if (back.state == "Enabled") {
+                console.log("Done clicked")
                 anim.start()
+            }
         }
     }
 
