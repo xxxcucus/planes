@@ -37,9 +37,10 @@ Rectangle {
         width: parent.width
         height: parent.height
         onClicked: {
-            if (back.state == "Enabled") {
+            if (back.state == "Enabled" || back.state == "") {
                 console.log("Done clicked")
                 anim.start()
+                PlaneGame.doneEditing()
             }
         }
     }
