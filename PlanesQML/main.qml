@@ -12,6 +12,7 @@ Window {
         LeftPane {
         }
         RightPane {
+            id: rightPane
         }
     }
 

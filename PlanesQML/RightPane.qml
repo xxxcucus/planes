@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 Rectangle {
     width: parent.width * 2 / 3
     height: parent.height
+    property alias currentTab : bar.currentIndex
 
     TabBar {
         width: parent.width

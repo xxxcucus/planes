@@ -41,6 +41,7 @@ Rectangle {
                 console.log("Done clicked")
                 anim.start()
                 PlaneGame.doneEditing()
+                rightPane.currentTab = 1
             }
         }
     }
