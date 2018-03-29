@@ -13,5 +13,6 @@
         <file>RightPane.qml</file>
         <file>GenericBoard.qml</file>
         <file>ButtonPaintFunctions.js</file>
+        <file>GameStatistics.qml</file>
     </qresource>
 </RCC>

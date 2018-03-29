@@ -5,15 +5,16 @@ import QtQuick.Layouts 1.3
 Rectangle {
     width: parent.width/3
     height: parent.height
+    property alias currentTab : stack.currentIndex
 
     StackLayout {
+        id: stack
         width: parent.width
         height: parent.height
 
         currentIndex: 1
-        Rectangle {
+        GameStatistics {
             id: roundTab
-            color: "red"
         }
         BoardEditorControls {
         }
