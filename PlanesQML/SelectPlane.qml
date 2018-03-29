@@ -4,8 +4,6 @@ import "ButtonPaintFunctions.js" as PaintFunctions
 Rectangle {
     id: back
     color: "red"
-    property bool pressed: false
-    signal clicked
 
     Canvas {
         anchors.fill: parent

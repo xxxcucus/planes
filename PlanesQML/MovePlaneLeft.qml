@@ -4,8 +4,6 @@ import "ButtonPaintFunctions.js" as PaintFunctions
 Rectangle {
     id: back
     color: "red"
-    property bool pressed: false
-    signal clicked
 
     Canvas {
         anchors.fill: parent
@@ -32,5 +30,5 @@ Rectangle {
         id: anim
         PropertyAnimation { target: back; property: "color"; to: "green"; duration: 50 }
         PropertyAnimation { target: back; property: "color"; to: "red"; duration: 50 }
-        }
+    }
 }
