@@ -10,10 +10,10 @@ Window {
     Row {
         anchors.fill: parent
         LeftPane {
+            id: leftPane
         }
         RightPane {
             id: rightPane
         }
     }
-
 }

@@ -3,11 +3,9 @@ import "ButtonPaintFunctions.js" as PaintFunctions
 
 Rectangle {
     id: back
-
     property color enabledColor: "red"
     property color disabledColor: "lightGray"
-
-    color: enabledColor
+    state: "Enabled"
 
     Canvas {
         anchors.fill: parent
@@ -37,11 +35,12 @@ Rectangle {
         width: parent.width
         height: parent.height
         onClicked: {
-            if (back.state == "Enabled" || back.state == "") {
+            if (back.state == "Enabled") {
                 console.log("Done clicked")
                 anim.start()
                 PlaneGame.doneEditing()
                 rightPane.currentTab = 1
+                leftPane.currentTab = 0
             }
         }
     }
