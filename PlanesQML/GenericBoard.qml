@@ -3,6 +3,7 @@ import QtQuick.Controls 1.4
 
 Rectangle {
     id: board
+    state: "BoardEditing"
 
     property int gridSquaresOnLine: 10
     property int gridBorder: 3
@@ -45,10 +46,28 @@ Rectangle {
 
                     MouseArea {
                         anchors.fill : parent
-                        onClicked : board.boardModel.elementClicked(index)
+                        onClicked : {
+                            if (isComputer && board.state == "Game")
+                                PlaneGame.computerBoardClick(index)
+                        }
                     }
                 }
             }
         }
     }
+
+    //todo: to use this
+    states: [
+            State {
+                name: "GameNotStarted"
+            },
+            State {
+                name: "BoardEditing"
+            },
+            State {
+                name: "Game"
+            }
+        ]
+
+
 }

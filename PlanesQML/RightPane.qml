@@ -6,6 +6,8 @@ Rectangle {
     width: parent.width * 2 / 3
     height: parent.height
     property alias currentTab : bar.currentIndex
+    property alias computerBoardState : computerBoard.state
+    property alias playerBoardState : playerBoard.state
 
     TabBar {
         width: parent.width
@@ -29,10 +31,12 @@ Rectangle {
 
         GenericBoard {
             boardModel: PlayerPlaneGrid
+            id : playerBoard
         }
 
         GenericBoard {
             boardModel: ComputerPlaneGrid
+            id : computerBoard
         }
 
         Rectangle {

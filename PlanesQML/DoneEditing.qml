@@ -41,6 +41,8 @@ Rectangle {
                 PlaneGame.doneEditing()
                 rightPane.currentTab = 1
                 leftPane.currentTab = 0
+                rightPane.computerBoardState = "Game"
+                rightPane.playerBoardState = "Game"
             }
         }
     }
