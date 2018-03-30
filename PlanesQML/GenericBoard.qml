@@ -42,6 +42,11 @@ Rectangle {
                     width: parent.width - board.spacing
                     height: parent.height - board.spacing
                     color: colorRGB
+
+                    MouseArea {
+                        anchors.fill : parent
+                        onClicked : board.boardModel.elementClicked(index)
+                    }
                 }
             }
         }

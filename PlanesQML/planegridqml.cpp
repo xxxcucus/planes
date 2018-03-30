@@ -74,3 +74,7 @@ void PlaneGridQML::verifyPlanePositionValid() {
     else
         emit planePositionNotValid(false);
 }
+
+void PlaneGridQML::elementClicked(int index) {
+    qDebug() << index;
+}
