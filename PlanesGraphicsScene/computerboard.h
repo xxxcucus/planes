@@ -13,7 +13,6 @@ public:
      * @brief : Actions to be taken when the round ends.
      */
     void endRound(bool isPlayerWinner) override;
-
     void generateBoardItems() override;
 
 public slots:
@@ -25,8 +24,6 @@ public slots:
 
 signals:
     void guessMade(const GuessPoint& gp);
-
-
 };
 
 #endif // COMPUTERBOARD_H
