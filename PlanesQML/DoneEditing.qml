@@ -39,6 +39,8 @@ Rectangle {
                 console.log("Done clicked")
                 anim.start()
                 PlaneGame.doneEditing()
+                PlayerPlaneGrid.doneEditing()
+                ComputerPlaneGrid.doneEditing()
                 rightPane.currentTab = 1
                 leftPane.currentTab = 0
                 rightPane.computerBoardState = "Game"

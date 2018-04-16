@@ -15,7 +15,7 @@ QColor PlaneGridQML::getPlanePointColor(int idx) const
            int grayCol = m_MinPlaneBodyColor + planesIdx[0] * colorStep;
            return QColor(grayCol, grayCol, grayCol);
        } else {
-           return QColor(0, 0, 255);
+           return m_SelectedPlaneColor;
        }
    }
    qDebug() << "Error: point belongs to no plane";
@@ -30,7 +30,6 @@ QHash<int, QByteArray> PlaneGridQML::roleNames() const {
 
 int PlaneGridQML::rowCount(const QModelIndex &parent) const {
     Q_UNUSED(parent)
-
     return m_LineSize * m_NoLines;
 }
 
@@ -56,11 +55,11 @@ QVariant PlaneGridQML::data(const QModelIndex &index, int role) const {
 
     QColor retCol(0, 0, 0);
     if (!isOnPlane) {
-        retCol = QColor("#ea7025");
+        retCol = m_BoardColor;
         if (row < m_Padding || row >= m_PlaneGrid->getRowNo() + m_Padding)
-            retCol = QColor("aqua");
+            retCol = m_PaddingColor;
         if (col < m_Padding || col >= m_PlaneGrid->getColNo() + m_Padding)
-            retCol = QColor("aqua");
+            retCol = m_PaddingColor;
     } else {
         retCol = getPlanePointColor(idxInPlanePointList);
     }
@@ -75,6 +74,48 @@ void PlaneGridQML::verifyPlanePositionValid() {
         emit planePositionNotValid(false);
 }
 
-void PlaneGridQML::elementClicked(int index) {
+void PlaneGridQML::computerBoardClick(int index) {
     qDebug() << index;
+
+    ///@todo:
+    /// calculate row and col
+    /// add m_GuessList as member variable to planegridqml
+
+    if (m_CurStage != GameStages::Game)
+        return;
+
+    ///@todo: see method data() above
+    int row = index / m_LineSize;
+    int col = index % m_LineSize;
+
+    if (row < m_Padding || col < m_Padding)
+        return;
+    if (row >= m_PlaneGrid->getRowNo() + m_Padding)
+        return;
+    if (col >= m_PlaneGrid->getColNo() + m_Padding)
+        return;
+
+    QPoint qp(row - m_Padding, col - m_Padding);
+    GuessPoint::Type tp = m_PlaneGrid->getGuessResult(qp);
+
+    qDebug() << "Guess " << tp;
+
+    //the m_grid object returns whether is a miss, hit or dead
+    //with this data builda guess point object
+    GuessPoint gp(qp.x(), qp.y(), tp);
+
+    //verify if the guess point is not already in the list
+    //emit a signal that the guess has been made
+    if (m_GuessList.indexOf(gp) == -1)
+    {
+        m_GuessList.append(gp);
+        //to not let the user draw while the computer is thinking
+//        m_currentMode = Editor;
+        emit guessMade(gp);
+
+        ///@todo: to adapt these
+        //hidePlanes();
+        //displayPlanes();
+        //displayGuesses();
+    }
 }

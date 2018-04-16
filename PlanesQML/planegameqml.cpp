@@ -1,4 +1,5 @@
 #include "planegameqml.h"
+#include <QDebug>
 
 PlaneGameQML::PlaneGameQML()
 {
@@ -8,13 +9,13 @@ PlaneGameQML::PlaneGameQML()
     //builds the game object - the controller
     mRound = new PlaneRound(mPlanesModel->playerGrid(), mPlanesModel->computerGrid(), mPlanesModel->computerLogic(), false);
 
+    connect(this, SIGNAL(guessMade(const GuessPoint&)), mRound, SLOT(receivedPlayerGuess(const GuessPoint&)));
     mRound->play();
 }
 
 void PlaneGameQML::doneEditing() {
     mRound->playStep();
 }
-
 
 ///controls for editing the player's board in the first round of the game
 //OK - connect(m_LeftPane, SIGNAL(selectPlaneClicked(bool)), m_RightPane, SLOT(selectPlaneClicked(bool)));
@@ -34,7 +35,7 @@ void PlaneGameQML::doneEditing() {
 //connect(m_RightPane, SIGNAL(planePositionNotValid(bool)), m_LeftPane, SLOT(activateDoneButton(bool)));
 //OK - connect(m_LeftPane, SIGNAL(doneClicked(bool)), m_round, SLOT(playStep()));
 //connect(m_round, SIGNAL(computerMoveGenerated(const GuessPoint&)), m_RightPane, SIGNAL(showComputerMove(const GuessPoint&)));
-//connect(m_RightPane, SIGNAL(guessMade(const GuessPoint&)), m_round, SLOT(receivedPlayerGuess(const GuessPoint&)));
+//OK - connect(m_RightPane, SIGNAL(guessMade(const GuessPoint&)), m_round, SLOT(receivedPlayerGuess(const GuessPoint&)));
 //connect(m_round, SIGNAL(displayStatusMessage(QString)), this, SLOT(displayStatusMsg(QString)));
 //connect(m_round, SIGNAL(roundEnds(bool)), m_LeftPane, SLOT(endRound(bool)));
 //connect(m_round, SIGNAL(roundEnds(bool)), m_RightPane, SLOT(endRound(bool)));

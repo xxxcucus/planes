@@ -48,7 +48,7 @@ Rectangle {
                         anchors.fill : parent
                         onClicked : {
                             if (isComputer && board.state == "Game")
-                                PlaneGame.computerBoardClick(index)
+                                boardModel.computerBoardClick(index)
                         }
                     }
                 }

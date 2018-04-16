@@ -4,6 +4,7 @@
 #include <QObject>
 #include "planesmodel.h"
 #include "planeround.h"
+#include "guesspoint.h"
 
 class PlaneGameQML : public QObject
 {
@@ -16,6 +17,9 @@ public:
 
     inline PlaneGrid* playerGrid() { return mPlanesModel->playerGrid(); }
     inline PlaneGrid* computerGrid() { return mPlanesModel->computerGrid(); }
+
+signals:
+    void guessMade(const GuessPoint& gp);
 
 private:
     //The model object

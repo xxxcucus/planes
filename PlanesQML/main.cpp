@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     PlaneGameQML planeGame;
-    PlaneGridQML player_pgq(planeGame.playerGrid());
-    PlaneGridQML computer_pgq(planeGame.computerGrid());
+    PlaneGridQML player_pgq(&planeGame, planeGame.playerGrid());
+    PlaneGridQML computer_pgq(&planeGame, planeGame.computerGrid());
     player_pgq.initGrid1();
     computer_pgq.initGrid1();
 
