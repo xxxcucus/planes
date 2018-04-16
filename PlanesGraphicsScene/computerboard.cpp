@@ -16,7 +16,7 @@ void ComputerBoard::gridSquareClicked(int row, int col)
         return;
     if (row >= m_Grid.getRowNo() + m_PaddingEditingBoard)
         return;
-    if (col >= m_Grid.getRowNo() + m_PaddingEditingBoard)
+    if (col >= m_Grid.getColNo() + m_PaddingEditingBoard)
         return;
 
     QPoint qp(col - m_PaddingEditingBoard, row - m_PaddingEditingBoard);
