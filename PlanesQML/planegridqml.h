@@ -18,22 +18,7 @@ class PlaneGridQML : public QAbstractListModel
 public:
     enum class GameStages { GameNotStarted, BoardEditing, Game };
 
-   /* PlaneGridQML(int rows, int cols, int planesNo, bool isComputer): m_PlaneGrid(new PlaneGrid(rows, cols, planesNo, isComputer)) {
-        connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SIGNAL(planesPointsChanged()));
-        connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SLOT(verifyPlanePositionValid()));
-        m_LineSize = m_PlaneGrid->getColNo() + 2 * m_Padding;
-        m_NoLines = m_PlaneGrid->getRowNo() + 2 * m_Padding;
-    }*/
-
-    PlaneGridQML(PlaneGameQML* planeGame, PlaneGrid* planeGrid): m_PlaneGame(planeGame), m_PlaneGrid(planeGrid) {
-        connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SIGNAL(planesPointsChanged()));
-        connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SLOT(verifyPlanePositionValid()));
-        if (m_PlaneGrid->isComputer()) {
-            connect(this, SIGNAL(guessMade(const GuessPoint&)), m_PlaneGame, SIGNAL(guessMade(const GuessPoint&)));
-        }
-        m_LineSize = m_PlaneGrid->getColNo() + 2 * m_Padding;
-        m_NoLines = m_PlaneGrid->getRowNo() + 2 * m_Padding;
-    }
+    PlaneGridQML(PlaneGameQML* planeGame, PlaneGrid* planeGrid);
 
     Q_INVOKABLE int getPlanesPointsCount() const {
         return m_PlaneGrid->getPlanesPointsCount();
@@ -126,12 +111,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     Q_INVOKABLE void computerBoardClick(int index);
-    Q_INVOKABLE void doneEditing() {
-        if (m_CurStage == GameStages::BoardEditing)
-            m_CurStage = GameStages::Game;
-        else
-            qDebug() << "Board editing done received, but not in the right state";
-    }
+    Q_INVOKABLE void doneEditing();
 
 signals:
     void planesPointsChanged();
@@ -164,9 +144,10 @@ private:
 
     ///@todo: to define
     QColor m_SelectedPlaneColor = QColor(0, 0, 255);
-    QColor m_NotSelectedPlaneColor;
+    QColor m_PlaneIntersectionColor = QColor(255, 0, 0);
     QColor m_PaddingColor = QColor("aqua");
     QColor m_BoardColor = QColor("#ea7025");
+    QColor m_InvalidPointColor = QColor(255, 255, 255);
 };
 
 #endif // PLANEGRIDQML_H

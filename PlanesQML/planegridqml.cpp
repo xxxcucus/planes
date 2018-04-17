@@ -2,6 +2,17 @@
 #include <QDebug>
 #include <QColor>
 
+PlaneGridQML::PlaneGridQML(PlaneGameQML* planeGame, PlaneGrid* planeGrid): m_PlaneGame(planeGame), m_PlaneGrid(planeGrid) {
+    //connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SIGNAL(planesPointsChanged()));
+    connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SLOT(verifyPlanePositionValid()));
+    if (m_PlaneGrid->isComputer()) {
+        connect(this, SIGNAL(guessMade(const GuessPoint&)), m_PlaneGame, SIGNAL(guessMade(const GuessPoint&)));
+        m_SelectedPlane = -1;
+    }
+    m_LineSize = m_PlaneGrid->getColNo() + 2 * m_Padding;
+    m_NoLines = m_PlaneGrid->getRowNo() + 2 * m_Padding;
+}
+
 QColor PlaneGridQML::getPlanePointColor(int idx) const
 {
    ///@todo: mark the head of the planes with green
@@ -9,7 +20,7 @@ QColor PlaneGridQML::getPlanePointColor(int idx) const
    int annotation = m_PlaneGrid->getPlanePointAnnotation(idx);
    std::vector<int> planesIdx = m_PlaneGrid->decodeAnnotation(annotation);
    if (planesIdx.size() > 1)    //point belongs to more planes mark it with red
-       return QColor(255, 0, 0);
+       return m_PlaneIntersectionColor;
    if (planesIdx.size() == 1) {
        if (m_SelectedPlane != planesIdx[0]) {
            int grayCol = m_MinPlaneBodyColor + planesIdx[0] * colorStep;
@@ -19,7 +30,7 @@ QColor PlaneGridQML::getPlanePointColor(int idx) const
        }
    }
    qDebug() << "Error: point belongs to no plane";
-   return QColor(255, 255, 255);
+   return m_InvalidPointColor;
 }
 
 QHash<int, QByteArray> PlaneGridQML::roleNames() const {
@@ -47,6 +58,8 @@ QVariant PlaneGridQML::data(const QModelIndex &index, int role) const {
 
     int row = index.row() / m_LineSize;
     int col = index.row() % m_LineSize;
+
+    qDebug() << "row " << row << " col " << col;
 
     int idxInPlanePointList = -1;
     int idxR = row - m_Padding;
@@ -118,4 +131,15 @@ void PlaneGridQML::computerBoardClick(int index) {
         //displayPlanes();
         //displayGuesses();
     }
+}
+
+void PlaneGridQML::doneEditing() {
+    if (m_CurStage == GameStages::BoardEditing)
+        m_CurStage = GameStages::Game;
+    else
+        qDebug() << "Board editing done received, but not in the right state";
+    beginResetModel();
+    m_SelectedPlane = -1;
+    endResetModel();
+    //emit planesPointsChanged();
 }
