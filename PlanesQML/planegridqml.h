@@ -17,6 +17,8 @@ class PlaneGridQML : public QAbstractListModel
 
 public:
     enum class GameStages { GameNotStarted, BoardEditing, Game };
+    enum PlaneDescription { NoPlane = 0, Plane = 1, PlaneHead = 2 };
+    enum BoardDescription { Board = 0, Padding = 1};
 
     PlaneGridQML(PlaneGameQML* planeGame, PlaneGrid* planeGrid);
 
@@ -28,7 +30,7 @@ public:
         return m_PlaneGrid->getPlanePoint(idx);
     }
 
-    Q_INVOKABLE QColor getPlanePointColor(int idx) const;
+    QColor getPlanePointColor(int idx, bool& isPlaneHead) const;
 
     Q_INVOKABLE int getRows() const {
         return m_PlaneGrid->getRowNo();
@@ -102,7 +104,10 @@ public:
 
     ///for QAbstractTableModel
     enum QMLGridRoles {
-        ColorRole = Qt::UserRole + 1
+        //PlaneRole = Qt::UserRole + 1,
+        PlaneColorRole = Qt::UserRole + 2
+        //GuessRole = Qt::UserRole + 3,
+        //BoardRole = Qt::UserRole + 4
     };
 
     QHash<int, QByteArray> roleNames() const override;
@@ -129,7 +134,8 @@ private:
     PlaneGameQML* m_PlaneGame;
 
     ///grey colors to draw the planes
-    int m_MinPlaneBodyColor = 0;
+    int
+    m_MinPlaneBodyColor = 0;
     int m_MaxPlaneBodyColor = 200;
 
     int m_Padding = 3;
@@ -144,6 +150,7 @@ private:
 
     ///@todo: to define
     QColor m_SelectedPlaneColor = QColor(0, 0, 255);
+    QColor m_PlaneHeadColor = QColor(0, 255, 0);
     QColor m_PlaneIntersectionColor = QColor(255, 0, 0);
     QColor m_PaddingColor = QColor("aqua");
     QColor m_BoardColor = QColor("#ea7025");

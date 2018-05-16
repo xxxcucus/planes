@@ -42,7 +42,7 @@ Rectangle {
                     anchors.centerIn: parent
                     width: parent.width - board.spacing
                     height: parent.height - board.spacing
-                    color: colorRGB
+                    color: planeColor
 
                     MouseArea {
                         anchors.fill : parent

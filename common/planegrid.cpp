@@ -353,8 +353,14 @@ std::vector<int> PlaneGrid::decodeAnnotation(int annotation) const {
     std::vector<int> retVal;
     for (int i = 0; i < m_planeNo; ++i) {
         int mask = 0x3 << (2 * i);
-        if (mask & annotation)
+        int mask1 = 0x1 << (2 * i);
+        int mask2 = 0x2 << (2 * i);
+        /*if (mask & annotation)
+            retVal.push_back(i);*/
+        if (mask1 & annotation)
             retVal.push_back(i);
+        if (mask2 & annotation)
+            retVal.push_back(-i - 1);
     }
     return retVal;
 }

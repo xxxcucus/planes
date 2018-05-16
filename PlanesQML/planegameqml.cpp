@@ -8,7 +8,6 @@ PlaneGameQML::PlaneGameQML()
 
     //builds the game object - the controller
     mRound = new PlaneRound(mPlanesModel->playerGrid(), mPlanesModel->computerGrid(), mPlanesModel->computerLogic(), false);
-
     connect(this, SIGNAL(guessMade(const GuessPoint&)), mRound, SLOT(receivedPlayerGuess(const GuessPoint&)));
     mRound->play();
 }

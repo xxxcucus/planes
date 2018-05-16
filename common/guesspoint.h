@@ -5,7 +5,7 @@
 class GuessPoint
 {
 public:
-    enum Type {Miss, Hit, Dead};
+    enum Type {Miss = 0, Hit = 1, Dead = 2};
 
     //the coordinates of the guess
     int m_row, m_col;

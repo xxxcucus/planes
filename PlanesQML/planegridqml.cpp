@@ -13,29 +13,41 @@ PlaneGridQML::PlaneGridQML(PlaneGameQML* planeGame, PlaneGrid* planeGrid): m_Pla
     m_NoLines = m_PlaneGrid->getRowNo() + 2 * m_Padding;
 }
 
-QColor PlaneGridQML::getPlanePointColor(int idx) const
+QColor PlaneGridQML::getPlanePointColor(int idx, bool& isPlaneHead) const
 {
    ///@todo: mark the head of the planes with green
    int colorStep = (m_MaxPlaneBodyColor - m_MinPlaneBodyColor) / m_PlaneGrid->getPlaneNo();
    int annotation = m_PlaneGrid->getPlanePointAnnotation(idx);
+   isPlaneHead = false;
    std::vector<int> planesIdx = m_PlaneGrid->decodeAnnotation(annotation);
    if (planesIdx.size() > 1)    //point belongs to more planes mark it with red
        return m_PlaneIntersectionColor;
    if (planesIdx.size() == 1) {
-       if (m_SelectedPlane != planesIdx[0]) {
-           int grayCol = m_MinPlaneBodyColor + planesIdx[0] * colorStep;
-           return QColor(grayCol, grayCol, grayCol);
+       if ((planesIdx[0] >= 0 && m_SelectedPlane != planesIdx[0]) ||
+               (planesIdx[0] < 0 && m_SelectedPlane != -planesIdx[0] - 1)) {
+           if (planesIdx[0] < 0) {
+               isPlaneHead = true;
+               return m_PlaneHeadColor;
+           } else {
+               int grayCol = m_MinPlaneBodyColor + planesIdx[0] * colorStep;
+               return QColor(grayCol, grayCol, grayCol);
+           }
        } else {
+           if (planesIdx[0] < 0)
+               isPlaneHead = true;
            return m_SelectedPlaneColor;
        }
    }
-   qDebug() << "Error: point belongs to no plane";
+   qDebug() << "Error: point belongs to no plane " << annotation;
    return m_InvalidPointColor;
 }
 
 QHash<int, QByteArray> PlaneGridQML::roleNames() const {
     QHash<int, QByteArray> roles;
-    roles[ColorRole] = "colorRGB";
+//    roles[PlaneRole] = "plane";
+    roles[PlaneColorRole] = "planeColor";
+//    roles[GuessRole] = "guess";
+//    roles[BoardRole] = "board";
     return roles;
 }
 
@@ -47,10 +59,10 @@ int PlaneGridQML::rowCount(const QModelIndex &parent) const {
 QVariant PlaneGridQML::data(const QModelIndex &index, int role) const {
     //qDebug() << index.row() << " " << index.column();
 
-    if (role != ColorRole)
+    if (/*role != PlaneRole && role != GuessRole && role != BoardRole && */role != PlaneColorRole)
         return QVariant();
 
-    // Check boudaries
+    // Check boundaries
     if(index.row() < 0 || rowCount() <= index.row()) {
         qDebug() << "Warning: " << index.row() << ", " << index.column();
         return QVariant();
@@ -58,26 +70,53 @@ QVariant PlaneGridQML::data(const QModelIndex &index, int role) const {
 
     int row = index.row() / m_LineSize;
     int col = index.row() % m_LineSize;
-
-    qDebug() << "row " << row << " col " << col;
-
+    //qDebug() << "row " << row << " col " << col;
     int idxInPlanePointList = -1;
     int idxR = row - m_Padding;
     int idxC = col - m_Padding;
-    bool isOnPlane = m_PlaneGrid->isPointOnPlane(idxR, idxC, idxInPlanePointList);
 
-    QColor retCol(0, 0, 0);
-    if (!isOnPlane) {
-        retCol = m_BoardColor;
-        if (row < m_Padding || row >= m_PlaneGrid->getRowNo() + m_Padding)
-            retCol = m_PaddingColor;
-        if (col < m_Padding || col >= m_PlaneGrid->getColNo() + m_Padding)
-            retCol = m_PaddingColor;
-    } else {
-        retCol = getPlanePointColor(idxInPlanePointList);
+
+    bool isOnPlane = m_PlaneGrid->isPointOnPlane(idxR, idxC, idxInPlanePointList);
+    bool isPlaneHead = false;
+
+    if (role == PlaneColorRole) {
+        QColor retCol(0, 0, 0);
+        if (!isOnPlane) {
+            retCol = m_BoardColor;
+            if (row < m_Padding || row >= m_PlaneGrid->getRowNo() + m_Padding)
+                retCol = m_PaddingColor;
+            if (col < m_Padding || col >= m_PlaneGrid->getColNo() + m_Padding)
+                retCol = m_PaddingColor;
+        } else {
+            retCol = getPlanePointColor(idxInPlanePointList, isPlaneHead);
+        }
+        //qDebug() << "BlaBla " << idxR << " " << idxC << " " << retCol.red() << " " << retCol.green() << " " << retCol.blue();
+        return retCol;
     }
 
-    return retCol;
+/*    if (role == BoardRole) {
+        int retVal = BoardDescription::Board;
+        if (row < m_Padding || row >= m_PlaneGrid->getRowNo() + m_Padding)
+            retVal = BoardDescription::Padding;
+        if (col < m_Padding || col >= m_PlaneGrid->getColNo() + m_Padding)
+            retVal = BoardDescription::Padding;
+        return retVal;
+    }
+
+    if (role == PlaneRole) {
+        int retVal = PlaneDescription::NoPlane;
+        if (isOnPlane && !isPlaneHead)
+            retVal = PlaneDescription::Plane;
+        if (isPlaneHead)
+            retVal = PlaneDescription::PlaneHead;
+    }
+
+    if (role == GuessRole) {
+        QPoint qp(idxR, idxC);
+        GuessPoint::Type retVal = m_PlaneGrid->getGuessResult(qp);
+        return retVal;
+    }
+*/
 }
 
 void PlaneGridQML::verifyPlanePositionValid() {
