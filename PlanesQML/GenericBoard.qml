@@ -1,6 +1,6 @@
 import QtQuick 2.7
 import QtQuick.Controls 1.4
-
+import "ButtonPaintFunctions.js" as PaintFunctions
 Rectangle {
     id: board
     state: "BoardEditing"
@@ -42,7 +42,25 @@ Rectangle {
                     anchors.centerIn: parent
                     width: parent.width - board.spacing
                     height: parent.height - board.spacing
-                    color: planeColor
+                    color: planeColorData
+
+                    Canvas {
+                        anchors.fill: parent
+                        width: parent.width
+                        height: parent.height
+
+                        onPaint: {
+                            var ctx = getContext("2d")
+                            //enum Type {Miss = 0, Hit = 1, Dead = 2};
+                            //console.log("guess is ", guessData);
+                            if (guessData == 0)
+                                PaintFunctions.testedNotPlane(ctx, width, height);
+                            if (guessData == 1)
+                                PaintFunctions.planeGuessed(ctx, width, height);
+                            if (guessData == 2)
+                                PaintFunctions.planeHeadGuessed(ctx, width, height);
+                        }
+                    }
 
                     MouseArea {
                         anchors.fill : parent

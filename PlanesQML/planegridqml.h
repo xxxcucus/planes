@@ -104,10 +104,10 @@ public:
 
     ///for QAbstractTableModel
     enum QMLGridRoles {
-        //PlaneRole = Qt::UserRole + 1,
-        PlaneColorRole = Qt::UserRole + 2
-        //GuessRole = Qt::UserRole + 3,
-        //BoardRole = Qt::UserRole + 4
+        PlaneRole = Qt::UserRole + 1,
+        PlaneColorRole = Qt::UserRole + 2,
+        GuessRole = Qt::UserRole + 3,
+        BoardRole = Qt::UserRole + 4
     };
 
     QHash<int, QByteArray> roleNames() const override;
@@ -117,6 +117,9 @@ public:
 
     Q_INVOKABLE void computerBoardClick(int index);
     Q_INVOKABLE void doneEditing();
+
+private:
+    bool wasGuessMade(int row, int col, GuessPoint::Type& guessRes) const;
 
 signals:
     void planesPointsChanged();
@@ -147,6 +150,7 @@ private:
 
     ///list of guesses made up to now
     QList<GuessPoint> m_GuessList;
+    std::map<std::pair<int, int>, GuessPoint::Type> m_GuessMap;
 
     ///@todo: to define
     QColor m_SelectedPlaneColor = QColor(0, 0, 255);

@@ -44,10 +44,10 @@ QColor PlaneGridQML::getPlanePointColor(int idx, bool& isPlaneHead) const
 
 QHash<int, QByteArray> PlaneGridQML::roleNames() const {
     QHash<int, QByteArray> roles;
-//    roles[PlaneRole] = "plane";
-    roles[PlaneColorRole] = "planeColor";
-//    roles[GuessRole] = "guess";
-//    roles[BoardRole] = "board";
+    roles[PlaneRole] = "planeData";
+    roles[PlaneColorRole] = "planeColorData";
+    roles[GuessRole] = "guessData";
+    roles[BoardRole] = "boardData";
     return roles;
 }
 
@@ -59,7 +59,7 @@ int PlaneGridQML::rowCount(const QModelIndex &parent) const {
 QVariant PlaneGridQML::data(const QModelIndex &index, int role) const {
     //qDebug() << index.row() << " " << index.column();
 
-    if (/*role != PlaneRole && role != GuessRole && role != BoardRole && */role != PlaneColorRole)
+    if (role != PlaneRole && role != GuessRole && role != BoardRole && role != PlaneColorRole)
         return QVariant();
 
     // Check boundaries
@@ -94,7 +94,7 @@ QVariant PlaneGridQML::data(const QModelIndex &index, int role) const {
         return retCol;
     }
 
-/*    if (role == BoardRole) {
+    if (role == BoardRole) {
         int retVal = BoardDescription::Board;
         if (row < m_Padding || row >= m_PlaneGrid->getRowNo() + m_Padding)
             retVal = BoardDescription::Padding;
@@ -109,14 +109,16 @@ QVariant PlaneGridQML::data(const QModelIndex &index, int role) const {
             retVal = PlaneDescription::Plane;
         if (isPlaneHead)
             retVal = PlaneDescription::PlaneHead;
+        return retVal;
     }
 
     if (role == GuessRole) {
-        QPoint qp(idxR, idxC);
-        GuessPoint::Type retVal = m_PlaneGrid->getGuessResult(qp);
-        return retVal;
+        GuessPoint::Type retVal;
+        if (wasGuessMade(idxR, idxC, retVal))
+            return int(retVal);
+        else
+            return QVariant();
     }
-*/
 }
 
 void PlaneGridQML::verifyPlanePositionValid() {
@@ -127,7 +129,7 @@ void PlaneGridQML::verifyPlanePositionValid() {
 }
 
 void PlaneGridQML::computerBoardClick(int index) {
-    qDebug() << index;
+    //qDebug() << index;
 
     ///@todo:
     /// calculate row and col
@@ -136,6 +138,7 @@ void PlaneGridQML::computerBoardClick(int index) {
     if (m_CurStage != GameStages::Game)
         return;
 
+    beginResetModel();
     ///@todo: see method data() above
     int row = index / m_LineSize;
     int col = index % m_LineSize;
@@ -161,15 +164,12 @@ void PlaneGridQML::computerBoardClick(int index) {
     if (m_GuessList.indexOf(gp) == -1)
     {
         m_GuessList.append(gp);
+        m_GuessMap[std::make_pair(qp.x(), qp.y())] = tp;
         //to not let the user draw while the computer is thinking
 //        m_currentMode = Editor;
         emit guessMade(gp);
-
-        ///@todo: to adapt these
-        //hidePlanes();
-        //displayPlanes();
-        //displayGuesses();
     }
+    endResetModel();
 }
 
 void PlaneGridQML::doneEditing() {
@@ -181,4 +181,14 @@ void PlaneGridQML::doneEditing() {
     m_SelectedPlane = -1;
     endResetModel();
     //emit planesPointsChanged();
+}
+
+bool PlaneGridQML::wasGuessMade(int row, int col, GuessPoint::Type &guessRes) const {
+    auto p = std::make_pair(row, col);
+    auto it = m_GuessMap.find(p);
+    if (it != m_GuessMap.end()) {
+        guessRes = it->second;
+        return true;
+    }
+    return false;
 }
