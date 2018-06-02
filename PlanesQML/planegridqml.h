@@ -131,6 +131,7 @@ public slots:
      * Compute whether done button is active in the board editor
      */
     void verifyPlanePositionValid();
+    void showComputerMove(const GuessPoint& gp);
 
 private:
     PlaneGrid* m_PlaneGrid;

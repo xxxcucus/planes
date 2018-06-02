@@ -9,6 +9,9 @@ PlaneGridQML::PlaneGridQML(PlaneGameQML* planeGame, PlaneGrid* planeGrid): m_Pla
         connect(this, SIGNAL(guessMade(const GuessPoint&)), m_PlaneGame, SIGNAL(guessMade(const GuessPoint&)));
         m_SelectedPlane = -1;
     }
+    if (!m_PlaneGrid->isComputer()) {
+        connect(m_PlaneGame, SIGNAL(computerMoveGenerated(const GuessPoint&)), this, SLOT(showComputerMove(const GuessPoint&)));
+    }
     m_LineSize = m_PlaneGrid->getColNo() + 2 * m_Padding;
     m_NoLines = m_PlaneGrid->getRowNo() + 2 * m_Padding;
 }
@@ -168,6 +171,16 @@ void PlaneGridQML::computerBoardClick(int index) {
         //to not let the user draw while the computer is thinking
 //        m_currentMode = Editor;
         emit guessMade(gp);
+    }
+    endResetModel();
+}
+
+void PlaneGridQML::showComputerMove(const GuessPoint& gp) {
+    beginResetModel();
+    if (m_GuessList.indexOf(gp) == -1)
+    {
+        m_GuessList.append(gp);
+        m_GuessMap[std::make_pair(gp.m_row, gp.m_col)] = gp.m_type;
     }
     endResetModel();
 }

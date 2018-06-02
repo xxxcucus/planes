@@ -20,6 +20,7 @@ public:
 
 signals:
     void guessMade(const GuessPoint& gp);
+    void computerMoveGenerated(const GuessPoint& gp);
 
 private:
     //The model object
