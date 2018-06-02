@@ -11,10 +11,6 @@ function planeGuessed(ctx, w, h) {
 }
 
 function planeHeadGuessed(ctx, w, h) {
-    //painter->setPen(Qt::red);
-    //painter->drawLine(0, 0, m_Width, m_Width);
-    //painter->drawLine(0, m_Width, m_Width, 0);
-
     ctx.strokeStyle = 'blue'
     ctx.lineWidth = 2
     ctx.beginPath()
@@ -26,10 +22,6 @@ function planeHeadGuessed(ctx, w, h) {
 }
 
 function testedNotPlane(ctx, w, h) {
-    //QPainterPath fillPath;
-    //fillPath.addEllipse(m_Width/4, m_Width/4, m_Width/2, m_Width/2);
-    //painter->fillPath(fillPath, Qt::red);
-
     ctx.fillStyle = 'blue'
     ctx.ellipse(w / 4, h / 4, w / 2, h / 2)
     ctx.fill()
