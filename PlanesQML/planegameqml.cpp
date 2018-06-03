@@ -9,12 +9,20 @@ PlaneGameQML::PlaneGameQML()
     //builds the game object - the controller
     mRound = new PlaneRound(mPlanesModel->playerGrid(), mPlanesModel->computerGrid(), mPlanesModel->computerLogic(), false);
     connect(this, SIGNAL(guessMade(const GuessPoint&)), mRound, SLOT(receivedPlayerGuess(const GuessPoint&)));
-    mRound->play();
     connect(mRound, SIGNAL(computerMoveGenerated(const GuessPoint&)), this, SIGNAL(computerMoveGenerated(const GuessPoint&)));
+    connect(mRound, SIGNAL(statsUpdated(const GameStatistics&)), this, SLOT(statsUpdated(const GameStatistics&)));
+    mRound->play();
+
 }
 
 void PlaneGameQML::doneEditing() {
     mRound->playStep();
+}
+
+void PlaneGameQML::statsUpdated(const GameStatistics& stats) {
+    m_Stats = stats;
+    qDebug() << "C++ stats updated";
+    emit updateStats();
 }
 
 ///controls for editing the player's board in the first round of the game
@@ -34,7 +42,7 @@ void PlaneGameQML::doneEditing() {
 
 //connect(m_RightPane, SIGNAL(planePositionNotValid(bool)), m_LeftPane, SLOT(activateDoneButton(bool)));
 //OK - connect(m_LeftPane, SIGNAL(doneClicked(bool)), m_round, SLOT(playStep()));
-//connect(m_round, SIGNAL(computerMoveGenerated(const GuessPoint&)), m_RightPane, SIGNAL(showComputerMove(const GuessPoint&)));
+//OK - connect(m_round, SIGNAL(computerMoveGenerated(const GuessPoint&)), m_RightPane, SIGNAL(showComputerMove(const GuessPoint&)));
 //OK - connect(m_RightPane, SIGNAL(guessMade(const GuessPoint&)), m_round, SLOT(receivedPlayerGuess(const GuessPoint&)));
 //connect(m_round, SIGNAL(displayStatusMessage(QString)), this, SLOT(displayStatusMsg(QString)));
 //connect(m_round, SIGNAL(roundEnds(bool)), m_LeftPane, SLOT(endRound(bool)));

@@ -23,6 +23,24 @@ Rectangle {
             color: "blue"
         }
     }
+
+    Connections {
+        target: PlaneGame
+        onUpdateStats: {
+            roundTab.playerMoves = PlaneGame.getPlayerMoves()
+            roundTab.playerHits = PlaneGame.getPlayerHits()
+            roundTab.playerMisses = PlaneGame.getPlayerMisses()
+            roundTab.playerDead = PlaneGame.getPlayerDead()
+            roundTab.playerWins = PlaneGame.getPlayerWins()
+            roundTab.computerMoves = PlaneGame.getComputerMoves()
+            roundTab.computerHits = PlaneGame.getComputerHits()
+            roundTab.computerMisses = PlaneGame.getComputerMisses()
+            roundTab.computerDead = PlaneGame.getComputerDead()
+            roundTab.computerWins = PlaneGame.getComputerWins()
+
+            console.log("Stats updated")
+        }
+    }
 }
 
 
