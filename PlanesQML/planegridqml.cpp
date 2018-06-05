@@ -18,7 +18,6 @@ PlaneGridQML::PlaneGridQML(PlaneGameQML* planeGame, PlaneGrid* planeGrid): m_Pla
 
 QColor PlaneGridQML::getPlanePointColor(int idx, bool& isPlaneHead) const
 {
-   ///@todo: mark the head of the planes with green
    int colorStep = (m_MaxPlaneBodyColor - m_MinPlaneBodyColor) / m_PlaneGrid->getPlaneNo();
    int annotation = m_PlaneGrid->getPlanePointAnnotation(idx);
    isPlaneHead = false;

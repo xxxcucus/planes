@@ -21,7 +21,6 @@ void PlaneGameQML::doneEditing() {
 
 void PlaneGameQML::statsUpdated(const GameStatistics& stats) {
     m_Stats = stats;
-    qDebug() << "C++ stats updated";
     emit updateStats();
 }
 

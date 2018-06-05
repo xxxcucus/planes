@@ -36,7 +36,6 @@ Rectangle {
         height: parent.height
         onClicked: {
             if (back.state == "Enabled") {
-                console.log("Done clicked")
                 anim.start()
                 PlaneGame.doneEditing()
                 PlayerPlaneGrid.doneEditing()

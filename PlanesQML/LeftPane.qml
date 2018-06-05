@@ -37,8 +37,6 @@ Rectangle {
             roundTab.computerMisses = PlaneGame.getComputerMisses()
             roundTab.computerDead = PlaneGame.getComputerDead()
             roundTab.computerWins = PlaneGame.getComputerWins()
-
-            console.log("Stats updated")
         }
     }
 }
