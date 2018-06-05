@@ -6,9 +6,11 @@ Rectangle {
     id: back
     width: parent.width
     height: parent.height
-    color: "blue"
     property int textSize : width / 20
-    property string textColor : "blue"
+    property string textColorGame : "blue"
+    property string backColorGame : "green"
+    property string textColorGlobal : "red"
+    property string backColorGlobal : "blue"
     property int playerMoves : 0
     property int playerHits : 0
     property int playerDead : 0
@@ -21,7 +23,8 @@ Rectangle {
     property int computerWins : 0
 
     Rectangle {
-        color: "green"
+        id: currentGameScore
+        color: back.backColorGame
         anchors.top: parent.top
         width: parent.width
         height: parent.height * 3 / 4
@@ -34,12 +37,12 @@ Rectangle {
             Label {
                 font.pixelSize: back.textSize
                 text: "Player"
-                color: back.textColor
+                color: back.textColorGame
             }
 
             Label {
                 text: "BlaBla"
-                color: "green"
+                color: back.backColorGame
             }
 
             GridLayout {
@@ -48,139 +51,167 @@ Rectangle {
 
                 Label {
                     font.pixelSize: back.textSize
-                    text: "Wins"
-                    color: back.textColor
-                }
-                Label {
-                    font.pixelSize: back.textSize
-                    id: noWinsPlayer
-                    text: back.playerWins
-                    color: back.textColor
-                }
-                Label {
-                    font.pixelSize: back.textSize
                     text: "Number of moves"
-                    color: back.textColor
+                    color: back.textColorGame
                 }
                 Label {
                     font.pixelSize: back.textSize
                     id: noMovesPlayer
                     text: back.playerMoves
-                    color: back.textColor
+                    color: back.textColorGame
                 }
                 Label {
                     font.pixelSize: back.textSize
                     text: "Number of misses"
-                    color: back.textColor
+                    color: back.textColorGame
                 }
                 Label {
                     font.pixelSize: back.textSize
                     id: noMissesPlayer
                     text: back.playerMisses
-                    color: back.textColor
+                    color: back.textColorGame
                 }
                 Label {
                     font.pixelSize: back.textSize
                     text: "Number of hits"
-                    color: back.textColor
+                    color: back.textColorGame
                 }
                 Label {
                     font.pixelSize: back.textSize
                     id: noHitsPlayer
                     text: back.playerHits
-                    color: back.textColor
+                    color: back.textColorGame
                 }
                 Label {
                     font.pixelSize: back.textSize
                     text: "Number of planes guessed"
-                    color: back.textColor
+                    color: back.textColorGame
                 }
                 Label {
                     font.pixelSize: back.textSize
                     id: noGuessedPlayer
                     text: back.playerDead
-                    color: back.textColor
+                    color: back.textColorGame
                 }
             }
 
             Label {
                 text: "BlaBla"
-                color: "green"
+                color: back.backColorGame
             }
 
             Label {
                 font.pixelSize: back.textSize
                 text: "Computer"
-                color: back.textColor
+                color: back.textColorGame
             }
 
             Label {
                 text: "BlaBla"
-                color: "green"
+                color: back.backColorGame
             }
 
             GridLayout {
                 columns: 2
                 columnSpacing:  back.width/10
-
-
-                Label {
-                    font.pixelSize: back.textSize
-                    text: "Wins"
-                    color: back.textColor
-                }
-                Label {
-                    font.pixelSize: back.textSize
-                    id: noWinsComputer
-                    text: back.computerWins
-                    color: back.textColor
-                }
+                anchors.margins: back.width/10
 
                 Label {
                     font.pixelSize: back.textSize
                     text: "Number of moves"
-                    color: back.textColor
+                    color: back.textColorGame
                 }
                 Label {
                     font.pixelSize: back.textSize
                     id: noMovesComputer
                     text: back.computerMoves
-                    color: back.textColor
+                    color: back.textColorGame
                 }
                 Label {
                     font.pixelSize: back.textSize
                     text: "Number of misses"
-                    color: back.textColor
+                    color: back.textColorGame
                 }
                 Label {
                     font.pixelSize: back.textSize
                     id: noMissesComputer
                     text: back.computerMisses
-                    color: back.textColor
+                    color: back.textColorGame
                 }
                 Label {
                     font.pixelSize: back.textSize
                     text: "Number of hits"
-                    color: back.textColor
+                    color: back.textColorGame
                 }
                 Label {
                     font.pixelSize: back.textSize
                     id: noHitsComputer
                     text: back.computerHits
-                    color: back.textColor
+                    color: back.textColorGame
                 }
                 Label {
                     font.pixelSize: back.textSize
                     text: "Number of planes guessed"
-                    color: back.textColor
+                    color: back.textColorGame
                 }
                 Label {
                     font.pixelSize: back.textSize
                     id: noGuessedComputer
                     text: back.computerDead
-                    color: back.textColor
+                    color: back.textColorGame
+                }
+            }
+
+            Label {
+                text: "BlaBla"
+                color: back.backColorGame
+            }
+
+            Label {
+                font.pixelSize: back.textSize
+                text: "Global Score"
+                color: back.textColorGame
+            }
+
+            Label {
+                text: "BlaBla"
+                color: back.backColorGame
+            }
+
+            GridLayout {
+                columns: 2
+                columnSpacing:  back.width/10
+                anchors.margins: back.width/10
+
+                Label {
+                    font.pixelSize: back.textSize
+                    text: "Player Wins"
+                    color: back.textColorGame
+                }
+                Label {
+                    font.pixelSize: back.textSize
+                    text: back.playerWins
+                    color: back.textColorGame
+                }
+                Label {
+                    font.pixelSize: back.textSize
+                    text: "Computer Wins"
+                    color: back.textColorGame
+                }
+                Label {
+                    font.pixelSize: back.textSize
+                    text: back.computerWins
+                    color: back.textColorGame
                 }
             }
         }
+    } //current game statistics - green rectangle
+
+    Rectangle {
+        id: globalScore
+        color: back.backColorGlobal
+        width: parent.width
+        anchors.top: currentGameScore.bottom
+        anchors.bottom: back.bottom
     }
 }
