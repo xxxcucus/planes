@@ -23,7 +23,25 @@ Rectangle {
         }
     }
 
+    onWidthChanged: {
+        //console.log("Right pane width changed")
+        if (stackLayout.currentIndex == 0)
+            PlayerPlaneGrid.resetModel()
+        if (stackLayout.currentIndex == 1)
+            ComputerPlaneGrid.resetModel()
+    }
+
+    onHeightChanged: {
+        //console.log("Right pane height changed")
+        if (stackLayout.currentIndex == 0)
+            PlayerPlaneGrid.resetModel()
+        if (stackLayout.currentIndex == 1)
+            ComputerPlaneGrid.resetModel()
+    }
+
+
     StackLayout {
+        id: stackLayout
         anchors.top: bar.bottom
         currentIndex: bar.currentIndex
         width: parent.width

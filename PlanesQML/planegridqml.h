@@ -118,6 +118,11 @@ public:
     Q_INVOKABLE void computerBoardClick(int index);
     Q_INVOKABLE void doneEditing();
 
+    Q_INVOKABLE inline resetModel() {
+        beginResetModel();
+        endResetModel();
+    }
+
 private:
     bool wasGuessMade(int row, int col, GuessPoint::Type& guessRes) const;
 
