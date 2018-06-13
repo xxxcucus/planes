@@ -11,6 +11,7 @@ PlaneGameQML::PlaneGameQML()
     connect(this, SIGNAL(guessMade(const GuessPoint&)), mRound, SLOT(receivedPlayerGuess(const GuessPoint&)));
     connect(mRound, SIGNAL(computerMoveGenerated(const GuessPoint&)), this, SIGNAL(computerMoveGenerated(const GuessPoint&)));
     connect(mRound, SIGNAL(statsUpdated(const GameStatistics&)), this, SLOT(statsUpdated(const GameStatistics&)));
+    connect(mRound, SIGNAL(roundEnds(bool)), this, SIGNAL(roundEnds(bool)));
     mRound->play();
 
 }

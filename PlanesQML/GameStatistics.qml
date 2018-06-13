@@ -7,6 +7,7 @@ Rectangle {
     width: parent.width
     height: parent.height
     property int textSize : width / 20
+    //TODO: to rename
     property string textColorGame : "blue"
     property string backColorGame : "green"
     property string textColorGlobal : "red"
@@ -23,7 +24,7 @@ Rectangle {
     property int computerWins : 0
 
     Rectangle {
-        id: currentGameScore
+        id: score
         color: back.backColorGame
         anchors.top: parent.top
         width: parent.width
@@ -208,10 +209,66 @@ Rectangle {
     } //current game statistics - green rectangle
 
     Rectangle {
-        id: globalScore
+        id: gameEnd
         color: back.backColorGlobal
         width: parent.width
-        anchors.top: currentGameScore.bottom
+        anchors.top: score.bottom
         anchors.bottom: back.bottom
+
+        Rectangle {
+            id: gameEndHolder
+            width: parent.width
+            height: parent.height/2
+            anchors.top : parent.top
+            color: back.backColorGlobal
+
+            Label {
+                id: gameEndMessage
+                anchors.centerIn: parent
+                font.pixelSize: back.textSize
+                text: ""
+                color: back.textColorGlobal
+            }
+            onWidthChanged: {
+                if (playAgainButton.visible == true)
+                    gameEndMessage.font.pixelSize = 30
+            }
+            onHeightChanged: {
+                if (playAgainButton.visible == true)
+                    gameEndMessage.font.pixelSize = 30
+            }
+        }
+
+        Rectangle {
+            width: parent.width
+            height: parent.height/2
+            anchors.top : gameEndHolder.bottom
+            color: back.backColorGlobal
+            PlayAgain {
+                id: playAgainButton
+                anchors.centerIn : parent
+                visible: false
+                width: parent.width * 2 / 3
+                height : parent.height * 2 / 3
+            }
+        }
+
+        Connections {
+            target: PlaneGame
+            onRoundEnds: {
+                gameEndMessage.text = isPlayerWinner ? "Player wins!" : "Computer wins!"
+                playAgainButton.visible = "true"
+                playAgainButton.state = "Enabled"
+                anim.start()
+            }
+        }
+    }
+
+    SequentialAnimation {
+        id: anim
+        loops: 5
+        PropertyAnimation { target: gameEndMessage; property: "font.pixelSize"; to: "30"; duration: 500 }
+        PropertyAnimation { target: gameEndMessage; property: "font.pixelSize"; to: back.textSize; duration: 500 }
+        PropertyAnimation { target: gameEndMessage; property: "font.pixelSize"; to: "30"; duration: 500 }
     }
 }

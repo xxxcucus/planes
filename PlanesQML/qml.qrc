@@ -14,5 +14,6 @@
         <file>GenericBoard.qml</file>
         <file>ButtonPaintFunctions.js</file>
         <file>GameStatistics.qml</file>
+        <file>PlayAgain.qml</file>
     </qresource>
 </RCC>
