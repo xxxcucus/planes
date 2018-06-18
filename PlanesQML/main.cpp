@@ -17,8 +17,8 @@ int main(int argc, char *argv[])
     PlaneGameQML planeGame;
     PlaneGridQML player_pgq(&planeGame, planeGame.playerGrid());
     PlaneGridQML computer_pgq(&planeGame, planeGame.computerGrid());
-    player_pgq.initGrid1();
-    computer_pgq.initGrid1();
+    player_pgq.initGrid();
+    computer_pgq.initGrid();
 
     engine.rootContext()->setContextProperty("PlayerPlaneGrid", &player_pgq);
     engine.rootContext()->setContextProperty("ComputerPlaneGrid", &computer_pgq);

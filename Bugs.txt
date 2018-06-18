@@ -1,4 +1,1 @@
-Avioanele pot fi puse unul peste altul.
-PlanesQML: la resize a partii drepte nu se redeseneaza corect incercarile ratate.
-Scorul trebuie aratat in sectiunea statistics.
-add button quit game
+Cand se restarteaza jocul nu e nici un avion selectat pe tabla jucatorului (albastru).

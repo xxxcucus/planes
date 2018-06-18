@@ -3,7 +3,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
 Rectangle {
-    id: back
+    id: gameStats
     width: parent.width
     height: parent.height
     property int textSize : width / 20
@@ -25,7 +25,7 @@ Rectangle {
 
     Rectangle {
         id: score
-        color: back.backColorGame
+        color: gameStats.backColorGame
         anchors.top: parent.top
         width: parent.width
         height: parent.height * 3 / 4
@@ -33,176 +33,176 @@ Rectangle {
         ColumnLayout {
             anchors.top: parent.top
             anchors.centerIn: parent
-            anchors.margins: back.width / 10
+            anchors.margins: gameStats.width / 10
 
             Label {
-                font.pixelSize: back.textSize
+                font.pixelSize: gameStats.textSize
                 text: "Player"
-                color: back.textColorGame
+                color: gameStats.textColorGame
             }
 
             Label {
                 text: "BlaBla"
-                color: back.backColorGame
+                color: gameStats.backColorGame
             }
 
             GridLayout {
                 columns: 2
-                columnSpacing:  back.width/10
+                columnSpacing:  gameStats.width/10
 
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     text: "Number of moves"
-                    color: back.textColorGame
+                    color: gameStats.textColorGame
                 }
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     id: noMovesPlayer
-                    text: back.playerMoves
-                    color: back.textColorGame
+                    text: gameStats.playerMoves
+                    color: gameStats.textColorGame
                 }
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     text: "Number of misses"
-                    color: back.textColorGame
+                    color: gameStats.textColorGame
                 }
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     id: noMissesPlayer
-                    text: back.playerMisses
-                    color: back.textColorGame
+                    text: gameStats.playerMisses
+                    color: gameStats.textColorGame
                 }
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     text: "Number of hits"
-                    color: back.textColorGame
+                    color: gameStats.textColorGame
                 }
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     id: noHitsPlayer
-                    text: back.playerHits
-                    color: back.textColorGame
+                    text: gameStats.playerHits
+                    color: gameStats.textColorGame
                 }
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     text: "Number of planes guessed"
-                    color: back.textColorGame
+                    color: gameStats.textColorGame
                 }
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     id: noGuessedPlayer
-                    text: back.playerDead
-                    color: back.textColorGame
+                    text: gameStats.playerDead
+                    color: gameStats.textColorGame
                 }
             }
 
             Label {
                 text: "BlaBla"
-                color: back.backColorGame
+                color: gameStats.backColorGame
             }
 
             Label {
-                font.pixelSize: back.textSize
+                font.pixelSize: gameStats.textSize
                 text: "Computer"
-                color: back.textColorGame
+                color: gameStats.textColorGame
             }
 
             Label {
                 text: "BlaBla"
-                color: back.backColorGame
+                color: gameStats.backColorGame
             }
 
             GridLayout {
                 columns: 2
-                columnSpacing:  back.width/10
-                anchors.margins: back.width/10
+                columnSpacing:  gameStats.width/10
+                anchors.margins: gameStats.width/10
 
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     text: "Number of moves"
-                    color: back.textColorGame
+                    color: gameStats.textColorGame
                 }
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     id: noMovesComputer
-                    text: back.computerMoves
-                    color: back.textColorGame
+                    text: gameStats.computerMoves
+                    color: gameStats.textColorGame
                 }
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     text: "Number of misses"
-                    color: back.textColorGame
+                    color: gameStats.textColorGame
                 }
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     id: noMissesComputer
-                    text: back.computerMisses
-                    color: back.textColorGame
+                    text: gameStats.computerMisses
+                    color: gameStats.textColorGame
                 }
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     text: "Number of hits"
-                    color: back.textColorGame
+                    color: gameStats.textColorGame
                 }
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     id: noHitsComputer
-                    text: back.computerHits
-                    color: back.textColorGame
+                    text: gameStats.computerHits
+                    color: gameStats.textColorGame
                 }
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     text: "Number of planes guessed"
-                    color: back.textColorGame
+                    color: gameStats.textColorGame
                 }
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     id: noGuessedComputer
-                    text: back.computerDead
-                    color: back.textColorGame
+                    text: gameStats.computerDead
+                    color: gameStats.textColorGame
                 }
             }
 
             Label {
                 text: "BlaBla"
-                color: back.backColorGame
+                color: gameStats.backColorGame
             }
 
             Label {
-                font.pixelSize: back.textSize
+                font.pixelSize: gameStats.textSize
                 text: "Global Score"
-                color: back.textColorGame
+                color: gameStats.textColorGame
             }
 
             Label {
                 text: "BlaBla"
-                color: back.backColorGame
+                color: gameStats.backColorGame
             }
 
             GridLayout {
                 columns: 2
-                columnSpacing:  back.width/10
-                anchors.margins: back.width/10
+                columnSpacing:  gameStats.width/10
+                anchors.margins: gameStats.width/10
 
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     text: "Player Wins"
-                    color: back.textColorGame
+                    color: gameStats.textColorGame
                 }
                 Label {
-                    font.pixelSize: back.textSize
-                    text: back.playerWins
-                    color: back.textColorGame
+                    font.pixelSize: gameStats.textSize
+                    text: gameStats.playerWins
+                    color: gameStats.textColorGame
                 }
                 Label {
-                    font.pixelSize: back.textSize
+                    font.pixelSize: gameStats.textSize
                     text: "Computer Wins"
-                    color: back.textColorGame
+                    color: gameStats.textColorGame
                 }
                 Label {
-                    font.pixelSize: back.textSize
-                    text: back.computerWins
-                    color: back.textColorGame
+                    font.pixelSize: gameStats.textSize
+                    text: gameStats.computerWins
+                    color: gameStats.textColorGame
                 }
             }
         }
@@ -210,24 +210,24 @@ Rectangle {
 
     Rectangle {
         id: gameEnd
-        color: back.backColorGlobal
+        color: gameStats.backColorGlobal
         width: parent.width
         anchors.top: score.bottom
-        anchors.bottom: back.bottom
+        anchors.bottom: gameStats.bottom
 
         Rectangle {
             id: gameEndHolder
             width: parent.width
             height: parent.height/2
             anchors.top : parent.top
-            color: back.backColorGlobal
+            color: gameStats.backColorGlobal
 
             Label {
                 id: gameEndMessage
                 anchors.centerIn: parent
-                font.pixelSize: back.textSize
+                font.pixelSize: gameStats.textSize
                 text: ""
-                color: back.textColorGlobal
+                color: gameStats.textColorGlobal
             }
             onWidthChanged: {
                 if (playAgainButton.visible == true)
@@ -243,7 +243,7 @@ Rectangle {
             width: parent.width
             height: parent.height/2
             anchors.top : gameEndHolder.bottom
-            color: back.backColorGlobal
+            color: gameStats.backColorGlobal
             PlayAgain {
                 id: playAgainButton
                 anchors.centerIn : parent
@@ -259,6 +259,8 @@ Rectangle {
                 gameEndMessage.text = isPlayerWinner ? "Player wins!" : "Computer wins!"
                 playAgainButton.visible = "true"
                 playAgainButton.state = "Enabled"
+                gameEndMessage.color= gameStats.textColorGlobal
+                gameEndMessage.font.pixelSize = gameStats.textSize
                 anim.start()
             }
         }
@@ -268,7 +270,7 @@ Rectangle {
         id: anim
         loops: 5
         PropertyAnimation { target: gameEndMessage; property: "font.pixelSize"; to: "30"; duration: 500 }
-        PropertyAnimation { target: gameEndMessage; property: "font.pixelSize"; to: back.textSize; duration: 500 }
+        PropertyAnimation { target: gameEndMessage; property: "font.pixelSize"; to: gameStats.textSize; duration: 500 }
         PropertyAnimation { target: gameEndMessage; property: "font.pixelSize"; to: "30"; duration: 500 }
     }
 }

@@ -73,7 +73,12 @@ Rectangle {
             }
         }
     }
-
+    Connections {
+        target: PlaneGame
+        onRoundEnds: {
+            state = "GameNotStarted"
+        }
+    }
     //todo: to use this
     states: [
             State {

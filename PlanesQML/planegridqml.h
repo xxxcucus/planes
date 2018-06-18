@@ -94,11 +94,15 @@ public:
         return m_PlaneGrid->isComputer();
     }
 
-    inline void initGrid() {
+    Q_INVOKABLE inline void initGrid() {
+        beginResetModel();
         m_PlaneGrid->initGrid();
+        m_GuessList.clear();
+        m_GuessMap.clear();
+        endResetModel();
     }
 
-    inline void initGrid1() {
+    Q_INVOKABLE inline void initGrid1() {
         emit planesPointsChanged();
     }
 

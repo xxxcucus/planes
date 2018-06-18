@@ -23,13 +23,15 @@ Rectangle {
         onClicked: {
             if (back.state == "Enabled") {
                 anim.start()
-                //PlaneGame.doneEditing()
-                //PlayerPlaneGrid.doneEditing()
-                //ComputerPlaneGrid.doneEditing()
-                //rightPane.currentTab = 1
-                //leftPane.currentTab = 0
-                //rightPane.computerBoardState = "Game"
-                //rightPane.playerBoardState = "Game"
+                PlaneGame.startNewGame()
+                PlayerPlaneGrid.initGrid()
+                ComputerPlaneGrid.initGrid()
+                rightPane.currentTab = 0
+                leftPane.currentTab = 1
+                rightPane.computerBoardState = "BoardEditing"
+                rightPane.playerBoardState = "BoardEditing"
+                playAgainButton.visible = false
+                gameEndMessage.color= gameStats.backColorGlobal
             }
         }
     }

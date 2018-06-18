@@ -25,6 +25,8 @@ public:
     Q_INVOKABLE inline int getComputerMisses() { return m_Stats.m_computerMisses; }
     Q_INVOKABLE inline int getComputerWins() { return m_Stats.m_computerWins; }
 
+    Q_INVOKABLE void startNewGame();
+
     inline PlaneGrid* playerGrid() { return mPlanesModel->playerGrid(); }
     inline PlaneGrid* computerGrid() { return mPlanesModel->computerGrid(); }
 
