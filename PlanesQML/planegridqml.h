@@ -97,6 +97,8 @@ public:
     Q_INVOKABLE inline void initGrid() {
         beginResetModel();
         m_PlaneGrid->initGrid();
+        if (!m_PlaneGrid->isComputer())
+            m_SelectedPlane = 0;
         m_GuessList.clear();
         m_GuessMap.clear();
         endResetModel();
