@@ -50,11 +50,13 @@ Rectangle {
         GenericBoard {
             boardModel: PlayerPlaneGrid
             id : playerBoard
+            isComputer: false
         }
 
         GenericBoard {
             boardModel: ComputerPlaneGrid
             id : computerBoard
+            isComputer: true
         }
 
         Rectangle {

@@ -13,7 +13,7 @@ Rectangle {
     property int cellSize : (Math.min(width, height) - 20) / (board.gridSquaresOnLine + 2 * board.gridBorder)
     property int spacing: 2
     property variant boardModel: ComputerPlaneGrid
-    property bool isComputer: boardModel.isComputer()
+    property bool isComputer: true
 
     width: parent.width
     height: parent.height
@@ -33,17 +33,28 @@ Rectangle {
             cellHeight: board.cellSize
             flow: GridView.FlowTopToBottom
 
+
             model: board.boardModel
             delegate: Rectangle {
                 width: board.cellSize
                 height: board.cellSize
                 color: board.colorBackground
                 Rectangle {
+
+                    function squareColor() {
+                        if (board.state == "GameNotStarted" )
+                            return planeColorData;
+                        if (!isComputer)
+                            return planeColorData;
+                        if (boardData == 1)
+                            return planeColorData;
+                        return "#ea7025"; //TODO: to change this
+                    }
+
                     anchors.centerIn: parent
                     width: parent.width - board.spacing
                     height: parent.height - board.spacing
-                    color: planeColorData
-
+                    color: squareColor()
                     Canvas {
                         anchors.fill: parent
                         width: parent.width
