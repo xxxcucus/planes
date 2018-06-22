@@ -22,3 +22,4 @@ target_link_libraries(PlanesQML
 
 qt5_use_modules(PlanesQML Core Quick)
 
+install(TARGETS PlanesQML DESTINATION bin)

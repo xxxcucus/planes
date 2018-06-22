@@ -17,7 +17,7 @@ set(COMMON_SRCS 	plane.cpp
 	gamestatistics.cpp)
 
 	
-add_library(libCommon ${COMMON_SRCS})
+add_library(libCommon STATIC ${COMMON_SRCS})
 
 #target_link_libraries(PlanesWidget ${Qt5Widgets_LIBRARIES})
 

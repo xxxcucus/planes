@@ -20,8 +20,6 @@ set(WIDGET_SRCS
 	main.cpp
 	planeswview.cpp
 	planeswwindow.cpp)
-	
-
 
     qt5_wrap_ui(UI_HEADERS
         EditControl.ui
