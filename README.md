@@ -7,3 +7,5 @@ PlanesQML an implementation using QML.
 
 It would be nice if someone would come up with a graphical design
 for the PlaneQML version.
+
+![alt text](https://github.com/xxxcucus/planes/blob/master/Book/BoardWithPlanes.png)
