@@ -1,5 +1,5 @@
 # planes
-Variant of battleships game 
+Variant of battleships game implemented with Qt, C++.
 
 3 versions of the game of Planes: PlanesWidget, first naive version,
 PlanesGraphicsScene an implementation using QGraphicsScene,
