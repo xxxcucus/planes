@@ -1,1 +1,1 @@
-Cand se restarteaza jocul nu e nici un avion selectat pe tabla jucatorului (albastru).
+
