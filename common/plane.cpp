@@ -28,13 +28,6 @@ bool Plane::operator==(const Plane& pl1) const {
     return ((pl1.m_row == m_row) && (pl1.m_col == m_col) && (pl1.m_orient == m_orient));
 }
 
-//assignment operator
-void Plane::operator=(const Plane& pl1) {
-    m_row = pl1.m_row;
-    m_col = pl1.m_col;
-    m_orient = pl1.m_orient;
-}
-
 //Clockwise 90 degrees rotation of the plane
 void Plane::rotate() {
     switch(m_orient)

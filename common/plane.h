@@ -42,8 +42,6 @@ public:
     //operators
     //compares two planes
     bool operator==(const Plane& pl1) const;
-    //equals operator
-    void operator=(const Plane& pl1);
     //translates a plane by a QPoint
     Plane operator+(const QPoint& qp);
 
