@@ -1,4 +1,5 @@
 #include "gamerenderarea.h"
+#include "coordinate2d.h"
 #include <QtGui>
 #include <QDebug>
 
@@ -221,7 +222,7 @@ void GameRenderArea::mousePressEventComputerGame(QMouseEvent *event)
     {
         //queries the m_grid object
         //about the point currently selected with the mouse
-        QPoint qp(m_curMouseRow, m_curMouseCol);
+        PlanesCommonTools::Coordinate2D qp(m_curMouseRow, m_curMouseCol);
         GuessPoint::Type tp= m_grid->getGuessResult(qp);
 
         //the m_grid object returns whether is a miss, hit or dead
@@ -318,7 +319,7 @@ void GameRenderArea::drawPlane(Plane pl,QString color, QPainter *painter)
 
     while(ppi.hasNext())
     {
-        QPoint qp = ppi.next();
+        PlanesCommonTools::Coordinate2D qp = ppi.next();
         fillGridRect(qp.x(),qp.y(),color,painter);
     }
 }
@@ -403,7 +404,7 @@ bool GameRenderArea::tempPlaneIntersectsOtherPlanes() const
 
     while(ppi.hasNext())
     {
-        QPoint qp = ppi.next();
+        PlanesCommonTools::Coordinate2D qp = ppi.next();
         int idx = 0;
         if(m_grid->isPointOnPlane(qp.x(), qp.y(), idx))
             return true;

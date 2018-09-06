@@ -19,8 +19,7 @@ public:
 
     //sets the result of the guess
     void setType(Type tp) { m_type = tp; }
-    //tests to see whether a point lies in a list of guesses
-    //static bool isGuess(QPoint qp, const QList <GuessPoint>& guessList);
+
 
     //compares two guess points
     bool operator ==(const GuessPoint& pl1) const;

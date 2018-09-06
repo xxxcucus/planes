@@ -3,7 +3,7 @@
 
 #include <QList>
 
-namespace MyIterator
+namespace PlanesCommonTools
 {
 //defines an iterator over a QList
 

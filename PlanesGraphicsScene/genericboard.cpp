@@ -1,6 +1,7 @@
 #include "genericboard.h"
 #include "playareagridsquare.h"
 #include "planeiterators.h"
+#include "coordinate2d.h"
 
 #include <QDebug>
 #include <QPropertyAnimation>
@@ -95,14 +96,14 @@ void GenericBoard::displayGuesses() {
 
 void GenericBoard::showPlane(const Plane &pl, const QColor& color)
 {
-    QPoint head = pl.head();
+    PlanesCommonTools::Coordinate2D head = pl.head();
     auto headGridSquareIndex = std::make_pair(head.y() + m_PaddingEditingBoard, head.x() + m_PaddingEditingBoard);
     m_SceneItems[headGridSquareIndex]->setType(GridSquare::Type::PlaneHead);
     PlanePointIterator ppi(pl);
     ///ignore the plane head
     ppi.next();
     while (ppi.hasNext()) {
-        QPoint pt = ppi.next();
+        PlanesCommonTools::Coordinate2D pt = ppi.next();
         auto pointGridSquareIndex = std::make_pair(pt.y() + m_PaddingEditingBoard, pt.x() + m_PaddingEditingBoard);
         m_SceneItems[pointGridSquareIndex]->setType(GridSquare::Type::Plane);
         m_SceneItems[pointGridSquareIndex]->setColor(color);
@@ -111,14 +112,14 @@ void GenericBoard::showPlane(const Plane &pl, const QColor& color)
 
 void GenericBoard::showSelectedPlane(const Plane &pl)
 {
-    QPoint head = pl.head();
+    PlanesCommonTools::Coordinate2D head = pl.head();
     auto headGridSquareIndex = std::make_pair(head.y() + m_PaddingEditingBoard, head.x() + m_PaddingEditingBoard);
     m_SceneItems[headGridSquareIndex]->setSelected(true);
     PlanePointIterator ppi(pl);
     ///ignore the plane head
     ppi.next();
     while (ppi.hasNext()) {
-        QPoint pt = ppi.next();
+        PlanesCommonTools::Coordinate2D pt = ppi.next();
         auto pointGridSquareIndex = std::make_pair(pt.y() + m_PaddingEditingBoard, pt.x() + m_PaddingEditingBoard);
         m_SceneItems[pointGridSquareIndex]->setSelected(true);
     }

@@ -26,9 +26,9 @@ public:
         return m_PlaneGrid->getPlanesPointsCount();
     }
 
-    Q_INVOKABLE QPoint getPlanePoint(int idx) const {
-        return m_PlaneGrid->getPlanePoint(idx);
-    }
+    //Q_INVOKABLE QPoint getPlanePoint(int idx) const {
+    //    return m_PlaneGrid->getPlanePoint(idx);
+    //}
 
     QColor getPlanePointColor(int idx, bool& isPlaneHead) const;
 
@@ -124,7 +124,7 @@ public:
     Q_INVOKABLE void computerBoardClick(int index);
     Q_INVOKABLE void doneEditing();
 
-    Q_INVOKABLE inline resetModel() {
+    Q_INVOKABLE inline void resetModel() {
         beginResetModel();
         endResetModel();
     }

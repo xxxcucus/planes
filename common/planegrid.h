@@ -3,8 +3,8 @@
 
 #include "plane.h"
 #include "guesspoint.h"
+#include "coordinate2d.h"
 #include <QList>
-#include <QPoint>
 #include <QObject>
 
 /**Implements the logic of planes in a grid.
@@ -25,7 +25,7 @@ private:
     //list of plane objects for the grid
     QList<Plane> m_planeList;
     //list of all points on the planes
-    QList<QPoint> m_listPlanePoints;
+    QList<PlanesCommonTools::Coordinate2D> m_listPlanePoints;
     //whether planes overlap. is computed every time the plane points are computed again.
     bool m_PlanesOverlap = false;
     //whether a plane is outside of the grid
@@ -76,9 +76,9 @@ public:
     int getRowNo() const { return m_rowNo; }
     int getColNo() const { return m_colNo; }
     //generates a random position on the grid
-    QPoint generateRandomGridPosition() const;
+    PlanesCommonTools::Coordinate2D generateRandomGridPosition() const;
     //finds how good is a guess
-    GuessPoint::Type getGuessResult(const QPoint& qp) const;
+    GuessPoint::Type getGuessResult(const PlanesCommonTools::Coordinate2D& qp) const;
 
     bool rotatePlane(int idx);
     bool movePlaneUpwards(int idx);
@@ -89,7 +89,7 @@ public:
     inline bool doPlanesOverlap() { return m_PlanesOverlap; }
     inline bool isPlaneOutsideGrid() { return m_PlaneOutsideGrid; }
 
-    inline bool isPointInGrid(const QPoint& qp) {
+    inline bool isPointInGrid(const PlanesCommonTools::Coordinate2D& qp) {
         if (qp.x() < 0 || qp.y() < 0)
             return false;
         if (qp.x() >= getColNo() || qp.y() >= getRowNo())
@@ -99,7 +99,7 @@ public:
 
 ///for integration with QML
     int getPlanesPointsCount() const { return m_listPlanePoints.size(); }
-    QPoint getPlanePoint(int idx) const { return m_listPlanePoints[idx]; }
+    PlanesCommonTools::Coordinate2D getPlanePoint(int idx) const { return m_listPlanePoints[idx]; }
     //retrieves additional information about a plane point
     //the plane idx, whether it is a plane head or not
     int getPlanePointAnnotation(int idx) const { return m_listPlanePointsAnnotations[idx]; }

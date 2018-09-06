@@ -1,9 +1,9 @@
 #include "planeround.h"
 
 #include <QList>
-#include <QPoint>
 #include <QDebug>
 #include <cstdlib>
+#include "coordinate2d.h"
 
 //constructor
 PlaneRound::PlaneRound(PlaneGrid* playerGrid, PlaneGrid* computerGrid, ComputerLogic* logic, bool isComputerFirst):
@@ -84,7 +84,7 @@ bool PlaneRound::enoughGuesses(PlaneGrid* pg, const QList<GuessPoint>& guessList
 //guesses a computer move
 GuessPoint PlaneRound::guessComputerMove()
 {
-    QPoint qp;
+    PlanesCommonTools::Coordinate2D qp;
     //use the computer strategy to get a move
     m_computerLogic->makeChoice(qp);
 

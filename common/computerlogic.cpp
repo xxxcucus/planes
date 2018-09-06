@@ -1,7 +1,6 @@
 #include "computerlogic.h"
 #include <QDebug>
 #include <algorithm>
-#include <QPoint>
 
 //default constructor
 PlaneOrientationData::PlaneOrientationData()
@@ -48,7 +47,7 @@ void PlaneOrientationData::update(const GuessPoint &gp)
         return;
 
     //find the guess point in the list of points not tested
-    int idx = m_pointsNotTested.indexOf(QPoint(gp.m_row, gp.m_col));
+    int idx = m_pointsNotTested.indexOf(PlanesCommonTools::Coordinate2D(gp.m_row, gp.m_col));
 
     //if point not found return
     if(idx == -1)
@@ -215,21 +214,21 @@ Plane ComputerLogic::mapIndexToPlane(int idx) const
 }
 
 //computes the plane head position corresponding for a given position in the choices array
-QPoint ComputerLogic::mapIndexToQPoint(int idx) const
+PlanesCommonTools::Coordinate2D ComputerLogic::mapIndexToQPoint(int idx) const
 {
     int temp = idx / 4;
 
     int row = temp % m_row;
     int col = temp / m_row;
 
-    return QPoint(row, col);
+    return PlanesCommonTools::Coordinate2D(row, col);
 }
 
 //chooses the next point
-bool ComputerLogic::makeChoice(QPoint& qp) const
+bool ComputerLogic::makeChoice(PlanesCommonTools::Coordinate2D& qp) const
 {
     //based on the 3 strategies of choice choses 3 possible moves
-    QPoint qp1, qp2, qp3;
+    PlanesCommonTools::Coordinate2D qp1, qp2, qp3;
 
     bool test1 = makeChoiceFindHeadMode(qp1);
     bool test2 = makeChoiceFindPositionMode(qp2);
@@ -289,7 +288,7 @@ bool ComputerLogic::makeChoice(QPoint& qp) const
 
 //choses the most likely point to be a head's plane on the players grid
 
-bool ComputerLogic::makeChoiceFindHeadMode(QPoint& qp) const
+bool ComputerLogic::makeChoiceFindHeadMode(PlanesCommonTools::Coordinate2D& qp) const
 {
     QList<int> maxPos;
 
@@ -326,7 +325,7 @@ bool ComputerLogic::makeChoiceFindHeadMode(QPoint& qp) const
 
 //after finding one or more heads the computer tries to
 //determine the real position of the found plane
-bool ComputerLogic::makeChoiceFindPositionMode(QPoint& qp) const
+bool ComputerLogic::makeChoiceFindPositionMode(PlanesCommonTools::Coordinate2D& qp) const
 {
     //chose randomly a head data from the list
     //and choose randomly an orientation which is not discarded
@@ -372,7 +371,7 @@ bool ComputerLogic::makeChoiceFindPositionMode(QPoint& qp) const
 
 //computer choses a point about which has no
 //positive or negative data
-bool ComputerLogic::makeChoiceRandomMode(QPoint& qp) const
+bool ComputerLogic::makeChoiceRandomMode(PlanesCommonTools::Coordinate2D& qp) const
 {
     //find a random point which has zero score in the choice map
     int idx = Plane::generateRandomNumber(maxChoiceNo);
@@ -471,7 +470,7 @@ void ComputerLogic::updateChoiceMapPlaneData(const Plane& pl)
     ppi.next();
 
     while(ppi.hasNext()) {
-        QPoint qp = ppi.next();
+        PlanesCommonTools::Coordinate2D qp = ppi.next();
         GuessPoint gp(qp.x(), qp.y(), GuessPoint::Miss);
         updateChoiceMap(gp);
         m_extendedGuessesList.removeOne(gp);
@@ -497,9 +496,9 @@ void ComputerLogic::updateChoiceMapHitInfo(int row,int col)
     m_pipi.reset();
 
     while(m_pipi.hasNext()) {
-        //obtain index for position that includes QPoint(row,col)
+        //obtain index for position that includes Coordinate2D(row,col)
         Plane pl = m_pipi.next();
-        QPoint qp(row, col);
+        PlanesCommonTools::Coordinate2D qp(row, col);
         //add current position to the index to obtain a plane option
         pl = pl + qp;
 
@@ -525,9 +524,9 @@ void ComputerLogic::updateChoiceMapMissInfo(int row, int col)
 
     while(m_pipi.hasNext())
     {
-        //obtain index for position that includes QPoint(row,col)
+        //obtain index for position that includes Coordinate(row,col)
         Plane pl = m_pipi.next();
-        QPoint qp(row, col);
+        PlanesCommonTools::Coordinate2D qp(row, col);
         //add current position to the index to obtain a plane option
         pl = pl + qp;
 
@@ -574,7 +573,7 @@ void ComputerLogic::updateHeadData(const GuessPoint& gp)
 }
 
 //Calculate the number of choice points influenced by a point
-int ComputerLogic::noPointsInfluenced(const QPoint& qp)
+int ComputerLogic::noPointsInfluenced(const PlanesCommonTools::Coordinate2D& qp)
 {
     //checks to see if the point belongs already to a guess
     //or if it cannot be a viable choice

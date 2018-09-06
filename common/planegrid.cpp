@@ -1,8 +1,8 @@
 #include "planegrid.h"
 #include "planeiterators.h"
+#include "coordinate2d.h"
 #include <QList>
 #include <QDebug>
-#include <QPoint>
 #include <cstdlib>
 
 PlaneGrid::PlaneGrid(int row, int col, int planesNo, bool isComputer):
@@ -99,18 +99,18 @@ bool PlaneGrid::initGridByAutomaticGeneration()
 //generate a plane at a random grid position
 Plane PlaneGrid::generateRandomPlane() const
 {
-    QPoint qp = generateRandomGridPosition();
+    PlanesCommonTools::Coordinate2D qp = generateRandomGridPosition();
     Plane::Orientation orient = generateRandomPlaneOrientation();
     return Plane(qp, orient);
 }
 
 //generates a random position on the grid
-QPoint PlaneGrid::generateRandomGridPosition() const
+PlanesCommonTools::Coordinate2D PlaneGrid::generateRandomGridPosition() const
 {
 
     int idx = Plane::generateRandomNumber(m_rowNo * m_colNo);
 
-    return QPoint(idx % m_rowNo,idx / m_rowNo);
+    return PlanesCommonTools::Coordinate2D(idx % m_rowNo,idx / m_rowNo);
 }
 
 //generates a random plane orientation
@@ -146,7 +146,7 @@ bool PlaneGrid::isPointHead(int row, int col) const
 //in the list of planes
 bool PlaneGrid::isPointOnPlane(int row, int col, int& idx) const
 {
-    idx = m_listPlanePoints.indexOf(QPoint(row, col));
+    idx = m_listPlanePoints.indexOf(PlanesCommonTools::Coordinate2D(row, col));
     return (idx >= 0);
 }
 
@@ -169,7 +169,7 @@ bool PlaneGrid::computePlanePointsList(bool sendSignal)
 
         while(ppi.hasNext())
         {
-            QPoint qp = ppi.next();
+            PlanesCommonTools::Coordinate2D qp = ppi.next();
             if (!isPointInGrid(qp))
                 m_PlaneOutsideGrid = true;
             ///compute the point's annotation
@@ -327,8 +327,8 @@ bool PlaneGrid::movePlaneRight(int idx)
     return true;
 }
 
-//for a given QPoint checks to what type of point it corresponds in the grid
-GuessPoint::Type PlaneGrid::getGuessResult(const QPoint& qp) const
+//for a given Coordinate2D checks to what type of point it corresponds in the grid
+GuessPoint::Type PlaneGrid::getGuessResult(const PlanesCommonTools::Coordinate2D& qp) const
 {
     if(isPointHead(qp.x(), qp.y()))
         return GuessPoint::Dead;

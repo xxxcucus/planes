@@ -1,8 +1,9 @@
 #include "planegridqml.h"
+#include "coordinate2d.h"
 #include <QDebug>
 #include <QColor>
 
-PlaneGridQML::PlaneGridQML(PlaneGameQML* planeGame, PlaneGrid* planeGrid): m_PlaneGame(planeGame), m_PlaneGrid(planeGrid) {
+PlaneGridQML::PlaneGridQML(PlaneGameQML* planeGame, PlaneGrid* planeGrid): m_PlaneGrid(planeGrid), m_PlaneGame(planeGame) {
     //connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SIGNAL(planesPointsChanged()));
     connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SLOT(verifyPlanePositionValid()));
     if (m_PlaneGrid->isComputer()) {
@@ -121,6 +122,8 @@ QVariant PlaneGridQML::data(const QModelIndex &index, int role) const {
         else
             return QVariant();
     }
+
+    return QVariant();
 }
 
 void PlaneGridQML::verifyPlanePositionValid() {
@@ -152,7 +155,7 @@ void PlaneGridQML::computerBoardClick(int index) {
     if (col >= m_PlaneGrid->getColNo() + m_Padding)
         return;
 
-    QPoint qp(row - m_Padding, col - m_Padding);
+    PlanesCommonTools::Coordinate2D qp(row - m_Padding, col - m_Padding);
     GuessPoint::Type tp = m_PlaneGrid->getGuessResult(qp);
 
     qDebug() << "Guess " << tp;

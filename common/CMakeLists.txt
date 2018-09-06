@@ -14,7 +14,8 @@ set(COMMON_SRCS 	plane.cpp
     computerlogic.cpp
 	guesspoint.cpp
 	planeiterators.cpp
-	gamestatistics.cpp)
+	gamestatistics.cpp
+	coordinate2d.cpp)
 
 	
 add_library(libCommon STATIC ${COMMON_SRCS})

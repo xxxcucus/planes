@@ -1,8 +1,9 @@
 #include "planeiterators.h"
+#include "coordinate2d.h"
 
 //constructor
 PlanePointIterator::PlanePointIterator(const Plane& pl):
-    MyIterator::ListIterator<QPoint>(),
+    PlanesCommonTools::ListIterator<PlanesCommonTools::Coordinate2D>(),
     m_plane(pl)
 {
     generateList();
@@ -12,17 +13,25 @@ PlanePointIterator::PlanePointIterator(const Plane& pl):
 void PlanePointIterator::generateList()
 {
 
-    const QPoint pointsNorthSouth[] = {QPoint(0, 0), QPoint(0, 1), QPoint(-1, 1), QPoint(1, 1), QPoint(-2, 1), QPoint(2, 1), QPoint(0, 2),
-                                   QPoint(0, 3), QPoint(-1, 3), QPoint(1, 3)};
+    const PlanesCommonTools::Coordinate2D pointsNorthSouth[] = {PlanesCommonTools::Coordinate2D(0, 0), PlanesCommonTools::Coordinate2D(0, 1), PlanesCommonTools::Coordinate2D(-1, 1),
+                                                                PlanesCommonTools::Coordinate2D(1, 1), PlanesCommonTools::Coordinate2D(-2, 1), PlanesCommonTools::Coordinate2D(2, 1),
+                                                                PlanesCommonTools::Coordinate2D(0, 2),PlanesCommonTools::Coordinate2D(0, 3), PlanesCommonTools::Coordinate2D(-1, 3),
+                                                                PlanesCommonTools::Coordinate2D(1, 3)};
 
-    const QPoint pointsSouthNorth[] = {QPoint(0, 0), QPoint(0, -1), QPoint(-1, -1), QPoint(1, -1), QPoint(-2, -1), QPoint(2, -1), QPoint(0, -2),
-                                   QPoint(0, -3), QPoint(-1, -3), QPoint(1, -3)};
+    const PlanesCommonTools::Coordinate2D pointsSouthNorth[] = {PlanesCommonTools::Coordinate2D(0, 0), PlanesCommonTools::Coordinate2D(0, -1), PlanesCommonTools::Coordinate2D(-1, -1),
+                                                                PlanesCommonTools::Coordinate2D(1, -1), PlanesCommonTools::Coordinate2D(-2, -1), PlanesCommonTools::Coordinate2D(2, -1),
+                                                                PlanesCommonTools::Coordinate2D(0, -2), PlanesCommonTools::Coordinate2D(0, -3), PlanesCommonTools::Coordinate2D(-1, -3),
+                                                                PlanesCommonTools::Coordinate2D(1, -3)};
 
-    const QPoint pointsEastWest[] = {QPoint(0, 0), QPoint(1, 0), QPoint(1, -1), QPoint(1, 1), QPoint(1, -2), QPoint(1, 2), QPoint(2, 0),
-                                 QPoint(3, 0), QPoint(3, -1), QPoint(3, 1)};
+    const PlanesCommonTools::Coordinate2D pointsEastWest[] = {PlanesCommonTools::Coordinate2D(0, 0), PlanesCommonTools::Coordinate2D(1, 0), PlanesCommonTools::Coordinate2D(1, -1),
+                                                              PlanesCommonTools::Coordinate2D(1, 1), PlanesCommonTools::Coordinate2D(1, -2), PlanesCommonTools::Coordinate2D(1, 2),
+                                                              PlanesCommonTools::Coordinate2D(2, 0), PlanesCommonTools::Coordinate2D(3, 0), PlanesCommonTools::Coordinate2D(3, -1),
+                                                              PlanesCommonTools::Coordinate2D(3, 1)};
 
-    const QPoint pointsWestEast[] = {QPoint(0, 0), QPoint(-1, 0), QPoint(-1, -1), QPoint(-1, 1), QPoint(-1, -2), QPoint(-1, 2), QPoint(-2, 0),
-                                 QPoint(-3, 0), QPoint(-3, 1), QPoint(-3, -1)};
+    const PlanesCommonTools::Coordinate2D pointsWestEast[] = {PlanesCommonTools::Coordinate2D(0, 0), PlanesCommonTools::Coordinate2D(-1, 0), PlanesCommonTools::Coordinate2D(-1, -1),
+                                                              PlanesCommonTools::Coordinate2D(-1, 1), PlanesCommonTools::Coordinate2D(-1, -2), PlanesCommonTools::Coordinate2D(-1, 2),
+                                                              PlanesCommonTools::Coordinate2D(-2, 0), PlanesCommonTools::Coordinate2D(-3, 0), PlanesCommonTools::Coordinate2D(-3, 1),
+                                                              PlanesCommonTools::Coordinate2D(-3, -1)};
 
     const int size = 10;
     for(int i = 0; i < size; ++i)
@@ -49,8 +58,8 @@ void PlanePointIterator::generateList()
 
 //constructor for the iterator giving all the planes
 //passing through the point (0,0)
-PlaneIntersectingPointIterator::PlaneIntersectingPointIterator(const QPoint& qp):
-    MyIterator::ListIterator<Plane>(),
+PlaneIntersectingPointIterator::PlaneIntersectingPointIterator(const PlanesCommonTools::Coordinate2D& qp):
+    PlanesCommonTools::ListIterator<Plane>(),
     m_point(qp)
 {
     //generates the list of planes
@@ -87,8 +96,8 @@ void PlaneIntersectingPointIterator::generateList()
     }
 }
 
-PointInfluenceIterator::PointInfluenceIterator(const QPoint& qp):
-    MyIterator::ListIterator<QPoint>(),
+PointInfluenceIterator::PointInfluenceIterator(const PlanesCommonTools::Coordinate2D& qp):
+    PlanesCommonTools::ListIterator<PlanesCommonTools::Coordinate2D>(),
     m_point(qp)
 {
     generateList();
@@ -102,7 +111,7 @@ void PointInfluenceIterator::generateList()
     for(int i = -10 + m_point.x(); i < 10 + m_point.y(); i++)
         for(int j = -10 + m_point.y(); j < 10 + m_point.y(); j++)
         {
-            QPoint qp(i, j);
+            PlanesCommonTools::Coordinate2D qp(i, j);
             //generates all planes intersecting the point
             PlaneIntersectingPointIterator pipi(qp);
 

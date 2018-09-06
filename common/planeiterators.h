@@ -2,9 +2,10 @@
 #define PLANEITERATORS_H
 
 #include "plane.h"
+#include "coordinate2d.h"
 
 //iterates over the points that make a plane
-class PlanePointIterator : public ListIterator<QPoint>
+class PlanePointIterator : public ListIterator<PlanesCommonTools::Coordinate2D>
 {
     Plane m_plane;
 public:
@@ -17,11 +18,11 @@ private:
 //lists the relatives positions of all planes that pass through the point (0,0)
 class PlaneIntersectingPointIterator: public ListIterator<Plane>
 {
-    QPoint m_point;
+    PlanesCommonTools::Coordinate2D m_point;
 
 public:
     //constructor taking a QPoint
-    PlaneIntersectingPointIterator(const QPoint& qp = QPoint(0,0));
+    PlaneIntersectingPointIterator(const PlanesCommonTools::Coordinate2D& qp = PlanesCommonTools::Coordinate2D(0,0));
 
 private:
     //generates list of plane indexes that pass through (0,0)
@@ -29,13 +30,13 @@ private:
 };
 
 //lists the points that can influence the value of a point
-class PointInfluenceIterator: ListIterator<QPoint>
+class PointInfluenceIterator: ListIterator<PlanesCommonTools::Coordinate2D>
 {
-    QPoint m_point;
+    PlanesCommonTools::Coordinate2D m_point;
 
 public:
     //constructor
-    PointInfluenceIterator(const QPoint& qp = QPoint(0,0));
+    PointInfluenceIterator(const PlanesCommonTools::Coordinate2D& qp = PlanesCommonTools::Coordinate2D(0,0));
 
 private:
     //generates the list points influencing the point (0,0)

@@ -7,7 +7,8 @@ SOURCES += plane.cpp \
     guesspoint.cpp \
     planeiterators.cpp \
     gamestatistics.cpp \
-    planeround.cpp
+    planeround.cpp \
+    coordinate2d.cpp
 HEADERS += plane.h \
     computerlogic.h \
     listiterator.h \
@@ -16,5 +17,6 @@ HEADERS += plane.h \
     guesspoint.h \
     planeiterators.h \
     gamestatistics.h \
-    planeround.h
+    planeround.h \
+    coordinate2d.h
 

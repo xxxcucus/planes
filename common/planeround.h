@@ -6,7 +6,6 @@
 #include "computerlogic.h"
 #include "gamestatistics.h"
 #include <QList>
-#include <QPoint>
 #include <QObject>
 
 //implements the control logic for playing one round of planes

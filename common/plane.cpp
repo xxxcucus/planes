@@ -1,6 +1,6 @@
 #include "plane.h"
 #include "planeiterators.h"
-#include <QPoint>
+#include "coordinate2d.h"
 #include <QString>
 #include <QDebug>
 
@@ -17,7 +17,7 @@ Plane::Plane(int row, int col, Orientation orient) {
     m_orient = orient;
 }
 
-Plane::Plane(const QPoint& qp, Orientation orient) {
+Plane::Plane(const PlanesCommonTools::Coordinate2D& qp, Orientation orient) {
     m_row = qp.x();
     m_col = qp.y();
     m_orient = orient;
@@ -52,12 +52,12 @@ void Plane::rotate() {
 //checks to see if a plane contains a certain point
 //uses a PlanePointIterator which enumerates
 //all the points on the plane
-bool Plane::containsPoint(const QPoint& qp) const {
+bool Plane::containsPoint(const PlanesCommonTools::Coordinate2D& qp) const {
     PlanePointIterator ppi(*this);
 
     while(ppi.hasNext())
     {
-        QPoint qp1 = ppi.next();
+        PlanesCommonTools::Coordinate2D qp1 = ppi.next();
         if(qp == qp1)
             return true;
     }
@@ -73,7 +73,7 @@ bool Plane::isPositionValid(int row, int col) const {
 
     while(ppi.hasNext())
     {
-        QPoint qp = ppi.next();
+        PlanesCommonTools::Coordinate2D qp = ppi.next();
         if(qp.x()<0 || qp.x()>=row)
             return false;
         if(qp.y()<0 || qp.y()>=col)
@@ -141,6 +141,6 @@ void Plane::translateWhenHeadPosValid(int offsetX, int offsetY, int row, int col
 }
 
 //implements plane translation
-Plane Plane::operator+(const QPoint& qp) {
+Plane Plane::operator+(const PlanesCommonTools::Coordinate2D& qp) {
     return Plane(this->m_row + qp.x(), this->m_col + qp.y(), this->m_orient);
 }

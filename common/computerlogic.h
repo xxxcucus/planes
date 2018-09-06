@@ -4,7 +4,7 @@
 #include "plane.h"
 #include "guesspoint.h"
 #include "planeiterators.h"
-#include <QPoint>
+#include "coordinate2d.h"
 
 
 //The computer is trying to guess where the player's planes are
@@ -32,7 +32,7 @@ struct PlaneOrientationData
     //points on this plane that were not tested
     //if m_discarded is false it means that all the
     //tested points were hits
-    QList<QPoint> m_pointsNotTested;
+    QList<PlanesCommonTools::Coordinate2D> m_pointsNotTested;
 
     //default constructor
     PlaneOrientationData();
@@ -88,9 +88,6 @@ protected:
     //list of already guessed planes
     QList<Plane> m_guessedPlaneList;
 
-    //list of guessed plane heads for which the plane is not found
-    //QList <QPoint> m_guessedHeadList;
-
     //list of available data for each head in m_guessHeadList
     QList<HeadData> m_headDataList;
 
@@ -125,7 +122,7 @@ public:
     void reset();
     //returns the plane choice with the highest score and true
     //or false if there are no more valid choices
-    bool makeChoice(QPoint& qp) const;
+    bool makeChoice(PlanesCommonTools::Coordinate2D& qp) const;
     //new info is added the choices are updated
     void addData(const GuessPoint& gp);
     //tests whether all plane positions are guessed
@@ -147,14 +144,14 @@ public:
 private:
     //computes the plane corresponding to a given position in the choices array
     Plane mapIndexToPlane(int idx) const;
-    //computes the QPoint corresponding to the head of the plane corresponding to the idx
-    QPoint mapIndexToQPoint(int idx) const;
+    //computes the Coordinate2D corresponding to the head of the plane corresponding to the idx
+    PlanesCommonTools::Coordinate2D mapIndexToQPoint(int idx) const;
     //make choice in find head mode
-    bool makeChoiceFindHeadMode(QPoint& qp) const;
+    bool makeChoiceFindHeadMode(PlanesCommonTools::Coordinate2D& qp) const;
     //make choice in find plane position mode
-    bool makeChoiceFindPositionMode(QPoint& qp) const;
+    bool makeChoiceFindPositionMode(PlanesCommonTools::Coordinate2D& qp) const;
     //make a random choice
-    bool makeChoiceRandomMode(QPoint& qp) const;
+    bool makeChoiceRandomMode(PlanesCommonTools::Coordinate2D& qp) const;
 
     //updates the head data
     void updateHeadData(const GuessPoint& gp);
@@ -171,7 +168,7 @@ private:
     void updateChoiceMapPlaneData(const Plane& pl);
 
     //Calculate the number of choice points influenced by a point
-    int noPointsInfluenced(const QPoint& qp);
+    int noPointsInfluenced(const PlanesCommonTools::Coordinate2D& qp);
 };
 
 
