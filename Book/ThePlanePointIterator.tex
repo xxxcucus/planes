@@ -1,5 +1,7 @@
 \section{PlanePointIterator Class}
 
+The PlanePointIterator is responsible with enumerating the points of a plane object and is very often used in other source files. The following section describes the design of this class.
+
 \subsection {Class declaration}
 
 \begin{lstlisting}
@@ -72,6 +74,9 @@ PlanePointIterator is an iterator that provides access to the positions occupied
 To create a game with other forms of ships it is sufficient to reimplement the PlanePointIterator class.
 
 \subsection {Implementation of ListIterator}
+
+The essence of a PlanePointIterator is captured by the ListIterator class : a PlanePointIterator is a method (defined in the ListIterator class) to iterate over a list together with a special list, defined with the method generateList().
+
 \begin{lstlisting}
 namespace MyIterator
 {
@@ -137,10 +142,12 @@ int ListIterator<T>::itemNo() const
 }
 \end{lstlisting}
 
+ListIterator is a parametrizable class (a so called template class) which has only two member variable, a list (implemented through the Qt type QList) and an index inside the list. 
+
 \subsection {C++ Concepts}
 \subsubsection {Iterators}
 
-Iterators are methods to obtain sequential access to the members of a data storage value (e.g. vector, list, set). No assumption about the order in which the data is retrieved should be made. In the simplest application scenario an iterator is initialized, an action is performed to the data pointed by the iterator, then the iterator is incremented to the next position and so further until the end of data structure is reached. For a C++ style iterator this would look like this:
+Iterators are methods to obtain sequential access to the members of a data container (e.g. vector, list, set). No assumption about the order in which the data is retrieved should be made. In the simplest application scenario an iterator is initialized, an action is performed to the data pointed by the iterator, then the iterator is incremented to the next position and so further until the end of data structure is reached. For a C++ style iterator this would look like this:
 
 \begin{lstlisting}
 	//initialization of the iterator at the beginning
