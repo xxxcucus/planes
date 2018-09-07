@@ -129,6 +129,7 @@ signals:
     void notEnoughPlanes();
     //notifies that all planes are there and do not superimpose
     void activateDone();
+    void deactivateDone();
     //signals that the player has chosen a point on computer's grid
     void guessMade(GuessPoint gp);
 

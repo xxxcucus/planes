@@ -66,6 +66,8 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
                      editPlanesWidget, SLOT(deactivateDoneButton()));
     connect(playerArea, SIGNAL(activateDone()),
                      editPlanesWidget, SLOT(activateDoneButton()));
+    connect(playerArea, SIGNAL(deactivateDone()),
+                     editPlanesWidget, SLOT(deactivateDoneButton()));
     connect(editPlanesWidget, SIGNAL(doneClicked()),
                      playerArea, SLOT(changeMode()));
     connect(editPlanesWidget, SIGNAL(doneClicked()),

@@ -11,12 +11,12 @@ SOURCES += plane.cpp \
     coordinate2d.cpp
 HEADERS += plane.h \
     computerlogic.h \
-    listiterator.h \
     planegrid.h \
     planesmodel.h \
     guesspoint.h \
     planeiterators.h \
     gamestatistics.h \
     planeround.h \
-    coordinate2d.h
+    coordinate2d.h \
+    vectoriterator.h
 

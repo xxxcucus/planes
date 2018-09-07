@@ -1,22 +1,22 @@
-#ifndef LISTITERATOR_H
-#define LISTITERATOR_H
+#ifndef VECTORITERATOR_H
+#define VECTORITERATOR_H
 
-#include <QList>
+#include <vector>
 
 namespace PlanesCommonTools
 {
 //defines an iterator over a QList
 
 template <class T>
-class ListIterator
+class VectorIterator
 {
 protected:
-    QList<T> m_internalList;
+    std::vector<T> m_internalList;
     int m_idx;
 
 public:
     //constructor
-    ListIterator();
+    VectorIterator();
 
     //sets the position of the iterator before the first  element
     void reset();
@@ -29,43 +29,41 @@ public:
 };
 
 template <class T>
-ListIterator<T>::ListIterator()
+VectorIterator<T>::VectorIterator()
 {
     //generates the list of points
     m_internalList.clear();
     //puts the index one before the first element in the list
     reset();
-
 }
 
 template <class T>
-void ListIterator<T>::reset()
+void VectorIterator<T>::reset()
 {
     m_idx = -1;
 }
 
 //during a point iteration checks to see if there is a next point
 template <class T>
-bool ListIterator<T>::hasNext() const
+bool VectorIterator<T>::hasNext() const
 {
-
-    return (m_idx < m_internalList.size() - 1);
+    return (m_idx < static_cast<int>(m_internalList.size()) - 1);
 }
 
 //during an iteration returns the next point
 template <class T>
-const T& ListIterator<T>::next()
+const T& VectorIterator<T>::next()
 {
     return  m_internalList[++m_idx];
 }
 
 //returns number of points on the plane
 template <class T>
-int ListIterator<T>::itemNo() const
+int VectorIterator<T>::itemNo() const
 {
     return m_internalList.size();
 }
 
 }
 
-#endif // LISTITERATOR_H
+#endif // VECTORITERATOR_H

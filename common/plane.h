@@ -2,7 +2,7 @@
 #define PLANE_H
 
 #include <QList>
-#include "listiterator.h"
+#include "vectoriterator.h"
 #include "coordinate2d.h"
 
 //Describes a plane on a grid

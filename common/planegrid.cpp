@@ -352,7 +352,7 @@ int PlaneGrid::generateAnnotation(int planeNo, bool isHead) {
 std::vector<int> PlaneGrid::decodeAnnotation(int annotation) const {
     std::vector<int> retVal;
     for (int i = 0; i < m_planeNo; ++i) {
-        int mask = 0x3 << (2 * i);
+        //int mask = 0x3 << (2 * i);
         int mask1 = 0x1 << (2 * i);
         int mask2 = 0x2 << (2 * i);
         /*if (mask & annotation)

@@ -3,7 +3,7 @@
 
 //constructor
 PlanePointIterator::PlanePointIterator(const Plane& pl):
-    PlanesCommonTools::ListIterator<PlanesCommonTools::Coordinate2D>(),
+    PlanesCommonTools::VectorIterator<PlanesCommonTools::Coordinate2D>(),
     m_plane(pl)
 {
     generateList();
@@ -39,16 +39,16 @@ void PlanePointIterator::generateList()
         switch(m_plane.orientation())
         {
             case Plane::NorthSouth:
-                m_internalList << pointsNorthSouth[i] + m_plane.head();
+                m_internalList.push_back(pointsNorthSouth[i] + m_plane.head());
                 break;
             case Plane::SouthNorth:
-                m_internalList << pointsSouthNorth[i] + m_plane.head();
+                m_internalList.push_back(pointsSouthNorth[i] + m_plane.head());
                 break;
             case Plane::WestEast:
-                m_internalList << pointsWestEast[i] + m_plane.head();
+                m_internalList.push_back(pointsWestEast[i] + m_plane.head());
                 break;
             case Plane::EastWest:
-                m_internalList << pointsEastWest[i] + m_plane.head();
+                m_internalList.push_back(pointsEastWest[i] + m_plane.head());
                 break;
             default:
                 ;
@@ -59,7 +59,7 @@ void PlanePointIterator::generateList()
 //constructor for the iterator giving all the planes
 //passing through the point (0,0)
 PlaneIntersectingPointIterator::PlaneIntersectingPointIterator(const PlanesCommonTools::Coordinate2D& qp):
-    PlanesCommonTools::ListIterator<Plane>(),
+    PlanesCommonTools::VectorIterator<Plane>(),
     m_point(qp)
 {
     //generates the list of planes
@@ -78,26 +78,25 @@ void PlaneIntersectingPointIterator::generateList()
             for(int k = 0; k < 4; k++)
             {
                 Plane pl(i, j, (Plane::Orientation)k);
-                m_internalList.append(pl);
+                m_internalList.push_back(pl);
             }
 
-    QMutableListIterator<Plane> i(m_internalList);
+    auto it = m_internalList.begin();
 
     //elimintate all positions that do not contain (0,0)
-    while(i.hasNext())
+    while(it != m_internalList.end())
     {
-        Plane pl = i.next();
-
-        if(!pl.containsPoint(m_point))
+        if (!it->containsPoint(m_point))
         {
-            i.remove();
+            it = m_internalList.erase(it);
             continue;
         }
+        ++it;
     }
 }
 
 PointInfluenceIterator::PointInfluenceIterator(const PlanesCommonTools::Coordinate2D& qp):
-    PlanesCommonTools::ListIterator<PlanesCommonTools::Coordinate2D>(),
+    PlanesCommonTools::VectorIterator<PlanesCommonTools::Coordinate2D>(),
     m_point(qp)
 {
     generateList();
