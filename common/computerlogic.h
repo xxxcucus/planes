@@ -88,10 +88,10 @@ protected:
     int m_planeNo;
 
     //list of already guessed planes
-    QList<Plane> m_guessedPlaneList;
+    std::vector<Plane> m_guessedPlaneList;
 
     //list of available data for each head in m_guessHeadList
-    QList<HeadData> m_headDataList;
+    std::vector<HeadData> m_headDataList;
 
     //list of guesses made until this moment
     QList<GuessPoint> m_guessesList;

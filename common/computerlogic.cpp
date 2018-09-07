@@ -399,7 +399,7 @@ bool ComputerLogic::makeChoiceRandomMode(PlanesCommonTools::Coordinate2D& qp) co
 //checks whether if the computer has guessed everything
 bool ComputerLogic::areAllGuessed() const
 {
-    return (m_guessedPlaneList.size() >= m_planeNo);
+    return (static_cast<int>(m_guessedPlaneList.size()) >= m_planeNo);
 }
 
 //new info is added the choices are updated
@@ -419,24 +419,24 @@ void ComputerLogic::addData(const GuessPoint& gp)
     updateHeadData(gp);
 
     //checks all head data to see if any plane positions were confirmed
-    QMutableListIterator<HeadData> qmli(m_headDataList);
+    auto it = m_headDataList.begin();
 
-    while(qmli.hasNext()) {
-        HeadData hd = qmli.next();
 
+    while (it != m_headDataList.end()) {
         //if we decided upon an orientation
         //update the choice map
         //and delete the head data structure
         //append to the list of found planes
-        if(hd.m_correctOrient != -1)
+        if (it->m_correctOrient != -1)
         {
-            Plane pl(hd.m_headRow, hd.m_headCol, (Plane::Orientation)hd.m_correctOrient);
+            Plane pl(it->m_headRow, it->m_headCol, (Plane::Orientation)it->m_correctOrient);
             updateChoiceMapPlaneData(pl);
-            m_guessedPlaneList.append(pl);
-            qmli.remove();
+            m_guessedPlaneList.push_back(pl);
+            it = m_headDataList.erase(it);
+        } else {
+            ++it;
         }
     }
-
 }
 
 //updates the computer choices
@@ -547,13 +547,12 @@ void ComputerLogic::updateChoiceMapMissInfo(int row, int col)
 void ComputerLogic::updateHeadData(const GuessPoint& gp)
 {
     //build a list iterator that allows the modification of data
-    QMutableListIterator<HeadData> qmli(m_headDataList);
+    auto it = m_headDataList.begin();
 
     //updates the head data with the found guess point
-    while(qmli.hasNext()) {
-        HeadData hd = qmli.next();
-        hd.update(gp);
-        qmli.setValue(hd);
+    while(it != m_headDataList.end()) {
+        it->update(gp);
+        ++it;
     }
 
     //if the guess point is a head  add a new head data
@@ -568,7 +567,7 @@ void ComputerLogic::updateHeadData(const GuessPoint& gp)
             hd.update(m_extendedGuessesList.at(i));
 
         //append the head data in the list of heads
-        m_headDataList.append(hd);
+        m_headDataList.push_back(hd);
     }
 }
 
