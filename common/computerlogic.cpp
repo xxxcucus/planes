@@ -22,7 +22,7 @@ PlaneOrientationData::PlaneOrientationData(const Plane& pl, bool isDiscarded):
 
     while(ppi.hasNext())
     {
-        m_pointsNotTested.append(ppi.next());
+        m_pointsNotTested.push_back(ppi.next());
     }
 }
 
@@ -47,27 +47,27 @@ void PlaneOrientationData::update(const GuessPoint &gp)
         return;
 
     //find the guess point in the list of points not tested
-    int idx = m_pointsNotTested.indexOf(PlanesCommonTools::Coordinate2D(gp.m_row, gp.m_col));
+    auto it = std::find(m_pointsNotTested.begin(), m_pointsNotTested.end(), PlanesCommonTools::Coordinate2D(gp.m_row, gp.m_col));
 
     //if point not found return
-    if(idx == -1)
+    if (it == m_pointsNotTested.end())
         return;
 
     //if point found
     //if dead and idx = 0 remove the head from the list of untested points
-    if(gp.m_type == GuessPoint::Dead && idx == 0)
+    if (gp.m_type == GuessPoint::Dead && it == m_pointsNotTested.begin())
     {
-        m_pointsNotTested.removeAt(idx);
+        m_pointsNotTested.erase(it);
         return ;
     }
 
     //if miss or dead discard plane
-    if(gp.m_type == GuessPoint::Miss || gp.m_type == GuessPoint::Dead)
+    if (gp.m_type == GuessPoint::Miss || gp.m_type == GuessPoint::Dead)
         m_discarded = true;
 
     //if hit take point out of the list of points not tested
-    if(gp.m_type == GuessPoint::Hit)
-        m_pointsNotTested.removeAt(idx);
+    if (gp.m_type == GuessPoint::Hit)
+        m_pointsNotTested.erase(it);
 }
 
 //checks to see that all points on the plane were tested
@@ -349,7 +349,7 @@ bool ComputerLogic::makeChoiceFindPositionMode(PlanesCommonTools::Coordinate2D& 
         PlaneOrientationData pod = hd.m_options[i];
 
         if(!pod.m_discarded) {
-            if(pod.m_pointsNotTested.size()>max_not_tested) {
+            if(static_cast<int>(pod.m_pointsNotTested.size()) > max_not_tested) {
                 max_not_tested = pod.m_pointsNotTested.size();
                 good_orientation = i;
             }

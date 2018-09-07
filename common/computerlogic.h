@@ -6,6 +6,7 @@
 #include "planeiterators.h"
 #include "coordinate2d.h"
 #include <QList>
+#include <vector>
 
 
 //The computer is trying to guess where the player's planes are
@@ -33,7 +34,7 @@ struct PlaneOrientationData
     //points on this plane that were not tested
     //if m_discarded is false it means that all the
     //tested points were hits
-    QList<PlanesCommonTools::Coordinate2D> m_pointsNotTested;
+    std::vector<PlanesCommonTools::Coordinate2D> m_pointsNotTested;
 
     //default constructor
     PlaneOrientationData();
