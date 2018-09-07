@@ -96,29 +96,29 @@ int Plane::generateRandomNumber(int valmax) {
 
 //constructs a string representation of a plane
 //used for debugging purposes
-QString Plane::toString() const
+std::string Plane::toString() const
 {
-    QString toReturn = "";
+    std::string toReturn = "";
 
-    toReturn += "Plane head: ";
-    toReturn += QString::number(m_row);
-    toReturn += "-";
-    toReturn += QString::number(m_col);
-    toReturn += " oriented: ";
+    toReturn = toReturn + "Plane head: ";
+    toReturn = toReturn + std::to_string(m_row);
+    toReturn = toReturn + "-";
+    toReturn = toReturn + std::to_string(m_col);
+    toReturn = toReturn + " oriented: ";
 
     switch(m_orient)
     {
     case NorthSouth:
-        toReturn += "NorthSouth";
+        toReturn = toReturn + "NorthSouth";
         break;
     case SouthNorth:
-        toReturn += "SouthNorth";
+        toReturn = toReturn + "SouthNorth";
         break;
     case EastWest:
-        toReturn += "EastWest";
+        toReturn = toReturn + "EastWest";
         break;
     case WestEast:
-        toReturn += "WestEast";
+        toReturn = toReturn + "WestEast";
         break;
     default:
         ;

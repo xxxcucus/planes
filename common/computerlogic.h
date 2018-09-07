@@ -5,6 +5,7 @@
 #include "guesspoint.h"
 #include "planeiterators.h"
 #include "coordinate2d.h"
+#include <QList>
 
 
 //The computer is trying to guess where the player's planes are

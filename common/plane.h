@@ -1,7 +1,7 @@
 #ifndef PLANE_H
 #define PLANE_H
 
-#include <QList>
+#include <string>
 #include "vectoriterator.h"
 #include "coordinate2d.h"
 
@@ -62,7 +62,7 @@ public:
     //generates a random number from 0 and valmax-1
     static int generateRandomNumber(int valmax);
     //displays the plane
-    QString toString() const;
+    std::string toString() const;
 };
 
 
