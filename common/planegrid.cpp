@@ -1,7 +1,6 @@
 #include "planegrid.h"
 #include "planeiterators.h"
 #include "coordinate2d.h"
-#include <QList>
 #include <QDebug>
 #include <cstdlib>
 
@@ -144,8 +143,13 @@ bool PlaneGrid::isPointHead(int row, int col) const
 //in the list of planes
 bool PlaneGrid::isPointOnPlane(int row, int col, int& idx) const
 {
-    idx = m_listPlanePoints.indexOf(PlanesCommonTools::Coordinate2D(row, col));
-    return (idx >= 0);
+    auto it = std::find(m_listPlanePoints.begin(), m_listPlanePoints.end(), PlanesCommonTools::Coordinate2D(row, col));
+    if (it == m_listPlanePoints.end()) {
+        idx = -1;
+        return false;
+    }
+    idx = std::distance(m_listPlanePoints.begin(), it);
+    return true;
 }
 
 //computes all the points on a plane
@@ -159,7 +163,7 @@ bool PlaneGrid::computePlanePointsList(bool sendSignal)
     bool returnValue = true;
 
     m_PlaneOutsideGrid = false;
-    for(int i = 0; i < m_planeList.size(); i++)
+    for(unsigned int i = 0; i < m_planeList.size(); i++)
     {
         Plane pl = m_planeList.at(i);
         PlanePointIterator ppi(pl);
@@ -174,7 +178,7 @@ bool PlaneGrid::computePlanePointsList(bool sendSignal)
             int annotation = generateAnnotation(i, isHead);
             int idx = 0;
             if(!isPointOnPlane(qp.x(), qp.y(), idx)) {
-                m_listPlanePoints.append(qp);
+                m_listPlanePoints.push_back(qp);
                 m_listPlanePointsAnnotations.push_back(annotation);
             } else {
                 returnValue = false;
@@ -193,13 +197,17 @@ bool PlaneGrid::computePlanePointsList(bool sendSignal)
 //searches a plane in the list of planes
 int PlaneGrid::searchPlane(const Plane& pl) const
 {
-    return m_planeList.indexOf(pl);
+    auto it = std::find(m_planeList.begin(), m_planeList.end(), pl);
+    if (it == m_planeList.end())
+        return -1;
+    else
+        return std::distance(m_planeList.begin(), it);
 }
 
 //searches a plane with the head at a given position on the grid in the list of planes
 int PlaneGrid::searchPlane(int row, int col) const
 {
-    for(int i = 0; i < m_planeList.size(); i++)
+    for(int i = 0; i < static_cast<int>(m_planeList.size()); i++)
     {
         Plane plane = m_planeList.at(i);
 
@@ -217,7 +225,7 @@ bool PlaneGrid::savePlane(const Plane& pl)
     if(searchPlane(pl) == -1)
     {
         //append to plane list
-        m_planeList.append(pl);
+        m_planeList.push_back(pl);
 
         return true;
     }
@@ -227,19 +235,22 @@ bool PlaneGrid::savePlane(const Plane& pl)
 //removes the plane at a given position in the list of planes
 bool PlaneGrid::removePlane(int idx, Plane &pl)
 {
-    if(idx < 0 || idx >= m_planeList.size())
+    if(idx < 0 || idx >= static_cast<int>(m_planeList.size()))
         return false;
 
      pl = m_planeList.at(idx);
      //remove the plane from the list of planes
-     m_planeList.removeAt(idx);
+     auto it = m_planeList.begin() + idx;
+     m_planeList.erase(it);
      return true;
 }
 
 //removes a plane from the grid
 void PlaneGrid::removePlane(const Plane& pl)
 {
-    m_planeList.removeOne(pl);
+    auto it = std::find(m_planeList.begin(), m_planeList.end(), pl);
+    if (it != m_planeList.end())
+        m_planeList.erase(it);
 }
 
 //resets the plane grid
@@ -267,7 +278,7 @@ int PlaneGrid::getPlaneListSize() const
 //gets the plane at a given position in the list of planes
 bool PlaneGrid::getPlane(int pos, Plane& pl) const
 {
-    if(pos < 0 || pos >= m_planeList.size())
+    if(pos < 0 || pos >= static_cast<int>(m_planeList.size()))
         return false;
 
     pl = m_planeList.at(pos);
@@ -276,7 +287,7 @@ bool PlaneGrid::getPlane(int pos, Plane& pl) const
 
 bool PlaneGrid::rotatePlane(int idx)
 {
-    if (idx < 0 || idx >= m_planeList.size())
+    if (idx < 0 || idx >= static_cast<int>(m_planeList.size()))
         return false;
     Plane& pl = m_planeList[idx];
     pl.rotate();
@@ -287,7 +298,7 @@ bool PlaneGrid::rotatePlane(int idx)
 
 bool PlaneGrid::movePlaneUpwards(int idx)
 {
-    if (idx < 0 || idx >= m_planeList.size())
+    if (idx < 0 || idx >= static_cast<int>(m_planeList.size()))
         return false;
     Plane& pl = m_planeList[idx];
     pl.translateWhenHeadPosValid(0, -1, m_rowNo, m_colNo);
@@ -297,7 +308,7 @@ bool PlaneGrid::movePlaneUpwards(int idx)
 
 bool PlaneGrid::movePlaneDownwards(int idx)
 {
-    if (idx < 0 || idx >= m_planeList.size())
+    if (idx < 0 || idx >= static_cast<int>(m_planeList.size()))
         return false;
     Plane& pl = m_planeList[idx];
     pl.translateWhenHeadPosValid(0, 1, m_rowNo, m_colNo);
@@ -307,7 +318,7 @@ bool PlaneGrid::movePlaneDownwards(int idx)
 
 bool PlaneGrid::movePlaneLeft(int idx)
 {
-    if (idx < 0 || idx >= m_planeList.size())
+    if (idx < 0 || idx >= static_cast<int>(m_planeList.size()))
         return false;
     Plane& pl = m_planeList[idx];
     pl.translateWhenHeadPosValid(-1, 0, m_rowNo, m_colNo);
@@ -317,7 +328,7 @@ bool PlaneGrid::movePlaneLeft(int idx)
 
 bool PlaneGrid::movePlaneRight(int idx)
 {
-    if (idx < 0 || idx >= m_planeList.size())
+    if (idx < 0 || idx >= static_cast<int>(m_planeList.size()))
         return false;
     Plane& pl = m_planeList[idx];
     pl.translateWhenHeadPosValid(1, 0, m_rowNo, m_colNo);

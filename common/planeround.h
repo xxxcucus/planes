@@ -5,7 +5,6 @@
 #include "planegrid.h"
 #include "computerlogic.h"
 #include "gamestatistics.h"
-#include <QList>
 #include <QObject>
 
 //implements the control logic for playing one round of planes
@@ -23,8 +22,8 @@ class PlaneRound: public QObject
     PlaneGrid* m_ComputerGrid;
 
     //the list of guesses for computer and player
-    QList<GuessPoint> m_computerGuessList;
-    QList<GuessPoint> m_playerGuessList;
+    std::vector<GuessPoint> m_computerGuessList;
+    std::vector<GuessPoint> m_playerGuessList;
 
     //the computer's strategy
     ComputerLogic* m_computerLogic;
@@ -43,7 +42,7 @@ public:
     void reset();
 
     //tests whether all of the planes have been guessed
-    bool enoughGuesses(PlaneGrid* pg, const QList<GuessPoint>& guessList ) const;
+    bool enoughGuesses(PlaneGrid* pg, const std::vector<GuessPoint>& guessList) const;
     //inits a new round
     void initRound();
     //update game statistics

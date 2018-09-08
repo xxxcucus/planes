@@ -5,7 +5,7 @@
 
 namespace PlanesCommonTools
 {
-//defines an iterator over a QList
+//defines an iterator over a std::vector
 
 template <class T>
 class VectorIterator

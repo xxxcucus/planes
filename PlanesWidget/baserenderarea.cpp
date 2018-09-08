@@ -178,7 +178,7 @@ void BaseRenderArea::drawGuesses(const std::vector<GuessPoint>& list, QPainter *
 {
     QPen currentPen = painter->pen();
     painter->setPen(QString("red"));
-    for(int i = 0;i < list.size(); i++)
+    for(unsigned int i = 0; i < list.size(); i++)
     {
         GuessPoint gp = list.at(i);
         switch (gp.m_type)

@@ -4,7 +4,6 @@
 #include "plane.h"
 #include "guesspoint.h"
 #include "coordinate2d.h"
-#include <QList>
 #include <QObject>
 
 /**Implements the logic of planes in a grid.
@@ -21,18 +20,17 @@ private:
     int m_planeNo;
     //whether the grid belongs to a user or to a player
     bool m_isComputer;
-    ///@todo: to replace QList with QVector
     //list of plane objects for the grid
-    QList<Plane> m_planeList;
+    std::vector<Plane> m_planeList;
     //list of all points on the planes
-    QList<PlanesCommonTools::Coordinate2D> m_listPlanePoints;
+    std::vector<PlanesCommonTools::Coordinate2D> m_listPlanePoints;
     //whether planes overlap. is computed every time the plane points are computed again.
     bool m_PlanesOverlap = false;
     //whether a plane is outside of the grid
     bool m_PlaneOutsideGrid = false;
 
     ///for QML
-    QList<int> m_listPlanePointsAnnotations;
+    std::vector<int> m_listPlanePointsAnnotations;
     //the following annotations should exist
     //00000001 - belonging to plane 1
     //00000010 - head of plane 1

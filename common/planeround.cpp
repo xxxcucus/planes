@@ -1,6 +1,5 @@
 #include "planeround.h"
 
-#include <QList>
 #include <QDebug>
 #include <cstdlib>
 #include "coordinate2d.h"
@@ -14,7 +13,6 @@ PlaneRound::PlaneRound(PlaneGrid* playerGrid, PlaneGrid* computerGrid, ComputerL
 {
     reset();
 }
-
 
 //resets the PlaneRound object
 void PlaneRound::reset()
@@ -68,11 +66,11 @@ bool PlaneRound::isRoundEndet(bool& isPlayerWinner) const
 }
 
 //decides whether all the planes have been guessed
-bool PlaneRound::enoughGuesses(PlaneGrid* pg, const QList<GuessPoint>& guessList ) const
+bool PlaneRound::enoughGuesses(PlaneGrid* pg, const std::vector<GuessPoint>& guessList ) const
 {
     int count = 0;
 
-    for(int i = 0; i < guessList.size(); i++) {
+    for(unsigned int i = 0; i < guessList.size(); i++) {
         GuessPoint gp = guessList.at(i);
         if (gp.m_type == GuessPoint::Dead)
             count++;
@@ -96,7 +94,7 @@ GuessPoint PlaneRound::guessComputerMove()
     m_computerLogic->addData(gp);
 
     //update the computer guess list
-    m_computerGuessList.append(gp);
+    m_computerGuessList.push_back(gp);
 
     return gp;
 }
@@ -114,7 +112,7 @@ void PlaneRound::receivedPlayerGuess(const GuessPoint& gp)
     updateGameStats(gp, false);
     //add the player's guess to the list of guesses
     //assume that the guess is different from the other guesses
-    m_playerGuessList.append(gp);
+    m_playerGuessList.push_back(gp);
 
     //if the player is  first
     //run the computer's move
