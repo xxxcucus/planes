@@ -19,7 +19,6 @@ public:
     enum Mode {Editor, Game};
 
 private:
-
     //the current drawing operation
     Operation m_currentOperation;
     //the current operation mode: Editor or Game
@@ -40,11 +39,10 @@ private:
     //the plane grid associated with this render area
     PlaneGrid* m_grid;
     //list of guesses for this render area
-    QList <GuessPoint> m_guessPointList;
+    std::vector<GuessPoint> m_guessPointList;
 
     //in game mode says whether the round has endet
     bool m_roundEndet;
-
 
 public:
     //constructor sets the dimension of the render area

@@ -174,19 +174,14 @@ void BaseRenderArea::drawNumber(int row, int col, int val, QPainter *painter) co
 }
 
 //draws a list of guesses in the grid
-void BaseRenderArea::drawGuesses(const QList <GuessPoint> &list, QPainter *painter) const
+void BaseRenderArea::drawGuesses(const std::vector<GuessPoint>& list, QPainter *painter) const
 {
-
     QPen currentPen = painter->pen();
-
-
     painter->setPen(QString("red"));
-
-    for(int i=0;i<list.size();i++)
+    for(int i = 0;i < list.size(); i++)
     {
         GuessPoint gp = list.at(i);
-
-        switch(gp.m_type)
+        switch (gp.m_type)
         {
         case GuessPoint::Miss:
             drawMiss(gp.m_row, gp.m_col, painter);
@@ -201,9 +196,7 @@ void BaseRenderArea::drawGuesses(const QList <GuessPoint> &list, QPainter *paint
             ;
         }
     }
-
     painter->setPen(currentPen);
-
 }
 
 

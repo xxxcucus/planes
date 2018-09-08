@@ -30,67 +30,65 @@ void PlaneGrid::initGrid()
 bool PlaneGrid::initGridByAutomaticGeneration()
 {
     int count = 0;
-    QList<Plane> listPossiblePositions;
+    std::vector<Plane> listPossiblePositions;
     listPossiblePositions.clear();
 
     //build a list of all possible positions
     //enum Orientation {NorthSouth=0, SouthNorth=1, WestEast=2, EastWest=3};
     for(int i = 0; i < m_rowNo; i++)
         for(int j = 0; j < m_colNo; j++)
-            for(int k = 0;k < 4; k++)
+            for(int k = 0; k < 4; k++)
             {
                 Plane pl(i, j, (Plane::Orientation)k);
-                listPossiblePositions.append(pl);
+                listPossiblePositions.push_back(pl);
             }
 
     while(count < m_planeNo)
     {
         //generate a list iterator
-        QMutableListIterator<Plane> i(listPossiblePositions);
-
+        auto it = listPossiblePositions.begin();
         //elimintate all positions that are valid considering the already
         //created planes
-        while(i.hasNext())
+        while (it != listPossiblePositions.end())
         {
-            Plane pl = i.next();
-
             //if the plane is outside of the grid remove the position
-            if(!isPlanePosValid(pl))
+            if (!isPlanePosValid(*it))
             {
-                i.remove();
+                it = listPossiblePositions.erase(it);
                 continue;
             }
             //if the plane is already in the list remove the position
             //also save the plane in the list of planes
-            if(!savePlane(pl))
+            if (!savePlane(*it))
             {
-                i.remove();
+                it = listPossiblePositions.erase(it);
                 continue;
             }
 
             //compute all the points on planes and check for intersections
             if(!computePlanePointsList(false))
             {
-                i.remove();
-                removePlane(pl);
+                removePlane(*it);
+                it = listPossiblePositions.erase(it);
                 continue;
             }
-            else
-                removePlane(pl);
-
+            else {
+                removePlane(*it);
+            }
+            ++it;
         }
 
         //if no positions are left in the list return false
-        if(listPossiblePositions.size() == 0)
+        if(listPossiblePositions.empty())
             return false;
 
         //from the positions that are left in the list
         //choose a random one
         int pos = Plane::generateRandomNumber(listPossiblePositions.size());
 
-        Plane pl = listPossiblePositions.at(pos);
+        Plane pl = listPossiblePositions[pos];
         //save the selected plane
-        if(savePlane(pl))
+        if (savePlane(pl))
             count++;
     } //while
     return true;

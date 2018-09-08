@@ -5,7 +5,6 @@
 #include "guesspoint.h"
 #include "planeiterators.h"
 #include "coordinate2d.h"
-#include <QList>
 #include <vector>
 
 
@@ -94,10 +93,10 @@ protected:
     std::vector<HeadData> m_headDataList;
 
     //list of guesses made until this moment
-    QList<GuessPoint> m_guessesList;
+    std::vector<GuessPoint> m_guessesList;
     //list of extended guesses; when the position of a plane is decided
     //all the points on this plane are considered as misses
-    QList<GuessPoint> m_extendedGuessesList;
+    std::vector<GuessPoint> m_extendedGuessesList;
 
     //the list of choices
     //choice -2 means that a guess has already been made
@@ -136,8 +135,8 @@ public:
     //gets the number of planes
     int getPlaneNo() const { return m_planeNo; }
     //gets the list of guesses
-    const QList<GuessPoint>&  getListGuesses() const { return m_guessesList; }
-    const QList<GuessPoint>& getExtendedListGuesses() const { return m_extendedGuessesList; }
+    const std::vector<GuessPoint>&  getListGuesses() const { return m_guessesList; }
+    const std::vector<GuessPoint>& getExtendedListGuesses() const { return m_extendedGuessesList; }
     //gets the choices
     const int* getChoicesArray() const { return m_choices; }
     //computes the position in the m_choices array of a given plane
@@ -178,7 +177,7 @@ private:
 class RevertComputerLogic: public ComputerLogic
 {
     //the list of guess points
-    QList<GuessPoint> m_playList;
+    std::vector<GuessPoint> m_playList;
     //the current position in the list of guess points
     int m_pos;
 
@@ -194,7 +193,7 @@ public:
     void next();
 
     bool hasPrev() { return m_pos >= 0; }
-    bool hasNext() { return m_pos < m_playList.size() - 1; }
+    bool hasNext() { return m_pos < static_cast<int>(m_playList.size()) - 1; }
 };
 
 #endif // COMPUTERLOGIC_H

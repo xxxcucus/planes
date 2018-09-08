@@ -3,7 +3,6 @@
 #include <QtGui>
 #include <QDebug>
 
-
 //constructs the object
 //m_currentOperation is the current operation in player editor mode
 //m_temp plane is the position of the temporary plane in player editor mode
@@ -17,7 +16,6 @@ GameRenderArea::GameRenderArea(PlaneGrid* grid, QWidget* parent):
     m_planePosValid(true),
     m_planeSelected(false),
     m_grid(grid)
-
 {
     //enable the mouse tracking to be able to detect mouse motion
     setMouseTracking(true);
@@ -28,8 +26,6 @@ GameRenderArea::GameRenderArea(PlaneGrid* grid, QWidget* parent):
     else
         setWindowTitle("Player");
 }
-
-
 
 void GameRenderArea::paintEvent(QPaintEvent *event)
 {
@@ -76,9 +72,7 @@ void GameRenderArea::paintEvent(QPaintEvent *event)
         if(m_currentOperation==Rotate_plane && m_planeSelected)
             drawTempPlane(&painter);
     }
-
 }
-
 
 //sets the current operation in editor mode for player
 bool GameRenderArea::setOperation(Operation o)
@@ -101,7 +95,6 @@ void GameRenderArea::setMode(Mode m)
     m_currentMode = m;
 }
 
-
 //fills a grid rect with a given color
 //before the filling of the rect the validity of the coordinates is tested
 //returns false if coordinates are not good and true otherwise
@@ -109,16 +102,13 @@ void GameRenderArea::fillGridRect(int row, int col, QString color, QPainter *pai
 {
     if(!BaseRenderArea::fillGridRect(row,col,color,painter))
         m_planePosValid = false;
-
 }
 
 //draws the guesses made
 void GameRenderArea::drawGuesses(QPainter *painter) const
 {
-
     BaseRenderArea::drawGuesses(m_guessPointList, painter);
 }
-
 
 //draws the temporary plane
 void GameRenderArea::drawTempPlane(QPainter *painter)
@@ -153,8 +143,6 @@ void GameRenderArea::mouseMoveEvent(QMouseEvent *event)
 
     update();
 }
-
-
 
 //treats the mouse pressed events
 void GameRenderArea::mousePressEvent(QMouseEvent *event)
@@ -231,9 +219,10 @@ void GameRenderArea::mousePressEventComputerGame(QMouseEvent *event)
 
         //verify if the guess point is not already in the list
         //emit a signal that the guess has been made
-        if(m_guessPointList.indexOf(gp)==-1)
+        auto it = std::find(m_guessPointList.begin(), m_guessPointList.end(), gp);
+        if (it == m_guessPointList.end())
         {
-            m_guessPointList.append(gp);
+            m_guessPointList.push_back(gp);
             //to not let the user draw while the computer is thinking
             m_currentMode = Editor;
             emit guessMade(gp);
@@ -257,7 +246,6 @@ void GameRenderArea::savePlane(Plane pl)
 //checks that more planes need to be added
 bool GameRenderArea::addMorePlanes() const
 {
-
     return (m_grid->getPlaneListSize()<m_grid->getPlaneNo());
 }
 
@@ -272,13 +260,11 @@ void GameRenderArea::restoreBackupPlane()
         m_tempPlane = m_backupPlane;
         saveTempPlane();
     }
-
 }
 
 //resets the operation in editor player mode
 void GameRenderArea::resetOperation()
 {
-
     m_currentOperation = No_operation;
     m_planeSelected = false;
     m_tempPlane.orientation(Plane::NorthSouth);
@@ -449,12 +435,11 @@ void GameRenderArea::reset()
 void GameRenderArea::showMove(GuessPoint gp)
 {
     //here should check for repeating elements
-
-    m_guessPointList.append(gp);
+    m_guessPointList.push_back(gp);
     update();
 }
 
-//switches ti game mode
+//switches game mode
 void GameRenderArea::activateGameMode()
 {
     m_currentMode = Game;

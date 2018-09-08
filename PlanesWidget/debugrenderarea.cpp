@@ -82,15 +82,14 @@ void DebugRenderArea::drawScores(QPainter *painter) const
 //draws the guesses made until this moment and highlights the last guess made
 void DebugRenderArea::drawGuesses(QPainter *painter) const
 {
-    QList <GuessPoint> list = m_logic->getListGuesses();
-    if(!list.isEmpty())
+    std::vector<GuessPoint> list = m_logic->getListGuesses();
+    if (!list.empty())
     {
-        GuessPoint gp = list.last();
-        fillGridRect(gp.m_row, gp.m_col,"Blue", painter);
+        GuessPoint gp = list.back();
+        fillGridRect(gp.m_row, gp.m_col, "Blue", painter);
     }
-    QList <GuessPoint> elist = m_logic->getExtendedListGuesses();
-    BaseRenderArea::drawGuesses(elist,painter);
-
+    std::vector<GuessPoint> elist = m_logic->getExtendedListGuesses();
+    BaseRenderArea::drawGuesses(elist, painter);
 }
 
 

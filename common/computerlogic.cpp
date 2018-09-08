@@ -290,7 +290,7 @@ bool ComputerLogic::makeChoice(PlanesCommonTools::Coordinate2D& qp) const
 
 bool ComputerLogic::makeChoiceFindHeadMode(PlanesCommonTools::Coordinate2D& qp) const
 {
-    QList<int> maxPos;
+    std::vector<int> maxPos;
 
     //computes the point on the m_choices table
     //which has the highest value
@@ -300,13 +300,13 @@ bool ComputerLogic::makeChoiceFindHeadMode(PlanesCommonTools::Coordinate2D& qp) 
     for(int i = 1;i < maxChoiceNo; i++)
     {
         if(m_choices[i] == m_choices[maxidx])
-            maxPos.append(i);
+            maxPos.push_back(i);
 
         if(m_choices[i] > m_choices[maxidx])
         {
             maxidx = i;
             maxPos.clear();
-            maxPos.append(i);
+            maxPos.push_back(i);
         }
     }
 
@@ -318,7 +318,7 @@ bool ComputerLogic::makeChoiceFindHeadMode(PlanesCommonTools::Coordinate2D& qp) 
     int idx = Plane::generateRandomNumber(maxPos.size());
 
     //converts the choice into a plane's head position
-     qp=mapIndexToQPoint(maxPos.at(idx));
+     qp = mapIndexToQPoint(maxPos[idx]);
     return true;
 }
 
@@ -409,8 +409,8 @@ bool ComputerLogic::areAllGuessed() const
 void ComputerLogic::addData(const GuessPoint& gp)
 {
     //add to list of guesses
-    m_guessesList.append(gp);
-    m_extendedGuessesList.append(gp);
+    m_guessesList.push_back(gp);
+    m_extendedGuessesList.push_back(gp);
 
     //updates the info in the array of choices
     updateChoiceMap(gp);
@@ -473,8 +473,10 @@ void ComputerLogic::updateChoiceMapPlaneData(const Plane& pl)
         PlanesCommonTools::Coordinate2D qp = ppi.next();
         GuessPoint gp(qp.x(), qp.y(), GuessPoint::Miss);
         updateChoiceMap(gp);
-        m_extendedGuessesList.removeOne(gp);
-        m_extendedGuessesList.append(gp);
+
+        auto it = std::find(m_extendedGuessesList.begin(), m_extendedGuessesList.end(), gp);
+        m_extendedGuessesList.erase(it);
+        m_extendedGuessesList.push_back(gp);
     }
 }
 
@@ -563,7 +565,7 @@ void ComputerLogic::updateHeadData(const GuessPoint& gp)
         HeadData hd(m_row, m_col, gp.m_row, gp.m_col);
 
         //update the head data with all the history of guesses
-        for(int i = 0;i < m_extendedGuessesList.size(); i++)
+        for(unsigned int i = 0; i < m_extendedGuessesList.size(); i++)
             hd.update(m_extendedGuessesList.at(i));
 
         //append the head data in the list of heads
@@ -670,7 +672,7 @@ void RevertComputerLogic::revert(int n)
 //plays the computer strategy forward
 void RevertComputerLogic::next()
 {
-    if(m_pos >= m_playList.size() - 1)
+    if(m_pos >= static_cast<int>(m_playList.size()) - 1)
         return;
 
     addData(m_playList.at(m_pos + 1));
