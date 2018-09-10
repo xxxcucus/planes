@@ -3,9 +3,10 @@
 
 #include "plane.h"
 #include "coordinate2d.h"
+#include "vectoriterator.h"
 
 //iterates over the points that make a plane
-class PlanePointIterator : public VectorIterator<PlanesCommonTools::Coordinate2D>
+class PlanePointIterator : public PlanesCommonTools::VectorIterator<PlanesCommonTools::Coordinate2D>
 {
     Plane m_plane;
 public:
@@ -16,7 +17,7 @@ private:
 };
 
 //lists the relatives positions of all planes that pass through the point (0,0)
-class PlaneIntersectingPointIterator: public VectorIterator<Plane>
+class PlaneIntersectingPointIterator: public PlanesCommonTools::VectorIterator<Plane>
 {
     PlanesCommonTools::Coordinate2D m_point;
 
@@ -30,7 +31,7 @@ private:
 };
 
 //lists the points that can influence the value of a point
-class PointInfluenceIterator: VectorIterator<PlanesCommonTools::Coordinate2D>
+class PointInfluenceIterator: PlanesCommonTools::VectorIterator<PlanesCommonTools::Coordinate2D>
 {
     PlanesCommonTools::Coordinate2D m_point;
 

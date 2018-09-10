@@ -7,8 +7,6 @@
 
 //Describes a plane on a grid
 
-using namespace PlanesCommonTools;
-
 class Plane
 {
 public:
@@ -42,7 +40,7 @@ public:
     //operators
     //compares two planes
     bool operator==(const Plane& pl1) const;
-    //translates a plane by a QPoint
+    //translates a plane by a 2d translation vector
     Plane operator+(const PlanesCommonTools::Coordinate2D& qp);
 
     //geometrical transformations
@@ -53,7 +51,7 @@ public:
     void translateWhenHeadPosValid(int offsetX, int offsetY, int row, int col);
 
     //other utility functions
-    //tests whether a QPoint is a planes head
+    //tests whether a poaint is a plane's head
     bool isHead(const PlanesCommonTools::Coordinate2D& qp) const { return qp == head(); }
     //checks if a certain point on the grid is on the plane
     bool containsPoint(const PlanesCommonTools::Coordinate2D& qp) const;
