@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass{report}
 \usepackage{listings}
 \usepackage{xcolor}
 \lstset { %
@@ -25,26 +25,25 @@
 \maketitle
 \newpage
 \lstset{language=C++}
+\tableofcontents{}
 
+\chapter{Introduction}
 
-\section{Introduction}
-
-\subsection{Game Description}
+\section{Game Description}
 The game is a variant of the classical \href{https://en.wikipedia.org/wiki/Battleship_(game)}{battleship game}. The ships will be here called planes and are shown in \ref{fig:board}.
 \begin{figure}[h]
   \includegraphics[width = \textwidth]{BoardWithPlanes.png}
   \caption{Board game with 3 planes}
   \label{fig:board}
 \end{figure}
+The project is organized in two main parts: the game engine and the graphical user interfaces. The game engine is meant to be implemented as a library such as it can be used with a number of graphical frontents. One of the design goals is to make this engine independent from a specific C++ library. Three Graphical User Interfaces (GUI) were programmed up to this point. All of them are based on the Qt framework. They are called PlanesWidget, a simple QWidget approach which also includes debugging tools for the computer's strategy, PlanesGraphicsScene, a GUI based on the QGraphicsScene API, and PlanesQML, based on the QML engine.
 
-\subsection{Requirements Analysis}
-We need an object that describes a plane object which should at least contain information about the position of the plane on the game grid, the orientation of the plane, the shape of a plane. Additionaly we would need a game board/grid object. It should not be restricted to a specific geometry, should know where each plane is positioned and how many planes there are. Since the game is played against the computer there should be a kind of strategy object that decides the computer's next move.
-A graphical interface for editing the board and playing the game is also required together with the associated controller objects.
-
+\chapter {The Game Engine }
+\section{Requirements Analysis}
+We need an object that describes a plane object which should at least contain information about the position of the plane on the game grid, the orientation of the plane, the shape of a plane. Additionaly we would need a game board/grid object. It should not be restricted to a specific geometry, should know where each plane is positioned and how many planes there are. Since the game is played against the computer there should be a kind of strategy object that decides the computer's next move. The organization of the game into a series of human vs. computer rounds needs also to be modelled in code.
 
 \include{ThePlaneObject}
 \include {ThePlanePointIterator}
-
 
 
 \end{document}

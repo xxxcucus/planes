@@ -11,11 +11,11 @@ A plane object is defined through the position of its head  (plane front) and it
 \end{figure}
 
 \subsection{Class declaration}
-\begin{lstlisting}[caption = {Plane class declaration}, captionpos = b, label=plane_declaration]
+\begin{lstlisting}[caption = {Plane Class Declaration}, captionpos = b, label=plane_declaration]
 class Plane
 {
 public:
-    enum Orientation {NorthSouth = 0, SouthNorth = 1, WestEast = 2, EastWest = 3};
+    enum Orientation { NorthSouth = 0, SouthNorth = 1, WestEast = 2, EastWest = 3 };
 
 private:
     //plane orientation
@@ -27,7 +27,7 @@ public:
     //Various constructors
     Plane();
     Plane(int row, int col, Orientation orient);
-    Plane(const QPoint& qp, Orientation orient);
+    Plane(const PlanesCommonTools::Coordinate2D& qp, Orientation orient);
 
     //setter and getters
     //gives the planes orientation
@@ -40,13 +40,13 @@ public:
     void col(int col) { m_col = col; }
     void orientation(Orientation orient) { m_orient = orient; }
     //gives the coordinates of the plane head
-    QPoint head() const { return QPoint(m_row, m_col); }
+    PlanesCommonTools::Coordinate2D head() const { return PlanesCommonTools::Coordinate2D(m_row, m_col); }
 
     //operators
     //compares two planes
     bool operator==(const Plane& pl1) const;
-    //translates a plane by a QPoint
-    Plane operator+(const QPoint& qp);
+    //translates a plane by a 2d translation vector
+    Plane operator+(const PlanesCommonTools::Coordinate2D& qp);
 
     //geometrical transformations
     //clockwise rotation of planes
@@ -56,23 +56,23 @@ public:
     void translateWhenHeadPosValid(int offsetX, int offsetY, int row, int col);
 
     //other utility functions
-    //tests whether a QPoint is a planes head
-    bool isHead(const QPoint& qp) const { return qp == head(); }
+    //tests whether a point is a plane's head
+    bool isHead(const PlanesCommonTools::Coordinate2D& qp) const { return qp == head(); }
     //checks if a certain point on the grid is on the plane
-    bool containsPoint(const QPoint& qp) const;
+    bool containsPoint(const PlanesCommonTools::Coordinate2D& qp) const;
     //returns whether a plane position is valid (the plane is completely contained inside the grid) in a grid with row and col
     bool isPositionValid(int row, int col) const;
     //generates a random number from 0 and valmax-1
     static int generateRandomNumber(int valmax);
     //displays the plane
-    QString toString() const;
+    std::string toString() const;
 };
 \end{lstlisting}
 
 In the above class definition appear types that are not pure C++ types, but are defined in the Qt library. They restrict the use of the Plane class to a Qt program. One is the QPoint type, which defines a 2D coordinate. The second is the QString which represents a string, the analog of std::string in the Qt library. 
 
 \subsection {Method Implementation}
-\begin{lstlisting}[caption = {Plane class methods}, captionpos = b, label=plane_implementation]
+\begin{lstlisting}[caption = {Plane Class Methods}, captionpos = b, label=plane_implementation]
 //Various constructors
 Plane::Plane() {
     m_row = 0;
@@ -86,14 +86,14 @@ Plane::Plane(int row, int col, Orientation orient) {
     m_orient = orient;
 }
 
-Plane::Plane(const QPoint &qp, Orientation orient) {
+Plane::Plane(const PlanesCommonTools::Coordinate2D& qp, Orientation orient) {
     m_row = qp.x();
     m_col = qp.y();
     m_orient = orient;
 }
 
 //equality operator
-bool Plane::operator==(const Plane &pl1) const {
+bool Plane::operator==(const Plane& pl1) const {
     return ((pl1.m_row == m_row) && (pl1.m_col == m_col) && (pl1.m_orient == m_orient));
 }
 
@@ -121,13 +121,13 @@ void Plane::rotate() {
 //checks to see if a plane contains a certain point
 //uses a PlanePointIterator which enumerates
 //all the points on the plane
-bool Plane::containsPoint(const QPoint &qp) const {
+bool Plane::containsPoint(const PlanesCommonTools::Coordinate2D& qp) const {
     PlanePointIterator ppi(*this);
 
     while(ppi.hasNext())
     {
-        QPoint qp1=ppi.next();
-        if(qp==qp1)
+        PlanesCommonTools::Coordinate2D qp1 = ppi.next();
+        if(qp == qp1)
             return true;
     }
 
@@ -142,7 +142,7 @@ bool Plane::isPositionValid(int row, int col) const {
 
     while(ppi.hasNext())
     {
-        QPoint qp = ppi.next();
+        PlanesCommonTools::Coordinate2D qp = ppi.next();
         if(qp.x()<0 || qp.x()>=row)
             return false;
         if(qp.y()<0 || qp.y()>=col)
@@ -165,29 +165,29 @@ int Plane::generateRandomNumber(int valmax) {
 
 //constructs a string representation of a plane
 //used for debugging purposes
-QString Plane::toString() const
+std::string Plane::toString() const
 {
-    QString toReturn = "";
+    std::string toReturn = "";
 
-    toReturn += "Plane head: ";
-    toReturn += QString::number(m_row);
-    toReturn += "-";
-    toReturn += QString::number(m_col);
-    toReturn += " oriented: ";
+    toReturn = toReturn + "Plane head: ";
+    toReturn = toReturn + std::to_string(m_row);
+    toReturn = toReturn + "-";
+    toReturn = toReturn + std::to_string(m_col);
+    toReturn = toReturn + " oriented: ";
 
     switch(m_orient)
     {
     case NorthSouth:
-        toReturn+= "NorthSouth";
+        toReturn = toReturn + "NorthSouth";
         break;
     case SouthNorth:
-        toReturn+= "SouthNorth";
+        toReturn = toReturn + "SouthNorth";
         break;
     case EastWest:
-        toReturn+= "EastWest";
+        toReturn = toReturn + "EastWest";
         break;
     case WestEast:
-        toReturn+= "WestEast";
+        toReturn = toReturn + "WestEast";
         break;
     default:
         ;
@@ -210,10 +210,9 @@ void Plane::translateWhenHeadPosValid(int offsetX, int offsetY, int row, int col
 }
 
 //implements plane translation
-Plane Plane::operator+(const QPoint &qp) {
+Plane Plane::operator+(const PlanesCommonTools::Coordinate2D& qp) {
     return Plane(this->m_row + qp.x(), this->m_col + qp.y(), this->m_orient);
 }
-
 \end{lstlisting}
 
 The implementation of the member functions of the class Plane is trivial. One thing requires an explanation : the class PlanePointIterator. It has to do with the fact that it exists nowhere in the Plane class definition an explicit representation of the points of the game board corresponding to the plane, in other words of the form of a plane. The only things that are defined are the point of origin or the head as well as the orientation of the plane. Thus the class is general allowing the use of any plane form as long as a plane head and orientation are given. In order to allow to work with the plane's form the class PlanePointIterator is used. It encapsulates the form of the plane but also gives a method to \textit iterate on the grid positions corresponding to the plane. 
@@ -256,7 +255,7 @@ Constructors of a class are functions that are always called when the object is 
 \begin{lstlisting}
     Plane();
     Plane(int row, int col, Orientation orient);
-    Plane(const QPoint &qp, Orientation orient);
+    Plane(const PlanesCommonTools::Coordinate2D& qp, Orientation orient);
 \end{lstlisting}
 In the Plane class declaration we declare three constructors. The declaration is similar to a class method declaration except for they have no return types. The three constructors initialize the three member variables of the class Plane with the data that they receive as parameters. 
 
@@ -294,12 +293,12 @@ are syntactic sugar meant to simplify coding. For example, when defining \textit
 The function containsPoint(..) uses the operator '*this' with the meaning of the object calling the function. More exactly the constructor of the PlanePointIterator object with the name ppi receives as parameter the object on which the containsPoint() function is called.
 
 \begin{lstlisting}
-bool Plane::containsPoint(const QPoint& qp) const {
+bool Plane::containsPoint(const PlanesCommonTools::Coordinate2D& qp) const {
     PlanePointIterator ppi(*this);
 
     while(ppi.hasNext())
     {
-        QPoint qp1 = ppi.next();
+        PlanesCommonTools::Coordinate2D qp1 = ppi.next();
         if(qp == qp1)
             return true;
     }

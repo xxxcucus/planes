@@ -6,7 +6,7 @@ The PlanePointIterator is responsible with enumerating the points of a plane obj
 
 \begin{lstlisting}
 //iterates over the points that make a plane
-class PlanePointIterator : public ListIterator<QPoint>
+class PlanePointIterator : public PlanesCommonTools::VectorIterator<PlanesCommonTools::Coordinate2D>
 {
     Plane m_plane;
 public:
@@ -17,13 +17,12 @@ private:
 };
 \end{lstlisting}
 
-The definition above says that the PlanePointIterator is defined as a type of ListIterator \textless QPoint \textgreater which is defined (here I anticipate the ListIterator class definition which is given later) as an iterator over a list of QPoint objects. It receives a Plane object with which it generates, with the help of the private function generateList, the list of positions occupied by the plane on the game board. It is a type of Java-like iterator, but this will become apparent only after looking at the ListIterator class. 
+The definition above says that the PlanePointIterator is defined as a type of PlanesCommonTools::VectorIterator \textless PlanesCommonTools::Coordinate2D \textgreater which is defined (here I anticipate the VectorIterator class definition which is given later) as an iterator over a list of PlanesCommonTools::Coordinate2D objects. It receives a Plane object with which it generates, with the help of the private function generateList, the list of positions occupied by the plane on the game board. It is a type of Java-like iterator, but this will become apparent only after looking at the VectorIterator class. 
 
-\subsection {Method implementation}
+\subsection {Method Implementation}
 \begin{lstlisting}
-//constructor
 PlanePointIterator::PlanePointIterator(const Plane& pl):
-    MyIterator::ListIterator<QPoint>(),
+    PlanesCommonTools::VectorIterator<PlanesCommonTools::Coordinate2D>(),
     m_plane(pl)
 {
     generateList();
@@ -32,44 +31,60 @@ PlanePointIterator::PlanePointIterator(const Plane& pl):
 //the function that generates the list of points
 void PlanePointIterator::generateList()
 {
-    const QPoint pointsNorthSouth[] = {QPoint(0, 0), QPoint(0, 1), QPoint(-1, 1), QPoint(1, 1), QPoint(-2, 1), QPoint(2, 1), QPoint(0, 2),
-                                   QPoint(0, 3), QPoint(-1, 3), QPoint(1, 3)};
 
-    const QPoint pointsSouthNorth[] = {QPoint(0, 0), QPoint(0, -1), QPoint(-1, -1), QPoint(1, -1), QPoint(-2, -1), QPoint(2, -1), QPoint(0, -2),
-                                   QPoint(0, -3), QPoint(-1, -3), QPoint(1, -3)};
+    const PlanesCommonTools::Coordinate2D pointsNorthSouth[] = {PlanesCommonTools::Coordinate2D(0, 0), 
+    PlanesCommonTools::Coordinate2D(0, 1), PlanesCommonTools::Coordinate2D(-1, 1),
+    PlanesCommonTools::Coordinate2D(1, 1), PlanesCommonTools::Coordinate2D(-2, 1), 
+    PlanesCommonTools::Coordinate2D(2, 1), PlanesCommonTools::Coordinate2D(0, 2),
+    PlanesCommonTools::Coordinate2D(0, 3), PlanesCommonTools::Coordinate2D(-1, 3),
+    PlanesCommonTools::Coordinate2D(1, 3)};
 
-    const QPoint pointsEastWest[] = {QPoint(0, 0), QPoint(1, 0), QPoint(1, -1), QPoint(1, 1), QPoint(1, -2), QPoint(1, 2), QPoint(2, 0),
-                                 QPoint(3, 0), QPoint(3, -1), QPoint(3, 1)};
+    const PlanesCommonTools::Coordinate2D pointsSouthNorth[] = {PlanesCommonTools::Coordinate2D(0, 0), 
+    PlanesCommonTools::Coordinate2D(0, -1), PlanesCommonTools::Coordinate2D(-1, -1),
+    PlanesCommonTools::Coordinate2D(1, -1), PlanesCommonTools::Coordinate2D(-2, -1),
+    PlanesCommonTools::Coordinate2D(2, -1), PlanesCommonTools::Coordinate2D(0, -2), 
+    PlanesCommonTools::Coordinate2D(0, -3), PlanesCommonTools::Coordinate2D(-1, -3),
+    PlanesCommonTools::Coordinate2D(1, -3)};
 
-    const QPoint pointsWestEast[] = {QPoint(0, 0), QPoint(-1, 0), QPoint(-1, -1), QPoint(-1, 1), QPoint(-1, -2), QPoint(-1, 2), QPoint(-2, 0),
-                                 QPoint(-3, 0), QPoint(-3, 1), QPoint(-3, -1)};
+    const PlanesCommonTools::Coordinate2D pointsEastWest[] = {PlanesCommonTools::Coordinate2D(0, 0), 
+    PlanesCommonTools::Coordinate2D(1, 0), PlanesCommonTools::Coordinate2D(1, -1),
+    PlanesCommonTools::Coordinate2D(1, 1), PlanesCommonTools::Coordinate2D(1, -2), 
+    PlanesCommonTools::Coordinate2D(1, 2), PlanesCommonTools::Coordinate2D(2, 0), 
+    PlanesCommonTools::Coordinate2D(3, 0), PlanesCommonTools::Coordinate2D(3, -1),
+    PlanesCommonTools::Coordinate2D(3, 1)};
+
+    const PlanesCommonTools::Coordinate2D pointsWestEast[] = {PlanesCommonTools::Coordinate2D(0, 0), 
+    PlanesCommonTools::Coordinate2D(-1, 0), PlanesCommonTools::Coordinate2D(-1, -1),
+    PlanesCommonTools::Coordinate2D(-1, 1), PlanesCommonTools::Coordinate2D(-1, -2), 
+    PlanesCommonTools::Coordinate2D(-1, 2), PlanesCommonTools::Coordinate2D(-2, 0), 
+    PlanesCommonTools::Coordinate2D(-3, 0), PlanesCommonTools::Coordinate2D(-3, 1),
+    PlanesCommonTools::Coordinate2D(-3, -1)};
 
     const int size = 10;
-    for(int i = 0;i < size; ++i)
+    for(int i = 0; i < size; ++i)
     {
         switch(m_plane.orientation())
         {
             case Plane::NorthSouth:
-                m_internalList << pointsNorthSouth[i] + m_plane.head();
+                m_internalList.push_back(pointsNorthSouth[i] + m_plane.head());
                 break;
             case Plane::SouthNorth:
-                m_internalList << pointsSouthNorth[i] + m_plane.head();
+                m_internalList.push_back(pointsSouthNorth[i] + m_plane.head());
                 break;
             case Plane::WestEast:
-                m_internalList << pointsWestEast[i] + m_plane.head();
+                m_internalList.push_back(pointsWestEast[i] + m_plane.head());
                 break;
             case Plane::EastWest:
-                m_internalList << pointsEastWest[i] + m_plane.head();
+                m_internalList.push_back(pointsEastWest[i] + m_plane.head());
                 break;
             default:
                 ;
         }
     }
 }
-
 \end{lstlisting}
 
-PlanePointIterator is an iterator that provides access to the positions occupied by the plane on the game board. Its constructor receives as Parameter an object of the class Plane, which defines the position of the plane's head as well as its orientation. The method generateList() contains the positions of cells belonging to a plane relative to the position of its head for each of the four possible plane orientations. To calculate the positions of the cells corresponding to the plane it chooses the right set of relative positions according to the given plane orientation and then it adds them to the absolute position of the plane head.
+PlanePointIterator is an iterator that provides access to the positions occupied by the plane on the game board. It's constructor receives as Parameter an object of the class Plane, which defines the position of the plane's head as well as its orientation. The method generateList() contains the positions of cells belonging to a plane relative to the position of its head for each of the four possible plane orientations. To calculate the positions of the cells corresponding to the plane it chooses the right set of relative positions according to the given plane orientation and then it adds them to the absolute position of the plane head.
 
 To create a game with other forms of ships it is sufficient to reimplement the PlanePointIterator class.
 
