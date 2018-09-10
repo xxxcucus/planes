@@ -39,7 +39,7 @@ public slots:
     //displayMsg signal has been received
     void displayMsg(QString msg);
     //display status Msg signal has been received
-    void displayStatusMsg(QString msg);
+    void displayStatusMsg(const std::string& msg);
     //enoughPlanes signal has been received
     void deactivateAddPlane();
     //norEnoughPlanes signal has been received

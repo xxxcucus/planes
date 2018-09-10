@@ -54,7 +54,7 @@ signals:
     //signals that computer has generated a move
     void computerMoveGenerated(const GuessPoint& gp);
     //signals that a message has to be displayed in the edit control window
-    void displayStatusMessage(QString text);
+    void displayStatusMessage(const std::string& text);
     //signals that the round has endet
     void roundEnds(bool isPlayerWinner);
     //signals that the render areas should be reset

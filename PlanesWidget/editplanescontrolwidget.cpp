@@ -120,9 +120,9 @@ void EditPlanesControlWidget::displayMsg(QString msg)
     infoLineEdit->setText(msg);
 }
 
-void EditPlanesControlWidget::displayStatusMsg(QString msg)
+void EditPlanesControlWidget::displayStatusMsg(const std::string& msg)
 {
-    statusLineEdit->setText(msg);
+    statusLineEdit->setText(msg.c_str());
 }
 
 void EditPlanesControlWidget::deactivateAddPlane()

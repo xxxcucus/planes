@@ -1,8 +1,6 @@
 #include "plane.h"
 #include "planeiterators.h"
 #include "coordinate2d.h"
-#include <QString>
-#include <QDebug>
 
 //Various constructors
 Plane::Plane() {

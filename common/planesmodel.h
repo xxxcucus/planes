@@ -4,7 +4,6 @@
 #include "planegrid.h"
 #include "computerlogic.h"
 
-
 //this is the main model object
 //it keeps the size of the grid
 //the number of planes

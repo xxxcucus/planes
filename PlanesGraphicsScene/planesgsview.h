@@ -23,7 +23,7 @@ public slots:
         m_LeftPane->activateEditorTab();
     }
 
-    void displayStatusMsg(const QString& str);
+    void displayStatusMsg(const std::string& str);
 
 private:
 

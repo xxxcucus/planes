@@ -1,12 +1,11 @@
 #ifndef COMPUTERLOGIC_H
 #define COMPUTERLOGIC_H
 
+#include <vector>
 #include "plane.h"
 #include "guesspoint.h"
 #include "planeiterators.h"
 #include "coordinate2d.h"
-#include <vector>
-
 
 //The computer is trying to guess where the player's planes are
 //For every position on the table and each of the 4 plane orientations

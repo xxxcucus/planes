@@ -60,8 +60,8 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
                      editPlanesWidget, SLOT(displayMsg(QString)));
     connect(playerArea, SIGNAL(enoughPlanes()),
                      editPlanesWidget, SLOT(deactivateAddPlane()));
-    connect(playerArea, SIGNAL(displayStatusMsg(QString)),
-                     editPlanesWidget, SLOT(displayStatusMsg(QString)));
+    connect(playerArea, SIGNAL(displayStatusMsg(const std::string&)),
+                     editPlanesWidget, SLOT(displayStatusMsg(const std::string&)));
     connect(playerArea, SIGNAL(notEnoughPlanes()),
                      editPlanesWidget, SLOT(deactivateDoneButton()));
     connect(playerArea, SIGNAL(activateDone()),
@@ -78,8 +78,8 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
                      computerArea, SLOT(activateGameMode()));
     connect(computerArea, SIGNAL(guessMade(GuessPoint)),
                      round, SLOT(receivedPlayerGuess(GuessPoint)));
-    connect(round, SIGNAL(displayStatusMessage(QString)),
-                     editPlanesWidget, SLOT(displayStatusMsg(QString)));
+    connect(round, SIGNAL(displayStatusMessage(const std::string&)),
+                     editPlanesWidget, SLOT(displayStatusMsg(const std::string&)));
     connect(round, SIGNAL(roundEnds(bool)),
                      computerArea, SLOT(roundEndet()));
     connect(round, SIGNAL(roundEnds(bool)),

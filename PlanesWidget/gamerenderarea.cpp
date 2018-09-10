@@ -275,23 +275,23 @@ void GameRenderArea::resetOperation()
     {
         //signal that all planes have been drawn
         emit enoughPlanes();
-        emit displayStatusMsg(tr("You have drawn all the required planes."));
+        emit displayStatusMsg("You have drawn all the required planes.");
         //check to see if the planes draw overlap
         if(m_grid->computePlanePointsList(false)) {
             emit activateDone();
-            displayStatusMsg(tr(""));
+            displayStatusMsg("");
         } else {
-            displayStatusMsg(tr("Some planes superimpose."));
+            displayStatusMsg("Some planes superimpose.");
             emit deactivateDone();
         }
     }
     else
     {
         //calculate how many planes need to be drawn
-        QString text("");
-        text+= tr("You must draw ");
-        text+=QString::number(m_grid->getPlaneNo()-m_grid->getPlaneListSize());
-        text+=tr(" more planes");
+        std::string text("");
+        text = text + "You must draw ";
+        text = text + std::to_string(m_grid->getPlaneNo()-m_grid->getPlaneListSize());
+        text = text + " more planes";
         emit displayStatusMsg(text);
         emit notEnoughPlanes();
     }
@@ -406,17 +406,17 @@ bool GameRenderArea::tempPlaneIntersectsOtherPlanes() const
 //changes the current mode of the render area
 void GameRenderArea::changeMode()
 {
-    QString text="";
+    std::string text = "";
 
     if(m_currentMode==Editor)
         {
         m_currentMode = Game;
-        text+=tr("Play! Guess a point on the Computer's grid");
+        text = text + "Play! Guess a point on the Computer's grid";
         }
     else
     {
         m_currentMode = Editor;
-        text+=tr("Draw your planes!");
+        text = text + "Draw your planes!";
     }
     displayStatusMsg(text);
     update();

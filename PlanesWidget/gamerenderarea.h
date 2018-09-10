@@ -120,7 +120,7 @@ signals:
     //sends a QString message
     void displayMsg(QString);
     //sends a QString message
-    void displayStatusMsg(QString);
+    void displayStatusMsg(const std::string&);
     //notifies that the required number of planes has been drawn
     void enoughPlanes();
     //notifies that the required number of planes has not been drawn

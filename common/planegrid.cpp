@@ -1,8 +1,7 @@
+#include <cstdlib>
 #include "planegrid.h"
 #include "planeiterators.h"
 #include "coordinate2d.h"
-#include <QDebug>
-#include <cstdlib>
 
 PlaneGrid::PlaneGrid(int row, int col, int planesNo, bool isComputer):
     m_rowNo(row),

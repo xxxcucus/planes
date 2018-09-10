@@ -7,7 +7,6 @@
 #include "gamestatswidget.h"
 #include "choicedebugwidget.h"
 
-
 //creates the main view object of the program
 class PlanesWView : public QWidget
 {
@@ -44,7 +43,6 @@ class PlanesWView : public QWidget
     //PlaneRound is the object that coordinates the game
     PlaneRound* round;
 
-
 public:
     explicit PlanesWView(PlaneGrid *, PlaneGrid*, ComputerLogic*, PlaneRound *,QWidget *parent = 0);
     
@@ -53,8 +51,7 @@ signals:
     void debugWidgetSelected();
 public slots:
     //a widget is selected
-    void widgetSelected(int);
-    
+    void widgetSelected(int);    
 };
 
 #endif // PLANESVIEW_H

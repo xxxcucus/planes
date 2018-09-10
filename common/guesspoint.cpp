@@ -1,6 +1,5 @@
 #include "guesspoint.h"
 
-
 //constructor for a guess point
 //this one initializes the GuessPoint only partially
 //the result of the guess being not known

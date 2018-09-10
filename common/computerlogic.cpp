@@ -1,6 +1,5 @@
-#include "computerlogic.h"
-#include <QDebug>
 #include <algorithm>
+#include "computerlogic.h"
 
 //default constructor
 PlaneOrientationData::PlaneOrientationData()

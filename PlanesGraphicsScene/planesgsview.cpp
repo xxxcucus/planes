@@ -38,7 +38,7 @@ PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cL
     connect(m_LeftPane, SIGNAL(doneClicked(bool)), m_round, SLOT(playStep()));
     connect(m_round, SIGNAL(computerMoveGenerated(const GuessPoint&)), m_RightPane, SIGNAL(showComputerMove(const GuessPoint&)));
     connect(m_RightPane, SIGNAL(guessMade(const GuessPoint&)), m_round, SLOT(receivedPlayerGuess(const GuessPoint&)));
-    connect(m_round, SIGNAL(displayStatusMessage(QString)), this, SLOT(displayStatusMsg(QString)));
+    connect(m_round, SIGNAL(displayStatusMessage(const std::string&)), this, SLOT(displayStatusMsg(const std::string&)));
     connect(m_round, SIGNAL(roundEnds(bool)), m_LeftPane, SLOT(endRound(bool)));
     connect(m_round, SIGNAL(roundEnds(bool)), m_RightPane, SLOT(endRound(bool)));
     connect(m_LeftPane, SIGNAL(startNewGame()), m_round, SLOT(play()));
@@ -47,7 +47,7 @@ PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cL
 }
 
 
-void PlanesGSView::displayStatusMsg(const QString& str)
+void PlanesGSView::displayStatusMsg(const std::string& str)
 {
-    qDebug() << "Game Status: " << str;
+    qDebug() << "Game Status: " << str.c_str();
 }

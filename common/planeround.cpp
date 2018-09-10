@@ -1,7 +1,6 @@
-#include "planeround.h"
-
-#include <QDebug>
 #include <cstdlib>
+#include <string>
+#include "planeround.h"
 #include "coordinate2d.h"
 
 //constructor
@@ -130,14 +129,14 @@ void PlaneRound::receivedPlayerGuess(const GuessPoint& gp)
         playStep();
     else
     {
-        QString text = tr("Round endet.");
+        std::string text = "Round endet.";
 
         if (isComputerWinner) {
-            text += tr(" Computer is winner!");
+            text = text + " Computer is winner!";
             m_gameStats.updateWins(true);
             emit statsUpdated(m_gameStats);
         } else {
-            text+=tr(" Player is winner!");
+            text = text + " Player is winner!";
             m_gameStats.updateWins(false);
             emit statsUpdated(m_gameStats);
         }
@@ -157,7 +156,7 @@ void PlaneRound::playStep()
         updateGameStats(gp, true);
         emit computerMoveGenerated(gp);
         emit needPlayerGuess();
-        emit displayStatusMessage(tr("Player's turn"));
+        emit displayStatusMessage("Player's turn");
     } else {
     //if player is first waits for the player's guess
         emit needPlayerGuess();
