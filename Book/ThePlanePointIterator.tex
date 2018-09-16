@@ -88,24 +88,25 @@ PlanePointIterator is an iterator that provides access to the positions occupied
 
 To create a game with other forms of ships it is sufficient to reimplement the PlanePointIterator class.
 
-\subsection {Implementation of ListIterator}
+\subsection {Implementation of VectorIterator}
 
-The essence of a PlanePointIterator is captured by the ListIterator class : a PlanePointIterator is a method (defined in the ListIterator class) to iterate over a list together with a special list, defined with the method generateList().
+The essence of a PlanePointIterator is captured by the VectorIterator class : a PlanePointIterator is a method (defined in the VectorIterator class) to iterate over a list together with a special list, defined with the method generateList().
 
 \begin{lstlisting}
-namespace MyIterator
+namespace PlanesCommonTools
 {
-//defines an iterator over a QList
+//defines an iterator over a std::vector
+
 template <class T>
-class ListIterator
+class VectorIterator
 {
 protected:
-    QList <T> m_internalList;
+    std::vector<T> m_internalList;
     int m_idx;
 
 public:
     //constructor
-    ListIterator();
+    VectorIterator();
 
     //sets the position of the iterator before the first  element
     void reset();
@@ -118,46 +119,44 @@ public:
 };
 
 template <class T>
-ListIterator<T>::ListIterator()
+VectorIterator<T>::VectorIterator()
 {
     //generates the list of points
     m_internalList.clear();
     //puts the index one before the first element in the list
     reset();
-
 }
 
 template <class T>
-void ListIterator<T>::reset()
+void VectorIterator<T>::reset()
 {
     m_idx = -1;
 }
 
 //during a point iteration checks to see if there is a next point
 template <class T>
-bool ListIterator<T>::hasNext() const
+bool VectorIterator<T>::hasNext() const
 {
-
-    return (m_idx<m_internalList.size()-1);
+    return (m_idx < static_cast<int>(m_internalList.size()) - 1);
 }
 
 //during an iteration returns the next point
 template <class T>
-const T& ListIterator<T>::next()
+const T& VectorIterator<T>::next()
 {
     return  m_internalList[++m_idx];
 }
 
 //returns number of points on the plane
 template <class T>
-int ListIterator<T>::itemNo() const
+int VectorIterator<T>::itemNo() const
 {
     return m_internalList.size();
 }
-}
+
 \end{lstlisting}
 
-ListIterator is a parametrizable class (a so called template class) which has only two member variable, a list (implemented through the Qt type QList) and an index inside the list. 
+VectorIterator is a parametrizable class (a so called template class) which has only two member variable, a list (implemented through the STL type std::vector) and an index inside the list. 
 
 \subsection {C++ Concepts}
 \subsubsection {Iterators}
@@ -194,32 +193,32 @@ For a Java style iterator this would be:
 \begin{lstlisting}
 //constructor
 PlanePointIterator::PlanePointIterator(const Plane& pl):
-    MyIterator::ListIterator<QPoint>(),
+    PlanesCommonTools::VectorIterator<PlanesCommonTools::Coordinate2D>(),
     m_plane(pl)
 {
     generateList();
 }
 \end{lstlisting}
 
-The constructor of the PlanePointIterator class is interesting. It receives as parameter a Plane object. In its body calls the function generateList() to actually create the points corresponding to the plane. Before the function body it makes other two things. First it calls the default constructor of the basis class : MyIterator::ListIterator \textless QPoint \textgreater() and secondly it initializes its member variable m\textunderscore plane with the constructor parameter. This type of member variable initialization is called initialization with initializer list and it is the member variable initialization method recommended for C++. 
+The constructor of the PlanePointIterator class is interesting. It receives as parameter a Plane object. In its body calls the function generateList() to actually create the points corresponding to the plane. Before the function body it makes other two things. First it calls the default constructor of the basis class : PlanesCommonTools::VectorIterator \textless PlanesCommonTools::Coordinate2D \textgreater() and secondly it initializes its member variable m\textunderscore plane with the constructor parameter. This type of member variable initialization is called initialization with initializer list and it is the member variable initialization method recommended for C++. 
 
 \subsubsection {Templates}
 
-Here below is the definition of class ListIterator, a so called template class. Actually this is a definition of many classes, each for every parameter type T. T is a parameter itself to the class definition. The programmer specifies the type T only when an object of this class is instantiated. The ability to use template classes is one of the features specific to C++.
+Here below is the definition of class VectorIterator, a so called template class. Actually this is a definition of many classes, each for every parameter type T. T is a parameter itself to the class definition. The programmer specifies the type T only when e.g. an object of this class is instantiated. The ability to use template classes is one of the features specific to C++.
 
-Aside of the parameter T the class definition of ListIterator is a normal class definition. ListIterator defines a Java-style iterator over a QList. Its member variables are a QList with type T elements and an index in the QList. The class manages these internal variables and offers functionality to return the element corresponding to the index in the list, to jump to the next element in the list, to reset the list index, and to return the number of elements in the list. Observe how the function next() returns an element of type T.
+Aside of the parameter T the class definition of VectorIterator is a normal class definition. VectorIterator defines a Java-style iterator over a std::vector. Its member variables are a std::vector with type T elements and an index in the std::vector. The class manages these internal variables and offers functionality to return the element corresponding to the index in the list, to jump to the next element in the list, to reset the list index, and to return the number of elements in the list. Observe how the function next() returns an element of type T.
 
 \begin{lstlisting}
 template <class T>
-class ListIterator
+class VectorIterator
 {
 protected:
-    QList <T> m_internalList;
+    std::vector<T> m_internalList;
     int m_idx;
 
 public:
     //constructor
-    ListIterator();
+    VectorIterator();
 
     //sets the position of the iterator before the first  element
     void reset();
@@ -230,16 +229,17 @@ public:
     //returns number of elements
     int itemNo() const;
 };
+
 \end{lstlisting}
 
 \subsubsection {References}
 
-Coming back to the function next() in the ListIterator class definition. It returns a so called 'const reference' to a value of type T. This is advantageous when the objects of type T are big. The reference, specified here with the const T\&, points only to the data which is saved in the QList of the ListIterator. Had we declared the return type as only T, the next function would have created a copy of the next object ListIterator, which would have existed twice, once in the QList inside the ListIterator and once as the object created when returning from the next() function.
+Coming back to the function next() in the VectorIterator class definition. It returns a so called 'const reference' to a value of type T. This is advantageous when the objects of type T are big. The reference, specified here with the const T\&, points only to the data which is saved in the std::vector of the VectorIterator. Had we declared the return type as only T, the next function would have created a copy of the next object in the std::vector, which would have existed twice, once in the std::vector inside the VectorIterator and once as the object created when returning from the next() function.
 
 \subsubsection {Namespaces}
 \subsubsection {Class derivation}
 \subsubsection {Function parameters and their transmission}
 \subsubsection {Constness}
 
-Refering again to the function next() in the ListIterator class definition, we comment on the const keyword. In this particular case it means that the reference returned by the function next() is const, that is the underlying data may not be changed. The compiler verifies that all operations performed on data returned by the function next() are also const, functions that do not change the object on which they are called. Generally the const property can be applied in C++ to functions, function parameters, function return values, member variables. 
+Refering again to the function next() in the VectorIterator class definition, we comment on the const keyword. In this particular case it means that the reference returned by the function next() is const, that is the underlying data may not be changed. The compiler verifies that all operations performed on data returned by the function next() are also const, functions that do not change the object on which they are called. Generally the const property can be applied in C++ to functions, function parameters, function return values, member variables. 
 \subsubsection {Constants}
