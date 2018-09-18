@@ -32,3 +32,5 @@ target_link_libraries(PlanesWidget
 	${Qt5Widgets_LIBRARIES})
 qt5_use_modules(PlanesWidget Widgets)
 
+install(TARGETS PlanesWidget DESTINATION bin)
+
