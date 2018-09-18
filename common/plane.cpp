@@ -87,7 +87,7 @@ int Plane::generateRandomNumber(int valmax) {
     double rnd = rand()/ static_cast<double>(RAND_MAX);
     if (rnd==1.0)
         rnd = 0.5;
-    int val = static_cast<double>(valmax)*rnd;
+    int val = static_cast<int>(static_cast<double>(valmax) * rnd);
 
     return val;
 }

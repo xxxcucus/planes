@@ -314,7 +314,7 @@ bool ComputerLogic::makeChoiceFindHeadMode(PlanesCommonTools::Coordinate2D& qp) 
         return false;
 
     //choses randomly a point with the maximum probability
-    int idx = Plane::generateRandomNumber(maxPos.size());
+    int idx = Plane::generateRandomNumber(static_cast<int>(maxPos.size()));
 
     //converts the choice into a plane's head position
      qp = mapIndexToQPoint(maxPos[idx]);
@@ -335,7 +335,7 @@ bool ComputerLogic::makeChoiceFindPositionMode(PlanesCommonTools::Coordinate2D& 
         return false;
 
     //choses a random plane head from the list of heads
-    int idx = Plane::generateRandomNumber(m_headDataList.size());
+    int idx = Plane::generateRandomNumber(static_cast<int>(m_headDataList.size()));
     HeadData hd=m_headDataList.at(idx);
 
     //find the orientation that has the most not tested points
@@ -349,7 +349,7 @@ bool ComputerLogic::makeChoiceFindPositionMode(PlanesCommonTools::Coordinate2D& 
 
         if(!pod.m_discarded) {
             if(static_cast<int>(pod.m_pointsNotTested.size()) > max_not_tested) {
-                max_not_tested = pod.m_pointsNotTested.size();
+                max_not_tested = static_cast<int>(pod.m_pointsNotTested.size());
                 good_orientation = i;
             }
         }
@@ -361,7 +361,7 @@ bool ComputerLogic::makeChoiceFindPositionMode(PlanesCommonTools::Coordinate2D& 
         return false;
 
     //choose randomly a point from the points not tested in the chosen orientation
-    idx = Plane::generateRandomNumber(hd.m_options[good_orientation].m_pointsNotTested.size());
+    idx = Plane::generateRandomNumber(static_cast<int>(hd.m_options[good_orientation].m_pointsNotTested.size()));
 
     qp = hd.m_options[good_orientation].m_pointsNotTested.at(idx);
 
@@ -635,7 +635,7 @@ void RevertComputerLogic::operator=(const ComputerLogic& cl)
     m_playList.clear();
     m_playList = cl.getListGuesses();
 
-    m_pos = m_playList.size()-1;
+    m_pos = static_cast<int>(m_playList.size()) - 1;
 }
 
 //constructor

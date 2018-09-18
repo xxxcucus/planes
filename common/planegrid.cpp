@@ -82,7 +82,7 @@ bool PlaneGrid::initGridByAutomaticGeneration()
 
         //from the positions that are left in the list
         //choose a random one
-        int pos = Plane::generateRandomNumber(listPossiblePositions.size());
+        int pos = Plane::generateRandomNumber(static_cast<int>(listPossiblePositions.size()));
 
         Plane pl = listPossiblePositions[pos];
         //save the selected plane
@@ -271,7 +271,7 @@ bool PlaneGrid::isPlanePosValid(const Plane& pl) const
 //returns the size of the plane list
 int PlaneGrid::getPlaneListSize() const
 {
-    return m_planeList.size();
+    return static_cast<int>(m_planeList.size());
 }
 
 //gets the plane at a given position in the list of planes

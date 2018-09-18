@@ -12,7 +12,7 @@ NextMoveButton::NextMoveButton(QWidget *parent):
 }
 
 
-void NextMoveButton::paintEvent(QPaintEvent */*e*/)
+void NextMoveButton::paintEvent(QPaintEvent* /*e*/)
 {
     QPainter painter(this);
 
@@ -66,7 +66,7 @@ PreviousMoveButton::PreviousMoveButton(QWidget* parent):
 }
 
 
-void PreviousMoveButton::paintEvent(QPaintEvent */*e*/)
+void PreviousMoveButton::paintEvent(QPaintEvent* /*e*/)
 {
     QPainter painter(this);
 

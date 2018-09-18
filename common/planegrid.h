@@ -96,7 +96,7 @@ public:
     }
 
 ///for integration with QML
-    int getPlanesPointsCount() const { return m_listPlanePoints.size(); }
+    int getPlanesPointsCount() const { return static_cast<int>(m_listPlanePoints.size()); }
     PlanesCommonTools::Coordinate2D getPlanePoint(int idx) const { return m_listPlanePoints[idx]; }
     //retrieves additional information about a plane point
     //the plane idx, whether it is a plane head or not
