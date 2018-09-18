@@ -56,7 +56,7 @@ void PlaneOrientationData::update(const GuessPoint &gp)
     //if dead and idx = 0 remove the head from the list of untested points
     if (gp.m_type == GuessPoint::Dead && it == m_pointsNotTested.begin())
     {
-        m_pointsNotTested.erase(it);
+		m_pointsNotTested.erase(it);
         return ;
     }
 
@@ -474,7 +474,8 @@ void ComputerLogic::updateChoiceMapPlaneData(const Plane& pl)
         updateChoiceMap(gp);
 
         auto it = std::find(m_extendedGuessesList.begin(), m_extendedGuessesList.end(), gp);
-        m_extendedGuessesList.erase(it);
+        if (it != m_extendedGuessesList.end())
+			m_extendedGuessesList.erase(it);
         m_extendedGuessesList.push_back(gp);
     }
 }
