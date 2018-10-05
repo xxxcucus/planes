@@ -88,7 +88,7 @@ PlanePointIterator is an iterator that provides access to the positions occupied
 
 To create a game with other forms of ships it is sufficient to reimplement the PlanePointIterator class.
 
-\subsection {Implementation of VectorIterator}
+\subsection {Implementation of VectorIterator} \label {VectItImpl}
 
 The essence of a PlanePointIterator is captured by the VectorIterator class : a PlanePointIterator is a method (defined in the VectorIterator class) to iterate over a list together with a special list, defined with the method generateList().
 
@@ -153,6 +153,7 @@ int VectorIterator<T>::itemNo() const
 {
     return m_internalList.size();
 }
+}//namespace
 
 \end{lstlisting}
 
@@ -188,7 +189,7 @@ For a Java style iterator this would be:
         do_something(d);  
     }
 \end{lstlisting}
-\subsubsection {Member variable initialization with an initializer list}
+\subsubsection {Member variable initialization with an initializer list} \label {PPItConstr}
 
 \begin{lstlisting}
 //constructor
@@ -237,9 +238,24 @@ public:
 Coming back to the function next() in the VectorIterator class definition. It returns a so called 'const reference' to a value of type T. This is advantageous when the objects of type T are big. The reference, specified here with the const T\&, points only to the data which is saved in the std::vector of the VectorIterator. Had we declared the return type as only T, the next function would have created a copy of the next object in the std::vector, which would have existed twice, once in the std::vector inside the VectorIterator and once as the object created when returning from the next() function.
 
 \subsubsection {Namespaces}
+
+The template class VectorIterator is a general class which relates very little with the specific of the Planes game. Its name does also not have specificity. Imagine what would happen we would use an external library which had the class VectorIterator as well. The compiler would not know which class is meant to be used. That is why we integrated the definition of the class Vector iterator under a namespace definition (see section \ref{VectItImpl}). The namespace used is called PlaneCommonTools. That is why in section \ref{PPItConstr} we used the name PlaneCommonTools::VectorIterator to refer to the VectorIterator class. Now the chance of multiple VectorIterator classes in the project is radically reduced. 
+
 \subsubsection {Class derivation}
 \subsubsection {Function parameters and their transmission}
 \subsubsection {Constness}
 
-Refering again to the function next() in the VectorIterator class definition, we comment on the const keyword. In this particular case it means that the reference returned by the function next() is const, that is the underlying data may not be changed. The compiler verifies that all operations performed on data returned by the function next() are also const, functions that do not change the object on which they are called. Generally the const property can be applied in C++ to functions, function parameters, function return values, member variables. 
-\subsubsection {Constants}
+Refering again to the function next() in the VectorIterator class definition, we comment on the const keyword. In this particular case it means that the reference returned by the function next() is const, that is the underlying data may not be changed. The compiler verifies that all operations performed on data returned by the function next() are also const, functions that do not change the object on which they are called. Generally the const property can be applied in C++ to functions, function parameters, function return values, variables. 
+
+Another example where the concept of constness is used is the function generateList(). Below we list a constant definition from this function:
+
+\begin{lstlisting}
+    const PlanesCommonTools::Coordinate2D pointsNorthSouth[] = {PlanesCommonTools::Coordinate2D(0, 0), 
+    PlanesCommonTools::Coordinate2D(0, 1), PlanesCommonTools::Coordinate2D(-1, 1),
+    PlanesCommonTools::Coordinate2D(1, 1), PlanesCommonTools::Coordinate2D(-2, 1), 
+    PlanesCommonTools::Coordinate2D(2, 1), PlanesCommonTools::Coordinate2D(0, 2),
+    PlanesCommonTools::Coordinate2D(0, 3), PlanesCommonTools::Coordinate2D(-1, 3),
+    PlanesCommonTools::Coordinate2D(1, 3)};
+\end{lstlisting}
+
+The list of points on the game board  belonging to the plane in the orientation NorthSouth is a constant throughout the whole program and hence the const operator in the definition of pointsNorthSouth.
