@@ -2,9 +2,9 @@
 
 The PlanePointIterator is responsible with enumerating the points of a plane object and is very often used in other source files. The following section describes the design of this class.
 
-\subsection {Class declaration}
+\subsection {Class declaration} 
 
-\begin{lstlisting}
+\begin{lstlisting} 
 //iterates over the points that make a plane
 class PlanePointIterator : public PlanesCommonTools::VectorIterator<PlanesCommonTools::Coordinate2D>
 {
@@ -239,11 +239,30 @@ Coming back to the function next() in the VectorIterator class definition. It re
 
 \subsubsection {Namespaces}
 
-The template class VectorIterator is a general class which relates very little with the specific of the Planes game. Its name does also not have specificity. Imagine what would happen we would use an external library which had the class VectorIterator as well. The compiler would not know which class is meant to be used. That is why we integrated the definition of the class Vector iterator under a namespace definition (see section \ref{VectItImpl}). The namespace used is called PlaneCommonTools. That is why in section \ref{PPItConstr} we used the name PlaneCommonTools::VectorIterator to refer to the VectorIterator class. Now the chance of multiple VectorIterator classes in the project is radically reduced. 
+The template class VectorIterator is a general class which relates very little with the specific of the Planes game. Its name does also not have specificity. Imagine what would happen we would use an external library which had the class VectorIterator as well. The compiler would not know which class is meant to be used. That is why we integrated the definition of the class Vector iterator under a namespace definition (see section \ref{VectItImpl}). The namespace used is called PlaneCommonTools. That is why in section \ref{PPItConstr} we used the name PlaneCommonTools::VectorIterator to refer to the VectorIterator class. Now the risk of having multiple VectorIterator classes in the project is radically reduced. 
 
 \subsubsection {Class derivation}
-\subsubsection {Function parameters and their transmission}
-\subsubsection {Constness}
+
+The class declaration of the PlanePointIterator class, which is listed here below, specifies through the syntax with '':'' that PlanePointIterator ''publicly derives'' from  the class PlanesCommonTools::VectorIterator \textless PlanesCommonTools::Coordinate2D \textgreater from the namespace PlanesCommonTools. Public derivation is specified through the keyword public and the derivation itself is specified through '':''. That means that the class PlanePointIterator inherits the public and protected methods and member variables of the class PlanesCommonTools::VectorIterator \textless PlanesCommonTools::Coordinate2D \textgreater.
+
+\begin{lstlisting} 
+//iterates over the points that make a plane
+class PlanePointIterator : public PlanesCommonTools::VectorIterator<PlanesCommonTools::Coordinate2D>
+{
+    Plane m_plane;
+public:
+    PlanePointIterator(const Plane& pl);
+
+private:
+    void generateList();
+};
+\end{lstlisting}
+
+More exactly the class receives from PlanesCommonTools::VectorIterator \textless PlanesCommonTools::Coordinate2D \textgreater m\_internalList and m\_idx as member variables in addition to its own member variables. Methods of PlanePointIterator are permited to use these variables as they wish. In addition with objects of the class PlanePointIterator the methods reset(), hasNext(), next(), itemNo() can be called.
+
+Particularly interesting is the constructor of the class as it was explained already in a previous section (see \ref{PPItConstr}). The rule is : one of the constructors of the basis class needs to be called in the constructor of the derived class such that the part of the derived class stemming from the basis class is properly initialized.
+
+\subsubsection {Constness} \label {Constness}
 
 Refering again to the function next() in the VectorIterator class definition, we comment on the const keyword. In this particular case it means that the reference returned by the function next() is const, that is the underlying data may not be changed. The compiler verifies that all operations performed on data returned by the function next() are also const, functions that do not change the object on which they are called. Generally the const property can be applied in C++ to functions, function parameters, function return values, variables. 
 

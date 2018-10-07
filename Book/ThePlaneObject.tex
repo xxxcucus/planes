@@ -282,8 +282,8 @@ In the code above the member variables have private access specifiers and such t
 \subsubsection {Operators}
 Operators such as
 \begin{lstlisting}
-    bool operator==(const Plane &pl1) const;
-    Plane operator+(const QPoint &qp);
+    bool operator==(const Plane& pl1) const;
+    Plane operator+(const PlanesCommonTools::Coordinate2D& qp);
 \end{lstlisting}
 are syntactic sugar meant to simplify coding. For example, when defining \textit{operator==} one can directly write the comparison \textit{ plane1 == plane2 } with the meaning of a test of equality (if the operator definition respects the semantics of an identity test). 
 
@@ -304,3 +304,46 @@ bool Plane::containsPoint(const PlanesCommonTools::Coordinate2D& qp) const {
     return false;
 }
 \end{lstlisting}
+
+\subsubsection {Function parameters and their transmission}
+
+An important problem in a C++ program is how the parameters are transmitted (or passed) to functions. There are three important situations: transmission by value, transmission by reference, transmission by const reference.  
+
+When we have a function which has as parameters of simple types (int, double, char, bool) we normally use parameter transmission by value, like in the example below. In passing by value copies of the parameters will be made and the copies will be used by the function. That means that, on one hand, any change that these parameters undergo in function code will not be perceived by the caller of the function, but, on the other hand, a copy operation is involved which for complex data types can be costly.
+
+\begin{lstlisting}
+void Plane::translateWhenHeadPosValid(int offsetX, int offsetY, int row, int col) {
+    if ((m_row + offsetX < 0) || (m_row + offsetX >= row)) {
+        return;
+    }
+
+    if ((m_col + offsetY < 0) || (m_col + offsetY >= col)) {
+        return;
+    }
+
+    m_row += offsetX;
+    m_col += offsetY;
+}
+\end{lstlisting}
+
+For complexer function parameters we want to avoid the copying associated to the passing of the parameters and hence use references types for the parameters. As an example we examine the function containsPoint() from the Plane class:
+
+\begin{lstlisting}
+//checks to see if a plane contains a certain point
+//uses a PlanePointIterator which enumerates
+//all the points on the plane
+bool Plane::containsPoint(const PlanesCommonTools::Coordinate2D& qp) const {
+    PlanePointIterator ppi(*this);
+
+    while(ppi.hasNext())
+    {
+        PlanesCommonTools::Coordinate2D qp1 = ppi.next();
+        if(qp == qp1)
+            return true;
+    }
+
+    return false;
+}
+\end{lstlisting}
+
+The parameter of the function which is of the type PlanesCommonTools::Coordinate2D is passed as a reference, that is a reference to it is given to the function. No copying is involved. Had it not been for the const keyword before the qp parameter the function containsPoint could have modified the value of the parameter in the caller's scope (at the caller). In fact this is a method used to return parameters calculated in functions to the function caller (e.g. when more than one parameters need to be returned by a function). In our concrete case the parameter qp is declared const (see also \ref {Constness}) and the compiler will forbid calling non-const operations on it. Passing parameters as const references is the most employed method of parameter passing as it avoids a copy operation and forbids the changing of the parameter at the caller.  
