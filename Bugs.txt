@@ -1,3 +1,3 @@
 1. Use directories in include
-2. Eliminate QList from common
-3. Eliminate QString from common.
+2. In PlanesWidget when the first plane is direct rotated 360 after pression Done it dissapears from view.
+3. Eliminate console messages in Release mode.
