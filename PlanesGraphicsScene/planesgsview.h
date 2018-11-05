@@ -32,10 +32,6 @@ private:
     PlaneGrid* m_playerGrid;
     PlaneGrid* m_computerGrid;
 
-    //ComputerLogic is the object that keeps the
-    //computer's strategy
-    ComputerLogic* m_computerLogic;
-
     //PlaneRound is the object that coordinates the game
     PlaneRound* m_round;
 

@@ -26,8 +26,27 @@ set(GS_SRCS
 	main.cpp
 )
 
+set(GS_HEADR 	
+	animatedtextitem.h
+	computerboard.h
+	customgraphicsscene.h
+	customgraphicsview.h
+	customhorizlayout.h
+	gamestatsframe.h
+	genericboard.h
+	gridsquare.h
+	leftpane.h
+	planesgsview.h
+	planesgswindow.h
+	playareagridsquare.h
+	playerboard.h
+	rightpane.h
+	scoreframe.h
+)
+
 add_executable(PlanesGraphicsScene 
 	${GS_SRCS}
+	${GS_HEADR}
 	resources.qrc)
 target_link_libraries(PlanesGraphicsScene
 	libCommon
