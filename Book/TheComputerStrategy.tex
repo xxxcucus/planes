@@ -1,0 +1,115 @@
+\section{The Computer Strategy}
+
+\subsection{Data Structures}
+
+The PlaneOrientationData structure keeps all the information required to justify the position and orientation of a specific plane. It works as follows: the Plane object is stored as a member variable m\_plane, if the position and orientation of the plane are not possible the member variable m\_discarded is set to true, the points on the grid that still need to be searched in order for the plane position and orientation to be completely proven are kept in the member variable m\_pointsNotTested. At the beginning all the points on the plane are in the list m\_pointsNotTested. As the game proceeds different points in m\_pointsNotTested will be tested and depending on what they reveal it can be that m\_discarded is set to true. Anyway after each guess of one point in m\_pointsNotTested the tested point is removed from the list. 
+
+\begin{lstlisting}
+struct PlaneOrientationData
+{
+	//the position of the plane
+	Plane m_plane;
+	
+	//whether this orientation was discarded
+	bool m_discarded;
+	//points on this plane that were not tested
+	//if m_discarded is false it means that all the
+	//tested points were hits
+	std::vector<PlanesCommonTools::Coordinate2D> m_pointsNotTested;
+	
+	//default constructor
+	PlaneOrientationData();
+	//another constructor
+	PlaneOrientationData(const Plane& pl, bool isDiscarded);
+	//copy constructor
+	PlaneOrientationData(const PlaneOrientationData& pod);
+	//equals operator
+	void operator=(const PlaneOrientationData& pod);
+	
+	//update the info about this plane with another guess point
+	//a guess point is a pair (position, guess result)
+	void update(const GuessPoint& gp);
+	//verifies if all the points in the current orientation were already checked
+	bool areAllPointsChecked();
+};
+
+\end{lstlisting}
+
+
+\begin{lstlisting}
+
+//default constructor
+PlaneOrientationData::PlaneOrientationData()
+{
+	m_plane = Plane(0, 0, (Plane::Orientation)0);
+	m_discarded = true;
+	m_pointsNotTested.clear();
+}
+
+//useful constructor
+PlaneOrientationData::PlaneOrientationData(const Plane& pl, bool isDiscarded) :
+	m_plane(pl),
+	m_discarded(isDiscarded)
+{
+	PlanePointIterator ppi(m_plane);
+	
+	//all points of the plane besides the head are not tested yet
+	ppi.next();
+
+	while (ppi.hasNext())
+	{
+		m_pointsNotTested.push_back(ppi.next());
+	}
+}
+
+//copy constructor
+PlaneOrientationData::PlaneOrientationData(const PlaneOrientationData& pod) :
+	m_plane(pod.m_plane),
+	m_discarded(pod.m_discarded),
+	m_pointsNotTested(pod.m_pointsNotTested) {
+}
+//assignment operator
+void PlaneOrientationData::operator=(const PlaneOrientationData &pod)
+{
+	m_plane = pod.m_plane;
+	m_discarded = pod.m_discarded;
+	m_pointsNotTested = pod.m_pointsNotTested;
+}
+
+void PlaneOrientationData::update(const GuessPoint &gp)
+{
+	//if plane is discarded return
+	if (m_discarded)
+		return;
+	
+	//find the guess point in the list of points not tested
+	auto it = std::find(m_pointsNotTested.begin(), m_pointsNotTested.end(), PlanesCommonTools::Coordinate2D(gp.m_row, gp.m_col));
+	
+	//if point not found return
+	if (it == m_pointsNotTested.end())
+		return;
+	
+	//if point found
+	//if dead and idx = 0 remove the head from the list of untested points
+	if (gp.m_type == GuessPoint::Dead && it == m_pointsNotTested.begin())
+	{
+		m_pointsNotTested.erase(it);
+		return;
+	}
+	
+	//if miss or dead discard plane
+	if (gp.m_type == GuessPoint::Miss || gp.m_type == GuessPoint::Dead)
+		m_discarded = true;
+	
+	//if hit take point out of the list of points not tested
+	if (gp.m_type == GuessPoint::Hit)
+		m_pointsNotTested.erase(it);
+}
+
+//checks to see that all points on the plane were tested
+bool PlaneOrientationData::areAllPointsChecked()
+{
+	return (m_pointsNotTested.empty());
+}
+
+\end{lstlisting}
