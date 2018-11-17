@@ -6,6 +6,7 @@
 #include "guesspoint.h"
 #include "planeiterators.h"
 #include "coordinate2d.h"
+#include "planeorientationdata.h"
 
 //The computer is trying to guess where the player's planes are
 //For every position on the table and each of the 4 plane orientations
@@ -17,39 +18,7 @@
 //Miss - the guess is not on a plane
 //Hit - the guess is on a plane but it is not on the plane's head
 //Dead - the guess is the plane's head
-
-
 //describes the data that is available about a given plane position
-
-struct PlaneOrientationData
-{
-
-    //the position of the plane
-    Plane m_plane;
-
-    //whether this orientation was discarded
-    bool m_discarded;
-    //points on this plane that were not tested
-    //if m_discarded is false it means that all the
-    //tested points were hits
-    std::vector<PlanesCommonTools::Coordinate2D> m_pointsNotTested;
-
-    //default constructor
-    PlaneOrientationData();
-    //another constructor
-    PlaneOrientationData(const Plane& pl, bool isDiscarded);
-    //copy constructor
-    PlaneOrientationData(const PlaneOrientationData& pod);
-    //equals operator
-    void operator =(const PlaneOrientationData& pod);
-
-    //update the info about this plane with another guess point
-    //a guess point is a pair (position, guess result)
-    void update(const GuessPoint& gp);
-    //verifies if all the points in the current orientation were already checked
-    bool areAllPointsChecked();
-};
-
 //This structure keeps the information about the position of the head of the planes
 
 struct HeadData
