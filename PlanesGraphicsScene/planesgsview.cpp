@@ -5,7 +5,7 @@
 #include "customhorizlayout.h"
 
 PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLogic, PlaneRound *rd, QWidget *parent)
-    : QWidget(parent), m_playerGrid(pGrid), m_computerGrid(cGrid), m_computerLogic(cLogic), m_round(rd)
+    : QWidget(parent), m_playerGrid(pGrid), m_computerGrid(cGrid), m_round(rd)
 {
     CustomHorizLayout* hLayout = new CustomHorizLayout(this);
     m_LeftPane = new LeftPane(this);
