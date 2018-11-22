@@ -35,7 +35,6 @@ private:
     //PlaneRound is the object that coordinates the game
     PlaneRound* m_round;
 
-
     LeftPane* m_LeftPane;
     RightPane* m_RightPane;
 };
