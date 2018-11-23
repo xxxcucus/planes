@@ -16,7 +16,8 @@ set(COMMON_HEADR plane.h
 	planeiterators.h
 	coordinate2d.h
 	vectoriterator.h
-	planeorientationdata.h)
+	planeorientationdata.h
+	headdata.h)
 
 set(COMMON_SRCS 	plane.cpp
 	planegrid.cpp
@@ -27,7 +28,8 @@ set(COMMON_SRCS 	plane.cpp
 	planeiterators.cpp
 	gamestatistics.cpp
 	coordinate2d.cpp
-	planeorientationdata.cpp)
+	planeorientationdata.cpp
+	headdata.cpp)
 
 	
 add_library(libCommon STATIC ${COMMON_SRCS} ${COMMON_HEADR})
