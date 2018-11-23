@@ -1,7 +1,9 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 3.10)
 project (PlanesGraphicsScene)
 
 cmake_policy(SET CMP0020 NEW)
+cmake_policy(SET CMP0043 NEW)
+
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_SOURCE_DIR}/../common
