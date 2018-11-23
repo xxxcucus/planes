@@ -1,6 +1,8 @@
 #include "planeorientationdata.h"
 #include "planeiterators.h"
 
+#include <algorithm>
+
 //default constructor
 PlaneOrientationData::PlaneOrientationData()
 {
