@@ -1,4 +1,4 @@
 1. Use directories in include
 2. In PlanesWidget when the first plane is direct rotated 360 after pression Done it dissapears from view.
 3. Eliminate console messages in Release mode.
-4. Eliminate dependency of libasan in linux installation archive.
+4. Eliminate dependency of libasan in linux installation archive. Generate new installation for linux.
