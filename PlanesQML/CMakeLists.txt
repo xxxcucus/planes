@@ -8,6 +8,10 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../common
 	)
 
+set (QML_HEADR
+	planegridqml.h
+	planegameqml.h)
+
 set(QML_SRCS 	
 	planegridqml.cpp
 	main.cpp
@@ -15,7 +19,7 @@ set(QML_SRCS
 
 qt5_add_resources(RESOURCES qml.qrc)
 	
-add_executable(PlanesQML ${QML_SRCS} ${RESOURCES})
+add_executable(PlanesQML ${QML_SRCS} ${RESOURCES} ${QML_HEADR})
 
 target_link_libraries(PlanesQML
 	libCommon)

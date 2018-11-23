@@ -9,6 +9,17 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../common
 	${Qt5Widgets_INCLUDE_DIRS})
 
+set (WIDGET_HEADR 	
+    baserenderarea.h
+	buttons.h
+ 	choicedebugwidget.h
+    debugrenderarea.h
+	editplanescontrolwidget.h
+	gamerenderarea.h
+	gamestatswidget.h
+	planeswview.h
+	planeswwindow.h)
+
 set(WIDGET_SRCS 	
     baserenderarea.cpp
 	buttons.cpp
@@ -26,7 +37,7 @@ set(WIDGET_SRCS
 	GameForm.ui)
 
 add_definitions(${Qt5Widgets_DEFINITIONS})
-add_executable(PlanesWidget ${WIDGET_SRCS} ${UI_HEADERS})
+add_executable(PlanesWidget ${WIDGET_SRCS} ${UI_HEADERS} ${WIDGET_HEADR})
 target_link_libraries(PlanesWidget 
 	libCommon
 	${Qt5Widgets_LIBRARIES})
