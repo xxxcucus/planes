@@ -23,8 +23,9 @@ add_subdirectory(PlanesGraphicsScene)
 add_subdirectory(PlanesQML)
 add_subdirectory(common)
 
+set(ROOT_PATH ${Qt5_DIR}/../../../)
+
 if (NOT UNIX)
-	set(ROOT_PATH ${Qt5_DIR}/../../../)
 	install(FILES ${ROOT_PATH}/bin/Qt5Core.dll DESTINATION bin)
 	install(FILES ${ROOT_PATH}/bin/Qt5Gui.dll DESTINATION bin)
 	install(FILES ${ROOT_PATH}/bin/Qt5Widgets.dll DESTINATION bin)
@@ -39,13 +40,15 @@ if (NOT UNIX)
 	install(FILES ${ROOT_PATH}/plugins/platforms/qwindows.dll DESTINATION bin/platforms)
 endif (NOT UNIX)
 
-#todo: to extract QT_MAJOR, QT_MINOR, QT_REVISION from ROOT_PATH
-set(QT_MAJOR "5")
-set(QT_MINOR "11")
-set(QT_REVISION "2")
+string(REGEX MATCH "[0-9]\\.[0-9]+\\.[0-9]+" QT_VERSION ${ROOT_PATH})
+string(REPLACE "." ";" QT_VERSION_LIST ${QT_VERSION})
+list(GET QT_VERSION_LIST 0 QT_MAJOR)
+list(GET QT_VERSION_LIST 1 QT_MINOR)
+list(GET QT_VERSION_LIST 2 QT_REVISION)
+message("Used Qt Version: " ${QT_MAJOR} " " ${QT_MINOR} " " ${QT_REVISION})
 
+#todo: install qml in linux
 if (UNIX)
-	set(ROOT_PATH ${Qt5_DIR}/../../../)
 	install(FILES ${ROOT_PATH}/lib/libQt5Widgets.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt5Gui.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt5Core.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
