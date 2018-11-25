@@ -97,3 +97,31 @@ bool PlaneOrientationData::areAllPointsChecked()
 }
 
 \end{lstlisting}
+
+In the game of Planes one should guess the position of the plane head and not the exact position and orientation of the corresponding plane. That is why a datastructure called HeadData.
+
+\begin{lstlisting}
+struct HeadData
+{
+	//size of the grid
+	int m_row, m_col;
+	//position of the head
+	int m_headRow, m_headCol;
+	//the correct plane orientation if decided
+	int m_correctOrient;
+	
+	//statistics about the 4 positions with this head
+	PlaneOrientationData m_options[4];
+	
+	HeadData(int row, int col, int headRow, int headCol);
+	//update the current data with a guess
+	//return true if a plane is confirmed
+	bool update(const GuessPoint& gp);
+};
+\end{lstlisting}
+
+The most important aspect of HeadData is that it contains 4 PlaneOrientationData structures, each for every possible orientation of a plane with a fixed head. Additional the size of the game board is saved, along with the plane head position. If there is enough data to be sure that the plane is in one of the 4 searched positions, m\_correctOrienta will be set to the index of the orientation in the array m\_options. The most important function is the function update() that receives a guess (which is a position on the game board together with a guess result: dead, hit, miss) and updates the knowledge about this plane head's position.
+
+\subsection{C++ Concepts}
+
+\subsubsection{Structs}
