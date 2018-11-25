@@ -35,16 +35,14 @@ struct PlaneOrientationData
 
 \end{lstlisting}
 
+From the implementation file the following 3 functions are important: \begin{itemize}
+	\item the constructor where a PlanePointIterator is used to initialize the m\_pointsNotTested member variable
+	\item the update() function which receives a GuessPoint object, which is the result of a guess on the play board. The function updates m\_pointsNotTested and m\_discarded based on this new information.
+	\item the function are areAllPointsChecked() which verifies if all points influencing the decision of the plain position and orientation being valid have been tested.
+\end{itemize}
 
 \begin{lstlisting}
 
-//default constructor
-PlaneOrientationData::PlaneOrientationData()
-{
-	m_plane = Plane(0, 0, (Plane::Orientation)0);
-	m_discarded = true;
-	m_pointsNotTested.clear();
-}
 
 //useful constructor
 PlaneOrientationData::PlaneOrientationData(const Plane& pl, bool isDiscarded) :
@@ -60,20 +58,6 @@ PlaneOrientationData::PlaneOrientationData(const Plane& pl, bool isDiscarded) :
 	{
 		m_pointsNotTested.push_back(ppi.next());
 	}
-}
-
-//copy constructor
-PlaneOrientationData::PlaneOrientationData(const PlaneOrientationData& pod) :
-	m_plane(pod.m_plane),
-	m_discarded(pod.m_discarded),
-	m_pointsNotTested(pod.m_pointsNotTested) {
-}
-//assignment operator
-void PlaneOrientationData::operator=(const PlaneOrientationData &pod)
-{
-	m_plane = pod.m_plane;
-	m_discarded = pod.m_discarded;
-	m_pointsNotTested = pod.m_pointsNotTested;
 }
 
 void PlaneOrientationData::update(const GuessPoint &gp)
