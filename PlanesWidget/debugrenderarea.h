@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QPainter>
 #include "baserenderarea.h"
+#include "revertcomputerlogic.h"
 
 //this is a widget that displays how the computer evaluates choices
 //before deciding one move

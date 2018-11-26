@@ -13,6 +13,7 @@ set(COMMON_HEADR plane.h
 	planesmodel.h
 	planeround.h
 	computerlogic.h
+	revertcomputerlogic.h
 	guesspoint.h
 	planeiterators.h
 	coordinate2d.h
@@ -25,6 +26,7 @@ set(COMMON_SRCS 	plane.cpp
 	planesmodel.cpp
 	planeround.cpp
     computerlogic.cpp
+	revertcomputerlogic.cpp
 	guesspoint.cpp
 	planeiterators.cpp
 	gamestatistics.cpp
@@ -32,7 +34,6 @@ set(COMMON_SRCS 	plane.cpp
 	planeorientationdata.cpp
 	headdata.cpp)
 
-	
 add_library(libCommon STATIC ${COMMON_SRCS} ${COMMON_HEADR})
 
 #target_link_libraries(PlanesWidget ${Qt5Widgets_LIBRARIES})
