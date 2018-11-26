@@ -1,6 +1,8 @@
 \section{The Computer Strategy}
 
-\subsection{Data Structures}
+\subsection{Basic Data Structures} \label {Strategy_Data_Structures}
+
+\subsubsection{PlaneOrientationData}
 
 The PlaneOrientationData structure keeps all the information required to justify the position and orientation of a specific plane. It works as follows: the Plane object is stored as a member variable m\_plane, if the position and orientation of the plane are not possible the member variable m\_discarded is set to true, the points on the grid that still need to be searched in order for the plane position and orientation to be completely proven are kept in the member variable m\_pointsNotTested. At the beginning all the points on the plane are in the list m\_pointsNotTested. As the game proceeds different points in m\_pointsNotTested will be tested and depending on what they reveal it can be that m\_discarded is set to true. Anyway after each guess of one point in m\_pointsNotTested the tested point is removed from the list. 
 
@@ -98,6 +100,8 @@ bool PlaneOrientationData::areAllPointsChecked()
 
 \end{lstlisting}
 
+\subsubsection{HeadData}
+
 In the game of Planes one should guess the position of the plane head and not the exact position and orientation of the corresponding plane. That is why a datastructure called HeadData.
 
 \begin{lstlisting}
@@ -122,6 +126,198 @@ struct HeadData
 
 The most important aspect of HeadData is that it contains 4 PlaneOrientationData structures, each for every possible orientation of a plane with a fixed head. Additional the size of the game board is saved, along with the plane head position. If there is enough data to be sure that the plane is in one of the 4 searched positions, m\_correctOrienta will be set to the index of the orientation in the array m\_options. The most important function is the function update() that receives a guess (which is a position on the game board together with a guess result: dead, hit, miss) and updates the knowledge about this plane head's position.
 
+\subsection{Data Available to the Computer}
+
+The computer's decisions are based on the class ComputerLogic. It contains informations about possible positions of planes on the game board. Let's look first what happens when new information comes from a guess made by the computer. This is done in the function addData().
+
+The guess is firstly pushed inside two lists m\_guessesList and m\_extendedGuessesList. Then two key data structures are updated with the given guess: the choice map and the head information. Following these two steps we look in the head information to see if we confirmed a plane position, and when we did we add it to m\_guessedPlaneList, eliminate it from m\_headDataList, and update the choice map with the positions of all the plane points on the found plane (with updateChoiceMapPlaneData()).
+
+\begin{lstlisting}
+void ComputerLogic::addData(const GuessPoint& gp)
+{
+	//add to list of guesses
+	m_guessesList.push_back(gp);
+	m_extendedGuessesList.push_back(gp);
+	
+	//updates the info in the array of choices
+	updateChoiceMap(gp);
+	
+	//updates the head data
+	updateHeadData(gp);
+	
+	//checks all head data to see if any plane positions were confirmed
+	auto it = m_headDataList.begin();
+	
+	
+	while (it != m_headDataList.end()) {
+		//if we decided upon an orientation
+		//update the choice map
+		//and delete the head data structure
+		//append to the list of found planes
+		if (it->m_correctOrient != -1)
+		{
+			Plane pl(it->m_headRow, it->m_headCol, (Plane::Orientation)it->m_correctOrient);
+			updateChoiceMapPlaneData(pl);
+			m_guessedPlaneList.push_back(pl);
+			it = m_headDataList.erase(it);
+		} else {
+			++it;
+		}
+	}
+}
+\end{lstlisting}
+
+The choice map is a vector having one integer element for each board tile and each possible plane orientation. Its values have the following meaning:
+
+\begin{itemize}
+	\item when a guess has been made at that position, the choice is -2
+	\item when it is impossible to have a plane at that position with the corresponding orientation, the choice is -1
+	\item no information is available about this point, means the value 0
+	\item a positive value k, means that there are k different sources of information that say that there is a plane at that position and that plane orientation
+\end{itemize}
+
+\subsubsection{Updating the Choice Map}
+
+Updating the choice map works as follows:
+
+\begin{lstlisting}
+void ComputerLogic::updateChoiceMap(const GuessPoint& gp) {
+
+	//marks all the 4 positions in the choice map as guessed -2
+	for(int i = 0;i < 4; i++) {
+		Plane plane(gp.m_row, gp.m_col, (Plane::Orientation)i);
+		int idx = mapPlaneToIndex(plane);
+		m_choices[idx] = -2;
+	}
+	
+	if(gp.m_type == GuessPoint::Dead)
+		updateChoiceMapDeadInfo(gp.m_row, gp.m_col);
+	
+	if(gp.m_type == GuessPoint::Hit)
+		updateChoiceMapHitInfo(gp.m_row, gp.m_col);
+	
+	if(gp.m_type == GuessPoint::Miss)
+		updateChoiceMapMissInfo(gp.m_row, gp.m_col);
+}
+\end{lstlisting}
+
+First the 4 choices corresponding to the guess position are marked with -2, then depending of the result of the guess one of the 3 functions is called: updateChoiceMapDeadInfo(), updateChoiceMapHitInfo(), updateChoiceMapMissInfo(). 
+
+\begin{lstlisting}
+//updates the choices with info about a dead guess
+void ComputerLogic::updateChoiceMapDeadInfo(int row, int col)
+{
+	//do nothing as everything is done in the updateHeadData function
+	//the decision to chose a plane is made in the
+	//updateHeadData function
+	updateChoiceMapMissInfo(row, col);
+}
+
+//updates the choices with info about a hit guess
+void ComputerLogic::updateChoiceMapHitInfo(int row,int col)
+{
+	//for all the plane positions that are valid and that contain the
+	//current position increment their score
+	
+	m_pipi.reset();
+	
+	while(m_pipi.hasNext()) {
+		//obtain index for position that includes Coordinate2D(row,col)
+		Plane pl = m_pipi.next();
+		PlanesCommonTools::Coordinate2D qp(row, col);
+		//add current position to the index to obtain a plane option
+		pl = pl + qp;
+		
+		//if choice is not valid continue to the next position
+		if(!pl.isPositionValid(m_row, m_col))
+		continue;
+		
+		//position is valid; check first that it has not
+		//being marked as invalid and that increase its score
+		
+		int idx = mapPlaneToIndex(pl);
+		if(m_choices[idx] >= 0)
+			m_choices[idx]++;
+	}
+}
+
+//updates the choices with info about a miss guess
+void ComputerLogic::updateChoiceMapMissInfo(int row, int col)
+{
+
+	//discard all plane positions that contain this point
+	m_pipi.reset();
+	
+	while(m_pipi.hasNext())
+	{
+		//obtain index for position that includes Coordinate(row,col)
+		Plane pl = m_pipi.next();
+		PlanesCommonTools::Coordinate2D qp(row, col);
+		//add current position to the index to obtain a plane option
+		pl = pl + qp;
+		
+		//if choice is not valid continue to the next position
+		if(!pl.isPositionValid(m_row, m_col))
+		continue;
+		
+		//position is valid; because it includes a miss
+		//it must be taken out from the list of choice
+		
+		int idx = mapPlaneToIndex(pl);
+		if(m_choices[idx] >= 0)
+			m_choices[idx] = -1;
+	}
+}
+\end{lstlisting}
+
+updateChoiceMapDeadInfo() does the same as updateChoiceMapMissInfo(), leaving the work to updateHeadData(). updateChoiceMapHitInfo() looks at all planes that intersect to the guess location and increments the associated choice in the choice map with one. updateChoiceMapDeadInfo() looks at all the planes that intersect to the guess location and marks the corresponding choice with -1 (impossible position).
+
+\subsubsection {Updating the Head Data}
+
+The head data is data about the position where plane heads were discovered. The structure is created and updated as follows:
+
+\begin{lstlisting}
+//updates the head data with a new guess
+void ComputerLogic::updateHeadData(const GuessPoint& gp)
+{
+	//build a list iterator that allows the modification of data
+	auto it = m_headDataList.begin();
+	
+	//updates the head data with the found guess point
+	while(it != m_headDataList.end()) {
+		it->update(gp);
+		++it;
+	}
+	
+	//if the guess point is a head  add a new head data
+	//which contains all the knowledge gathered until now
+	if(gp.isDead())
+	{
+		//create a new head data structure
+		HeadData hd(m_row, m_col, gp.m_row, gp.m_col);
+		
+		//update the head data with all the history of guesses
+		for(unsigned int i = 0; i < m_extendedGuessesList.size(); i++)
+		hd.update(m_extendedGuessesList.at(i));
+		
+		//append the head data in the list of heads
+		m_headDataList.push_back(hd);
+	}
+}
+\end{lstlisting}
+
+On the existing head data, the function update() is called as described in the section \ref{Strategy_Data_Structures} to update the information about the plane position. The purpose is to find the exact orientation of the plane which corresponds to the head position. If the guess made is a dead guess (the head of the plane was guessed), a new head data is created and updated with all the guesses made up to this point of the game.
+
+
+\subsection {The Computer's Choice}
+
+The computer decides its move based on the information that it has gathered from the previous guesses. 3 possible next moves are generated with the functions makeChoiceFindHeadMode(),  makeChoiceFindPositionMode(),  makeChoiceRandomMode() and of them is statistically chosen as the next move. There is no optimization as to find the optimal next move. makeChoiceFindHeadMode() finds one random point in the choice map which has the highest score and returns that one. makeChoiceFindPositionMode() tries to find the correct plane position corresponding to a guessed plane head. makeChoiceRandomMode() chooses randomly a point on the board which has the score 0 in the choice map.
+
+
+
+
+
 \subsection{C++ Concepts}
+
 
 \subsubsection{Structs}
