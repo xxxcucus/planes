@@ -28,10 +28,10 @@ void ComputerLogic::reset()
 {
     //initializes -1 for impossible choice (invalid plane position)
     //with 0 for possible choice
-    for(int i = 0;i < maxChoiceNo; i++)
+    for(int i = 0; i < maxChoiceNo; i++)
     {
         Plane pl = mapIndexToPlane(i);
-        if(pl.isPositionValid(m_row, m_col))
+        if (pl.isPositionValid(m_row, m_col))
             m_choices[i] = 0;
         else
             m_choices[i] = -1;
@@ -102,12 +102,12 @@ bool ComputerLogic::makeChoice(PlanesCommonTools::Coordinate2D& qp) const
 
     //various random strategies for making a choice
     if(test2 && test3) {
-        if(idx<6) {
+        if(idx < 6) {
             qp = qp1;
             return true;
         }
 
-        if(idx<9) {
+        if(idx < 9) {
             qp = qp2;
             return true;
         }
@@ -117,7 +117,7 @@ bool ComputerLogic::makeChoice(PlanesCommonTools::Coordinate2D& qp) const
     }
 
     if(!test2 && test3) {
-        if(idx<7) {
+        if(idx < 7) {
             qp = qp1;
             return true;
         }
@@ -127,7 +127,7 @@ bool ComputerLogic::makeChoice(PlanesCommonTools::Coordinate2D& qp) const
     }
 
     if(test2 && !test3) {
-        if(idx<7) {
+        if(idx < 7) {
             qp = qp1;
             return true;
         }
@@ -191,23 +191,23 @@ bool ComputerLogic::makeChoiceFindPositionMode(PlanesCommonTools::Coordinate2D& 
     //select a point which was not selected from this orientation
 
     //if there are no head data structures return false
-    if(m_headDataList.size() == 0)
+    if(m_headDataList.empty())
         return false;
 
     //choses a random plane head from the list of heads
     int idx = Plane::generateRandomNumber(static_cast<int>(m_headDataList.size()));
-    HeadData hd=m_headDataList.at(idx);
+    HeadData hd = m_headDataList.at(idx);
 
     //find the orientation that has the most not tested points
     //and is not discarded
 
     int max_not_tested = 0;
     int good_orientation = -1;
-    for(int i = 0;i < 4; i++)
+    for(int i = 0; i < 4; i++)
     {
         PlaneOrientationData pod = hd.m_options[i];
 
-        if(!pod.m_discarded) {
+        if (!pod.m_discarded) {
             if(static_cast<int>(pod.m_pointsNotTested.size()) > max_not_tested) {
                 max_not_tested = static_cast<int>(pod.m_pointsNotTested.size());
                 good_orientation = i;
@@ -248,7 +248,7 @@ bool ComputerLogic::makeChoiceRandomMode(PlanesCommonTools::Coordinate2D& qp) co
         }
         //if the point does not correspond to a zero choice
         //move to the next point
-        count = (count+1) % maxChoiceNo;
+        count = (count + 1) % maxChoiceNo;
     }
     //loop until all the points in the m_choices table have been tested
 
@@ -302,7 +302,7 @@ void ComputerLogic::addData(const GuessPoint& gp)
 void ComputerLogic::updateChoiceMap(const GuessPoint& gp) {
 
     //marks all the 4 positions in the choice map as guessed -2
-    for(int i = 0;i < 4; i++) {
+    for(int i = 0; i < 4; i++) {
         Plane plane(gp.m_row, gp.m_col, (Plane::Orientation)i);
         int idx = mapPlaneToIndex(plane);
         m_choices[idx] = -2;
@@ -328,7 +328,7 @@ void ComputerLogic::updateChoiceMapPlaneData(const Plane& pl)
     //not to treat the head of the plane
     ppi.next();
 
-    while(ppi.hasNext()) {
+    while (ppi.hasNext()) {
         PlanesCommonTools::Coordinate2D qp = ppi.next();
         GuessPoint gp(qp.x(), qp.y(), GuessPoint::Miss);
         updateChoiceMap(gp);
@@ -350,14 +350,14 @@ void ComputerLogic::updateChoiceMapDeadInfo(int row, int col)
 }
 
 //updates the choices with info about a hit guess
-void ComputerLogic::updateChoiceMapHitInfo(int row,int col)
+void ComputerLogic::updateChoiceMapHitInfo(int row, int col)
 {
     //for all the plane positions that are valid and that contain the
     //current position increment their score
 
     m_pipi.reset();
 
-    while(m_pipi.hasNext()) {
+    while (m_pipi.hasNext()) {
         //obtain index for position that includes Coordinate2D(row,col)
         Plane pl = m_pipi.next();
         PlanesCommonTools::Coordinate2D qp(row, col);
@@ -365,14 +365,14 @@ void ComputerLogic::updateChoiceMapHitInfo(int row,int col)
         pl = pl + qp;
 
         //if choice is not valid continue to the next position
-        if(!pl.isPositionValid(m_row, m_col))
+        if (!pl.isPositionValid(m_row, m_col))
             continue;
 
         //position is valid; check first that it has not
         //being marked as invalid and that increase its score
 
         int idx = mapPlaneToIndex(pl);
-        if(m_choices[idx] >= 0)
+        if (m_choices[idx] >= 0)
             m_choices[idx]++;
     }
 }
@@ -384,7 +384,7 @@ void ComputerLogic::updateChoiceMapMissInfo(int row, int col)
     //discard all plane positions that contain this point
     m_pipi.reset();
 
-    while(m_pipi.hasNext())
+    while (m_pipi.hasNext())
     {
         //obtain index for position that includes Coordinate(row,col)
         Plane pl = m_pipi.next();
@@ -393,7 +393,7 @@ void ComputerLogic::updateChoiceMapMissInfo(int row, int col)
         pl = pl + qp;
 
         //if choice is not valid continue to the next position
-        if(!pl.isPositionValid(m_row, m_col))
+        if (!pl.isPositionValid(m_row, m_col))
             continue;
 
         //position is valid; because it includes a miss
@@ -451,7 +451,7 @@ int ComputerLogic::noPointsInfluenced(const PlanesCommonTools::Coordinate2D& qp)
         }
     }
 
-    if(point_not_good)
+    if (point_not_good)
         return -1;
 
     int count = 0;
@@ -459,17 +459,17 @@ int ComputerLogic::noPointsInfluenced(const PlanesCommonTools::Coordinate2D& qp)
     //get the planes intersecting the point
     PlaneIntersectingPointIterator pipi(qp);
 
-    while(pipi.hasNext()) {
+    while (pipi.hasNext()) {
         //for each plane
         Plane pl = pipi.next();
         //ignore if it's head is in the initial point
-        if(pl.head() == qp)
+        if (pl.head() == qp)
             continue;
 
         //find the index of the point
         int idx = mapPlaneToIndex(pl);
 
-        if(m_choices[idx] >= 0)
+        if (m_choices[idx] >= 0)
             count++;
     }
 
@@ -479,7 +479,7 @@ int ComputerLogic::noPointsInfluenced(const PlanesCommonTools::Coordinate2D& qp)
 //equals operator: copies the choices array and the guesses list from the ComputerLogic object
 void RevertComputerLogic::operator=(const ComputerLogic& cl)
 {
-    if(m_row!=cl.getRowNo() && m_col!=cl.getRowNo())
+    if (m_row != cl.getRowNo() && m_col != cl.getRowNo())
         return;
 
     const int* choices = cl.getChoicesArray();
@@ -509,20 +509,20 @@ RevertComputerLogic::RevertComputerLogic(int row, int col, int planeno):
 //reverts the computer strategy by n steps
 void RevertComputerLogic::revert(int n)
 {
-    if(n <= 0)
+    if (n <= 0)
         return;
 
     //computes to which step of the computer strategy the strategy must be reverted
-    int nsteps = m_pos-n;
+    int nsteps = m_pos - n;
 
-    if(nsteps < -1)
+    if (nsteps < -1)
         nsteps = -1;
 
     //resets the computer logic object
     reset();
 
     //play the strategy forwards
-    for(int i = 0;i <= nsteps; i++)
+    for(int i = 0; i <= nsteps; i++)
     {
         addData(m_playList.at(i));
     }
@@ -532,7 +532,7 @@ void RevertComputerLogic::revert(int n)
 //plays the computer strategy forward
 void RevertComputerLogic::next()
 {
-    if(m_pos >= static_cast<int>(m_playList.size()) - 1)
+    if (m_pos >= static_cast<int>(m_playList.size()) - 1)
         return;
 
     addData(m_playList.at(m_pos + 1));
