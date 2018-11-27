@@ -1,0 +1,23 @@
+\section{The Game Controller}
+
+The game controller is implemented in the class PlaneRound. Its member variable are as follows:
+
+\begin{lstlisting}
+	//whether the computer or the player moves first
+	bool m_isComputerFirst;
+	//the  game statistics
+	GameStatistics m_gameStats;
+	
+	//the player and computer's grid
+	PlaneGrid* m_PlayerGrid;
+	PlaneGrid* m_ComputerGrid;
+	
+	//the list of guesses for computer and player
+	std::vector<GuessPoint> m_computerGuessList;
+	std::vector<GuessPoint> m_playerGuessList;
+	
+	//the computer's strategy
+	ComputerLogic* m_computerLogic;
+\end{lstlisting}
+
+It keeps track of who should make the first move (m\_isComputerFirst), of the score (m\_gameStats) and of the moves made (m\_computerGuessList, m\_playerGuessList). The decision making is left to m\_computerLogic. The two game boards are modelled by m\_PlayerGrid and m\_ComputerGrid.
