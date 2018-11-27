@@ -18,7 +18,7 @@ private:
     int m_rowNo, m_colNo;
     //number of planes
     int m_planeNo;
-    //whether the grid belongs to a user or to a player
+    //whether the grid belongs to computer or to player
     bool m_isComputer;
     //list of plane objects for the grid
     std::vector<Plane> m_planeList;
