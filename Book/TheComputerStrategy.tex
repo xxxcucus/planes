@@ -102,7 +102,7 @@ bool PlaneOrientationData::areAllPointsChecked()
 
 \subsubsection{HeadData}
 
-In the game of Planes one should guess the position of the plane head and not the exact position and orientation of the corresponding plane. That is why a datastructure called HeadData.
+In the game of Planes one should guess the position of the plane head and not the exact position and orientation of the corresponding plane. The information about one plane head being at a specific location on the grid is saved in the struct HeadData.
 
 \begin{lstlisting}
 struct HeadData
@@ -124,7 +124,7 @@ struct HeadData
 };
 \end{lstlisting}
 
-The most important aspect of HeadData is that it contains 4 PlaneOrientationData structures, each for every possible orientation of a plane with a fixed head. Additional the size of the game board is saved, along with the plane head position. If there is enough data to be sure that the plane is in one of the 4 searched positions, m\_correctOrienta will be set to the index of the orientation in the array m\_options. The most important function is the function update() that receives a guess (which is a position on the game board together with a guess result: dead, hit, miss) and updates the knowledge about this plane head's position.
+The most important aspect of HeadData is that it contains 4 PlaneOrientationData structures, each for every possible orientation of a plane with a the given plane head position. Additionally the size of the game board is saved, along with the plane head position. If there is enough data to be sure that the plane is in one of the 4 searched positions, m\_correctOrienta will be set to the index of the found orientation in the array m\_options. The most important function is the function update() that receives a guess (which is a position on the game board together with a guess result: dead, hit, miss) and updates the knowledge about this plane head's position.
 
 \subsection{Data Available to the Computer}
 
@@ -175,6 +175,8 @@ The choice map is a vector having one integer element for each board tile and ea
 	\item no information is available about this point, means the value 0
 	\item a positive value k, means that there are k different sources of information that say that there is a plane at that position and that plane orientation
 \end{itemize}
+
+The head information consist in HeadData structures for each of the plane head positions guessed. Its purpose is to identify exactly to which plane orientation corresponds the plane head position.
 
 \subsubsection{Updating the Choice Map}
 
