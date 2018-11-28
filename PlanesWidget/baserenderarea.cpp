@@ -2,10 +2,8 @@
 #include <QPainter>
 #include "planeround.h"
 
-
-
 //constructs the class object
-BaseRenderArea::BaseRenderArea(int row, int col, QWidget *parent):
+BaseRenderArea::BaseRenderArea(int row, int col, QWidget* parent):
     QWidget(parent),
     m_rowNo(row), m_colNo(col),
     m_spacing(20),
@@ -15,7 +13,6 @@ BaseRenderArea::BaseRenderArea(int row, int col, QWidget *parent):
     //sets the size policy as expanding ; we want the widget to nicely resize when we resize the widget
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setWindowTitle("");
-
 }
 
 //gives the minimum size hint for this widget
@@ -71,40 +68,35 @@ void BaseRenderArea::calculateDimensions()
     //the offset of the grid with respect to the widget
     m_offsetRow = (this->geometry().width()- m_spacing * (m_colNo + 1)) / 2;
     m_offsetCol = (this->geometry().height() - m_spacing * (m_rowNo + 2)) / 2;
-
 }
 
 
 //draws the grid lines
-
 void BaseRenderArea::drawGrid(QPainter *painter) const
 {
-
     //draw horizontal lines
     for(int i = 0; i <= m_colNo; i++)
-        painter->drawLine(m_offsetRow + m_spacing,(i+2) * m_spacing + m_offsetCol,(m_rowNo + 1) * m_spacing + m_offsetRow,(i + 2) * m_spacing + m_offsetCol);
+        painter->drawLine(m_offsetRow + m_spacing, (i + 2) * m_spacing + m_offsetCol, (m_rowNo + 1) * m_spacing + m_offsetRow, (i + 2) * m_spacing + m_offsetCol);
 
     //draw vertical lines
     for(int i = 0; i <= m_rowNo; i++)
-        painter->drawLine((i + 1) * m_spacing + m_offsetRow, m_offsetCol + 2 * m_spacing,(i + 1) * m_spacing + m_offsetRow, (m_colNo + 2) * m_spacing + m_offsetCol);
+        painter->drawLine((i + 1) * m_spacing + m_offsetRow, m_offsetCol + 2 * m_spacing, (i + 1) * m_spacing + m_offsetRow, (m_colNo + 2) * m_spacing + m_offsetCol);
 }
 
 //draw texts and title
-
 void BaseRenderArea::drawTexts(QPainter *painter) const
 {
     //draw vertical texts
     for(int i = 0; i < m_colNo; i++)
-        painter->drawText(m_offsetRow,(i + 2) * m_spacing + m_offsetCol + m_spacing * 2 / 3,QString::number(i));
+        painter->drawText(m_offsetRow,(i + 2) * m_spacing + m_offsetCol + m_spacing * 2 / 3, QString::number(i));
 
     //draw horizontal texts
     for(int i = 0;i < m_rowNo; i++)
-        painter->drawText((i + 1) * m_spacing + m_offsetRow, m_offsetCol + 3 * m_spacing / 2,QString::number(i));
+        painter->drawText((i + 1) * m_spacing + m_offsetRow + m_spacing / 3, m_offsetCol + 3 * m_spacing / 2, QString::number(i));
 
     //displays the window title
     QFontMetrics fm = this->fontMetrics();
     int titleLength = fm.width(windowTitle());
-
 
     painter->drawText(m_rowNo / 2 * m_spacing + m_spacing + m_offsetRow - titleLength / 2, m_offsetCol, windowTitle());
 }
@@ -119,10 +111,8 @@ bool BaseRenderArea::posInGrid(int row, int col) const
     return true;
 }
 
-
 //draws a miss
 //this will be a small circle
-
 void BaseRenderArea::drawMiss(int row, int col, QPainter *painter) const
 {
     if (!posInGrid(row,col))
@@ -133,7 +123,6 @@ void BaseRenderArea::drawMiss(int row, int col, QPainter *painter) const
 
 //draw a hit
 //this will be a triangle
-
 void BaseRenderArea::drawHit(int row, int col, QPainter *painter) const
 {
     if (!posInGrid(row,col))

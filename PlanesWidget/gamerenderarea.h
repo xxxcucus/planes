@@ -11,7 +11,6 @@
 //it supports multiple modes and multiple operations
 class GameRenderArea: public BaseRenderArea
 {
-
     Q_OBJECT
 
 public:
@@ -64,7 +63,6 @@ public:
     //tests whether the render area corresponds to computer or to player
     bool isComputer() const {return m_grid->isComputer(); }
 
-
 protected:
     //the widget's paint event
     void paintEvent(QPaintEvent *event);
@@ -74,7 +72,6 @@ protected:
     void mousePressEvent(QMouseEvent *event);
 
 private:
-
 
     //fills a rect in the grid
     void fillGridRect(int row, int col, QString color, QPainter *painter);
@@ -112,7 +109,6 @@ private:
     void mousePressEventComputerGame(QMouseEvent *event);
     //temp plane intersects other planse
     bool tempPlaneIntersectsOtherPlanes() const;
-
 
 signals:
     //notifies that the current operation has endet
