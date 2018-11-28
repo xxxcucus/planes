@@ -19,7 +19,7 @@ EditPlanesControlWidget::EditPlanesControlWidget(GameRenderArea *renderArea, QWi
     connect(doneButton, SIGNAL(clicked()), this, SLOT(done_clicked()));
 }
 
-//implementation of the clicked slots
+//TODO: to remove this
 void EditPlanesControlWidget::addPlane_clicked()
 {
     //update state of buttons
@@ -46,6 +46,7 @@ void EditPlanesControlWidget::movePlane_clicked()
 //            addPlaneButton->setEnabled(true);
 //        else
 //            addPlaneButton->setEnabled(false);
+		m_DoneButtonActiveBackup = doneButton->isEnabled();
         movePlaneButton->setEnabled(true);
         deletePlaneButton->setEnabled(false);
         rotatePlaneButton->setEnabled(false);
@@ -54,6 +55,7 @@ void EditPlanesControlWidget::movePlane_clicked()
     }
 }
 
+//TODO: to remove
 void EditPlanesControlWidget::deletePlane_clicked()
 {
     //set operation mode for render Area
@@ -69,7 +71,6 @@ void EditPlanesControlWidget::deletePlane_clicked()
         rotatePlaneButton->setEnabled(false);
         displayMsg(tr("Click on plane's head to delete it"));
     }
-
 }
 
 void EditPlanesControlWidget::rotatePlane_clicked()
@@ -82,6 +83,7 @@ void EditPlanesControlWidget::rotatePlane_clicked()
 //            addPlaneButton->setEnabled(true);
 //        else
 //            addPlaneButton->setEnabled(false);
+		m_DoneButtonActiveBackup = true;
         movePlaneButton->setEnabled(false);
         deletePlaneButton->setEnabled(false);
         rotatePlaneButton->setEnabled(true);
@@ -100,10 +102,13 @@ void EditPlanesControlWidget::cancel_clicked()
     movePlaneButton->setEnabled(true);
     deletePlaneButton->setEnabled(false);
     rotatePlaneButton->setEnabled(true);
+	if (m_RenderArea->isOperation())
+		doneButton->setEnabled(m_DoneButtonActiveBackup);
 
     //set operation mode for render Area
     m_RenderArea->restoreBackupPlane();
     m_RenderArea->setOperation(GameRenderArea::No_operation);
+
 
     displayMsg(tr("Choose an operation from the list below"));
 }
@@ -153,7 +158,6 @@ void EditPlanesControlWidget::initButtons()
 
 void EditPlanesControlWidget::deactivateButtons()
 {
-
     addPlaneButton->setEnabled(false);
     cancelButton->setEnabled(false);
     movePlaneButton->setEnabled(false);

@@ -51,6 +51,10 @@ public slots:
 signals:
     //signals that the done button has been clicked
     void doneClicked();
+
+private:
+	bool m_DoneButtonActiveBackup = false;
+
 };
 
 #endif // EDITPLANESCONTROLWIDGET_H

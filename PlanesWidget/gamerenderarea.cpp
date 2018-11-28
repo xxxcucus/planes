@@ -12,7 +12,7 @@
 GameRenderArea::GameRenderArea(PlaneGrid* grid, QWidget* parent):
     BaseRenderArea(grid->getRowNo(),grid->getColNo(), parent),
     m_currentOperation(No_operation),
-    m_tempPlane(-5,-5,Plane::NorthSouth),
+    m_tempPlane(-5, -5, Plane::NorthSouth),
     m_planePosValid(true),
     m_planeSelected(false),
     m_grid(grid)
@@ -37,19 +37,19 @@ void GameRenderArea::paintEvent(QPaintEvent *event)
     //draws the planes when the game has endet
     //or colors the grid location selected
     //with the mouse during the game
-    if(m_currentMode==Game && isComputer())
+    if(m_currentMode == Game && isComputer())
     {
         if(m_roundEndet)
             drawConfirmedPlanes(&painter);
         if(!m_roundEndet)
-            fillGridRect(m_curMouseRow, m_curMouseCol, QString("grey"),&painter  );
+            fillGridRect(m_curMouseRow, m_curMouseCol, QString("grey"), &painter);
         drawGuesses(&painter);
     }
 
     //in game mode for player
     //draws the planes
     //and the guesses made by the computer
-    if(m_currentMode==Game && !isComputer())
+    if(m_currentMode == Game && !isComputer())
     {
         drawConfirmedPlanes(&painter);
         drawGuesses(&painter);
@@ -57,19 +57,19 @@ void GameRenderArea::paintEvent(QPaintEvent *event)
 
 
     //in editor mode for player    
-    if(m_currentMode==Editor && !isComputer())
+    if(m_currentMode == Editor && !isComputer())
     {
         //draws the planes
         drawConfirmedPlanes(&painter);
 
         //draws the temp plane
-        if(m_currentOperation==Add_plane)
+        if(m_currentOperation == Add_plane)
             drawTempPlane(&painter);
 
-        if(m_currentOperation==Move_plane && m_planeSelected)
+        if(m_currentOperation == Move_plane && m_planeSelected)
             drawTempPlane(&painter);
 
-        if(m_currentOperation==Rotate_plane && m_planeSelected)
+        if(m_currentOperation == Rotate_plane && m_planeSelected)
             drawTempPlane(&painter);
     }
 }
@@ -77,7 +77,7 @@ void GameRenderArea::paintEvent(QPaintEvent *event)
 //sets the current operation in editor mode for player
 bool GameRenderArea::setOperation(Operation o)
 {
-    if((o==Delete_plane || o==Rotate_plane || o==Move_plane) && m_grid->getPlaneListSize()==0)
+    if((o == Delete_plane || o == Rotate_plane || o == Move_plane) && m_grid->getPlaneListSize() == 0)
         return false;
 
     m_currentOperation = o;
@@ -100,18 +100,18 @@ void GameRenderArea::setMode(Mode m)
 //returns false if coordinates are not good and true otherwise
 void GameRenderArea::fillGridRect(int row, int col, QString color, QPainter *painter)
 {
-    if(!BaseRenderArea::fillGridRect(row,col,color,painter))
+    if(!BaseRenderArea::fillGridRect(row, col, color, painter))
         m_planePosValid = false;
 }
 
 //draws the guesses made
-void GameRenderArea::drawGuesses(QPainter *painter) const
+void GameRenderArea::drawGuesses(QPainter* painter) const
 {
     BaseRenderArea::drawGuesses(m_guessPointList, painter);
 }
 
 //draws the temporary plane
-void GameRenderArea::drawTempPlane(QPainter *painter)
+void GameRenderArea::drawTempPlane(QPainter* painter)
 {
     drawPlane(m_tempPlane, QString("grey"), painter);
 }
@@ -121,14 +121,14 @@ void GameRenderArea::drawTempPlane(QPainter *painter)
 //when the player edits the plane positions
 //and when the player guesses the planes
 //in computer's grid
-void GameRenderArea::mouseMoveEvent(QMouseEvent *event)
+void GameRenderArea::mouseMoveEvent(QMouseEvent* event)
 {
     //extracts the location of the event
     int row = event->pos().x();
     int col = event->pos().y();
 
-    m_curMouseRow = (row-m_offsetRow)/m_spacing-1;
-    m_curMouseCol = (col-m_offsetCol)/m_spacing-2;
+    m_curMouseRow = (row - m_offsetRow) / m_spacing - 1;
+    m_curMouseCol = (col - m_offsetCol) / m_spacing - 2;
 
 
     if(m_currentMode == Editor && !isComputer())
@@ -147,7 +147,7 @@ void GameRenderArea::mouseMoveEvent(QMouseEvent *event)
 //treats the mouse pressed events
 void GameRenderArea::mousePressEvent(QMouseEvent *event)
 {
-    if(m_currentMode == Game && isComputer() &&!m_roundEndet)
+    if(m_currentMode == Game && isComputer() && !m_roundEndet)
         mousePressEventComputerGame(event);
 
     if(m_currentMode == Editor && !isComputer())
@@ -159,8 +159,8 @@ void GameRenderArea::mousePressEventPlayerEditor(QMouseEvent *event)
 {
     if(event->button() == Qt::RightButton)
     {
-        if(m_currentOperation==Add_plane || (m_currentOperation==Move_plane && m_planeSelected)
-                || (m_currentOperation==Rotate_plane && m_planeSelected))
+        if(m_currentOperation == Add_plane || (m_currentOperation == Move_plane && m_planeSelected)
+                || (m_currentOperation == Rotate_plane && m_planeSelected))
         {
             if(m_planePosValid)
             {
@@ -173,7 +173,7 @@ void GameRenderArea::mousePressEventPlayerEditor(QMouseEvent *event)
 
     if(event->button() == Qt::LeftButton)
     {
-        if (m_currentOperation==Move_plane || m_currentOperation==Rotate_plane)
+        if (m_currentOperation == Move_plane || m_currentOperation == Rotate_plane)
         {
             if (!m_planeSelected)
                 {
@@ -186,13 +186,13 @@ void GameRenderArea::mousePressEventPlayerEditor(QMouseEvent *event)
                     }
                 }
         }
-        if (m_currentOperation==Rotate_plane)
+        if (m_currentOperation == Rotate_plane)
         {
             if(m_planeSelected)
                 rotateTempPlane();
         }
 
-        if (m_currentOperation==Delete_plane)
+        if (m_currentOperation == Delete_plane)
         {
             if(selectPlane())
                 resetOperation();
@@ -244,7 +244,7 @@ void GameRenderArea::savePlane(Plane pl)
 //checks that more planes need to be added
 bool GameRenderArea::addMorePlanes() const
 {
-    return (m_grid->getPlaneListSize()<m_grid->getPlaneNo());
+    return (m_grid->getPlaneListSize() < m_grid->getPlaneNo());
 }
 
 //when the user cancels a rotation or movement operation
@@ -253,7 +253,7 @@ void GameRenderArea::restoreBackupPlane()
 {
     //restore the backup plane and save in the list of planes
     //when the current operation is rotation or movement
-    if (m_currentOperation == Rotate_plane || m_currentOperation == Move_plane)
+    if ((m_currentOperation == Rotate_plane || m_currentOperation == Move_plane) && m_planeSelected)
     {
         m_tempPlane = m_backupPlane;
         saveTempPlane();
@@ -289,7 +289,7 @@ void GameRenderArea::resetOperation()
         //calculate how many planes need to be drawn
         std::string text("");
         text = text + "You must draw ";
-        text = text + std::to_string(m_grid->getPlaneNo()-m_grid->getPlaneListSize());
+        text = text + std::to_string(m_grid->getPlaneNo() - m_grid->getPlaneListSize());
         text = text + " more planes";
         emit displayStatusMsg(text);
         emit notEnoughPlanes();

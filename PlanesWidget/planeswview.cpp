@@ -107,6 +107,6 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
 
 void PlanesWView::widgetSelected(int sel)
 {
-    if(sel==1)
+    if(sel == 1)
         emit debugWidgetSelected();
 }

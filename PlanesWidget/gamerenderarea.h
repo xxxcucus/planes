@@ -51,6 +51,11 @@ public:
     //sets the current operation in the render area
     bool setOperation(Operation o);
 
+	//checks to see if an operation is currently performed
+	bool isOperation() {
+		return m_currentOperation != Operation::No_operation;
+	}
+
     //restores the backup plane
     void restoreBackupPlane();
 
