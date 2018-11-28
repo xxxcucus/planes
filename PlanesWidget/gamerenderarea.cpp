@@ -173,26 +173,26 @@ void GameRenderArea::mousePressEventPlayerEditor(QMouseEvent *event)
 
     if(event->button() == Qt::LeftButton)
     {
-        if(m_currentOperation==Move_plane || m_currentOperation==Rotate_plane)
+        if (m_currentOperation==Move_plane || m_currentOperation==Rotate_plane)
         {
-            if(!m_planeSelected)
+            if (!m_planeSelected)
                 {
-                    if(selectPlane())
+                    if (selectPlane())
                     {
-                        if(m_currentOperation==Move_plane)
+                        if(m_currentOperation == Move_plane)
                             emit displayMsg(tr("Right click to decide the new position of the plane."));
-                        if(m_currentOperation==Rotate_plane)
+                        if(m_currentOperation == Rotate_plane)
                             emit displayMsg(tr("Click to rotate plane. Right click to decide position."));
                     }
                 }
         }
-        if(m_currentOperation==Rotate_plane)
+        if (m_currentOperation==Rotate_plane)
         {
             if(m_planeSelected)
                 rotateTempPlane();
         }
 
-        if(m_currentOperation==Delete_plane)
+        if (m_currentOperation==Delete_plane)
         {
             if(selectPlane())
                 resetOperation();
@@ -257,6 +257,7 @@ void GameRenderArea::restoreBackupPlane()
     {
         m_tempPlane = m_backupPlane;
         saveTempPlane();
+		m_planeSelected = false;
     }
 }
 
@@ -296,9 +297,8 @@ void GameRenderArea::resetOperation()
     update();
 }
 
-
 //draws a plane on the render area
-void GameRenderArea::drawPlane(Plane pl,QString color, QPainter *painter)
+void GameRenderArea::drawPlane(Plane pl, QString color, QPainter *painter)
 {
     m_planePosValid = true;
 
@@ -308,7 +308,7 @@ void GameRenderArea::drawPlane(Plane pl,QString color, QPainter *painter)
     while(ppi.hasNext())
     {
         PlanesCommonTools::Coordinate2D qp = ppi.next();
-        fillGridRect(qp.x(),qp.y(),color,painter);
+        fillGridRect(qp.x(), qp.y(), color, painter);
     }
 }
 
@@ -316,21 +316,20 @@ void GameRenderArea::drawPlane(Plane pl,QString color, QPainter *painter)
 void GameRenderArea::drawConfirmedPlanes(QPainter *painter)
 {
     //draws the plane shapes
-    for(int i=0;i<m_grid->getPlaneListSize();i++)
+    for(int i = 0; i < m_grid->getPlaneListSize(); i++)
     {
         Plane pl;
-        if(m_grid->getPlane(i,pl))
+        if(m_grid->getPlane(i, pl))
             drawPlane(pl, QString("black"), painter);
     }
 
     //draws the plane heads
-    for(int i=0;i<m_grid->getPlaneListSize();i++)
+    for(int i = 0;i < m_grid->getPlaneListSize(); i++)
     {
         Plane pl;
-        if(m_grid->getPlane(i,pl))
-            fillGridRect(pl.row(),pl.col(), QString("green"), painter);
+        if (m_grid->getPlane(i, pl))
+            fillGridRect(pl.row(), pl.col(), QString("green"), painter);
     }
-
 }
 
 //search for a plane in the m_grid object
@@ -342,7 +341,7 @@ int GameRenderArea::searchPlane(Plane pl) const
 //search for a plane in the m_grid object
 int GameRenderArea::searchPlane(int row, int col) const
 {
-    return m_grid->searchPlane(row,col);
+    return m_grid->searchPlane(row, col);
 }
 
 //selects a plane
@@ -350,7 +349,7 @@ bool GameRenderArea::selectPlane()
 {
     //at the currently selected cell check to see if there is a plane
     int idx = searchPlane(m_curMouseRow, m_curMouseCol);
-    if(idx!=-1)
+    if(idx != -1)
     {
         //if there is get the plane object from the m_grid object
         //to the m_tempPlane object
@@ -375,7 +374,7 @@ bool GameRenderArea::selectPlane()
 bool GameRenderArea::removePlane(int idx)
 {
     Plane pl;
-    return m_grid->removePlane(idx,pl);
+    return m_grid->removePlane(idx, pl);
 }
 
 //rotates the temp plane
@@ -406,7 +405,7 @@ void GameRenderArea::changeMode()
 {
     std::string text = "";
 
-    if(m_currentMode==Editor)
+    if(m_currentMode == Editor)
         {
         m_currentMode = Game;
         text = text + "Play! Guess a point on the Computer's grid";
