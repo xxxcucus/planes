@@ -6,3 +6,4 @@
 6. In PlanesWidget is not possible to add a plane after it was deleted. - ok (deactivated delete function) 28.11.18
 7. PlanesQML: Add help file. - ok 28.11.18
 8. PlanesQML: Rounded buttons - ok 28.11.18
+9. PlanesQML : Rounded plane forms.
