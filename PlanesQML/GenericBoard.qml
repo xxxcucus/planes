@@ -54,6 +54,7 @@ Rectangle {
                     anchors.centerIn: parent
                     width: parent.width - board.spacing
                     height: parent.height - board.spacing
+                    radius: 5
                     color: squareColor()
                     Canvas {
                         anchors.fill: parent
