@@ -77,7 +77,7 @@ Rectangle {
 					<p> There are two players: the computer and you\. </p>
 
 					<h3> Score </h3>
-					<p> The game consists of more rounds\. The overall score is displayed near the \"Start new round\" button in the \"Start Round\" Tab. </p>
+					<p> The game consists of more rounds\. The global score is displayed in the left pane during the guessing phase of every round. </p>
 
 					<h3> Game Board </h3>
 					<p> The game board is a chess board like square grid\. You must place 3 planes on the grid and the computer as well 3 on its own\. You will not be able to see where the computer has placed its planes\. 
@@ -86,8 +86,8 @@ Rectangle {
 					</p>
 
 					<h3> Game </h3>
-					<p> The game consists of a set of rounds\. The first round will start immediately when the program is started\. The other rounds are started by clicking on the \"Start new round\" button
-					in the "Start Round" Tab\. </p>
+					<p> The game consists of a set of rounds\. The first round will start immediately when the program is started\. The other rounds are started by clicking on the \"Play Again\" button
+					in the left pane\. </p>
 
 					<h3> Winning a Round </h3>
 					<p> In order to win a round you must guess the position of the heads of the planes placed by the computer on its board before the computer guesses the same for your planes\.</p>
