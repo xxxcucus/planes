@@ -17,10 +17,7 @@ class EditPlanesControlWidget: public QWidget, public Ui::EditControlForm
 
 public:
     EditPlanesControlWidget(GameRenderArea *renderArea, QWidget *parent=0);
-
     GameRenderArea* getRenderArea() {return m_RenderArea; }
-
-
 
 public slots:
 
@@ -54,7 +51,6 @@ public slots:
 signals:
     //signals that the done button has been clicked
     void doneClicked();
-
 };
 
 #endif // EDITPLANESCONTROLWIDGET_H

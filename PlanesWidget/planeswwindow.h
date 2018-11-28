@@ -21,8 +21,6 @@ class PlanesWWindow : public QMainWindow
 public:
     explicit PlanesWWindow(QWidget *parent = 0);
     ~PlanesWWindow();
-
-    
 };
 
 #endif // PLANESWINDOW_H

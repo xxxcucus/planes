@@ -164,11 +164,9 @@ void GameRenderArea::mousePressEventPlayerEditor(QMouseEvent *event)
         {
             if(m_planePosValid)
             {
-
                 //save the plane in the list of planes
                 saveTempPlane();
                 resetOperation();
-
             }
         }
     }
@@ -255,7 +253,7 @@ void GameRenderArea::restoreBackupPlane()
 {
     //restore the backup plane and save in the list of planes
     //when the current operation is rotation or movement
-    if(m_currentOperation == Rotate_plane || m_currentOperation == Move_plane)
+    if (m_currentOperation == Rotate_plane || m_currentOperation == Move_plane)
     {
         m_tempPlane = m_backupPlane;
         saveTempPlane();

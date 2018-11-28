@@ -49,6 +49,7 @@ void EditPlanesControlWidget::movePlane_clicked()
         movePlaneButton->setEnabled(true);
         deletePlaneButton->setEnabled(false);
         rotatePlaneButton->setEnabled(false);
+		doneButton->setEnabled(false);
         displayMsg(tr("Click on plane's head to select it."));
     }
 }
@@ -64,7 +65,7 @@ void EditPlanesControlWidget::deletePlane_clicked()
 //        else
 //            addPlaneButton->setEnabled(false);
         movePlaneButton->setEnabled(false);
-        deletePlaneButton->setEnabled(true);
+        deletePlaneButton->setEnabled(false);
         rotatePlaneButton->setEnabled(false);
         displayMsg(tr("Click on plane's head to delete it"));
     }
@@ -84,7 +85,7 @@ void EditPlanesControlWidget::rotatePlane_clicked()
         movePlaneButton->setEnabled(false);
         deletePlaneButton->setEnabled(false);
         rotatePlaneButton->setEnabled(true);
-
+		doneButton->setEnabled(false);
         displayMsg(tr("Click on plane's head to select."));
     }
 }
@@ -97,7 +98,7 @@ void EditPlanesControlWidget::cancel_clicked()
 //    else
 //        addPlaneButton->setEnabled(false);
     movePlaneButton->setEnabled(true);
-    deletePlaneButton->setEnabled(true);
+    deletePlaneButton->setEnabled(false);
     rotatePlaneButton->setEnabled(true);
 
     //set operation mode for render Area
@@ -109,7 +110,7 @@ void EditPlanesControlWidget::cancel_clicked()
 
 void EditPlanesControlWidget::done_clicked()
 {
-    //close();
+    //break all the current operations especially move plane and rotate plane
     deactivateButtons();
     emit doneClicked();
 }
@@ -142,10 +143,10 @@ void EditPlanesControlWidget::activateDoneButton()
 
 void EditPlanesControlWidget::initButtons()
 {
-//    addPlaneButton->setEnabled(true);
+    addPlaneButton->setEnabled(false);
     cancelButton->setEnabled(true);
     movePlaneButton->setEnabled(true);
-    deletePlaneButton->setEnabled(true);
+    deletePlaneButton->setEnabled(false);
     rotatePlaneButton->setEnabled(true);
     doneButton->setEnabled(true);
 }

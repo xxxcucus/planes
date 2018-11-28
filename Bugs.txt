@@ -1,4 +1,6 @@
 1. Use directories in include
-2. In PlanesWidget when the first plane is direct rotated 360 after pression Done it dissapears from view.
+2. In PlanesWidget when the first plane is direct rotated 360 after pressing Done it dissapears from view.
 3. Eliminate console messages in Release mode.
-4. Eliminate dependency of libasan in linux installation archive. Generate new installation for linux.
+4. Eliminate dependency of libasan in linux installation archive. Generate new installation for linux. - ok 
+5. In PlanesWidget center the column indices on the columns on the columns themselves.
+6. In PlanesWidget is not possible to add a plane after it was deleted.
