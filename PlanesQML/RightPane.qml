@@ -68,13 +68,7 @@ Rectangle {
 		   
 		  Text {
 				text: '<html>
-					<head>
-					<title> How to play the game of \"Planes\" </title>
-					</head>
-
-					<body>
-
-					<div>
+					<h1> How to play the game of \"Planes\" </h1>
 
 					<h3> Winning a Game </h3>
 					<p> In order to win you must win more rounds as the computer\. </p>
