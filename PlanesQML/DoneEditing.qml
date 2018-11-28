@@ -6,6 +6,7 @@ Rectangle {
     property color enabledColor: "red"
     property color disabledColor: "lightGray"
     state: "Enabled"
+	radius: 10
 
     Canvas {
         anchors.fill: parent

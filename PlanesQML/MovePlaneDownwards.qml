@@ -4,6 +4,7 @@ import "ButtonPaintFunctions.js" as PaintFunctions
 Rectangle {
     id: back
     color: "red"
+	radius: 10
 
     Canvas {
         anchors.fill: parent
