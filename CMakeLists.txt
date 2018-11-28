@@ -40,6 +40,13 @@ if (NOT UNIX)
 	install(FILES ${ROOT_PATH}/plugins/platforms/qwindows.dll DESTINATION bin/platforms)
 endif (NOT UNIX)
 
+#uses mingw in windows to create windows installer
+if (MINGW)
+	install(FILES $ENV{MINGW_HOME}/bin/libgcc_s_dw2-1.dll DESTINATION bin)
+	install(FILES $ENV{MINGW_HOME}/bin/libstdc++-6.dll DESTINATION  bin)
+	install(FILES $ENV{MINGW_HOME}/bin/libwinpthread-1.dll DESTINATION  bin)
+endif (MINGW)
+
 string(REGEX MATCH "[0-9]\\.[0-9]+\\.[0-9]+" QT_VERSION ${ROOT_PATH})
 string(REPLACE "." ";" QT_VERSION_LIST ${QT_VERSION})
 list(GET QT_VERSION_LIST 0 QT_MAJOR)
