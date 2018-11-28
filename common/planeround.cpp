@@ -98,12 +98,6 @@ GuessPoint PlaneRound::guessComputerMove()
     return gp;
 }
 
-//request a move from the player
-void PlaneRound::readPlayerMove() const
-{
-    emit needPlayerGuess();
-}
-
 //treats a player's guess
 void PlaneRound::receivedPlayerGuess(const GuessPoint& gp)
 {
@@ -125,10 +119,9 @@ void PlaneRound::receivedPlayerGuess(const GuessPoint& gp)
     //play step is finished
     //verify if round is finished
     bool isComputerWinner = false;
-    if (!isRoundEndet(isComputerWinner))
-        playStep();
-    else
-    {
+	if (!isRoundEndet(isComputerWinner)) {
+		playStep();
+	} else {
         std::string text = "Round endet.";
 
         if (isComputerWinner) {

@@ -35,8 +35,6 @@ public:
     bool isRoundEndet(bool& isPlayerWinner) const;
     //based on the available information makes the next move for the computer
     GuessPoint guessComputerMove();
-    //reads the player's move
-    void readPlayerMove() const;
 
     //resets the round
     void reset();
