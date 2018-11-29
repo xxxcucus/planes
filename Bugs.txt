@@ -7,3 +7,4 @@
 7. PlanesQML: Add help file. - ok 28.11.18
 8. PlanesQML: Rounded buttons - ok 28.11.18
 9. PlanesQML : Rounded squares on the game board - ok 28.11.18
+10. PlanesQML: yellow background of buttons in the tab bar on the right side of the view - 29.11.18

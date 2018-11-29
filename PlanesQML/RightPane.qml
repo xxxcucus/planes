@@ -15,12 +15,23 @@ Rectangle {
         id: bar
         TabButton {
             text: "Player Board"
+            background: Rectangle {
+                color: bar.currentIndex ==  0 ? "yellow" : "gray"
+            }
         }
         TabButton {
             text: "Computer Board"
+            background: Rectangle {
+                color: bar.currentIndex ==  1 ? "yellow" : "gray"
+            }
+ 
         }
         TabButton {
             text: "Help"
+            background: Rectangle {
+                color: bar.currentIndex ==  2 ? "yellow" : "gray"
+            }
+ 
         }
     }
 
