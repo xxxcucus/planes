@@ -15,5 +15,6 @@
         <file>ButtonPaintFunctions.js</file>
         <file>GameStatistics.qml</file>
         <file>PlayAgain.qml</file>
+		<file>HelpPageModel.qml</file>
     </qresource>
 </RCC>
