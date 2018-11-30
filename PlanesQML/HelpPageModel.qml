@@ -19,7 +19,7 @@ ListModel {
 	
 	ListElement {
 		name: "Score"
-		content: "The game consists of more rounds. The overall score is displayed near the \"Start new round\" button in the \"Start Round\" Tab."
+		content: "The game consists of more rounds. The overall score is displayed in the left pane during the second phase of each round."
 	}
 	
 	ListElement {
@@ -31,8 +31,8 @@ These will allow you to rotate the plane outside the playable board when positio
 	
 	ListElement {
 		name: "Game"
-		content: "The game consists of a set of rounds. The first round will start immediately when the program is started. The other rounds are started by clicking on the \"Start new round\" button
-in the \"Start Round\" Tab."
+		content: "The game consists of a set of rounds. The first round will start immediately when the program is started. The other rounds are started by clicking on the \"Play Again\" button
+in the left pane at the end of a round."
 	}
 
 	ListElement {
