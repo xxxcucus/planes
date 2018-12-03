@@ -1,0 +1,43 @@
+\section{The Game Board}
+
+A game board is defined mainly by its size and a list of plane objects. Intended operations with the game board are: the positioning of the planes at the beginning of the game and the evaluation of guesses during the game. This logic is implemented in the class PlaneGrid. The member variables are as follows:
+
+\begin{lstlisting}
+
+	//number of rows and columns
+	int m_rowNo, m_colNo;
+	//number of planes
+	int m_planeNo;
+	//whether the grid belongs to computer or to player
+	bool m_isComputer;
+	//list of plane objects for the grid
+	std::vector<Plane> m_planeList;
+	//list of all points on the planes
+	std::vector<PlanesCommonTools::Coordinate2D> m_listPlanePoints;
+	//whether planes overlap. is computed every time the plane points are computed again.
+	bool m_PlanesOverlap = false;
+	//whether a plane is outside of the grid
+	bool m_PlaneOutsideGrid = false;
+
+\end{lstlisting}
+
+The class offers functionality such as :
+\begin{itemize}
+	\item position the planes on the grid in a random configuration
+	\item look for a specific plane on the grid
+	\item look for a specific plane at a given position on the grid
+	\item add a plane to the list of planes on the grid
+	\item remove a plane from the list of planes
+	\item verify if a given coordinate lies on one of the planes in the grid
+	\item compute the list of coordinates belonging to the planes
+	\item retrieve a plane at a given index in the list of planes
+	\item give the number of planes on the grid
+	\item evaluate a guess on the grid
+	\item rotate a plane on the grid
+	\item translate plane upwards or downwards
+	\item translate plane left or right
+	\item test if planes overlap
+	\item test if plane is outside the grid
+	\item test if coordinate is inside the grid
+
+\end{itemize}
