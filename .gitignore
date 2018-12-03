@@ -1,2 +1,9 @@
 build_vs2015
 InstallPlanes
+InstallPlanes_new
+build
+build_asan
+build_coverity
+build_linux
+build_mingw
+build_vs2017
