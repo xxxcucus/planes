@@ -310,16 +310,12 @@ void ComputerLogic::updateHeadData(const GuessPoint& gp)
 
 On the existing head data, the function update() is called as described in the section \ref{Strategy_Data_Structures} to update the information about the plane position. The purpose is to find the exact orientation of the plane which corresponds to the head position. If the guess made is a dead guess (the head of the plane was guessed), a new head data is created and updated with all the guesses made up to this point of the game.
 
-
 \subsection {The Computer's Choice}
 
 The computer decides its move based on the information that it has gathered from the previous guesses. 3 possible next moves are generated with the functions makeChoiceFindHeadMode(),  makeChoiceFindPositionMode(),  makeChoiceRandomMode() and of them is statistically chosen as the next move. There is no optimization as to find the optimal next move. makeChoiceFindHeadMode() finds one random point in the choice map which has the highest score and returns that one. makeChoiceFindPositionMode() tries to find the correct plane position corresponding to a guessed plane head. makeChoiceRandomMode() chooses randomly a point on the board which has the score 0 in the choice map.
 
-
-
-
-
 \subsection{C++ Concepts}
 
-
 \subsubsection{Structs}
+
+The types HeadData and PlaneOrientationData are not defined as class but as struct. In C++ a struct is a class where all members variables are by default public. It is in this case convenient to use structs because they allow easy access to the member variables. 
