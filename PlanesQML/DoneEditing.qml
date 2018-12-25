@@ -24,10 +24,10 @@ Rectangle {
         onPlanePositionNotValid: {
             if (val == true) {
                 back.state = "Disabled"
-                console.log("Plane position not valid")
+                //console.log("Plane position not valid")
             } else {
                 back.state = "Enabled"
-                console.log("Plane position valid")
+                //console.log("Plane position valid")
             }
         }
     }

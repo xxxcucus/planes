@@ -1,7 +1,7 @@
 #include "gamerenderarea.h"
 #include "coordinate2d.h"
-#include <QtGui>
-#include <QDebug>
+#include <QPainter>
+#include <QMouseEvent>
 
 //constructs the object
 //m_currentOperation is the current operation in player editor mode

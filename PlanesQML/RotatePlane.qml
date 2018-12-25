@@ -20,7 +20,7 @@ Rectangle {
         width: parent.width
         height: parent.height
         onClicked: {
-            console.log("Rotate clicked")
+            //console.log("Rotate clicked")
             anim.start()
             PlayerPlaneGrid.rotateSelectedPlane();
         }

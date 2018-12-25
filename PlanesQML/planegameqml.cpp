@@ -1,5 +1,4 @@
 #include "planegameqml.h"
-#include <QDebug>
 
 PlaneGameQML::PlaneGameQML()
 {

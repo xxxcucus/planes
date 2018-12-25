@@ -21,7 +21,7 @@ Rectangle {
         width: parent.width
         height: parent.height
         onClicked: {
-            console.log("Plane downwards clicked")
+            //console.log("Plane downwards clicked")
             anim.start()
             PlayerPlaneGrid.moveDownSelectedPlane()
         }

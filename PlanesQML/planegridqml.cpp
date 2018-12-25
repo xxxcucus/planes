@@ -1,6 +1,5 @@
 #include "planegridqml.h"
 #include "coordinate2d.h"
-#include <QDebug>
 #include <QColor>
 
 PlaneGridQML::PlaneGridQML(PlaneGameQML* planeGame, PlaneGrid* planeGrid): m_PlaneGrid(planeGrid), m_PlaneGame(planeGame) {
@@ -41,7 +40,7 @@ QColor PlaneGridQML::getPlanePointColor(int idx, bool& isPlaneHead) const
            return m_SelectedPlaneColor;
        }
    }
-   qDebug() << "Error: point belongs to no plane " << annotation;
+   //qDebug() << "Error: point belongs to no plane " << annotation;
    return m_InvalidPointColor;
 }
 
@@ -67,7 +66,7 @@ QVariant PlaneGridQML::data(const QModelIndex &index, int role) const {
 
     // Check boundaries
     if(index.row() < 0 || rowCount() <= index.row()) {
-        qDebug() << "Warning: " << index.row() << ", " << index.column();
+        //qDebug() << "Warning: " << index.row() << ", " << index.column();
         return QVariant();
     }
 
@@ -158,7 +157,7 @@ void PlaneGridQML::computerBoardClick(int index) {
     PlanesCommonTools::Coordinate2D qp(row - m_Padding, col - m_Padding);
     GuessPoint::Type tp = m_PlaneGrid->getGuessResult(qp);
 
-    qDebug() << "Guess " << tp;
+    //qDebug() << "Guess " << tp;
 
     //the m_grid object returns whether is a miss, hit or dead
     //with this data builda guess point object
@@ -190,8 +189,8 @@ void PlaneGridQML::showComputerMove(const GuessPoint& gp) {
 void PlaneGridQML::doneEditing() {
     if (m_CurStage == GameStages::BoardEditing)
         m_CurStage = GameStages::Game;
-    else
-        qDebug() << "Board editing done received, but not in the right state";
+//    else
+//        qDebug() << "Board editing done received, but not in the right state";
     beginResetModel();
     m_SelectedPlane = -1;
     endResetModel();

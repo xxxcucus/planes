@@ -1,7 +1,6 @@
 #ifndef PLANESGSLEFTPANE_H
 #define PLANESGSLEFTPANE_H
 
-#include <QDebug>
 #include <QTabWidget>
 #include <QPushButton>
 #include "gamestatsframe.h"

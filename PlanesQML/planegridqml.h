@@ -5,7 +5,6 @@
  * Class extends the PlaneGrid class from common such that it can be used from within QML
  * ***/
 #include <QObject>
-#include <QDebug>
 #include <QColor>
 #include <QAbstractListModel>
 #include "planegrid.h"
@@ -56,35 +55,35 @@ public:
     }
 
     Q_INVOKABLE void rotateSelectedPlane() {
-        qDebug() << "Rotate selected plane";
+        //qDebug() << "Rotate selected plane";
         beginResetModel();
         m_PlaneGrid->rotatePlane(m_SelectedPlane);
         endResetModel();
     }
 
     Q_INVOKABLE void moveUpSelectedPlane() {
-        qDebug() << "Move up selected plane";
+        //qDebug() << "Move up selected plane";
         beginResetModel();
         m_PlaneGrid->movePlaneUpwards(m_SelectedPlane);
         endResetModel();
     }
 
     Q_INVOKABLE void moveDownSelectedPlane() {
-        qDebug() << "Move down selected plane";
+        //qDebug() << "Move down selected plane";
         beginResetModel();
         m_PlaneGrid->movePlaneDownwards(m_SelectedPlane);
         endResetModel();
     }
 
     Q_INVOKABLE void moveLeftSelectedPlane() {
-        qDebug() << "Move left selected plane";
+        //qDebug() << "Move left selected plane";
         beginResetModel();
         m_PlaneGrid->movePlaneLeft(m_SelectedPlane);
         endResetModel();
     }
 
     Q_INVOKABLE void moveRightSelectedPlane() {
-        qDebug() << "Move right selected plane";
+        //qDebug() << "Move right selected plane";
         beginResetModel();
         m_PlaneGrid->movePlaneRight(m_SelectedPlane);
         endResetModel();

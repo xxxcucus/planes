@@ -1,6 +1,5 @@
 #include "planesgsview.h"
 
-#include <QDebug>
 #include <QHBoxLayout>
 #include "customhorizlayout.h"
 
@@ -49,5 +48,5 @@ PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cL
 
 void PlanesGSView::displayStatusMsg(const std::string& str)
 {
-    qDebug() << "Game Status: " << str.c_str();
+    //qDebug() << "Game Status: " << str.c_str();
 }

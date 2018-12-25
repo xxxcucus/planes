@@ -3,7 +3,6 @@
 #include "planeiterators.h"
 #include "coordinate2d.h"
 
-#include <QDebug>
 #include <QPropertyAnimation>
 
 ///@todo: to add destructor
@@ -145,7 +144,7 @@ void GenericBoard::showMove(const GuessPoint& gp)
 
 void GenericBoard::showGuessPoint(const GuessPoint &gp)
 {
-    qDebug() << "show guess point " << gp.m_row << " " << gp.m_col;
+    //qDebug() << "show guess point " << gp.m_row << " " << gp.m_col;
     GridSquare::GameStatus st = GridSquare::GameStatus::TestedNotPlane;
     if (gp.isHit())
         st = GridSquare::GameStatus::PlaneGuessed;
@@ -154,7 +153,7 @@ void GenericBoard::showGuessPoint(const GuessPoint &gp)
     ///not sure about -1 here
     PlayAreaGridSquare* pags = dynamic_cast<PlayAreaGridSquare*>(m_SceneItems[std::make_pair(gp.m_col + m_PaddingEditingBoard, gp.m_row + m_PaddingEditingBoard)]);
     if (!pags) {
-        qDebug() << "Dynamic cast did not succeed !";
+        //qDebug() << "Dynamic cast did not succeed !";
         return;
     }
     pags->showGuesses(true);
@@ -166,7 +165,7 @@ void GenericBoard::endRound(bool isPlayerWinner) {
     m_RoundEndsAnimatedText->setPlainText(winnerText);
     m_CurStage = GameStages::GameNotStarted;
     m_Scene->addItem(m_RoundEndsAnimatedText);
-    qDebug() << "end round";
+    //qDebug() << "end round";
     QPropertyAnimation* animation = new QPropertyAnimation(m_RoundEndsAnimatedText, "m_ScenePosition");
     QFont f = m_RoundEndsAnimatedText->font();
     QFontMetrics fm(f);

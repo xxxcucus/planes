@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QGraphicsTextItem>
-#include <QDebug>
 
 /**
  * @brief The AnimatedTextItem class displays a moving text in one of the used QGraphicsViews

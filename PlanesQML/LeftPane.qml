@@ -38,9 +38,9 @@ Rectangle {
             roundTab.computerDead = PlaneGame.getComputerDead()
             roundTab.computerWins = PlaneGame.getComputerWins()
         }
-        onRoundEnds: {
-            console.log(isPlayerWinner ? "Player wins" : "Computer wins")
-        }
+        //onRoundEnds: {
+        //    console.log(isPlayerWinner ? "Player wins" : "Computer wins")
+        //}
     }
 }
 

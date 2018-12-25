@@ -1,8 +1,6 @@
 #include "computerboard.h"
 #include "playareagridsquare.h"
 
-#include <QDebug>
-
 ComputerBoard::ComputerBoard(PlaneGrid& grid, int squareWidth) : GenericBoard(grid, squareWidth) {
     connect(m_Scene, SIGNAL(gridSquareClicked(int, int)), this, SLOT(gridSquareClicked(int, int)));
     m_SelectedPlane = -1;
@@ -22,7 +20,7 @@ void ComputerBoard::gridSquareClicked(int row, int col)
     PlanesCommonTools::Coordinate2D qp(col - m_PaddingEditingBoard, row - m_PaddingEditingBoard);
     GuessPoint::Type tp = m_Grid.getGuessResult(qp);
 
-    qDebug() << "Guess " << tp;
+    //qDebug() << "Guess " << tp;
 
     //the m_grid object returns whether is a miss, hit or dead
     //with this data builda guess point object

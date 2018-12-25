@@ -4,6 +4,7 @@
 #include <QHBoxLayout>
 #include <QTextEdit>
 #include <QFile>
+#include <QTextStream>
 
 RightPane::RightPane(PlaneGrid& pGrid, PlaneGrid& cGrid, QWidget* parent) : QTabWidget(parent)
 {
@@ -43,8 +44,8 @@ void RightPane::defineHelpWindow(QWidget* w)
     QFile file("qrc:/../doc/index.html");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray dump = file.readAll();
-    qDebug() << "contents: " << dump;
-    qDebug() << "error status:" << file.error();
+    //qDebug() << "contents: " << dump;
+    //qDebug() << "error status:" << file.error();
     textEdit->loadResource(QTextDocument::HtmlResource, QUrl("qrc://help.html"));
     textEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     layout->addWidget(textEdit);

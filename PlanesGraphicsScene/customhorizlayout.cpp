@@ -1,5 +1,4 @@
 #include "customhorizlayout.h"
-#include <QDebug>
 
 int CustomHorizLayout::count() const
 {
