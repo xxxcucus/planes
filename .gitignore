@@ -7,3 +7,9 @@ build_coverity
 build_linux
 build_mingw
 build_vs2017
+.metadata
+.recommenders
+.classpath
+.project
+bin
+.settings
