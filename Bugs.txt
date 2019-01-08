@@ -10,3 +10,4 @@
 10. PlanesQML: yellow background of buttons in the tab bar on the right side of the view - ok 29.11.18
 11. PlanesQML: Scrollable help file - ok 30.11.18
 12. PlanesQML: Editing of the board - interactive help
+13. Build 64 bit Binaries for windows.
