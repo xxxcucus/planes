@@ -3,7 +3,7 @@ package com.planes.javafx;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -25,17 +25,32 @@ public class PlanesJavaFxApplication extends Application {
 		public LeftPane() {
 			final GridPane gridPane = new GridPane();
 			
-			gridPane.add(new Button("Select"), 1, 0);
-		    gridPane.add(new Button("Rotate"), 1, 1);
-		    gridPane.add(new Button("Up"), 1, 2);
-		    gridPane.add(new Button("Left"), 0, 3);
-		    gridPane.add(new Button("Right"), 2, 3);
-		    gridPane.add(new Button("Down"), 1, 4);
-		    gridPane.add(new Button("Done"), 1, 5);	
-		    
-		    gridPane.prefWidth(300);
+			ColumnConstraints col1 = new ColumnConstraints();
+			col1.setPercentWidth(33);
+			ColumnConstraints col2 = new ColumnConstraints();
+			col2.setPercentWidth(33);
+			ColumnConstraints col3 = new ColumnConstraints();
+			col3.setPercentWidth(33);
+			gridPane.getColumnConstraints().addAll(col1, col2, col3);
+			
+			Button selectButton = new Button("Select");
+			Button rotateButton = new Button("Rotate");			
+			Button upButton = new Button("Up");
+			Button leftButton = new Button("Left");			
+			Button rightButton = new Button("Right");
+			Button downButton = new Button("Down");			
+			Button doneButton = new Button("Done");	
+
+			gridPane.add(selectButton, 1, 0);
+		    gridPane.add(rotateButton, 1, 1);
+		    gridPane.add(upButton, 1, 2);
+		    gridPane.add(leftButton, 0, 3);
+		    gridPane.add(rightButton, 2, 3);
+		    gridPane.add(downButton, 1, 4);
+		    gridPane.add(doneButton, 1, 5);	
+		        
+		    //gridPane.prefWidth(300);
 		    this.getChildren().add(gridPane);
-		    
 		}
 	}
 	
@@ -48,18 +63,6 @@ public class PlanesJavaFxApplication extends Application {
 		}
 	}		
 	
-	private Pane createToolbarPane() {
-		return new ToolbarPane();
-	}
-	
-	private Pane createLeftPane() {
-		return new LeftPane();
-	}
-	
-	private Pane createRightPane() {
-		return new RightPane();
-	}
-	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -68,12 +71,22 @@ public class PlanesJavaFxApplication extends Application {
 	public void start(Stage stage) throws Exception {
 		// TODO Auto-generated method stub
 
-		final BorderPane borderPane = new BorderPane();
-		//borderPane.setTop(createToolbarPane());
-		borderPane.setCenter(createRightPane());
-		borderPane.setLeft(createLeftPane());
+		final GridPane gridPane = new GridPane();
+		ColumnConstraints col1 = new ColumnConstraints();
+		col1.setPercentWidth(40);
+		ColumnConstraints col2 = new ColumnConstraints();
+		col2.setPercentWidth(60);
+		gridPane.getColumnConstraints().addAll(col1, col2);
 		
-		stage.setScene(new Scene(borderPane, 600, 400));
+		Pane leftPane = new LeftPane();
+		leftPane.setStyle("-fx-border-color: red");
+		Pane rightPane = new RightPane();
+		rightPane.setStyle("-fx-border-color: blue");
+		
+		gridPane.add(leftPane, 0, 0);
+		gridPane.add(rightPane,  1,  0);
+
+		stage.setScene(new Scene(gridPane));
 		stage.show();
 	}
 }
