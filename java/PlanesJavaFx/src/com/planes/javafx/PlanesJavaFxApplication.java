@@ -121,7 +121,8 @@ public class PlanesJavaFxApplication extends Application {
 		RowConstraints row2 = new RowConstraints();
 		row2.setPercentHeight(33);
 		RowConstraints row3 = new RowConstraints();
-		row3.setPercentHeight(33);		
+		row3.setPercentHeight(33);	
+		gridPane.getRowConstraints().addAll(row1, row2, row3);
 		
 		Region spacer1 = new Region();
 		Region spacer2 = new Region();
@@ -136,8 +137,10 @@ public class PlanesJavaFxApplication extends Application {
 		gridPane.add(spacer2,  0,  2);
 		gridPane.add(rightPane,  1,  0, 1, 3);
 
-		GridPane.setVgrow(spacer1,  Priority.ALWAYS);
-		GridPane.setVgrow(spacer2,  Priority.ALWAYS);
+		//GridPane.setVgrow(spacer1,  Priority.ALWAYS);
+		//GridPane.setVgrow(spacer2,  Priority.ALWAYS);
+		
+		//gridPane.setGridLinesVisible(true);
 		
 		stage.setScene(new Scene(gridPane));
 		stage.show();
