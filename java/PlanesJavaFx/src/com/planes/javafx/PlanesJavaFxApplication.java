@@ -1,6 +1,8 @@
 package com.planes.javafx;
 
 import javafx.application.Application;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -75,22 +77,25 @@ public class PlanesJavaFxApplication extends Application {
 	
 	class RightPane extends Pane 
 	{
+		
 		public RightPane() {
 			final GridPane gridPane = new GridPane();
 			
 	        // In order to see the GridPane extends with the LeftPane, remove it further
 	        gridPane.setGridLinesVisible(true);
 	        // Those 2 following lines enable the gridpane to stretch/shrink according the LeftPane
+
 	        gridPane.prefWidthProperty().bind(this.widthProperty());
 	        gridPane.prefHeightProperty().bind(this.heightProperty());			
 			
 			for (int i = 0; i < m_GridSize; i++) {
 				for (int j = 0; j < m_GridSize; j++) {
-					Canvas c = new Canvas(m_CellSize, m_CellSize);
+					Canvas c = new Canvas();
+					GridPane.setHgrow(c, Priority.ALWAYS);
+					GridPane.setVgrow(c, Priority.ALWAYS);
 					gridPane.add(c,  i,  j);
 				}
 			}
-
 		    
 			this.getChildren().add(gridPane);
 		}
