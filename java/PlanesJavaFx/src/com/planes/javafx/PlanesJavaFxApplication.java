@@ -40,6 +40,12 @@ public class PlanesJavaFxApplication extends Application {
 			Button rightButton = new Button("Right");
 			Button downButton = new Button("Down");			
 			Button doneButton = new Button("Done");	
+			
+	        // In order to see the GridPane extends with the LeftPane, remove it further
+	        gridPane.setGridLinesVisible(true);
+	        // Those 2 following lines enable the gridpane to stretch/shrink according the LeftPane
+	        gridPane.prefWidthProperty().bind(this.widthProperty());
+	        gridPane.prefHeightProperty().bind(this.heightProperty());
 
 			gridPane.add(selectButton, 1, 0);
 		    gridPane.add(rotateButton, 1, 1);
