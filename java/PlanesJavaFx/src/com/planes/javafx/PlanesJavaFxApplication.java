@@ -3,6 +3,7 @@ package com.planes.javafx;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -67,18 +68,31 @@ public class PlanesJavaFxApplication extends Application {
 		    GridPane.setHalignment(downButton, HPos.CENTER);
 		    GridPane.setHalignment(doneButton, HPos.CENTER);	
 		    
-		        
 		    //gridPane.prefWidth(300);
 		    this.getChildren().add(gridPane);
 		}
 	}
 	
-	static class RightPane extends Pane 
+	class RightPane extends Pane 
 	{
 		public RightPane() {
-			final HBox hbox = new HBox(5);
-			hbox.getChildren().add(new Text("RIGHT"));
-			this.getChildren().add(hbox);
+			final GridPane gridPane = new GridPane();
+			
+	        // In order to see the GridPane extends with the LeftPane, remove it further
+	        gridPane.setGridLinesVisible(true);
+	        // Those 2 following lines enable the gridpane to stretch/shrink according the LeftPane
+	        gridPane.prefWidthProperty().bind(this.widthProperty());
+	        gridPane.prefHeightProperty().bind(this.heightProperty());			
+			
+			for (int i = 0; i < m_GridSize; i++) {
+				for (int j = 0; j < m_GridSize; j++) {
+					Canvas c = new Canvas(m_CellSize, m_CellSize);
+					gridPane.add(c,  i,  j);
+				}
+			}
+
+		    
+			this.getChildren().add(gridPane);
 		}
 	}		
 	
@@ -123,6 +137,9 @@ public class PlanesJavaFxApplication extends Application {
 		stage.setScene(new Scene(gridPane));
 		stage.show();
 	}
+	
+	private int m_GridSize = 10;
+	private int m_CellSize = 30;
 }
 
 
