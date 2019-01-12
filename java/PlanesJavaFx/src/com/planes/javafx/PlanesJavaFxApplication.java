@@ -111,9 +111,10 @@ public class PlanesJavaFxApplication extends Application {
 
 		final GridPane gridPane = new GridPane();
 		ColumnConstraints col1 = new ColumnConstraints();
-		col1.setPercentWidth(40);
+		col1.setPrefWidth(300);
+		col1.setMinWidth(200);
 		ColumnConstraints col2 = new ColumnConstraints();
-		col2.setPercentWidth(60);
+		col2.setHgrow(Priority.ALWAYS);;
 		gridPane.getColumnConstraints().addAll(col1, col2);
 			
 		RowConstraints row1 = new RowConstraints();
@@ -142,7 +143,7 @@ public class PlanesJavaFxApplication extends Application {
 		
 		//gridPane.setGridLinesVisible(true);
 		
-		stage.setScene(new Scene(gridPane));
+		stage.setScene(new Scene(gridPane, 1200, 800));
 		stage.show();
 	}
 	
