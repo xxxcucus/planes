@@ -1,6 +1,7 @@
 package com.planes.javafx;
 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.HPos;
@@ -68,7 +69,7 @@ public class PlanesJavaFxApplication extends Application {
 		}
 	}
 	
-	class RightPane extends AnchorPane 
+	class RightPane extends Pane 
 	{
 		
 		public RightPane() {
@@ -78,18 +79,24 @@ public class PlanesJavaFxApplication extends Application {
 	        gridPane.setGridLinesVisible(true);
 	        // Those 2 following lines enable the gridpane to stretch/shrink according the LeftPane
 
-	        //gridPane.prefWidthProperty().bind(this.widthProperty());
-	        //gridPane.prefHeightProperty().bind(this.heightProperty());			
-			
+	        gridPane.prefWidthProperty().bind(Bindings.min(this.widthProperty(), this.heightProperty()));
+	        gridPane.prefHeightProperty().bind(Bindings.min(this.widthProperty(), this.heightProperty()));
+	        gridPane.layoutXProperty().bind(Bindings.divide(Bindings.subtract(this.widthProperty(), Bindings.min(this.widthProperty(), this.heightProperty())), 2.0));
+	        gridPane.layoutYProperty().bind(Bindings.divide(Bindings.subtract(this.heightProperty(), Bindings.min(this.widthProperty(), this.heightProperty())), 2.0));
+	        
 			for (int i = 0; i < m_GridSize; i++) {
 				for (int j = 0; j < m_GridSize; j++) {
-					Canvas c = new Canvas(m_CellSize, m_CellSize);
+					Canvas c = new Canvas();
+					GridPane.setHgrow(c, Priority.ALWAYS);
+					GridPane.setVgrow(c, Priority.ALWAYS);
 					gridPane.add(c,  i,  j);
 				}
 			}
 		    
-			AnchorPane.setTopAnchor(gridPane, 100.0);
-			AnchorPane.setLeftAnchor(gridPane, 100.0);
+			//AnchorPane.setTopAnchor(gridPane, 10.0);
+			//AnchorPane.setLeftAnchor(gridPane, 10.0);
+			
+
 			
 			this.getChildren().add(gridPane);
 		}
