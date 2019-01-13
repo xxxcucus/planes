@@ -96,8 +96,6 @@ public class PlanesJavaFxApplication extends Application {
 			//AnchorPane.setTopAnchor(gridPane, 10.0);
 			//AnchorPane.setLeftAnchor(gridPane, 10.0);
 			
-
-			
 			this.getChildren().add(gridPane);
 		}
 	}		
@@ -115,32 +113,21 @@ public class PlanesJavaFxApplication extends Application {
 		col1.setPrefWidth(300);
 		col1.setMinWidth(200);
 		ColumnConstraints col2 = new ColumnConstraints();
-		col2.setHgrow(Priority.ALWAYS);;
+		col2.setHgrow(Priority.ALWAYS);
+		col2.setMinWidth(200);
 		gridPane.getColumnConstraints().addAll(col1, col2);
-			
-		RowConstraints row1 = new RowConstraints();
-		row1.setPercentHeight(33);
-		RowConstraints row2 = new RowConstraints();
-		row2.setPercentHeight(33);
-		RowConstraints row3 = new RowConstraints();
-		row3.setPercentHeight(33);	
-		gridPane.getRowConstraints().addAll(row1, row2, row3);
-		
-		Region spacer1 = new Region();
-		Region spacer2 = new Region();
 		
 		Pane leftPane = new LeftPane();
 		leftPane.setStyle("-fx-border-color: red");
 		Pane rightPane = new RightPane();
 		rightPane.setStyle("-fx-border-color: blue");
 		
-		gridPane.add(spacer1,  0, 0);
-		gridPane.add(leftPane, 0, 1);
-		gridPane.add(spacer2,  0,  2);
-		gridPane.add(rightPane,  1,  0, 1, 3);
 
-		//GridPane.setVgrow(spacer1,  Priority.ALWAYS);
-		//GridPane.setVgrow(spacer2,  Priority.ALWAYS);
+		gridPane.add(leftPane, 0, 0);
+		gridPane.add(rightPane,  1,  0);
+
+		GridPane.setVgrow(leftPane,  Priority.ALWAYS);
+		GridPane.setVgrow(rightPane,  Priority.ALWAYS);
 		
 		//gridPane.setGridLinesVisible(true);
 		
