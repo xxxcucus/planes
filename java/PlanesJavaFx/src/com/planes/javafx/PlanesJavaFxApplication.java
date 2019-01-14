@@ -69,10 +69,10 @@ public class PlanesJavaFxApplication extends Application {
 		}
 	}
 	
-	class RightPane extends Pane 
+	class BoardPane extends Pane 
 	{
 		
-		public RightPane() {
+		public BoardPane() {
 			final GridPane gridPane = new GridPane();
 			
 	        // In order to see the GridPane extends with the LeftPane, remove it further
@@ -100,6 +100,21 @@ public class PlanesJavaFxApplication extends Application {
 		}
 	}		
 	
+	class RightPane extends TabPane
+	{
+		public RightPane() {
+		    Tab tab1 = new Tab();
+		    tab1.setText("Player Board");
+		    BoardPane pane1 = new BoardPane();
+		    tab1.setContent(pane1);
+		    Tab tab2 = new Tab();
+		    tab2.setText("Computer Board");
+		    BoardPane pane2 = new BoardPane();
+		    tab2.setContent(pane2);		    
+		    this.getTabs().addAll(tab1, tab2);
+		}
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -119,7 +134,7 @@ public class PlanesJavaFxApplication extends Application {
 		
 		TabPane leftPane = new LeftPane();
 		leftPane.setStyle("-fx-border-color: red");
-		Pane rightPane = new RightPane();
+		TabPane rightPane = new RightPane();
 		rightPane.setStyle("-fx-border-color: blue");
 		
 
