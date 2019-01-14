@@ -137,7 +137,6 @@ public class PlanesJavaFxApplication extends Application {
 		TabPane rightPane = new RightPane();
 		rightPane.setStyle("-fx-border-color: blue");
 		
-
 		gridPane.add(leftPane, 0, 0);
 		gridPane.add(rightPane,  1,  0);
 
