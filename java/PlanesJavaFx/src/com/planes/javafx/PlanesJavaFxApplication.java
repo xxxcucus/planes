@@ -6,6 +6,8 @@ import javafx.geometry.HPos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -14,7 +16,7 @@ import javafx.stage.Stage;
 
 public class PlanesJavaFxApplication extends Application {
 
-	static class LeftPane extends Pane 
+	static class LeftPane extends TabPane 
 	{
 		public LeftPane() {
 			final GridPane gridPane = new GridPane();
@@ -58,7 +60,12 @@ public class PlanesJavaFxApplication extends Application {
 		    GridPane.setHalignment(doneButton, HPos.CENTER);	
 		    
 		    //gridPane.prefWidth(300);
-		    this.getChildren().add(gridPane);
+		    //this.getChildren().add(gridPane);
+		    
+		    Tab tab = new Tab();
+		    tab.setText("Board Editing");
+		    tab.setContent(gridPane);
+		    this.getTabs().add(tab);
 		}
 	}
 	
@@ -110,7 +117,7 @@ public class PlanesJavaFxApplication extends Application {
 		col2.setMinWidth(200);
 		gridPane.getColumnConstraints().addAll(col1, col2);
 		
-		Pane leftPane = new LeftPane();
+		TabPane leftPane = new LeftPane();
 		leftPane.setStyle("-fx-border-color: red");
 		Pane rightPane = new RightPane();
 		rightPane.setStyle("-fx-border-color: blue");
