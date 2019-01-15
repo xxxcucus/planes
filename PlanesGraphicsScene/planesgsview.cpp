@@ -28,7 +28,7 @@ PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cL
     connect(m_LeftPane, SIGNAL(doneClicked(bool)), m_RightPane, SLOT(doneClicked(bool)));
 
     ///activate the board editing tab in the left pane
-    connect(m_playerGrid, SIGNAL(initPlayerGrid()), this, SLOT(activateBoardEditingTab()));
+    //connect(m_playerGrid, SIGNAL(initPlayerGrid()), this, SLOT(activateBoardEditingTab()));
     ///reset the game board when starting the game
     connect(m_round, SIGNAL(initGraphics()), m_RightPane, SLOT(resetGameBoard()));
     connect(m_round, SIGNAL(initGraphics()), m_LeftPane, SLOT(activateEditingBoard()));

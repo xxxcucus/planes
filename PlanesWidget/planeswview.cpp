@@ -51,7 +51,7 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
     setLayout(mainLayout);
 
     //builds the connections in the graphical user interface
-    connect(playerGrid, SIGNAL(initPlayerGrid()),
+    connect(round, SIGNAL(initPlayerGrid()),
                      editPlanesWidget, SLOT(initButtons()));
 
     connect(playerArea, SIGNAL(operationEndet()),

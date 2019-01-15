@@ -47,6 +47,8 @@ public:
     void updateGameStats(const GuessPoint& gp, bool isComputer);
 
 signals:
+	//player should edit the board
+	void initPlayerGrid();
     //signals that a guess from the player is needed
     void needPlayerGuess() const;
     //signals that computer has generated a move

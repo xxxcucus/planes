@@ -32,6 +32,7 @@ void PlaneRound::initRound()
     m_PlayerGrid->initGrid();
     emit displayStatusMessage("Player edit your grid");
     m_ComputerGrid->initGrid();
+	emit initPlayerGrid();
 }
 
 //starts to play

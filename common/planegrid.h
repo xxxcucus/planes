@@ -129,7 +129,6 @@ private:
     int generateAnnotation(int planeNo, bool isHead);
 
 signals:
-    void initPlayerGrid() const;  //emitted to notify the start of the user editing the plane lists
     void planesPointsChanged(); //emitted to notify that a new PlanePointsList was computed (one plane was moved)
 
 };

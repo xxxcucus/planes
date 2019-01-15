@@ -18,8 +18,9 @@ void PlaneGrid::initGrid()
     resetGrid();
 
     initGridByAutomaticGeneration();
-    if (!m_isComputer)
-        emit initPlayerGrid();
+    //commented because of interfacing with Java
+	/*if (!m_isComputer)
+        emit initPlayerGrid();*/
     //compute list of plane points - needed for the guessing process
     computePlanePointsList(true);
 }
