@@ -113,8 +113,6 @@ private:
     Plane::Orientation generateRandomPlaneOrientation() const;
     //randomly generates grid with planes
     bool initGridByAutomaticGeneration();
-    //let's the user generate his own planes
-    void initGridByUserInteraction() const;
 
     //removes a given plane from the list of planes
     void removePlane(const Plane& pl);

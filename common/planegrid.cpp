@@ -123,12 +123,6 @@ int idx = Plane::generateRandomNumber(4);
     }
 }
 
-//let's the user generate his own planes
-void PlaneGrid::initGridByUserInteraction() const
-{
-    emit initPlayerGrid();
-}
-
 //returns whether a point is head of a plane or not
 bool PlaneGrid::isPointHead(int row, int col) const
 {
