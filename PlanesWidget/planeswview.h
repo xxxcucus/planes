@@ -6,8 +6,10 @@
 #include "editplanescontrolwidget.h"
 #include "gamestatswidget.h"
 #include "choicedebugwidget.h"
+#include "planeroundjavafx.h"
 
 //creates the main view object of the program
+//TODO: member variables are named m_
 class PlanesWView : public QWidget
 {
     Q_OBJECT
@@ -41,17 +43,21 @@ class PlanesWView : public QWidget
     ComputerLogic* computerLogic;
 
     //PlaneRound is the object that coordinates the game
-    PlaneRound* round;
+    PlaneRoundJavaFx* round;
 
 public:
-    explicit PlanesWView(PlaneGrid *, PlaneGrid*, ComputerLogic*, PlaneRound *,QWidget *parent = 0);
+    explicit PlanesWView(PlaneGrid *, PlaneGrid*, ComputerLogic*, PlaneRoundJavaFx *,QWidget *parent = 0);
     
 signals:
     //signals when the widget showing the computer strategy becomes active
     void debugWidgetSelected();
 public slots:
     //a widget is selected
-    void widgetSelected(int);    
+    void widgetSelected(int); 
+
+	//TODO: implement in the controller
+	void doneClicked();
+	void receivedPlayerGuess(const GuessPoint& gp);
 };
 
 #endif // PLANESVIEW_H

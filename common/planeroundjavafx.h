@@ -17,6 +17,8 @@ struct PlayerGuessReaction {
 	//which computer move was generated 
 	GuessPoint m_ComputerGuess;
 	GameStatistics m_GameStats;
+
+	PlayerGuessReaction() : m_ComputerGuess(0, 0) { }
 };
 
 class PlaneRoundJavaFx {

@@ -7,6 +7,7 @@ PlaneRoundJavaFx::PlaneRoundJavaFx(PlaneGrid* playerGrid, PlaneGrid* computerGri
 	m_computerLogic(logic)
 {
 	reset();
+	initRound();
 } 
 
 
@@ -29,7 +30,7 @@ void PlaneRoundJavaFx::initRound()
 	m_ComputerGrid->initGrid();
 	m_State = GameStages::BoardEditing;
 	m_isComputerFirst = !m_isComputerFirst;
-	reset();
+	//reset();
 }
 
 //TODO: do we need to evaluate the player guess here ?

@@ -2,11 +2,11 @@
 #include <QSplitter>
 #include <QListWidget>
 #include <QStackedLayout>
+#include "planeroundjavafx.h"
 
-PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLogic, PlaneRound *rd,QWidget *parent) :
+PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLogic, PlaneRoundJavaFx *rd,QWidget *parent) :
     QWidget(parent), playerGrid(pGrid), computerGrid(cGrid), computerLogic(cLogic), round(rd)
 {
-
     //builds the gamerenderarea objects
     playerArea = new GameRenderArea(playerGrid);
     computerArea = new GameRenderArea(computerGrid);
@@ -18,12 +18,10 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
     //builds the widget that displays the computer strategy
     choiceDebugWidget = new ChoiceDebugWidget(computerLogic);
 
-
     //builds the layout for this view
     QSplitter* hsplitter = new QSplitter(Qt::Horizontal);
     hsplitter->addWidget(playerArea);
     hsplitter->addWidget(computerArea);
-
 
     QSplitter* vsplitter = new QSplitter(Qt::Vertical);
     vsplitter->addWidget(gameStatsWidget);
@@ -36,7 +34,7 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
 
     QFontMetrics fm = listWidget->fontMetrics();
     int maxWidth = fm.width("Computer choices");
-    listWidget->setFixedWidth(maxWidth*2);
+    listWidget->setFixedWidth(maxWidth * 2);
 
     QStackedLayout* stackedLayout = new QStackedLayout;
     stackedLayout->addWidget(vsplitter);
@@ -51,8 +49,8 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
     setLayout(mainLayout);
 
     //builds the connections in the graphical user interface
-    connect(round, SIGNAL(initPlayerGrid()),
-                     editPlanesWidget, SLOT(initButtons()));
+    //connect(round, SIGNAL(initPlayerGrid()),
+     //                editPlanesWidget, SLOT(initButtons()));
 
     connect(playerArea, SIGNAL(operationEndet()),
                      editPlanesWidget, SLOT(cancel_clicked()));
@@ -71,14 +69,15 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
     connect(editPlanesWidget, SIGNAL(doneClicked()),
                      playerArea, SLOT(changeMode()));
     connect(editPlanesWidget, SIGNAL(doneClicked()),
-                     round, SLOT(playStep()));
+                     this, SLOT(doneClicked()));
+	/*
     connect(round, SIGNAL(computerMoveGenerated(GuessPoint)),
                      playerArea, SLOT(showMove(GuessPoint)));
     connect(round, SIGNAL(needPlayerGuess()),
-                     computerArea, SLOT(activateGameMode()));
-    connect(computerArea, SIGNAL(guessMade(GuessPoint)),
-                     round, SLOT(receivedPlayerGuess(GuessPoint)));
-    connect(round, SIGNAL(displayStatusMessage(const std::string&)),
+                     computerArea, SLOT(activateGameMode())); */
+    connect(computerArea, SIGNAL(guessMade(const GuessPoint&)),
+                     this, SLOT(receivedPlayerGuess(const GuessPoint&)));
+    /*connect(round, SIGNAL(displayStatusMessage(const std::string&)),
                      editPlanesWidget, SLOT(displayStatusMsg(const std::string&)));
     connect(round, SIGNAL(roundEnds(bool)),
                      computerArea, SLOT(roundEndet()));
@@ -91,7 +90,7 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
     connect(round, SIGNAL(initGraphics()),
                      computerArea, SLOT(reset()));
     connect(round, SIGNAL(statsUpdated(GameStatistics)),
-                     gameStatsWidget, SLOT(updateStats(GameStatistics)));
+                     gameStatsWidget, SLOT(updateStats(GameStatistics)));*/
 
     connect(listWidget, SIGNAL(currentRowChanged(int)),
                 stackedLayout, SLOT(setCurrentIndex(int)));
@@ -109,4 +108,31 @@ void PlanesWView::widgetSelected(int sel)
 {
     if(sel == 1)
         emit debugWidgetSelected();
+}
+
+//TODO: this should be called in controller
+void PlanesWView::doneClicked()
+{
+	round->doneEditing();
+	playerArea->setMode(GameRenderArea::Game);
+	computerArea->setMode(GameRenderArea::Game);
+}
+
+//TODO: implement in controller
+void PlanesWView::receivedPlayerGuess(const GuessPoint& gp)
+{
+	PlayerGuessReaction pgr;
+	round->playerGuess(gp, pgr);
+
+	if (pgr.m_ComputerMoveGenerated) {
+		playerArea->showMove(pgr.m_ComputerGuess);
+	}
+	if (pgr.m_RoundEnds) {
+		printf("Round ends\n");
+		computerArea->roundEndet();
+		gameStatsWidget->roundEndet();
+	}
+
+	playerArea->update();
+	computerArea->update();
 }

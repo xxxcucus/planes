@@ -19,12 +19,14 @@ GameRenderArea::GameRenderArea(PlaneGrid* grid, QWidget* parent):
 {
     //enable the mouse tracking to be able to detect mouse motion
     setMouseTracking(true);
-    setMode(Editor);
+    setMode(Mode::Editor);
 
     if(isComputer())
         setWindowTitle("Computer");
     else
         setWindowTitle("Player");
+
+	update();
 }
 
 void GameRenderArea::paintEvent(QPaintEvent *event)
@@ -37,11 +39,11 @@ void GameRenderArea::paintEvent(QPaintEvent *event)
     //draws the planes when the game has endet
     //or colors the grid location selected
     //with the mouse during the game
-    if(m_currentMode == Game && isComputer())
+    if (m_currentMode == Game && isComputer())
     {
-        if(m_roundEndet)
+        if (m_roundEndet)
             drawConfirmedPlanes(&painter);
-        if(!m_roundEndet)
+        if (!m_roundEndet)
             fillGridRect(m_curMouseRow, m_curMouseCol, QString("grey"), &painter);
         drawGuesses(&painter);
     }
@@ -222,7 +224,7 @@ void GameRenderArea::mousePressEventComputerGame(QMouseEvent *event)
         {
             m_guessPointList.push_back(gp);
             //to not let the user draw while the computer is thinking
-            m_currentMode = Editor;
+            //m_currentMode = Editor;
             emit guessMade(gp);
             update();
         }
@@ -433,7 +435,7 @@ void GameRenderArea::showMove(GuessPoint gp)
 {
     //here should check for repeating elements
     m_guessPointList.push_back(gp);
-    update();
+    repaint();
 }
 
 //switches game mode

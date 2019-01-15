@@ -9,7 +9,8 @@ PlaneGrid::PlaneGrid(int row, int col, int planesNo, bool isComputer):
     m_planeNo(planesNo),
     m_isComputer(isComputer)
 {
-    resetGrid();
+    //resetGrid();
+	initGrid();
 }
 
 //adds planes to the grid
@@ -90,7 +91,8 @@ bool PlaneGrid::initGridByAutomaticGeneration()
         if (savePlane(pl))
             count++;
     } //while
-    return true;
+    
+	return true;
 }
 
 //generate a plane at a random grid position
