@@ -58,6 +58,7 @@ public slots:
 	//TODO: implement in the controller
 	void doneClicked();
 	void receivedPlayerGuess(const GuessPoint& gp);
+	void startNewRound();
 };
 
 #endif // PLANESVIEW_H

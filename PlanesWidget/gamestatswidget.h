@@ -11,7 +11,7 @@ class GameStatsWidget: public QWidget, public Ui::GameForm
     Q_OBJECT
 
 public:
-    GameStatsWidget( QWidget *parent=0);
+    GameStatsWidget(QWidget *parent=0);
 
     //resets the spin boxes and disables the new round button
     void reset();    

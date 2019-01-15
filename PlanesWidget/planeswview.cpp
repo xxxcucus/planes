@@ -82,10 +82,10 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
     connect(round, SIGNAL(roundEnds(bool)),
                      computerArea, SLOT(roundEndet()));
     connect(round, SIGNAL(roundEnds(bool)),
-                     gameStatsWidget, SLOT(roundEndet()));
+                     gameStatsWidget, SLOT(roundEndet())); */
     connect(gameStatsWidget, SIGNAL(startGame()),
-                     round, SLOT(play()));
-    connect(round, SIGNAL(initGraphics()),
+                     this, SLOT(startNewRound()));
+    /*connect(round, SIGNAL(initGraphics()),
                      playerArea, SLOT(reset()));
     connect(round, SIGNAL(initGraphics()),
                      computerArea, SLOT(reset()));
@@ -131,8 +131,19 @@ void PlanesWView::receivedPlayerGuess(const GuessPoint& gp)
 		printf("Round ends\n");
 		computerArea->roundEndet();
 		gameStatsWidget->roundEndet();
+		editPlanesWidget->displayStatusMsg(pgr.m_isComputerWinner ? "Computer wins!" : "Player wins!");
+		round->roundEnds();
 	}
 
-	playerArea->update();
-	computerArea->update();
+	gameStatsWidget->updateStats(pgr.m_GameStats);
+}
+
+void PlanesWView::startNewRound() {
+	printf("Start new round\n");
+	if (round->didGameEnd()) {
+		gameStatsWidget->reset();
+		editPlanesWidget->initButtons();
+		playerArea->reset();
+		computerArea->reset();
+	}
 }

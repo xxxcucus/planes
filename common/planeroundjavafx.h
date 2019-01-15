@@ -30,6 +30,11 @@ public:
 
 	//inits a new round
 	void initRound();
+	void roundEnds();
+
+	bool didGameEnd() {
+		return m_State == GameStages::GameNotStarted;
+	}
 
 	void playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr);
 

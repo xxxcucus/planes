@@ -424,6 +424,7 @@ void GameRenderArea::changeMode()
 //resets the render area
 void GameRenderArea::reset()
 {
+	printf("GameRenderArea reset\n");
     m_currentMode = Editor;
     m_currentOperation = No_operation;
     m_guessPointList.clear();

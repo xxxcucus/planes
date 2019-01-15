@@ -65,7 +65,7 @@ void PlaneRoundJavaFx::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pg
 
 	bool isPlayerWinner = false;
 	if (roundEnds(isPlayerWinner)) {
-		m_gameStats.updateWins(!isPlayerWinner);
+		m_gameStats.updateWins(isPlayerWinner);
 		pgr.m_RoundEnds = true;
 		m_State = GameStages::GameNotStarted;
 	} else {
@@ -159,4 +159,8 @@ void PlaneRoundJavaFx::updateGameStats(const GuessPoint& gp, bool isComputer)
 
 void PlaneRoundJavaFx::doneEditing() {
 	m_State = GameStages::Game;
+}
+
+void PlaneRoundJavaFx::roundEnds() {
+	m_State = GameStages::GameNotStarted;
 }
