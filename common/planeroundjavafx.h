@@ -11,7 +11,7 @@ struct PlayerGuessReaction {
 	//victory for computer or player
 	bool m_RoundEnds = false;
 	//who won
-	bool m_isComputerWinner = false;
+	bool m_isPlayerWinner = false;
 	//if no victory then a computer move is generated
 	bool m_ComputerMoveGenerated = false;
 	//which computer move was generated 

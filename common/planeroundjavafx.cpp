@@ -30,6 +30,11 @@ void PlaneRoundJavaFx::initRound()
 	m_ComputerGrid->initGrid();
 	m_State = GameStages::BoardEditing;
 	m_isComputerFirst = !m_isComputerFirst;
+	m_playerGuessList.clear();
+	m_computerGuessList.clear();
+
+	m_gameStats.reset();
+	m_computerLogic->reset();
 	//reset();
 }
 
@@ -68,6 +73,7 @@ void PlaneRoundJavaFx::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pg
 		m_gameStats.updateWins(isPlayerWinner);
 		pgr.m_RoundEnds = true;
 		m_State = GameStages::GameNotStarted;
+		pgr.m_isPlayerWinner = isPlayerWinner;
 	} else {
 		pgr.m_RoundEnds = false;
 	}

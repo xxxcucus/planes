@@ -114,8 +114,8 @@ void PlanesWView::widgetSelected(int sel)
 void PlanesWView::doneClicked()
 {
 	round->doneEditing();
-	playerArea->setMode(GameRenderArea::Game);
-	computerArea->setMode(GameRenderArea::Game);
+	playerArea->activateGameMode();
+	computerArea->activateGameMode();
 }
 
 //TODO: implement in controller
@@ -131,7 +131,7 @@ void PlanesWView::receivedPlayerGuess(const GuessPoint& gp)
 		printf("Round ends\n");
 		computerArea->roundEndet();
 		gameStatsWidget->roundEndet();
-		editPlanesWidget->displayStatusMsg(pgr.m_isComputerWinner ? "Computer wins!" : "Player wins!");
+		editPlanesWidget->displayStatusMsg(pgr.m_isPlayerWinner ? "Computer wins!" : "Player wins!");
 		round->roundEnds();
 	}
 
@@ -145,5 +145,8 @@ void PlanesWView::startNewRound() {
 		editPlanesWidget->initButtons();
 		playerArea->reset();
 		computerArea->reset();
+		playerArea->activateEditorMode();
+		computerArea->activateEditorMode();
+		round->initRound();
 	}
 }

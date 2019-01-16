@@ -256,7 +256,6 @@ void PlaneGrid::resetGrid()
     m_listPlanePointsAnnotations.clear();
     m_listPlanePoints.clear();
     emit planesPointsChanged();
-    //m_guessPointList.clear();
 }
 
 //checks whether a plane is inside the grid
