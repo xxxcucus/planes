@@ -98,6 +98,8 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
                 this, SLOT(widgetSelected(int)));
     connect(this, SIGNAL(debugWidgetSelected()),
             choiceDebugWidget, SLOT(setLogic()));
+
+	editPlanesWidget->initButtons();
 }
 
 //when a widget is selected
