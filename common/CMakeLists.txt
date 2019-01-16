@@ -21,7 +21,8 @@ set(COMMON_HEADR plane.h
 	planeorientationdata.h
 	headdata.h)
 
-set(COMMON_SRCS 	plane.cpp
+set(COMMON_SRCS 	
+	plane.cpp
 	planegrid.cpp
 	planesmodel.cpp
 	planeroundjavafx.cpp
@@ -38,4 +39,4 @@ add_library(libCommon STATIC ${COMMON_SRCS} ${COMMON_HEADR})
 
 #target_link_libraries(PlanesWidget ${Qt5Widgets_LIBRARIES})
 
-qt5_use_modules(libCommon Core)
+#qt5_use_modules(libCommon Core)

@@ -4,15 +4,12 @@
 #include "plane.h"
 #include "guesspoint.h"
 #include "coordinate2d.h"
-#include <QObject>
 
 /**Implements the logic of planes in a grid.
 *Manages a list of plane positions and orientations.
 */
-class PlaneGrid: public QObject
+class PlaneGrid
 {
-    Q_OBJECT
-
 private:
     //number of rows and columns
     int m_rowNo, m_colNo;
@@ -104,7 +101,6 @@ public:
     //transforms the annotation in a list of plane ids
     std::vector<int> decodeAnnotation(int annotation) const;
 
-
 private:
     //generates a plane at a random position on the grid
     Plane generateRandomPlane() const;
@@ -127,10 +123,6 @@ private:
     //when it belongs to more planes the function is called
     //more times and the results are combined
     int generateAnnotation(int planeNo, bool isHead);
-
-signals:
-    void planesPointsChanged(); //emitted to notify that a new PlanePointsList was computed (one plane was moved)
-
 };
 
 #endif // PLANEGRID_H

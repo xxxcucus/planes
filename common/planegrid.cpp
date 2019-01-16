@@ -185,8 +185,6 @@ bool PlaneGrid::computePlanePointsList(bool sendSignal)
     }
 
     m_PlanesOverlap = !returnValue;
-    if (sendSignal)
-        emit planesPointsChanged();
     return returnValue;
 }
 
@@ -255,7 +253,6 @@ void PlaneGrid::resetGrid()
     m_planeList.clear();
     m_listPlanePointsAnnotations.clear();
     m_listPlanePoints.clear();
-    emit planesPointsChanged();
 }
 
 //checks whether a plane is inside the grid
