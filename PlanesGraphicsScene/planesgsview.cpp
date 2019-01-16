@@ -43,6 +43,9 @@ PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cL
     connect(m_LeftPane, SIGNAL(startNewGame()), m_round, SLOT(play()));
     connect(m_LeftPane, SIGNAL(startNewGame()), m_RightPane, SLOT(startNewGame()));
     connect(m_round, SIGNAL(statsUpdated(const GameStatistics&)), m_LeftPane, SLOT(updateGameStatistics(const GameStatistics&)));*/
+
+	m_RightPane->resetGameBoard();
+	m_LeftPane->activateEditingBoard();
 }
 
 

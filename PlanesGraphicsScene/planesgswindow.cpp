@@ -13,5 +13,5 @@ PlanesGSWindow::PlanesGSWindow(QWidget *parent) : QMainWindow(parent)
     setCentralWidget(mPlanesView);
 
     //starts the game
-    mRound->initRound();
+    //mRound->initRound();
 }
