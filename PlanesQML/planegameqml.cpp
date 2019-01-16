@@ -6,17 +6,16 @@ PlaneGameQML::PlaneGameQML()
     mPlanesModel = new PlanesModel(10, 10, 3);
 
     //builds the game object - the controller
-    mRound = new PlaneRound(mPlanesModel->playerGrid(), mPlanesModel->computerGrid(), mPlanesModel->computerLogic(), false);
-    connect(this, SIGNAL(guessMade(const GuessPoint&)), mRound, SLOT(receivedPlayerGuess(const GuessPoint&)));
-    connect(mRound, SIGNAL(computerMoveGenerated(const GuessPoint&)), this, SIGNAL(computerMoveGenerated(const GuessPoint&)));
+    mRound = new PlaneRoundJavaFx(mPlanesModel->playerGrid(), mPlanesModel->computerGrid(), mPlanesModel->computerLogic(), false);
+    connect(this, SIGNAL(guessMade(const GuessPoint&)), this, SLOT(receivedPlayerGuess(const GuessPoint&)));
+    /*connect(mRound, SIGNAL(computerMoveGenerated(const GuessPoint&)), this, SIGNAL(computerMoveGenerated(const GuessPoint&)));
     connect(mRound, SIGNAL(statsUpdated(const GameStatistics&)), this, SLOT(statsUpdated(const GameStatistics&)));
-    connect(mRound, SIGNAL(roundEnds(bool)), this, SIGNAL(roundEnds(bool)));
-    mRound->play();
-
+    connect(mRound, SIGNAL(roundEnds(bool)), this, SIGNAL(roundEnds(bool)));*/
+    mRound->initRound();
 }
 
 void PlaneGameQML::doneEditing() {
-    mRound->playStep();
+	mRound->doneEditing();
 }
 
 void PlaneGameQML::statsUpdated(const GameStatistics& stats) {
@@ -25,8 +24,27 @@ void PlaneGameQML::statsUpdated(const GameStatistics& stats) {
 }
 
 void PlaneGameQML::startNewGame() {
-    mRound->play();
+	printf("Start new round\n");
+	if (mRound->didGameEnd()) {
+		mRound->initRound();
+	}
 }
+void PlaneGameQML::receivedPlayerGuess(const GuessPoint& gp)
+{
+	PlayerGuessReaction pgr;
+	mRound->playerGuess(gp, pgr);
+
+	if (pgr.m_ComputerMoveGenerated) {
+		emit computerMoveGenerated(pgr.m_ComputerGuess);
+	}
+	if (pgr.m_RoundEnds) {
+		emit roundEnds(!pgr.m_isPlayerWinner);
+		mRound->roundEnds();
+	}
+
+	statsUpdated(pgr.m_GameStats);
+}
+
 ///controls for editing the player's board in the first round of the game
 //OK - connect(m_LeftPane, SIGNAL(selectPlaneClicked(bool)), m_RightPane, SLOT(selectPlaneClicked(bool)));
 //OK - connect(m_LeftPane, SIGNAL(rotatePlaneClicked(bool)), m_RightPane, SLOT(rotatePlaneClicked(bool)));

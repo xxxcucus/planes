@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include "planesmodel.h"
-#include "planeround.h"
+#include "planeroundjavafx.h"
 #include "guesspoint.h"
 
 class PlaneGameQML : public QObject
@@ -38,12 +38,13 @@ signals:
 
 public slots:
     void statsUpdated(const GameStatistics& stats);
+	void receivedPlayerGuess(const GuessPoint& gp);
 
 private:
     //The model object
     PlanesModel* mPlanesModel;
     //The controller object
-    PlaneRound* mRound;
+    PlaneRoundJavaFx* mRound;
 
     GameStatistics m_Stats;
 };
