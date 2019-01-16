@@ -5,28 +5,28 @@
 #include "planeroundjavafx.h"
 
 PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLogic, PlaneRoundJavaFx *rd,QWidget *parent) :
-    QWidget(parent), playerGrid(pGrid), computerGrid(cGrid), computerLogic(cLogic), round(rd)
+    QWidget(parent), m_playerGrid(pGrid), m_computerGrid(cGrid), m_computerLogic(cLogic), m_round(rd)
 {
     //builds the gamerenderarea objects
-    playerArea = new GameRenderArea(playerGrid);
-    computerArea = new GameRenderArea(computerGrid);
+    m_playerArea = new GameRenderArea(m_playerGrid);
+    m_computerArea = new GameRenderArea(m_computerGrid);
 
     //builds the editing control window and the game stats widget
-    editPlanesWidget = new EditPlanesControlWidget(playerArea);
-    gameStatsWidget = new GameStatsWidget();
+    m_editPlanesWidget = new EditPlanesControlWidget(m_playerArea);
+    m_gameStatsWidget = new GameStatsWidget();
 
     //builds the widget that displays the computer strategy
-    choiceDebugWidget = new ChoiceDebugWidget(computerLogic);
+    m_choiceDebugWidget = new ChoiceDebugWidget(m_computerLogic);
 
     //builds the layout for this view
     QSplitter* hsplitter = new QSplitter(Qt::Horizontal);
-    hsplitter->addWidget(playerArea);
-    hsplitter->addWidget(computerArea);
+    hsplitter->addWidget(m_playerArea);
+    hsplitter->addWidget(m_computerArea);
 
     QSplitter* vsplitter = new QSplitter(Qt::Vertical);
-    vsplitter->addWidget(gameStatsWidget);
+    vsplitter->addWidget(m_gameStatsWidget);
     vsplitter->addWidget(hsplitter);
-    vsplitter->addWidget(editPlanesWidget);
+    vsplitter->addWidget(m_editPlanesWidget);
 
     QListWidget *listWidget = new QListWidget;
     listWidget->addItem(tr("Game"));
@@ -38,7 +38,7 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
 
     QStackedLayout* stackedLayout = new QStackedLayout;
     stackedLayout->addWidget(vsplitter);
-    stackedLayout->addWidget(choiceDebugWidget);
+    stackedLayout->addWidget(m_choiceDebugWidget);
 
     listWidget->setCurrentRow(0);
 
@@ -52,30 +52,30 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
     //connect(round, SIGNAL(initPlayerGrid()),
      //                editPlanesWidget, SLOT(initButtons()));
 
-    connect(playerArea, SIGNAL(operationEndet()),
-                     editPlanesWidget, SLOT(cancel_clicked()));
-    connect(playerArea,SIGNAL(displayMsg(QString)),
-                     editPlanesWidget, SLOT(displayMsg(QString)));
-    connect(playerArea, SIGNAL(enoughPlanes()),
-                     editPlanesWidget, SLOT(deactivateAddPlane()));
-    connect(playerArea, SIGNAL(displayStatusMsg(const std::string&)),
-                     editPlanesWidget, SLOT(displayStatusMsg(const std::string&)));
-    connect(playerArea, SIGNAL(notEnoughPlanes()),
-                     editPlanesWidget, SLOT(deactivateDoneButton()));
-    connect(playerArea, SIGNAL(activateDone()),
-                     editPlanesWidget, SLOT(activateDoneButton()));
-    connect(playerArea, SIGNAL(deactivateDone()),
-                     editPlanesWidget, SLOT(deactivateDoneButton()));
-    connect(editPlanesWidget, SIGNAL(doneClicked()),
-                     playerArea, SLOT(changeMode()));
-    connect(editPlanesWidget, SIGNAL(doneClicked()),
+    connect(m_playerArea, SIGNAL(operationEndet()),
+                     m_editPlanesWidget, SLOT(cancel_clicked()));
+    connect(m_playerArea,SIGNAL(displayMsg(QString)),
+                     m_editPlanesWidget, SLOT(displayMsg(QString)));
+    connect(m_playerArea, SIGNAL(enoughPlanes()),
+                     m_editPlanesWidget, SLOT(deactivateAddPlane()));
+    connect(m_playerArea, SIGNAL(displayStatusMsg(const std::string&)),
+                     m_editPlanesWidget, SLOT(displayStatusMsg(const std::string&)));
+    connect(m_playerArea, SIGNAL(notEnoughPlanes()),
+                     m_editPlanesWidget, SLOT(deactivateDoneButton()));
+    connect(m_playerArea, SIGNAL(activateDone()),
+                     m_editPlanesWidget, SLOT(activateDoneButton()));
+    connect(m_playerArea, SIGNAL(deactivateDone()),
+                     m_editPlanesWidget, SLOT(deactivateDoneButton()));
+    connect(m_editPlanesWidget, SIGNAL(doneClicked()),
+                     m_playerArea, SLOT(changeMode()));
+    connect(m_editPlanesWidget, SIGNAL(doneClicked()),
                      this, SLOT(doneClicked()));
 	/*
     connect(round, SIGNAL(computerMoveGenerated(GuessPoint)),
                      playerArea, SLOT(showMove(GuessPoint)));
     connect(round, SIGNAL(needPlayerGuess()),
                      computerArea, SLOT(activateGameMode())); */
-    connect(computerArea, SIGNAL(guessMade(const GuessPoint&)),
+    connect(m_computerArea, SIGNAL(guessMade(const GuessPoint&)),
                      this, SLOT(receivedPlayerGuess(const GuessPoint&)));
     /*connect(round, SIGNAL(displayStatusMessage(const std::string&)),
                      editPlanesWidget, SLOT(displayStatusMsg(const std::string&)));
@@ -83,7 +83,7 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
                      computerArea, SLOT(roundEndet()));
     connect(round, SIGNAL(roundEnds(bool)),
                      gameStatsWidget, SLOT(roundEndet())); */
-    connect(gameStatsWidget, SIGNAL(startGame()),
+    connect(m_gameStatsWidget, SIGNAL(startGame()),
                      this, SLOT(startNewRound()));
     /*connect(round, SIGNAL(initGraphics()),
                      playerArea, SLOT(reset()));
@@ -97,9 +97,9 @@ PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLog
     connect(listWidget, SIGNAL(currentRowChanged(int)),
                 this, SLOT(widgetSelected(int)));
     connect(this, SIGNAL(debugWidgetSelected()),
-            choiceDebugWidget, SLOT(setLogic()));
+            m_choiceDebugWidget, SLOT(setLogic()));
 
-	editPlanesWidget->initButtons();
+	m_editPlanesWidget->initButtons();
 }
 
 //when a widget is selected
@@ -115,40 +115,40 @@ void PlanesWView::widgetSelected(int sel)
 //TODO: this should be called in controller
 void PlanesWView::doneClicked()
 {
-	round->doneEditing();
-	playerArea->activateGameMode();
-	computerArea->activateGameMode();
+	m_round->doneEditing();
+	m_playerArea->activateGameMode();
+	m_computerArea->activateGameMode();
 }
 
 //TODO: implement in controller
 void PlanesWView::receivedPlayerGuess(const GuessPoint& gp)
 {
 	PlayerGuessReaction pgr;
-	round->playerGuess(gp, pgr);
+	m_round->playerGuess(gp, pgr);
 
 	if (pgr.m_ComputerMoveGenerated) {
-		playerArea->showMove(pgr.m_ComputerGuess);
+		m_playerArea->showMove(pgr.m_ComputerGuess);
 	}
 	if (pgr.m_RoundEnds) {
 		printf("Round ends\n");
-		computerArea->roundEndet();
-		gameStatsWidget->roundEndet();
-		editPlanesWidget->displayStatusMsg(pgr.m_isPlayerWinner ? "Computer wins!" : "Player wins!");
-		round->roundEnds();
+		m_computerArea->roundEndet();
+		m_gameStatsWidget->roundEndet();
+		m_editPlanesWidget->displayStatusMsg(pgr.m_isPlayerWinner ? "Computer wins!" : "Player wins!");
+		m_round->roundEnds();
 	}
 
-	gameStatsWidget->updateStats(pgr.m_GameStats);
+	m_gameStatsWidget->updateStats(pgr.m_GameStats);
 }
 
 void PlanesWView::startNewRound() {
 	printf("Start new round\n");
-	if (round->didGameEnd()) {
-		gameStatsWidget->reset();
-		editPlanesWidget->initButtons();
-		playerArea->reset();
-		computerArea->reset();
-		playerArea->activateEditorMode();
-		computerArea->activateEditorMode();
-		round->initRound();
+	if (m_round->didGameEnd()) {
+		m_gameStatsWidget->reset();
+		m_editPlanesWidget->initButtons();
+		m_playerArea->reset();
+		m_computerArea->reset();
+		m_playerArea->activateEditorMode();
+		m_computerArea->activateEditorMode();
+		m_round->initRound();
 	}
 }

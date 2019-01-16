@@ -16,37 +16,37 @@ class PlanesWView : public QWidget
 
     //PlaneGrid objects manage the logic of a set of planes on a grid
     //as well as various operations: save, remove, search, etc.
-    PlaneGrid* playerGrid;
-    PlaneGrid* computerGrid;
+    PlaneGrid* m_playerGrid;
+    PlaneGrid* m_computerGrid;
 
     //GameRenderArea objects are graphical objects that
     //display guesses, computer choices , planes
     //in grids
-    GameRenderArea* playerArea;
-    GameRenderArea* computerArea;
+    GameRenderArea* m_playerArea;
+    GameRenderArea* m_computerArea;
 
     //EditPlanesControlWidget is a widget that controls the
     //process of planes positioning and adding in the
     //player grid
-    EditPlanesControlWidget* editPlanesWidget;
+    EditPlanesControlWidget* m_editPlanesWidget;
 
     //GameStatsWidget displays the statistics about the current
     //game and about the score
-    GameStatsWidget* gameStatsWidget;
+    GameStatsWidget* m_gameStatsWidget;
 
     //ChoiceDebug window is a widget that shows how the
     //computer plays
-    ChoiceDebugWidget* choiceDebugWidget;
+    ChoiceDebugWidget* m_choiceDebugWidget;
 
     //ComputerLogic is the object that keeps the
     //computer's strategy
-    ComputerLogic* computerLogic;
+    ComputerLogic* m_computerLogic;
 
     //PlaneRound is the object that coordinates the game
-    PlaneRoundJavaFx* round;
+    PlaneRoundJavaFx* m_round;
 
 public:
-    explicit PlanesWView(PlaneGrid *, PlaneGrid*, ComputerLogic*, PlaneRoundJavaFx *,QWidget *parent = 0);
+    explicit PlanesWView(PlaneGrid*, PlaneGrid*, ComputerLogic*, PlaneRoundJavaFx*, QWidget* parent = 0);
     
 signals:
     //signals when the widget showing the computer strategy becomes active
