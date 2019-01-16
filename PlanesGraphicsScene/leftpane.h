@@ -29,8 +29,6 @@ signals:
     void doneClicked(bool);
     void startNewGame();
 
-
-
 public slots:
     /**
      * @brief When planes overlap deactivate the done button
@@ -59,7 +57,6 @@ public slots:
      */
 
     void endRound(bool isPlayerWinner);
-
 
 private:
     GameStatsFrame* m_PlayerStatsFrame;

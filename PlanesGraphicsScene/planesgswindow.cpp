@@ -6,12 +6,12 @@ PlanesGSWindow::PlanesGSWindow(QWidget *parent) : QMainWindow(parent)
     mPlanesModel = new PlanesModel(10, 10, 3);
 
     //builds the game object - the controller
-    mRound = new PlaneRound(mPlanesModel->playerGrid(), mPlanesModel->computerGrid(), mPlanesModel->computerLogic(), false);
+    mRound = new PlaneRoundJavaFx(mPlanesModel->playerGrid(), mPlanesModel->computerGrid(), mPlanesModel->computerLogic(), false);
 
     //builds the view object
     mPlanesView = new PlanesGSView(mPlanesModel->playerGrid(), mPlanesModel->computerGrid(), mPlanesModel->computerLogic(), mRound);
     setCentralWidget(mPlanesView);
 
     //starts the game
-    mRound->play();
+    mRound->initRound();
 }
