@@ -81,7 +81,7 @@ void PlaneRoundJavaFx::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pg
 	pgr.m_GameStats = m_gameStats;
 }
 
-void PlaneRoundJavaFx::rotatePlane(int idx) {
+/*void PlaneRoundJavaFx::rotatePlane(int idx) {
 	if (m_State != GameStages::BoardEditing)
 		return;
 	m_PlayerGrid->rotatePlane(idx);
@@ -107,7 +107,7 @@ void PlaneRoundJavaFx::movePlaneDownwards(int idx) {
 	if (m_State != GameStages::BoardEditing)
 		return;
 	m_PlayerGrid->movePlaneDownwards(idx);
-}
+}*/
 
 GuessPoint PlaneRoundJavaFx::guessComputerMove()
 {
