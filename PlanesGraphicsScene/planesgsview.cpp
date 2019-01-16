@@ -39,16 +39,26 @@ PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cL
     connect(m_RightPane, SIGNAL(guessMade(const GuessPoint&)), this, SLOT(receivedPlayerGuess(const GuessPoint&)));
     /*connect(m_round, SIGNAL(displayStatusMessage(const std::string&)), this, SLOT(displayStatusMsg(const std::string&)));
     connect(m_round, SIGNAL(roundEnds(bool)), m_LeftPane, SLOT(endRound(bool)));
-    connect(m_round, SIGNAL(roundEnds(bool)), m_RightPane, SLOT(endRound(bool)));
-    connect(m_LeftPane, SIGNAL(startNewGame()), m_round, SLOT(play()));
-    connect(m_LeftPane, SIGNAL(startNewGame()), m_RightPane, SLOT(startNewGame()));
-    connect(m_round, SIGNAL(statsUpdated(const GameStatistics&)), m_LeftPane, SLOT(updateGameStatistics(const GameStatistics&)));*/
+    connect(m_round, SIGNAL(roundEnds(bool)), m_RightPane, SLOT(endRound(bool)));*/
+    connect(m_LeftPane, SIGNAL(startNewGame()), this, SLOT(startNewGame()));
+    //connect(m_LeftPane, SIGNAL(startNewGame()), m_RightPane, SLOT(startNewGame()));
+    /*connect(m_round, SIGNAL(statsUpdated(const GameStatistics&)), m_LeftPane, SLOT(updateGameStatistics(const GameStatistics&)));*/
 
 	m_round->initRound();
 	m_RightPane->resetGameBoard();
 	m_LeftPane->activateEditingBoard();
 }
 
+void PlanesGSView::startNewGame() {
+	printf("Start new round\n");
+	if (m_round->didGameEnd()) {
+		m_round->initRound();
+		m_RightPane->startNewGame();
+		m_RightPane->resetGameBoard();
+		m_LeftPane->activateEditingBoard();
+		m_LeftPane->updateGameStatistics(GameStatistics());
+	}
+}
 
 void PlanesGSView::displayStatusMsg(const std::string& str)
 {

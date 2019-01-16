@@ -25,6 +25,7 @@ public slots:
 	void displayStatusMsg(const std::string& str);
 	void receivedPlayerGuess(const GuessPoint& gp);
 	void doneClicked();
+	void startNewGame();
 
 private:
 
