@@ -12,6 +12,7 @@ PlaneGameQML::PlaneGameQML()
     connect(mRound, SIGNAL(statsUpdated(const GameStatistics&)), this, SLOT(statsUpdated(const GameStatistics&)));
     connect(mRound, SIGNAL(roundEnds(bool)), this, SIGNAL(roundEnds(bool)));*/
     mRound->initRound();
+	emit resetGrid();
 }
 
 void PlaneGameQML::doneEditing() {
@@ -27,6 +28,8 @@ void PlaneGameQML::startNewGame() {
 	printf("Start new round\n");
 	if (mRound->didGameEnd()) {
 		mRound->initRound();
+		emit resetGrid();
+		statsUpdated(GameStatistics());
 	}
 }
 void PlaneGameQML::receivedPlayerGuess(const GuessPoint& gp)

@@ -3,8 +3,8 @@
 
 #include <QWidget>
 #include "plane.h"
-#include "planeround.h"
 #include "baserenderarea.h"
+#include "planegrid.h"
 
 
 //this is the grid that is used to add planes and to play the game

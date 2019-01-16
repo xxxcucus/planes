@@ -2,6 +2,7 @@
 #include "coordinate2d.h"
 #include <QPainter>
 #include <QMouseEvent>
+#include "planeiterators.h"
 
 //constructs the object
 //m_currentOperation is the current operation in player editor mode

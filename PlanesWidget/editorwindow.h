@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include "gamerenderarea.h"
-#include "planeround.h"
 
 class QPushButton;
 class QLabel;

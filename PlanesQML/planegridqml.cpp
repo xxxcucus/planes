@@ -4,8 +4,9 @@
 
 PlaneGridQML::PlaneGridQML(PlaneGameQML* planeGame, PlaneGrid* planeGrid): m_PlaneGrid(planeGrid), m_PlaneGame(planeGame) {
     //connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SIGNAL(planesPointsChanged()));
-    connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SLOT(verifyPlanePositionValid()));
-    if (m_PlaneGrid->isComputer()) {
+    //connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SLOT(verifyPlanePositionValid()));
+	connect(m_PlaneGame, SIGNAL(resetGrid()), this, SLOT(verifyPlanePositionValid()));
+	if (m_PlaneGrid->isComputer()) {
         connect(this, SIGNAL(guessMade(const GuessPoint&)), m_PlaneGame, SIGNAL(guessMade(const GuessPoint&)));
         m_SelectedPlane = -1;
     }

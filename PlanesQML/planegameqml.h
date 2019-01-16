@@ -35,6 +35,7 @@ signals:
     void computerMoveGenerated(const GuessPoint& gp);    
     void updateStats();
     void roundEnds(bool isPlayerWinner);
+	void resetGrid();
 
 public slots:
     void statsUpdated(const GameStatistics& stats);

@@ -1,6 +1,5 @@
 #include "baserenderarea.h"
 #include <QPainter>
-#include "planeround.h"
 
 //constructs the class object
 BaseRenderArea::BaseRenderArea(int row, int col, QWidget* parent):

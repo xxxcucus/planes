@@ -23,6 +23,7 @@ Rectangle {
             //console.log("Rotate clicked")
             anim.start()
             PlayerPlaneGrid.rotateSelectedPlane();
+			PlayerPlaneGrid.verifyPlanePositionValid()
         }
     }
 

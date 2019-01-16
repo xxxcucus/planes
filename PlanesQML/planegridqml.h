@@ -128,6 +128,8 @@ public:
         endResetModel();
     }
 
+
+
 private:
     bool wasGuessMade(int row, int col, GuessPoint::Type& guessRes) const;
 
@@ -137,11 +139,13 @@ signals:
     void guessMade(const GuessPoint& gp);
 
 public slots:
-    /*
-     * Compute whether done button is active in the board editor
-     */
-    void verifyPlanePositionValid();
+
     void showComputerMove(const GuessPoint& gp);
+
+	/*
+	* Compute whether done button is active in the board editor
+	*/
+	Q_INVOKABLE void verifyPlanePositionValid();
 
 private:
     PlaneGrid* m_PlaneGrid;

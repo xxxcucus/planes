@@ -5,7 +5,7 @@
 #include <QPushButton>
 #include "gamestatsframe.h"
 #include "scoreframe.h"
-#include "planeround.h"
+#include "gamestatistics.h"
 
 class LeftPane : public QTabWidget
 {
