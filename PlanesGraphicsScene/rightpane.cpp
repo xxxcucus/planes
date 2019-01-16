@@ -27,7 +27,7 @@ RightPane::RightPane(PlaneGrid& pGrid, PlaneGrid& cGrid, QWidget* parent) : QTab
     addTab(helpWidget, "Help");
 
     connect(m_PlayerBoard, SIGNAL(planePositionNotValid(bool)), this, SIGNAL(planePositionNotValid(bool)));
-    connect(this, SIGNAL(showComputerMove(const GuessPoint&)), m_PlayerBoard, SLOT(showMove(const GuessPoint&)));
+    //connect(this, SIGNAL(showComputerMove(const GuessPoint&)), m_PlayerBoard, SLOT(showMove(const GuessPoint&)));
     connect(m_ComputerBoard, SIGNAL(guessMade(const GuessPoint&)), this, SIGNAL(guessMade(const GuessPoint&)));
 }
 
@@ -83,9 +83,8 @@ void RightPane::rightPlaneClicked(bool val)
     m_PlayerBoard->rightPlaneClicked(val);
 }
 
-void RightPane::doneClicked(bool val)
+void RightPane::doneClicked()
 {
-    Q_UNUSED(val)
     setCurrentIndex(1);
     m_PlayerBoard->setGameStage(GenericBoard::GameStages::Game);
     m_PlayerBoard->setSelectedPlaneIndex(-1);
@@ -104,4 +103,9 @@ void RightPane::startNewGame() {
 void RightPane::setMinWidth()
 {
     setMinimumWidth(m_PlayerBoard->getMinWidth());
+}
+
+void RightPane::showComputerMove(const GuessPoint& gp)
+{
+	m_PlayerBoard->showMove(gp);
 }

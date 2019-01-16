@@ -30,7 +30,7 @@ public slots:
      * @brief Switch to computer tab and start looking for planes.
      * Change the internal state of the player's and computer's boards to game stage
      */
-    void doneClicked(bool);
+    void doneClicked();
 
     /**
      * @brief Display winner message in the player and computer boards.
@@ -40,9 +40,11 @@ public slots:
 
     void startNewGame();
 
+	void showComputerMove(const GuessPoint& gp);
+
 signals:
     void planePositionNotValid(bool);
-    void showComputerMove(const GuessPoint&);
+
     void guessMade(const GuessPoint& gp);
 private:
     PlayerBoard* m_PlayerBoard;

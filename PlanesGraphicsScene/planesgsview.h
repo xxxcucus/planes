@@ -22,8 +22,9 @@ public slots:
     inline void activateBoardEditingTab() {
         m_LeftPane->activateEditorTab();
     }
-
-    void displayStatusMsg(const std::string& str);
+	void displayStatusMsg(const std::string& str);
+	void receivedPlayerGuess(const GuessPoint& gp);
+	void doneClicked();
 
 private:
 

@@ -26,7 +26,7 @@ signals:
     void downPlaneClicked(bool);
     void leftPlaneClicked(bool);
     void rightPlaneClicked(bool);
-    void doneClicked(bool);
+    void doneClicked();
     void startNewGame();
 
 public slots:

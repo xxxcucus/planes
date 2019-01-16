@@ -40,7 +40,7 @@ LeftPane::LeftPane(QWidget *parent) : QTabWidget(parent)
 
     connect(m_selectPlaneButton, SIGNAL(clicked(bool)), this, SIGNAL(selectPlaneClicked(bool)));
     connect(m_rotatePlaneButton, SIGNAL(clicked(bool)), this, SIGNAL(rotatePlaneClicked(bool)));
-    connect(m_doneButton, SIGNAL(clicked(bool)), this, SIGNAL(doneClicked(bool)));
+    connect(m_doneButton, SIGNAL(clicked(bool)), this, SIGNAL(doneClicked()));
     connect(m_doneButton, SIGNAL(clicked(bool)), this, SLOT(doneClickedSlot()));
     connect(m_upPlaneButton, SIGNAL(clicked(bool)), this, SIGNAL(upPlaneClicked(bool)));
     connect(m_downPlaneButton, SIGNAL(clicked(bool)), this, SIGNAL(downPlaneClicked(bool)));
