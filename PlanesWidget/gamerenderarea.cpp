@@ -22,7 +22,7 @@ GameRenderArea::GameRenderArea(PlaneGrid* grid, QWidget* parent):
     setMouseTracking(true);
     setMode(Mode::Editor);
 
-    if(isComputer())
+    if (isComputer())
         setWindowTitle("Computer");
     else
         setWindowTitle("Player");
@@ -52,7 +52,7 @@ void GameRenderArea::paintEvent(QPaintEvent *event)
     //in game mode for player
     //draws the planes
     //and the guesses made by the computer
-    if(m_currentMode == Game && !isComputer())
+    if (m_currentMode == Game && !isComputer())
     {
         drawConfirmedPlanes(&painter);
         drawGuesses(&painter);
@@ -60,19 +60,19 @@ void GameRenderArea::paintEvent(QPaintEvent *event)
 
 
     //in editor mode for player    
-    if(m_currentMode == Editor && !isComputer())
+    if (m_currentMode == Editor && !isComputer())
     {
         //draws the planes
         drawConfirmedPlanes(&painter);
 
         //draws the temp plane
-        if(m_currentOperation == Add_plane)
+        if (m_currentOperation == Add_plane)
             drawTempPlane(&painter);
 
-        if(m_currentOperation == Move_plane && m_planeSelected)
+        if (m_currentOperation == Move_plane && m_planeSelected)
             drawTempPlane(&painter);
 
-        if(m_currentOperation == Rotate_plane && m_planeSelected)
+        if (m_currentOperation == Rotate_plane && m_planeSelected)
             drawTempPlane(&painter);
     }
 }
@@ -80,12 +80,12 @@ void GameRenderArea::paintEvent(QPaintEvent *event)
 //sets the current operation in editor mode for player
 bool GameRenderArea::setOperation(Operation o)
 {
-    if((o == Delete_plane || o == Rotate_plane || o == Move_plane) && m_grid->getPlaneListSize() == 0)
+    if ((o == Delete_plane || o == Rotate_plane || o == Move_plane) && m_grid->getPlaneListSize() == 0)
         return false;
 
     m_currentOperation = o;
 
-    if(o==Add_plane)
+    if (o==Add_plane)
         m_tempPlane.orientation(Plane::NorthSouth);
     update();
 
@@ -103,7 +103,7 @@ void GameRenderArea::setMode(Mode m)
 //returns false if coordinates are not good and true otherwise
 void GameRenderArea::fillGridRect(int row, int col, QString color, QPainter *painter)
 {
-    if(!BaseRenderArea::fillGridRect(row, col, color, painter))
+    if (!BaseRenderArea::fillGridRect(row, col, color, painter))
         m_planePosValid = false;
 }
 
@@ -134,9 +134,9 @@ void GameRenderArea::mouseMoveEvent(QMouseEvent* event)
     m_curMouseCol = (col - m_offsetCol) / m_spacing - 2;
 
 
-    if(m_currentMode == Editor && !isComputer())
+    if (m_currentMode == Editor && !isComputer())
     {
-        if(m_currentOperation!=Rotate_plane || !m_planeSelected)
+        if (m_currentOperation!=Rotate_plane || !m_planeSelected)
         {
 
             m_tempPlane.row(m_curMouseRow);
@@ -150,10 +150,10 @@ void GameRenderArea::mouseMoveEvent(QMouseEvent* event)
 //treats the mouse pressed events
 void GameRenderArea::mousePressEvent(QMouseEvent *event)
 {
-    if(m_currentMode == Game && isComputer() && !m_roundEndet)
+    if (m_currentMode == Game && isComputer() && !m_roundEndet)
         mousePressEventComputerGame(event);
 
-    if(m_currentMode == Editor && !isComputer())
+    if (m_currentMode == Editor && !isComputer())
        mousePressEventPlayerEditor(event);
 }
 
@@ -162,10 +162,10 @@ void GameRenderArea::mousePressEventPlayerEditor(QMouseEvent *event)
 {
     if(event->button() == Qt::RightButton)
     {
-        if(m_currentOperation == Add_plane || (m_currentOperation == Move_plane && m_planeSelected)
+        if (m_currentOperation == Add_plane || (m_currentOperation == Move_plane && m_planeSelected)
                 || (m_currentOperation == Rotate_plane && m_planeSelected))
         {
-            if(m_planePosValid)
+            if (m_planePosValid)
             {
                 //save the plane in the list of planes
                 saveTempPlane();
@@ -191,13 +191,13 @@ void GameRenderArea::mousePressEventPlayerEditor(QMouseEvent *event)
         }
         if (m_currentOperation == Rotate_plane)
         {
-            if(m_planeSelected)
+            if (m_planeSelected)
                 rotateTempPlane();
         }
 
         if (m_currentOperation == Delete_plane)
         {
-            if(selectPlane())
+            if (selectPlane())
                 resetOperation();
         }
     }
@@ -273,7 +273,7 @@ void GameRenderArea::resetOperation()
     emit operationEndet();
 
     //if we added all the planes
-    if(!addMorePlanes())
+    if (!addMorePlanes())
     {
         //signal that all planes have been drawn
         emit enoughPlanes();
@@ -327,7 +327,7 @@ void GameRenderArea::drawConfirmedPlanes(QPainter *painter)
     }
 
     //draws the plane heads
-    for(int i = 0;i < m_grid->getPlaneListSize(); i++)
+    for(int i = 0; i < m_grid->getPlaneListSize(); i++)
     {
         Plane pl;
         if (m_grid->getPlane(i, pl))
@@ -392,11 +392,11 @@ bool GameRenderArea::tempPlaneIntersectsOtherPlanes() const
 {
     PlanePointIterator ppi(m_tempPlane);
 
-    while(ppi.hasNext())
+    while (ppi.hasNext())
     {
         PlanesCommonTools::Coordinate2D qp = ppi.next();
         int idx = 0;
-        if(m_grid->isPointOnPlane(qp.x(), qp.y(), idx))
+        if (m_grid->isPointOnPlane(qp.x(), qp.y(), idx))
             return true;
     }
 
