@@ -1,5 +1,5 @@
-#ifndef PLANEGAME_H
-#define PLANEGAME_H
+#ifndef PLANEROUND_H
+#define PLANEROUND_H
 
 #include "plane.h"
 #include "planegrid.h"
