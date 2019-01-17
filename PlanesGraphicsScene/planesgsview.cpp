@@ -3,7 +3,7 @@
 #include <QHBoxLayout>
 #include "customhorizlayout.h"
 
-PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLogic, PlaneRoundJavaFx *rd, QWidget *parent)
+PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLogic, PlaneRound *rd, QWidget *parent)
     : QWidget(parent), m_playerGrid(pGrid), m_computerGrid(cGrid), m_round(rd)
 {
     CustomHorizLayout* hLayout = new CustomHorizLayout(this);

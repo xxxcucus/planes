@@ -6,14 +6,14 @@
 #include "leftpane.h"
 #include "rightpane.h"
 #include "planegrid.h"
-#include "planeroundjavafx.h"
+#include "planeround.h"
 
 
 class PlanesGSView : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLogic, PlaneRoundJavaFx *rd, QWidget *parent = 0);
+    explicit PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLogic, PlaneRound *rd, QWidget *parent = 0);
 
 signals:
 
@@ -35,7 +35,7 @@ private:
     PlaneGrid* m_computerGrid;
 
     //PlaneRound is the object that coordinates the game
-    PlaneRoundJavaFx* m_round;
+    PlaneRound* m_round;
 
     LeftPane* m_LeftPane;
     RightPane* m_RightPane;

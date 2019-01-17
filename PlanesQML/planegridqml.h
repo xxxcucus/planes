@@ -17,7 +17,7 @@ class PlaneGridQML : public QAbstractListModel
 public:
     enum class GameStages { GameNotStarted, BoardEditing, Game };
     enum PlaneDescription { NoPlane = 0, Plane = 1, PlaneHead = 2 };
-    enum BoardDescription { Board = 0, Padding = 1};
+    enum BoardDescription { Board = 0, Padding = 1 };
 
     PlaneGridQML(PlaneGameQML* planeGame, PlaneGrid* planeGrid);
 
@@ -127,8 +127,6 @@ public:
         beginResetModel();
         endResetModel();
     }
-
-
 
 private:
     bool wasGuessMade(int row, int col, GuessPoint::Type& guessRes) const;

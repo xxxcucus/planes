@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include "planeswview.h"
 #include "planesmodel.h"
-#include "planeroundjavafx.h"
+#include "planeround.h"
 
 
 //Main window of the application
@@ -17,7 +17,7 @@ class PlanesWWindow : public QMainWindow
     //The model object
     PlanesModel* mPlanesModel;
     //The controller object
-    PlaneRoundJavaFx *mRound;
+    PlaneRound *mRound;
 
 public:
     explicit PlanesWWindow(QWidget *parent = 0);

@@ -2,9 +2,9 @@
 #include <QSplitter>
 #include <QListWidget>
 #include <QStackedLayout>
-#include "planeroundjavafx.h"
+#include "planeround.h"
 
-PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLogic, PlaneRoundJavaFx *rd,QWidget *parent) :
+PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLogic, PlaneRound *rd,QWidget *parent) :
     QWidget(parent), m_playerGrid(pGrid), m_computerGrid(cGrid), m_computerLogic(cLogic), m_round(rd)
 {
     //builds the gamerenderarea objects

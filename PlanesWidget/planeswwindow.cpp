@@ -8,7 +8,7 @@ PlanesWWindow::PlanesWWindow(QWidget *parent) :
     mPlanesModel = new PlanesModel(10, 10, 3);
 
     //builds the game object - the controller
-    mRound = new PlaneRoundJavaFx(mPlanesModel->playerGrid(), mPlanesModel->computerGrid(), mPlanesModel->computerLogic(), true);
+    mRound = new PlaneRound(mPlanesModel->playerGrid(), mPlanesModel->computerGrid(), mPlanesModel->computerLogic(), true);
 
     //builds the view object
     mPlanesView = new PlanesWView(mPlanesModel->playerGrid(), mPlanesModel->computerGrid(), mPlanesModel->computerLogic(), mRound);

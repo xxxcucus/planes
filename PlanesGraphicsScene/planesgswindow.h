@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "planesgsview.h"
-#include "planeroundjavafx.h"
+#include "planeround.h"
 #include "planesmodel.h"
 
 class PlanesGSWindow : public QMainWindow
@@ -23,7 +23,7 @@ private:
     //The model object
     PlanesModel* mPlanesModel;
     //The controller object
-    PlaneRoundJavaFx* mRound;
+    PlaneRound* mRound;
 };
 
 #endif // PLANESGSWINDOW_H

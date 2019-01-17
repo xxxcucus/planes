@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include "planesmodel.h"
-#include "planeroundjavafx.h"
+#include "planeround.h"
 #include "guesspoint.h"
 
 class PlaneGameQML : public QObject
@@ -45,7 +45,7 @@ private:
     //The model object
     PlanesModel* mPlanesModel;
     //The controller object
-    PlaneRoundJavaFx* mRound;
+    PlaneRound* mRound;
 
     GameStatistics m_Stats;
 };

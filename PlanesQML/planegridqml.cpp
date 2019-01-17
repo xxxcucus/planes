@@ -136,10 +136,6 @@ void PlaneGridQML::verifyPlanePositionValid() {
 void PlaneGridQML::computerBoardClick(int index) {
     //qDebug() << index;
 
-    ///@todo:
-    /// calculate row and col
-    /// add m_GuessList as member variable to planegridqml
-
     if (m_CurStage != GameStages::Game)
         return;
 
@@ -198,7 +194,7 @@ void PlaneGridQML::doneEditing() {
     //emit planesPointsChanged();
 }
 
-bool PlaneGridQML::wasGuessMade(int row, int col, GuessPoint::Type &guessRes) const {
+bool PlaneGridQML::wasGuessMade(int row, int col, GuessPoint::Type& guessRes) const {
     auto p = std::make_pair(row, col);
     auto it = m_GuessMap.find(p);
     if (it != m_GuessMap.end()) {
