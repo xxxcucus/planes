@@ -11,4 +11,7 @@ public class PlaneRoundJavaFx {
 	// Declare an instance native method sayHello() which receives no parameter and returns void
 	public native void createPlanesRound(); 
 	
+	public native int getRowNo();
+	public native int getColNo();
+	
 }

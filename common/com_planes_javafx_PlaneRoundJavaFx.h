@@ -15,6 +15,22 @@ extern "C" {
 JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_createPlanesRound
   (JNIEnv *, jobject);
 
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    getRowNo
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getRowNo
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    getColNo
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getColNo
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif

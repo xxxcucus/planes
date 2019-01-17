@@ -84,8 +84,8 @@ public class PlanesJavaFxApplication extends Application {
 	        gridPane.layoutXProperty().bind(Bindings.divide(Bindings.subtract(this.widthProperty(), Bindings.min(this.widthProperty(), this.heightProperty())), 2.0));
 	        gridPane.layoutYProperty().bind(Bindings.divide(Bindings.subtract(this.heightProperty(), Bindings.min(this.widthProperty(), this.heightProperty())), 2.0));
 	        
-			for (int i = 0; i < m_GridSize; i++) {
-				for (int j = 0; j < m_GridSize; j++) {
+			for (int i = 0; i < m_GridSize + 2 * m_Padding; i++) {
+				for (int j = 0; j < m_GridSize + 2 * m_Padding; j++) {
 					Canvas c = new Canvas();
 					GridPane.setHgrow(c, Priority.ALWAYS);
 					GridPane.setVgrow(c, Priority.ALWAYS);
@@ -152,7 +152,7 @@ public class PlanesJavaFxApplication extends Application {
 	}
 	
 	private int m_GridSize = 10;
-	private int m_CellSize = 30;
+	private int m_Padding = 3;
 	private PlaneRoundJavaFx m_PlaneRound = new PlaneRoundJavaFx();
 }
 
