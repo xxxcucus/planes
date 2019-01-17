@@ -145,12 +145,15 @@ public class PlanesJavaFxApplication extends Application {
 		
 		//gridPane.setGridLinesVisible(true);
 		
+		m_PlaneRound.createPlanesRound();
+		
 		stage.setScene(new Scene(gridPane, 1200, 800));
 		stage.show();
 	}
 	
 	private int m_GridSize = 10;
 	private int m_CellSize = 30;
+	private PlaneRoundJavaFx m_PlaneRound = new PlaneRoundJavaFx();
 }
 
 
