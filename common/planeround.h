@@ -26,7 +26,9 @@ public:
 	enum class GameStages { GameNotStarted, BoardEditing, Game };
 
 	//constructs the round object
-	PlaneRound(PlaneGrid* playerGrid, PlaneGrid* computerGrid, ComputerLogic* logic, bool isComputerFirst);
+	//PlaneRound(PlaneGrid* playerGrid, PlaneGrid* computerGrid, ComputerLogic* logic, bool isComputerFirst);
+	PlaneRound(int rowNo, int colNo, int planeNo);
+	~PlaneRound();
 
 	//inits a new round
 	void initRound();
@@ -38,6 +40,7 @@ public:
 
 	void playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr);
 
+	//TODO
 	/*void rotatePlane(int idx);
 	void movePlaneLeft(int idx);
 	void movePlaneRight(int idx);
@@ -45,6 +48,10 @@ public:
 	void movePlaneDownwards(int idx);*/
 
 	void doneEditing();
+
+	PlaneGrid* playerGrid() { return m_PlayerGrid; }
+	PlaneGrid* computerGrid() { return m_ComputerGrid; }
+	ComputerLogic* computerLogic() { return m_computerLogic; }
 
 private:
 	//update game statistics
@@ -60,7 +67,7 @@ private:
 
 private:
 	//whether the computer or the player moves first
-	bool m_isComputerFirst;
+	bool m_isComputerFirst = false;
 	//the  game statistics
 	GameStatistics m_gameStats;
 
@@ -76,6 +83,11 @@ private:
 	ComputerLogic* m_computerLogic;
 
 	GameStages m_State = GameStages::GameNotStarted;
+
+	//size of the grid and number of planes
+	int m_rowNo = 10;
+	int m_colNo = 10;
+	int m_planeNo = 3;
 };
 
 

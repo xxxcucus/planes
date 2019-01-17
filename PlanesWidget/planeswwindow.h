@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include "planeswview.h"
-#include "planesmodel.h"
 #include "planeround.h"
 
 
@@ -14,8 +13,6 @@ class PlanesWWindow : public QMainWindow
 
     //The view object
     PlanesWView* mPlanesView;
-    //The model object
-    PlanesModel* mPlanesModel;
     //The controller object
     PlaneRound *mRound;
 

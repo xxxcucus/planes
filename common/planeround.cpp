@@ -1,15 +1,36 @@
 #include "planeround.h"
+#include <ctime>
 
-PlaneRound::PlaneRound(PlaneGrid* playerGrid, PlaneGrid* computerGrid, ComputerLogic* logic, bool isComputerFirst): 
-	m_isComputerFirst(isComputerFirst),
-	m_PlayerGrid(playerGrid),
-	m_ComputerGrid(computerGrid),
-	m_computerLogic(logic)
+PlaneRound::PlaneRound(int rowNo, int colNo, int planeNo):
+	m_rowNo(rowNo), m_colNo(colNo), m_planeNo(planeNo)
 {
+	//initializes the random number generator
+	time_t timer;
+	struct tm y2k = { 0 };
+	double seconds = 0.0;
+	y2k.tm_hour = 0;   y2k.tm_min = 0; y2k.tm_sec = 0;
+	y2k.tm_year = 100; y2k.tm_mon = 0; y2k.tm_mday = 1;
+	time(&timer);  /* get current time; same as: timer = time(NULL)  */
+	seconds = difftime(timer, mktime(&y2k));
+	srand(int(floor(seconds)));
+
+	//builds the plane grid objects
+	m_PlayerGrid = new PlaneGrid(m_rowNo, m_colNo, m_planeNo, false);
+	m_ComputerGrid = new PlaneGrid(m_rowNo, m_colNo, m_planeNo, true);
+
+	//builds the computer logic object
+	m_computerLogic = new ComputerLogic(m_rowNo, m_colNo, m_planeNo);
+
 	reset();
 	initRound();
 } 
 
+PlaneRound::~PlaneRound()
+{
+	delete m_computerLogic;
+	delete m_ComputerGrid;
+	delete m_PlayerGrid;
+}
 
 //resets the PlaneRound object
 void PlaneRound::reset()

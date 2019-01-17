@@ -19,7 +19,6 @@ endif (With_Java)
 set(COMMON_HEADR 
 	plane.h
 	planegrid.h
-	planesmodel.h
 	planeround.h
 	computerlogic.h
 	revertcomputerlogic.h
@@ -37,7 +36,6 @@ endif (With_Java)
 set(COMMON_SRCS 	
 	plane.cpp
 	planegrid.cpp
-	planesmodel.cpp
 	planeround.cpp
     computerlogic.cpp
 	revertcomputerlogic.cpp

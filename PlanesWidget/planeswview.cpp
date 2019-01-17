@@ -4,9 +4,13 @@
 #include <QStackedLayout>
 #include "planeround.h"
 
-PlanesWView::PlanesWView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLogic, PlaneRound *rd,QWidget *parent) :
-    QWidget(parent), m_playerGrid(pGrid), m_computerGrid(cGrid), m_computerLogic(cLogic), m_round(rd)
+PlanesWView::PlanesWView(PlaneRound *rd,QWidget *parent) :
+    QWidget(parent), m_round(rd)
 {
+	m_playerGrid = m_round->playerGrid();
+	m_computerGrid = m_round->computerGrid();
+	m_computerLogic = m_round->computerLogic();
+
     //builds the gamerenderarea objects
     m_playerArea = new GameRenderArea(m_playerGrid);
     m_computerArea = new GameRenderArea(m_computerGrid);

@@ -13,7 +13,7 @@ class PlanesGSView : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLogic, PlaneRound *rd, QWidget *parent = 0);
+    explicit PlanesGSView(PlaneRound *rd, QWidget *parent = 0);
 
 signals:
 

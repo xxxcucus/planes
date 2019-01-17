@@ -46,7 +46,7 @@ class PlanesWView : public QWidget
     PlaneRound* m_round;
 
 public:
-    explicit PlanesWView(PlaneGrid*, PlaneGrid*, ComputerLogic*, PlaneRound*, QWidget* parent = 0);
+    explicit PlanesWView(PlaneRound*, QWidget* parent = 0);
     
 signals:
     //signals when the widget showing the computer strategy becomes active

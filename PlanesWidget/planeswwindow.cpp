@@ -3,15 +3,11 @@
 PlanesWWindow::PlanesWWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-
-    //builds the model object
-    mPlanesModel = new PlanesModel(10, 10, 3);
-
     //builds the game object - the controller
-    mRound = new PlaneRound(mPlanesModel->playerGrid(), mPlanesModel->computerGrid(), mPlanesModel->computerLogic(), true);
+    mRound = new PlaneRound(10, 10, 3);
 
     //builds the view object
-    mPlanesView = new PlanesWView(mPlanesModel->playerGrid(), mPlanesModel->computerGrid(), mPlanesModel->computerLogic(), mRound);
+    mPlanesView = new PlanesWView(mRound);
     setCentralWidget(mPlanesView);
 
     //starts the game
@@ -23,5 +19,4 @@ PlanesWWindow::~PlanesWWindow()
 {
     delete mPlanesView;
     delete mRound;
-    delete mPlanesModel;
 }

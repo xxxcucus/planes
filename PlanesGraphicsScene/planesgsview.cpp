@@ -3,9 +3,12 @@
 #include <QHBoxLayout>
 #include "customhorizlayout.h"
 
-PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLogic, PlaneRound *rd, QWidget *parent)
-    : QWidget(parent), m_playerGrid(pGrid), m_computerGrid(cGrid), m_round(rd)
+PlanesGSView::PlanesGSView(PlaneRound *rd, QWidget *parent)
+    : QWidget(parent), m_round(rd)
 {
+	m_playerGrid = m_round->playerGrid();
+	m_computerGrid = m_round->computerGrid();
+
     CustomHorizLayout* hLayout = new CustomHorizLayout(this);
     m_LeftPane = new LeftPane(this);
     m_LeftPane->setMinWidth();

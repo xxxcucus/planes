@@ -2,17 +2,18 @@
 
 PlaneGameQML::PlaneGameQML()
 {
-    //builds the model object
-    mPlanesModel = new PlanesModel(10, 10, 3);
-
     //builds the game object - the controller
-    mRound = new PlaneRound(mPlanesModel->playerGrid(), mPlanesModel->computerGrid(), mPlanesModel->computerLogic(), false);
+    mRound = new PlaneRound(10, 10, 3);
     connect(this, SIGNAL(guessMade(const GuessPoint&)), this, SLOT(receivedPlayerGuess(const GuessPoint&)));
     /*connect(mRound, SIGNAL(computerMoveGenerated(const GuessPoint&)), this, SIGNAL(computerMoveGenerated(const GuessPoint&)));
     connect(mRound, SIGNAL(statsUpdated(const GameStatistics&)), this, SLOT(statsUpdated(const GameStatistics&)));
     connect(mRound, SIGNAL(roundEnds(bool)), this, SIGNAL(roundEnds(bool)));*/
     mRound->initRound();
 	emit resetGrid();
+}
+
+PlaneGameQML::~PlaneGameQML() {
+	delete mRound;
 }
 
 void PlaneGameQML::doneEditing() {
