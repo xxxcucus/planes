@@ -21,12 +21,12 @@ struct PlayerGuessReaction {
 	PlayerGuessReaction() : m_ComputerGuess(0, 0) { }
 };
 
-class PlaneRoundJavaFx {
+class PlaneRound {
 public:
 	enum class GameStages { GameNotStarted, BoardEditing, Game };
 
 	//constructs the round object
-	PlaneRoundJavaFx(PlaneGrid* playerGrid, PlaneGrid* computerGrid, ComputerLogic* logic, bool isComputerFirst);
+	PlaneRound(PlaneGrid* playerGrid, PlaneGrid* computerGrid, ComputerLogic* logic, bool isComputerFirst);
 
 	//inits a new round
 	void initRound();

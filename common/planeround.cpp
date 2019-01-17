@@ -1,6 +1,6 @@
-#include "planeroundjavafx.h"
+#include "planeround.h"
 
-PlaneRoundJavaFx::PlaneRoundJavaFx(PlaneGrid* playerGrid, PlaneGrid* computerGrid, ComputerLogic* logic, bool isComputerFirst): 
+PlaneRound::PlaneRound(PlaneGrid* playerGrid, PlaneGrid* computerGrid, ComputerLogic* logic, bool isComputerFirst): 
 	m_isComputerFirst(isComputerFirst),
 	m_PlayerGrid(playerGrid),
 	m_ComputerGrid(computerGrid),
@@ -12,7 +12,7 @@ PlaneRoundJavaFx::PlaneRoundJavaFx(PlaneGrid* playerGrid, PlaneGrid* computerGri
 
 
 //resets the PlaneRound object
-void PlaneRoundJavaFx::reset()
+void PlaneRound::reset()
 {
 	m_PlayerGrid->resetGrid();
 	m_ComputerGrid->resetGrid();
@@ -24,7 +24,7 @@ void PlaneRoundJavaFx::reset()
 	m_computerLogic->reset();
 }
 
-void PlaneRoundJavaFx::initRound()
+void PlaneRound::initRound()
 {
 	m_PlayerGrid->initGrid();
 	m_ComputerGrid->initGrid();
@@ -39,7 +39,7 @@ void PlaneRoundJavaFx::initRound()
 }
 
 //TODO: do we need to evaluate the player guess here ?
-void PlaneRoundJavaFx::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr)
+void PlaneRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr)
 {
 	if (m_State != GameStages::Game)
 		return;
@@ -81,35 +81,35 @@ void PlaneRoundJavaFx::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pg
 	pgr.m_GameStats = m_gameStats;
 }
 
-/*void PlaneRoundJavaFx::rotatePlane(int idx) {
+/*void PlaneRound::rotatePlane(int idx) {
 	if (m_State != GameStages::BoardEditing)
 		return;
 	m_PlayerGrid->rotatePlane(idx);
 }
 
-void PlaneRoundJavaFx::movePlaneLeft(int idx) {
+void PlaneRound::movePlaneLeft(int idx) {
 	if (m_State != GameStages::BoardEditing)
 		return;
 	m_PlayerGrid->movePlaneLeft(idx);
 }
 
-void PlaneRoundJavaFx::movePlaneRight(int idx) {
+void PlaneRound::movePlaneRight(int idx) {
 	m_PlayerGrid->movePlaneRight(idx);
 }
 
-void PlaneRoundJavaFx::movePlaneUpwards(int idx) {
+void PlaneRound::movePlaneUpwards(int idx) {
 	if (m_State != GameStages::BoardEditing)
 		return;
 	m_PlayerGrid->movePlaneUpwards(idx);
 }
 
-void PlaneRoundJavaFx::movePlaneDownwards(int idx) {
+void PlaneRound::movePlaneDownwards(int idx) {
 	if (m_State != GameStages::BoardEditing)
 		return;
 	m_PlayerGrid->movePlaneDownwards(idx);
 }*/
 
-GuessPoint PlaneRoundJavaFx::guessComputerMove()
+GuessPoint PlaneRound::guessComputerMove()
 {
 	PlanesCommonTools::Coordinate2D qp;
 	//use the computer strategy to get a move
@@ -129,7 +129,7 @@ GuessPoint PlaneRoundJavaFx::guessComputerMove()
 }
 
 
-bool PlaneRoundJavaFx::roundEnds(bool& isPlayerWinner)
+bool PlaneRound::roundEnds(bool& isPlayerWinner)
 {
 	//at equal scores computer wins
 	isPlayerWinner = false;
@@ -144,7 +144,7 @@ bool PlaneRoundJavaFx::roundEnds(bool& isPlayerWinner)
 }
 
 //decides whether all the planes have been guessed
-bool PlaneRoundJavaFx::enoughGuesses(PlaneGrid* pg, const std::vector<GuessPoint>& guessList) const
+bool PlaneRound::enoughGuesses(PlaneGrid* pg, const std::vector<GuessPoint>& guessList) const
 {
 	int count = 0;
 
@@ -158,15 +158,15 @@ bool PlaneRoundJavaFx::enoughGuesses(PlaneGrid* pg, const std::vector<GuessPoint
 }
 
 //based on a guesspoint updates the game stats
-void PlaneRoundJavaFx::updateGameStats(const GuessPoint& gp, bool isComputer)
+void PlaneRound::updateGameStats(const GuessPoint& gp, bool isComputer)
 {
 	m_gameStats.updateStats(gp, isComputer);
 }
 
-void PlaneRoundJavaFx::doneEditing() {
+void PlaneRound::doneEditing() {
 	m_State = GameStages::Game;
 }
 
-void PlaneRoundJavaFx::roundEnds() {
+void PlaneRound::roundEnds() {
 	m_State = GameStages::GameNotStarted;
 }

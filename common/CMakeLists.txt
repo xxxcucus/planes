@@ -11,7 +11,7 @@ include_directories(
 set(COMMON_HEADR plane.h
 	planegrid.h
 	planesmodel.h
-	planeroundjavafx.h
+	planeround.h
 	computerlogic.h
 	revertcomputerlogic.h
 	guesspoint.h
@@ -25,7 +25,7 @@ set(COMMON_SRCS
 	plane.cpp
 	planegrid.cpp
 	planesmodel.cpp
-	planeroundjavafx.cpp
+	planeround.cpp
     computerlogic.cpp
 	revertcomputerlogic.cpp
 	guesspoint.cpp
