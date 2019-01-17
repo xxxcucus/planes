@@ -10,6 +10,7 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 find_package(Qt5 COMPONENTS Core Widgets Quick)
 
 option(With_Asan "Compile with Address Sanitizer support" OFF)
+option(With_Java "Compile libCommon for use with Java Native Interface" OFF)
 
 if (UNIX)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 ")
