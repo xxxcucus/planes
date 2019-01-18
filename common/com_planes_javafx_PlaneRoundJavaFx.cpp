@@ -11,3 +11,15 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_createPlanesRound
 	global_Round->initRound();
 	printf("Create plane round 2\n");
 }
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getRowNo
+(JNIEnv *, jobject)
+{
+	return global_Round->getRowNo();
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getColNo
+(JNIEnv *, jobject)
+{
+	return global_Round->getColNo();
+}

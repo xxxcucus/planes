@@ -53,6 +53,14 @@ public:
 	PlaneGrid* computerGrid() { return m_ComputerGrid; }
 	ComputerLogic* computerLogic() { return m_computerLogic; }
 
+	int getRowNo() {
+		return m_rowNo;
+	}
+
+	int getColNo() {
+		return m_colNo;
+	}
+
 private:
 	//update game statistics
 	void updateGameStats(const GuessPoint& gp, bool isComputer);
