@@ -14,4 +14,5 @@ public class PlaneRoundJavaFx {
 	public native int getRowNo();
 	public native int getColNo();
 	
+	public native int getPlaneSquareType(int i, int j, boolean isComputer);
 }

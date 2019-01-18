@@ -191,3 +191,18 @@ void PlaneRound::doneEditing() {
 void PlaneRound::roundEnds() {
 	m_State = GameStages::GameNotStarted;
 }
+
+int PlaneRound::getPlaneSquareType(int row, int col, bool isComputer)
+{
+	bool isOnPlane = false;
+
+	if (isComputer) {
+		int idxInPlanePointList = 0;
+		isOnPlane = m_ComputerGrid->isPointOnPlane(row, col, idxInPlanePointList);
+	} else {
+		int idxInPlanePointList = 0;
+		isOnPlane = m_PlayerGrid->isPointOnPlane(row, col, idxInPlanePointList);
+	}
+
+	return isOnPlane ? 1 : 0;
+}

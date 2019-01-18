@@ -61,6 +61,8 @@ public:
 		return m_colNo;
 	}
 
+	int getPlaneSquareType(int i, int j, bool isComputer);
+
 private:
 	//update game statistics
 	void updateGameStats(const GuessPoint& gp, bool isComputer);

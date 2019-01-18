@@ -48,8 +48,22 @@ class BoardPane extends Pane
 				Canvas c = m_GridSquares.get(new PositionBoardPane(i, j));
 				GraphicsContext gc = c.getGraphicsContext2D();
 				 
-				gc.setFill(Color.BLUE);
-				gc.fillRect(0, 0, c.getWidth(), c.getHeight());
+				if (i < m_Padding || i >= gRows + m_Padding || j < m_Padding || j >= gCols + m_Padding) {
+					gc.setFill(Color.YELLOW);
+					gc.fillRect(c.getWidth() / 10, c.getHeight() / 10 , c.getWidth() * 8 / 10, c.getHeight() * 8 / 10);
+				} else {
+					gc.setFill(Color.AQUA);
+					gc.fillRect(c.getWidth() / 10, c.getHeight() / 10 , c.getWidth() * 8 / 10, c.getHeight() * 8 / 10);
+				}
+				
+				switch (m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, m_IsComputer)) {
+					case 1:
+						gc.setFill(Color.BLUE);
+						gc.fillOval(c.getWidth() / 3, c.getHeight() / 3, c.getWidth() / 3, c.getHeight() / 3);
+						break;
+					case 0:
+						break;
+				}
 				
 				System.out.println(c.getWidth()+ " " + c.getHeight());
 			}
@@ -57,8 +71,9 @@ class BoardPane extends Pane
 		
 	}
 	
-	public BoardPane(PlaneRoundJavaFx planeRound) {
+	public BoardPane(PlaneRoundJavaFx planeRound, boolean isComputer) {
 		m_PlaneRound = planeRound;
+		m_IsComputer = isComputer;
 		final GridPane gridPane = new GridPane();
 		
         // In order to see the GridPane extends with the LeftPane, remove it further
@@ -94,5 +109,6 @@ class BoardPane extends Pane
 	private Map<PositionBoardPane, Canvas> m_GridSquares;
 	private PlaneRoundJavaFx m_PlaneRound;
 	private int m_Padding = 3;
+	private boolean m_IsComputer = false;
 	
 }	//BoardPane	
