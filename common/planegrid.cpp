@@ -144,7 +144,7 @@ bool PlaneGrid::isPointOnPlane(int row, int col, int& idx) const
         idx = -1;
         return false;
     }
-    idx = std::distance(m_listPlanePoints.begin(), it);
+    idx = int(std::distance(m_listPlanePoints.begin(), it));
     return true;
 }
 
@@ -195,7 +195,7 @@ int PlaneGrid::searchPlane(const Plane& pl) const
     if (it == m_planeList.end())
         return -1;
     else
-        return std::distance(m_planeList.begin(), it);
+        return int(std::distance(m_planeList.begin(), it));
 }
 
 //searches a plane with the head at a given position on the grid in the list of planes

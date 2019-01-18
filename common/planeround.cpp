@@ -239,6 +239,5 @@ int PlaneRound::getPlaneSquareType(int row, int col, bool isComputer)
 		}
 	}
 
-	//int getPlanePointAnnotation(int idx) const { return m_listPlanePointsAnnotations[idx]; }
-	//std::vector<int> decodeAnnotation(int annotation) const;
+	return 0;
 }
