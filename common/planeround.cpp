@@ -193,10 +193,10 @@ void PlaneRound::roundEnds() {
 }
 
 /*
+	-2 - plane head
+	-1 - plane intersection
 	0 - is not on plane
-	1 - plane but not head
-	2 - plane head
-	3 - plane intersection
+	i - plane but not head
 */
 
 int PlaneRound::getPlaneSquareType(int row, int col, bool isComputer)
@@ -211,14 +211,14 @@ int PlaneRound::getPlaneSquareType(int row, int col, bool isComputer)
 		int annotation = m_ComputerGrid->getPlanePointAnnotation(idxInPlanePointList);
 		std::vector<int> planesIdx = m_ComputerGrid->decodeAnnotation(annotation);
 		if (planesIdx.size() > 1) {
-			return 3;
+			return -1;
 		} 
 		
 		if (planesIdx.size() == 1) {
 			if (planesIdx[0] < 0)
-				return 2;
+				return -2;
 			else
-				return 1;
+				return (planesIdx[0] + 1);
 		}
 	} else {
 		int idxInPlanePointList = 0;
@@ -228,14 +228,14 @@ int PlaneRound::getPlaneSquareType(int row, int col, bool isComputer)
 		int annotation = m_PlayerGrid->getPlanePointAnnotation(idxInPlanePointList);
 		std::vector<int> planesIdx = m_PlayerGrid->decodeAnnotation(annotation);
 		if (planesIdx.size() > 1) {
-			return 3;
+			return -1;
 		}
 
 		if (planesIdx.size() == 1) {
 			if (planesIdx[0] < 0)
-				return 2;
+				return -2;
 			else
-				return 1;
+				return (planesIdx[0] + 1);
 		}
 	}
 

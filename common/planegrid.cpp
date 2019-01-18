@@ -109,7 +109,7 @@ PlanesCommonTools::Coordinate2D PlaneGrid::generateRandomGridPosition() const
 
     int idx = Plane::generateRandomNumber(m_rowNo * m_colNo);
 
-    return PlanesCommonTools::Coordinate2D(idx % m_rowNo,idx / m_rowNo);
+    return PlanesCommonTools::Coordinate2D(idx % m_rowNo, idx / m_rowNo);
 }
 
 //generates a random plane orientation
@@ -129,7 +129,7 @@ int idx = Plane::generateRandomNumber(4);
 //returns whether a point is head of a plane or not
 bool PlaneGrid::isPointHead(int row, int col) const
 {
-    if(searchPlane(row, col)!=-1)
+    if(searchPlane(row, col) != -1)
         return true;
     else return false;
 }
@@ -165,7 +165,7 @@ bool PlaneGrid::computePlanePointsList(bool sendSignal)
         PlanePointIterator ppi(pl);
         bool isHead = true;
 
-        while(ppi.hasNext())
+        while (ppi.hasNext())
         {
             PlanesCommonTools::Coordinate2D qp = ppi.next();
             if (!isPointInGrid(qp))

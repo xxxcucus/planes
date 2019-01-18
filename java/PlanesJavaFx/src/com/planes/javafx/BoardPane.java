@@ -42,6 +42,8 @@ class BoardPane extends Pane
 		System.out.println("Update board");
         int gRows = m_PlaneRound.getRowNo();
         int gCols = m_PlaneRound.getColNo();
+        int planeNo = m_PlaneRound.getPlaneNo();
+        int colorStep = (m_MaxPlaneBodyColor - m_MinPlaneBodyColor) / planeNo;
 		
 		for (int i = 0; i < gRows + 2 * m_Padding; i++) {
 			for (int j = 0; j < gCols + 2 * m_Padding; j++) {
@@ -57,25 +59,32 @@ class BoardPane extends Pane
 					gc.fillRoundRect(c.getWidth() / 10, c.getHeight() / 10, c.getWidth() * 8 / 10, c.getHeight() * 8 / 10, 5, 5);
 				}
 				
-				switch (m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, m_IsComputer)) {
+				int type = m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, m_IsComputer);
+				switch (type) {
 					
-					case 3:
+					//intersecting planes
+					case -1:
 						gc.setFill(Color.RED);
 						gc.fillOval(c.getWidth() / 3, c.getHeight() / 3, c.getWidth() / 3, c.getHeight() / 3);
 						break;					
 				
-					case 2:
-						gc.setFill(Color.GRAY);
+					//plane head
+					case -2:
+						gc.setFill(Color.GREEN);
 						gc.fillOval(c.getWidth() / 3, c.getHeight() / 3, c.getWidth() / 3, c.getHeight() / 3);
 						break;
-					
-					case 1:
-						gc.setFill(Color.BLUE);
+				
+					//not a plane	
+					case 0:
+						break;
+						
+					//plane but not plane head
+					default:
+						int grayCol = m_MinPlaneBodyColor + type * colorStep;
+						gc.setFill(Color.rgb(grayCol, grayCol, grayCol));
 						gc.fillOval(c.getWidth() / 3, c.getHeight() / 3, c.getWidth() / 3, c.getHeight() / 3);
 						break;
 						
-					case 0:
-						break;
 				}
 				
 				System.out.println(c.getWidth()+ " " + c.getHeight());
@@ -123,5 +132,7 @@ class BoardPane extends Pane
 	private PlaneRoundJavaFx m_PlaneRound;
 	private int m_Padding = 3;
 	private boolean m_IsComputer = false;
+	private int m_MinPlaneBodyColor = 0;
+	private int m_MaxPlaneBodyColor = 200;	
 	
 }	//BoardPane	

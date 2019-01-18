@@ -150,8 +150,7 @@ private:
     PlaneGameQML* m_PlaneGame;
 
     ///grey colors to draw the planes
-    int
-    m_MinPlaneBodyColor = 0;
+    int m_MinPlaneBodyColor = 0;
     int m_MaxPlaneBodyColor = 200;
 
     int m_Padding = 3;

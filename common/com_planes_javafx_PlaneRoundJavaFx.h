@@ -33,6 +33,14 @@ JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getColNo
 
 /*
  * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    getPlaneNo
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getPlaneNo
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
  * Method:    getPlaneSquareType
  * Signature: (IIZ)I
  */

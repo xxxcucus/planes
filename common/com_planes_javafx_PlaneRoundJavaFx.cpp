@@ -24,6 +24,12 @@ JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getColNo
 	return global_Round->getColNo();
 }
 
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getPlaneNo
+(JNIEnv *, jobject)
+{
+	return global_Round->getPlaneNo();
+}
+
 JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getPlaneSquareType
 (JNIEnv *, jobject, jint i, jint j, jboolean isComputer)
 {

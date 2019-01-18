@@ -53,12 +53,16 @@ public:
 	PlaneGrid* computerGrid() { return m_ComputerGrid; }
 	ComputerLogic* computerLogic() { return m_computerLogic; }
 
-	int getRowNo() {
+	int getRowNo() const {
 		return m_rowNo;
 	}
 
-	int getColNo() {
+	int getColNo() const {
 		return m_colNo;
+	}
+
+	int getPlaneNo() const {
+		return m_planeNo;
 	}
 
 	int getPlaneSquareType(int i, int j, bool isComputer);
