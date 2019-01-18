@@ -51,16 +51,29 @@ class BoardPane extends Pane
 				if (i < m_Padding || i >= gRows + m_Padding || j < m_Padding || j >= gCols + m_Padding) {
 					gc.setFill(Color.YELLOW);
 					gc.fillRect(c.getWidth() / 10, c.getHeight() / 10 , c.getWidth() * 8 / 10, c.getHeight() * 8 / 10);
+					gc.fillRoundRect(c.getWidth() / 10, c.getHeight() / 10, c.getWidth() * 8 / 10, c.getHeight() * 8 / 10, 5, 5);
 				} else {
 					gc.setFill(Color.AQUA);
-					gc.fillRect(c.getWidth() / 10, c.getHeight() / 10 , c.getWidth() * 8 / 10, c.getHeight() * 8 / 10);
+					gc.fillRoundRect(c.getWidth() / 10, c.getHeight() / 10, c.getWidth() * 8 / 10, c.getHeight() * 8 / 10, 5, 5);
 				}
 				
 				switch (m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, m_IsComputer)) {
+					
+					case 3:
+						gc.setFill(Color.RED);
+						gc.fillOval(c.getWidth() / 3, c.getHeight() / 3, c.getWidth() / 3, c.getHeight() / 3);
+						break;					
+				
+					case 2:
+						gc.setFill(Color.GRAY);
+						gc.fillOval(c.getWidth() / 3, c.getHeight() / 3, c.getWidth() / 3, c.getHeight() / 3);
+						break;
+					
 					case 1:
 						gc.setFill(Color.BLUE);
 						gc.fillOval(c.getWidth() / 3, c.getHeight() / 3, c.getWidth() / 3, c.getHeight() / 3);
 						break;
+						
 					case 0:
 						break;
 				}

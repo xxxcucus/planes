@@ -192,6 +192,13 @@ void PlaneRound::roundEnds() {
 	m_State = GameStages::GameNotStarted;
 }
 
+/*
+	0 - is not on plane
+	1 - plane but not head
+	2 - plane head
+	3 - plane intersection
+*/
+
 int PlaneRound::getPlaneSquareType(int row, int col, bool isComputer)
 {
 	bool isOnPlane = false;
@@ -199,10 +206,39 @@ int PlaneRound::getPlaneSquareType(int row, int col, bool isComputer)
 	if (isComputer) {
 		int idxInPlanePointList = 0;
 		isOnPlane = m_ComputerGrid->isPointOnPlane(row, col, idxInPlanePointList);
+		if (!isOnPlane)
+			return 0;
+		int annotation = m_ComputerGrid->getPlanePointAnnotation(idxInPlanePointList);
+		std::vector<int> planesIdx = m_ComputerGrid->decodeAnnotation(annotation);
+		if (planesIdx.size() > 1) {
+			return 3;
+		} 
+		
+		if (planesIdx.size() == 1) {
+			if (planesIdx[0] < 0)
+				return 2;
+			else
+				return 1;
+		}
 	} else {
 		int idxInPlanePointList = 0;
 		isOnPlane = m_PlayerGrid->isPointOnPlane(row, col, idxInPlanePointList);
+		if (!isOnPlane)
+			return 0;
+		int annotation = m_PlayerGrid->getPlanePointAnnotation(idxInPlanePointList);
+		std::vector<int> planesIdx = m_PlayerGrid->decodeAnnotation(annotation);
+		if (planesIdx.size() > 1) {
+			return 3;
+		}
+
+		if (planesIdx.size() == 1) {
+			if (planesIdx[0] < 0)
+				return 2;
+			else
+				return 1;
+		}
 	}
 
-	return isOnPlane ? 1 : 0;
+	//int getPlanePointAnnotation(int idx) const { return m_listPlanePointsAnnotations[idx]; }
+	//std::vector<int> decodeAnnotation(int annotation) const;
 }
