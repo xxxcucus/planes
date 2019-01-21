@@ -117,10 +117,18 @@ public LeftPane() {
     //gridPane.prefWidth(300);
     //this.getChildren().add(gridPane);
     
-    Tab tab = new Tab();
-    tab.setText("Board Editing");
-	    tab.setContent(gridPane);
-	    this.getTabs().add(tab);
+    Tab tab1 = new Tab();
+    tab1.setText("Board Editing");
+    tab1.setContent(gridPane);
+    this.getTabs().add(tab1);
+
+	Tab tab2 = new Tab();
+	tab2.setText("Game");
+    this.getTabs().add(tab2);
+    
+	Tab tab3 = new Tab();
+	tab3.setText("Start Round");
+    this.getTabs().add(tab3);    
 	}
 
 	RightPane m_RightPane;
