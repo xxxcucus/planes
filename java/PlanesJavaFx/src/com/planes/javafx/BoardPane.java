@@ -38,6 +38,10 @@ class BoardPane extends Pane
 		}
 	}
 	
+	public enum GameStages {
+		GameNotStarted, BoardEditing, Game
+	}
+	
 	public void updateBoard() {
 		System.out.println("Update board");
         int gRows = m_PlaneRound.getRowNo();
@@ -58,7 +62,7 @@ class BoardPane extends Pane
 					squareColor = Color.AQUA;
 				}
 				
-				if (!m_IsComputer) {
+				if (!m_IsComputer || (m_IsComputer && m_CurStage == GameStages.GameNotStarted)) {
 					int type = m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, m_IsComputer);
 					switch (type) {					
 						//intersecting planes
@@ -131,5 +135,6 @@ class BoardPane extends Pane
 	private boolean m_IsComputer = false;
 	private int m_MinPlaneBodyColor = 0;
 	private int m_MaxPlaneBodyColor = 200;	
+	private GameStages m_CurStage = GameStages.BoardEditing;
 	
 }	//BoardPane	
