@@ -49,48 +49,45 @@ class BoardPane extends Pane
 			for (int j = 0; j < gCols + 2 * m_Padding; j++) {
 				Canvas c = m_GridSquares.get(new PositionBoardPane(i, j));
 				GraphicsContext gc = c.getGraphicsContext2D();
+				//compute the color of the square
+				Color squareColor = null;
 				 
 				if (i < m_Padding || i >= gRows + m_Padding || j < m_Padding || j >= gCols + m_Padding) {
-					gc.setFill(Color.YELLOW);
-					gc.fillRect(c.getWidth() / 10, c.getHeight() / 10 , c.getWidth() * 8 / 10, c.getHeight() * 8 / 10);
-					gc.fillRoundRect(c.getWidth() / 10, c.getHeight() / 10, c.getWidth() * 8 / 10, c.getHeight() * 8 / 10, 5, 5);
+					squareColor = Color.YELLOW;
 				} else {
-					gc.setFill(Color.AQUA);
-					gc.fillRoundRect(c.getWidth() / 10, c.getHeight() / 10, c.getWidth() * 8 / 10, c.getHeight() * 8 / 10, 5, 5);
+					squareColor = Color.AQUA;
 				}
 				
-				int type = m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, m_IsComputer);
-				switch (type) {
+				if (!m_IsComputer) {
+					int type = m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, m_IsComputer);
+					switch (type) {					
+						//intersecting planes
+						case -1:
+							squareColor = Color.RED;
+							break;								
+						//plane head
+						case -2:
+							squareColor = Color.GREEN;
+							break;			
+						//not a plane	
+						case 0:
+							break;					
+						//plane but not plane head
+						default:
+							int grayCol = m_MinPlaneBodyColor + type * colorStep;
+							squareColor = Color.rgb(grayCol, grayCol, grayCol);
+							break;						
+					}
+				}
 					
-					//intersecting planes
-					case -1:
-						gc.setFill(Color.RED);
-						gc.fillOval(c.getWidth() / 3, c.getHeight() / 3, c.getWidth() / 3, c.getHeight() / 3);
-						break;					
-				
-					//plane head
-					case -2:
-						gc.setFill(Color.GREEN);
-						gc.fillOval(c.getWidth() / 3, c.getHeight() / 3, c.getWidth() / 3, c.getHeight() / 3);
-						break;
-				
-					//not a plane	
-					case 0:
-						break;
-						
-					//plane but not plane head
-					default:
-						int grayCol = m_MinPlaneBodyColor + type * colorStep;
-						gc.setFill(Color.rgb(grayCol, grayCol, grayCol));
-						gc.fillOval(c.getWidth() / 3, c.getHeight() / 3, c.getWidth() / 3, c.getHeight() / 3);
-						break;
-						
-				}
-				
+				//draw the background of the square
+				gc.setFill(squareColor);
+				gc.fillRect(c.getWidth() / 10, c.getHeight() / 10 , c.getWidth() * 8 / 10, c.getHeight() * 8 / 10);
+				gc.fillRoundRect(c.getWidth() / 10, c.getHeight() / 10, c.getWidth() * 8 / 10, c.getHeight() * 8 / 10, 5, 5);
+
 				System.out.println(c.getWidth()+ " " + c.getHeight());
 			}
 		}
-		
 	}
 	
 	public BoardPane(PlaneRoundJavaFx planeRound, boolean isComputer) {
