@@ -78,8 +78,12 @@ class BoardPane extends Pane
 							break;					
 						//plane but not plane head
 						default:
-							int grayCol = m_MinPlaneBodyColor + type * colorStep;
-							squareColor = Color.rgb(grayCol, grayCol, grayCol);
+							if ((type - 1) == m_SelectedPlane) {
+								squareColor = Color.BLUE;
+							} else {
+								int grayCol = m_MinPlaneBodyColor + type * colorStep;
+								squareColor = Color.rgb(grayCol, grayCol, grayCol);
+							}
 							break;						
 					}
 				}
@@ -136,5 +140,6 @@ class BoardPane extends Pane
 	private int m_MinPlaneBodyColor = 0;
 	private int m_MaxPlaneBodyColor = 200;	
 	private GameStages m_CurStage = GameStages.BoardEditing;
+	private int m_SelectedPlane = 0;
 	
 }	//BoardPane	
