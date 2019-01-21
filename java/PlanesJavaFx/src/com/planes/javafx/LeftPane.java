@@ -35,12 +35,21 @@ public LeftPane() {
 	Button downButton = new Button("Down");			
 	Button doneButton = new Button("Done");	
 	
-	selectButton.setOnAction(new EventHandler<ActionEvent>() {
+	m_ClickedHandler = new EventHandler<ActionEvent>() {
 	    @Override 
 	    public void handle(ActionEvent e) {
 	        m_RightPane.updateBoards();
-	    }
-	});
+	    }		
+	};
+	
+	selectButton.setOnAction(m_ClickedHandler);
+	rotateButton.setOnAction(m_ClickedHandler);			
+	upButton.setOnAction(m_ClickedHandler);	
+	leftButton.setOnAction(m_ClickedHandler);				
+	rightButton.setOnAction(m_ClickedHandler);	
+	downButton.setOnAction(m_ClickedHandler);			
+	doneButton.setOnAction(m_ClickedHandler);		
+	
 	
     // In order to see the GridPane extends with the LeftPane, remove it further
     gridPane.setGridLinesVisible(true);
@@ -74,4 +83,5 @@ public LeftPane() {
 	}
 
 	RightPane m_RightPane;
+	EventHandler<ActionEvent> m_ClickedHandler;
 }

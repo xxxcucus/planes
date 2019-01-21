@@ -87,6 +87,10 @@ class BoardPane extends Pane
 							break;						
 					}
 				}
+				
+				//antialiasing
+			    gc.setFill(Color.WHITE);
+			    gc.fillRect(0, 0, c.getWidth(), c.getHeight());
 					
 				//draw the background of the square
 				gc.setFill(squareColor);
