@@ -42,6 +42,31 @@ class BoardPane extends Pane
 		GameNotStarted, BoardEditing, Game
 	}
 	
+	public void selectPlane() {
+		int planeNo = m_PlaneRound.getPlaneNo();
+		m_SelectedPlane = (m_SelectedPlane + 1) % planeNo;
+	}
+	
+	public void movePlaneLeft() {
+		m_PlaneRound.movePlaneLeft(m_SelectedPlane);
+	}
+	
+	public void movePlaneRight() {
+		m_PlaneRound.movePlaneRight(m_SelectedPlane);
+	}
+	
+	public void movePlaneUpwards() {
+		m_PlaneRound.movePlaneUpwards(m_SelectedPlane);
+	}
+	
+	public void movePlaneDownwards() {
+		m_PlaneRound.movePlaneDownwards(m_SelectedPlane);
+	}
+	
+	public void rotatePlane() {
+		m_PlaneRound.rotatePlane(m_SelectedPlane);
+	}
+	
 	public void updateBoard() {
 		System.out.println("Update board");
         int gRows = m_PlaneRound.getRowNo();

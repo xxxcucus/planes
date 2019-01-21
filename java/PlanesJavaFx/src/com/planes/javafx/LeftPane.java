@@ -41,14 +41,55 @@ public LeftPane() {
 	        m_RightPane.updateBoards();
 	    }		
 	};
-	
-	selectButton.setOnAction(m_ClickedHandler);
-	rotateButton.setOnAction(m_ClickedHandler);			
-	upButton.setOnAction(m_ClickedHandler);	
-	leftButton.setOnAction(m_ClickedHandler);				
-	rightButton.setOnAction(m_ClickedHandler);	
-	downButton.setOnAction(m_ClickedHandler);			
-	doneButton.setOnAction(m_ClickedHandler);		
+	selectButton.setOnAction(new EventHandler<ActionEvent>() {
+	    @Override 
+	    public void handle(ActionEvent e) {
+	        m_RightPane.selectPlane();
+	        m_RightPane.updateBoards();	        
+	    }		
+	});
+	rotateButton.setOnAction(new EventHandler<ActionEvent>() {
+	    @Override 
+	    public void handle(ActionEvent e) {
+	        m_RightPane.rotatePlane();
+	        m_RightPane.updateBoards();	        
+	    }		
+	});		
+	upButton.setOnAction(new EventHandler<ActionEvent>() {
+	    @Override 
+	    public void handle(ActionEvent e) {
+	        m_RightPane.movePlaneUpwards();
+	        m_RightPane.updateBoards();	        
+	    }		
+	});
+	leftButton.setOnAction(new EventHandler<ActionEvent>() {
+	    @Override 
+	    public void handle(ActionEvent e) {
+	        m_RightPane.movePlaneLeft();
+	        m_RightPane.updateBoards();	        
+	    }		
+	});				
+	rightButton.setOnAction(new EventHandler<ActionEvent>() {
+	    @Override 
+	    public void handle(ActionEvent e) {
+	        m_RightPane.movePlaneRight();
+	        m_RightPane.updateBoards();	        
+	    }		
+	});
+	downButton.setOnAction(new EventHandler<ActionEvent>() {
+	    @Override 
+	    public void handle(ActionEvent e) {
+	        m_RightPane.movePlaneDownwards();
+	        m_RightPane.updateBoards();	        
+	    }		
+	});		
+	doneButton.setOnAction(new EventHandler<ActionEvent>() {
+	    @Override 
+	    public void handle(ActionEvent e) {
+	        m_RightPane.doneClicked();
+	        m_RightPane.updateBoards();	        
+	    }		
+	});	
 	
 	
     // In order to see the GridPane extends with the LeftPane, remove it further

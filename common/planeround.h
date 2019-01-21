@@ -40,12 +40,11 @@ public:
 
 	void playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr);
 
-	//TODO
-	/*void rotatePlane(int idx);
+	void rotatePlane(int idx);
 	void movePlaneLeft(int idx);
 	void movePlaneRight(int idx);
 	void movePlaneUpwards(int idx);
-	void movePlaneDownwards(int idx);*/
+	void movePlaneDownwards(int idx);
 
 	void doneEditing();
 

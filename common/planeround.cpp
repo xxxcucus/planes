@@ -102,34 +102,6 @@ void PlaneRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr)
 	pgr.m_GameStats = m_gameStats;
 }
 
-/*void PlaneRound::rotatePlane(int idx) {
-	if (m_State != GameStages::BoardEditing)
-		return;
-	m_PlayerGrid->rotatePlane(idx);
-}
-
-void PlaneRound::movePlaneLeft(int idx) {
-	if (m_State != GameStages::BoardEditing)
-		return;
-	m_PlayerGrid->movePlaneLeft(idx);
-}
-
-void PlaneRound::movePlaneRight(int idx) {
-	m_PlayerGrid->movePlaneRight(idx);
-}
-
-void PlaneRound::movePlaneUpwards(int idx) {
-	if (m_State != GameStages::BoardEditing)
-		return;
-	m_PlayerGrid->movePlaneUpwards(idx);
-}
-
-void PlaneRound::movePlaneDownwards(int idx) {
-	if (m_State != GameStages::BoardEditing)
-		return;
-	m_PlayerGrid->movePlaneDownwards(idx);
-}*/
-
 GuessPoint PlaneRound::guessComputerMove()
 {
 	PlanesCommonTools::Coordinate2D qp;
@@ -240,4 +212,24 @@ int PlaneRound::getPlaneSquareType(int row, int col, bool isComputer)
 	}
 
 	return 0;
+}
+
+void PlaneRound::rotatePlane(int idx) {
+	m_PlayerGrid->rotatePlane(idx);
+}
+
+void PlaneRound::movePlaneLeft(int idx) {
+	m_PlayerGrid->movePlaneLeft(idx);
+}
+
+void PlaneRound::movePlaneRight(int idx) {
+	m_PlayerGrid->movePlaneRight(idx);
+}
+
+void PlaneRound::movePlaneUpwards(int idx) {
+	m_PlayerGrid->movePlaneUpwards(idx);
+}
+
+void PlaneRound::movePlaneDownwards(int idx) {
+	m_PlayerGrid->movePlaneDownwards(idx);
 }

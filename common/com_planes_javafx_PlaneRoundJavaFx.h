@@ -47,6 +47,46 @@ JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getPlaneNo
 JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getPlaneSquareType
   (JNIEnv *, jobject, jint, jint, jboolean);
 
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    movePlaneLeft
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_movePlaneLeft
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    movePlaneRight
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_movePlaneRight
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    movePlaneUpwards
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_movePlaneUpwards
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    movePlaneDownwards
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_movePlaneDownwards
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    rotatePlane
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_rotatePlane
+  (JNIEnv *, jobject, jint);
+
 #ifdef __cplusplus
 }
 #endif

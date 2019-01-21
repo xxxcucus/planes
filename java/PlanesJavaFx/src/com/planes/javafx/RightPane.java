@@ -6,6 +6,34 @@ import javafx.scene.control.TabPane;
 class RightPane extends TabPane
 {
 	
+	public void selectPlane() {
+		m_PlayerBoard.selectPlane();
+	}
+	
+	public void rotatePlane() {
+		m_PlayerBoard.rotatePlane();
+	}	
+	
+	public void movePlaneLeft() {
+		m_PlayerBoard.movePlaneLeft();
+	}
+	
+	public void movePlaneRight() {
+		m_PlayerBoard.movePlaneRight();
+	}
+	
+	public void movePlaneDownwards() {
+		m_PlayerBoard.movePlaneDownwards();
+	}
+	
+	public void movePlaneUpwards() {
+		m_PlayerBoard.movePlaneUpwards();
+	}
+	
+	public void doneClicked() {
+		
+	}
+	
 	public void updateBoards() {
 		m_PlayerBoard.updateBoard();
 		m_ComputerBoard.updateBoard();
