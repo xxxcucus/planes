@@ -23,6 +23,14 @@ class RightPane extends TabPane
 	    m_ComputerBoard = new BoardPane(m_PlaneRound, true);
 	    tab2.setContent(m_ComputerBoard);		    
 	    this.getTabs().addAll(tab1, tab2);
+	    
+	    this.widthProperty().addListener((obs, oldVal, newVal) -> {
+	        updateBoards();
+	    });
+
+	    this.heightProperty().addListener((obs, oldVal, newVal) -> {
+	        updateBoards();
+	    });	    
 	}
 	
 	private BoardPane m_PlayerBoard;

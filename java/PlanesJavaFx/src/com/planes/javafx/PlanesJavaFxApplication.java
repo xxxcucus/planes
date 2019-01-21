@@ -46,6 +46,8 @@ public class PlanesJavaFxApplication extends Application {
 		
 		stage.setScene(new Scene(gridPane, 1200, 800));
 		stage.show();
+		
+		m_RightPane.updateBoards();
 	}
 	
 	private PlaneRoundJavaFx m_PlaneRound;
