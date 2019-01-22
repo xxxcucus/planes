@@ -7,6 +7,8 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_createPlanesRound
 (JNIEnv *, jobject)
 {
 	printf("Create plane round 1\n");
+	if (global_Round)
+		delete global_Round;
 	global_Round = new PlaneRound(10, 10, 3);
 	global_Round->initRound();
 	printf("Create plane round 2\n");
@@ -67,4 +69,10 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_rotatePlane
 (JNIEnv *, jobject, jint idx)
 {
 	global_Round->rotatePlane(int(idx));
+}
+
+JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_doneClicked
+(JNIEnv *, jobject)
+{
+	global_Round->doneEditing();
 }

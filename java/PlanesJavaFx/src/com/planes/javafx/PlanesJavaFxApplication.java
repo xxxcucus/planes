@@ -30,7 +30,7 @@ public class PlanesJavaFxApplication extends Application {
 		col2.setMinWidth(200);
 		gridPane.getColumnConstraints().addAll(col1, col2);
 		
-		m_LeftPane = new LeftPane();
+		m_LeftPane = new LeftPane(m_PlaneRound);
 		m_LeftPane.setStyle("-fx-border-color: red");
 		m_RightPane = new RightPane(m_PlaneRound);
 		m_RightPane.setStyle("-fx-border-color: blue");

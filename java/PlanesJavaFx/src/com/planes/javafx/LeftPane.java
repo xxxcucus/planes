@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.scene.control.Button;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -17,7 +18,40 @@ public void setRightPane(RightPane rp) {
 	m_RightPane = rp;
 }
 	
-public LeftPane() {
+public void doneClicked() {
+	activateGameTab();
+}
+
+public void activateGameTab() {
+    //setCurrentIndex(m_GameTabIndex);
+	SingleSelectionModel<Tab> selectionModel = this.getSelectionModel();	
+	selectionModel.select(m_GameTab);
+    m_EditorTab.setDisable(true);
+    m_GameTab.setDisable(false);
+    m_StartRoundTab.setDisable(true);
+}
+
+public void activateEditorTab() {
+    //setCurrentIndex(m_EditorTabIndex);
+	SingleSelectionModel<Tab> selectionModel = this.getSelectionModel();	
+	selectionModel.select(m_EditorTab);	
+    m_EditorTab.setDisable(false);
+    m_GameTab.setDisable(true);
+    m_StartRoundTab.setDisable(true);
+}
+
+public void activateStartGameTab() {
+    //setCurrentIndex(m_GameStartIndex);
+	SingleSelectionModel<Tab> selectionModel = this.getSelectionModel();	
+	selectionModel.select(m_StartRoundTab);		
+    m_EditorTab.setDisable(true);
+    m_GameTab.setDisable(true);
+    m_StartRoundTab.setDisable(false);
+}
+
+public LeftPane(PlaneRoundJavaFx planeRound) {
+	
+	m_PlaneRound = planeRound;
 	final GridPane gridPane = new GridPane();
 	
 	ColumnConstraints col1 = new ColumnConstraints();
@@ -88,7 +122,9 @@ public LeftPane() {
 	    @Override 
 	    public void handle(ActionEvent e) {
 	        m_RightPane.doneClicked();
-	        m_RightPane.updateBoards();	        
+	        m_RightPane.updateBoards();	
+	        m_PlaneRound.doneClicked();
+	        doneClicked();
 	    }		
 	});	
 	
@@ -118,10 +154,10 @@ public LeftPane() {
     //gridPane.prefWidth(300);
     //this.getChildren().add(gridPane);
     
-    Tab tab1 = new Tab();
-    tab1.setText("Board Editing");
-    tab1.setContent(gridPane);
-    this.getTabs().add(tab1);
+    m_EditorTab = new Tab();
+    m_EditorTab.setText("Board Editing");
+    m_EditorTab.setContent(gridPane);
+    this.getTabs().add(m_EditorTab);
 
     GameStatsPane gspPlayer = new GameStatsPane("Player");
     GameStatsPane gspComputer = new GameStatsPane("Computer");
@@ -130,22 +166,27 @@ public LeftPane() {
     vbox1.getChildren().add(gspPlayer);
     vbox1.getChildren().add(gspComputer);
     
-	Tab tab2 = new Tab();
-	tab2.setText("Game");
-	tab2.setContent(vbox1);
-    this.getTabs().add(tab2);
+	m_GameTab = new Tab();
+	m_GameTab.setText("Game");
+	m_GameTab.setContent(vbox1);
+    this.getTabs().add(m_GameTab);
     
     ScorePane scorePane = new ScorePane();
     
     VBox vbox2 = new VBox();
     vbox2.getChildren().add(scorePane);
     
-	Tab tab3 = new Tab();
-	tab3.setText("Start Round");
-	tab3.setContent(vbox2);
-    this.getTabs().add(tab3);    
+	m_StartRoundTab = new Tab();
+	m_StartRoundTab.setText("Start Round");
+	m_StartRoundTab.setContent(vbox2);
+    this.getTabs().add(m_StartRoundTab);    
 	}
 
 	RightPane m_RightPane;
 	EventHandler<ActionEvent> m_ClickedHandler;
+	PlaneRoundJavaFx m_PlaneRound;
+	
+    Tab m_EditorTab;
+    Tab m_GameTab;
+    Tab m_StartRoundTab;	
 }

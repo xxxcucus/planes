@@ -22,4 +22,6 @@ public class PlaneRoundJavaFx {
 	public native void movePlaneUpwards(int idx);
 	public native void movePlaneDownwards(int idx);
 	public native void rotatePlane(int idx);
+	
+	public native void doneClicked();
 }

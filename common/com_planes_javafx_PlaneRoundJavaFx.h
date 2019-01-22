@@ -87,6 +87,14 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_movePlaneDownward
 JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_rotatePlane
   (JNIEnv *, jobject, jint);
 
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    doneClicked
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_doneClicked
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif

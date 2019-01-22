@@ -1,6 +1,5 @@
 package com.planes.javafx;
 
-import javafx.beans.binding.Bindings;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
