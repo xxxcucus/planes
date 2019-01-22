@@ -8,6 +8,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 class LeftPane extends TabPane 
 {
@@ -122,12 +123,26 @@ public LeftPane() {
     tab1.setContent(gridPane);
     this.getTabs().add(tab1);
 
+    GameStatsPane gspPlayer = new GameStatsPane("Player");
+    GameStatsPane gspComputer = new GameStatsPane("Computer");
+    
+    VBox vbox1 = new VBox();
+    vbox1.getChildren().add(gspPlayer);
+    vbox1.getChildren().add(gspComputer);
+    
 	Tab tab2 = new Tab();
 	tab2.setText("Game");
+	tab2.setContent(vbox1);
     this.getTabs().add(tab2);
+    
+    ScorePane scorePane = new ScorePane();
+    
+    VBox vbox2 = new VBox();
+    vbox2.getChildren().add(scorePane);
     
 	Tab tab3 = new Tab();
 	tab3.setText("Start Round");
+	tab3.setContent(vbox2);
     this.getTabs().add(tab3);    
 	}
 
