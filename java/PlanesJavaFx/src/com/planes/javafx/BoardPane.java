@@ -3,8 +3,11 @@ package com.planes.javafx;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -35,6 +38,14 @@ class BoardPane extends Pane
 		@Override
 		public int hashCode() {
 			return 100 * x + y;
+		}
+		
+		public int x() {
+			return x;
+		}
+		
+		public int y() {
+			return y;
 		}
 	}
 	
@@ -144,6 +155,18 @@ class BoardPane extends Pane
         int gRows = m_PlaneRound.getRowNo();
         int gCols = m_PlaneRound.getColNo();
         
+    	m_ClickedHandler = new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(final MouseEvent e) {            
+                    Object obj = e.getSource();  
+                    if (obj instanceof Canvas)
+                    {
+                        PositionBoardPane position = (PositionBoardPane)(((Canvas) obj).getUserData());
+                    	System.out.println("Clicked on position " + position.x() + " " + position.y());
+                    }
+                }
+            };
+        
         m_GridSquares = new HashMap<PositionBoardPane, Canvas>();
         
 		for (int i = 0; i < gRows + 2 * m_Padding; i++) {
@@ -152,7 +175,10 @@ class BoardPane extends Pane
 			    c.widthProperty().bind(Bindings.min(this.widthProperty(), this.heightProperty()).divide(gCols + 2 * m_Padding));
 			    c.heightProperty().bind(Bindings.min(this.widthProperty(), this.heightProperty()).divide(gRows + 2 * m_Padding));
 				gridPane.add(c,  i,  j);
-				m_GridSquares.put(new PositionBoardPane(i, j), c);
+				PositionBoardPane position = new PositionBoardPane(i, j);
+				c.setUserData(position);
+				m_GridSquares.put(position, c);
+				c.setOnMouseClicked(m_ClickedHandler);
 			}
 		}
 	    
@@ -170,5 +196,6 @@ class BoardPane extends Pane
 	private int m_MaxPlaneBodyColor = 200;	
 	private GameStages m_CurStage = GameStages.BoardEditing;
 	private int m_SelectedPlane = 0;
+	private EventHandler<MouseEvent> m_ClickedHandler;
 	
 }	//BoardPane	

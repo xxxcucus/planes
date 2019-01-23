@@ -23,7 +23,6 @@ public void doneClicked() {
 }
 
 public void activateGameTab() {
-    //setCurrentIndex(m_GameTabIndex);
 	SingleSelectionModel<Tab> selectionModel = this.getSelectionModel();	
 	selectionModel.select(m_GameTab);
     m_EditorTab.setDisable(true);
@@ -32,7 +31,6 @@ public void activateGameTab() {
 }
 
 public void activateEditorTab() {
-    //setCurrentIndex(m_EditorTabIndex);
 	SingleSelectionModel<Tab> selectionModel = this.getSelectionModel();	
 	selectionModel.select(m_EditorTab);	
     m_EditorTab.setDisable(false);
@@ -41,7 +39,6 @@ public void activateEditorTab() {
 }
 
 public void activateStartGameTab() {
-    //setCurrentIndex(m_GameStartIndex);
 	SingleSelectionModel<Tab> selectionModel = this.getSelectionModel();	
 	selectionModel.select(m_StartRoundTab);		
     m_EditorTab.setDisable(true);
@@ -70,12 +67,6 @@ public LeftPane(PlaneRoundJavaFx planeRound) {
 	Button downButton = new Button("Down");			
 	Button doneButton = new Button("Done");	
 	
-	m_ClickedHandler = new EventHandler<ActionEvent>() {
-	    @Override 
-	    public void handle(ActionEvent e) {
-	        m_RightPane.updateBoards();
-	    }		
-	};
 	selectButton.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override 
 	    public void handle(ActionEvent e) {
@@ -183,7 +174,6 @@ public LeftPane(PlaneRoundJavaFx planeRound) {
 	}
 
 	RightPane m_RightPane;
-	EventHandler<ActionEvent> m_ClickedHandler;
 	PlaneRoundJavaFx m_PlaneRound;
 	
     Tab m_EditorTab;
