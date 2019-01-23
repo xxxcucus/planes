@@ -3,7 +3,6 @@ package com.planes.javafx;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -136,8 +135,62 @@ class BoardPane extends Pane
 				gc.setFill(squareColor);
 				gc.fillRect(c.getWidth() / 10, c.getHeight() / 10 , c.getWidth() * 8 / 10, c.getHeight() * 8 / 10);
 				gc.fillRoundRect(c.getWidth() / 10, c.getHeight() / 10, c.getWidth() * 8 / 10, c.getHeight() * 8 / 10, 5, 5);
+			}
+		} //display background of square; double for loop
+		
+		int count = 0;
+		
+		if (m_IsComputer)
+			count = m_PlaneRound.getComputerGuessesNo();
+		else
+			count = m_PlaneRound.getPlayerGuessesNo();
+		
+		for (int i = 0; i < count; i++) {
+			int row = 0;
+			int col = 0;
+			int type = 0;
+			Canvas c = null;
+			
+			if (m_IsComputer) {
+				row = m_PlaneRound.getPlayerGuessRow(i);
+				col = m_PlaneRound.getPlayerGuessCol(i);
+				type = m_PlaneRound.getPlayerGuessType(i);	
+			} else {
+				row = m_PlaneRound.getComputerGuessRow(i);
+				col = m_PlaneRound.getComputerGuessCol(i);
+				type = m_PlaneRound.getComputerGuessType(i);
+			}
 
-				System.out.println(c.getWidth()+ " " + c.getHeight());
+			c = m_GridSquares.get(new PositionBoardPane(row + m_Padding, col + m_Padding));	
+			GraphicsContext gc = c.getGraphicsContext2D();
+			int width = (int)c.getWidth();
+			int height = (int)c.getHeight();
+			gc.setFill(Color.RED);
+			gc.setStroke(Color.RED);
+			
+			//enum Type {Miss = 0, Hit = 1, Dead = 2};
+			switch (type) {
+				case 0:
+					//draw red circle
+					gc.fillOval(width / 4, width / 4, width / 2, height / 2);
+					break;
+				case 1:
+					//draw triangle
+					gc.beginPath();
+				    gc.moveTo(0, height / 2);
+				    gc.lineTo(width / 2, 0);
+				    gc.lineTo(width, height / 2);
+				    gc.lineTo(width / 2, height);
+				    gc.lineTo(0, height / 2);
+				    gc.fill();
+				    gc.closePath();
+				    gc.stroke();
+					break;
+				case 2:
+					//draw X
+				    gc.strokeLine(0, 0, width, width);
+				    gc.strokeLine(0, width, width, 0);						
+					break;
 			}
 		}
 	}
@@ -169,6 +222,8 @@ class BoardPane extends Pane
                     {
                         PositionBoardPane position = (PositionBoardPane)(((Canvas) obj).getUserData());
                     	System.out.println("Clicked on position " + position.x() + " " + position.y());
+                    	m_PlaneRound.playerGuess(position.y() - m_Padding, position.x() - m_Padding);
+                    	updateBoard();
                     }
                 }
             };
