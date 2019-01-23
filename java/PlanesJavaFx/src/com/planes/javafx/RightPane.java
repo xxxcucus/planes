@@ -1,5 +1,7 @@
 package com.planes.javafx;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -62,7 +64,18 @@ class RightPane extends TabPane
 
 	    this.heightProperty().addListener((obs, oldVal, newVal) -> {
 	        updateBoards();
-	    });	    
+	    });	   
+	    
+	    this.getSelectionModel().selectedItemProperty().addListener(
+	    	    new ChangeListener<Tab>() {
+	    	        @Override
+	    	        public void changed(ObservableValue<? extends Tab> ov, Tab oldValue, Tab newValue) {
+	    	            
+	    	        	if (newValue == m_PlayerTab)
+	    	        		updateBoards();
+	    	        }
+	    	    }
+	    	);
 	}
 	
 	private BoardPane m_PlayerBoard;
