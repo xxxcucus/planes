@@ -78,6 +78,10 @@ class BoardPane extends Pane
 		m_PlaneRound.rotatePlane(m_SelectedPlane);
 	}
 	
+	public void doneClicked() {
+		m_CurStage = GameStages.Game;
+	}
+	
 	public void updateBoard() {
 		System.out.println("Update board");
         int gRows = m_PlaneRound.getRowNo();
@@ -158,7 +162,9 @@ class BoardPane extends Pane
     	m_ClickedHandler = new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(final MouseEvent e) {            
-                    Object obj = e.getSource();  
+                    if (m_CurStage != GameStages.Game)
+                    	return;
+                	Object obj = e.getSource();  
                     if (obj instanceof Canvas)
                     {
                         PositionBoardPane position = (PositionBoardPane)(((Canvas) obj).getUserData());
@@ -176,9 +182,11 @@ class BoardPane extends Pane
 			    c.heightProperty().bind(Bindings.min(this.widthProperty(), this.heightProperty()).divide(gRows + 2 * m_Padding));
 				gridPane.add(c,  i,  j);
 				PositionBoardPane position = new PositionBoardPane(i, j);
-				c.setUserData(position);
 				m_GridSquares.put(position, c);
-				c.setOnMouseClicked(m_ClickedHandler);
+				if (m_IsComputer) {	
+					c.setUserData(position);
+					c.setOnMouseClicked(m_ClickedHandler);
+				}
 			}
 		}
 	    
