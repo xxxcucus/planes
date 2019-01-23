@@ -42,4 +42,14 @@ public class PlaneRoundJavaFx {
 	public native int playerGuess_StatNoComputerMisses();
 	public native int playerGuess_StatNoComputerDead();
 	public native int playerGuess_StatNoComputerWins();
+	
+	public native int getPlayerGuessesNo();
+	public native int getPlayerGuessRow(int idx);
+	public native int getPlayerGuessCol(int idx);
+	public native int getPlayerGuessType(int idx);
+	
+	public native int getComputerGuessesNo();
+	public native int getComputerGuessRow(int idx);
+	public native int getComputerGuessCol(int idx);
+	public native int getComputerGuessType(int idx);	
 }

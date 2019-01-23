@@ -239,6 +239,70 @@ JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1Stat
 JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoComputerWins
   (JNIEnv *, jobject);
 
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    getPlayerGuessesNo
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getPlayerGuessesNo
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    getPlayerGuessRow
+ * Signature: (I)I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getPlayerGuessRow
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    getPlayerGuessCol
+ * Signature: (I)I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getPlayerGuessCol
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    getPlayerGuessType
+ * Signature: (I)I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getPlayerGuessType
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    getComputerGuessesNo
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getComputerGuessesNo
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    getComputerGuessRow
+ * Signature: (I)I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getComputerGuessRow
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    getComputerGuessCol
+ * Signature: (I)I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getComputerGuessCol
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    getComputerGuessType
+ * Signature: (I)I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getComputerGuessType
+  (JNIEnv *, jobject, jint);
+
 #ifdef __cplusplus
 }
 #endif

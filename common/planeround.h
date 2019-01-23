@@ -72,6 +72,29 @@ public:
 
 	int getPlaneSquareType(int i, int j, bool isComputer);
 
+	int getPlayerGuessesNo() {
+		return int(m_playerGuessList.size());
+	}
+
+	int getComputerGuessesNo() {
+		return int(m_computerGuessList.size());
+	}
+
+	GuessPoint getPlayerGuess(int idx) {
+		if (idx < 0 || idx >= int(m_playerGuessList.size()))
+			return GuessPoint(-1, -1, GuessPoint::Miss);
+		else
+			return m_playerGuessList[idx];
+	}
+
+	GuessPoint getComputerGuess(int idx) {
+		if (idx < 0 || idx >= int(m_computerGuessList.size()))
+			return GuessPoint(-1, -1, GuessPoint::Miss);
+		else
+			return m_computerGuessList[idx];
+	}
+
+
 private:
 	//update game statistics
 	void updateGameStats(const GuessPoint& gp, bool isComputer);

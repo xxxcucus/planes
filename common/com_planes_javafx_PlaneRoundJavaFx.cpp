@@ -184,3 +184,54 @@ JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1Stat
 {
 	return global_Player_Guess_Reaction.m_GameStats.m_computerWins;
 }
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getPlayerGuessesNo
+(JNIEnv *, jobject)
+{
+	return global_Round->getPlayerGuessesNo();
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getPlayerGuessRow
+(JNIEnv *, jobject, jint idx)
+{
+	return global_Round->getPlayerGuess(idx).m_row;
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getPlayerGuessCol
+(JNIEnv *, jobject, jint idx)
+{
+	return global_Round->getPlayerGuess(idx).m_col;
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getPlayerGuessType
+(JNIEnv *, jobject, jint idx)
+{
+	return int(global_Round->getPlayerGuess(idx).m_type);
+}
+
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getComputerGuessesNo
+(JNIEnv *, jobject)
+{
+	return global_Round->getComputerGuessesNo();
+}
+
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getComputerGuessRow
+(JNIEnv *, jobject, jint idx)
+{
+	return global_Round->getComputerGuess(idx).m_row;
+}
+
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getComputerGuessCol
+(JNIEnv *, jobject, jint idx)
+{
+	return global_Round->getComputerGuess(idx).m_col;
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getComputerGuessType
+(JNIEnv *, jobject, jint idx)
+{
+	return int(global_Round->getComputerGuess(idx).m_type);
+}
