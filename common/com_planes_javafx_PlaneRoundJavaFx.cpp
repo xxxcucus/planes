@@ -2,16 +2,16 @@
 #include "planeround.h"
 
 PlaneRound* global_Round = nullptr;
+GuessPoint::Type global_Guess_Result = GuessPoint::Miss;
+PlayerGuessReaction global_Player_Guess_Reaction;
 
 JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_createPlanesRound
 (JNIEnv *, jobject)
 {
-	printf("Create plane round 1\n");
 	if (global_Round)
 		delete global_Round;
 	global_Round = new PlaneRound(10, 10, 3);
 	global_Round->initRound();
-	printf("Create plane round 2\n");
 }
 
 JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getRowNo
@@ -75,4 +75,112 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_doneClicked
 (JNIEnv *, jobject)
 {
 	global_Round->doneEditing();
+}
+
+JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess
+(JNIEnv *, jobject, jint row, jint col)
+{
+	global_Round->playerGuessIncomplete(int(row), int(col), global_Guess_Result, global_Player_Guess_Reaction);
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1Res
+(JNIEnv *, jobject)
+{
+	return int(global_Guess_Result);
+}
+
+JNIEXPORT jboolean JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1RoundEnds
+(JNIEnv *, jobject)
+{
+	return global_Player_Guess_Reaction.m_RoundEnds;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1IsPlayerWinner
+(JNIEnv *, jobject)
+{
+	return global_Player_Guess_Reaction.m_isPlayerWinner;
+}
+
+JNIEXPORT jboolean JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1ComputerMoveGenerated
+(JNIEnv *, jobject)
+{
+	return global_Player_Guess_Reaction.m_ComputerMoveGenerated;
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1ComputerMoveRow
+(JNIEnv *, jobject)
+{
+	return global_Player_Guess_Reaction.m_ComputerGuess.m_row;
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1ComputerMoveCol
+(JNIEnv *, jobject)
+{
+	return global_Player_Guess_Reaction.m_ComputerGuess.m_col;
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1ComputerMoveRes
+(JNIEnv *, jobject)
+{
+	return int(global_Player_Guess_Reaction.m_ComputerGuess.m_type);
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoPlayerMoves
+(JNIEnv *, jobject)
+{
+	return global_Player_Guess_Reaction.m_GameStats.m_playerMoves;
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoPlayerHits
+(JNIEnv *, jobject)
+{
+	return global_Player_Guess_Reaction.m_GameStats.m_playerHits;
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoPlayerMisses
+(JNIEnv *, jobject)
+{
+	return global_Player_Guess_Reaction.m_GameStats.m_playerMisses;
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoPlayerDead
+(JNIEnv *, jobject)
+{
+	return global_Player_Guess_Reaction.m_GameStats.m_playerDead;
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoPlayerWins
+(JNIEnv *, jobject)
+{
+	return global_Player_Guess_Reaction.m_GameStats.m_playerWins;
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoComputerMoves
+(JNIEnv *, jobject)
+{
+	return global_Player_Guess_Reaction.m_GameStats.m_computerMoves;
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoComputerHits
+(JNIEnv *, jobject)
+{
+	return global_Player_Guess_Reaction.m_GameStats.m_computerHits;
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoComputerMisses
+(JNIEnv *, jobject)
+{
+	return global_Player_Guess_Reaction.m_GameStats.m_computerMisses;
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoComputerDead
+(JNIEnv *, jobject)
+{
+	return global_Player_Guess_Reaction.m_GameStats.m_computerDead;
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoComputerWins
+(JNIEnv *, jobject)
+{
+	return global_Player_Guess_Reaction.m_GameStats.m_computerWins;
 }

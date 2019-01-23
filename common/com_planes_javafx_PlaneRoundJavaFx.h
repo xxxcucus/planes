@@ -95,6 +95,150 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_rotatePlane
 JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_doneClicked
   (JNIEnv *, jobject);
 
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess
+ * Signature: (II)V
+ */
+JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess
+  (JNIEnv *, jobject, jint, jint);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess_Res
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1Res
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess_RoundEnds
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1RoundEnds
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess_IsPlayerWinner
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1IsPlayerWinner
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess_ComputerMoveGenerated
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1ComputerMoveGenerated
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess_ComputerMoveRow
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1ComputerMoveRow
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess_ComputerMoveCol
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1ComputerMoveCol
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess_ComputerMoveRes
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1ComputerMoveRes
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess_StatNoPlayerMoves
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoPlayerMoves
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess_StatNoPlayerHits
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoPlayerHits
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess_StatNoPlayerMisses
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoPlayerMisses
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess_StatNoPlayerDead
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoPlayerDead
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess_StatNoPlayerWins
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoPlayerWins
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess_StatNoComputerMoves
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoComputerMoves
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess_StatNoComputerHits
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoComputerHits
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess_StatNoComputerMisses
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoComputerMisses
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess_StatNoComputerDead
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoComputerDead
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuess_StatNoComputerWins
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoComputerWins
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif

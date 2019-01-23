@@ -39,6 +39,12 @@ public:
 	}
 
 	void playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr);
+	/**
+		@param[in] row, col - coordinates of player's guess
+		@param[out] guessRes - the evaluation of the player's guess
+		@param[out] pgr - response to the player's guess: the computer's guess, if the game ended, winner, game statistics
+	*/
+	void playerGuessIncomplete(int row, int col, GuessPoint::Type& guessRes, PlayerGuessReaction& pgr);
 
 	void rotatePlane(int idx);
 	void movePlaneLeft(int idx);
