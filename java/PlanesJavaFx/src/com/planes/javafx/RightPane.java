@@ -45,16 +45,26 @@ class RightPane extends TabPane
 		m_ComputerBoard.updateBoard();
 	}
 	
+	public void updateStats(int playerWins, int playerMoves, int playerHits, int playerMisses, int playerDead, 
+			int computerWins, int computerMoves, int computerHits, int computerMisses, int computerDead) {
+		m_LeftPane.updateStats(playerWins, playerMoves, playerHits, playerMisses, playerDead, 
+    			computerWins, computerMoves, computerHits, computerMisses, computerDead);
+	}
+	
+	public void setLeftPane(LeftPane lp) {
+		m_LeftPane = lp;
+	}
+	
 	public RightPane(PlaneRoundJavaFx planeRound) {
 	    m_PlaneRound = planeRound;
 		
 		m_PlayerTab = new Tab();
 	    m_PlayerTab.setText("Player Board");
-	    m_PlayerBoard = new BoardPane(m_PlaneRound, false);
+	    m_PlayerBoard = new BoardPane(m_PlaneRound, this, false);
 	    m_PlayerTab.setContent(m_PlayerBoard);
 	    m_ComputerTab = new Tab();
 	    m_ComputerTab.setText("Computer Board");
-	    m_ComputerBoard = new BoardPane(m_PlaneRound, true);
+	    m_ComputerBoard = new BoardPane(m_PlaneRound, this, true);
 	    m_ComputerTab.setContent(m_ComputerBoard);		    
 	    this.getTabs().addAll(m_PlayerTab, m_ComputerTab);
 	    
@@ -83,4 +93,5 @@ class RightPane extends TabPane
 	private PlaneRoundJavaFx m_PlaneRound;
 	Tab m_PlayerTab;
 	Tab m_ComputerTab;
+	LeftPane m_LeftPane;
 }

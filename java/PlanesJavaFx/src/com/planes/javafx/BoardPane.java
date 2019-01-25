@@ -195,9 +195,10 @@ class BoardPane extends Pane
 		}
 	}
 	
-	public BoardPane(PlaneRoundJavaFx planeRound, boolean isComputer) {
+	public BoardPane(PlaneRoundJavaFx planeRound, RightPane rightPane, boolean isComputer) {
 		m_PlaneRound = planeRound;
 		m_IsComputer = isComputer;
+		m_RightPane = rightPane;
 		final GridPane gridPane = new GridPane();
 		
         // In order to see the GridPane extends with the LeftPane, remove it further
@@ -223,6 +224,18 @@ class BoardPane extends Pane
                         PositionBoardPane position = (PositionBoardPane)(((Canvas) obj).getUserData());
                     	System.out.println("Clicked on position " + position.x() + " " + position.y());
                     	m_PlaneRound.playerGuess(position.y() - m_Padding, position.x() - m_Padding);
+                    	int playerWins = m_PlaneRound.playerGuess_StatNoPlayerWins();
+                    	int playerMoves = m_PlaneRound.playerGuess_StatNoPlayerMoves();
+                    	int playerHits = m_PlaneRound.playerGuess_StatNoPlayerHits();
+                    	int playerMisses = m_PlaneRound.playerGuess_StatNoPlayerMisses();
+                    	int playerDead = m_PlaneRound.playerGuess_StatNoPlayerDead();
+                    	int computerWins = m_PlaneRound.playerGuess_StatNoComputerWins();
+                    	int computerMoves = m_PlaneRound.playerGuess_StatNoComputerMoves();
+                    	int computerHits = m_PlaneRound.playerGuess_StatNoComputerHits();
+                    	int computerMisses = m_PlaneRound.playerGuess_StatNoComputerMisses();
+                    	int computerDead = m_PlaneRound.playerGuess_StatNoComputerDead();
+                    	m_RightPane.updateStats(playerWins, playerMoves, playerHits, playerMisses, playerDead, 
+                    			computerWins, computerMoves, computerHits, computerMisses, computerDead);
                     	updateBoard();
                     }
                 }
@@ -253,6 +266,7 @@ class BoardPane extends Pane
 	
 	private Map<PositionBoardPane, Canvas> m_GridSquares;
 	private PlaneRoundJavaFx m_PlaneRound;
+	RightPane m_RightPane;
 	private int m_Padding = 3;
 	private boolean m_IsComputer = false;
 	private int m_MinPlaneBodyColor = 0;

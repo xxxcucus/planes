@@ -8,7 +8,14 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class GameStatsPane extends Pane {
-
+	
+	public void updateStats(int moves, int hits, int misses, int dead) {
+		m_NoMovesValue.setText(Integer.toString(moves));
+		m_NoMissesValue.setText(Integer.toString(misses));
+		m_NoHitsValue.setText(Integer.toString(hits));
+		m_NoGuessesValue.setText(Integer.toString(dead));
+	}
+	
 	public GameStatsPane(final String title ) {
 		GridPane gridPane = new GridPane();
 		

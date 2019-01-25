@@ -35,6 +35,7 @@ public class PlanesJavaFxApplication extends Application {
 		m_RightPane = new RightPane(m_PlaneRound);
 		m_RightPane.setStyle("-fx-border-color: blue");
 		m_LeftPane.setRightPane(m_RightPane);
+		m_RightPane.setLeftPane(m_LeftPane);
 		
 		gridPane.add(m_LeftPane, 0, 0);
 		gridPane.add(m_RightPane,  1,  0);
