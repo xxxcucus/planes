@@ -251,7 +251,7 @@ class BoardPane extends Pane
 				gridPane.add(c,  i,  j);
 				PositionBoardPane position = new PositionBoardPane(i, j);
 				m_GridSquares.put(position, c);
-				if (m_IsComputer) {	
+				if (m_IsComputer && i >= m_Padding && i < gRows + m_Padding && j >= m_Padding && j < gCols + m_Padding) {	
 					c.setUserData(position);
 					c.setOnMouseClicked(m_ClickedHandler);
 				}
