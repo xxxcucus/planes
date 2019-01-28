@@ -2,14 +2,22 @@ package com.planes.javafx;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 class BoardPane extends Pane 
 {
@@ -195,20 +203,48 @@ class BoardPane extends Pane
 		}
 	}
 	
+	
+	
+	public void announceRoundWinner(final String winnerText) {
+	        m_AnimatedText.setText(winnerText);
+	        m_AnimatedText.setFont(Font.font(36));
+	 
+
+	        // Define the Durations
+	        Duration startDuration = Duration.ZERO;
+	        Duration endDuration = Duration.seconds(3);
+
+	        // Create the start and end Key Frames
+
+	        KeyValue startKeyValue = new KeyValue(m_AnimatedText.layoutXProperty(), -100);
+	        KeyFrame startKeyFrame = new KeyFrame(startDuration, startKeyValue);
+	        KeyValue endKeyValue = new KeyValue(m_AnimatedText.layoutXProperty(), this.getWidth() / 2 - m_AnimatedText.getLayoutBounds().getWidth() / 2);
+	        KeyFrame endKeyFrame = new KeyFrame(endDuration, endKeyValue);
+
+	        // Create a Timeline
+
+	        Timeline timeline = new Timeline(startKeyFrame, endKeyFrame);      
+	        // Let the animation run forever
+	        timeline.setCycleCount(1);
+
+	        // Run the animation
+	        timeline.play();
+	}
+	
 	public BoardPane(PlaneRoundJavaFx planeRound, RightPane rightPane, boolean isComputer) {
 		m_PlaneRound = planeRound;
 		m_IsComputer = isComputer;
 		m_RightPane = rightPane;
-		final GridPane gridPane = new GridPane();
+		m_GridPane = new GridPane();
 		
         // In order to see the GridPane extends with the LeftPane, remove it further
-        gridPane.setGridLinesVisible(true);
+        m_GridPane.setGridLinesVisible(true);
         // Those 2 following lines enable the gridpane to stretch/shrink according the LeftPane
 
-        gridPane.prefWidthProperty().bind(Bindings.min(this.widthProperty(), this.heightProperty()));
-        gridPane.prefHeightProperty().bind(Bindings.min(this.widthProperty(), this.heightProperty()));
-        gridPane.layoutXProperty().bind(Bindings.divide(Bindings.subtract(this.widthProperty(), Bindings.min(this.widthProperty(), this.heightProperty())), 2.0));
-        gridPane.layoutYProperty().bind(Bindings.divide(Bindings.subtract(this.heightProperty(), Bindings.min(this.widthProperty(), this.heightProperty())), 2.0));
+        m_GridPane.prefWidthProperty().bind(Bindings.min(this.widthProperty(), this.heightProperty()));
+        m_GridPane.prefHeightProperty().bind(Bindings.min(this.widthProperty(), this.heightProperty()));
+        m_GridPane.layoutXProperty().bind(Bindings.divide(Bindings.subtract(this.widthProperty(), Bindings.min(this.widthProperty(), this.heightProperty())), 2.0));
+        m_GridPane.layoutYProperty().bind(Bindings.divide(Bindings.subtract(this.heightProperty(), Bindings.min(this.widthProperty(), this.heightProperty())), 2.0));
         
         int gRows = m_PlaneRound.getRowNo();
         int gCols = m_PlaneRound.getColNo();
@@ -223,7 +259,13 @@ class BoardPane extends Pane
                     {
                         PositionBoardPane position = (PositionBoardPane)(((Canvas) obj).getUserData());
                     	System.out.println("Clicked on position " + position.x() + " " + position.y());
+                    	
+                    	//communicate the guess to the game engine
+                    	//the game engine will evaluate the clicked position, generate a computer quess
+                    	//update statistics and check if the round has ended
                     	m_PlaneRound.playerGuess(position.y() - m_Padding, position.x() - m_Padding);
+                    	
+                    	//update the statistics 
                     	int playerWins = m_PlaneRound.playerGuess_StatNoPlayerWins();
                     	int playerMoves = m_PlaneRound.playerGuess_StatNoPlayerMoves();
                     	int playerHits = m_PlaneRound.playerGuess_StatNoPlayerHits();
@@ -236,6 +278,16 @@ class BoardPane extends Pane
                     	int computerDead = m_PlaneRound.playerGuess_StatNoComputerDead();
                     	m_RightPane.updateStats(playerWins, playerMoves, playerHits, playerMisses, playerDead, 
                     			computerWins, computerMoves, computerHits, computerMisses, computerDead);
+                    	
+                    	//check if the round ended 
+                    	if (m_PlaneRound.playerGuess_RoundEnds()) {
+                    		System.out.println("Round ends!");
+                    		String winnerText = m_PlaneRound.playerGuess_IsPlayerWinner() ? "Computer wins !" : "Player wins !";
+                    		announceRoundWinner(winnerText);
+                    	}
+                    	
+                    	
+                    	
                     	updateBoard();
                     }
                 }
@@ -248,7 +300,7 @@ class BoardPane extends Pane
 				Canvas c = new Canvas();
 			    c.widthProperty().bind(Bindings.min(this.widthProperty(), this.heightProperty()).divide(gCols + 2 * m_Padding));
 			    c.heightProperty().bind(Bindings.min(this.widthProperty(), this.heightProperty()).divide(gRows + 2 * m_Padding));
-				gridPane.add(c,  i,  j);
+				m_GridPane.add(c,  i,  j);
 				PositionBoardPane position = new PositionBoardPane(i, j);
 				m_GridSquares.put(position, c);
 				if (m_IsComputer && i >= m_Padding && i < gRows + m_Padding && j >= m_Padding && j < gCols + m_Padding) {	
@@ -260,8 +312,15 @@ class BoardPane extends Pane
 	    
 		//AnchorPane.setTopAnchor(gridPane, 10.0);
 		//AnchorPane.setLeftAnchor(gridPane, 10.0);
+		Group group = new Group();
+		m_AnimatedText = new Text();
+		m_AnimatedText.layoutYProperty().bind(Bindings.add(m_GridPane.layoutYProperty(), m_GridPane.prefHeightProperty().divide(2.0)));
+		m_AnimatedText.setLayoutX(-100);
+		group.getChildren().add(m_GridPane);
+		group.getChildren().add(m_AnimatedText);
 		
-		this.getChildren().add(gridPane);
+		
+		this.getChildren().add(group);
 	}
 	
 	private Map<PositionBoardPane, Canvas> m_GridSquares;
@@ -274,5 +333,7 @@ class BoardPane extends Pane
 	private GameStages m_CurStage = GameStages.BoardEditing;
 	private int m_SelectedPlane = 0;
 	private EventHandler<MouseEvent> m_ClickedHandler;
+	Text m_AnimatedText;
+	GridPane m_GridPane;
 	
 }	//BoardPane	
