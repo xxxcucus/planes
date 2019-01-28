@@ -9,6 +9,12 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class ScorePane extends Pane {
+	
+	void updateStats(int playerWins, int computerWins) {
+		m_ScorePlayerValue.setText(Integer.toString(playerWins));
+		m_ScoreComputerValue.setText(Integer.toString(computerWins));
+	}
+	
 	public ScorePane() {
 		GridPane gridPane = new GridPane();
 		

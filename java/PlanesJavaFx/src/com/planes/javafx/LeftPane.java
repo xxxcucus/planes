@@ -50,6 +50,7 @@ public void updateStats(int playerWins, int playerMoves, int playerHits, int pla
 		int computerWins, int computerMoves, int computerHits, int computerMisses, int computerDead) {
 	m_GspPlayer.updateStats(playerMoves, playerHits, playerMisses, playerDead);
 	m_GspComputer.updateStats(computerMoves, computerHits, computerMisses, computerDead);
+	m_ScorePane.updateStats(playerWins, computerWins);
 }
 
 public LeftPane(PlaneRoundJavaFx planeRound) {
@@ -168,10 +169,10 @@ public LeftPane(PlaneRoundJavaFx planeRound) {
 	m_GameTab.setContent(vbox1);
     this.getTabs().add(m_GameTab);
     
-    ScorePane scorePane = new ScorePane();
+    m_ScorePane = new ScorePane();
     
     VBox vbox2 = new VBox();
-    vbox2.getChildren().add(scorePane);
+    vbox2.getChildren().add(m_ScorePane);
     
 	m_StartRoundTab = new Tab();
 	m_StartRoundTab.setText("Start Round");
@@ -184,6 +185,7 @@ public LeftPane(PlaneRoundJavaFx planeRound) {
 	
 	GameStatsPane m_GspPlayer;
 	GameStatsPane m_GspComputer;
+	ScorePane m_ScorePane;
 	
     Tab m_EditorTab;
     Tab m_GameTab;
