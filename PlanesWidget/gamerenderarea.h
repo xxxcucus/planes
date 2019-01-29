@@ -6,7 +6,6 @@
 #include "baserenderarea.h"
 #include "planegrid.h"
 
-
 //this is the grid that is used to add planes and to play the game
 //it supports multiple modes and multiple operations
 class GameRenderArea: public BaseRenderArea
@@ -78,7 +77,6 @@ protected:
     void mousePressEvent(QMouseEvent *event);
 
 private:
-
     //fills a rect in the grid
     void fillGridRect(int row, int col, QString color, QPainter *painter);
 

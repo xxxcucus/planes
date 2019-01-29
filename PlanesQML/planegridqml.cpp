@@ -78,7 +78,6 @@ QVariant PlaneGridQML::data(const QModelIndex &index, int role) const {
     int idxR = row - m_Padding;
     int idxC = col - m_Padding;
 
-
     bool isOnPlane = m_PlaneGrid->isPointOnPlane(idxR, idxC, idxInPlanePointList);
     bool isPlaneHead = false;
 
