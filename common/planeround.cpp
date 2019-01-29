@@ -130,7 +130,6 @@ GuessPoint PlaneRound::guessComputerMove()
 	return gp;
 }
 
-
 bool PlaneRound::roundEnds(bool& isPlayerWinner)
 {
 	//at equal scores computer wins

@@ -57,6 +57,27 @@ public void roundEnds() {
 	activateStartGameTab();
 }
 
+public void startNewRound() {
+	m_PlaneRound.initRound();
+	activateEditorTab();
+	
+	//update the statistics 
+	int playerWins = m_PlaneRound.playerGuess_StatNoPlayerWins();
+	int playerMoves = m_PlaneRound.playerGuess_StatNoPlayerMoves();
+	int playerHits = m_PlaneRound.playerGuess_StatNoPlayerHits();
+	int playerMisses = m_PlaneRound.playerGuess_StatNoPlayerMisses();
+	int playerDead = m_PlaneRound.playerGuess_StatNoPlayerDead();
+	int computerWins = m_PlaneRound.playerGuess_StatNoComputerWins();
+	int computerMoves = m_PlaneRound.playerGuess_StatNoComputerMoves();
+	int computerHits = m_PlaneRound.playerGuess_StatNoComputerHits();
+	int computerMisses = m_PlaneRound.playerGuess_StatNoComputerMisses();
+	int computerDead = m_PlaneRound.playerGuess_StatNoComputerDead();
+	updateStats(playerWins, playerMoves, playerHits, playerMisses, playerDead, 
+			computerWins, computerMoves, computerHits, computerMisses, computerDead);
+	
+	m_RightPane.startNewRound();
+}
+
 public LeftPane(PlaneRoundJavaFx planeRound) {
 	
 	m_PlaneRound = planeRound;
@@ -173,7 +194,7 @@ public LeftPane(PlaneRoundJavaFx planeRound) {
 	m_GameTab.setContent(vbox1);
     this.getTabs().add(m_GameTab);
     
-    m_ScorePane = new ScorePane();
+    m_ScorePane = new ScorePane(this);
     
     VBox vbox2 = new VBox();
     vbox2.getChildren().add(m_ScorePane);

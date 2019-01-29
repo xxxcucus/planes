@@ -242,3 +242,8 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_roundEnds
 {
 	global_Round->roundEnds();
 }
+
+JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_initRound
+(JNIEnv *, jobject) {
+	global_Round->initRound();
+}

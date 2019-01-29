@@ -1,6 +1,8 @@
 package com.planes.javafx;
 
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -15,7 +17,8 @@ public class ScorePane extends Pane {
 		m_ScoreComputerValue.setText(Integer.toString(computerWins));
 	}
 	
-	public ScorePane() {
+	public ScorePane(LeftPane leftPane) {
+		m_LeftPane = leftPane;
 		GridPane gridPane = new GridPane();
 		
 		ColumnConstraints col1 = new ColumnConstraints();
@@ -33,7 +36,14 @@ public class ScorePane extends Pane {
 		m_ScorePlayerValue = new Text("0");
 		m_ScoreComputerValue = new Text("0");
 		
+    	m_StartRoundHandler = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(final MouseEvent e) { 
+            	m_LeftPane.startNewRound();
+            }
+        };
 		Button startNewRoundButton = new Button("Start New Round");
+		startNewRoundButton.setOnMouseClicked(m_StartRoundHandler);
 		
 		gridPane.add(titleText,  0, 0);
 		gridPane.add(scoreComputerText, 0, 1);
@@ -46,8 +56,12 @@ public class ScorePane extends Pane {
         gridPane.prefHeightProperty().bind(this.heightProperty());
 		
 		this.getChildren().add(gridPane);
+		
+
 	}
 	
 	private Text m_ScorePlayerValue;
 	private Text m_ScoreComputerValue;
+	private LeftPane m_LeftPane;
+	private EventHandler<MouseEvent> m_StartRoundHandler;
 }

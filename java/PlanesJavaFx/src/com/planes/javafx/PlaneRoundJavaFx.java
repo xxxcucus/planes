@@ -46,6 +46,7 @@ public class PlaneRoundJavaFx {
 	public native int playerGuess_StatNoComputerWins();
 	
 	public native void roundEnds();
+	public native void initRound();
 	
 	//show the guesses
 	public native int getPlayerGuessesNo();

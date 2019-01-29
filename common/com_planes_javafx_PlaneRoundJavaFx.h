@@ -249,6 +249,14 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_roundEnds
 
 /*
  * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    initRound
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_initRound
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
  * Method:    getPlayerGuessesNo
  * Signature: ()I
  */

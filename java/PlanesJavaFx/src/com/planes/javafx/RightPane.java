@@ -46,6 +46,14 @@ class RightPane extends TabPane
 		m_ComputerBoard.doneClicked();
 	}
 	
+	public void startNewRound() {
+		updateBoards();
+		SingleSelectionModel<Tab> selectionModel = this.getSelectionModel();	
+		selectionModel.select(m_PlayerTab);		
+		m_ComputerBoard.startNewRound();
+		m_PlayerBoard.startNewRound();
+	}
+	
 	public void updateBoards() {
 		m_PlayerBoard.updateBoard();
 		m_ComputerBoard.updateBoard();

@@ -89,6 +89,10 @@ class BoardPane extends Pane
 		m_CurStage = GameStages.Game;
 	}
 	
+	public void startNewRound() {
+		m_AnimatedText.setLayoutX(-100 - m_AnimatedText.getLayoutBounds().getWidth());
+	}
+	
 	public void updateBoard() {
 		System.out.println("Update board");
         int gRows = m_PlaneRound.getRowNo();
