@@ -105,7 +105,7 @@ void PlaneRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr)
 void PlaneRound::playerGuessIncomplete(int row, int col, GuessPoint::Type& guessRes, PlayerGuessReaction& pgr)
 {
 	PlanesCommonTools::Coordinate2D qp(col, row);
-	guessRes = m_PlayerGrid->getGuessResult(qp);
+	guessRes = m_ComputerGrid->getGuessResult(qp);
 	GuessPoint gp(qp.x(), qp.y(), guessRes);
 
 	playerGuess(gp, pgr);

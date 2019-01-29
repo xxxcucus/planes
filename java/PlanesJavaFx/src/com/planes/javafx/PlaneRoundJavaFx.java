@@ -15,7 +15,7 @@ public class PlaneRoundJavaFx {
 	public native int getRowNo();
 	public native int getColNo();
 	public native int getPlaneNo();
-	public native int getPlaneSquareType(int i, int j, boolean isComputer);
+	public native int getPlaneSquareType(int i, int j, int isComputer);
 	
 	//edit the board
 	public native void movePlaneLeft(int idx);

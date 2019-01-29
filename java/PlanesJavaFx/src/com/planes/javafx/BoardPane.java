@@ -110,7 +110,7 @@ class BoardPane extends Pane
 				}
 				
 				if (!m_IsComputer || (m_IsComputer && m_CurStage == GameStages.GameNotStarted)) {
-					int type = m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, m_IsComputer);
+					int type = m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, m_IsComputer ? 1 : 0);
 					switch (type) {					
 						//intersecting planes
 						case -1:
