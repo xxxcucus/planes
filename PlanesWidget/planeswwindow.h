@@ -14,7 +14,7 @@ class PlanesWWindow : public QMainWindow
     //The view object
     PlanesWView* mPlanesView;
     //The controller object
-    PlaneRound *mRound;
+    PlaneRound* mRound;
 
 public:
     explicit PlanesWWindow(QWidget *parent = 0);
