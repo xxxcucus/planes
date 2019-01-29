@@ -90,7 +90,8 @@ class BoardPane extends Pane
 	}
 	
 	public void startNewRound() {
-		m_AnimatedText.setLayoutX(-100 - m_AnimatedText.getLayoutBounds().getWidth());
+		//m_AnimatedText.setLayoutX(-100 - m_AnimatedText.getLayoutBounds().getWidth());
+		m_AnimatedText.setVisible(false);
 	}
 	
 	public void updateBoard() {
@@ -212,7 +213,9 @@ class BoardPane extends Pane
 	}
 	
 	public void announceRoundWinner(final String winnerText) {
-        m_AnimatedText.setText(winnerText);
+        m_AnimatedText.setLayoutX(-100);
+        m_AnimatedText.setVisible(true);
+		m_AnimatedText.setText(winnerText);
         m_AnimatedText.setFont(Font.font(36));
  
 

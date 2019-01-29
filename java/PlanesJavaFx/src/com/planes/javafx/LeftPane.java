@@ -203,6 +203,8 @@ public LeftPane(PlaneRoundJavaFx planeRound) {
 	m_StartRoundTab.setText("Start Round");
 	m_StartRoundTab.setContent(vbox2);
     this.getTabs().add(m_StartRoundTab);    
+    
+    activateEditorTab();
 	}
 
 	RightPane m_RightPane;
