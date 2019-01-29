@@ -53,6 +53,10 @@ public void updateStats(int playerWins, int playerMoves, int playerHits, int pla
 	m_ScorePane.updateStats(playerWins, computerWins);
 }
 
+public void roundEnds() {
+	activateStartGameTab();
+}
+
 public LeftPane(PlaneRoundJavaFx planeRound) {
 	
 	m_PlaneRound = planeRound;

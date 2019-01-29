@@ -241,6 +241,14 @@ JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1Stat
 
 /*
  * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    roundEnds
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_roundEnds
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
  * Method:    getPlayerGuessesNo
  * Signature: ()I
  */

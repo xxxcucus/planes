@@ -8,7 +8,6 @@ import javafx.scene.control.TabPane;
 
 class RightPane extends TabPane
 {
-	
 	public void selectPlane() {
 		m_PlayerBoard.selectPlane();
 	}
@@ -32,6 +31,13 @@ class RightPane extends TabPane
 	public void movePlaneUpwards() {
 		m_PlayerBoard.movePlaneUpwards();
 	}
+	
+	public void roundEnds() {
+		m_PlayerBoard.roundEnds();
+		m_ComputerBoard.roundEnds();
+		m_LeftPane.roundEnds();
+	}
+	
 	
 	public void doneClicked() {
 		SingleSelectionModel<Tab> selectionModel = this.getSelectionModel();	

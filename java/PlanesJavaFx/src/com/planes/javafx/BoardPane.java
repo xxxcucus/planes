@@ -203,32 +203,34 @@ class BoardPane extends Pane
 		}
 	}
 	
-	
+	public void roundEnds() {
+		m_CurStage = GameStages.GameNotStarted;
+	}
 	
 	public void announceRoundWinner(final String winnerText) {
-	        m_AnimatedText.setText(winnerText);
-	        m_AnimatedText.setFont(Font.font(36));
-	 
+        m_AnimatedText.setText(winnerText);
+        m_AnimatedText.setFont(Font.font(36));
+ 
 
-	        // Define the Durations
-	        Duration startDuration = Duration.ZERO;
-	        Duration endDuration = Duration.seconds(3);
+        // Define the Durations
+        Duration startDuration = Duration.ZERO;
+        Duration endDuration = Duration.seconds(3);
 
-	        // Create the start and end Key Frames
+        // Create the start and end Key Frames
 
-	        KeyValue startKeyValue = new KeyValue(m_AnimatedText.layoutXProperty(), -100);
-	        KeyFrame startKeyFrame = new KeyFrame(startDuration, startKeyValue);
-	        KeyValue endKeyValue = new KeyValue(m_AnimatedText.layoutXProperty(), this.getWidth() / 2 - m_AnimatedText.getLayoutBounds().getWidth() / 2);
-	        KeyFrame endKeyFrame = new KeyFrame(endDuration, endKeyValue);
+        KeyValue startKeyValue = new KeyValue(m_AnimatedText.layoutXProperty(), -100);
+        KeyFrame startKeyFrame = new KeyFrame(startDuration, startKeyValue);
+        KeyValue endKeyValue = new KeyValue(m_AnimatedText.layoutXProperty(), this.getWidth() / 2 - m_AnimatedText.getLayoutBounds().getWidth() / 2);
+        KeyFrame endKeyFrame = new KeyFrame(endDuration, endKeyValue);
 
-	        // Create a Timeline
+        // Create a Timeline
 
-	        Timeline timeline = new Timeline(startKeyFrame, endKeyFrame);      
-	        // Let the animation run forever
-	        timeline.setCycleCount(1);
+        Timeline timeline = new Timeline(startKeyFrame, endKeyFrame);      
+        // Let the animation run forever
+        timeline.setCycleCount(1);
 
-	        // Run the animation
-	        timeline.play();
+        // Run the animation
+        timeline.play();
 	}
 	
 	public BoardPane(PlaneRoundJavaFx planeRound, RightPane rightPane, boolean isComputer) {
@@ -284,9 +286,9 @@ class BoardPane extends Pane
                     		System.out.println("Round ends!");
                     		String winnerText = m_PlaneRound.playerGuess_IsPlayerWinner() ? "Computer wins !" : "Player wins !";
                     		announceRoundWinner(winnerText);
+                    		m_RightPane.roundEnds();
+                    		m_PlaneRound.roundEnds();
                     	}
-                    	
-                    	
                     	
                     	updateBoard();
                     }

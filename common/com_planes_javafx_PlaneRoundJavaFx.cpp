@@ -235,3 +235,9 @@ JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getComputerGuessT
 {
 	return int(global_Round->getComputerGuess(idx).m_type);
 }
+
+JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_roundEnds
+(JNIEnv *, jobject)
+{
+	global_Round->roundEnds();
+}

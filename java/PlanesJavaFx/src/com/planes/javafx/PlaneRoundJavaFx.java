@@ -11,19 +11,21 @@ public class PlaneRoundJavaFx {
 	// Declare an instance native method sayHello() which receives no parameter and returns void
 	public native void createPlanesRound(); 
 	
+	//show the planes
 	public native int getRowNo();
 	public native int getColNo();
 	public native int getPlaneNo();
-	
 	public native int getPlaneSquareType(int i, int j, boolean isComputer);
 	
+	//edit the board
 	public native void movePlaneLeft(int idx);
 	public native void movePlaneRight(int idx);
 	public native void movePlaneUpwards(int idx);
 	public native void movePlaneDownwards(int idx);
 	public native void rotatePlane(int idx);
-	
 	public native void doneClicked();
+	
+	//play the game
 	public native void playerGuess(int row, int col);
 	public native int playerGuess_Res();  //TODO: to remove
 	public native boolean playerGuess_RoundEnds();
@@ -43,6 +45,9 @@ public class PlaneRoundJavaFx {
 	public native int playerGuess_StatNoComputerDead();
 	public native int playerGuess_StatNoComputerWins();
 	
+	public native void roundEnds();
+	
+	//show the guesses
 	public native int getPlayerGuessesNo();
 	public native int getPlayerGuessRow(int idx);
 	public native int getPlayerGuessCol(int idx);
