@@ -28,7 +28,7 @@ public class GameStatsPane extends Pane {
 		Text noMovesText = new Text("Number of moves");
 		Text noMissesText = new Text("Number of misses");
 		Text noHitsText = new Text("Number of hits");
-		Text noGuessesText = new Text("Number of planes guessed");
+		Text noGuessesText = new Text("Planes guessed");
 		Text titleText = new Text(title);
 		Font titleFont = titleText.getFont();
 		titleText.setFont(Font.font(titleFont.getName(), FontWeight.BOLD, titleFont.getSize()));

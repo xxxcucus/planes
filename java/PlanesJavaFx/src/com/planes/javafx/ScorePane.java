@@ -56,8 +56,6 @@ public class ScorePane extends Pane {
         gridPane.prefHeightProperty().bind(this.heightProperty());
 		
 		this.getChildren().add(gridPane);
-		
-
 	}
 	
 	private Text m_ScorePlayerValue;

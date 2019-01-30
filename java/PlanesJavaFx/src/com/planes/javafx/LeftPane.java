@@ -3,6 +3,7 @@ package com.planes.javafx;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
@@ -82,6 +83,8 @@ public LeftPane(PlaneRoundJavaFx planeRound) {
 	
 	m_PlaneRound = planeRound;
 	final GridPane gridPane = new GridPane();
+	gridPane.setPadding(new Insets(10, 10, 10, 10));
+	gridPane.setVgap(10);
 	
 	ColumnConstraints col1 = new ColumnConstraints();
 	col1.setPercentWidth(33);
@@ -153,7 +156,7 @@ public LeftPane(PlaneRoundJavaFx planeRound) {
 	
 	
     // In order to see the GridPane extends with the LeftPane, remove it further
-    gridPane.setGridLinesVisible(true);
+    gridPane.setGridLinesVisible(false);
     // Those 2 following lines enable the gridpane to stretch/shrink according the LeftPane
     gridPane.prefWidthProperty().bind(this.widthProperty());
     gridPane.prefHeightProperty().bind(this.heightProperty());
@@ -186,6 +189,8 @@ public LeftPane(PlaneRoundJavaFx planeRound) {
     m_GspComputer = new GameStatsPane("Computer");
     
     VBox vbox1 = new VBox();
+    vbox1.setPadding(new Insets(10, 10, 10, 10));
+    vbox1.setSpacing(10);
     vbox1.getChildren().add(m_GspPlayer);
     vbox1.getChildren().add(m_GspComputer);
     
@@ -197,6 +202,8 @@ public LeftPane(PlaneRoundJavaFx planeRound) {
     m_ScorePane = new ScorePane(this);
     
     VBox vbox2 = new VBox();
+    vbox2.setPadding(new Insets(10, 10, 10, 10));
+    vbox2.setSpacing(10);    
     vbox2.getChildren().add(m_ScorePane);
     
 	m_StartRoundTab = new Tab();
