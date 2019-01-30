@@ -12,4 +12,6 @@
 12. PlanesQML: Editing of the board - interactive help
 13. Build 64 bit Binaries for windows.
 14. Implement PlanesJavaFx - ok 30.01.19
-15. Implement PlanesAndroid 
+15. Update Book with the changes implemented in javafx_1 branch
+16. Add GUI chapters to Book with UML diagrams.
+17. Implement PlanesAndroid
