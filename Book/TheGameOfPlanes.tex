@@ -52,6 +52,13 @@ We need an object that describes a plane which should at least contain informati
 
 \section{Introduction}
 
-We have currently created 4 Graphical User Interfaces (GUIs) three based on C++ and the Qt Framework and one based on Java with the JavaFx library. From the 3 C++ GUIs PlanesWidget uses simple Widget technology of Qt, PlanesGraphicsScene uses the QGraphicsScene/QGraphicsView functionality of Qt, and PlanesQML uses the QML engine of Qt. 
+We have currently created 4 Graphical User Interfaces (GUIs) three based on C++ and the Qt Framework and one based on Java with the JavaFx library. From the 3 C++ GUIs PlanesWidget uses simple Widget technology of Qt, PlanesGraphicsScene uses the QGraphicsScene/QGraphicsView functionality of Qt, and PlanesQML uses the QML engine of Qt. The chronological order of developing the GUIs was: PlanesWidget, PlanesGraphicsScene, PlanesQML, PlanesJavaFx. As we moved from GUI to GUI we made the separation between the GUI and the GameEngine deeper and deeper. We will comment on these aspects as we present each of the GUI. All of these graphical interfaces are targeted to desktop applications.
+
+Each GUI consist mainly of two parts: a left pane (in most projects denoted as LeftPane) containing the controls for positioning planes in the board editing phase of the game, the moves statistics during a round, the global score and a button allowing to start a new round at the end of a round, and a right pane which contains the player's and computer's game boards as well as a help file. In PlanesWidget this structure is not completely respected and we will comment on that as we will present each of the GUI concepts.
+
+\include{PlanesJavaFx}
+\include{PlanesQML}
+\include{PlanesGraphicsScene}
+\include{PlanesWidget}
 
 \end{document}
