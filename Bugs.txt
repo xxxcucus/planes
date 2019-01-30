@@ -11,3 +11,5 @@
 11. PlanesQML: Scrollable help file - ok 30.11.18
 12. PlanesQML: Editing of the board - interactive help
 13. Build 64 bit Binaries for windows.
+14. Implement PlanesJavaFx - ok 30.01.19
+15. Implement PlanesAndroid 
