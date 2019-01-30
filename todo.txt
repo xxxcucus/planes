@@ -15,3 +15,5 @@
 15. Update Book with the changes implemented in javafx_1 branch
 16. Add GUI chapters to Book with UML diagrams.
 17. Implement PlanesAndroid
+18. Deploy PlanesJavaFx.
+19. Use gradle or maven for PlanesJavaFx.
