@@ -2,6 +2,8 @@
 
 The game of Planes consists of a series of rounds played by the player against the computer. The player wins when it wins more rounds as the computer. This section describes the game controller that coordinates a single round. 
 
+In an initial version of the software the PlaneRound class made use of the signal and slots mechanism of Qt in order to communicate with the graphical user interface. But, in order to simplify the interaction between a graphical user interface written in Java and the PlaneRound, signal and slots were eliminated from PlaneRound and in fact from the whole game engine (from PlaneGrid). Actually all the dependencies between the game engine and the Qt libraries were eliminated for the above mentioned reason.
+
 \subsection {Class Definition and Important Functions}
 
 The game controller is implemented in the class PlaneRound. Its member variable are as follows:
