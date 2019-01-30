@@ -5,7 +5,7 @@
 #include <QPushButton>
 #include "gamestatsframe.h"
 #include "scoreframe.h"
-#include "planeround.h"
+#include "gamestatistics.h"
 
 class LeftPane : public QTabWidget
 {
@@ -26,10 +26,8 @@ signals:
     void downPlaneClicked(bool);
     void leftPlaneClicked(bool);
     void rightPlaneClicked(bool);
-    void doneClicked(bool);
+    void doneClicked();
     void startNewGame();
-
-
 
 public slots:
     /**
@@ -59,7 +57,6 @@ public slots:
      */
 
     void endRound(bool isPlayerWinner);
-
 
 private:
     GameStatsFrame* m_PlayerStatsFrame;

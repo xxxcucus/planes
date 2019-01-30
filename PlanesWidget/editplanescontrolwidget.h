@@ -54,7 +54,6 @@ signals:
 
 private:
 	bool m_DoneButtonActiveBackup = false;
-
 };
 
 #endif // EDITPLANESCONTROLWIDGET_H

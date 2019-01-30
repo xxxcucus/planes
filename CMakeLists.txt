@@ -5,10 +5,20 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 
 find_package(Qt5 COMPONENTS Core Widgets Quick)
 
 option(With_Asan "Compile with Address Sanitizer support" OFF)
+option(With_Java "Compile libCommon for use with Java Native Interface" OFF)
+
+#generate jni header
+if (With_Java)
+    string(REPLACE "\/" "\\" CUR_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+    set(javac_command "jni.bat ")
+    execute_process(COMMAND "${javac_command}"
+					WORKING_DIRECTORY "${CUR_DIR}")
+endif (With_Java)
 
 if (UNIX)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 ")

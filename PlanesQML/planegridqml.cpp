@@ -4,8 +4,9 @@
 
 PlaneGridQML::PlaneGridQML(PlaneGameQML* planeGame, PlaneGrid* planeGrid): m_PlaneGrid(planeGrid), m_PlaneGame(planeGame) {
     //connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SIGNAL(planesPointsChanged()));
-    connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SLOT(verifyPlanePositionValid()));
-    if (m_PlaneGrid->isComputer()) {
+    //connect(m_PlaneGrid, SIGNAL(planesPointsChanged()), this, SLOT(verifyPlanePositionValid()));
+	connect(m_PlaneGame, SIGNAL(resetGrid()), this, SLOT(verifyPlanePositionValid()));
+	if (m_PlaneGrid->isComputer()) {
         connect(this, SIGNAL(guessMade(const GuessPoint&)), m_PlaneGame, SIGNAL(guessMade(const GuessPoint&)));
         m_SelectedPlane = -1;
     }
@@ -77,7 +78,6 @@ QVariant PlaneGridQML::data(const QModelIndex &index, int role) const {
     int idxR = row - m_Padding;
     int idxC = col - m_Padding;
 
-
     bool isOnPlane = m_PlaneGrid->isPointOnPlane(idxR, idxC, idxInPlanePointList);
     bool isPlaneHead = false;
 
@@ -134,10 +134,6 @@ void PlaneGridQML::verifyPlanePositionValid() {
 
 void PlaneGridQML::computerBoardClick(int index) {
     //qDebug() << index;
-
-    ///@todo:
-    /// calculate row and col
-    /// add m_GuessList as member variable to planegridqml
 
     if (m_CurStage != GameStages::Game)
         return;
@@ -197,7 +193,7 @@ void PlaneGridQML::doneEditing() {
     //emit planesPointsChanged();
 }
 
-bool PlaneGridQML::wasGuessMade(int row, int col, GuessPoint::Type &guessRes) const {
+bool PlaneGridQML::wasGuessMade(int row, int col, GuessPoint::Type& guessRes) const {
     auto p = std::make_pair(row, col);
     auto it = m_GuessMap.find(p);
     if (it != m_GuessMap.end()) {

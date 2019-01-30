@@ -9,6 +9,10 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../common
 	)
 
+#link_directories(
+#	${CMAKE_CURRENT_BINARY_DIR}/../common/Release/
+#)
+
 set (QML_HEADR
 	planegridqml.h
 	planegameqml.h)

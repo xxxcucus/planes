@@ -2,7 +2,7 @@
 #define GAMESTATSWIDGET_H
 
 #include "ui_GameForm.h"
-#include "planeround.h"
+#include "gamestatistics.h"
 
 //defines the widget that displays the game statistics
 //and contains the New Round button
@@ -11,7 +11,7 @@ class GameStatsWidget: public QWidget, public Ui::GameForm
     Q_OBJECT
 
 public:
-    GameStatsWidget( QWidget *parent=0);
+    GameStatsWidget(QWidget *parent=0);
 
     //resets the spin boxes and disables the new round button
     void reset();    

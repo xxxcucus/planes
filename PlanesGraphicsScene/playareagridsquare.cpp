@@ -75,6 +75,6 @@ void PlayAreaGridSquare::drawPlaneHeadGuessed(QPainter* painter)
 void PlayAreaGridSquare::drawTestedNotPlane(QPainter* painter)
 {
     QPainterPath fillPath;
-    fillPath.addEllipse(m_Width/4, m_Width/4, m_Width/2, m_Width/2);
+    fillPath.addEllipse(m_Width / 4, m_Width / 4, m_Width / 2, m_Width / 2);
     painter->fillPath(fillPath, Qt::red);
 }

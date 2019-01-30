@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include "planesgsview.h"
 #include "planeround.h"
-#include "planesmodel.h"
 
 class PlanesGSWindow : public QMainWindow
 {
@@ -17,11 +16,8 @@ signals:
 public slots:
 
 private:
-
     //The view object
     PlanesGSView* mPlanesView;
-    //The model object
-    PlanesModel* mPlanesModel;
     //The controller object
     PlaneRound* mRound;
 };

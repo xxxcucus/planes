@@ -7,10 +7,6 @@
 
 int main(int argc, char *argv[])
 {
-    QTime time = QTime::currentTime();
-    int seed = time.msec();
-    srand(seed);
-
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 

@@ -10,7 +10,6 @@
 //This is a widget that displays how the computer is thinking
 class ChoiceDebugWidget: public QWidget
 {
-
     Q_OBJECT
 
     //the model of computer playing
@@ -33,8 +32,7 @@ class ChoiceDebugWidget: public QWidget
 
     //the two buttons on the top side of the widget
     NextMoveButton* m_nextButton;
-    PreviousMoveButton *m_prevButton;
-
+    PreviousMoveButton* m_prevButton;
 
 public slots:
     //when the user selects to display this widget

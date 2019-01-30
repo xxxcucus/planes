@@ -17,7 +17,7 @@ class PlaneGridQML : public QAbstractListModel
 public:
     enum class GameStages { GameNotStarted, BoardEditing, Game };
     enum PlaneDescription { NoPlane = 0, Plane = 1, PlaneHead = 2 };
-    enum BoardDescription { Board = 0, Padding = 1};
+    enum BoardDescription { Board = 0, Padding = 1 };
 
     PlaneGridQML(PlaneGameQML* planeGame, PlaneGrid* planeGrid);
 
@@ -137,19 +137,20 @@ signals:
     void guessMade(const GuessPoint& gp);
 
 public slots:
-    /*
-     * Compute whether done button is active in the board editor
-     */
-    void verifyPlanePositionValid();
+
     void showComputerMove(const GuessPoint& gp);
+
+	/*
+	* Compute whether done button is active in the board editor
+	*/
+	Q_INVOKABLE void verifyPlanePositionValid();
 
 private:
     PlaneGrid* m_PlaneGrid;
     PlaneGameQML* m_PlaneGame;
 
     ///grey colors to draw the planes
-    int
-    m_MinPlaneBodyColor = 0;
+    int m_MinPlaneBodyColor = 0;
     int m_MaxPlaneBodyColor = 200;
 
     int m_Padding = 3;

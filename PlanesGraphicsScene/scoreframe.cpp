@@ -11,7 +11,7 @@ ScoreFrame::ScoreFrame(QWidget* parent): QFrame(parent)
     QLabel* playerScoreTextLabel = new QLabel("Player: ");
     m_ComputerScoreLabel = new QLabel("0");
     m_PlayerScoreLabel = new QLabel("0");
-    m_StartGameButton = new QPushButton("Start new round");
+    m_StartGameButton = new QPushButton("Start New Round");
     QGridLayout* gridLayout1 = new QGridLayout();
     gridLayout1->addWidget(titleLabel);
     gridLayout1->addWidget(computerScoreTextLabel, 1, 0);

@@ -3,9 +3,12 @@
 #include <QHBoxLayout>
 #include "customhorizlayout.h"
 
-PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cLogic, PlaneRound *rd, QWidget *parent)
-    : QWidget(parent), m_playerGrid(pGrid), m_computerGrid(cGrid), m_round(rd)
+PlanesGSView::PlanesGSView(PlaneRound *rd, QWidget *parent)
+    : QWidget(parent), m_round(rd)
 {
+	m_playerGrid = m_round->playerGrid();
+	m_computerGrid = m_round->computerGrid();
+
     CustomHorizLayout* hLayout = new CustomHorizLayout(this);
     m_LeftPane = new LeftPane(this);
     m_LeftPane->setMinWidth();
@@ -25,28 +28,67 @@ PlanesGSView::PlanesGSView(PlaneGrid *pGrid, PlaneGrid* cGrid, ComputerLogic* cL
     connect(m_LeftPane, SIGNAL(downPlaneClicked(bool)), m_RightPane, SLOT(downPlaneClicked(bool)));
     connect(m_LeftPane, SIGNAL(leftPlaneClicked(bool)), m_RightPane, SLOT(leftPlaneClicked(bool)));
     connect(m_LeftPane, SIGNAL(rightPlaneClicked(bool)), m_RightPane, SLOT(rightPlaneClicked(bool)));
-    connect(m_LeftPane, SIGNAL(doneClicked(bool)), m_RightPane, SLOT(doneClicked(bool)));
+    connect(m_LeftPane, SIGNAL(doneClicked()), m_RightPane, SLOT(doneClicked()));
 
     ///activate the board editing tab in the left pane
-    connect(m_playerGrid, SIGNAL(initPlayerGrid()), this, SLOT(activateBoardEditingTab()));
+    //connect(m_playerGrid, SIGNAL(initPlayerGrid()), this, SLOT(activateBoardEditingTab()));
     ///reset the game board when starting the game
-    connect(m_round, SIGNAL(initGraphics()), m_RightPane, SLOT(resetGameBoard()));
-    connect(m_round, SIGNAL(initGraphics()), m_LeftPane, SLOT(activateEditingBoard()));
+    /*connect(m_round, SIGNAL(initGraphics()), m_RightPane, SLOT(resetGameBoard()));
+    connect(m_round, SIGNAL(initGraphics()), m_LeftPane, SLOT(activateEditingBoard()));*/
 
     connect(m_RightPane, SIGNAL(planePositionNotValid(bool)), m_LeftPane, SLOT(activateDoneButton(bool)));
-    connect(m_LeftPane, SIGNAL(doneClicked(bool)), m_round, SLOT(playStep()));
-    connect(m_round, SIGNAL(computerMoveGenerated(const GuessPoint&)), m_RightPane, SIGNAL(showComputerMove(const GuessPoint&)));
-    connect(m_RightPane, SIGNAL(guessMade(const GuessPoint&)), m_round, SLOT(receivedPlayerGuess(const GuessPoint&)));
-    connect(m_round, SIGNAL(displayStatusMessage(const std::string&)), this, SLOT(displayStatusMsg(const std::string&)));
+    connect(m_LeftPane, SIGNAL(doneClicked()), this, SLOT(doneClicked()));
+    /*connect(m_round, SIGNAL(computerMoveGenerated(const GuessPoint&)), m_RightPane, SIGNAL(showComputerMove(const GuessPoint&)));*/
+    connect(m_RightPane, SIGNAL(guessMade(const GuessPoint&)), this, SLOT(receivedPlayerGuess(const GuessPoint&)));
+    /*connect(m_round, SIGNAL(displayStatusMessage(const std::string&)), this, SLOT(displayStatusMsg(const std::string&)));
     connect(m_round, SIGNAL(roundEnds(bool)), m_LeftPane, SLOT(endRound(bool)));
-    connect(m_round, SIGNAL(roundEnds(bool)), m_RightPane, SLOT(endRound(bool)));
-    connect(m_LeftPane, SIGNAL(startNewGame()), m_round, SLOT(play()));
-    connect(m_LeftPane, SIGNAL(startNewGame()), m_RightPane, SLOT(startNewGame()));
-    connect(m_round, SIGNAL(statsUpdated(const GameStatistics&)), m_LeftPane, SLOT(updateGameStatistics(const GameStatistics&)));
+    connect(m_round, SIGNAL(roundEnds(bool)), m_RightPane, SLOT(endRound(bool)));*/
+    connect(m_LeftPane, SIGNAL(startNewGame()), this, SLOT(startNewGame()));
+    //connect(m_LeftPane, SIGNAL(startNewGame()), m_RightPane, SLOT(startNewGame()));
+    /*connect(m_round, SIGNAL(statsUpdated(const GameStatistics&)), m_LeftPane, SLOT(updateGameStatistics(const GameStatistics&)));*/
+
+	m_round->initRound();
+	m_RightPane->resetGameBoard();
+	m_LeftPane->activateEditingBoard();
 }
 
+void PlanesGSView::startNewGame() {
+	printf("Start new round\n");
+	if (m_round->didGameEnd()) {
+		m_round->initRound();
+		m_RightPane->startNewGame();
+		m_RightPane->resetGameBoard();
+		m_LeftPane->activateEditingBoard();
+		m_LeftPane->updateGameStatistics(GameStatistics());
+	}
+}
 
 void PlanesGSView::displayStatusMsg(const std::string& str)
 {
     //qDebug() << "Game Status: " << str.c_str();
+}
+
+void PlanesGSView::receivedPlayerGuess(const GuessPoint& gp)
+{
+	PlayerGuessReaction pgr;
+	m_round->playerGuess(gp, pgr);
+
+	if (pgr.m_ComputerMoveGenerated) {
+		m_RightPane->showComputerMove(pgr.m_ComputerGuess);
+	}
+	if (pgr.m_RoundEnds) {
+		printf("Round ends\n");
+		m_LeftPane->endRound(!pgr.m_isPlayerWinner);
+		m_RightPane->endRound(!pgr.m_isPlayerWinner);
+		m_round->roundEnds();
+	}
+
+	m_LeftPane->updateGameStatistics(pgr.m_GameStats);
+}
+
+void PlanesGSView::doneClicked()
+{
+	m_round->doneEditing();
+	m_LeftPane->activateGameTab();
+	m_RightPane->doneClicked();
 }

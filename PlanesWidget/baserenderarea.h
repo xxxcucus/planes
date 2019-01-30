@@ -13,7 +13,6 @@
 //misses and dead positions on the grid
 //as well as lists of guesses
 
-
 class BaseRenderArea : public QWidget
 {
 protected:

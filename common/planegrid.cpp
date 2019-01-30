@@ -9,7 +9,8 @@ PlaneGrid::PlaneGrid(int row, int col, int planesNo, bool isComputer):
     m_planeNo(planesNo),
     m_isComputer(isComputer)
 {
-    resetGrid();
+    //resetGrid();
+	initGrid();
 }
 
 //adds planes to the grid
@@ -18,8 +19,9 @@ void PlaneGrid::initGrid()
     resetGrid();
 
     initGridByAutomaticGeneration();
-    if (!m_isComputer)
-        emit initPlayerGrid();
+    //commented because of interfacing with Java
+	/*if (!m_isComputer)
+        emit initPlayerGrid();*/
     //compute list of plane points - needed for the guessing process
     computePlanePointsList(true);
 }
@@ -89,7 +91,8 @@ bool PlaneGrid::initGridByAutomaticGeneration()
         if (savePlane(pl))
             count++;
     } //while
-    return true;
+    
+	return true;
 }
 
 //generate a plane at a random grid position
@@ -106,7 +109,7 @@ PlanesCommonTools::Coordinate2D PlaneGrid::generateRandomGridPosition() const
 
     int idx = Plane::generateRandomNumber(m_rowNo * m_colNo);
 
-    return PlanesCommonTools::Coordinate2D(idx % m_rowNo,idx / m_rowNo);
+    return PlanesCommonTools::Coordinate2D(idx % m_rowNo, idx / m_rowNo);
 }
 
 //generates a random plane orientation
@@ -123,16 +126,10 @@ int idx = Plane::generateRandomNumber(4);
     }
 }
 
-//let's the user generate his own planes
-void PlaneGrid::initGridByUserInteraction() const
-{
-    emit initPlayerGrid();
-}
-
 //returns whether a point is head of a plane or not
 bool PlaneGrid::isPointHead(int row, int col) const
 {
-    if(searchPlane(row, col)!=-1)
+    if(searchPlane(row, col) != -1)
         return true;
     else return false;
 }
@@ -147,7 +144,7 @@ bool PlaneGrid::isPointOnPlane(int row, int col, int& idx) const
         idx = -1;
         return false;
     }
-    idx = std::distance(m_listPlanePoints.begin(), it);
+    idx = int(std::distance(m_listPlanePoints.begin(), it));
     return true;
 }
 
@@ -168,7 +165,7 @@ bool PlaneGrid::computePlanePointsList(bool sendSignal)
         PlanePointIterator ppi(pl);
         bool isHead = true;
 
-        while(ppi.hasNext())
+        while (ppi.hasNext())
         {
             PlanesCommonTools::Coordinate2D qp = ppi.next();
             if (!isPointInGrid(qp))
@@ -188,8 +185,6 @@ bool PlaneGrid::computePlanePointsList(bool sendSignal)
     }
 
     m_PlanesOverlap = !returnValue;
-    if (sendSignal)
-        emit planesPointsChanged();
     return returnValue;
 }
 
@@ -200,7 +195,7 @@ int PlaneGrid::searchPlane(const Plane& pl) const
     if (it == m_planeList.end())
         return -1;
     else
-        return std::distance(m_planeList.begin(), it);
+        return int(std::distance(m_planeList.begin(), it));
 }
 
 //searches a plane with the head at a given position on the grid in the list of planes
@@ -258,8 +253,6 @@ void PlaneGrid::resetGrid()
     m_planeList.clear();
     m_listPlanePointsAnnotations.clear();
     m_listPlanePoints.clear();
-    emit planesPointsChanged();
-    //m_guessPointList.clear();
 }
 
 //checks whether a plane is inside the grid

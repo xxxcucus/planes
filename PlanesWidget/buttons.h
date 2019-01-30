@@ -7,7 +7,6 @@
 
 class NextMoveButton: public QAbstractButton
 {
-
 protected:
     int m_originalWidth;
     int m_originalHeight;
@@ -16,24 +15,20 @@ protected:
     int m_height;
 
 public:
-    NextMoveButton(QWidget *parent=0);
+    NextMoveButton(QWidget* parent=0);
 
     virtual QSize sizeHint() const;
 protected:
-    virtual void paintEvent(QPaintEvent *e);
-
-
+    virtual void paintEvent(QPaintEvent* e);
 };
 
 class PreviousMoveButton: public NextMoveButton
 {
 public:
-    PreviousMoveButton(QWidget *parent=0);
+    PreviousMoveButton(QWidget* parent=0);
 
 protected:
-    virtual void paintEvent(QPaintEvent *e);
-
-
+    virtual void paintEvent(QPaintEvent* e);
 };
 
 

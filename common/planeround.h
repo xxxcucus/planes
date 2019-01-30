@@ -1,75 +1,136 @@
-#ifndef PLANEGAME_H
-#define PLANEGAME_H
+#ifndef __PLANE_ROUND_JAVAFX_
+#define __PLANE_ROUND_JAVAFX_
 
-#include "plane.h"
 #include "planegrid.h"
 #include "computerlogic.h"
 #include "gamestatistics.h"
-#include <QObject>
+#include "guesspoint.h"
 
-//implements the control logic for playing one round of planes
-class PlaneRound: public QObject
-{
-    Q_OBJECT
 
-    //whether the computer or the player moves first
-    bool m_isComputerFirst;
-    //the  game statistics
-    GameStatistics m_gameStats;
+struct PlayerGuessReaction {
+	//victory for computer or player
+	bool m_RoundEnds = false;
+	//who won
+	bool m_isPlayerWinner = false;
+	//if no victory then a computer move is generated
+	bool m_ComputerMoveGenerated = false;
+	//which computer move was generated 
+	GuessPoint m_ComputerGuess;
+	GameStatistics m_GameStats;
 
-    //the player and computer's grid
-    PlaneGrid* m_PlayerGrid;
-    PlaneGrid* m_ComputerGrid;
+	PlayerGuessReaction() : m_ComputerGuess(0, 0) { }
+};
 
-    //the list of guesses for computer and player
-    std::vector<GuessPoint> m_computerGuessList;
-    std::vector<GuessPoint> m_playerGuessList;
-
-    //the computer's strategy
-    ComputerLogic* m_computerLogic;
-
+class PlaneRound {
 public:
-    //constructs the round object
-    PlaneRound(PlaneGrid* playerGrid, PlaneGrid* computerGrid, ComputerLogic* logic, bool isComputerFirst);
-    //returns whether the round has ended or not and gives the winner
-    bool isRoundEndet(bool& isPlayerWinner) const;
-    //based on the available information makes the next move for the computer
-    GuessPoint guessComputerMove();
+	enum class GameStages { GameNotStarted, BoardEditing, Game };
 
-    //resets the round
-    void reset();
+	//constructs the round object
+	//PlaneRound(PlaneGrid* playerGrid, PlaneGrid* computerGrid, ComputerLogic* logic, bool isComputerFirst);
+	PlaneRound(int rowNo, int colNo, int planeNo);
+	~PlaneRound();
 
-    //tests whether all of the planes have been guessed
-    bool enoughGuesses(PlaneGrid* pg, const std::vector<GuessPoint>& guessList) const;
-    //inits a new round
-    void initRound();
-    //update game statistics
-    void updateGameStats(const GuessPoint& gp, bool isComputer);
+	//inits a new round
+	void initRound();
+	void roundEnds();
 
-signals:
-    //signals that a guess from the player is needed
-    void needPlayerGuess() const;
-    //signals that computer has generated a move
-    void computerMoveGenerated(const GuessPoint& gp);
-    //signals that a message has to be displayed in the edit control window
-    void displayStatusMessage(const std::string& text);
-    //signals that the round has endet
-    void roundEnds(bool isPlayerWinner);
-    //signals that the render areas should be reset
-    void initGraphics();
-    //signals that statistics have to be updated on screen
-    void statsUpdated(const GameStatistics& gs);
+	bool didGameEnd() {
+		return m_State == GameStages::GameNotStarted;
+	}
 
-public slots:
+	void playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr);
+	/**
+		@param[in] row, col - coordinates of player's guess
+		@param[out] guessRes - the evaluation of the player's guess
+		@param[out] pgr - response to the player's guess: the computer's guess, if the game ended, winner, game statistics
+	*/
+	void playerGuessIncomplete(int row, int col, GuessPoint::Type& guessRes, PlayerGuessReaction& pgr);
 
-    //received a player guess from the computer render area
-    void receivedPlayerGuess(const GuessPoint& gp);
-    //plays one step
-    void playStep();
-    //plays the game
-    void play();
+	void rotatePlane(int idx);
+	void movePlaneLeft(int idx);
+	void movePlaneRight(int idx);
+	void movePlaneUpwards(int idx);
+	void movePlaneDownwards(int idx);
+
+	void doneEditing();
+
+	PlaneGrid* playerGrid() { return m_PlayerGrid; }
+	PlaneGrid* computerGrid() { return m_ComputerGrid; }
+	ComputerLogic* computerLogic() { return m_computerLogic; }
+
+	int getRowNo() const {
+		return m_rowNo;
+	}
+
+	int getColNo() const {
+		return m_colNo;
+	}
+
+	int getPlaneNo() const {
+		return m_planeNo;
+	}
+
+	int getPlaneSquareType(int i, int j, bool isComputer);
+
+	int getPlayerGuessesNo() {
+		return int(m_playerGuessList.size());
+	}
+
+	int getComputerGuessesNo() {
+		return int(m_computerGuessList.size());
+	}
+
+	GuessPoint getPlayerGuess(int idx) {
+		if (idx < 0 || idx >= int(m_playerGuessList.size()))
+			return GuessPoint(-1, -1, GuessPoint::Miss);
+		else
+			return m_playerGuessList[idx];
+	}
+
+	GuessPoint getComputerGuess(int idx) {
+		if (idx < 0 || idx >= int(m_computerGuessList.size()))
+			return GuessPoint(-1, -1, GuessPoint::Miss);
+		else
+			return m_computerGuessList[idx];
+	}
+
+
+private:
+	//update game statistics
+	void updateGameStats(const GuessPoint& gp, bool isComputer);
+	//tests whether all of the planes have been guessed
+	bool enoughGuesses(PlaneGrid* pg, const std::vector<GuessPoint>& guessList) const;
+	//based on the available information makes the next move for the computer
+	GuessPoint guessComputerMove();
+	//resets the round
+	void reset();
+	//is there a winner
+	bool roundEnds(bool& isPlayerWinner);
+
+private:
+	//whether the computer or the player moves first
+	bool m_isComputerFirst = false;
+	//the  game statistics
+	GameStatistics m_gameStats;
+
+	//the player and computer's grid
+	PlaneGrid* m_PlayerGrid;
+	PlaneGrid* m_ComputerGrid;
+
+	//the list of guesses for computer and player
+	std::vector<GuessPoint> m_computerGuessList;
+	std::vector<GuessPoint> m_playerGuessList;
+
+	//the computer's strategy
+	ComputerLogic* m_computerLogic;
+
+	GameStages m_State = GameStages::GameNotStarted;
+
+	//size of the grid and number of planes
+	int m_rowNo = 10;
+	int m_colNo = 10;
+	int m_planeNo = 3;
 };
 
 
-
-#endif // PLANEGAME_H
+#endif

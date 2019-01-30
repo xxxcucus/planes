@@ -2,7 +2,6 @@
 #define PLANEGAMEQML_H
 
 #include <QObject>
-#include "planesmodel.h"
 #include "planeround.h"
 #include "guesspoint.h"
 
@@ -11,6 +10,7 @@ class PlaneGameQML : public QObject
     Q_OBJECT
 public:
     PlaneGameQML();
+	~PlaneGameQML();
 
 public:
     Q_INVOKABLE void doneEditing();
@@ -27,24 +27,23 @@ public:
 
     Q_INVOKABLE void startNewGame();
 
-    inline PlaneGrid* playerGrid() { return mPlanesModel->playerGrid(); }
-    inline PlaneGrid* computerGrid() { return mPlanesModel->computerGrid(); }
+    inline PlaneGrid* playerGrid() { return mRound->playerGrid(); }
+    inline PlaneGrid* computerGrid() { return mRound->computerGrid(); }
 
 signals:
     void guessMade(const GuessPoint& gp);
     void computerMoveGenerated(const GuessPoint& gp);    
     void updateStats();
     void roundEnds(bool isPlayerWinner);
+	void resetGrid();
 
 public slots:
     void statsUpdated(const GameStatistics& stats);
+	void receivedPlayerGuess(const GuessPoint& gp);
 
 private:
-    //The model object
-    PlanesModel* mPlanesModel;
     //The controller object
     PlaneRound* mRound;
-
     GameStatistics m_Stats;
 };
 

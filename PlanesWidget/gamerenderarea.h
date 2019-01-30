@@ -3,9 +3,8 @@
 
 #include <QWidget>
 #include "plane.h"
-#include "planeround.h"
 #include "baserenderarea.h"
-
+#include "planegrid.h"
 
 //this is the grid that is used to add planes and to play the game
 //it supports multiple modes and multiple operations
@@ -21,7 +20,7 @@ private:
     //the current drawing operation
     Operation m_currentOperation;
     //the current operation mode: Editor or Game
-    Mode m_currentMode;
+    Mode m_currentMode = Mode::Editor;
 
     //stores the position of the temporary plane
     Plane m_tempPlane;
@@ -29,11 +28,12 @@ private:
     Plane m_backupPlane;
 
     //stores the current position of the mouse cursor
-    int m_curMouseRow, m_curMouseCol;
+	int m_curMouseRow = 0;
+	int m_curMouseCol = 0;
     //position of last drawn plane is inside the grid
-    bool m_planePosValid;
+    bool m_planePosValid = false;
     //whether a plane has been selected
-    bool m_planeSelected;
+    bool m_planeSelected = false;
 
     //the plane grid associated with this render area
     PlaneGrid* m_grid;
@@ -41,7 +41,7 @@ private:
     std::vector<GuessPoint> m_guessPointList;
 
     //in game mode says whether the round has endet
-    bool m_roundEndet;
+    bool m_roundEndet = false;
 
 public:
     //constructor sets the dimension of the render area
@@ -77,7 +77,6 @@ protected:
     void mousePressEvent(QMouseEvent *event);
 
 private:
-
     //fills a rect in the grid
     void fillGridRect(int row, int col, QString color, QPainter *painter);
 
@@ -130,7 +129,7 @@ signals:
     void activateDone();
     void deactivateDone();
     //signals that the player has chosen a point on computer's grid
-    void guessMade(GuessPoint gp);
+    void guessMade(const GuessPoint& gp);
 
 public slots:
     //toggles the mode of the area from Editor to Game

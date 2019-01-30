@@ -7,17 +7,17 @@
 struct GameStatistics
 {
     //keeps the number of moves and various guesses in the current round
-    int m_playerMoves;
-    int m_playerHits;
-    int m_playerDead;
-    int m_playerMisses;
-    int m_computerMoves;
-    int m_computerHits;
-    int m_computerDead;
-    int m_computerMisses;
+    int m_playerMoves = 0;
+    int m_playerHits = 0;
+    int m_playerDead = 0;
+    int m_playerMisses = 0;
+    int m_computerMoves = 0;
+    int m_computerHits = 0;
+    int m_computerDead = 0;
+    int m_computerMisses = 0;
     //keeps the score
-    int m_playerWins;
-    int m_computerWins;
+    int m_playerWins = 0;
+    int m_computerWins = 0;
 
     //constructor
     GameStatistics();

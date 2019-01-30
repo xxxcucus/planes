@@ -4,13 +4,21 @@ project (libCommon)
 cmake_policy(SET CMP0020 NEW)
 cmake_policy(SET CMP0043 NEW)
 
+if (With_Java)
+include_directories(
+	${CMAKE_CURRENT_SOURCE_DIR}
+	$ENV{JAVA_HOME}/include/
+	$ENV{JAVA_HOME}/include/win32/
+	)
+else (With_Java)
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	)
+endif (With_Java)
 
-set(COMMON_HEADR plane.h
+set(COMMON_HEADR 
+	plane.h
 	planegrid.h
-	planesmodel.h
 	planeround.h
 	computerlogic.h
 	revertcomputerlogic.h
@@ -21,9 +29,13 @@ set(COMMON_HEADR plane.h
 	planeorientationdata.h
 	headdata.h)
 
-set(COMMON_SRCS 	plane.cpp
+if (With_Java)
+	list(APPEND COMMON_HEADR com_planes_javafx_PlaneRoundJavaFx.h)
+endif (With_Java)
+
+set(COMMON_SRCS 	
+	plane.cpp
 	planegrid.cpp
-	planesmodel.cpp
 	planeround.cpp
     computerlogic.cpp
 	revertcomputerlogic.cpp
@@ -34,8 +46,9 @@ set(COMMON_SRCS 	plane.cpp
 	planeorientationdata.cpp
 	headdata.cpp)
 
-add_library(libCommon STATIC ${COMMON_SRCS} ${COMMON_HEADR})
+if (With_Java)
+	list(APPEND COMMON_SRCS com_planes_javafx_PlaneRoundJavaFx.cpp)
+endif (With_Java)
 
-#target_link_libraries(PlanesWidget ${Qt5Widgets_LIBRARIES})
-
-qt5_use_modules(libCommon Core)
+add_library(libCommon SHARED ${COMMON_SRCS} ${COMMON_HEADR})
+install(TARGETS libCommon DESTINATION bin)

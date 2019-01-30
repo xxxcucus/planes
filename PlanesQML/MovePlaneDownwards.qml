@@ -24,6 +24,7 @@ Rectangle {
             //console.log("Plane downwards clicked")
             anim.start()
             PlayerPlaneGrid.moveDownSelectedPlane()
+			PlayerPlaneGrid.verifyPlanePositionValid()
         }
     }
 

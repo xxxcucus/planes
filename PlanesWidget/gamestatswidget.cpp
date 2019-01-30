@@ -5,7 +5,7 @@ GameStatsWidget::GameStatsWidget( QWidget *parent):
 {
     setupUi(this);
 
-    connect(newRoundButton, SIGNAL(clicked()), this, SLOT(startNewRound()));
+    connect(newRoundButton, SIGNAL(clicked()), this, SIGNAL(startGame()));
 
     reset();
 

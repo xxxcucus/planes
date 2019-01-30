@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "planeswview.h"
-#include "planesmodel.h"
+#include "planeround.h"
 
 
 //Main window of the application
@@ -13,10 +13,8 @@ class PlanesWWindow : public QMainWindow
 
     //The view object
     PlanesWView* mPlanesView;
-    //The model object
-    PlanesModel* mPlanesModel;
     //The controller object
-    PlaneRound *mRound;
+    PlaneRound* mRound;
 
 public:
     explicit PlanesWWindow(QWidget *parent = 0);
