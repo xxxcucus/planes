@@ -6,7 +6,8 @@ public class PlaneRoundJavaFx {
 	      System.loadLibrary("libCommon"); // Load native library 
 	   }
 	 
-	// Declare an instance native method sayHello() which receives no parameter and returns void
+	//creates the PlaneRound object in the game engine
+	//must be called a single time
 	public native void createPlanesRound(); 
 	
 	//show the planes

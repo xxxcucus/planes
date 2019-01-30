@@ -21,7 +21,8 @@ public class PlaneRoundJavaFx {
 	System.loadLibrary("libCommon"); // Load native library 
 	}
 	
-	// Declare an instance native method sayHello() which receives no parameter and returns void
+	//creates the PlaneRound object in the game engine
+	//must be called a single time	
 	public native void createPlanesRound(); 
 	
 	//show the planes
@@ -72,4 +73,51 @@ public class PlaneRoundJavaFx {
 
 \end{lstlisting}
 
-The class PlaneRoundJavaFx loads the libCommon library. 
+The class PlaneRoundJavaFx loads the libCommon library and defines a series of methods which are declared with the keyword native, that is they are implemented in a C/C++ library. The native methods represent the only method of access of the Java GUI to the Planes game engine. They do the following:
+
+\begin{itemize}
+	\item createPlanesRound() - initialize the game engine
+	
+	\item getRowNo() - gets the size of the game board
+	\item getColNo() - gets the size of the game board
+	\item getPlaneNo() - gets the plane number 
+	\item getPlaneSquareType(int i, int j, int isComputer) - for a square on the game board returns what it contains: a plane head, plane, not plane, game board, outside the game board
+	
+	\item movePlaneLeft() - repositions the selected plane to the left
+	\item movePlaneRight() - repositions the selected plane to the right
+	\item movePlaneUpwards() - repositions the selected plane upwards
+	\item movePlaneDownwards() - repositions the selected plane downwards
+	\item rotatePlane() - rotates 90 degrees the selected plane
+	\item doneClicked() - end board editing phase 
+	
+	\item getPlayerGuessesNo() - how many guesses has the player made
+	\item getPlayerGuessRow() - coordinate of the desired player guess
+	\item getPlayerGuessCol() - coordinate of the desired player guess
+	\item getPlayerGuessType() - result of the desired player guess
+	
+	\item getComputerGuessesNo() - how many guesses has the computer made
+	\item getComputerGuessRow() - coordinate of the desired computer guess
+	\item getComputerGuessCol() -  coordinate of the desired computer guess
+	\item getComputerGuessType() - 	result of the desired computer guess
+	
+	\item playerGuess(int row, int col) - communicate a guess of the player to the game engine
+	\item playerGuess\_RoundEnds() - does the round end
+	\item playerGuess\_IsPlayerWinner() - who won
+	\item playerGuess\_ComputerMoveGenerated() - if a computer move was generated
+	\item playerGuess\_StatNoPlayerMoves() - statistics about the player's moves
+	\item playerGuess\_StatNoPlayerHits() - statistics about the player's moves
+	\item playerGuess\_StatNoPlayerMisses() - statistics about the player's moves
+	\item playerGuess\_StatNoPlayerDead() - statistics about the player's moves
+	\item playerGuess\_StatNoPlayerWins() - number of wins for the player
+	\item playerGuess\_StatNoComputerMoves() - statistics about the computers's moves
+	\item playerGuess\_StatNoComputerHits() - statistics about the computers's moves
+	\item playerGuess\_StatNoComputerMisses() - statistics about the computers's moves
+	\item playerGuess\_StatNoComputerDead() - statistics about the computers's moves
+	\item playerGuess\_StatNoComputerWins() - number of wins for the computer
+	
+	\item roundEnds() - do what is required when the round ends
+	\item initRound() - do what is required to initialize a new round
+
+\end{itemize}
+
+
