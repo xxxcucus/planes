@@ -31,11 +31,11 @@ function doneButton(ctx) {
     /*var ctx = getContext("2d")*/
     ctx.fillStyle = 'blue'
 
-    var centerX = width/2
-    var centerY = height/2
-    var radius = Math.min(width/3, height/3)
+    var centerX = width / 2
+    var centerY = height / 2
+    var radius = Math.min(width / 3, height / 3)
 
-    var str1 = height/2
+    var str1 = height / 2
     var str2 = "px sans-serif"
     ctx.font = str1.toString().concat(str2)
     ctx.textAlign = "center"
@@ -46,11 +46,11 @@ function playAgainButton(ctx) {
     /*var ctx = getContext("2d")*/
     ctx.fillStyle = 'blue'
 
-    var centerX = width/2
-    var centerY = height/2
-    var radius = Math.min(width/3, height/3)
+    var centerX = width / 2
+    var centerY = height / 2
+    var radius = Math.min(width / 3, height / 3)
 
-    var str1 = height/2
+    var str1 = height / 2
     var str2 = "px sans-serif"
     ctx.font = str1.toString().concat(str2)
     ctx.textAlign = "center"
