@@ -13,3 +13,9 @@ build_vs2017
 .project
 bin
 .settings
+/Book/*.aux
+/Book/*.out
+/Book/*.log
+/Book/*.pdf
+/Book/*.gz
+/Book/*.toc
