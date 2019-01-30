@@ -84,12 +84,6 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess
 	global_Round->playerGuessIncomplete(int(row), int(col), global_Guess_Result, global_Player_Guess_Reaction);
 }
 
-JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1Res
-(JNIEnv *, jobject)
-{
-	return int(global_Guess_Result);
-}
-
 JNIEXPORT jboolean JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1RoundEnds
 (JNIEnv *, jobject)
 {
@@ -106,24 +100,6 @@ JNIEXPORT jboolean JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1
 (JNIEnv *, jobject)
 {
 	return global_Player_Guess_Reaction.m_ComputerMoveGenerated;
-}
-
-JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1ComputerMoveRow
-(JNIEnv *, jobject)
-{
-	return global_Player_Guess_Reaction.m_ComputerGuess.m_row;
-}
-
-JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1ComputerMoveCol
-(JNIEnv *, jobject)
-{
-	return global_Player_Guess_Reaction.m_ComputerGuess.m_col;
-}
-
-JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1ComputerMoveRes
-(JNIEnv *, jobject)
-{
-	return int(global_Player_Guess_Reaction.m_ComputerGuess.m_type);
 }
 
 JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1StatNoPlayerMoves

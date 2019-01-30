@@ -27,13 +27,9 @@ public class PlaneRoundJavaFx {
 	
 	//play the game
 	public native void playerGuess(int row, int col);
-	public native int playerGuess_Res();  //TODO: to remove
 	public native boolean playerGuess_RoundEnds();
 	public native boolean playerGuess_IsPlayerWinner();
 	public native boolean playerGuess_ComputerMoveGenerated();
-	public native int playerGuess_ComputerMoveRow();  //TODO: to remove
-	public native int playerGuess_ComputerMoveCol();  //TODO: to remove
-	public native int playerGuess_ComputerMoveRes();  //TODO: to remove
 	public native int playerGuess_StatNoPlayerMoves();
 	public native int playerGuess_StatNoPlayerHits();
 	public native int playerGuess_StatNoPlayerMisses();

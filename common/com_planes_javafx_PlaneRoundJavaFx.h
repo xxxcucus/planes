@@ -105,14 +105,6 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess
 
 /*
  * Class:     com_planes_javafx_PlaneRoundJavaFx
- * Method:    playerGuess_Res
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1Res
-  (JNIEnv *, jobject);
-
-/*
- * Class:     com_planes_javafx_PlaneRoundJavaFx
  * Method:    playerGuess_RoundEnds
  * Signature: ()Z
  */
@@ -133,30 +125,6 @@ JNIEXPORT jboolean JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1
  * Signature: ()Z
  */
 JNIEXPORT jboolean JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1ComputerMoveGenerated
-  (JNIEnv *, jobject);
-
-/*
- * Class:     com_planes_javafx_PlaneRoundJavaFx
- * Method:    playerGuess_ComputerMoveRow
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1ComputerMoveRow
-  (JNIEnv *, jobject);
-
-/*
- * Class:     com_planes_javafx_PlaneRoundJavaFx
- * Method:    playerGuess_ComputerMoveCol
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1ComputerMoveCol
-  (JNIEnv *, jobject);
-
-/*
- * Class:     com_planes_javafx_PlaneRoundJavaFx
- * Method:    playerGuess_ComputerMoveRes
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess_1ComputerMoveRes
   (JNIEnv *, jobject);
 
 /*
