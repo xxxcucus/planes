@@ -1,8 +1,8 @@
-\section{The Game Controller}
+\section{The Game Controller}  \label {Game_Controller}
 
 The game of Planes consists of a series of rounds played by the player against the computer. The player wins when he/she wins more rounds as the computer. This section describes the game controller that coordinates a single round. 
 
-In an initial version of the software the PlaneRound class made use of the signal and slots mechanism of Qt in order to communicate with the graphical user interface. But, in order to simplify the interaction between a graphical user interface written in Java and the PlaneRound, signal and slots were eliminated from PlaneRound and in fact from the whole game engine (more specifically from PlaneGrid). Actually all the dependencies between the game engine and the Qt libraries were eliminated for the above mentioned reason.
+In an initial version of the software the PlaneRound class made use of the signal and slots mechanism of Qt (\ref{Qt_Signals_Slots}) in order to communicate with the graphical user interface. But, in order to simplify the interaction between a graphical user interface written in Java and the PlaneRound, signal and slots were eliminated from PlaneRound and in fact from the whole game engine (more specifically from PlaneGrid). Actually all the dependencies between the game engine and the Qt libraries were eliminated for the above mentioned reason.
 
 \subsection {Class Definition and Important Functions}
 
@@ -64,57 +64,52 @@ The API that the PlaneRound offers is (mainly) as follows:
 
 rotatePlane(), movePlaneLeft(), movePlaneRight(), movePlaneUpwards(), movePlaneDownwards(), and doneEditing() are used to position the planes on the player's board in the editing board step of a round. initRound(), roundEnds() and didRoundEnd() initialize, end a round or check if the round has ended. getRowNo(), getColNo(), getPlaneNo() return information about game board size and number of planes used. getPlaneSquareType() gives information about each of the squares of the game board allowing the graphical user interface to draw the square accordingly. getPlayerGuessesNo(), getComputerGuessesNo(), getPlayerGuess(), and getComputerGuess() give information about the number of guesses made in the game, their position and result.
 
-
-The game controller reacts to external events and generates events for other parts of the software using Qt's signal and slots mechanism (\ref{Qt_Signals_Slots}). 
-
-When the player has generated a move it reacts as follows:
+The game controller interacts with the outside (the graphical user interface) through the two functions: playerGuess() and playerGuessIncomplete(). These functions receive the coordinate of a player guess (playerGuessIncomplete()) or the coordinates of a player's guess together with the result of the guess (playerGuess()) and compute the associated computer move. The functions notify if a computer move was generated, if there is a round winner and return the moves statistics.
 
 \begin{lstlisting}
 
-//treats a player's guess
-void PlaneRound::receivedPlayerGuess(const GuessPoint& gp)
+void PlaneRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr)
 {
-	//update the game statistics
-	updateGameStats(gp, false);
-	//add the player's guess to the list of guesses
-	//assume that the guess is different from the other guesses
-	m_playerGuessList.push_back(gp);
+	if (m_State != GameStages::Game)
+		return;
+
+	if (m_isComputerFirst) {
+		GuessPoint gpc = guessComputerMove();
+		updateGameStats(gpc, true);
+		pgr.m_ComputerMoveGenerated = true;
+		pgr.m_ComputerGuess = gpc;
 	
-	//if the player is  first
-	//run the computer's move
-	if (!m_isComputerFirst)
-	{
-		GuessPoint gp = guessComputerMove();
-		updateGameStats(gp, true);
-		emit computerMoveGenerated(gp);
-	}
-	
-	//play step is finished
-	//verify if round is finished
-	bool isComputerWinner = false;
-	if (!isRoundEndet(isComputerWinner)) {
-		playStep();
+		//update the game statistics
+		updateGameStats(gp, false);
+		//add the player's guess to the list of guesses
+		//assume that the guess is different from the other guesses
+		m_playerGuessList.push_back(gp);
 	} else {
-		std::string text = "Round endet.";
+		//update the game statistics
+		updateGameStats(gp, false);
+		//add the player's guess to the list of guesses
+		//assume that the guess is different from the other guesses
+		m_playerGuessList.push_back(gp);
 		
-		if (isComputerWinner) {
-			text = text + " Computer is winner!";
-			m_gameStats.updateWins(true);
-			emit statsUpdated(m_gameStats);
-		} else {
-			text = text + " Player is winner!";
-			m_gameStats.updateWins(false);
-			emit statsUpdated(m_gameStats);
-		}
-		
-		emit displayStatusMessage(text);
-		emit roundEnds(!isComputerWinner);
+		GuessPoint gpc = guessComputerMove();
+		updateGameStats(gpc, true);
+		pgr.m_ComputerMoveGenerated = true;
+		pgr.m_ComputerGuess = gpc;
 	}
+	
+	bool isPlayerWinner = false;
+	if (roundEnds(isPlayerWinner)) {
+		m_gameStats.updateWins(isPlayerWinner);
+		pgr.m_RoundEnds = true;
+		m_State = GameStages::GameNotStarted;
+		pgr.m_isPlayerWinner = isPlayerWinner;
+	} else {
+		pgr.m_RoundEnds = false;
+	}
+	
+	pgr.m_GameStats = m_gameStats;
 }
-
 \end{lstlisting}
-
-Given a guess by the player it updates the game statistics (how many hits, dead and misses were) and adds the guess to the list of player guesses. Depending on whether player moves first or computer moves first, it generates a computer move as well with the function guessComputerMove(). It then checks if there is a winner with the function isRoundEndet(). If so then it sends a signal called roundEnds(). When not it triggers the next step of the game with the function playStep().
 
 Guessing of a computer move works as follows:
 
@@ -143,32 +138,18 @@ GuessPoint PlaneRound::guessComputerMove()
 
 The function makeChoice() of the ComputerLogic class is used which works as explained in section \ref{Computer_Strategy}. Then the PlayerGrid object is used to evaluate the guess. With the guess position and the guess result the member function addData() from ComputerLogic is called (\ref{Computer_Strategy}). Finally the computer's guess is added to the computer guess list. 
 
-How is then the player guess generated ? This is generated by the player by clicking on a square of the game board in the GUI of the program. It comes as an external event to which the controller reacts with the function receivedPlayerGuess().
+playerGuessIncomplete() is the same as playerGuess() except that it additionally  computes the result of the player's guess at the given coordinates:
 
-The function playStep() works as follows:
-
-\begin{lstlisting} 
-
-//plays one computer move and one player move
-void PlaneRound::playStep()
+\begin {lstlisting}
+void PlaneRound::playerGuessIncomplete(int row, int col, GuessPoint::Type& guessRes, PlayerGuessReaction& pgr)
 {
-	//if computer is first guesses the computer move
-	//and waits for the player's move
-	if (m_isComputerFirst) {
-		GuessPoint gp = guessComputerMove();
-		updateGameStats(gp, true);
-		emit computerMoveGenerated(gp);
-		emit needPlayerGuess();
-		emit displayStatusMessage("Player's turn");
-	} else {
-		//if player is first waits for the player's guess
-		emit needPlayerGuess();
-	}
+	PlanesCommonTools::Coordinate2D qp(col, row);
+	guessRes = m_ComputerGrid->getGuessResult(qp);
+	GuessPoint gp(qp.x(), qp.y(), guessRes);
+	
+	playerGuess(gp, pgr);
 }
-
 \end{lstlisting}
-
-If the computer moves first, the function guessComputerMove() is used to generate the computer move, then a reques for the player's guess is generated. If the the player moves first, the computer move is not generated anymore, as it will be generated later when the player's move arrives, in the function receivedPlayerGuess().
 
 \subsection{C++ Concepts}
 

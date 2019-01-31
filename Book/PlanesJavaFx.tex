@@ -12,7 +12,7 @@ The main components of PlanesJavaFx GUI are:
 
 \subsection {PlaneRoundJavaFx - Use of Java Native Interface}
 
-Because the GUI is implemented with Java and the game engine with C++, we used Java Native Interface to gain access to C++ code from the Java side. 
+Because the GUI is implemented with Java and the game engine with C++, we used Java Native Interface to gain access to C++ game engine from the Java side. 
 
 \begin{lstlisting} 
 
@@ -73,7 +73,7 @@ public class PlaneRoundJavaFx {
 
 \end{lstlisting}
 
-The class PlaneRoundJavaFx loads the libCommon library and defines a series of methods which are declared with the keyword native, that is they are implemented in a C/C++ library. The native methods represent the only method of access of the Java GUI to the Planes game engine. They do the following:
+The class PlaneRoundJavaFx loads the libCommon library and defines a series of methods which are declared with the keyword native, that is they are implemented in a C/C++ library. The native methods represent the only gate of access of the Java GUI to the Planes game engine. They do the following:
 
 \begin{itemize}
 	\item createPlanesRound() - initialize the game engine
@@ -132,15 +132,15 @@ Corresponding to this Java class, a C++ implementation of the required functiona
 #ifdef __cplusplus
 extern "C" {
 #endif
-/*
-* Class:     com_planes_javafx_PlaneRoundJavaFx
-* Method:    createPlanesRound
-* Signature: ()V
-*/
-JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_createPlanesRound
-(JNIEnv *, jobject);
-
-.....
+	/*
+	* Class:     com_planes_javafx_PlaneRoundJavaFx
+	* Method:    createPlanesRound
+	* Signature: ()V
+	*/
+	JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_createPlanesRound
+	(JNIEnv *, jobject);
+	
+	.....
 
 #ifdef __cplusplus
 }
@@ -149,7 +149,7 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_createPlanesRound
 
 \end{lstlisting}
 
-In the .cpp file all the functions work with 3 global objects:
+In the .cpp file all the functions work with one or more of these 3 global objects:
 
 \begin{lstlisting}
 PlaneRound* global_Round = nullptr;
@@ -157,7 +157,7 @@ GuessPoint::Type global_Guess_Result = GuessPoint::Miss;
 PlayerGuessReaction global_Player_Guess_Reaction;
 \end{lstlisting}
 
-global\_Round is the game controller, global\_Guess\_Result is the result of the evaluation of the last player guess, global\_Player\_Guess\_Reaction is the response of the game engine to the last player guess. (TODO: Reference to game engine section)
+global\_Round is the game controller, global\_Guess\_Result is the result of the evaluation of the last player guess, global\_Player\_Guess\_Reaction is the response of the game engine to the last player guess. 
 
 global\_Round is created with the function createPlanesRound() from PlaneRoundJavaFx which corresponds to the function\\ Java\_com\_planes\_javafx\_PlaneRoundJavaFx\_createPlanesRound() in the C++ implementation file. global\_Guess\_Result and global\_Player\_Guess\_Reaction are obtained from the following function call:
 
@@ -165,4 +165,10 @@ global\_Round is created with the function createPlanesRound() from PlaneRoundJa
 global_Round->playerGuessIncomplete(int(row), int(col), global_Guess_Result, global_Player_Guess_Reaction);
 \end{lstlisting}
 
-The function playerGuessIncomplete is defined in the PlaneRound class (TODO see reference).
+The function playerGuessIncomplete is defined in the PlaneRound class (\ref{Game_Controller}).
+
+\subsection{C++ Concepts}
+
+\subsubsection{Global Variables} 
+
+TODO
