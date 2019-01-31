@@ -36,7 +36,9 @@ The game is a variant of the classical \href{https://en.wikipedia.org/wiki/Battl
   \caption{Board game with 3 planes}
   \label{fig:board}
 \end{figure}
-The project is organized in two main parts: the game engine and the graphical user interfaces. The game engine is meant to be implemented as a library such as it can be used with a number of graphical frontents. One of the design goals is to make this engine independent from a specific C++ library. Three Graphical User Interfaces (GUI) were programmed up to this point. All of them are based on the Qt framework. They are called PlanesWidget, a simple QWidget approach which also includes debugging tools for the computer's strategy, PlanesGraphicsScene, a GUI based on the QGraphicsScene API, and PlanesQML, based on the QML engine. The complete source code of the projects can be found in GitHub (\url{https://github.com/xxxcucus/planes}).
+The project is organized in two main parts: the game engine and the graphical user interfaces. The game engine is meant to be implemented as a library such it can be used with a number of graphical frontents. One of the design goals is to make this engine independent of a specific C++ library. Three Graphical User Interfaces (GUI) based on the Qt framework were programmed up to this point. They are called PlanesWidget, a simple QWidget approach which also includes debugging tools for the computer's strategy, PlanesGraphicsScene, a GUI based on the QGraphicsScene API, and PlanesQML, based on the QML engine. Another graphical user interface was programmed with Java and interfaces through the Java Native Interface to the C++ game engine.
+
+The complete source code of the projects can be found in GitHub (\url{https://github.com/xxxcucus/planes}).
 
 \chapter {The Game Engine }
 \section{Requirements Analysis}
