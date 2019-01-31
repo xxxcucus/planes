@@ -1,8 +1,8 @@
 \section{The Game Controller}
 
-The game of Planes consists of a series of rounds played by the player against the computer. The player wins when it wins more rounds as the computer. This section describes the game controller that coordinates a single round. 
+The game of Planes consists of a series of rounds played by the player against the computer. The player wins when he/she wins more rounds as the computer. This section describes the game controller that coordinates a single round. 
 
-In an initial version of the software the PlaneRound class made use of the signal and slots mechanism of Qt in order to communicate with the graphical user interface. But, in order to simplify the interaction between a graphical user interface written in Java and the PlaneRound, signal and slots were eliminated from PlaneRound and in fact from the whole game engine (from PlaneGrid). Actually all the dependencies between the game engine and the Qt libraries were eliminated for the above mentioned reason.
+In an initial version of the software the PlaneRound class made use of the signal and slots mechanism of Qt in order to communicate with the graphical user interface. But, in order to simplify the interaction between a graphical user interface written in Java and the PlaneRound, signal and slots were eliminated from PlaneRound and in fact from the whole game engine (more specifically from PlaneGrid). Actually all the dependencies between the game engine and the Qt libraries were eliminated for the above mentioned reason.
 
 \subsection {Class Definition and Important Functions}
 
@@ -27,6 +27,43 @@ The game controller is implemented in the class PlaneRound. Its member variable 
 \end{lstlisting}
 
 It keeps track of who should make the first move (m\_isComputerFirst), of the score (m\_gameStats) and of the moves made (m\_computerGuessList, m\_playerGuessList). The decision making is left to m\_computerLogic. The two game boards are modelled by m\_PlayerGrid and m\_ComputerGrid.
+
+The API that the PlaneRound offers is (mainly) as follows:
+
+\begin{lstlisting}
+
+	void initRound();
+	void roundEnds();
+	
+	bool didRoundEnd();
+	
+	void playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr);
+	void playerGuessIncomplete(int row, int col, GuessPoint::Type& guessRes, PlayerGuessReaction& pgr);
+	
+	void rotatePlane(int idx);
+	void movePlaneLeft(int idx);
+	void movePlaneRight(int idx);
+	void movePlaneUpwards(int idx);
+	void movePlaneDownwards(int idx);
+	
+	void doneEditing();
+	
+	int getRowNo() const;
+	int getColNo() const;
+	
+	int getPlaneNo() const;
+	int getPlaneSquareType(int i, int j, bool isComputer);
+	
+	int getPlayerGuessesNo();
+	int getComputerGuessesNo();
+	
+	GuessPoint getPlayerGuess(int idx);
+	GuessPoint getComputerGuess(int idx);
+
+\end{lstlisting}
+
+rotatePlane(), movePlaneLeft(), movePlaneRight(), movePlaneUpwards(), movePlaneDownwards(), and doneEditing() are used to position the planes on the player's board in the editing board step of a round. initRound(), roundEnds() and didRoundEnd() initialize, end a round or check if the round has ended. getRowNo(), getColNo(), getPlaneNo() return information about game board size and number of planes used. getPlaneSquareType() gives information about each of the squares of the game board allowing the graphical user interface to draw the square accordingly. getPlayerGuessesNo(), getComputerGuessesNo(), getPlayerGuess(), and getComputerGuess() give information about the number of guesses made in the game, their position and result.
+
 
 The game controller reacts to external events and generates events for other parts of the software using Qt's signal and slots mechanism (\ref{Qt_Signals_Slots}). 
 
