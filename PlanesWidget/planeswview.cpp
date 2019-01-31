@@ -146,7 +146,7 @@ void PlanesWView::receivedPlayerGuess(const GuessPoint& gp)
 
 void PlanesWView::startNewRound() {
 	printf("Start new round\n");
-	if (m_round->didGameEnd()) {
+	if (m_round->didRoundEnd()) {
 		m_gameStatsWidget->reset();
 		m_editPlanesWidget->initButtons();
 		m_playerArea->reset();

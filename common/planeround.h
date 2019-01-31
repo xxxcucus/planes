@@ -25,24 +25,30 @@ class PlaneRound {
 public:
 	enum class GameStages { GameNotStarted, BoardEditing, Game };
 
-	//constructs the round object
-	//PlaneRound(PlaneGrid* playerGrid, PlaneGrid* computerGrid, ComputerLogic* logic, bool isComputerFirst);
 	PlaneRound(int rowNo, int colNo, int planeNo);
 	~PlaneRound();
 
 	//inits a new round
 	void initRound();
+	//switches to the state GameNotStarted
 	void roundEnds();
 
-	bool didGameEnd() {
+	//checks if we are in state GameNotStarted
+	bool didRoundEnd() {
 		return m_State == GameStages::GameNotStarted;
 	}
 
+	/**
+	@param[in] gp - the player's guess together with its evaluation
+	@param[out] pgr - response to the player's guess: the computer's guess, if the game ended, winner, game statistics
+	Plays a step in the game, as triggered by the player's guess gp.
+	*/
 	void playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr);
 	/**
 		@param[in] row, col - coordinates of player's guess
 		@param[out] guessRes - the evaluation of the player's guess
 		@param[out] pgr - response to the player's guess: the computer's guess, if the game ended, winner, game statistics
+		Plays a step in the game, as triggered by the the player's guess coordinates.
 	*/
 	void playerGuessIncomplete(int row, int col, GuessPoint::Type& guessRes, PlayerGuessReaction& pgr);
 
@@ -104,7 +110,7 @@ private:
 	GuessPoint guessComputerMove();
 	//resets the round
 	void reset();
-	//is there a winner
+	//check to see if there is a winner
 	bool roundEnds(bool& isPlayerWinner);
 
 private:
