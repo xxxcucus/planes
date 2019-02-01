@@ -76,8 +76,7 @@ public void startNewRound() {
 	int computerHits = m_PlaneRound.playerGuess_StatNoComputerHits();
 	int computerMisses = m_PlaneRound.playerGuess_StatNoComputerMisses();
 	int computerDead = m_PlaneRound.playerGuess_StatNoComputerDead();
-	updateStats(playerWins, playerMoves, playerHits, playerMisses, playerDead, 
-			computerWins, computerMoves, computerHits, computerMisses, computerDead);
+	updateStats(playerWins, 0, 0, 0, 0, computerWins, 0, 0, 0, 0);
 	
 	m_RightPane.startNewRound();
 }
