@@ -128,7 +128,7 @@ The most important aspect of HeadData is that it contains 4 PlaneOrientationData
 
 \subsection{Data Available to the Computer}
 
-The computer's decisions are based on the class ComputerLogic. It contains informations about possible positions of planes on the game board. Let's look first what happens when new information comes from a guess made by the computer. This is done in the function addData().
+The computer's decisions are modelled by the class ComputerLogic. It contains informations about possible positions of planes on the game board. Let's look first what happens when new information comes from a guess made by the computer. This is done in the function addData().
 
 The guess is firstly pushed inside two lists m\_guessesList and m\_extendedGuessesList. Then two key data structures are updated with the given guess: the choice map and the head information. Following these two steps we look in the head information to see if we confirmed a plane position, and when we did we add it to m\_guessedPlaneList, eliminate it from m\_headDataList, and update the choice map with the positions of all the plane points on the found plane (with updateChoiceMapPlaneData()).
 
