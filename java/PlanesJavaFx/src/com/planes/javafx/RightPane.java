@@ -105,7 +105,7 @@ class RightPane extends TabPane
 	private BoardPane m_PlayerBoard;
 	private BoardPane m_ComputerBoard;
 	private PlaneRoundJavaFx m_PlaneRound;
-	Tab m_PlayerTab;
-	Tab m_ComputerTab;
-	LeftPane m_LeftPane;
+	private Tab m_PlayerTab;
+	private Tab m_ComputerTab;
+	private LeftPane m_LeftPane;
 }

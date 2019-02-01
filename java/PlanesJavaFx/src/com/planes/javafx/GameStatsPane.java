@@ -54,8 +54,8 @@ public class GameStatsPane extends Pane {
 		this.getChildren().add(gridPane);
 	}
 	
-	Text m_NoMovesValue;
-	Text m_NoMissesValue;
-	Text m_NoHitsValue;
-	Text m_NoGuessesValue;
+	private Text m_NoMovesValue;
+	private Text m_NoMissesValue;
+	private Text m_NoHitsValue;
+	private Text m_NoGuessesValue;
 }

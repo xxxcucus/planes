@@ -334,7 +334,7 @@ class BoardPane extends Pane
 	
 	private Map<PositionBoardPane, Canvas> m_GridSquares;
 	private PlaneRoundJavaFx m_PlaneRound;
-	RightPane m_RightPane;
+	private RightPane m_RightPane;
 	private int m_Padding = 3;
 	private boolean m_IsComputer = false;
 	private int m_MinPlaneBodyColor = 0;
