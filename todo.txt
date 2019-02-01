@@ -20,3 +20,4 @@
 20. PlanesGraphicsScene, PlanesQML, PlanesJavaFx - in the left pane always allow access to score tab, 
 but the "Start New Round" button should only be active at the end of one round.
 21. PlanesJavaFx - test with Linux.
+22. PlanesJavaFx: disable done button when the position of the planes is not valid.
