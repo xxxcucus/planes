@@ -18,6 +18,14 @@ public:
     explicit ScoreFrame(QWidget* parent = nullptr);
     void updateDisplayedValues(int computerScore, int playerScore);
 
+	void activateStartRoundButton() {
+		m_StartGameButton->setEnabled(true);
+	}
+
+	void deactivateStartRoundButton() {
+		m_StartGameButton->setEnabled(false);
+	}
+
 public:
     QLabel* m_PlayerScoreLabel = new QLabel("0");
     QLabel* m_ComputerScoreLabel = new QLabel("0");

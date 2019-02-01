@@ -342,7 +342,7 @@ class BoardPane extends Pane
 	private GameStages m_CurStage = GameStages.BoardEditing;
 	private int m_SelectedPlane = 0;
 	private EventHandler<MouseEvent> m_ClickedHandler;
-	Text m_AnimatedText;
-	GridPane m_GridPane;
+	private Text m_AnimatedText;
+	private GridPane m_GridPane;
 	
 }	//BoardPane	

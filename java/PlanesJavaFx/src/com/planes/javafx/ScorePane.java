@@ -17,6 +17,14 @@ public class ScorePane extends Pane {
 		m_ScoreComputerValue.setText(Integer.toString(computerWins));
 	}
 	
+	void activateStartRoundButton() {
+		m_StartNewRoundButton.setDisable(false);
+	}
+	
+	void deactivateStartRoundButton() {
+		m_StartNewRoundButton.setDisable(true);
+	}
+	
 	public ScorePane(LeftPane leftPane) {
 		m_LeftPane = leftPane;
 		GridPane gridPane = new GridPane();
@@ -42,15 +50,15 @@ public class ScorePane extends Pane {
             	m_LeftPane.startNewRound();
             }
         };
-		Button startNewRoundButton = new Button("Start New Round");
-		startNewRoundButton.setOnMouseClicked(m_StartRoundHandler);
+        m_StartNewRoundButton = new Button("Start New Round");
+        m_StartNewRoundButton.setOnMouseClicked(m_StartRoundHandler);
 		
 		gridPane.add(titleText,  0, 0);
 		gridPane.add(scoreComputerText, 0, 1);
 		gridPane.add(m_ScoreComputerValue, 1, 1);
 		gridPane.add(scorePlayerText,  0,  2);
 		gridPane.add(m_ScorePlayerValue, 1, 2);
-		gridPane.add(startNewRoundButton, 0, 3);
+		gridPane.add(m_StartNewRoundButton, 0, 3);
 		
 		gridPane.prefWidthProperty().bind(this.widthProperty());
         gridPane.prefHeightProperty().bind(this.heightProperty());
@@ -62,4 +70,5 @@ public class ScorePane extends Pane {
 	private Text m_ScoreComputerValue;
 	private LeftPane m_LeftPane;
 	private EventHandler<MouseEvent> m_StartRoundHandler;
+	private Button m_StartNewRoundButton;
 }

@@ -107,14 +107,16 @@ void LeftPane::activateGameTab() {
     setCurrentIndex(m_GameTabIndex);
     setTabEnabled(m_EditorTabIndex, false);
     setTabEnabled(m_GameTabIndex, true);
-    setTabEnabled(m_GameStartIndex, false);
+    setTabEnabled(m_GameStartIndex, true);
+	m_ScoreFrame->deactivateStartRoundButton();
 }
 
 void LeftPane::activateEditorTab() {
     setCurrentIndex(m_EditorTabIndex);
     setTabEnabled(m_EditorTabIndex, true);
     setTabEnabled(m_GameTabIndex, false);
-    setTabEnabled(m_GameStartIndex, false);
+    setTabEnabled(m_GameStartIndex, true);
+	m_ScoreFrame->deactivateStartRoundButton();
 }
 
 void LeftPane::activateStartGameTab() {
@@ -122,6 +124,7 @@ void LeftPane::activateStartGameTab() {
     setTabEnabled(m_EditorTabIndex, false);
     setTabEnabled(m_GameTabIndex, false);
     setTabEnabled(m_GameStartIndex, true);
+	m_ScoreFrame->activateStartRoundButton();
 }
 
 void LeftPane::setMinWidth()

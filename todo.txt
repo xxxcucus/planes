@@ -17,7 +17,7 @@
 17. Implement PlanesAndroid
 18. Deploy PlanesJavaFx.
 19. Use gradle or maven for PlanesJavaFx.
-20. PlanesGraphicsScene, PlanesQML, PlanesJavaFx - in the left pane always allow access to score tab, 
-but the "Start New Round" button should only be active at the end of one round.
+20. PlanesGraphicsScene, PlanesJavaFx - in the left pane always allow access to score tab, 
+but the "Start New Round" button should only be active at the end of one round. - ok 01.02.2019
 21. PlanesJavaFx - test with Linux.
 22. PlanesJavaFx: disable done button when the position of the planes is not valid.

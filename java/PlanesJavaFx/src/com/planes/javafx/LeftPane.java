@@ -28,7 +28,8 @@ public void activateGameTab() {
 	selectionModel.select(m_GameTab);
     m_EditorTab.setDisable(true);
     m_GameTab.setDisable(false);
-    m_StartRoundTab.setDisable(true);
+    m_StartRoundTab.setDisable(false);
+    m_ScorePane.deactivateStartRoundButton();
 }
 
 public void activateEditorTab() {
@@ -36,7 +37,8 @@ public void activateEditorTab() {
 	selectionModel.select(m_EditorTab);	
     m_EditorTab.setDisable(false);
     m_GameTab.setDisable(true);
-    m_StartRoundTab.setDisable(true);
+    m_StartRoundTab.setDisable(false);
+    m_ScorePane.deactivateStartRoundButton();
 }
 
 public void activateStartGameTab() {
@@ -45,6 +47,7 @@ public void activateStartGameTab() {
     m_EditorTab.setDisable(true);
     m_GameTab.setDisable(true);
     m_StartRoundTab.setDisable(false);
+    m_ScorePane.activateStartRoundButton();
 }
 
 public void updateStats(int playerWins, int playerMoves, int playerHits, int playerMisses, int playerDead, 
@@ -211,22 +214,22 @@ public LeftPane(PlaneRoundJavaFx planeRound) {
     activateEditorTab();
 	}
 
-	RightPane m_RightPane;
-	PlaneRoundJavaFx m_PlaneRound;
+	private RightPane m_RightPane;
+	private PlaneRoundJavaFx m_PlaneRound;
 	
-	GameStatsPane m_GspPlayer;
-	GameStatsPane m_GspComputer;
-	ScorePane m_ScorePane;
+	private GameStatsPane m_GspPlayer;
+	private GameStatsPane m_GspComputer;
+	private ScorePane m_ScorePane;
 	
-    Tab m_EditorTab;
-    Tab m_GameTab;
-    Tab m_StartRoundTab;	
+    private Tab m_EditorTab;
+    private Tab m_GameTab;
+    private Tab m_StartRoundTab;	
     
-	Button m_SelectButton = new Button("Select");
-	Button m_RotateButton = new Button("Rotate");			
-	Button m_UpButton = new Button("Up");
-	Button m_LeftButton = new Button("Left");			
-	Button m_RightButton = new Button("Right");
-	Button m_DownButton = new Button("Down");			
-	Button m_DoneButton = new Button("Done");	
+	private Button m_SelectButton = new Button("Select");
+	private Button m_RotateButton = new Button("Rotate");			
+	private Button m_UpButton = new Button("Up");
+	private Button m_LeftButton = new Button("Left");			
+	private Button m_RightButton = new Button("Right");
+	private Button m_DownButton = new Button("Down");			
+	private Button m_DoneButton = new Button("Done");	
 }
