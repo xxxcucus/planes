@@ -39,37 +39,37 @@ JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getPlaneSquareTyp
 	return global_Round->getPlaneSquareType(i, j, isComputer > 0 ? true : false);
 }
 
-JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_movePlaneLeft
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_movePlaneLeft
 (JNIEnv *, jobject, jint idx)
 {
-	global_Round->movePlaneLeft(int(idx));
+	return global_Round->movePlaneLeft(int(idx)) ? 1 : 0;
 }
 
-JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_movePlaneRight
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_movePlaneRight
 (JNIEnv *, jobject, jint idx)
 {
-	global_Round->movePlaneRight(int(idx));
-}
-
-
-JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_movePlaneUpwards
-(JNIEnv *, jobject, jint idx)
-{
-	global_Round->movePlaneUpwards(int(idx));
+	return global_Round->movePlaneRight(int(idx)) ? 1 : 0;
 }
 
 
-JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_movePlaneDownwards
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_movePlaneUpwards
 (JNIEnv *, jobject, jint idx)
 {
-	global_Round->movePlaneDownwards(int(idx));
+	return global_Round->movePlaneUpwards(int(idx)) ? 1 : 0;
 }
 
 
-JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_rotatePlane
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_movePlaneDownwards
 (JNIEnv *, jobject, jint idx)
 {
-	global_Round->rotatePlane(int(idx));
+	return global_Round->movePlaneDownwards(int(idx)) ? 1 : 0;
+}
+
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_rotatePlane
+(JNIEnv *, jobject, jint idx)
+{
+	return global_Round->rotatePlane(int(idx)) ? 1 : 0;
 }
 
 JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_doneClicked

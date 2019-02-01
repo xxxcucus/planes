@@ -65,24 +65,24 @@ class BoardPane extends Pane
 		m_SelectedPlane = (m_SelectedPlane + 1) % planeNo;
 	}
 	
-	public void movePlaneLeft() {
-		m_PlaneRound.movePlaneLeft(m_SelectedPlane);
+	public boolean movePlaneLeft() {
+		return m_PlaneRound.movePlaneLeft(m_SelectedPlane) == 1 ? true : false;
 	}
 	
-	public void movePlaneRight() {
-		m_PlaneRound.movePlaneRight(m_SelectedPlane);
+	public boolean movePlaneRight() {
+		return m_PlaneRound.movePlaneRight(m_SelectedPlane) == 1 ? true : false;
 	}
 	
-	public void movePlaneUpwards() {
-		m_PlaneRound.movePlaneUpwards(m_SelectedPlane);
+	public boolean movePlaneUpwards() {
+		return m_PlaneRound.movePlaneUpwards(m_SelectedPlane) == 1 ? true : false;
 	}
 	
-	public void movePlaneDownwards() {
-		m_PlaneRound.movePlaneDownwards(m_SelectedPlane);
+	public boolean movePlaneDownwards() {
+		return m_PlaneRound.movePlaneDownwards(m_SelectedPlane) == 1 ? true : false;
 	}
 	
-	public void rotatePlane() {
-		m_PlaneRound.rotatePlane(m_SelectedPlane);
+	public boolean rotatePlane() {
+		return m_PlaneRound.rotatePlane(m_SelectedPlane) == 1 ? true : false;
 	}
 	
 	public void doneClicked() {

@@ -94,57 +94,54 @@ public LeftPane(PlaneRoundJavaFx planeRound) {
 	col3.setPercentWidth(33);
 	gridPane.getColumnConstraints().addAll(col1, col2, col3);
 	
-	Button selectButton = new Button("Select");
-	Button rotateButton = new Button("Rotate");			
-	Button upButton = new Button("Up");
-	Button leftButton = new Button("Left");			
-	Button rightButton = new Button("Right");
-	Button downButton = new Button("Down");			
-	Button doneButton = new Button("Done");	
-	
-	selectButton.setOnAction(new EventHandler<ActionEvent>() {
+	m_SelectButton.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override 
 	    public void handle(ActionEvent e) {
 	        m_RightPane.selectPlane();
 	        m_RightPane.updateBoards();	        
 	    }		
 	});
-	rotateButton.setOnAction(new EventHandler<ActionEvent>() {
+	m_RotateButton.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override 
 	    public void handle(ActionEvent e) {
-	        m_RightPane.rotatePlane();
-	        m_RightPane.updateBoards();	        
+	        boolean valid = m_RightPane.rotatePlane();
+	        m_RightPane.updateBoards();	
+	        m_DoneButton.setDisable(!valid);
 	    }		
 	});		
-	upButton.setOnAction(new EventHandler<ActionEvent>() {
+	m_UpButton.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override 
 	    public void handle(ActionEvent e) {
-	        m_RightPane.movePlaneUpwards();
-	        m_RightPane.updateBoards();	        
+	        boolean valid = m_RightPane.movePlaneUpwards();
+	        m_RightPane.updateBoards();	 
+	        m_DoneButton.setDisable(!valid);
 	    }		
 	});
-	leftButton.setOnAction(new EventHandler<ActionEvent>() {
+	m_LeftButton.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override 
 	    public void handle(ActionEvent e) {
-	        m_RightPane.movePlaneLeft();
-	        m_RightPane.updateBoards();	        
+	        boolean valid = m_RightPane.movePlaneLeft();
+	        m_RightPane.updateBoards();	  
+	        m_DoneButton.setDisable(!valid);
 	    }		
 	});				
-	rightButton.setOnAction(new EventHandler<ActionEvent>() {
+	m_RightButton.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override 
 	    public void handle(ActionEvent e) {
-	        m_RightPane.movePlaneRight();
-	        m_RightPane.updateBoards();	        
+	        boolean valid = m_RightPane.movePlaneRight();
+	        m_RightPane.updateBoards();	
+	        m_DoneButton.setDisable(!valid);
 	    }		
 	});
-	downButton.setOnAction(new EventHandler<ActionEvent>() {
+	m_DownButton.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override 
 	    public void handle(ActionEvent e) {
-	        m_RightPane.movePlaneDownwards();
-	        m_RightPane.updateBoards();	        
+	        boolean valid = m_RightPane.movePlaneDownwards();
+	        m_RightPane.updateBoards();	
+	        m_DoneButton.setDisable(!valid);
 	    }		
 	});		
-	doneButton.setOnAction(new EventHandler<ActionEvent>() {
+	m_DoneButton.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override 
 	    public void handle(ActionEvent e) {
 	        m_RightPane.doneClicked();
@@ -161,21 +158,21 @@ public LeftPane(PlaneRoundJavaFx planeRound) {
     gridPane.prefWidthProperty().bind(this.widthProperty());
     gridPane.prefHeightProperty().bind(this.heightProperty());
 
-	gridPane.add(selectButton, 1, 0);
-    gridPane.add(rotateButton, 1, 1);
-    gridPane.add(upButton, 1, 2);
-    gridPane.add(leftButton, 0, 3);
-    gridPane.add(rightButton, 2, 3);
-    gridPane.add(downButton, 1, 4);
-    gridPane.add(doneButton, 1, 5);	
+	gridPane.add(m_SelectButton, 1, 0);
+    gridPane.add(m_RotateButton, 1, 1);
+    gridPane.add(m_UpButton, 1, 2);
+    gridPane.add(m_LeftButton, 0, 3);
+    gridPane.add(m_RightButton, 2, 3);
+    gridPane.add(m_DownButton, 1, 4);
+    gridPane.add(m_DoneButton, 1, 5);	
     
-	GridPane.setHalignment(selectButton, HPos.CENTER);
-    GridPane.setHalignment(rotateButton, HPos.CENTER);
-    GridPane.setHalignment(upButton, HPos.CENTER);
-    GridPane.setHalignment(leftButton, HPos.CENTER);
-    GridPane.setHalignment(rightButton, HPos.CENTER);
-    GridPane.setHalignment(downButton, HPos.CENTER);
-    GridPane.setHalignment(doneButton, HPos.CENTER);	
+	GridPane.setHalignment(m_SelectButton, HPos.CENTER);
+    GridPane.setHalignment(m_RotateButton, HPos.CENTER);
+    GridPane.setHalignment(m_UpButton, HPos.CENTER);
+    GridPane.setHalignment(m_LeftButton, HPos.CENTER);
+    GridPane.setHalignment(m_RightButton, HPos.CENTER);
+    GridPane.setHalignment(m_DownButton, HPos.CENTER);
+    GridPane.setHalignment(m_DoneButton, HPos.CENTER);	
     
     //gridPane.prefWidth(300);
     //this.getChildren().add(gridPane);
@@ -224,4 +221,12 @@ public LeftPane(PlaneRoundJavaFx planeRound) {
     Tab m_EditorTab;
     Tab m_GameTab;
     Tab m_StartRoundTab;	
+    
+	Button m_SelectButton = new Button("Select");
+	Button m_RotateButton = new Button("Rotate");			
+	Button m_UpButton = new Button("Up");
+	Button m_LeftButton = new Button("Left");			
+	Button m_RightButton = new Button("Right");
+	Button m_DownButton = new Button("Down");			
+	Button m_DoneButton = new Button("Done");	
 }

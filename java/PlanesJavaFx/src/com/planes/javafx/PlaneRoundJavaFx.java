@@ -17,11 +17,11 @@ public class PlaneRoundJavaFx {
 	public native int getPlaneSquareType(int i, int j, int isComputer);
 	
 	//edit the board
-	public native void movePlaneLeft(int idx);
-	public native void movePlaneRight(int idx);
-	public native void movePlaneUpwards(int idx);
-	public native void movePlaneDownwards(int idx);
-	public native void rotatePlane(int idx);
+	public native int movePlaneLeft(int idx);
+	public native int movePlaneRight(int idx);
+	public native int movePlaneUpwards(int idx);
+	public native int movePlaneDownwards(int idx);
+	public native int rotatePlane(int idx);
 	public native void doneClicked();
 	
 	//play the game

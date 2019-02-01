@@ -222,22 +222,27 @@ int PlaneRound::getPlaneSquareType(int row, int col, bool isComputer)
 	return 0;
 }
 
-void PlaneRound::rotatePlane(int idx) {
+bool PlaneRound::rotatePlane(int idx) {
 	m_PlayerGrid->rotatePlane(idx);
+	return !(m_PlayerGrid->doPlanesOverlap() || m_PlayerGrid->isPlaneOutsideGrid());
 }
 
-void PlaneRound::movePlaneLeft(int idx) {
+bool PlaneRound::movePlaneLeft(int idx) {
 	m_PlayerGrid->movePlaneLeft(idx);
+	return !(m_PlayerGrid->doPlanesOverlap() || m_PlayerGrid->isPlaneOutsideGrid());
 }
 
-void PlaneRound::movePlaneRight(int idx) {
+bool PlaneRound::movePlaneRight(int idx) {
 	m_PlayerGrid->movePlaneRight(idx);
+	return !(m_PlayerGrid->doPlanesOverlap() || m_PlayerGrid->isPlaneOutsideGrid());
 }
 
-void PlaneRound::movePlaneUpwards(int idx) {
+bool PlaneRound::movePlaneUpwards(int idx) {
 	m_PlayerGrid->movePlaneUpwards(idx);
+	return !(m_PlayerGrid->doPlanesOverlap() || m_PlayerGrid->isPlaneOutsideGrid());
 }
 
-void PlaneRound::movePlaneDownwards(int idx) {
+bool PlaneRound::movePlaneDownwards(int idx) {
 	m_PlayerGrid->movePlaneDownwards(idx);
+	return !(m_PlayerGrid->doPlanesOverlap() || m_PlayerGrid->isPlaneOutsideGrid());
 }

@@ -52,11 +52,26 @@ public:
 	*/
 	void playerGuessIncomplete(int row, int col, GuessPoint::Type& guessRes, PlayerGuessReaction& pgr);
 
-	void rotatePlane(int idx);
-	void movePlaneLeft(int idx);
-	void movePlaneRight(int idx);
-	void movePlaneUpwards(int idx);
-	void movePlaneDownwards(int idx);
+	/**
+	Rotate the plane and return false if the current plane configuration is valid.
+	*/
+	bool rotatePlane(int idx);
+	/**
+	Move the plane left and return false if the current plane configuration is valid.
+	*/
+	bool movePlaneLeft(int idx);
+	/**
+	Move the plane right and return false if the current plane configuration is valid.
+	*/
+	bool movePlaneRight(int idx);
+	/**
+	Move the plane upwards and return false if the current plane configuration is valid.
+	*/
+	bool movePlaneUpwards(int idx);
+	/**
+	Move the plane downwards and return false if the current plane configuration is valid.
+	*/
+	bool movePlaneDownwards(int idx);
 
 	void doneEditing();
 

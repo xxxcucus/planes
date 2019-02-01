@@ -12,24 +12,24 @@ class RightPane extends TabPane
 		m_PlayerBoard.selectPlane();
 	}
 	
-	public void rotatePlane() {
-		m_PlayerBoard.rotatePlane();
+	public boolean rotatePlane() {
+		return m_PlayerBoard.rotatePlane();
 	}	
 	
-	public void movePlaneLeft() {
-		m_PlayerBoard.movePlaneLeft();
+	public boolean movePlaneLeft() {
+		return m_PlayerBoard.movePlaneLeft();
 	}
 	
-	public void movePlaneRight() {
-		m_PlayerBoard.movePlaneRight();
+	public boolean movePlaneRight() {
+		return m_PlayerBoard.movePlaneRight();
 	}
 	
-	public void movePlaneDownwards() {
-		m_PlayerBoard.movePlaneDownwards();
+	public boolean movePlaneDownwards() {
+		return m_PlayerBoard.movePlaneDownwards();
 	}
 	
-	public void movePlaneUpwards() {
-		m_PlayerBoard.movePlaneUpwards();
+	public boolean movePlaneUpwards() {
+		return m_PlayerBoard.movePlaneUpwards();
 	}
 	
 	public void roundEnds() {
