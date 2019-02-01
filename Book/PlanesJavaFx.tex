@@ -32,11 +32,11 @@ public class PlaneRoundJavaFx {
 	public native int getPlaneSquareType(int i, int j, int isComputer);
 	
 	//edit the board
-	public native void movePlaneLeft(int idx);
-	public native void movePlaneRight(int idx);
-	public native void movePlaneUpwards(int idx);
-	public native void movePlaneDownwards(int idx);
-	public native void rotatePlane(int idx);
+	public native int movePlaneLeft(int idx);
+	public native int movePlaneRight(int idx);
+	public native int movePlaneUpwards(int idx);
+	public native int movePlaneDownwards(int idx);
+	public native int rotatePlane(int idx);
 	public native void doneClicked();
 	
 	//play the game
@@ -180,6 +180,10 @@ The left pane is a tab widget with three tabs:
 	\item a game tab, which shows the moves statistics during the game
 	\item a start new round tab, showing the global score and a button allowing to start a new round
 \end{itemize}
+
+\subsection {RightPane}
+
+The right pane is a tab widget with two tabs: one is the player game board and the other is the computer game board.
 
 \subsection{C++ Concepts}
 
