@@ -67,15 +67,7 @@ public void startNewRound() {
 	
 	//update the statistics 
 	int playerWins = m_PlaneRound.playerGuess_StatNoPlayerWins();
-	int playerMoves = m_PlaneRound.playerGuess_StatNoPlayerMoves();
-	int playerHits = m_PlaneRound.playerGuess_StatNoPlayerHits();
-	int playerMisses = m_PlaneRound.playerGuess_StatNoPlayerMisses();
-	int playerDead = m_PlaneRound.playerGuess_StatNoPlayerDead();
 	int computerWins = m_PlaneRound.playerGuess_StatNoComputerWins();
-	int computerMoves = m_PlaneRound.playerGuess_StatNoComputerMoves();
-	int computerHits = m_PlaneRound.playerGuess_StatNoComputerHits();
-	int computerMisses = m_PlaneRound.playerGuess_StatNoComputerMisses();
-	int computerDead = m_PlaneRound.playerGuess_StatNoComputerDead();
 	updateStats(playerWins, 0, 0, 0, 0, computerWins, 0, 0, 0, 0);
 	
 	m_RightPane.startNewRound();
