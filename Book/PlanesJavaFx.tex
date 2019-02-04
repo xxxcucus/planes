@@ -181,6 +181,27 @@ The function playerGuessIncomplete is defined in the PlaneRound class (\ref{Game
 
 The computer's game board and the player's game board are parts of the right pane and are displayed using the functionality offered by the PlaneRoundJavaFx object. The functionality is implemented in the class BoardPane.
 
+The member variables are as follows:
+
+\begin{lstlisting}
+
+	private Map<PositionBoardPane, Canvas> m_GridSquares;
+	private PlaneRoundJavaFx m_PlaneRound;
+	private RightPane m_RightPane;
+	private int m_Padding = 3;
+	private boolean m_IsComputer = false;
+	private int m_MinPlaneBodyColor = 0;
+	private int m_MaxPlaneBodyColor = 200;	
+	private GameStages m_CurStage = GameStages.BoardEditing;
+	private int m_SelectedPlane = 0;
+	private EventHandler<MouseEvent> m_ClickedHandler;
+	private Text m_AnimatedText;
+	private GridPane m_GridPane;
+
+\end{lstlisting}
+
+The gameboard is a rectangle of squares with a padding, allowing the rotation of planes when they are close to the boundary of the board. How big is the padding is defined by the member variable m\_Padding.
+
 \subsection{C++ Concepts}
 
 \subsubsection{Global Variables} 
@@ -189,3 +210,9 @@ The computer's game board and the player's game board are parts of the right pan
 
 \subsubsection{Layouts}
 \subsubsection{Properties and Property Binding}
+
+\subsection {Java Concepts}
+
+\subsubsection{Access Specifiers}
+
+Access specifiers in Java are the same as in C++ (TODO: reference) except that they are placed in front of each member variable or member function.
