@@ -94,51 +94,81 @@ class BoardPane extends Pane
 		m_AnimatedText.setVisible(false);
 	}
 	
+	public Color computeSquareBackgroundColor(int i, int j) {
+		Color squareColor = null;
+		 
+		if (i < m_Padding || i >= m_GRows + m_Padding || j < m_Padding || j >= m_GCols + m_Padding) {
+			squareColor = Color.YELLOW;
+		} else {
+			squareColor = Color.AQUA;
+		}
+		
+		if (!m_IsComputer || (m_IsComputer && m_CurStage == GameStages.GameNotStarted)) {
+			int type = m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, m_IsComputer ? 1 : 0);
+			switch (type) {					
+				//intersecting planes
+				case -1:
+					squareColor = Color.RED;
+					break;								
+				//plane head
+				case -2:
+					squareColor = Color.GREEN;
+					break;			
+				//not a plane	
+				case 0:
+					break;					
+				//plane but not plane head
+				default:
+					if ((type - 1) == m_SelectedPlane) {
+						squareColor = Color.BLUE;
+					} else {
+						int grayCol = m_MinPlaneBodyColor + type * m_ColorStep;
+						squareColor = Color.rgb(grayCol, grayCol, grayCol);
+					}
+					break;						
+			}
+		}
+		return squareColor;
+	}
+	
+	public void drawGuess(int type, GraphicsContext gc, int width, int height) {
+		//enum Type {Miss = 0, Hit = 1, Dead = 2};
+		switch (type) {
+			case 0:
+				//draw red circle
+				gc.fillOval(width / 4, width / 4, width / 2, height / 2);
+				break;
+			case 1:
+				//draw triangle
+				gc.beginPath();
+			    gc.moveTo(0, height / 2);
+			    gc.lineTo(width / 2, 0);
+			    gc.lineTo(width, height / 2);
+			    gc.lineTo(width / 2, height);
+			    gc.lineTo(0, height / 2);
+			    gc.fill();
+			    gc.closePath();
+			    gc.stroke();
+				break;
+			case 2:
+				//draw X
+			    gc.strokeLine(0, 0, width, width);
+			    gc.strokeLine(0, width, width, 0);						
+				break;
+		}
+	}
+	
 	public void updateBoard() {
 		System.out.println("Update board");
-        int gRows = m_PlaneRound.getRowNo();
-        int gCols = m_PlaneRound.getColNo();
-        int planeNo = m_PlaneRound.getPlaneNo();
-        int colorStep = (m_MaxPlaneBodyColor - m_MinPlaneBodyColor) / planeNo;
 		
-		for (int i = 0; i < gRows + 2 * m_Padding; i++) {
-			for (int j = 0; j < gCols + 2 * m_Padding; j++) {
+		//draw the squares background
+		for (int i = 0; i < m_GRows + 2 * m_Padding; i++) {
+			for (int j = 0; j < m_GCols + 2 * m_Padding; j++) {
 				Canvas c = m_GridSquares.get(new PositionBoardPane(i, j));
 				GraphicsContext gc = c.getGraphicsContext2D();
 				//compute the color of the square
-				Color squareColor = null;
-				 
-				if (i < m_Padding || i >= gRows + m_Padding || j < m_Padding || j >= gCols + m_Padding) {
-					squareColor = Color.YELLOW;
-				} else {
-					squareColor = Color.AQUA;
-				}
 				
-				if (!m_IsComputer || (m_IsComputer && m_CurStage == GameStages.GameNotStarted)) {
-					int type = m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, m_IsComputer ? 1 : 0);
-					switch (type) {					
-						//intersecting planes
-						case -1:
-							squareColor = Color.RED;
-							break;								
-						//plane head
-						case -2:
-							squareColor = Color.GREEN;
-							break;			
-						//not a plane	
-						case 0:
-							break;					
-						//plane but not plane head
-						default:
-							if ((type - 1) == m_SelectedPlane) {
-								squareColor = Color.BLUE;
-							} else {
-								int grayCol = m_MinPlaneBodyColor + type * colorStep;
-								squareColor = Color.rgb(grayCol, grayCol, grayCol);
-							}
-							break;						
-					}
-				}
+				Color squareColor = computeSquareBackgroundColor(i, j);
 				
 				//antialiasing
 			    gc.setFill(Color.WHITE);
@@ -153,6 +183,7 @@ class BoardPane extends Pane
 		
 		int count = 0;
 		
+		//draw the guesses and the guess results
 		if (m_IsComputer)
 			count = m_PlaneRound.getComputerGuessesNo();
 		else
@@ -180,31 +211,7 @@ class BoardPane extends Pane
 			int height = (int)c.getHeight();
 			gc.setFill(Color.RED);
 			gc.setStroke(Color.RED);
-			
-			//enum Type {Miss = 0, Hit = 1, Dead = 2};
-			switch (type) {
-				case 0:
-					//draw red circle
-					gc.fillOval(width / 4, width / 4, width / 2, height / 2);
-					break;
-				case 1:
-					//draw triangle
-					gc.beginPath();
-				    gc.moveTo(0, height / 2);
-				    gc.lineTo(width / 2, 0);
-				    gc.lineTo(width, height / 2);
-				    gc.lineTo(width / 2, height);
-				    gc.lineTo(0, height / 2);
-				    gc.fill();
-				    gc.closePath();
-				    gc.stroke();
-					break;
-				case 2:
-					//draw X
-				    gc.strokeLine(0, 0, width, width);
-				    gc.strokeLine(0, width, width, 0);						
-					break;
-			}
+			drawGuess(type, gc, width, height);
 		}
 	}
 	
@@ -328,6 +335,10 @@ class BoardPane extends Pane
 		group.getChildren().add(m_GridPane);
 		group.getChildren().add(m_AnimatedText);
 		
+        m_GRows = m_PlaneRound.getRowNo();
+        m_GCols = m_PlaneRound.getColNo();
+        m_PlaneNo = m_PlaneRound.getPlaneNo();
+        m_ColorStep = (m_MaxPlaneBodyColor - m_MinPlaneBodyColor) / m_PlaneNo;
 		
 		this.getChildren().add(group);
 	}
@@ -344,5 +355,10 @@ class BoardPane extends Pane
 	private EventHandler<MouseEvent> m_ClickedHandler;
 	private Text m_AnimatedText;
 	private GridPane m_GridPane;
+	
+	private int m_GRows = 10;
+	private int m_GCols = 10;
+	private int m_PlaneNo = 3;
+	private int m_ColorStep = 50;
 	
 }	//BoardPane	
