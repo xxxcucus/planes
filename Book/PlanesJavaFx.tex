@@ -198,9 +198,63 @@ The member variables are as follows:
 	private Text m_AnimatedText;
 	private GridPane m_GridPane;
 
+	private int m_GRows = 10;
+	private int m_GCols = 10;
+	private int m_PlaneNo = 3;
+	private int m_ColorStep = 50;
+
 \end{lstlisting}
 
-The gameboard is a rectangle of squares with a padding, allowing the rotation of planes when they are close to the boundary of the board. How big is the padding is defined by the member variable m\_Padding.
+The gameboard is a rectangle of squares with a padding, allowing the rotation of planes when they are close to the boundary of the board. How big is the padding is defined by the member variable m\_Padding. Whether the board belongs to the player or to the computer is defined by the boolean m\_IsComputer. For editing the game board planes must be selected in order to move them. The currently selected plane is defined with the variable m\_SelectedPlane. Each of the planes on the game board is displayed in a gray tone, which is defined by the maximum and minimum gray tone as well as by the number of planes. The maximum and minimum gray tone levels are defined by the variables m\_MinPlaneBodyColor and m\_MaxPlaneBodyColor. The current stage of the game (game, board editing, game not started yet) is defined by the variable m\_CurStage.
+
+What is displayed in each of the cells of the game board is defined with the map m\_GridSquares, these are objects of the Canvas class, which is a graphical object in which one can draw. The layout of the board is defined with the m\_GridPane variable. What happens when the user clicks on board cell is defined with the event handler m\_ClickedHandler. 
+
+At the end of a round an animated text is displayed in the computer's board. This text is defined with the variable m\_AnimatedText. 
+
+A reference to the right pane is saved in the variable m\_RightPane such that  methods of this class can be directly called. Finally the game engine is saved in the variable m\_PlaneRound.
+
+The color of the board cell is computed with the following function:
+
+\begin{lstlisting}
+
+public Color computeSquareBackgroundColor(int i, int j) {
+	Color squareColor = null;
+	
+	if (i < m_Padding || i >= m_GRows + m_Padding || j < m_Padding || j >= m_GCols + m_Padding) {
+		squareColor = Color.YELLOW;
+	} else {
+		squareColor = Color.AQUA;
+	}
+	
+	if (!m_IsComputer || (m_IsComputer && m_CurStage == GameStages.GameNotStarted)) {
+		int type = m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, m_IsComputer ? 1 : 0);
+		switch (type) {					
+		//intersecting planes
+		case -1:
+			squareColor = Color.RED;
+			break;								
+		//plane head
+		case -2:
+			squareColor = Color.GREEN;
+			break;			
+		//not a plane	
+		case 0:
+			break;					
+		//plane but not plane head
+		default:
+			if ((type - 1) == m_SelectedPlane) {
+				squareColor = Color.BLUE;
+			} else {
+				int grayCol = m_MinPlaneBodyColor + type * m_ColorStep;
+				squareColor = Color.rgb(grayCol, grayCol, grayCol);
+			}
+			break;						
+		}
+	}
+	return squareColor;
+}
+
+\end{lstlisting}
 
 \subsection{C++ Concepts}
 
@@ -216,3 +270,5 @@ The gameboard is a rectangle of squares with a padding, allowing the rotation of
 \subsubsection{Access Specifiers}
 
 Access specifiers in Java are the same as in C++ (TODO: reference) except that they are placed in front of each member variable or member function.
+
+\subsubsection {Event Handlers}
