@@ -6,7 +6,7 @@
         android:label="Planes Android"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".PlanesAndroid">
+        <activity android:name=".PlanesAndroidActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -1,0 +1,12 @@
+package com.planes.android;
+
+import android.content.Context;
+import android.widget.TabHost;
+
+//bottom pane in a vertical layout
+public class BottomPane_Vertical extends TabHost {
+
+    public BottomPane_Vertical(Context context) {
+        super(context);
+    }
+}
