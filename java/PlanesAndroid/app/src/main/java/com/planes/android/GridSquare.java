@@ -8,6 +8,8 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
+import static java.lang.Math.min;
+
 public class GridSquare extends View {
     public GridSquare(Context context) {
         super(context);
@@ -29,12 +31,24 @@ public class GridSquare extends View {
         init();
     }
 
-    void setBackgroundColor(int r, int g, int b) {
+    public void setBackgroundColor(int r, int g, int b) {
         m_BackgroundColor = (255 & 0xff) << 24 | (r & 0xff) << 16 | (g & 0xff) << 8 | (b & 0xff);
     }
 
-    void setGuess(int guess_type) {
+    public void setBackgroundColor(int color) {
+        m_BackgroundColor = color;
+    }
+
+    public void setGuess(int guess_type) {
         m_GuessType = guess_type;
+    }
+
+    public void setRowCount(int row_count) {
+        m_RowCount = row_count;
+    }
+
+    public void setColCount(int col_count) {
+        m_ColCount = col_count;
     }
 
     @Override
@@ -74,7 +88,8 @@ public class GridSquare extends View {
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         //int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-        setMeasuredDimension(widthSize, heightSize);
+        int width = min(widthSize / m_RowCount, heightSize / m_ColCount);
+        setMeasuredDimension(width, width);
         allocateMemory();
     }
 
@@ -97,6 +112,8 @@ public class GridSquare extends View {
     private int m_BackgroundColor;
     private int m_GuessColor;
     private int m_GuessType = -1; //no guess
+    private int m_RowCount = 10;
+    private int m_ColCount = 10;
     private Paint m_Paint;
     private RectF m_MissCircle;
     private Path m_HitPath;
