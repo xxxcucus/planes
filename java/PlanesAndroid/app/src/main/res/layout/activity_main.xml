@@ -4,4 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TabHost
+        android:id="@+id/top_pane"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TabHost
+        android:id="@+id/bottom_pane"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+    />
+
 </LinearLayout>
