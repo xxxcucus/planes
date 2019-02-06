@@ -2,7 +2,7 @@ package com.planes.javafx;
 
 
 //JNI class interfacing to the c++ game engine
-public class PlaneRoundAndroid {
+public class PlaneRoundJavaFx {
     static {
         System.loadLibrary("libCommon"); // Load native library
     }

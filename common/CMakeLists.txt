@@ -4,17 +4,22 @@ project (libCommon)
 cmake_policy(SET CMP0020 NEW)
 cmake_policy(SET CMP0043 NEW)
 
-if (With_Java)
+#clang means android
+if (__clang__)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
+endif(__clang__)
+
+if (With_Java OR __clang__)
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	$ENV{JAVA_HOME}/include/
 	$ENV{JAVA_HOME}/include/win32/
 	)
-else (With_Java)
+else (With_Java OR __clang__)
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	)
-endif (With_Java)
+endif (With_Java OR __clang__)
 
 set(COMMON_HEADR 
 	plane.h
@@ -29,9 +34,9 @@ set(COMMON_HEADR
 	planeorientationdata.h
 	headdata.h)
 
-if (With_Java)
+if (With_Java OR __clang__)
 	list(APPEND COMMON_HEADR com_planes_javafx_PlaneRoundJavaFx.h)
-endif (With_Java)
+endif (With_Java OR __clang__)
 
 set(COMMON_SRCS 	
 	plane.cpp
@@ -46,9 +51,9 @@ set(COMMON_SRCS
 	planeorientationdata.cpp
 	headdata.cpp)
 
-if (With_Java)
+if (With_Java OR __clang__)
 	list(APPEND COMMON_SRCS com_planes_javafx_PlaneRoundJavaFx.cpp)
-endif (With_Java)
+endif (With_Java OR __clang__)
 
 add_library(libCommon SHARED ${COMMON_SRCS} ${COMMON_HEADR})
 install(TARGETS libCommon DESTINATION bin)
