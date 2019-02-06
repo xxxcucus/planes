@@ -1,5 +1,6 @@
 #include "planeround.h"
 #include <ctime>
+#include <cmath>
 
 PlaneRound::PlaneRound(int rowNo, int colNo, int planeNo):
 	m_rowNo(rowNo), m_colNo(colNo), m_planeNo(planeNo)

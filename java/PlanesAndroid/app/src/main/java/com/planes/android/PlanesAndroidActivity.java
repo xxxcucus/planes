@@ -13,4 +13,6 @@ public class PlanesAndroidActivity extends Activity {
         //PlanesVerticalLayout parentLayout = new PlanesVerticalLayout(this);
         //setContentView(parentLayout);
     }
+
+    private PlaneRoundAndroid m_PlaneRound;
 }

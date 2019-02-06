@@ -26,11 +26,6 @@ public class GridSquare extends View {
         init();
     }
 
-    public GridSquare(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init();
-    }
-
     public void setBackgroundColor(int r, int g, int b) {
         m_BackgroundColor = (255 & 0xff) << 24 | (r & 0xff) << 16 | (g & 0xff) << 8 | (b & 0xff);
     }

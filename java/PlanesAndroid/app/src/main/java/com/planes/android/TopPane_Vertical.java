@@ -65,11 +65,6 @@ public class TopPane_Vertical extends GridLayout {
         init(context);
     }
 
-    public TopPane_Vertical(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(context);
-    }
-
     private void init(Context context) {
         setRowCount(m_GRows + 2 * m_Padding);
         setColumnCount(m_GCols + 2 * m_Padding);
