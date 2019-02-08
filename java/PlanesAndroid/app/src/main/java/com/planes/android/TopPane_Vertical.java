@@ -65,6 +65,12 @@ public class TopPane_Vertical extends GridLayout {
         init(context);
     }
 
+    void setGameSettings(int nrows, int ncols, int nplanes) {
+        m_GRows = nrows;
+        m_GCols = ncols;
+        m_PlaneNo = nplanes;
+    }
+
     private void init(Context context) {
         setRowCount(m_GRows + 2 * m_Padding);
         setColumnCount(m_GCols + 2 * m_Padding);
