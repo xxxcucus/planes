@@ -19,3 +19,5 @@ bin
 /Book/*.pdf
 /Book/*.gz
 /Book/*.toc
+.idea
+.externalNativeBuild
