@@ -15,7 +15,7 @@ public class PlanesAndroidActivity extends Activity {
         m_PlaneRound = new PlaneRoundJavaFx();
         m_PlaneRound.createPlanesRound();
 
-        m_BoardWidgets = new TopPane_Vertical(this);
+        m_BoardWidgets = (TopPane_Vertical)findViewById(R.id.top_pane);
         m_BoardWidgets.setGameSettings(10, 10, 3);
 
         //PlanesVerticalLayout parentLayout = new PlanesVerticalLayout(this);

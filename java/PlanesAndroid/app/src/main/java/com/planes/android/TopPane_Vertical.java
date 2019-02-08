@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 import android.widget.GridLayout;
 import android.widget.GridLayout.Spec;
 
+import com.planes.javafx.PlaneRoundJavaFx;
+
 import java.util.Map;
 
 
@@ -52,23 +54,30 @@ public class TopPane_Vertical extends GridLayout {
 
     public TopPane_Vertical(Context context) {
         super(context);
-        init(context);
+        //setGameSettings(nrows, ncols, nplanes);
+        //m_PlaneRound = planeRound;
+        m_Context = context;
     }
 
     public TopPane_Vertical(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        //setGameSettings(nrows, ncols, nplanes);
+        //m_PlaneRound = planeRound;
+        m_Context = context;
     }
 
     public TopPane_Vertical(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        //setGameSettings(nrows, ncols, nplanes);
+        //m_PlaneRound = planeRound;
+        m_Context = context;
     }
 
-    void setGameSettings(int nrows, int ncols, int nplanes) {
+    public void setGameSettings(int nrows, int ncols, int nplanes) {
         m_GRows = nrows;
         m_GCols = ncols;
         m_PlaneNo = nplanes;
+        init(m_Context);
     }
 
     private void init(Context context) {
@@ -81,7 +90,7 @@ public class TopPane_Vertical extends GridLayout {
                 if ( i < m_Padding || i >= m_GRows + m_Padding || j < m_Padding || j >= m_GCols + m_Padding)
                     gs.setBackgroundColor(Color.YELLOW);
                 else
-                    gs.setBackgroundColor(Color.BLUE);
+                    gs.setBackgroundColor(getResources().getColor(R.color.aqua));
                 gs.setGuess(-1);
                 gs.setRowCount(m_GRows + 2 * m_Padding);
                 gs.setColCount(m_GCols + 2 * m_Padding);
@@ -95,7 +104,7 @@ public class TopPane_Vertical extends GridLayout {
 
     private Map<PositionBoardPane, GridSquare> m_GridSquares;
     //private PlaneRoundJavaFx m_PlaneRound;
-    private int m_Padding = 3;
+    private int m_Padding = 0;
     private boolean m_IsComputer = false;
     private int m_MinPlaneBodyColor = 0;
     private int m_MaxPlaneBodyColor = 200;
@@ -107,4 +116,8 @@ public class TopPane_Vertical extends GridLayout {
     private int m_GCols = 10;
     private int m_PlaneNo = 3;
     private int m_ColorStep = 50;
+
+    private PlaneRoundJavaFx m_PlaneRound;
+
+    private Context m_Context;
 }
