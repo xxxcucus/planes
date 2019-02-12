@@ -130,7 +130,7 @@ public class TopPane_Vertical extends GridLayout {
 
         //if (!m_IsComputer || (m_IsComputer && m_CurStage == GameStages.GameNotStarted)) {
         if (true) {
-            int type = m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, 0);
+            int type = m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, m_IsComputer ? 1 : 0);
             switch (type) {
                 //intersecting planes
                 case -1:
