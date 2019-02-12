@@ -8,6 +8,7 @@ import android.widget.GridLayout.Spec;
 
 import com.planes.javafx.PlaneRoundJavaFx;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -73,16 +74,21 @@ public class TopPane_Vertical extends GridLayout {
         m_Context = context;
     }
 
-    public void setGameSettings(int nrows, int ncols, int nplanes) {
-        m_GRows = nrows;
-        m_GCols = ncols;
-        m_PlaneNo = nplanes;
+    public void setGameSettings(PlaneRoundJavaFx planeRound) {
+        m_PlaneRound = planeRound;
+        m_GRows = m_PlaneRound.getRowNo();
+        m_GCols = m_PlaneRound.getColNo();
+        m_PlaneNo = m_PlaneRound.getPlaneNo();
+        m_PlaneRound = planeRound;
+        m_ColorStep = (m_MaxPlaneBodyColor - m_MinPlaneBodyColor) / m_PlaneNo;
         init(m_Context);
+        updateBoards();
     }
 
     private void init(Context context) {
         setRowCount(m_GRows + 2 * m_Padding);
         setColumnCount(m_GCols + 2 * m_Padding);
+        m_GridSquares = new HashMap<PositionBoardPane, GridSquare>();
 
         for (int i = 0; i < m_GRows + 2 * m_Padding; ++i) {
             for (int j = 0; j < m_GCols + 2 * m_Padding; ++j) {
@@ -97,13 +103,64 @@ public class TopPane_Vertical extends GridLayout {
 
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(i, 1), GridLayout.spec(j, 1));
                 addView(gs, params);
+                PositionBoardPane position = new PositionBoardPane(i, j);
+                m_GridSquares.put(position, gs);
             }
         }
     }
 
+    public void updateBoards() {
+        //draw the squares background
+        for (int i = 0; i < m_GRows + 2 * m_Padding; i++) {
+            for (int j = 0; j < m_GCols + 2 * m_Padding; j++) {
+                GridSquare c = m_GridSquares.get(new PositionBoardPane(i, j));
+                c.setBackgroundColor(computeSquareBackgroundColor(i, j));
+           }
+        } //display background of square; double for loop
+    }
+
+    public int computeSquareBackgroundColor(int i, int j) {
+        int squareColor = 0;
+
+        if (i < m_Padding || i >= m_GRows + m_Padding || j < m_Padding || j >= m_GCols + m_Padding) {
+            squareColor = Color.YELLOW;
+        } else {
+            squareColor = getResources().getColor(R.color.aqua);
+        }
+
+        //if (!m_IsComputer || (m_IsComputer && m_CurStage == GameStages.GameNotStarted)) {
+        if (true) {
+            int type = m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, 0);
+            switch (type) {
+                //intersecting planes
+                case -1:
+                    squareColor = Color.RED;
+                    break;
+                //plane head
+                case -2:
+                    squareColor = Color.GREEN;
+                    break;
+                //not a plane
+                case 0:
+                    break;
+                //plane but not plane head
+                default:
+                    if ((type - 1) == -1) {
+                        squareColor = Color.BLUE;
+                    } else {
+                        int grayCol = m_MinPlaneBodyColor + type * m_ColorStep;
+                        squareColor = Color.rgb(grayCol, grayCol, grayCol);
+                    }
+                    break;
+            }
+        }
+        //System.out.println(Integer.toString(i) + ", " + Integer.toString(j) + "= " + Integer.toString(squareColor));
+        return squareColor;
+    }
+
 
     private Map<PositionBoardPane, GridSquare> m_GridSquares;
-    //private PlaneRoundJavaFx m_PlaneRound;
+    private PlaneRoundJavaFx m_PlaneRound;
     private int m_Padding = 0;
     private boolean m_IsComputer = false;
     private int m_MinPlaneBodyColor = 0;
@@ -116,8 +173,6 @@ public class TopPane_Vertical extends GridLayout {
     private int m_GCols = 10;
     private int m_PlaneNo = 3;
     private int m_ColorStep = 50;
-
-    private PlaneRoundJavaFx m_PlaneRound;
 
     private Context m_Context;
 }
