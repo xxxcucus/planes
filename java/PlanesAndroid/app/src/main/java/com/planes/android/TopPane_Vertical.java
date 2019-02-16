@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.GridLayout;
-import android.widget.GridLayout.Spec;
 
 import com.planes.javafx.PlaneRoundJavaFx;
 
@@ -100,6 +99,9 @@ public class TopPane_Vertical extends GridLayout {
                 gs.setGuess(-1);
                 gs.setRowCount(m_GRows + 2 * m_Padding);
                 gs.setColCount(m_GCols + 2 * m_Padding);
+                gs.setRow(i);
+                gs.setColumn(j);
+                gs.setParent(this);
 
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(i, 1), GridLayout.spec(j, 1));
                 addView(gs, params);
@@ -115,6 +117,7 @@ public class TopPane_Vertical extends GridLayout {
             for (int j = 0; j < m_GCols + 2 * m_Padding; j++) {
                 GridSquare c = m_GridSquares.get(new PositionBoardPane(i, j));
                 c.setBackgroundColor(computeSquareBackgroundColor(i, j));
+                c.invalidate();
            }
         } //display background of square; double for loop
     }
@@ -145,8 +148,8 @@ public class TopPane_Vertical extends GridLayout {
                     break;
                 //plane but not plane head
                 default:
-                    if ((type - 1) == m_Selected) {
-                        squareColor = Color.BLUE;
+                    if ((type - 1) == m_Selected && !m_IsComputer && m_CurStage == GameStages.BoardEditing) {
+                            squareColor = Color.BLUE;
                     } else {
                         int grayCol = m_MinPlaneBodyColor + type * m_ColorStep;
                         squareColor = Color.rgb(grayCol, grayCol, grayCol);
@@ -158,6 +161,17 @@ public class TopPane_Vertical extends GridLayout {
         return squareColor;
     }
 
+    public void changeSelection(int row, int col) {
+        if (m_IsComputer)
+            return;
+
+
+        int type = m_PlaneRound.getPlaneSquareType(row - m_Padding, col - m_Padding, m_IsComputer ? 1 : 0);
+        //System.out.println("Touch event" + row + " " + col + " " + type);
+        if (type > 0)
+            m_Selected = type - 1;
+        updateBoards();
+    }
 
     private Map<PositionBoardPane, GridSquare> m_GridSquares;
     private PlaneRoundJavaFx m_PlaneRound;
@@ -177,4 +191,5 @@ public class TopPane_Vertical extends GridLayout {
     private Context m_Context;
 
     private int m_Selected = 0;
+
 }

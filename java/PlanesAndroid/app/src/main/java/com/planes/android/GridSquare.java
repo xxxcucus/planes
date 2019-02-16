@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import static java.lang.Math.min;
@@ -45,6 +46,9 @@ public class GridSquare extends View {
     public void setColCount(int col_count) {
         m_ColCount = col_count;
     }
+
+    public void setRow(int i) { m_Row = i; }
+    public void setColumn(int j) { m_Col = j; }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -104,12 +108,26 @@ public class GridSquare extends View {
         m_HitPath.close();
     }
 
+    public void setParent(TopPane_Vertical top) {
+        m_Parent = top;
+    }
+
+    public boolean onTouchEvent(MotionEvent event) {
+        m_Parent.changeSelection(m_Row, m_Col);
+        return super.onTouchEvent(event);
+    }
+
+
     private int m_BackgroundColor;
     private int m_GuessColor;
     private int m_GuessType = -1; //no guess
     private int m_RowCount = 10;
     private int m_ColCount = 10;
+    private int m_Row = -1;
+    private int m_Col = -1;
     private Paint m_Paint;
     private RectF m_MissCircle;
     private Path m_HitPath;
+
+    private TopPane_Vertical m_Parent;
 }
