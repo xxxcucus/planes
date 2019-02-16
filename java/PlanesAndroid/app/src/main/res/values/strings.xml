@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Planes</string>
+    <string name="left_button">Left</string>
+    <string name="right_button">Right</string>
+    <string name="up_button">Up</string>
+    <string name="down_button">Down</string>
+    <string name="rotate_button">Rotate</string>
+    <string name="done_button">Done</string>
+</resources>
