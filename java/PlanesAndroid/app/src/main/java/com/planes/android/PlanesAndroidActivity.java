@@ -21,6 +21,7 @@ public class PlanesAndroidActivity extends Activity {
 
         m_GameControls = (BottomPane_Vertical)findViewById(R.id.bottom_pane);
         m_GameControls.setGameSettings(m_PlaneRound);
+        m_GameControls.setTopPane(m_BoardWidgets);
         //PlanesVerticalLayout parentLayout = new PlanesVerticalLayout(this);
         //setContentView(parentLayout);
     }

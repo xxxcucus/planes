@@ -59,12 +59,51 @@ public class BottomPane_Vertical extends GridLayout {
             m_UpButton = (Button)findViewById(R.id.up_button);
             m_DownButton = (Button)findViewById(R.id.down_button);
             m_DoneButton = (Button)findViewById(R.id.done_button);
+
+            m_LeftButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    m_TopPane.movePlaneLeft();
+                }
+            });
+
+            m_RightButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    m_TopPane.movePlaneRight();
+                }
+            });
+
+            m_UpButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    m_TopPane.movePlaneUp();
+                }
+            });
+
+            m_DownButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    m_TopPane.movePlaneDown();
+                }
+            });
+
+            m_RotateButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    m_TopPane.rotatePlane();
+                }
+            });
         }
     }
 
     public void setGameSettings(PlaneRoundJavaFx planeRound) {
         m_PlaneRound = planeRound;
         init(m_Context, GameStages.BoardEditing);
+    }
+
+    public void setTopPane(TopPane_Vertical top) {
+        m_TopPane = top;
     }
 
     //TODO: to delete
@@ -118,4 +157,6 @@ public class BottomPane_Vertical extends GridLayout {
     private Button m_UpButton;
     private Button m_DownButton;
     private Button m_DoneButton;
+
+    private TopPane_Vertical m_TopPane;
 }

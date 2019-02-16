@@ -103,7 +103,7 @@ public class TopPane_Vertical extends GridLayout {
                 gs.setColumn(j);
                 gs.setParent(this);
 
-                GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(i, 1), GridLayout.spec(j, 1));
+                GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(j, 1), GridLayout.spec(i, 1));
                 addView(gs, params);
                 PositionBoardPane position = new PositionBoardPane(i, j);
                 m_GridSquares.put(position, gs);
@@ -172,6 +172,32 @@ public class TopPane_Vertical extends GridLayout {
             m_Selected = type - 1;
         updateBoards();
     }
+
+    public void movePlaneLeft() {
+        m_PlaneRound.movePlaneLeft(m_Selected);
+        updateBoards();
+    }
+
+    public void movePlaneRight() {
+        m_PlaneRound.movePlaneRight(m_Selected);
+        updateBoards();
+    }
+
+    public void movePlaneUp() {
+        m_PlaneRound.movePlaneUpwards(m_Selected);
+        updateBoards();
+    }
+
+    public void movePlaneDown() {
+        m_PlaneRound.movePlaneDownwards(m_Selected);
+        updateBoards();
+    }
+
+    public void rotatePlane() {
+        m_PlaneRound.rotatePlane(m_Selected);
+        updateBoards();
+    }
+
 
     private Map<PositionBoardPane, GridSquare> m_GridSquares;
     private PlaneRoundJavaFx m_PlaneRound;
