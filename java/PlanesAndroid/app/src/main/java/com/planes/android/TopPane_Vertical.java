@@ -145,7 +145,7 @@ public class TopPane_Vertical extends GridLayout {
                     break;
                 //plane but not plane head
                 default:
-                    if ((type - 1) == -1) {
+                    if ((type - 1) == m_Selected) {
                         squareColor = Color.BLUE;
                     } else {
                         int grayCol = m_MinPlaneBodyColor + type * m_ColorStep;
@@ -175,4 +175,6 @@ public class TopPane_Vertical extends GridLayout {
     private int m_ColorStep = 50;
 
     private Context m_Context;
+
+    private int m_Selected = 0;
 }

@@ -53,6 +53,12 @@ public class BottomPane_Vertical extends GridLayout {
             GridLayout.LayoutParams paramsWindow = new GridLayout.LayoutParams(GridLayout.spec(0, 1), GridLayout.spec(0, 1));
             paramsWindow.setGravity(Gravity.CENTER);
             addView(window, paramsWindow);
+            m_RotateButton = (Button)findViewById(R.id.rotate_button);
+            m_LeftButton = (Button)findViewById(R.id.left_button);
+            m_RightButton = (Button)findViewById(R.id.right_button);
+            m_UpButton = (Button)findViewById(R.id.up_button);
+            m_DownButton = (Button)findViewById(R.id.down_button);
+            m_DoneButton = (Button)findViewById(R.id.done_button);
         }
     }
 
@@ -61,6 +67,7 @@ public class BottomPane_Vertical extends GridLayout {
         init(m_Context, GameStages.BoardEditing);
     }
 
+    //TODO: to delete
     public void setBoardEditingControls(Context context) {
             setRowCount(3);
             setColumnCount(4);
