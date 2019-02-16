@@ -3,6 +3,8 @@ package com.planes.android;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 
@@ -44,11 +46,27 @@ public class BottomPane_Vertical extends GridLayout {
 
         if (m_CurStage == GameStages.BoardEditing) {
             System.out.println("Set rotate button");
+            LayoutInflater layoutinflater = (LayoutInflater)m_Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View window = layoutinflater.inflate(R.layout.board_editing_controls, null);
+            setRowCount(1);
+            setColumnCount(1);
+            GridLayout.LayoutParams paramsWindow = new GridLayout.LayoutParams(GridLayout.spec(0, 1), GridLayout.spec(0, 1));
+            paramsWindow.setGravity(Gravity.CENTER);
+            addView(window, paramsWindow);
+        }
+    }
+
+    public void setGameSettings(PlaneRoundJavaFx planeRound) {
+        m_PlaneRound = planeRound;
+        init(m_Context, GameStages.BoardEditing);
+    }
+
+    public void setBoardEditingControls(Context context) {
             setRowCount(3);
             setColumnCount(4);
             //TODO: add the image buttons
             GridLayout.LayoutParams paramsRotate = new GridLayout.LayoutParams(GridLayout.spec(1, 1), GridLayout.spec(1, 1));
-            paramsRotate.setGravity(Gravity.CENTER);
+            paramsRotate.setGravity(Gravity.CENTER_VERTICAL);
             m_RotateButton = new Button(context);
             m_RotateButton.setText("Rotate");
             addView(m_RotateButton, paramsRotate);
@@ -57,38 +75,31 @@ public class BottomPane_Vertical extends GridLayout {
             m_LeftButton = new Button(context);
             m_LeftButton.setText("Left");
             GridLayout.LayoutParams paramsLeft = new GridLayout.LayoutParams(GridLayout.spec(1, 1), GridLayout.spec(0, 1));
-            paramsLeft.setGravity(Gravity.CENTER);
+            paramsLeft.setGravity(Gravity.CENTER_VERTICAL);
             addView(m_LeftButton, paramsLeft);
 
             m_RightButton = new Button(context);
             m_RightButton.setText("Right");
             GridLayout.LayoutParams paramsRight = new GridLayout.LayoutParams(GridLayout.spec(1, 1), GridLayout.spec(2, 1));
-            paramsRight.setGravity(Gravity.CENTER);
+            paramsRight.setGravity(Gravity.CENTER_VERTICAL);
             addView(m_RightButton, paramsRight);
 
             m_UpButton = new Button(context);
             m_UpButton.setText("Up");
             GridLayout.LayoutParams paramsUp = new GridLayout.LayoutParams(GridLayout.spec(0, 1), GridLayout.spec(1, 1));
-            paramsUp.setGravity(Gravity.CENTER);
             addView(m_UpButton, paramsUp);
 
             m_DownButton = new Button(context);
             m_DownButton.setText("Down");
             GridLayout.LayoutParams paramsDown = new GridLayout.LayoutParams(GridLayout.spec(2, 1), GridLayout.spec(1, 1));
-            paramsDown.setGravity(Gravity.CENTER);
+            //paramsDown.setGravity(Gravity.CENTER);
             addView(m_DownButton, paramsDown);
 
             m_DoneButton = new Button(context);
             m_DoneButton.setText("Done");
             GridLayout.LayoutParams paramsDone = new GridLayout.LayoutParams(GridLayout.spec(1, 1), GridLayout.spec(3, 1));
-            paramsDone.setGravity(Gravity.CENTER);
+            paramsDone.setGravity(Gravity.CENTER_VERTICAL);
             addView(m_DoneButton, paramsDone);
-        }
-    }
-
-    public void setGameSettings(PlaneRoundJavaFx planeRound) {
-        m_PlaneRound = planeRound;
-        init(m_Context, GameStages.BoardEditing);
     }
 
     private Context m_Context;
