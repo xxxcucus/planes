@@ -1,8 +1,12 @@
 package com.planes.android;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 
 import com.planes.javafx.PlaneRoundJavaFx;
 
@@ -24,6 +28,11 @@ public class PlanesAndroidActivity extends Activity {
         m_GameControls.setTopPane(m_BoardWidgets);
         //PlanesVerticalLayout parentLayout = new PlanesVerticalLayout(this);
         //setContentView(parentLayout);
+
+        String title = "Planes Android";
+        SpannableString s = new SpannableString(title);
+        s.setSpan(new ForegroundColorSpan(Color.WHITE), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        getActionBar().setTitle(s);
     }
 
     private PlaneRoundJavaFx m_PlaneRound;
