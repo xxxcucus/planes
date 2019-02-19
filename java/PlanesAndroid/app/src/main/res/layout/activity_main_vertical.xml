@@ -12,7 +12,6 @@
     <com.planes.android.BottomPane_Vertical
         android:id="@+id/bottom_pane"
         android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
-        android:layout_gravity="center"/>
+        android:layout_width="fill_parent" />
 
 </LinearLayout>

@@ -6,4 +6,14 @@
     <string name="down_button">Down</string>
     <string name="rotate_button">Rotate</string>
     <string name="done_button">Done</string>
+    <string name="view_player_board">View Player Board</string>
+    <string name="view_computer_board">View Computer Board</string>
+    <string name="player_hits">Player Hits</string>
+    <string name="player_moves">Player Moves</string>
+    <string name="player_misses">Player Misses</string>
+    <string name="player_dead">Player Dead</string>
+    <string name="computer_hits">Computer Hits</string>
+    <string name="computer_moves">Computer Moves</string>
+    <string name="computer_misses">Computer Misses</string>
+    <string name="computer_dead">Computer Dead</string>
 </resources>

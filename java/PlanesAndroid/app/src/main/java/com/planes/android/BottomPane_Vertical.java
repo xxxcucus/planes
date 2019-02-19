@@ -39,113 +39,95 @@ public class BottomPane_Vertical extends GridLayout {
         m_Context = context;
     }
 
-    private void init(Context context, GameStages gameStage) {
+    private void init(GameStages gameStage) {
         //TODO: build a grid layout with left, right, up, down, rotate, and done
         m_CurStage = gameStage;
-        //removeAllViews();
+        removeAllViews();
 
-        if (m_CurStage == GameStages.BoardEditing) {
-            System.out.println("Set rotate button");
-            LayoutInflater layoutinflater = (LayoutInflater)m_Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View window = layoutinflater.inflate(R.layout.board_editing_controls, null);
-            setRowCount(1);
-            setColumnCount(1);
-            GridLayout.LayoutParams paramsWindow = new GridLayout.LayoutParams(GridLayout.spec(0, 1), GridLayout.spec(0, 1));
-            paramsWindow.setGravity(Gravity.CENTER);
-            addView(window, paramsWindow);
-            m_RotateButton = (Button)findViewById(R.id.rotate_button);
-            m_LeftButton = (Button)findViewById(R.id.left_button);
-            m_RightButton = (Button)findViewById(R.id.right_button);
-            m_UpButton = (Button)findViewById(R.id.up_button);
-            m_DownButton = (Button)findViewById(R.id.down_button);
-            m_DoneButton = (Button)findViewById(R.id.done_button);
+        if (m_CurStage == GameStages.BoardEditing)
+            showBoardEditing();
 
-            m_LeftButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    m_TopPane.movePlaneLeft();
-                }
-            });
-
-            m_RightButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    m_TopPane.movePlaneRight();
-                }
-            });
-
-            m_UpButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    m_TopPane.movePlaneUp();
-                }
-            });
-
-            m_DownButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    m_TopPane.movePlaneDown();
-                }
-            });
-
-            m_RotateButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    m_TopPane.rotatePlane();
-                }
-            });
-        }
+        if (m_CurStage == GameStages.Game)
+            showGame();
     }
 
     public void setGameSettings(PlaneRoundJavaFx planeRound) {
         m_PlaneRound = planeRound;
-        init(m_Context, GameStages.BoardEditing);
+        init(GameStages.BoardEditing);
     }
 
     public void setTopPane(TopPane_Vertical top) {
         m_TopPane = top;
     }
 
-    //TODO: to delete
-    public void setBoardEditingControls(Context context) {
-            setRowCount(3);
-            setColumnCount(4);
-            //TODO: add the image buttons
-            GridLayout.LayoutParams paramsRotate = new GridLayout.LayoutParams(GridLayout.spec(1, 1), GridLayout.spec(1, 1));
-            paramsRotate.setGravity(Gravity.CENTER_VERTICAL);
-            m_RotateButton = new Button(context);
-            m_RotateButton.setText("Rotate");
-            addView(m_RotateButton, paramsRotate);
-            //invalidate();
 
-            m_LeftButton = new Button(context);
-            m_LeftButton.setText("Left");
-            GridLayout.LayoutParams paramsLeft = new GridLayout.LayoutParams(GridLayout.spec(1, 1), GridLayout.spec(0, 1));
-            paramsLeft.setGravity(Gravity.CENTER_VERTICAL);
-            addView(m_LeftButton, paramsLeft);
+    public void showBoardEditing() {
+        LayoutInflater layoutinflater = (LayoutInflater)m_Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View window = layoutinflater.inflate(R.layout.board_editing_controls_vertical, null);
+        setRowCount(1);
+        setColumnCount(1);
+        GridLayout.LayoutParams paramsWindow = new GridLayout.LayoutParams(GridLayout.spec(0, 1), GridLayout.spec(0, 1));
+        paramsWindow.setGravity(Gravity.CENTER);
+        addView(window, paramsWindow);
+        m_RotateButton = (Button)findViewById(R.id.rotate_button);
+        m_LeftButton = (Button)findViewById(R.id.left_button);
+        m_RightButton = (Button)findViewById(R.id.right_button);
+        m_UpButton = (Button)findViewById(R.id.up_button);
+        m_DownButton = (Button)findViewById(R.id.down_button);
+        m_DoneButton = (Button)findViewById(R.id.done_button);
 
-            m_RightButton = new Button(context);
-            m_RightButton.setText("Right");
-            GridLayout.LayoutParams paramsRight = new GridLayout.LayoutParams(GridLayout.spec(1, 1), GridLayout.spec(2, 1));
-            paramsRight.setGravity(Gravity.CENTER_VERTICAL);
-            addView(m_RightButton, paramsRight);
+        m_LeftButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m_TopPane.movePlaneLeft();
+            }
+        });
 
-            m_UpButton = new Button(context);
-            m_UpButton.setText("Up");
-            GridLayout.LayoutParams paramsUp = new GridLayout.LayoutParams(GridLayout.spec(0, 1), GridLayout.spec(1, 1));
-            addView(m_UpButton, paramsUp);
+        m_RightButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m_TopPane.movePlaneRight();
+            }
+        });
 
-            m_DownButton = new Button(context);
-            m_DownButton.setText("Down");
-            GridLayout.LayoutParams paramsDown = new GridLayout.LayoutParams(GridLayout.spec(2, 1), GridLayout.spec(1, 1));
-            //paramsDown.setGravity(Gravity.CENTER);
-            addView(m_DownButton, paramsDown);
+        m_UpButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m_TopPane.movePlaneUp();
+            }
+        });
 
-            m_DoneButton = new Button(context);
-            m_DoneButton.setText("Done");
-            GridLayout.LayoutParams paramsDone = new GridLayout.LayoutParams(GridLayout.spec(1, 1), GridLayout.spec(3, 1));
-            paramsDone.setGravity(Gravity.CENTER_VERTICAL);
-            addView(m_DoneButton, paramsDone);
+        m_DownButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m_TopPane.movePlaneDown();
+            }
+        });
+
+        m_RotateButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m_TopPane.rotatePlane();
+            }
+        });
+
+        m_DoneButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                init(GameStages.Game);
+            }
+        });
+    }
+
+    public void showGame() {
+        LayoutInflater layoutinflater = (LayoutInflater) m_Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View window = layoutinflater.inflate(R.layout.game_stats_vertical, null);
+        setRowCount(1);
+        setColumnCount(1);
+        GridLayout.LayoutParams paramsWindow = new GridLayout.LayoutParams(GridLayout.spec(0, 1), GridLayout.spec(0, 1));
+        paramsWindow.setGravity(Gravity.CENTER);
+        paramsWindow.setMargins(0, 0, 0,0);
+        addView(window, paramsWindow);
     }
 
     private Context m_Context;
