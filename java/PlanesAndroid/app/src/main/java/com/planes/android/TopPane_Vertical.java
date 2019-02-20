@@ -131,8 +131,7 @@ public class TopPane_Vertical extends GridLayout {
             squareColor = getResources().getColor(R.color.aqua);
         }
 
-        //if (!m_IsComputer || (m_IsComputer && m_CurStage == GameStages.GameNotStarted)) {
-        if (true) {
+        if (!m_IsComputer || (m_IsComputer && m_CurStage == GameStages.GameNotStarted)) {
             int type = m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, m_IsComputer ? 1 : 0);
             switch (type) {
                 //intersecting planes
@@ -198,6 +197,19 @@ public class TopPane_Vertical extends GridLayout {
         updateBoards();
     }
 
+    public void setPlayerBoard() {
+        if (m_IsComputer) {
+            m_IsComputer = false;
+            updateBoards();
+        }
+    }
+
+    public void setComputerBoard() {
+        if (!m_IsComputer) {
+            m_IsComputer = true;
+            updateBoards();
+        }
+    }
 
     private Map<PositionBoardPane, GridSquare> m_GridSquares;
     private PlaneRoundJavaFx m_PlaneRound;

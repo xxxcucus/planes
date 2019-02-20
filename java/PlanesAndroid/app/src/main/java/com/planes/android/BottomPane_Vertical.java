@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
 
 import com.planes.javafx.PlaneRoundJavaFx;
 
@@ -42,7 +43,7 @@ public class BottomPane_Vertical extends GridLayout {
     private void init(GameStages gameStage) {
         //TODO: build a grid layout with left, right, up, down, rotate, and done
         m_CurStage = gameStage;
-        removeAllViews();
+        resetGUI();
 
         if (m_CurStage == GameStages.BoardEditing)
             showBoardEditing();
@@ -53,6 +54,7 @@ public class BottomPane_Vertical extends GridLayout {
 
     public void setGameSettings(PlaneRoundJavaFx planeRound) {
         m_PlaneRound = planeRound;
+        resetGUI();
         init(GameStages.BoardEditing);
     }
 
@@ -60,6 +62,28 @@ public class BottomPane_Vertical extends GridLayout {
         m_TopPane = top;
     }
 
+    public void resetGUI() {
+        removeAllViews();
+
+        m_RotateButton = null;
+        m_LeftButton = null;
+        m_RightButton = null;
+        m_UpButton = null;
+        m_DownButton = null;
+        m_DoneButton = null;
+
+        m_ViewPlayerBoardButton = null;
+        m_ViewComputerBoardButton = null;
+        m_HitsTextView = null;
+        m_DeadTextView = null;
+        m_MissesTextView = null;
+        m_MovesTextView = null;
+        m_HitsLabel = null;
+        m_DeadLabel = null;
+        m_MissesLabel = null;
+        m_MovesLabel = null;
+
+    }
 
     public void showBoardEditing() {
         LayoutInflater layoutinflater = (LayoutInflater)m_Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -128,6 +152,59 @@ public class BottomPane_Vertical extends GridLayout {
         paramsWindow.setGravity(Gravity.CENTER);
         paramsWindow.setMargins(0, 0, 0,0);
         addView(window, paramsWindow);
+
+        m_ViewPlayerBoardButton = (Button)findViewById(R.id.view_player_board);
+        m_ViewPlayerBoardButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m_TopPane.setPlayerBoard();
+                m_ViewComputerBoardButton.setEnabled(true);
+                m_ViewPlayerBoardButton.setEnabled(false);
+                m_HitsLabel.setText(getResources().getString(R.string.player_hits));
+                m_DeadLabel.setText(getResources().getString(R.string.player_dead));
+                m_MissesLabel.setText(getResources().getString(R.string.player_misses));
+                m_MovesLabel.setText(getResources().getString(R.string.player_moves));
+                int misses = m_PlaneRound.playerGuess_StatNoPlayerMisses();
+                int hits = m_PlaneRound.playerGuess_StatNoPlayerHits();
+                int dead = m_PlaneRound.playerGuess_StatNoPlayerDead();
+                int moves = m_PlaneRound.playerGuess_StatNoPlayerMoves();
+                m_MissesTextView.setText(Integer.toString(misses));
+                m_HitsTextView.setText(Integer.toString(hits));
+                m_DeadTextView.setText(Integer.toString(dead));
+                m_MovesTextView.setText(Integer.toString(moves));
+            }
+        });
+        m_ViewComputerBoardButton = (Button)findViewById(R.id.view_computer_board);
+        m_ViewComputerBoardButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m_TopPane.setComputerBoard();
+                m_ViewComputerBoardButton.setEnabled(false);
+                m_ViewPlayerBoardButton.setEnabled(true);
+                m_HitsLabel.setText(getResources().getString(R.string.computer_hits));
+                m_DeadLabel.setText(getResources().getString(R.string.computer_dead));
+                m_MissesLabel.setText(getResources().getString(R.string.computer_misses));
+                m_MovesLabel.setText(getResources().getString(R.string.computer_moves));
+                int misses = m_PlaneRound.playerGuess_StatNoComputerMisses();
+                int hits = m_PlaneRound.playerGuess_StatNoComputerHits();
+                int dead = m_PlaneRound.playerGuess_StatNoComputerDead();
+                int moves = m_PlaneRound.playerGuess_StatNoComputerMoves();
+                m_MissesTextView.setText(Integer.toString(misses));
+                m_HitsTextView.setText(Integer.toString(hits));
+                m_DeadTextView.setText(Integer.toString(dead));
+                m_MovesTextView.setText(Integer.toString(moves));
+            }
+        });
+
+        m_HitsTextView = (TextView)findViewById(R.id.hits_count);
+        m_DeadTextView = (TextView)findViewById(R.id.dead_count);
+        m_MissesTextView = (TextView)findViewById(R.id.misses_count);
+        m_MovesTextView = (TextView)findViewById(R.id.moves_count);
+
+        m_HitsLabel = (TextView)findViewById(R.id.hits_label);
+        m_DeadLabel = (TextView)findViewById(R.id.dead_label);
+        m_MissesLabel = (TextView)findViewById(R.id.misses_label);
+        m_MovesLabel = (TextView)findViewById(R.id.moves_label);
     }
 
     private Context m_Context;
@@ -139,6 +216,16 @@ public class BottomPane_Vertical extends GridLayout {
     private Button m_UpButton;
     private Button m_DownButton;
     private Button m_DoneButton;
+    private TextView m_HitsTextView;
+    private TextView m_MissesTextView;
+    private TextView m_DeadTextView;
+    private TextView m_MovesTextView;
+    private TextView m_HitsLabel;
+    private TextView m_MissesLabel;
+    private TextView m_DeadLabel;
+    private TextView m_MovesLabel;
+    private Button m_ViewPlayerBoardButton;
+    private Button m_ViewComputerBoardButton;
 
     private TopPane_Vertical m_TopPane;
 }
