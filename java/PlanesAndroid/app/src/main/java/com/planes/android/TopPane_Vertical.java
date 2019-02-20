@@ -99,8 +99,8 @@ public class TopPane_Vertical extends GridLayout {
                 gs.setGuess(-1);
                 gs.setRowCount(m_GRows + 2 * m_Padding);
                 gs.setColCount(m_GCols + 2 * m_Padding);
-                gs.setRow(i);
-                gs.setColumn(j);
+                gs.setRow(j);
+                gs.setColumn(i);
                 gs.setParent(this);
 
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(j, 1), GridLayout.spec(i, 1));
@@ -146,6 +146,7 @@ public class TopPane_Vertical extends GridLayout {
             }
 
             GridSquare c = m_GridSquares.get(new PositionBoardPane(row + m_Padding, col + m_Padding));
+            System.out.println("Guess type " + type);
             c.setGuess(type);
             c.invalidate();
         }
@@ -191,20 +192,20 @@ public class TopPane_Vertical extends GridLayout {
 
     public void changeSelection(int row, int col) {
         System.out.println("Touch event" + row + " " + col);
-        if (m_IsComputer)
-            return;
 
-        if (m_CurStage == GameStages.BoardEditing) {
+        if (!m_IsComputer && m_CurStage == GameStages.BoardEditing) {
             int type = m_PlaneRound.getPlaneSquareType(row - m_Padding, col - m_Padding, m_IsComputer ? 1 : 0);
             if (type > 0)
                 m_Selected = type - 1;
             updateBoards();
         }
 
-        if (m_CurStage == GameStages.Game) {
-            System.out.println("Player guess");
-            m_PlaneRound.playerGuess(row - m_Padding, col - m_Padding);
-            updateBoards();
+        if (m_IsComputer && m_CurStage == GameStages.Game) {
+            if (m_IsComputer) {
+                System.out.println("Player guess");
+                m_PlaneRound.playerGuess(row - m_Padding, col - m_Padding);
+                updateBoards();
+            }
         }
     }
 
@@ -249,6 +250,8 @@ public class TopPane_Vertical extends GridLayout {
 
     public void setGameStage() {
         m_CurStage = GameStages.Game;
+        m_IsComputer = true;
+        updateBoards();
     }
 
     private Map<PositionBoardPane, GridSquare> m_GridSquares;

@@ -140,6 +140,7 @@ public class BottomPane_Vertical extends GridLayout {
             public void onClick(View view) {
                 init(GameStages.Game);
                 m_TopPane.setGameStage();
+                m_PlaneRound.doneClicked();
             }
         });
     }

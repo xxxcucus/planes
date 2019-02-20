@@ -15,13 +15,13 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/view_computer_board"
+            android:enabled="false"
             android:layout_weight="2"/>
         <Button
             android:id="@+id/view_player_board"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/view_player_board"
-            android:enabled="false"
             android:layout_weight="2"/>
 
     </LinearLayout>
@@ -42,7 +42,7 @@
             android:id="@+id/moves_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/player_moves"
+            android:text="@string/computer_moves"
             android:layout_weight="1" />
         <Space
             android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
             android:id="@+id/misses_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/player_misses"
+            android:text="@string/computer_misses"
             android:layout_weight="1" />
         <Space
             android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
             android:id="@+id/hits_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/player_hits"
+            android:text="@string/computer_hits"
             android:layout_weight="1"/>
         <Space
             android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
             android:id="@+id/dead_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/player_dead"
+            android:text="@string/computer_dead"
             android:layout_weight="1"/>
         <Space
             android:layout_height="wrap_content"

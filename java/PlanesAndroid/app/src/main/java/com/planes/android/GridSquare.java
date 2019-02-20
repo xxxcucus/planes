@@ -2,6 +2,7 @@ package com.planes.android;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
@@ -57,6 +58,7 @@ public class GridSquare extends View {
         canvas.drawRect(getWidth() / 10, getHeight() / 10 , getWidth() * 9 / 10, getHeight() * 9 / 10, m_Paint);
 
         if (m_GuessType >= 0) {
+            System.out.println("Draw " + m_GuessType + " " + m_Row + " " + m_Col);
             switch (m_GuessType) {
                 case 0:
                     //draw red circle
@@ -87,8 +89,8 @@ public class GridSquare extends View {
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         //int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         //int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-        int width = widthSize / m_ColCount;
-        setMeasuredDimension(width, width);
+        m_Width = widthSize / m_ColCount;
+        setMeasuredDimension(m_Width, m_Width);
         allocateMemory();
     }
 
@@ -98,13 +100,14 @@ public class GridSquare extends View {
 
     //TODO is this correct
     private void allocateMemory() {
-        m_MissCircle = new RectF(getWidth() / 4, getHeight() / 4, getWidth() * 3 / 2, getHeight() * 3/ 2); //TODO: to change
+        System.out.println("Allocate " + m_Width);
+        m_MissCircle = new RectF(m_Width / 4, m_Width / 4, m_Width * 3 / 4, m_Width * 3/ 4); //TODO: to change
         m_HitPath = new Path();
-        m_HitPath.moveTo(0, getHeight() / 2);
-        m_HitPath.lineTo(getWidth() / 2, 0);
-        m_HitPath.lineTo(getWidth(), getHeight() / 2);
-        m_HitPath.lineTo(getWidth() / 2, getHeight());
-        m_HitPath.lineTo(0, getHeight() / 2);
+        m_HitPath.moveTo(0, m_Width / 2);
+        m_HitPath.lineTo(m_Width / 2, 0);
+        m_HitPath.lineTo(m_Width, m_Width / 2);
+        m_HitPath.lineTo(m_Width / 2, m_Width);
+        m_HitPath.lineTo(0, m_Width / 2);
         m_HitPath.close();
     }
 
@@ -119,7 +122,7 @@ public class GridSquare extends View {
 
 
     private int m_BackgroundColor;
-    private int m_GuessColor;
+    private int m_GuessColor = Color.RED;
     private int m_GuessType = -1; //no guess
     private int m_RowCount = 10;
     private int m_ColCount = 10;
@@ -128,6 +131,7 @@ public class GridSquare extends View {
     private Paint m_Paint;
     private RectF m_MissCircle;
     private Path m_HitPath;
+    int m_Width = 0;
 
     private TopPane_Vertical m_Parent;
 }
