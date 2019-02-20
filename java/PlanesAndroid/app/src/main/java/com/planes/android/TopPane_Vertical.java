@@ -120,6 +120,35 @@ public class TopPane_Vertical extends GridLayout {
                 c.invalidate();
            }
         } //display background of square; double for loop
+
+        int count = 0;
+
+        if (m_IsComputer)
+            count = m_PlaneRound.getComputerGuessesNo();
+        else
+            count = m_PlaneRound.getPlayerGuessesNo();
+
+        System.out.println("" + count + " guesses");
+
+        for (int i = 0; i < count; i++) {
+            int row = 0;
+            int col = 0;
+            int type = 0;
+
+            if (m_IsComputer) {
+                row = m_PlaneRound.getPlayerGuessRow(i);
+                col = m_PlaneRound.getPlayerGuessCol(i);
+                type = m_PlaneRound.getPlayerGuessType(i);
+            } else {
+                row = m_PlaneRound.getComputerGuessRow(i);
+                col = m_PlaneRound.getComputerGuessCol(i);
+                type = m_PlaneRound.getComputerGuessType(i);
+            }
+
+            GridSquare c = m_GridSquares.get(new PositionBoardPane(row + m_Padding, col + m_Padding));
+            c.setGuess(type);
+            c.invalidate();
+        }
     }
 
     public int computeSquareBackgroundColor(int i, int j) {
@@ -161,15 +190,22 @@ public class TopPane_Vertical extends GridLayout {
     }
 
     public void changeSelection(int row, int col) {
+        System.out.println("Touch event" + row + " " + col);
         if (m_IsComputer)
             return;
 
+        if (m_CurStage == GameStages.BoardEditing) {
+            int type = m_PlaneRound.getPlaneSquareType(row - m_Padding, col - m_Padding, m_IsComputer ? 1 : 0);
+            if (type > 0)
+                m_Selected = type - 1;
+            updateBoards();
+        }
 
-        int type = m_PlaneRound.getPlaneSquareType(row - m_Padding, col - m_Padding, m_IsComputer ? 1 : 0);
-        //System.out.println("Touch event" + row + " " + col + " " + type);
-        if (type > 0)
-            m_Selected = type - 1;
-        updateBoards();
+        if (m_CurStage == GameStages.Game) {
+            System.out.println("Player guess");
+            m_PlaneRound.playerGuess(row - m_Padding, col - m_Padding);
+            updateBoards();
+        }
     }
 
     public void movePlaneLeft() {
@@ -209,6 +245,10 @@ public class TopPane_Vertical extends GridLayout {
             m_IsComputer = true;
             updateBoards();
         }
+    }
+
+    public void setGameStage() {
+        m_CurStage = GameStages.Game;
     }
 
     private Map<PositionBoardPane, GridSquare> m_GridSquares;

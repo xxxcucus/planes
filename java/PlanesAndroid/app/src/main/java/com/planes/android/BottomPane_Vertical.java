@@ -139,6 +139,7 @@ public class BottomPane_Vertical extends GridLayout {
             @Override
             public void onClick(View view) {
                 init(GameStages.Game);
+                m_TopPane.setGameStage();
             }
         });
     }
