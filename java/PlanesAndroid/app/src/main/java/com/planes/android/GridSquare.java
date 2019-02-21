@@ -117,7 +117,7 @@ public class GridSquare extends View {
     }
 
     public boolean onTouchEvent(MotionEvent event) {
-        m_Parent.changeSelection(m_Row, m_Col);
+        m_Parent.touchEvent(m_Row, m_Col);
         return super.onTouchEvent(event);
     }
 

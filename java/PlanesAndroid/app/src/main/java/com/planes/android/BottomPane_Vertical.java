@@ -213,6 +213,30 @@ public class BottomPane_Vertical extends GridLayout {
         m_MovesLabel = (TextView)findViewById(R.id.moves_label);
     }
 
+    public void updateStats(boolean isComputer) {
+        if (isComputer) {
+            int misses = m_PlaneRound.playerGuess_StatNoPlayerMisses();
+            int hits = m_PlaneRound.playerGuess_StatNoPlayerHits();
+            int dead = m_PlaneRound.playerGuess_StatNoPlayerDead();
+            int moves = m_PlaneRound.playerGuess_StatNoPlayerMoves();
+            m_MissesTextView.setText(Integer.toString(misses));
+            m_HitsTextView.setText(Integer.toString(hits));
+            m_DeadTextView.setText(Integer.toString(dead));
+            m_MovesTextView.setText(Integer.toString(moves));
+        } else {
+            int misses = m_PlaneRound.playerGuess_StatNoComputerMisses();
+            int hits = m_PlaneRound.playerGuess_StatNoComputerHits();
+            int dead = m_PlaneRound.playerGuess_StatNoComputerDead();
+            int moves = m_PlaneRound.playerGuess_StatNoComputerMoves();
+            m_MissesTextView.setText(Integer.toString(misses));
+            m_HitsTextView.setText(Integer.toString(hits));
+            m_DeadTextView.setText(Integer.toString(dead));
+            m_MovesTextView.setText(Integer.toString(moves));
+        }
+
+
+    }
+
     private Context m_Context;
     private GameStages m_CurStage = GameStages.BoardEditing;
     private PlaneRoundJavaFx m_PlaneRound;
