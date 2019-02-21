@@ -162,27 +162,7 @@ public class BottomPane_Vertical extends GridLayout {
                 m_TopPane.setPlayerBoard();
                 m_ViewComputerBoardButton.setEnabled(true);
                 m_ViewPlayerBoardButton.setEnabled(false);
-                m_HitsLabel.setText(getResources().getString(R.string.player_hits));
-                m_DeadLabel.setText(getResources().getString(R.string.player_dead));
-                m_MissesLabel.setText(getResources().getString(R.string.player_misses));
-                m_MovesLabel.setText(getResources().getString(R.string.player_moves));
-                int misses = m_PlaneRound.playerGuess_StatNoPlayerMisses();
-                int hits = m_PlaneRound.playerGuess_StatNoPlayerHits();
-                int dead = m_PlaneRound.playerGuess_StatNoPlayerDead();
-                int moves = m_PlaneRound.playerGuess_StatNoPlayerMoves();
-                m_MissesTextView.setText(Integer.toString(misses));
-                m_HitsTextView.setText(Integer.toString(hits));
-                m_DeadTextView.setText(Integer.toString(dead));
-                m_MovesTextView.setText(Integer.toString(moves));
-            }
-        });
-        m_ViewComputerBoardButton = (Button)findViewById(R.id.view_computer_board);
-        m_ViewComputerBoardButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                m_TopPane.setComputerBoard();
-                m_ViewComputerBoardButton.setEnabled(false);
-                m_ViewPlayerBoardButton.setEnabled(true);
+
                 m_HitsLabel.setText(getResources().getString(R.string.computer_hits));
                 m_DeadLabel.setText(getResources().getString(R.string.computer_dead));
                 m_MissesLabel.setText(getResources().getString(R.string.computer_misses));
@@ -195,7 +175,31 @@ public class BottomPane_Vertical extends GridLayout {
                 m_HitsTextView.setText(Integer.toString(hits));
                 m_DeadTextView.setText(Integer.toString(dead));
                 m_MovesTextView.setText(Integer.toString(moves));
+
+
             }
+        });
+        m_ViewComputerBoardButton = (Button)findViewById(R.id.view_computer_board);
+        m_ViewComputerBoardButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m_TopPane.setComputerBoard();
+                m_ViewComputerBoardButton.setEnabled(false);
+                m_ViewPlayerBoardButton.setEnabled(true);
+
+                m_HitsLabel.setText(getResources().getString(R.string.player_hits));
+                m_DeadLabel.setText(getResources().getString(R.string.player_dead));
+                m_MissesLabel.setText(getResources().getString(R.string.player_misses));
+                m_MovesLabel.setText(getResources().getString(R.string.player_moves));
+                int misses = m_PlaneRound.playerGuess_StatNoPlayerMisses();
+                int hits = m_PlaneRound.playerGuess_StatNoPlayerHits();
+                int dead = m_PlaneRound.playerGuess_StatNoPlayerDead();
+                int moves = m_PlaneRound.playerGuess_StatNoPlayerMoves();
+                m_MissesTextView.setText(Integer.toString(misses));
+                m_HitsTextView.setText(Integer.toString(hits));
+                m_DeadTextView.setText(Integer.toString(dead));
+                m_MovesTextView.setText(Integer.toString(moves));
+          }
         });
 
         m_HitsTextView = (TextView)findViewById(R.id.hits_count);

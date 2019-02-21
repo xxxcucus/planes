@@ -99,8 +99,8 @@ public class TopPane_Vertical extends GridLayout {
                 gs.setGuess(-1);
                 gs.setRowCount(m_GRows + 2 * m_Padding);
                 gs.setColCount(m_GCols + 2 * m_Padding);
-                gs.setRow(j);
-                gs.setColumn(i);
+                gs.setRow(i);
+                gs.setColumn(j);
                 gs.setParent(this);
 
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(j, 1), GridLayout.spec(i, 1));
@@ -116,6 +116,7 @@ public class TopPane_Vertical extends GridLayout {
         for (int i = 0; i < m_GRows + 2 * m_Padding; i++) {
             for (int j = 0; j < m_GCols + 2 * m_Padding; j++) {
                 GridSquare c = m_GridSquares.get(new PositionBoardPane(i, j));
+                c.setGuess(-1);
                 c.setBackgroundColor(computeSquareBackgroundColor(i, j));
                 c.invalidate();
            }
@@ -145,7 +146,7 @@ public class TopPane_Vertical extends GridLayout {
                 type = m_PlaneRound.getComputerGuessType(i);
             }
 
-            GridSquare c = m_GridSquares.get(new PositionBoardPane(row + m_Padding, col + m_Padding));
+            GridSquare c = m_GridSquares.get(new PositionBoardPane(col + m_Padding, row + m_Padding));
             System.out.println("Guess type " + type);
             c.setGuess(type);
             c.invalidate();
