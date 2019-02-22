@@ -146,7 +146,7 @@ public class TopPane_Vertical extends GridLayout {
                 type = m_PlaneRound.getComputerGuessType(i);
             }
 
-            GridSquare c = m_GridSquares.get(new PositionBoardPane(col + m_Padding, row + m_Padding));
+            GridSquare c = m_GridSquares.get(new PositionBoardPane(row + m_Padding, col + m_Padding));
             System.out.println("Guess type " + type);
             c.setGuess(type);
             c.invalidate();
@@ -162,7 +162,8 @@ public class TopPane_Vertical extends GridLayout {
             squareColor = getResources().getColor(R.color.aqua);
         }
 
-        if (!m_IsComputer || (m_IsComputer && m_CurStage == GameStages.GameNotStarted)) {
+        //if (!m_IsComputer || (m_IsComputer && m_CurStage == GameStages.GameNotStarted)) {
+        if (true) {
             int type = m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, m_IsComputer ? 1 : 0);
             switch (type) {
                 //intersecting planes
@@ -204,7 +205,7 @@ public class TopPane_Vertical extends GridLayout {
         if (m_IsComputer && m_CurStage == GameStages.Game) {
             if (m_IsComputer) {
                 System.out.println("Player guess");
-                m_PlaneRound.playerGuess(row - m_Padding, col - m_Padding);
+                m_PlaneRound.playerGuess(col - m_Padding, row - m_Padding);
                 m_BottomPane.updateStats(m_IsComputer);
                 updateBoards();
             }
@@ -237,17 +238,17 @@ public class TopPane_Vertical extends GridLayout {
     }
 
     public void setPlayerBoard() {
-        if (m_IsComputer) {
+        //if (m_IsComputer) {
             m_IsComputer = false;
             updateBoards();
-        }
+        //}
     }
 
     public void setComputerBoard() {
-        if (!m_IsComputer) {
+        //if (!m_IsComputer) {
             m_IsComputer = true;
             updateBoards();
-        }
+        //}
     }
 
     public void setGameStage() {
