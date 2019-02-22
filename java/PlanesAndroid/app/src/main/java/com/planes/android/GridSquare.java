@@ -75,6 +75,7 @@ public class GridSquare extends View {
                 case 2:
                     //draw X
                     m_Paint.setStyle(Paint.Style.STROKE);
+                    m_Paint.setStrokeWidth(10);
                     m_Paint.setColor(m_GuessColor);
                     canvas.drawLine(0, 0, getWidth(), getHeight(), m_Paint);
                     canvas.drawLine(0, getHeight(), getWidth(), 0, m_Paint);
@@ -116,7 +117,7 @@ public class GridSquare extends View {
     }
 
     public boolean onTouchEvent(MotionEvent event) {
-        m_Parent.changeSelection(m_Row, m_Col);
+        m_Parent.touchEvent(m_Row, m_Col);
         return super.onTouchEvent(event);
     }
 

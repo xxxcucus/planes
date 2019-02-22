@@ -191,7 +191,7 @@ public class TopPane_Vertical extends GridLayout {
         return squareColor;
     }
 
-    public void changeSelection(int row, int col) {
+    public void touchEvent(int row, int col) {
         System.out.println("Touch event" + row + " " + col);
 
         if (!m_IsComputer && m_CurStage == GameStages.BoardEditing) {
@@ -205,6 +205,7 @@ public class TopPane_Vertical extends GridLayout {
             if (m_IsComputer) {
                 System.out.println("Player guess");
                 m_PlaneRound.playerGuess(row - m_Padding, col - m_Padding);
+                m_BottomPane.updateStats(m_IsComputer);
                 updateBoards();
             }
         }
@@ -255,6 +256,10 @@ public class TopPane_Vertical extends GridLayout {
         updateBoards();
     }
 
+    public void setBottomPane(BottomPane_Vertical bottom) {
+        m_BottomPane = bottom;
+    }
+
     private Map<PositionBoardPane, GridSquare> m_GridSquares;
     private PlaneRoundJavaFx m_PlaneRound;
     private int m_Padding = 0;
@@ -273,5 +278,6 @@ public class TopPane_Vertical extends GridLayout {
     private Context m_Context;
 
     private int m_Selected = 0;
+    private BottomPane_Vertical m_BottomPane;
 
 }
