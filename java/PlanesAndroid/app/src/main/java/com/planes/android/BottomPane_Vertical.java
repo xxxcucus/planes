@@ -175,8 +175,6 @@ public class BottomPane_Vertical extends GridLayout {
                 m_HitsTextView.setText(Integer.toString(hits));
                 m_DeadTextView.setText(Integer.toString(dead));
                 m_MovesTextView.setText(Integer.toString(moves));
-
-
             }
         });
         m_ViewComputerBoardButton = (Button)findViewById(R.id.view_computer_board);
