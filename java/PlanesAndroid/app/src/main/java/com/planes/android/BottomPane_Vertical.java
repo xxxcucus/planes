@@ -50,6 +50,9 @@ public class BottomPane_Vertical extends GridLayout {
 
         if (m_CurStage == GameStages.Game)
             showGame();
+
+        if (m_CurStage == GameStages.GameNotStarted)
+            showGameNotStarted();
     }
 
     public void setGameSettings(PlaneRoundJavaFx planeRound) {
@@ -82,6 +85,11 @@ public class BottomPane_Vertical extends GridLayout {
         m_DeadLabel = null;
         m_MissesLabel = null;
         m_MovesLabel = null;
+
+        m_ComputerWins = null;
+        m_PlayerWins = null;
+        m_StartNewRound = null;
+        m_WinnerTextView = null;
 
     }
 
@@ -155,7 +163,7 @@ public class BottomPane_Vertical extends GridLayout {
         paramsWindow.setMargins(0, 0, 0,0);
         addView(window, paramsWindow);
 
-        m_ViewPlayerBoardButton = (Button)findViewById(R.id.view_player_board);
+        m_ViewPlayerBoardButton = (Button)findViewById(R.id.view_player_board1);
         m_ViewPlayerBoardButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,7 +185,7 @@ public class BottomPane_Vertical extends GridLayout {
                 m_MovesTextView.setText(Integer.toString(moves));
             }
         });
-        m_ViewComputerBoardButton = (Button)findViewById(R.id.view_computer_board);
+        m_ViewComputerBoardButton = (Button)findViewById(R.id.view_computer_board1);
         m_ViewComputerBoardButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -211,7 +219,42 @@ public class BottomPane_Vertical extends GridLayout {
         m_MovesLabel = (TextView)findViewById(R.id.moves_label);
     }
 
-    public void updateStats(boolean isComputer) {
+    public void showGameNotStarted() {
+        LayoutInflater layoutinflater = (LayoutInflater) m_Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View window = layoutinflater.inflate(R.layout.start_new_game_vertical, null);
+        setRowCount(1);
+        setColumnCount(1);
+        GridLayout.LayoutParams paramsWindow = new GridLayout.LayoutParams(GridLayout.spec(0, 1), GridLayout.spec(0, 1));
+        paramsWindow.setGravity(Gravity.CENTER);
+        addView(window, paramsWindow);
+
+        m_ComputerWins = (TextView)findViewById(R.id.computer_wins_count);
+        m_PlayerWins = (TextView)findViewById(R.id.player_wins_count);
+        m_StartNewRound = (Button)findViewById(R.id.start_new_game);
+        m_WinnerTextView = (TextView)findViewById(R.id.winner_textview);
+
+        m_ViewPlayerBoardButton = (Button)findViewById(R.id.view_player_board2);
+        m_ViewComputerBoardButton = (Button)findViewById(R.id.view_computer_board2);
+
+        m_ViewPlayerBoardButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m_TopPane.setPlayerBoard();
+                m_ViewComputerBoardButton.setEnabled(true);
+                m_ViewPlayerBoardButton.setEnabled(false);
+            }
+        });
+        m_ViewComputerBoardButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m_TopPane.setComputerBoard();
+                m_ViewComputerBoardButton.setEnabled(false);
+                m_ViewPlayerBoardButton.setEnabled(true);
+            }
+        });
+    }
+
+        public void updateStats(boolean isComputer) {
         if (isComputer) {
             int misses = m_PlaneRound.playerGuess_StatNoPlayerMisses();
             int hits = m_PlaneRound.playerGuess_StatNoPlayerHits();
@@ -231,7 +274,19 @@ public class BottomPane_Vertical extends GridLayout {
             m_DeadTextView.setText(Integer.toString(dead));
             m_MovesTextView.setText(Integer.toString(moves));
         }
+    }
 
+    public void roundEnds(int playerWins, int computerWins, boolean isComputerWinner) {
+        init(GameStages.GameNotStarted);
+        if (isComputerWinner)
+            m_WinnerTextView.setText(getResources().getText(R.string.computer_winner));
+        else
+            m_WinnerTextView.setText(getResources().getText(R.string.player_winner));
+
+        int computer_wins = m_PlaneRound.playerGuess_StatNoComputerWins();
+        int player_wins = m_PlaneRound.playerGuess_StatNoPlayerWins();
+        m_PlayerWins.setText(Integer.toString(player_wins));
+        m_ComputerWins.setText(Integer.toString(computer_wins));
 
     }
 
@@ -244,6 +299,7 @@ public class BottomPane_Vertical extends GridLayout {
     private Button m_UpButton;
     private Button m_DownButton;
     private Button m_DoneButton;
+
     private TextView m_HitsTextView;
     private TextView m_MissesTextView;
     private TextView m_DeadTextView;
@@ -254,6 +310,11 @@ public class BottomPane_Vertical extends GridLayout {
     private TextView m_MovesLabel;
     private Button m_ViewPlayerBoardButton;
     private Button m_ViewComputerBoardButton;
+
+    private TextView m_WinnerTextView;
+    private Button m_StartNewRound;
+    private TextView m_ComputerWins;
+    private TextView m_PlayerWins;
 
     private TopPane_Vertical m_TopPane;
 }

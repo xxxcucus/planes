@@ -16,4 +16,9 @@
     <string name="computer_moves">Computer Moves</string>
     <string name="computer_misses">Computer Misses</string>
     <string name="computer_dead">Computer Dead</string>
+    <string name="computer_winner">Computer Wins Round!</string>
+    <string name="player_winner">Player Wins Round!</string>
+    <string name="start_new_game">Start New Game</string>
+    <string name="computer_wins">Computer Wins</string>
+    <string name="player_wins">Player Wins</string>
 </resources>
