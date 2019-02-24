@@ -231,6 +231,14 @@ public class BottomPane_Vertical extends GridLayout {
         m_ComputerWins = (TextView)findViewById(R.id.computer_wins_count);
         m_PlayerWins = (TextView)findViewById(R.id.player_wins_count);
         m_StartNewRound = (Button)findViewById(R.id.start_new_game);
+        m_StartNewRound.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m_PlaneRound.initRound();
+                m_TopPane.setBoardEditingStage();
+                init(GameStages.BoardEditing);
+            }
+        });
         m_WinnerTextView = (TextView)findViewById(R.id.winner_textview);
 
         m_ViewPlayerBoardButton = (Button)findViewById(R.id.view_player_board2);

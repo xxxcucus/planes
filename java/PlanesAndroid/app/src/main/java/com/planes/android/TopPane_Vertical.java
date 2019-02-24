@@ -273,6 +273,12 @@ public class TopPane_Vertical extends GridLayout {
         updateBoards();
     }
 
+    public void setBoardEditingStage() {
+        m_CurStage = GameStages.BoardEditing;
+        m_IsComputer = false;
+        updateBoards();
+    }
+
     public void setBottomPane(BottomPane_Vertical bottom) {
         m_BottomPane = bottom;
     }
