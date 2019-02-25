@@ -57,7 +57,7 @@ endif (NOT UNIX)
 
 #uses mingw in windows to create windows installer
 if (MINGW)
-	install(FILES $ENV{MINGW_HOME}/bin/libgcc_s_dw2-1.dll DESTINATION bin)
+	install(FILES $ENV{MINGW_HOME}/bin/libgcc_s_seh-1.dll DESTINATION bin)
 	install(FILES $ENV{MINGW_HOME}/bin/libstdc++-6.dll DESTINATION  bin)
 	install(FILES $ENV{MINGW_HOME}/bin/libwinpthread-1.dll DESTINATION  bin)
 endif (MINGW)

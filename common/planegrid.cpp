@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <algorithm>
 #include "planegrid.h"
 #include "planeiterators.h"
 #include "coordinate2d.h"
