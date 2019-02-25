@@ -319,7 +319,10 @@ public class BottomPane_Vertical extends GridLayout {
         int player_wins = m_PlaneRound.playerGuess_StatNoPlayerWins();
         m_PlayerWins.setText(Integer.toString(player_wins));
         m_ComputerWins.setText(Integer.toString(computer_wins));
+    }
 
+    public void setDoneEnabled(boolean enabled) {
+        m_DoneButton.setEnabled(enabled);
     }
 
     private Context m_Context;

@@ -250,28 +250,33 @@ public class TopPane_Vertical extends GridLayout {
     }
 
     public void movePlaneLeft() {
-        m_PlaneRound.movePlaneLeft(m_Selected);
+        boolean valid = m_PlaneRound.movePlaneLeft(m_Selected) == 1 ? true : false;
         updateBoards();
+        m_BottomPane.setDoneEnabled(valid);
     }
 
     public void movePlaneRight() {
-        m_PlaneRound.movePlaneRight(m_Selected);
+        boolean valid = m_PlaneRound.movePlaneRight(m_Selected) == 1 ? true : false;
         updateBoards();
+        m_BottomPane.setDoneEnabled(valid);
     }
 
     public void movePlaneUp() {
-        m_PlaneRound.movePlaneUpwards(m_Selected);
+        boolean valid = m_PlaneRound.movePlaneUpwards(m_Selected) == 1 ? true : false;
         updateBoards();
+        m_BottomPane.setDoneEnabled(valid);
     }
 
     public void movePlaneDown() {
-        m_PlaneRound.movePlaneDownwards(m_Selected);
+        boolean valid = m_PlaneRound.movePlaneDownwards(m_Selected) == 1 ? true : false;
         updateBoards();
+        m_BottomPane.setDoneEnabled(valid);
     }
 
     public void rotatePlane() {
-        m_PlaneRound.rotatePlane(m_Selected);
+        boolean valid = m_PlaneRound.rotatePlane(m_Selected) == 1 ? true : false;
         updateBoards();
+        m_BottomPane.setDoneEnabled(valid);
     }
 
     public void setPlayerBoard() {
