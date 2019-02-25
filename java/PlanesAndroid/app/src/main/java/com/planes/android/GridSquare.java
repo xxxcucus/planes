@@ -52,7 +52,7 @@ public class GridSquare extends View {
     protected void onDraw(Canvas canvas) {
         m_Paint.setStyle(Paint.Style.FILL);
         m_Paint.setColor(m_BackgroundColor);
-        canvas.drawRect(getWidth() / 10, getHeight() / 10 , getWidth() * 9 / 10, getHeight() * 9 / 10, m_Paint);
+        canvas.drawRoundRect(getWidth() / 20, getHeight() / 20 , getWidth() * 19 / 20, getHeight() * 19 / 20, (float)10.0, (float)10.0, m_Paint);
 
         if (m_GuessType >= 0) {
             System.out.println("Draw " + m_GuessType + " " + m_Row + " " + m_Col);
