@@ -83,8 +83,6 @@ public class GridSquare extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        //int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        //m_Width = widthSize / m_ColCount;
         setMeasuredDimension(m_Width, m_Width);
         allocateMemory();
     }

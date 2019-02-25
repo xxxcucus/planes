@@ -12,7 +12,6 @@ import com.planes.javafx.PlaneRoundJavaFx;
 public class PlanesAndroidActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -56,9 +55,7 @@ public class PlanesAndroidActivity extends Activity {
         }
     }
 
-
     private PlaneRoundJavaFx m_PlaneRound;
     TopPane_Vertical m_BoardWidgets;
     BottomPane_Vertical m_GameControls;
-
 }

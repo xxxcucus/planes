@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-//Top pane in a vertical layout
 public class TopPane_Vertical extends GridLayout {
     class PositionBoardPane {
         private int x = 0;
@@ -280,17 +279,13 @@ public class TopPane_Vertical extends GridLayout {
     }
 
     public void setPlayerBoard() {
-        //if (m_IsComputer) {
-            m_IsComputer = false;
-            updateBoards();
-        //}
+        m_IsComputer = false;
+        updateBoards();
     }
 
     public void setComputerBoard() {
-        //if (!m_IsComputer) {
-            m_IsComputer = true;
-            updateBoards();
-        //}
+        m_IsComputer = true;
+        updateBoards();
     }
 
     public void setGameStage() {
@@ -334,5 +329,4 @@ public class TopPane_Vertical extends GridLayout {
 
     private int m_Selected = 0;
     private BottomPane_Vertical m_BottomPane;
-
 }
