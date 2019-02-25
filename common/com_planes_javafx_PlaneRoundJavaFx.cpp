@@ -9,7 +9,7 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_createPlanesRound
 (JNIEnv *, jobject)
 {
 	if (global_Round)
-		delete global_Round;
+		return;
 	global_Round = new PlaneRound(10, 10, 3);
 	global_Round->initRound();
 }
@@ -222,4 +222,10 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_roundEnds
 JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_initRound
 (JNIEnv *, jobject) {
 	global_Round->initRound();
+	global_Player_Guess_Reaction.m_GameStats.reset();
+}
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getGameStage
+(JNIEnv *, jobject) {
+	return global_Round->getCurrentStage();
 }

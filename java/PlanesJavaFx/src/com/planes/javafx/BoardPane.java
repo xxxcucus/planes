@@ -136,7 +136,7 @@ class BoardPane extends Pane
 		switch (type) {
 			case 0:
 				//draw red circle
-				gc.fillOval(width / 4, width / 4, width / 2, height / 2);
+				gc.fillOval(width / 4, height / 4, width / 2, height / 2);
 				break;
 			case 1:
 				//draw triangle

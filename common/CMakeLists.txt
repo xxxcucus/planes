@@ -4,6 +4,16 @@ project (libCommon)
 cmake_policy(SET CMP0020 NEW)
 cmake_policy(SET CMP0043 NEW)
 
+
+if(DEFINED ENV{JAVA_HOME})
+	option(With_Java "" ON)
+endif()
+
+
+if (With_Java)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
+endif(With_Java)
+
 if (With_Java)
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
@@ -49,6 +59,7 @@ set(COMMON_SRCS
 if (With_Java)
 	list(APPEND COMMON_SRCS com_planes_javafx_PlaneRoundJavaFx.cpp)
 endif (With_Java)
+
 
 add_library(libCommon SHARED ${COMMON_SRCS} ${COMMON_HEADR})
 install(TARGETS libCommon DESTINATION bin)

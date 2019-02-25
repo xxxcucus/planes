@@ -287,6 +287,14 @@ JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getComputerGuessC
 JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getComputerGuessType
   (JNIEnv *, jobject, jint);
 
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    getGameStage
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getGameStage
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif

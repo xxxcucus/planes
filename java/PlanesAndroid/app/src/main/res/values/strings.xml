@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Planes</string>
+    <string name="left_button">Left</string>
+    <string name="right_button">Right</string>
+    <string name="up_button">Up</string>
+    <string name="down_button">Down</string>
+    <string name="rotate_button">Rotate</string>
+    <string name="done_button">Done</string>
+    <string name="view_player_board">View Player Board</string>
+    <string name="view_computer_board">View Computer Board</string>
+    <string name="player_hits">Player Hits</string>
+    <string name="player_moves">Player Moves</string>
+    <string name="player_misses">Player Misses</string>
+    <string name="player_dead">Player Dead</string>
+    <string name="computer_hits">Computer Hits</string>
+    <string name="computer_moves">Computer Moves</string>
+    <string name="computer_misses">Computer Misses</string>
+    <string name="computer_dead">Computer Dead</string>
+    <string name="computer_winner">Computer Wins Round!</string>
+    <string name="player_winner">Player Wins Round!</string>
+    <string name="start_new_game">Start New Game</string>
+    <string name="computer_wins">Computer Wins</string>
+    <string name="player_wins">Player Wins</string>
+</resources>
