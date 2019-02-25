@@ -12,4 +12,4 @@ One GUI uses JavaFx and the other (currently under development) Android.
 
 #installation instructions
 
-1. Go to the Releases page.
+1. Go to the Releases page : https://github.com/xxxcucus/planes/releases
