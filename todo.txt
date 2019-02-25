@@ -14,10 +14,11 @@
 14. Implement PlanesJavaFx - ok 30.01.19
 15. Update Book with the changes implemented in javafx_1 branch
 16. Add GUI chapters to Book with UML diagrams.
-17. Implement PlanesAndroid
+17. Implement PlanesAndroid - ok 25.02.19
 18. Deploy PlanesJavaFx.
 19. Use gradle or maven for PlanesJavaFx.
 20. PlanesGraphicsScene, PlanesJavaFx - in the left pane always allow access to score tab, 
 but the "Start New Round" button should only be active at the end of one round. - ok 01.02.2019
 21. PlanesJavaFx - test with Linux.
 22. PlanesJavaFx: disable done button when the position of the planes is not valid.
+23. Add installation instructions and compilation instructions to github page.
