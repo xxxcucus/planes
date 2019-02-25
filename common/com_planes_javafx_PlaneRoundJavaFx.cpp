@@ -9,7 +9,7 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_createPlanesRound
 (JNIEnv *, jobject)
 {
 	if (global_Round)
-		delete global_Round;
+		return;
 	global_Round = new PlaneRound(10, 10, 3);
 	global_Round->initRound();
 }

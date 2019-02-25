@@ -14,7 +14,7 @@ public class PlanesAndroidActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_vertical);
+        setContentView(R.layout.activity_main);
 
         m_PlaneRound = new PlaneRoundJavaFx();
         m_PlaneRound.createPlanesRound();

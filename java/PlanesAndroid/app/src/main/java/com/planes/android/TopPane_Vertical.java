@@ -1,8 +1,11 @@
 package com.planes.android;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.widget.GridLayout;
 
 import com.planes.javafx.PlaneRoundJavaFx;
@@ -85,13 +88,31 @@ public class TopPane_Vertical extends GridLayout {
     }
 
     private void init(Context context) {
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+
+        TypedValue tv = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
+        int actionBarHeight = getResources().getDimensionPixelSize(tv.resourceId);
+
+        int statusBarHeight = 0;
+        int resource = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resource > 0) {
+            statusBarHeight = context.getResources().getDimensionPixelSize(resource);
+        }
+
+        int gridSize = Math.min(height - actionBarHeight - statusBarHeight, width) / (m_GRows + 2 * m_Padding);
+
         setRowCount(m_GRows + 2 * m_Padding);
         setColumnCount(m_GCols + 2 * m_Padding);
         m_GridSquares = new HashMap<PositionBoardPane, GridSquare>();
 
         for (int i = 0; i < m_GRows + 2 * m_Padding; ++i) {
             for (int j = 0; j < m_GCols + 2 * m_Padding; ++j) {
-                GridSquare gs = new GridSquare(context);
+                GridSquare gs = new GridSquare(context, gridSize);
                 if ( i < m_Padding || i >= m_GRows + m_Padding || j < m_Padding || j >= m_GCols + m_Padding)
                     gs.setBackgroundColor(Color.YELLOW);
                 else

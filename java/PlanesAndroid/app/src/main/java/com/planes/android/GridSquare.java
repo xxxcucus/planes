@@ -13,8 +13,9 @@ import android.view.View;
 import static java.lang.Math.min;
 
 public class GridSquare extends View {
-    public GridSquare(Context context) {
+    public GridSquare(Context context, int width) {
         super(context);
+        m_Width = width;
         init();
     }
 
@@ -35,19 +36,15 @@ public class GridSquare extends View {
     public void setBackgroundColor(int color) {
         m_BackgroundColor = color;
     }
-
     public void setGuess(int guess_type) {
         m_GuessType = guess_type;
     }
-
     public void setRowCount(int row_count) {
         m_RowCount = row_count;
     }
-
     public void setColCount(int col_count) {
         m_ColCount = col_count;
     }
-
     public void setRow(int i) { m_Row = i; }
     public void setColumn(int j) { m_Col = j; }
 
@@ -86,11 +83,8 @@ public class GridSquare extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        //int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        //int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        //int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-        m_Width = widthSize / m_ColCount;
+        //int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        //m_Width = widthSize / m_ColCount;
         setMeasuredDimension(m_Width, m_Width);
         allocateMemory();
     }
@@ -99,10 +93,9 @@ public class GridSquare extends View {
         m_Paint = new Paint();
     }
 
-    //TODO is this correct
     private void allocateMemory() {
         System.out.println("Allocate " + m_Width);
-        m_MissCircle = new RectF(m_Width / 4, m_Width / 4, m_Width * 3 / 4, m_Width * 3/ 4); //TODO: to change
+        m_MissCircle = new RectF(m_Width / 4, m_Width / 4, m_Width * 3 / 4, m_Width * 3/ 4);
         m_HitPath = new Path();
         m_HitPath.moveTo(0, m_Width / 2);
         m_HitPath.lineTo(m_Width / 2, 0);
@@ -120,7 +113,6 @@ public class GridSquare extends View {
         m_Parent.touchEvent(m_Row, m_Col);
         return super.onTouchEvent(event);
     }
-
 
     private int m_BackgroundColor;
     private int m_GuessColor = Color.RED;
