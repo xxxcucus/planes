@@ -223,3 +223,8 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_initRound
 (JNIEnv *, jobject) {
 	global_Round->initRound();
 }
+
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getGameStage
+(JNIEnv *, jobject) {
+	return global_Round->getCurrentStage();
+}

@@ -300,6 +300,12 @@ public class TopPane_Vertical extends GridLayout {
         updateBoards();
     }
 
+    public void setNewRoundStage() {
+        m_CurStage = GameStages.GameNotStarted;
+        m_IsComputer = true;
+        updateBoards();
+    }
+
     public void setBottomPane(BottomPane_Vertical bottom) {
         m_BottomPane = bottom;
     }

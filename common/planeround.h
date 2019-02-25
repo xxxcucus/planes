@@ -23,7 +23,7 @@ struct PlayerGuessReaction {
 
 class PlaneRound {
 public:
-	enum class GameStages { GameNotStarted, BoardEditing, Game };
+	enum class GameStages { GameNotStarted = 0, BoardEditing = 1, Game = 2};
 
 	PlaneRound(int rowNo, int colNo, int planeNo);
 	~PlaneRound();
@@ -115,6 +115,9 @@ public:
 			return m_computerGuessList[idx];
 	}
 
+	int getCurrentStage() {
+		return int(m_State);
+	}
 
 private:
 	//update game statistics

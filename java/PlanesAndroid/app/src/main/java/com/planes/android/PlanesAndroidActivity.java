@@ -35,6 +35,28 @@ public class PlanesAndroidActivity extends Activity {
         getActionBar().setTitle(s);
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        switch(m_PlaneRound.getGameStage()) {
+            case 0:
+                m_BoardWidgets.setNewRoundStage();
+                m_GameControls.setNewRoundStage();
+                break;
+            case 1:
+                m_BoardWidgets.setBoardEditingStage();
+                m_GameControls.setBoardEditingStage();
+                break;
+            case 2:
+                m_BoardWidgets.setGameStage();
+                m_GameControls.setGameStage();
+                break;
+        }
+    }
+
+
     private PlaneRoundJavaFx m_PlaneRound;
     TopPane_Vertical m_BoardWidgets;
     BottomPane_Vertical m_GameControls;

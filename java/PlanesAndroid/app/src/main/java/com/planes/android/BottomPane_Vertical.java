@@ -41,7 +41,6 @@ public class BottomPane_Vertical extends GridLayout {
     }
 
     private void init(GameStages gameStage) {
-        //TODO: build a grid layout with left, right, up, down, rotate, and done
         m_CurStage = gameStage;
         resetGUI();
 
@@ -55,6 +54,18 @@ public class BottomPane_Vertical extends GridLayout {
             showGameNotStarted();
     }
 
+    public void setGameStage() {
+        init(GameStages.Game);
+    }
+
+    public void setBoardEditingStage() {
+        init(GameStages.BoardEditing);
+    }
+
+    public void setNewRoundStage() {
+        init(GameStages.GameNotStarted);
+    }
+
     public void setGameSettings(PlaneRoundJavaFx planeRound) {
         m_PlaneRound = planeRound;
         resetGUI();
@@ -65,7 +76,7 @@ public class BottomPane_Vertical extends GridLayout {
         m_TopPane = top;
     }
 
-    public void resetGUI() {
+    private void resetGUI() {
         removeAllViews();
 
         m_RotateButton = null;
@@ -93,7 +104,7 @@ public class BottomPane_Vertical extends GridLayout {
 
     }
 
-    public void showBoardEditing() {
+    private void showBoardEditing() {
         LayoutInflater layoutinflater = (LayoutInflater)m_Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View window = layoutinflater.inflate(R.layout.board_editing_controls_vertical, null);
         setRowCount(1);
@@ -153,7 +164,7 @@ public class BottomPane_Vertical extends GridLayout {
         });
     }
 
-    public void showGame() {
+    private void showGame() {
         LayoutInflater layoutinflater = (LayoutInflater) m_Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View window = layoutinflater.inflate(R.layout.game_stats_vertical, null);
         setRowCount(1);
@@ -217,9 +228,17 @@ public class BottomPane_Vertical extends GridLayout {
         m_DeadLabel = (TextView)findViewById(R.id.dead_label);
         m_MissesLabel = (TextView)findViewById(R.id.misses_label);
         m_MovesLabel = (TextView)findViewById(R.id.moves_label);
+
+        m_TopPane.setComputerBoard();
+        m_ViewComputerBoardButton.setEnabled(false);
+        m_ViewPlayerBoardButton.setEnabled(true);
+        if (m_ViewComputerBoardButton.isEnabled())
+            updateStats(false);
+        else
+            updateStats(true);
     }
 
-    public void showGameNotStarted() {
+    private void showGameNotStarted() {
         LayoutInflater layoutinflater = (LayoutInflater) m_Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View window = layoutinflater.inflate(R.layout.start_new_game_vertical, null);
         setRowCount(1);
@@ -260,6 +279,11 @@ public class BottomPane_Vertical extends GridLayout {
                 m_ViewPlayerBoardButton.setEnabled(true);
             }
         });
+
+        int computer_wins = m_PlaneRound.playerGuess_StatNoComputerWins();
+        int player_wins = m_PlaneRound.playerGuess_StatNoPlayerWins();
+        m_PlayerWins.setText(Integer.toString(player_wins));
+        m_ComputerWins.setText(Integer.toString(computer_wins));
     }
 
         public void updateStats(boolean isComputer) {

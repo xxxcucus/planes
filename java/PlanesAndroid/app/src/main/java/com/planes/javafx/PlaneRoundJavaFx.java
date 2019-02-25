@@ -62,4 +62,6 @@ public class PlaneRoundJavaFx {
     public native int getComputerGuessRow(int idx);
     public native int getComputerGuessCol(int idx);
     public native int getComputerGuessType(int idx);
+
+    public native int getGameStage();
 }
