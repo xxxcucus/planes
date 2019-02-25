@@ -222,6 +222,7 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_roundEnds
 JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_initRound
 (JNIEnv *, jobject) {
 	global_Round->initRound();
+	global_Player_Guess_Reaction.m_GameStats.reset();
 }
 
 JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_getGameStage
