@@ -162,8 +162,8 @@ public class TopPane_Vertical extends GridLayout {
             squareColor = getResources().getColor(R.color.aqua);
         }
 
-        //if (!m_IsComputer || (m_IsComputer && m_CurStage == GameStages.GameNotStarted)) {
-        if (true) {
+        if (!m_IsComputer || (m_IsComputer && m_CurStage == GameStages.GameNotStarted)) {
+        //if (true) {
             int type = m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, m_IsComputer ? 1 : 0);
             switch (type) {
                 //intersecting planes
@@ -206,7 +206,23 @@ public class TopPane_Vertical extends GridLayout {
             if (m_IsComputer) {
                 System.out.println("Player guess");
                 m_PlaneRound.playerGuess(col - m_Padding, row - m_Padding);
-                m_BottomPane.updateStats(m_IsComputer);
+
+                //update the statistics
+                int playerWins = m_PlaneRound.playerGuess_StatNoPlayerWins();
+                int computerWins = m_PlaneRound.playerGuess_StatNoComputerWins();
+
+
+                //check if the round ended
+                if (m_PlaneRound.playerGuess_RoundEnds()) {
+                    System.out.println("Round ends!");
+                    String winnerText = m_PlaneRound.playerGuess_IsPlayerWinner() ? "Computer wins !" : "Player wins !";
+                    //announceRoundWinner(winnerText);
+                    m_CurStage = GameStages.GameNotStarted;
+                    m_PlaneRound.roundEnds();
+                    m_BottomPane.roundEnds(playerWins, computerWins, m_PlaneRound.playerGuess_IsPlayerWinner());
+                } else {
+                    m_BottomPane.updateStats(m_IsComputer);
+                }
                 updateBoards();
             }
         }
@@ -254,6 +270,12 @@ public class TopPane_Vertical extends GridLayout {
     public void setGameStage() {
         m_CurStage = GameStages.Game;
         m_IsComputer = true;
+        updateBoards();
+    }
+
+    public void setBoardEditingStage() {
+        m_CurStage = GameStages.BoardEditing;
+        m_IsComputer = false;
         updateBoards();
     }
 
