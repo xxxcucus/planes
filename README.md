@@ -9,3 +9,7 @@ PlanesQML an implementation using QML. These use a game engine programmed in C++
 One GUI uses JavaFx and the other (currently under development) Android.
 
 ![alt text](https://github.com/xxxcucus/planes/blob/master/Book/BoardWithPlanes.png)
+
+#installation instructions
+
+1. Go to the Releases page.
