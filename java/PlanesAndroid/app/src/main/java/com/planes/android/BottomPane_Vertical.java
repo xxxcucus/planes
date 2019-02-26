@@ -236,6 +236,10 @@ public class BottomPane_Vertical extends GridLayout {
             updateStats(false);
         else
             updateStats(true);
+        m_HitsLabel.setText(getResources().getString(R.string.player_hits));
+        m_DeadLabel.setText(getResources().getString(R.string.player_dead));
+        m_MissesLabel.setText(getResources().getString(R.string.player_misses));
+        m_MovesLabel.setText(getResources().getString(R.string.player_moves));
     }
 
     private void showGameNotStarted() {
@@ -296,6 +300,10 @@ public class BottomPane_Vertical extends GridLayout {
             m_HitsTextView.setText(Integer.toString(hits));
             m_DeadTextView.setText(Integer.toString(dead));
             m_MovesTextView.setText(Integer.toString(moves));
+            m_HitsLabel.setText(getResources().getString(R.string.player_hits));
+            m_DeadLabel.setText(getResources().getString(R.string.player_dead));
+            m_MissesLabel.setText(getResources().getString(R.string.player_misses));
+            m_MovesLabel.setText(getResources().getString(R.string.player_moves));
         } else {
             int misses = m_PlaneRound.playerGuess_StatNoComputerMisses();
             int hits = m_PlaneRound.playerGuess_StatNoComputerHits();
@@ -305,6 +313,10 @@ public class BottomPane_Vertical extends GridLayout {
             m_HitsTextView.setText(Integer.toString(hits));
             m_DeadTextView.setText(Integer.toString(dead));
             m_MovesTextView.setText(Integer.toString(moves));
+            m_HitsLabel.setText(getResources().getString(R.string.computer_hits));
+            m_DeadLabel.setText(getResources().getString(R.string.computer_dead));
+            m_MissesLabel.setText(getResources().getString(R.string.computer_misses));
+            m_MovesLabel.setText(getResources().getString(R.string.computer_moves));
         }
     }
 
