@@ -23,7 +23,7 @@ For Linux
 2. Extract the installation folder from the archive with tar -xvf Planes.x.y.z_linux.tar.gz
 3. Execute one of the scripts PlanesWidget.sh, PlanesGraphicsScene.sh, PlanesQML.sh
 
-For Android
+For Android (still under development)
 1. Download Planes.x.y.y_android.apk to the Download folder on your device.
 2. With the file explorer navigate to the saved .apk and open it.
 3. When the operating system asks allow the application from unknown source to be installed.
