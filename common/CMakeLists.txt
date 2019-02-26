@@ -62,4 +62,10 @@ endif (With_Java)
 
 
 add_library(libCommon SHARED ${COMMON_SRCS} ${COMMON_HEADR})
+
+
+if (UNIX)
+install(TARGETS libCommon DESTINATION lib)
+else (UNIX)
 install(TARGETS libCommon DESTINATION bin)
+endif (UNIX)
