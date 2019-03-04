@@ -16,7 +16,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical">
+        android:orientation="horizontal">
         <com.planes.android.TopPane_Vertical
             android:id="@+id/top_pane"
             android:layout_width="wrap_content"
