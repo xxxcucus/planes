@@ -21,4 +21,5 @@
     <string name="start_new_game">Start New Game</string>
     <string name="computer_wins">Computer Wins</string>
     <string name="player_wins">Player Wins</string>
+    <string name="help">Help</string>
 </resources>
