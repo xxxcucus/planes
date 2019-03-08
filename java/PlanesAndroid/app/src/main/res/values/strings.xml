@@ -22,4 +22,7 @@
     <string name="computer_wins">Computer Wins</string>
     <string name="player_wins">Player Wins</string>
     <string name="help">Help</string>
+    <string name="board_editing_stage">Board Editing</string>
+    <string name="game_stage">Game</string>
+    <string name="game_not_started_stage">Start New Game</string>
 </resources>

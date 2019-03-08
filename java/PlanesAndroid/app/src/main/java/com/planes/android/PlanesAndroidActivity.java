@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.planes.javafx.PlaneRoundJavaFx;
 
@@ -31,6 +32,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.menu_help) {
+            onButtonShowHelpWindowClick();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -85,11 +87,13 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         }
     }
 
-    public void onButtonShowHelpWindowClick(View view) {
+    public void onButtonShowHelpWindowClick() {
 
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.help_popup, null);
+
+        LinearLayout main_layout = (LinearLayout)findViewById(R.id.main_layout);
 
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -99,7 +103,28 @@ public class PlanesAndroidActivity extends AppCompatActivity {
 
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        popupWindow.showAtLocation(main_layout, Gravity.CENTER, 0, 0);
+
+        TextView helpTextView = (TextView)popupView.findViewById(R.id.popup_help_text);
+        TextView helpTitleTextView = (TextView)popupView.findViewById(R.id.popup_help_title);
+
+        switch(m_BoardWidgets.getGameStage()) {
+            case GameNotStarted:
+                helpTitleTextView.setText(getResources().getString(R.string.game_not_started_stage));
+                helpTextView.setText("Touch on the \"Start New Game\" to start a new round.");
+                break;
+            case BoardEditing:
+                helpTitleTextView.setText(getResources().getString(R.string.board_editing_stage));
+                helpTextView.setText("Touch on the plane's body to select them." +
+                        "\nTouch on the control buttons to position the selected planes.");
+                break;
+            case Game:
+                helpTitleTextView.setText(getResources().getString(R.string.game_stage));
+                helpTextView.setText("Touch on the \"View Computer Board\" to see the computer's board. " +
+                        "\nTouch on the computer's board to guess where the computer's planes are." +
+                        "\nTo view the computer's progress touch on the \"View Player Board\".");
+                break;
+        }
 
         // dismiss the popup window when touched
         popupView.setOnTouchListener(new View.OnTouchListener() {

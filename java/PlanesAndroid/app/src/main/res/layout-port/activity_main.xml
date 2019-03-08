@@ -14,6 +14,11 @@
         android:elevation="4dp"
     />
 
+    <LinearLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
     <com.planes.android.TopPane_Vertical
         android:id="@+id/top_pane"
         android:layout_width="fill_parent"
@@ -23,5 +28,6 @@
         android:id="@+id/bottom_pane"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent" />
+    </LinearLayout>
 
 </LinearLayout>
