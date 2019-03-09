@@ -294,6 +294,10 @@ public class TopPane_Vertical extends GridLayout {
         updateBoards();
     }
 
+    public GameStages getGameStage() {
+        return m_CurStage;
+    }
+
     public void setBoardEditingStage() {
         m_CurStage = GameStages.BoardEditing;
         m_IsComputer = false;
