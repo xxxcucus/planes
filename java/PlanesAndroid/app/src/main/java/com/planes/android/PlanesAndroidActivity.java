@@ -115,14 +115,15 @@ public class PlanesAndroidActivity extends AppCompatActivity {
                 break;
             case BoardEditing:
                 helpTitleTextView.setText(getResources().getString(R.string.board_editing_stage));
-                helpTextView.setText("Touch on the plane's body to select them." +
-                        "\nTouch on the control buttons to position the selected planes.");
+                helpTextView.setText("Touch on the plane's body to select it." +
+                        "\nTouch on the control buttons to position the selected plane.");
                 break;
             case Game:
                 helpTitleTextView.setText(getResources().getString(R.string.game_stage));
                 helpTextView.setText("Touch on the \"View Computer Board\" to see the computer's board. " +
                         "\nTouch on the computer's board to guess where the computer's planes are." +
-                        "\nTo view the computer's progress touch on the \"View Player Board\".");
+                        "\nTo view the computer's progress touch on the \"View Player Board\"." +
+                        "\nX means target destroyed. Disc means nothing was hit. Square means a hit.");
                 break;
         }
 
