@@ -5,4 +5,8 @@
         android:icon="@android:drawable/ic_menu_help"
         android:text="@string/help"
         app:showAsAction="ifRoom|withText"/>
+    <item android:id="@+id/menu_credits"
+        android:icon="@drawable/ic_menu_allfriends"
+        android:text="@string/credits"
+        app:showAsAction="ifRoom|withText"/>
 </menu>
