@@ -25,5 +25,9 @@
     <string name="board_editing_stage">Board Editing</string>
     <string name="game_stage">Game</string>
     <string name="game_not_started_stage">Start New Game</string>
-    <string name="credits">Credits</string>
+    <string name="credits_software_title">Software</string>
+    <string name="credits_software_content"></string>
+    <string name="credits_graphics_title">Graphics</string>
+    <string name="credits_graphics_content"></string>
+
 </resources>
