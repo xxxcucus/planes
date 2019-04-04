@@ -225,6 +225,12 @@ public class TopPane_Vertical extends GridLayout {
         if (m_IsComputer && m_CurStage == GameStages.Game) {
             if (m_IsComputer) {
                 System.out.println("Player guess");
+
+                if (m_PlaneRound.playerGuessAlreadyMade(col - m_Padding, row - m_Padding) != 0) {
+                    System.out.println("Player guess already made");
+                    return;
+                }
+
                 m_PlaneRound.playerGuess(col - m_Padding, row - m_Padding);
 
                 //update the statistics

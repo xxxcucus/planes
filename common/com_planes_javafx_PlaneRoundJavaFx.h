@@ -97,6 +97,14 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_doneClicked
 
 /*
  * Class:     com_planes_javafx_PlaneRoundJavaFx
+ * Method:    playerGuessAlreadyMade
+ * Signature: (II)I
+ */
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuessAlreadyMade
+  (JNIEnv *, jobject, jint, jint);
+
+/*
+ * Class:     com_planes_javafx_PlaneRoundJavaFx
  * Method:    playerGuess
  * Signature: (II)V
  */

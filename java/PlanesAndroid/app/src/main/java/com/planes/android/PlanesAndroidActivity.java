@@ -145,52 +145,6 @@ public class PlanesAndroidActivity extends AppCompatActivity {
 
     public void onButtonShowCreditsWindowClick() {
 
-        // inflate the layout of the popup window
-        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.help_popup, null);
-
-        LinearLayout main_layout = (LinearLayout)findViewById(R.id.main_layout);
-
-        // create the popup window
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
-        popupWindow.showAtLocation(main_layout, Gravity.CENTER, 0, 0);
-
-        TextView helpTextView = (TextView)popupView.findViewById(R.id.popup_help_text);
-        TextView helpTitleTextView = (TextView)popupView.findViewById(R.id.popup_help_title);
-
-        switch(m_BoardWidgets.getGameStage()) {
-            case GameNotStarted:
-                helpTitleTextView.setText(getResources().getString(R.string.game_not_started_stage));
-                helpTextView.setText("Touch on the \"Start New Game\" to start a new round.");
-                break;
-            case BoardEditing:
-                helpTitleTextView.setText(getResources().getString(R.string.board_editing_stage));
-                helpTextView.setText("Touch on the plane's body to select it." +
-                        "\nTouch on the control buttons to position the selected plane.");
-                break;
-            case Game:
-                helpTitleTextView.setText(getResources().getString(R.string.game_stage));
-                helpTextView.setText("Touch on the \"View Computer Board\" to see the computer's board. " +
-                        "\nTouch on the computer's board to guess where the computer's planes are." +
-                        "\nTo view the computer's progress touch on the \"View Player Board\"." +
-                        "\nX means target destroyed. Disc means nothing was hit. Square means a hit.");
-                break;
-        }
-
-        // dismiss the popup window when touched
-        popupView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                popupWindow.dismiss();
-                return true;
-            }
-        });
     }
 
     private PlaneRoundJavaFx m_PlaneRound;

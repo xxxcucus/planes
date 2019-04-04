@@ -112,6 +112,15 @@ void PlaneRound::playerGuessIncomplete(int row, int col, GuessPoint::Type& guess
 	playerGuess(gp, pgr);
 }
 
+int PlaneRound::playerGuessAlreadyMade(int row, int col) {
+	PlanesCommonTools::Coordinate2D qp(col, row);
+	for (auto guess : m_playerGuessList) {
+		if (guess.m_row == col && guess.m_col == row)
+			return 1;
+	}
+	return 0;
+}
+
 GuessPoint PlaneRound::guessComputerMove()
 {
 	PlanesCommonTools::Coordinate2D qp;

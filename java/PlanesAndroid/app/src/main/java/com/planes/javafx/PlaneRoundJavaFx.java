@@ -34,6 +34,7 @@ public class PlaneRoundJavaFx {
     public native void doneClicked();
 
     //play the game
+    public native int playerGuessAlreadyMade(int row, int col);
     public native void playerGuess(int row, int col);
     public native boolean playerGuess_RoundEnds();
     public native boolean playerGuess_IsPlayerWinner();

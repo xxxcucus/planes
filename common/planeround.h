@@ -44,6 +44,14 @@ public:
 	Plays a step in the game, as triggered by the player's guess gp.
 	*/
 	void playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr);
+
+	/**
+	@param[in] row, col - coordinates of player's guess
+	Check if a guess was already made at this position.
+	*/
+	int playerGuessAlreadyMade(int row, int col);
+
+
 	/**
 		@param[in] row, col - coordinates of player's guess
 		@param[out] guessRes - the evaluation of the player's guess

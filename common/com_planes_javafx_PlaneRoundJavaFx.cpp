@@ -78,6 +78,11 @@ JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_doneClicked
 	global_Round->doneEditing();
 }
 
+JNIEXPORT jint JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuessAlreadyMade
+  (JNIEnv *, jobject, jint row, jint col) {
+	return global_Round->playerGuessAlreadyMade(int(row), int(col));  
+}
+
 JNIEXPORT void JNICALL Java_com_planes_javafx_PlaneRoundJavaFx_playerGuess
 (JNIEnv *, jobject, jint row, jint col)
 {
