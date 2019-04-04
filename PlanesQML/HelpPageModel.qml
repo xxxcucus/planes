@@ -46,7 +46,7 @@ in the left pane at the end of a round."
 To position your planes you select a desired plane and then with the corresponding buttons in the interface you can translate it to the left\, or to the right\, upwards or downwards or rotate it.
  The selected 
 plane can be changed with the help of a selection button. Once you have positioned your planes you can click on the done button to start guessing the computer's planes. Guessing
-is achieved by clicking on the squares where you think a plane head lies. The computer will mark the square with a circle when you did not click on a plane\, with a triangle when you have
+is achieved by clicking on the squares where you think a plane head lies. The computer will mark the square with a circle when you did not click on a plane\, with a rhombus when you have
 guessed a plane point but not a plane head and with a X when you have guessed a plane head. The statistic of your attempts is given in the left panel near the game board. 
 Similarly a statistic for the computer's attempts is displayed as well."
 	}
