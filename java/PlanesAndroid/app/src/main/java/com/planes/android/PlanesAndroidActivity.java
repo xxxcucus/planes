@@ -144,7 +144,20 @@ public class PlanesAndroidActivity extends AppCompatActivity {
     }
 
     public void onButtonShowCreditsWindowClick() {
+        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.credits_popup, null);
 
+        LinearLayout main_layout = (LinearLayout)findViewById(R.id.main_layout);
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(main_layout, Gravity.CENTER, 0, 0);
     }
 
     private PlaneRoundJavaFx m_PlaneRound;
