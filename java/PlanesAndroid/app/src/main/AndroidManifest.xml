@@ -4,6 +4,7 @@
 
     <application
         android:label="Planes Android"
+        android:icon="@mipmap/ic_launcher"
         android:theme="@style/MyAppTheme"
         android:testOnly="false">
 
