@@ -8,7 +8,7 @@ In an initial version of the software the PlaneRound class made use of the signa
 
 The game controller is implemented in the class PlaneRound. Its member variable are as follows:
 
-\begin{lstlisting}
+\begin{lstlisting} [caption={GameController's Member Variable}]
 	//whether the computer or the player moves first
 	bool m_isComputerFirst;
 	//the  game statistics
@@ -30,7 +30,7 @@ It keeps track of who should make the first move (m\_isComputerFirst), of the sc
 
 The API that the PlaneRound offers is (mainly) as follows:
 
-\begin{lstlisting}
+\begin{lstlisting} [caption={PlaneRound's Interface}]
 
 	void initRound();
 	void roundEnds();
@@ -66,7 +66,7 @@ rotatePlane(), movePlaneLeft(), movePlaneRight(), movePlaneUpwards(), movePlaneD
 
 The game controller interacts with the outside (the graphical user interface) through the two functions: playerGuess() and playerGuessIncomplete(). These functions receive the coordinate of a player guess (playerGuessIncomplete()) or the coordinates of a player's guess together with the result of the guess (playerGuess()) and compute the associated computer move. The functions notify if a computer move was generated, if there is a round winner and return the moves statistics.
 
-\begin{lstlisting}
+\begin{lstlisting} [caption={PlaneRound PlayerGuess}]
 
 void PlaneRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr)
 {
@@ -113,7 +113,7 @@ void PlaneRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr)
 
 Guessing of a computer move works as follows:
 
-\begin{lstlisting}
+\begin{lstlisting} [caption={PlaneRound GuessComputerMove}]
 
 GuessPoint PlaneRound::guessComputerMove()
 {
@@ -140,7 +140,7 @@ The function makeChoice() of the ComputerLogic class is used which works as expl
 
 playerGuessIncomplete() is the same as playerGuess() except that it additionally  computes the result of the player's guess at the given coordinates:
 
-\begin {lstlisting}
+\begin {lstlisting} [caption={PlaneRound PlayerGuessIncomplete}]
 void PlaneRound::playerGuessIncomplete(int row, int col, GuessPoint::Type& guessRes, PlayerGuessReaction& pgr)
 {
 	PlanesCommonTools::Coordinate2D qp(col, row);
