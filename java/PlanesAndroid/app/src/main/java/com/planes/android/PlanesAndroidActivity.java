@@ -63,6 +63,22 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         m_GameControls.setTopPane(m_BoardWidgets);
         m_BoardWidgets.setBottomPane(m_GameControls);
 
+        switch(m_PlaneRound.getGameStage()) {
+            case 0:
+                m_BoardWidgets.setNewRoundStage();
+                m_GameControls.setNewRoundStage();
+                break;
+            case 1:
+                m_BoardWidgets.setBoardEditingStage();
+                m_GameControls.setBoardEditingStage();
+                break;
+            case 2:
+                m_BoardWidgets.setGameStage();
+                m_GameControls.setGameStage();
+                break;
+        }
+
+
         Log.d("Planes", "onCreate");
     }
 
@@ -114,7 +130,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
     {
         super.onRestoreInstanceState(savedInstanceState);
 
-        switch(m_PlaneRound.getGameStage()) {
+        /*switch(m_PlaneRound.getGameStage()) {
             case 0:
                 m_BoardWidgets.setNewRoundStage();
                 m_GameControls.setNewRoundStage();
@@ -127,7 +143,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
                 m_BoardWidgets.setGameStage();
                 m_GameControls.setGameStage();
                 break;
-        }
+        }*/
 
         Log.d("Planes","onRestoreInstanceState");
     }
