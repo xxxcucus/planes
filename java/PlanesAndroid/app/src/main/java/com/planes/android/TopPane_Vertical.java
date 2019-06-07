@@ -167,7 +167,7 @@ public class TopPane_Vertical extends GridLayout {
             }
 
             GridSquare c = m_GridSquares.get(new PositionBoardPane(row + m_Padding, col + m_Padding));
-            System.out.println("Guess type " + type);
+            //System.out.println("Guess type " + type);
             c.setGuess(type);
             c.invalidate();
         }
