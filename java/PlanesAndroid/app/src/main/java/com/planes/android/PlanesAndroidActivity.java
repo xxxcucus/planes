@@ -100,11 +100,12 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         super.onDestroy();
         Log.d("Planes", "onDestroy");
 
-        /*if (isFinishing()) {
+        if (isFinishing()) {
             // do stuff
+            Log.d("Planes", "isFinishing");
         } else {
-            //It's an orientation change.
-        }*/
+            Log.d("Planes", "orientationChange");
+        }
     }
 
 
