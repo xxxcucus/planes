@@ -92,7 +92,7 @@ public class GridSquare extends View {
     }
 
     private void allocateMemory() {
-        System.out.println("Allocate " + m_Width);
+        //System.out.println("Allocate " + m_Width);
         m_MissCircle = new RectF(m_Width / 4, m_Width / 4, m_Width * 3 / 4, m_Width * 3/ 4);
         m_HitPath = new Path();
         m_HitPath.moveTo(0, m_Width / 2);

@@ -3,6 +3,7 @@ package com.planes.android;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -61,19 +62,6 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         m_GameControls.setGameSettings(m_PlaneRound);
         m_GameControls.setTopPane(m_BoardWidgets);
         m_BoardWidgets.setBottomPane(m_GameControls);
-        //PlanesVerticalLayout parentLayout = new PlanesVerticalLayout(this);
-        //setContentView(parentLayout);
-
-        //String title = "Planes Android";
-        //SpannableString s = new SpannableString(title);
-        //s.setSpan(new ForegroundColorSpan(Color.WHITE), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        //getActionBar().setTitle(s);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState)
-    {
-        super.onRestoreInstanceState(savedInstanceState);
 
         switch(m_PlaneRound.getGameStage()) {
             case 0:
@@ -89,6 +77,75 @@ public class PlanesAndroidActivity extends AppCompatActivity {
                 m_GameControls.setGameStage();
                 break;
         }
+
+
+        Log.d("Planes", "onCreate");
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        Log.d("Planes", "onStart");
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        Log.d("Planes", "onResume");
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        Log.d("Planes", "onPause");
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        Log.d("Planes", "onStop");
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        Log.d("Planes", "onDestroy");
+
+        if (isFinishing()) {
+            // do stuff
+            Log.d("Planes", "isFinishing");
+        } else {
+            Log.d("Planes", "orientationChange");
+        }
+    }
+
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        /*switch(m_PlaneRound.getGameStage()) {
+            case 0:
+                m_BoardWidgets.setNewRoundStage();
+                m_GameControls.setNewRoundStage();
+                break;
+            case 1:
+                m_BoardWidgets.setBoardEditingStage();
+                m_GameControls.setBoardEditingStage();
+                break;
+            case 2:
+                m_BoardWidgets.setGameStage();
+                m_GameControls.setGameStage();
+                break;
+        }*/
+
+        Log.d("Planes","onRestoreInstanceState");
     }
 
     public void onButtonShowHelpWindowClick() {

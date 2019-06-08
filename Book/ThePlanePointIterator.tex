@@ -4,7 +4,7 @@ The PlanePointIterator is responsible with enumerating the points of a plane obj
 
 \subsection {Class declaration} 
 
-\begin{lstlisting} 
+\begin{lstlisting} [caption={PlanePointIterator's Declaration}]
 //iterates over the points that make a plane
 class PlanePointIterator : public PlanesCommonTools::VectorIterator<PlanesCommonTools::Coordinate2D>
 {
@@ -20,7 +20,7 @@ private:
 The definition above says that the PlanePointIterator is defined as a type of PlanesCommonTools::VectorIterator \textless PlanesCommonTools::Coordinate2D \textgreater which is defined (here I anticipate the VectorIterator class definition which is given later) as an iterator over a list of PlanesCommonTools::Coordinate2D objects. It receives a Plane object with which it generates, with the help of the private function generateList, the list of positions occupied by the plane on the game board. It is a type of Java-like iterator, but this will become apparent only after looking at the VectorIterator class. 
 
 \subsection {Method Implementation}
-\begin{lstlisting}
+\begin{lstlisting} [caption={PlanePointIterator's Implementation}]
 PlanePointIterator::PlanePointIterator(const Plane& pl):
     PlanesCommonTools::VectorIterator<PlanesCommonTools::Coordinate2D>(),
     m_plane(pl)
@@ -92,7 +92,7 @@ To create a game with other forms of ships it is sufficient to reimplement the P
 
 The essence of a PlanePointIterator is captured by the VectorIterator class : a PlanePointIterator is a method (defined in the VectorIterator class) to iterate over a list together with a special list, defined with the method generateList().
 
-\begin{lstlisting}
+\begin{lstlisting} [caption={VectorIterator Class}]
 namespace PlanesCommonTools
 {
 //defines an iterator over a std::vector

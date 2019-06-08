@@ -6,7 +6,7 @@
 
 The PlaneOrientationData structure keeps all the information required to justify the position and orientation of a specific plane. It works as follows: the Plane object is stored as a member variable m\_plane, if the position and orientation of the plane are not possible the member variable m\_discarded is set to true, the points on the grid that still need to be searched in order for the plane position and orientation to be completely proven are kept in the member variable m\_pointsNotTested. At the beginning all the points on the plane are in the list m\_pointsNotTested. As the game proceeds different points in m\_pointsNotTested will be tested and depending on what they reveal it can be that m\_discarded is set to true. Anyway after each guess of one point in m\_pointsNotTested the tested point is removed from the list. 
 
-\begin{lstlisting}
+\begin{lstlisting} [caption={PlaneOrientationData Definition}]
 struct PlaneOrientationData
 {
 	//the position of the plane
@@ -43,7 +43,7 @@ From the implementation file the following 3 functions are important: \begin{ite
 	\item the function are areAllPointsChecked() which verifies if all points influencing the decision of the plain position and orientation being valid have been tested.
 \end{itemize}
 
-\begin{lstlisting}
+\begin{lstlisting} [caption={PlaneOrientationData Implementation}]
 
 
 //useful constructor
@@ -104,7 +104,7 @@ bool PlaneOrientationData::areAllPointsChecked()
 
 In the game of Planes one should guess the position of the plane head and not the exact position and orientation of the corresponding plane. The information about one plane head being at a specific location on the grid is saved in the struct HeadData.
 
-\begin{lstlisting}
+\begin{lstlisting} [caption={HeadData Definition}]
 struct HeadData
 {
 	//size of the grid
@@ -132,7 +132,7 @@ The computer's decisions are modelled by the class ComputerLogic. It contains in
 
 The guess is firstly pushed inside two lists m\_guessesList and m\_extendedGuessesList. Then two key data structures are updated with the given guess: the choice map and the head information. Following these two steps we look in the head information to see if we confirmed a plane position, and when we did we add it to m\_guessedPlaneList, eliminate it from m\_headDataList, and update the choice map with the positions of all the plane points on the found plane (with updateChoiceMapPlaneData()).
 
-\begin{lstlisting}
+\begin{lstlisting} [caption={ComputerLogic AddData}]
 void ComputerLogic::addData(const GuessPoint& gp)
 {
 	//add to list of guesses
@@ -182,7 +182,7 @@ The head information consist in HeadData structures for each of the plane head p
 
 Updating the choice map works as follows:
 
-\begin{lstlisting}
+\begin{lstlisting} [caption={ComputerLogic UpdateChoiceMap}]
 void ComputerLogic::updateChoiceMap(const GuessPoint& gp) {
 
 	//marks all the 4 positions in the choice map as guessed -2
@@ -205,7 +205,7 @@ void ComputerLogic::updateChoiceMap(const GuessPoint& gp) {
 
 First the 4 choices corresponding to the guess position are marked with -2, then depending of the result of the guess one of the 3 functions is called: updateChoiceMapDeadInfo(), updateChoiceMapHitInfo(), updateChoiceMapMissInfo(). 
 
-\begin{lstlisting}
+\begin{lstlisting} [caption={ComputerLogic UpdateChoiceMap}]
 //updates the choices with info about a dead guess
 void ComputerLogic::updateChoiceMapDeadInfo(int row, int col)
 {
@@ -278,7 +278,7 @@ updateChoiceMapDeadInfo() does the same as updateChoiceMapMissInfo(), leaving th
 
 The head data is data about the position where plane heads were discovered. The structure is created and updated as follows:
 
-\begin{lstlisting}
+\begin{lstlisting} [caption={ComputerLogic UpdateHeadData}]
 //updates the head data with a new guess
 void ComputerLogic::updateHeadData(const GuessPoint& gp)
 {

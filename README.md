@@ -27,3 +27,6 @@ For Android
 1. Download Planes.x.y.y_android.apk to the Download folder on your device.
 2. With the file explorer navigate to the saved .apk and open it.
 3. When the operating system asks allow the application from unknown source to be installed.
+
+or get the app directly from Google Play Store: https://play.google.com/store/apps/details?id=com.planes.android
+
