@@ -24,4 +24,6 @@ but the "Start New Round" button should only be active at the end of one round. 
 23. Add installation instructions and compilation instructions to github page.
 24. Add help in PlanesAndroid. - ok
 25. When clicking more times on the same position in PlanesAndroid the guess counters are increased. - ok 
-26. When closing the app with the back button, when starting again the application is in an inconsistent state 
+26. When closing the app with the back button, when starting again the application is in an inconsistent state - ok
+27. Position the planes with the buttons.
+28. Different layout for tablet devices.
