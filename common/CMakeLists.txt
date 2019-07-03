@@ -19,6 +19,7 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	$ENV{JAVA_HOME}/include/
 	$ENV{JAVA_HOME}/include/win32/
+	$ENV{JAVA_HOME}/include/linux/
 	)
 else (With_Java)
 include_directories(
