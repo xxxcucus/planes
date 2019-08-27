@@ -55,13 +55,14 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         m_PlaneRound = new PlaneRoundJavaFx();
         m_PlaneRound.createPlanesRound();
 
-        m_BoardWidgets = (TopPane_Vertical)findViewById(R.id.top_pane);
+        m_BoardWidgets = new BoardWidgets();
+        m_BoardWidgets.init(this);
         m_BoardWidgets.setGameSettings(m_PlaneRound);
 
         m_GameControls = (BottomPane_Vertical)findViewById(R.id.bottom_pane);
         m_GameControls.setGameSettings(m_PlaneRound);
-        m_GameControls.setTopPane(m_BoardWidgets);
-        m_BoardWidgets.setBottomPane(m_GameControls);
+        m_GameControls.setBoardWidgets(m_BoardWidgets);
+        m_BoardWidgets.setBoardControls(m_GameControls);
 
         switch(m_PlaneRound.getGameStage()) {
             case 0:
@@ -132,15 +133,15 @@ public class PlanesAndroidActivity extends AppCompatActivity {
 
         /*switch(m_PlaneRound.getGameStage()) {
             case 0:
-                m_BoardWidgets.setNewRoundStage();
+                m_BoardWidgetsPhone.setNewRoundStage();
                 m_GameControls.setNewRoundStage();
                 break;
             case 1:
-                m_BoardWidgets.setBoardEditingStage();
+                m_BoardWidgetsPhone.setBoardEditingStage();
                 m_GameControls.setBoardEditingStage();
                 break;
             case 2:
-                m_BoardWidgets.setGameStage();
+                m_BoardWidgetsPhone.setGameStage();
                 m_GameControls.setGameStage();
                 break;
         }*/
@@ -170,7 +171,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         TextView helpTitleTextView = (TextView)popupView.findViewById(R.id.popup_help_title);
 
         if (helpTextView != null && helpTitleTextView != null) {
-            switch (m_BoardWidgets.getGameStage()) {
+            switch (m_GameControls.getGameStage()) {
                 case GameNotStarted:
                     helpTitleTextView.setText(getResources().getString(R.string.game_not_started_stage));
                     helpTextView.setText("Touch on the \"Start New Game\" to start a new round.");
@@ -218,6 +219,6 @@ public class PlanesAndroidActivity extends AppCompatActivity {
     }
 
     private PlaneRoundJavaFx m_PlaneRound;
-    TopPane_Vertical m_BoardWidgets;
-    BottomPane_Vertical m_GameControls;
+    private BottomPane_Vertical m_GameControls;
+    private BoardWidgets m_BoardWidgets;
 }

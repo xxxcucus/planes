@@ -245,9 +245,9 @@ public class TopPane_Vertical extends GridLayout {
                     //announceRoundWinner(winnerText);
                     m_CurStage = GameStages.GameNotStarted;
                     m_PlaneRound.roundEnds();
-                    m_BottomPane.roundEnds(playerWins, computerWins, m_PlaneRound.playerGuess_IsPlayerWinner());
+                    m_BoardControls.roundEnds(playerWins, computerWins, m_PlaneRound.playerGuess_IsPlayerWinner());
                 } else {
-                    m_BottomPane.updateStats(m_IsComputer);
+                    m_BoardControls.updateStats(m_IsComputer);
                 }
                 updateBoards();
             }
@@ -257,31 +257,31 @@ public class TopPane_Vertical extends GridLayout {
     public void movePlaneLeft() {
         boolean valid = m_PlaneRound.movePlaneLeft(m_Selected) == 1 ? true : false;
         updateBoards();
-        m_BottomPane.setDoneEnabled(valid);
+        m_BoardControls.setDoneEnabled(valid);
     }
 
     public void movePlaneRight() {
         boolean valid = m_PlaneRound.movePlaneRight(m_Selected) == 1 ? true : false;
         updateBoards();
-        m_BottomPane.setDoneEnabled(valid);
+        m_BoardControls.setDoneEnabled(valid);
     }
 
     public void movePlaneUp() {
         boolean valid = m_PlaneRound.movePlaneUpwards(m_Selected) == 1 ? true : false;
         updateBoards();
-        m_BottomPane.setDoneEnabled(valid);
+        m_BoardControls.setDoneEnabled(valid);
     }
 
     public void movePlaneDown() {
         boolean valid = m_PlaneRound.movePlaneDownwards(m_Selected) == 1 ? true : false;
         updateBoards();
-        m_BottomPane.setDoneEnabled(valid);
+        m_BoardControls.setDoneEnabled(valid);
     }
 
     public void rotatePlane() {
         boolean valid = m_PlaneRound.rotatePlane(m_Selected) == 1 ? true : false;
         updateBoards();
-        m_BottomPane.setDoneEnabled(valid);
+        m_BoardControls.setDoneEnabled(valid);
     }
 
     public void setPlayerBoard() {
@@ -316,8 +316,8 @@ public class TopPane_Vertical extends GridLayout {
         updateBoards();
     }
 
-    public void setBottomPane(BottomPane_Vertical bottom) {
-        m_BottomPane = bottom;
+    public void setBoardControls(BottomPane_Vertical bottom) {
+        m_BoardControls = bottom;
     }
 
     private Map<PositionBoardPane, GridSquare> m_GridSquares;
@@ -338,5 +338,5 @@ public class TopPane_Vertical extends GridLayout {
     private Context m_Context;
 
     private int m_Selected = 0;
-    private BottomPane_Vertical m_BottomPane;
+    private BottomPane_Vertical m_BoardControls;
 }

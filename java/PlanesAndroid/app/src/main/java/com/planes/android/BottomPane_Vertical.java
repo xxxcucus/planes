@@ -72,8 +72,8 @@ public class BottomPane_Vertical extends GridLayout {
         init(GameStages.BoardEditing);
     }
 
-    public void setTopPane(TopPane_Vertical top) {
-        m_TopPane = top;
+    public void setBoardWidgets(BoardWidgets top) {
+        m_BoardWidgets = top;
     }
 
     private void resetGUI() {
@@ -122,35 +122,35 @@ public class BottomPane_Vertical extends GridLayout {
         m_LeftButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_TopPane.movePlaneLeft();
+                m_BoardWidgets.movePlaneLeft();
             }
         });
 
         m_RightButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_TopPane.movePlaneRight();
+                m_BoardWidgets.movePlaneRight();
             }
         });
 
         m_UpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_TopPane.movePlaneUp();
+                m_BoardWidgets.movePlaneUp();
             }
         });
 
         m_DownButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_TopPane.movePlaneDown();
+                m_BoardWidgets.movePlaneDown();
             }
         });
 
         m_RotateButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_TopPane.rotatePlane();
+                m_BoardWidgets.rotatePlane();
             }
         });
 
@@ -158,7 +158,7 @@ public class BottomPane_Vertical extends GridLayout {
             @Override
             public void onClick(View view) {
                 init(GameStages.Game);
-                m_TopPane.setGameStage();
+                m_BoardWidgets.setGameStage();
                 m_PlaneRound.doneClicked();
             }
         });
@@ -178,7 +178,7 @@ public class BottomPane_Vertical extends GridLayout {
         m_ViewPlayerBoardButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_TopPane.setPlayerBoard();
+                m_BoardWidgets.setPlayerBoard();
                 m_ViewComputerBoardButton.setEnabled(true);
                 m_ViewPlayerBoardButton.setEnabled(false);
 
@@ -200,7 +200,7 @@ public class BottomPane_Vertical extends GridLayout {
         m_ViewComputerBoardButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_TopPane.setComputerBoard();
+                m_BoardWidgets.setComputerBoard();
                 m_ViewComputerBoardButton.setEnabled(false);
                 m_ViewPlayerBoardButton.setEnabled(true);
 
@@ -229,7 +229,7 @@ public class BottomPane_Vertical extends GridLayout {
         m_MissesLabel = (TextView)findViewById(R.id.misses_label);
         m_MovesLabel = (TextView)findViewById(R.id.moves_label);
 
-        m_TopPane.setComputerBoard();
+        m_BoardWidgets.setComputerBoard();
         m_ViewComputerBoardButton.setEnabled(false);
         m_ViewPlayerBoardButton.setEnabled(true);
         if (m_ViewComputerBoardButton.isEnabled())
@@ -258,7 +258,7 @@ public class BottomPane_Vertical extends GridLayout {
             @Override
             public void onClick(View view) {
                 m_PlaneRound.initRound();
-                m_TopPane.setBoardEditingStage();
+                m_BoardWidgets.setBoardEditingStage();
                 init(GameStages.BoardEditing);
             }
         });
@@ -270,7 +270,7 @@ public class BottomPane_Vertical extends GridLayout {
         m_ViewPlayerBoardButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_TopPane.setPlayerBoard();
+                m_BoardWidgets.setPlayerBoard();
                 m_ViewComputerBoardButton.setEnabled(true);
                 m_ViewPlayerBoardButton.setEnabled(false);
             }
@@ -278,7 +278,7 @@ public class BottomPane_Vertical extends GridLayout {
         m_ViewComputerBoardButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_TopPane.setComputerBoard();
+                m_BoardWidgets.setComputerBoard();
                 m_ViewComputerBoardButton.setEnabled(false);
                 m_ViewPlayerBoardButton.setEnabled(true);
             }
@@ -337,6 +337,10 @@ public class BottomPane_Vertical extends GridLayout {
         m_DoneButton.setEnabled(enabled);
     }
 
+    public GameStages getGameStage() {
+        return m_CurStage;
+    }
+
     private Context m_Context;
     private GameStages m_CurStage = GameStages.BoardEditing;
     private PlaneRoundJavaFx m_PlaneRound;
@@ -363,5 +367,5 @@ public class BottomPane_Vertical extends GridLayout {
     private TextView m_ComputerWins;
     private TextView m_PlayerWins;
 
-    private TopPane_Vertical m_TopPane;
+    private BoardWidgets m_BoardWidgets;
 }

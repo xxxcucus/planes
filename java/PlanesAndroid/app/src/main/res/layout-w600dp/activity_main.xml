@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rootView"
+    android:background="@drawable/background">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal">
+        <com.planes.android.TopPane_Vertical
+            android:id="@+id/top_pane1"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"/>
+        <com.planes.android.TopPane_Vertical
+            android:id="@+id/top_pane2"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"/>
+        <com.planes.android.BottomPane_Vertical
+            android:id="@+id/bottom_pane"
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"/>
+    </LinearLayout>
+</LinearLayout>
