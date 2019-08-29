@@ -53,10 +53,10 @@ public class BoardWidgets {
 
     public void setGameSettings(PlaneRoundJavaFx planeRound) {
         if (m_Tablet) {
-            m_BoardWidgetsPlayerTablet.setGameSettings(planeRound);
-            m_BoardWidgetsComputerTablet.setGameSettings(planeRound);
+            m_BoardWidgetsPlayerTablet.setGameSettings(planeRound, m_Tablet);
+            m_BoardWidgetsComputerTablet.setGameSettings(planeRound, m_Tablet);
         } else {
-            m_BoardWidgetsPhone.setGameSettings(planeRound);
+            m_BoardWidgetsPhone.setGameSettings(planeRound, m_Tablet);
         }
 
         if (m_Tablet) {

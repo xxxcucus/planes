@@ -75,18 +75,18 @@ public class TopPane_Vertical extends GridLayout {
         m_Context = context;
     }
 
-    public void setGameSettings(PlaneRoundJavaFx planeRound) {
+    public void setGameSettings(PlaneRoundJavaFx planeRound, boolean isTablet) {
         m_PlaneRound = planeRound;
         m_GRows = m_PlaneRound.getRowNo();
         m_GCols = m_PlaneRound.getColNo();
         m_PlaneNo = m_PlaneRound.getPlaneNo();
         m_PlaneRound = planeRound;
         m_ColorStep = (m_MaxPlaneBodyColor - m_MinPlaneBodyColor) / m_PlaneNo;
-        init(m_Context);
+        init(m_Context, isTablet);
         updateBoards();
     }
 
-    private void init(Context context) {
+    private void init(Context context, boolean isTablet) {
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -103,7 +103,16 @@ public class TopPane_Vertical extends GridLayout {
             statusBarHeight = context.getResources().getDimensionPixelSize(resource);
         }
 
-        int gridSize = Math.min(height - actionBarHeight - statusBarHeight, width) / (m_GRows + 2 * m_Padding) / 2;
+        int longDim = Math.max(height - actionBarHeight - statusBarHeight, width);
+        int shortDim = Math.min(height - actionBarHeight - statusBarHeight, width);
+
+        int gridSize = 0;
+
+        if (!isTablet) {
+            gridSize = shortDim / (m_GRows + 2 * m_Padding);
+        } else {
+            gridSize = Math.min(longDim / 2, shortDim) / (m_GRows + 2 * m_Padding);
+        }
 
         setRowCount(m_GRows + 2 * m_Padding);
         setColumnCount(m_GCols + 2 * m_Padding);
