@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/rootView"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    android:tag="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -24,15 +25,20 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         />
-    <com.planes.android.TopPane_Vertical
-        android:id="@+id/top_pane2"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        />
-    <com.planes.android.BottomPane_Vertical
-        android:id="@+id/bottom_pane"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent" />
+        android:orientation="horizontal">
+        <com.planes.android.BottomPane_Vertical
+            android:id="@+id/bottom_pane"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+        <com.planes.android.TopPane_Vertical
+            android:id="@+id/top_pane2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

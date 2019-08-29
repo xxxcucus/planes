@@ -24,7 +24,7 @@ public class BoardWidgets {
      * and checks for errors.
      */
 
-    public void init(Activity activity) {
+    public boolean init(Activity activity) {
         m_BoardWidgetsPhone = (TopPane_Vertical)activity.findViewById(R.id.top_pane);
         m_BoardWidgetsComputerTablet = (TopPane_Vertical)activity.findViewById(R.id.top_pane1);
         m_BoardWidgetsPlayerTablet = (TopPane_Vertical)activity.findViewById(R.id.top_pane2);
@@ -48,6 +48,8 @@ public class BoardWidgets {
         if (!m_IsCorrect) {
             Log.e("Planes", "Error: False layout configuration");
         }
+
+        return m_Tablet;
     }
 
 

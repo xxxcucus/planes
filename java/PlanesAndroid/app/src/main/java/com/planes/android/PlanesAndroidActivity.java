@@ -55,12 +55,23 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         m_PlaneRound = new PlaneRoundJavaFx();
         m_PlaneRound.createPlanesRound();
 
+        boolean isVertical = false;
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.rootView);
+        if (linearLayout.getTag().toString().equals("horizontal")) {
+            isVertical = false;
+        } else if (linearLayout.getTag().toString().equals("vertical")) {
+            isVertical = true;
+        } else {
+            Log.e("Planes", linearLayout.getTag().toString());
+            //this.finishAffinity();
+        }
+
         m_BoardWidgets = new BoardWidgets();
-        m_BoardWidgets.init(this);
+        boolean isTablet = m_BoardWidgets.init(this);
         m_BoardWidgets.setGameSettings(m_PlaneRound);
 
         m_GameControls = (BottomPane_Vertical)findViewById(R.id.bottom_pane);
-        m_GameControls.setGameSettings(m_PlaneRound);
+        m_GameControls.setGameSettings(m_PlaneRound, isTablet, isVertical);
         m_GameControls.setBoardWidgets(m_BoardWidgets);
         m_BoardWidgets.setBoardControls(m_GameControls);
 

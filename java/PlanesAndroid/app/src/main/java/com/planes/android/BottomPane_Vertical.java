@@ -45,7 +45,7 @@ public class BottomPane_Vertical extends GridLayout {
         resetGUI();
 
         if (m_CurStage == GameStages.BoardEditing)
-            showBoardEditing();
+            showBoardEditing(m_Tablet, m_Vertical);
 
         if (m_CurStage == GameStages.Game)
             showGame();
@@ -66,8 +66,10 @@ public class BottomPane_Vertical extends GridLayout {
         init(GameStages.GameNotStarted);
     }
 
-    public void setGameSettings(PlaneRoundJavaFx planeRound) {
+    public void setGameSettings(PlaneRoundJavaFx planeRound, boolean isTablet, boolean isVertical) {
         m_PlaneRound = planeRound;
+        m_Tablet = isTablet;
+        m_Vertical = isVertical;
         resetGUI();
         init(GameStages.BoardEditing);
     }
@@ -104,9 +106,14 @@ public class BottomPane_Vertical extends GridLayout {
 
     }
 
-    private void showBoardEditing() {
+    private void showBoardEditing(boolean isTablet, boolean isVertical) {
         LayoutInflater layoutinflater = (LayoutInflater)m_Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View window = layoutinflater.inflate(R.layout.board_editing_controls_vertical, null);
+        View window = null;
+        if (!isTablet || !m_Vertical) {
+            window = layoutinflater.inflate(R.layout.board_editing_controls_vertical, null);
+        } else {
+            window = layoutinflater.inflate(R.layout.board_editing_controls_horizontal, null);
+        }
         setRowCount(1);
         setColumnCount(1);
         GridLayout.LayoutParams paramsWindow = new GridLayout.LayoutParams(GridLayout.spec(0, 1), GridLayout.spec(0, 1));
@@ -368,4 +375,6 @@ public class BottomPane_Vertical extends GridLayout {
     private TextView m_PlayerWins;
 
     private BoardWidgets m_BoardWidgets;
+    private boolean m_Tablet = false;
+    private boolean m_Vertical = false;
 }
