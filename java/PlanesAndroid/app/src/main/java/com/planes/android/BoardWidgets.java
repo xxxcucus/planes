@@ -39,6 +39,12 @@ public class BoardWidgets {
             m_IsCorrect = false;
         }
 
+
+        if (m_Tablet) {
+            Log.d("Planes", "Tablet");
+        } else {
+            Log.d("Planes", "Phone");
+        }
         if (!m_IsCorrect) {
             Log.e("Planes", "Error: False layout configuration");
         }
@@ -70,28 +76,28 @@ public class BoardWidgets {
 
     public void setNewRoundStage() {
         if (m_Tablet) {
-            m_BoardWidgetsPlayerTablet.setNewRoundStage();
-            m_BoardWidgetsComputerTablet.setNewRoundStage();
+            m_BoardWidgetsPlayerTablet.setNewRoundStage(false);
+            m_BoardWidgetsComputerTablet.setNewRoundStage(false);
         } else {
-            m_BoardWidgetsPhone.setNewRoundStage();
+            m_BoardWidgetsPhone.setNewRoundStage(true);
         }
     }
 
     public void setBoardEditingStage() {
         if (m_Tablet) {
-            m_BoardWidgetsPlayerTablet.setBoardEditingStage();
-            m_BoardWidgetsComputerTablet.setBoardEditingStage();
+            m_BoardWidgetsPlayerTablet.setBoardEditingStage(false);
+            m_BoardWidgetsComputerTablet.setBoardEditingStage(false);
         } else {
-            m_BoardWidgetsPhone.setBoardEditingStage();
+            m_BoardWidgetsPhone.setBoardEditingStage(true);
         }
     }
 
     public void setGameStage() {
         if (m_Tablet) {
-            m_BoardWidgetsPlayerTablet.setGameStage();
-            m_BoardWidgetsComputerTablet.setGameStage();
+            m_BoardWidgetsPlayerTablet.setGameStage(false);
+            m_BoardWidgetsComputerTablet.setGameStage(false);
         } else {
-            m_BoardWidgetsPhone.setGameStage();
+            m_BoardWidgetsPhone.setGameStage(true);
         }
     }
 

@@ -103,7 +103,7 @@ public class TopPane_Vertical extends GridLayout {
             statusBarHeight = context.getResources().getDimensionPixelSize(resource);
         }
 
-        int gridSize = Math.min(height - actionBarHeight - statusBarHeight, width) / (m_GRows + 2 * m_Padding);
+        int gridSize = Math.min(height - actionBarHeight - statusBarHeight, width) / (m_GRows + 2 * m_Padding) / 2;
 
         setRowCount(m_GRows + 2 * m_Padding);
         setColumnCount(m_GCols + 2 * m_Padding);
@@ -149,7 +149,7 @@ public class TopPane_Vertical extends GridLayout {
         else
             count = m_PlaneRound.getPlayerGuessesNo();
 
-        System.out.println("" + count + " guesses");
+        System.out.println((m_IsComputer ? "Computer board" : "Player board")  + count + " guesses");
 
         for (int i = 0; i < count; i++) {
             int row = 0;
@@ -285,6 +285,7 @@ public class TopPane_Vertical extends GridLayout {
     }
 
     public void setPlayerBoard() {
+
         m_IsComputer = false;
         updateBoards();
     }
@@ -294,8 +295,9 @@ public class TopPane_Vertical extends GridLayout {
         updateBoards();
     }
 
-    public void setGameStage() {
-        m_CurStage = GameStages.Game;
+    public void setGameStage(boolean setRole) {
+        if (setRole)
+            m_CurStage = GameStages.Game;
         m_IsComputer = true;
         updateBoards();
     }
@@ -304,15 +306,17 @@ public class TopPane_Vertical extends GridLayout {
         return m_CurStage;
     }
 
-    public void setBoardEditingStage() {
+    public void setBoardEditingStage(boolean setRole) {
         m_CurStage = GameStages.BoardEditing;
-        m_IsComputer = false;
+        if (setRole)
+            m_IsComputer = false;
         updateBoards();
     }
 
-    public void setNewRoundStage() {
+    public void setNewRoundStage(boolean setRole) {
         m_CurStage = GameStages.GameNotStarted;
-        m_IsComputer = true;
+        if (setRole)
+            m_IsComputer = true;
         updateBoards();
     }
 
