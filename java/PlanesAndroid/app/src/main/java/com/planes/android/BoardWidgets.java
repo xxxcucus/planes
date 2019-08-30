@@ -47,6 +47,7 @@ public class BoardWidgets {
         }
         if (!m_IsCorrect) {
             Log.e("Planes", "Error: False layout configuration");
+            activity.finishAffinity();
         }
 
         return m_Tablet;
@@ -64,6 +65,8 @@ public class BoardWidgets {
         if (m_Tablet) {
             m_BoardWidgetsComputerTablet.setComputerBoard();
             m_BoardWidgetsPlayerTablet.setPlayerBoard();
+            m_BoardWidgetsComputerTablet.setPairBoard(m_BoardWidgetsPlayerTablet);
+            m_BoardWidgetsPlayerTablet.setPairBoard(m_BoardWidgetsComputerTablet);
         }
     }
 

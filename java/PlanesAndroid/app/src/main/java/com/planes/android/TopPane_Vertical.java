@@ -276,6 +276,8 @@ public class TopPane_Vertical extends GridLayout {
                     m_BoardControls.updateStats(m_IsComputer);
                 }
                 updateBoards();
+                if (m_PairBoard != null)
+                    m_PairBoard.updateBoards();
             }
         }
     }
@@ -350,6 +352,10 @@ public class TopPane_Vertical extends GridLayout {
         m_BoardControls = bottom;
     }
 
+    public void setPairBoard(TopPane_Vertical board) {
+        m_PairBoard = board;
+    }
+
     private Map<PositionBoardPane, GridSquare> m_GridSquares;
     private PlaneRoundJavaFx m_PlaneRound;
     private int m_Padding = 0;
@@ -368,5 +374,6 @@ public class TopPane_Vertical extends GridLayout {
     private Context m_Context;
 
     private int m_Selected = 0;
-    private BottomPane_Vertical m_BoardControls;
+    private BottomPane_Vertical m_BoardControls = null;
+    private TopPane_Vertical m_PairBoard = null;
 }
