@@ -63,7 +63,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
             isVertical = true;
         } else {
             Log.e("Planes", linearLayout.getTag().toString());
-            //this.finishAffinity();
+            this.finishAffinity();
         }
 
         m_BoardWidgets = new BoardWidgets();
