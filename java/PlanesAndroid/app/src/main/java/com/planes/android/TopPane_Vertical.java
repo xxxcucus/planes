@@ -3,6 +3,7 @@ package com.planes.android;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.media.Image;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -84,6 +85,10 @@ public class TopPane_Vertical extends GridLayout {
         m_ColorStep = (m_MaxPlaneBodyColor - m_MinPlaneBodyColor) / m_PlaneNo;
         init(m_Context, isTablet);
         updateBoards();
+    }
+
+    public void setPlaneRound(PlaneRoundJavaFx planeRound) {
+        m_PlaneRound = planeRound;
     }
 
     private void init(Context context, boolean isTablet) {
