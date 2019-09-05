@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.Space;
 import android.widget.TextView;
 
 import com.planes.javafx.PlaneRoundJavaFx;
@@ -114,11 +115,16 @@ public class BottomPane_Vertical extends GridLayout {
         } else {
             window = layoutinflater.inflate(R.layout.board_editing_controls_horizontal, null);
         }
+
         setRowCount(1);
         setColumnCount(1);
         GridLayout.LayoutParams paramsWindow = new GridLayout.LayoutParams(GridLayout.spec(0, 1), GridLayout.spec(0, 1));
         paramsWindow.setGravity(Gravity.CENTER);
+        //TODO: to test on more tablets
+        if (isTablet && isVertical)
+            paramsWindow.setMargins(0,100,0,0);
         addView(window, paramsWindow);
+
         m_RotateButton = (Button)findViewById(R.id.rotate_button);
         m_LeftButton = (Button)findViewById(R.id.left_button);
         m_RightButton = (Button)findViewById(R.id.right_button);
