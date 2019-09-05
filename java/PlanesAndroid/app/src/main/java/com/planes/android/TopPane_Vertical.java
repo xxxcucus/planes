@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.media.Image;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.GridLayout;
 
@@ -75,6 +76,31 @@ public class TopPane_Vertical extends GridLayout {
         //m_PlaneRound = planeRound;
         m_Context = context;
     }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        final int count = getChildCount();
+
+        // These are the far left and right edges in which we are performing layout.
+        int leftPos = getPaddingLeft();
+        int rightPos = right - left - getPaddingRight();
+
+
+        // These are the top and bottom edges in which we are performing layout.
+        final int parentTop = getPaddingTop();
+        final int parentBottom = bottom - top - getPaddingBottom();
+
+        final int newWidth = Math.min(parentBottom - parentTop, rightPos - leftPos) / (m_GRows + 2 * m_Padding);
+
+        for (int i = 0; i < count; i++) {
+            GridSquare child = (GridSquare) getChildAt(i);
+            child.setWidth(newWidth);
+            //Log.d("Planes", "Set width " + i);
+            child.layout(leftPos + child.getColNo() * newWidth, parentTop + child.getRowNo() * newWidth,
+                    leftPos + child.getColNo() * newWidth + newWidth,  parentTop + child.getRowNo() * newWidth + newWidth);
+        }
+    }
+
 
     public void setGameSettings(PlaneRoundJavaFx planeRound, boolean isTablet) {
         m_PlaneRound = planeRound;

@@ -36,8 +36,7 @@
         <com.planes.android.TopPane_Vertical
             android:id="@+id/top_pane2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content"/>
     </LinearLayout>
     </LinearLayout>
 
