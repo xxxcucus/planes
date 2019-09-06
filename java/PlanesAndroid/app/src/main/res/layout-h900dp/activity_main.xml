@@ -20,19 +20,46 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical">
-    <com.planes.android.TopPane_Vertical
-        android:id="@+id/top_pane1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        />
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <com.planes.android.BottomPane_Vertical
-            android:id="@+id/bottom_pane"
+        <com.planes.android.TopPane_Vertical
+            android:id="@+id/top_pane1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content" />
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Computer"
+            android:textSize="40sp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+            <com.planes.android.BottomPane_Vertical
+                android:id="@+id/bottom_pane"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Player"
+                android:textSize="40sp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"/>
+
+        </LinearLayout>
         <com.planes.android.TopPane_Vertical
             android:id="@+id/top_pane2"
             android:layout_width="wrap_content"
