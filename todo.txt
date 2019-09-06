@@ -26,4 +26,5 @@ but the "Start New Round" button should only be active at the end of one round. 
 25. When clicking more times on the same position in PlanesAndroid the guess counters are increased. - ok 
 26. When closing the app with the back button, when starting again the application is in an inconsistent state - ok
 27. Position the planes with the buttons.
-28. Different layout for tablet devices.
+28. Different layout for tablet devices. Must define the following fragments: plane positioning with two possible layouts (vertical and horizontal),
+ player stats, computer stats (one layout horizontal one vertical), stats with toggle buttons for the phone layouts, stats with toggle buttons and start new game (for both players together and for each player distinctively)
