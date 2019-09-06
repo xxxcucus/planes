@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.Space;
 import android.widget.TextView;
 
 import com.planes.javafx.PlaneRoundJavaFx;
@@ -179,7 +178,7 @@ public class BottomPane_Vertical extends GridLayout {
 
     private void showGame() {
         LayoutInflater layoutinflater = (LayoutInflater) m_Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View window = layoutinflater.inflate(R.layout.game_stats_vertical, null);
+        View window = layoutinflater.inflate(R.layout.game_stats_phone_vertical, null);
         setRowCount(1);
         setColumnCount(1);
         GridLayout.LayoutParams paramsWindow = new GridLayout.LayoutParams(GridLayout.spec(0, 1), GridLayout.spec(0, 1));
