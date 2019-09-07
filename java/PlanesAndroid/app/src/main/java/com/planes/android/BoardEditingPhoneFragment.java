@@ -10,30 +10,26 @@ import android.widget.Button;
 
 public class BoardEditingPhoneFragment extends Fragment {
 
-    // Container Activity must implement this interface
-    public interface OnBoardEditingButtonListener {
-        public void onBoardEditingButtonClicked(String buttonID);
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View window = null;
         window = inflater.inflate(R.layout.board_editing_controls_vertical, container, false);
+        createButtons(window);
+        return window;
+    }
 
+    public void createButtons(View window) {
         m_RotateButton = (Button)window.findViewById(R.id.rotate_button);
         m_LeftButton = (Button)window.findViewById(R.id.left_button);
         m_RightButton = (Button)window.findViewById(R.id.right_button);
         m_UpButton = (Button)window.findViewById(R.id.up_button);
         m_DownButton = (Button)window.findViewById(R.id.down_button);
         m_DoneButton = (Button)window.findViewById(R.id.done_button);
-
-        return window;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
+        super.onActivityCreated(savedInstanceState);
         m_LeftButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,12 +83,12 @@ public class BoardEditingPhoneFragment extends Fragment {
         }
     }
 
-    private Button m_RotateButton;
-    private Button m_LeftButton;
-    private Button m_RightButton;
-    private Button m_UpButton;
-    private Button m_DownButton;
-    private Button m_DoneButton;
+    protected Button m_RotateButton;
+    protected Button m_LeftButton;
+    protected Button m_RightButton;
+    protected Button m_UpButton;
+    protected Button m_DownButton;
+    protected Button m_DoneButton;
 
-    private OnBoardEditingButtonListener m_ButtonClickListener = null;
+    protected OnBoardEditingButtonListener m_ButtonClickListener = null;
 }
