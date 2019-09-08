@@ -33,42 +33,42 @@ public class BoardEditingPhoneFragment extends Fragment {
         m_LeftButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_ButtonClickListener.onBoardEditingButtonClicked("left");
+                m_ButtonClickListener.onControlButtonClicked("left");
             }
         });
 
         m_RightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_ButtonClickListener.onBoardEditingButtonClicked("right");
+                m_ButtonClickListener.onControlButtonClicked("right");
             }
         });
 
         m_UpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_ButtonClickListener.onBoardEditingButtonClicked("up");
+                m_ButtonClickListener.onControlButtonClicked("up");
             }
         });
 
         m_DownButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_ButtonClickListener.onBoardEditingButtonClicked("down");
+                m_ButtonClickListener.onControlButtonClicked("down");
             }
         });
 
         m_RotateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_ButtonClickListener.onBoardEditingButtonClicked("rotate");
+                m_ButtonClickListener.onControlButtonClicked("rotate");
             }
         });
 
         m_DoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_ButtonClickListener.onBoardEditingButtonClicked("done");
+                m_ButtonClickListener.onControlButtonClicked("done");
             }
         });
     }
@@ -77,9 +77,9 @@ public class BoardEditingPhoneFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            m_ButtonClickListener = (OnBoardEditingButtonListener)context;
+            m_ButtonClickListener = (OnControlButtonListener)context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement OnBoardEditingButtonListener");
+            throw new ClassCastException(context.toString() + " must implement OnControlButtonListener");
         }
     }
 
@@ -90,5 +90,5 @@ public class BoardEditingPhoneFragment extends Fragment {
     protected Button m_DownButton;
     protected Button m_DoneButton;
 
-    protected OnBoardEditingButtonListener m_ButtonClickListener = null;
+    protected OnControlButtonListener m_ButtonClickListener = null;
 }
