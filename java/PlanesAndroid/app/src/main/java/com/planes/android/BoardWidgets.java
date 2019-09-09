@@ -26,8 +26,8 @@ public class BoardWidgets {
 
     public boolean init(Activity activity) {
         m_BoardWidgetsPhone = (TopPane_Vertical)activity.findViewById(R.id.top_pane);
-        m_BoardWidgetsComputerTablet = (TopPane_Vertical)activity.findViewById(R.id.top_pane1);
-        m_BoardWidgetsPlayerTablet = (TopPane_Vertical)activity.findViewById(R.id.top_pane2);
+        m_BoardWidgetsComputerTablet = (TopPane_Vertical)activity.findViewById(R.id.top_pane_computer);
+        m_BoardWidgetsPlayerTablet = (TopPane_Vertical)activity.findViewById(R.id.top_pane_player);
 
         if (m_BoardWidgetsPhone != null && m_BoardWidgetsComputerTablet == null && m_BoardWidgetsPlayerTablet == null) {
             m_Tablet = false;

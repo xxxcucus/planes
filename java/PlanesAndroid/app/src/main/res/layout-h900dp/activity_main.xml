@@ -26,17 +26,28 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <com.planes.android.TopPane_Vertical
-            android:id="@+id/top_pane1"
+            android:id="@+id/top_pane_computer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
-        <TextView
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Computer"
-            android:textSize="40sp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"/>
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Computer"
+                android:textSize="40sp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"/>
+            <FrameLayout
+                android:id="@+id/bottom_pane_computer"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
@@ -47,8 +58,8 @@
             android:layout_height="fill_parent"
             android:orientation="vertical"
             android:gravity="center">
-            <com.planes.android.BottomPane_Vertical
-                android:id="@+id/bottom_pane"
+            <FrameLayout
+                android:id="@+id/bottom_pane_player"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content" />
             <TextView
@@ -61,7 +72,7 @@
 
         </LinearLayout>
         <com.planes.android.TopPane_Vertical
-            android:id="@+id/top_pane2"
+            android:id="@+id/top_pane_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>

@@ -6,4 +6,12 @@ package com.planes.android;
  * button, button to mark the end of the board editing stage.
  */
 public class ControlWidgets {
+    public enum GameStages {
+        GameNotStarted, BoardEditing, Game
+    }
+
+
+
+
+
 }
