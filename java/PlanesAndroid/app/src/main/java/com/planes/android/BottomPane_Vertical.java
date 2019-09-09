@@ -256,7 +256,7 @@ public class BottomPane_Vertical extends GridLayout {
 
     private void showGameNotStarted() {
         LayoutInflater layoutinflater = (LayoutInflater) m_Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View window = layoutinflater.inflate(R.layout.start_new_game_vertical, null);
+        View window = layoutinflater.inflate(R.layout.start_new_game_vertical_phone, null);
         setRowCount(1);
         setColumnCount(1);
         GridLayout.LayoutParams paramsWindow = new GridLayout.LayoutParams(GridLayout.spec(0, 1), GridLayout.spec(0, 1));

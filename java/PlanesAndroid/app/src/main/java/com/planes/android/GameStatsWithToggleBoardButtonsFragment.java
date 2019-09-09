@@ -39,14 +39,14 @@ public class GameStatsWithToggleBoardButtonsFragment extends GameStatsFragment {
         m_ViewPlayerBoardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_ButtonClickListener.onControlButtonClicked("view_player_board");
+            m_ButtonClickListener.onControlButtonClicked("view_player_board");
             }
         });
 
         m_ViewComputerBoardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_ButtonClickListener.onControlButtonClicked("view_computer_board");
+            m_ButtonClickListener.onControlButtonClicked("view_computer_board");
             }
         });
     }
