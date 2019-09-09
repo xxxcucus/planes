@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class BoardEditingTableVerticalFragment extends BoardEditingPhoneFragment {
+public class BoardEditingTabletVerticalFragment extends BoardEditingPhoneFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
