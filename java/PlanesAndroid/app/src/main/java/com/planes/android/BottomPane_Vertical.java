@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.planes.javafx.PlaneRoundJavaFx;
 
 
+//TODO: to be replaced with ControlWidgetsAdaptor
 //bottom pane in a vertical layout
 public class BottomPane_Vertical extends GridLayout {
 
@@ -74,8 +75,8 @@ public class BottomPane_Vertical extends GridLayout {
         init(GameStages.BoardEditing);
     }
 
-    public void setBoardWidgets(BoardWidgets top) {
-        m_BoardWidgets = top;
+    public void setBoardWidgets(BoardWidgetsAdaptor top) {
+        m_BoardWidgetsAdaptor = top;
     }
 
     private void resetGUI() {
@@ -134,35 +135,35 @@ public class BottomPane_Vertical extends GridLayout {
         m_LeftButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_BoardWidgets.movePlaneLeft();
+                m_BoardWidgetsAdaptor.movePlaneLeft();
             }
         });
 
         m_RightButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_BoardWidgets.movePlaneRight();
+                m_BoardWidgetsAdaptor.movePlaneRight();
             }
         });
 
         m_UpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_BoardWidgets.movePlaneUp();
+                m_BoardWidgetsAdaptor.movePlaneUp();
             }
         });
 
         m_DownButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_BoardWidgets.movePlaneDown();
+                m_BoardWidgetsAdaptor.movePlaneDown();
             }
         });
 
         m_RotateButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_BoardWidgets.rotatePlane();
+                m_BoardWidgetsAdaptor.rotatePlane();
             }
         });
 
@@ -170,7 +171,7 @@ public class BottomPane_Vertical extends GridLayout {
             @Override
             public void onClick(View view) {
                 init(GameStages.Game);
-                m_BoardWidgets.setGameStage();
+                m_BoardWidgetsAdaptor.setGameStage();
                 m_PlaneRound.doneClicked();
             }
         });
@@ -190,7 +191,7 @@ public class BottomPane_Vertical extends GridLayout {
         m_ViewPlayerBoardButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_BoardWidgets.setPlayerBoard();
+                m_BoardWidgetsAdaptor.setPlayerBoard();
                 m_ViewComputerBoardButton.setEnabled(true);
                 m_ViewPlayerBoardButton.setEnabled(false);
 
@@ -212,7 +213,7 @@ public class BottomPane_Vertical extends GridLayout {
         m_ViewComputerBoardButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_BoardWidgets.setComputerBoard();
+                m_BoardWidgetsAdaptor.setComputerBoard();
                 m_ViewComputerBoardButton.setEnabled(false);
                 m_ViewPlayerBoardButton.setEnabled(true);
 
@@ -241,7 +242,7 @@ public class BottomPane_Vertical extends GridLayout {
         m_MissesLabel = (TextView)findViewById(R.id.misses_label);
         m_MovesLabel = (TextView)findViewById(R.id.moves_label);
 
-        m_BoardWidgets.setComputerBoard();
+        m_BoardWidgetsAdaptor.setComputerBoard();
         m_ViewComputerBoardButton.setEnabled(false);
         m_ViewPlayerBoardButton.setEnabled(true);
         if (m_ViewComputerBoardButton.isEnabled())
@@ -270,7 +271,7 @@ public class BottomPane_Vertical extends GridLayout {
             @Override
             public void onClick(View view) {
                 m_PlaneRound.initRound();
-                m_BoardWidgets.setBoardEditingStage();
+                m_BoardWidgetsAdaptor.setBoardEditingStage();
                 init(GameStages.BoardEditing);
             }
         });
@@ -282,7 +283,7 @@ public class BottomPane_Vertical extends GridLayout {
         m_ViewPlayerBoardButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_BoardWidgets.setPlayerBoard();
+                m_BoardWidgetsAdaptor.setPlayerBoard();
                 m_ViewComputerBoardButton.setEnabled(true);
                 m_ViewPlayerBoardButton.setEnabled(false);
             }
@@ -290,7 +291,7 @@ public class BottomPane_Vertical extends GridLayout {
         m_ViewComputerBoardButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_BoardWidgets.setComputerBoard();
+                m_BoardWidgetsAdaptor.setComputerBoard();
                 m_ViewComputerBoardButton.setEnabled(false);
                 m_ViewPlayerBoardButton.setEnabled(true);
             }
@@ -379,7 +380,7 @@ public class BottomPane_Vertical extends GridLayout {
     private TextView m_ComputerWins;
     private TextView m_PlayerWins;
 
-    private BoardWidgets m_BoardWidgets;
+    private BoardWidgetsAdaptor m_BoardWidgetsAdaptor;
     private boolean m_Tablet = false;
     private boolean m_Vertical = false;
 }

@@ -12,12 +12,12 @@ import com.planes.javafx.PlaneRoundJavaFx;
  * the statistics, the buttons to toggle between game board views, start new game
  * button, button to mark the end of the board editing stage.
  */
-public class ControlWidgets {
+public class ControlWidgetsAdaptor {
     public enum GameStages {
         GameNotStarted, BoardEditing, Game
     }
 
-    ControlWidgets(FragmentActivity activity) {
+    ControlWidgetsAdaptor(FragmentActivity activity) {
         m_Activity = activity;
     }
 
@@ -115,8 +115,8 @@ public class ControlWidgets {
         showBoardEditing();
     }
 
-    public void setBoardWidgets(BoardWidgets boards) {
-        m_BoardWidgets = boards;
+    public void setBoardWidgets(BoardWidgetsAdaptor boards) {
+        m_BoardWidgetsAdaptor = boards;
     }
 
     public void setDoneEnabled(boolean enabled) {
@@ -179,7 +179,7 @@ public class ControlWidgets {
     }
 
     private GameStages m_CurStage = GameStages.BoardEditing;
-    private BoardWidgets m_BoardWidgets;
+    private BoardWidgetsAdaptor m_BoardWidgetsAdaptor;
     FragmentActivity m_Activity;
     private boolean m_Tablet = false;
     private boolean m_Vertical = false;

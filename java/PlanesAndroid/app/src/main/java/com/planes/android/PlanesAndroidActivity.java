@@ -66,26 +66,26 @@ public class PlanesAndroidActivity extends AppCompatActivity {
             this.finishAffinity();
         }
 
-        m_BoardWidgets = new BoardWidgets();
-        boolean isTablet = m_BoardWidgets.init(this);
-        m_BoardWidgets.setGameSettings(m_PlaneRound);
+        m_BoardWidgetsAdaptor = new BoardWidgetsAdaptor();
+        boolean isTablet = m_BoardWidgetsAdaptor.init(this);
+        m_BoardWidgetsAdaptor.setGameSettings(m_PlaneRound);
 
         m_GameControls = (BottomPane_Vertical)findViewById(R.id.bottom_pane);
         m_GameControls.setGameSettings(m_PlaneRound, isTablet, isVertical);
-        m_GameControls.setBoardWidgets(m_BoardWidgets);
-        m_BoardWidgets.setBoardControls(m_GameControls);
+        m_GameControls.setBoardWidgets(m_BoardWidgetsAdaptor);
+        m_BoardWidgetsAdaptor.setBoardControls(m_GameControls);
 
         switch(m_PlaneRound.getGameStage()) {
             case 0:
-                m_BoardWidgets.setNewRoundStage();
+                m_BoardWidgetsAdaptor.setNewRoundStage();
                 m_GameControls.setNewRoundStage();
                 break;
             case 1:
-                m_BoardWidgets.setBoardEditingStage();
+                m_BoardWidgetsAdaptor.setBoardEditingStage();
                 m_GameControls.setBoardEditingStage();
                 break;
             case 2:
-                m_BoardWidgets.setGameStage();
+                m_BoardWidgetsAdaptor.setGameStage();
                 m_GameControls.setGameStage();
                 break;
         }
@@ -231,5 +231,5 @@ public class PlanesAndroidActivity extends AppCompatActivity {
 
     private PlaneRoundJavaFx m_PlaneRound;
     private BottomPane_Vertical m_GameControls;
-    private BoardWidgets m_BoardWidgets;
+    private BoardWidgetsAdaptor m_BoardWidgetsAdaptor;
 }

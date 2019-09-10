@@ -12,10 +12,10 @@ import com.planes.javafx.PlaneRoundJavaFx;
  * For tables both game board (player and computer) are displayed at the same time.
  */
 
-public class BoardWidgets {
+public class BoardWidgetsAdaptor {
 
 
-    public BoardWidgets() {
+    public BoardWidgetsAdaptor() {
     }
 
     /**
