@@ -302,7 +302,7 @@ public class BottomPane_Vertical extends GridLayout {
         m_ComputerWins.setText(Integer.toString(computer_wins));
     }
 
-        public void updateStats(boolean isComputer) {
+    public void updateStats(boolean isComputer) {
         if (isComputer) {
             int misses = m_PlaneRound.playerGuess_StatNoPlayerMisses();
             int hits = m_PlaneRound.playerGuess_StatNoPlayerHits();

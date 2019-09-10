@@ -43,11 +43,16 @@ public class GameStatsFragment extends Fragment {
         }
     }
 
-    public void updateStats(int misses, int hits, int dead, int moves) {
+    public void updateStats(int misses, int hits, int dead, int moves, String missesText, String hitsText, String deadText, String movesText) {
         m_MissesTextView.setText(Integer.toString(misses));
         m_HitsTextView.setText(Integer.toString(hits));
         m_DeadTextView.setText(Integer.toString(dead));
         m_MovesTextView.setText(Integer.toString(moves));
+
+        m_MissesLabel.setText(missesText);
+        m_HitsLabel.setText(hitsText);
+        m_DeadLabel.setText(deadText);
+        m_MovesLabel.setText(movesText);
     }
 
     protected TextView m_HitsTextView;

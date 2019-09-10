@@ -45,10 +45,16 @@ public class StartNewGameFragment extends Fragment {
         }
     }
 
-    private TextView m_WinnerTextView;
-    private Button m_StartNewRound;
-    private TextView m_ComputerWins;
-    private TextView m_PlayerWins;
+    public void updateStats(int computer_wins, int player_wins, String winnerText) {
+        m_ComputerWins.setText(Integer.toString(computer_wins));
+        m_PlayerWins.setText(Integer.toString(player_wins));
+        m_WinnerTextView.setText(winnerText);
+    }
 
-    private OnControlButtonListener m_ButtonClickListener = null;
+    protected TextView m_WinnerTextView;
+    protected Button m_StartNewRound;
+    protected TextView m_ComputerWins;
+    protected TextView m_PlayerWins;
+
+    protected OnControlButtonListener m_ButtonClickListener = null;
 }

@@ -83,6 +83,10 @@ public class BoardEditingPhoneFragment extends Fragment {
         }
     }
 
+    public void setDoneEnabled(boolean enabled) {
+        m_DoneButton.setEnabled(enabled);
+    }
+
     protected Button m_RotateButton;
     protected Button m_LeftButton;
     protected Button m_RightButton;

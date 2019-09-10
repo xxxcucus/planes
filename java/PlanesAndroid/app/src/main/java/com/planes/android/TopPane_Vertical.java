@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+//TODO: to rename to GameBoard
 public class TopPane_Vertical extends GridLayout {
     class PositionBoardPane {
         private int x = 0;
