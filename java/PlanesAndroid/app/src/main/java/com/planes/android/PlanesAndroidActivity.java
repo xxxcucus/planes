@@ -16,7 +16,12 @@ import android.widget.TextView;
 
 import com.planes.javafx.PlaneRoundJavaFx;
 
-public class PlanesAndroidActivity extends AppCompatActivity {
+public class PlanesAndroidActivity extends AppCompatActivity implements OnControlButtonListener {
+
+    //TODO: this should be in a controller object
+    public void onControlButtonClicked(String buttonId) {
+        m_GameControls.onControlButtonClicked(buttonId);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -70,7 +75,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         boolean isTablet = m_BoardWidgetsAdaptor.init(this);
         m_BoardWidgetsAdaptor.setGameSettings(m_PlaneRound);
 
-        m_GameControls = (BottomPane_Vertical)findViewById(R.id.bottom_pane);
+        m_GameControls = new ControlWidgetsAdaptor(this);
         m_GameControls.setGameSettings(m_PlaneRound, isTablet, isVertical);
         m_GameControls.setBoardWidgets(m_BoardWidgetsAdaptor);
         m_BoardWidgetsAdaptor.setBoardControls(m_GameControls);
@@ -78,15 +83,15 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         switch(m_PlaneRound.getGameStage()) {
             case 0:
                 m_BoardWidgetsAdaptor.setNewRoundStage();
-                m_GameControls.setNewRoundStage();
+                m_GameControls.showGameNotStarted();
                 break;
             case 1:
                 m_BoardWidgetsAdaptor.setBoardEditingStage();
-                m_GameControls.setBoardEditingStage();
+                m_GameControls.showBoardEditing();
                 break;
             case 2:
                 m_BoardWidgetsAdaptor.setGameStage();
-                m_GameControls.setGameStage();
+                m_GameControls.showGame();
                 break;
         }
 
@@ -230,6 +235,6 @@ public class PlanesAndroidActivity extends AppCompatActivity {
     }
 
     private PlaneRoundJavaFx m_PlaneRound;
-    private BottomPane_Vertical m_GameControls;
+    private ControlWidgetsAdaptor m_GameControls;
     private BoardWidgetsAdaptor m_BoardWidgetsAdaptor;
 }

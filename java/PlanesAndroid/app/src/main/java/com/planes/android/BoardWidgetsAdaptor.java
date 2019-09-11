@@ -39,7 +39,6 @@ public class BoardWidgetsAdaptor {
             m_IsCorrect = false;
         }
 
-
         if (m_Tablet) {
             Log.d("Planes", "Tablet");
         } else {
@@ -70,12 +69,12 @@ public class BoardWidgetsAdaptor {
         }
     }
 
-    public void setBoardControls(BottomPane_Vertical bottomPane) {
+    public void setBoardControls(ControlWidgetsAdaptor controls) {
         if (m_Tablet) {
-            m_BoardWidgetsPlayerTablet.setBoardControls(bottomPane);
-            m_BoardWidgetsComputerTablet.setBoardControls(bottomPane);
+            m_BoardWidgetsPlayerTablet.setBoardControls(controls);
+            m_BoardWidgetsComputerTablet.setBoardControls(controls);
         } else {
-            m_BoardWidgetsPhone.setBoardControls(bottomPane);
+            m_BoardWidgetsPhone.setBoardControls(controls);
         }
     }
 

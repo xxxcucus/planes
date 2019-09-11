@@ -214,6 +214,7 @@ public class BottomPane_Vertical extends GridLayout {
             @Override
             public void onClick(View view) {
                 m_BoardWidgetsAdaptor.setComputerBoard();
+                //TODO: to add these 2 commands to updateStats for Fragments
                 m_ViewComputerBoardButton.setEnabled(false);
                 m_ViewPlayerBoardButton.setEnabled(true);
 
@@ -242,7 +243,10 @@ public class BottomPane_Vertical extends GridLayout {
         m_MissesLabel = (TextView)findViewById(R.id.misses_label);
         m_MovesLabel = (TextView)findViewById(R.id.moves_label);
 
+        //TODO: how to convert this into ControlWidgets code
+        //this code should not be here but outside where the function is called (maybe in activity)
         m_BoardWidgetsAdaptor.setComputerBoard();
+        //TODO: these should be in updateStats of Fragments
         m_ViewComputerBoardButton.setEnabled(false);
         m_ViewPlayerBoardButton.setEnabled(true);
         if (m_ViewComputerBoardButton.isEnabled())

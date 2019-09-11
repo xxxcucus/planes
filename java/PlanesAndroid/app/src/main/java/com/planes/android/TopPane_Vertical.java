@@ -380,8 +380,8 @@ public class TopPane_Vertical extends GridLayout {
         updateBoards();
     }
 
-    public void setBoardControls(BottomPane_Vertical bottom) {
-        m_BoardControls = bottom;
+    public void setBoardControls(ControlWidgetsAdaptor controls) {
+        m_BoardControls = controls;
     }
 
     public void setPairBoard(TopPane_Vertical board) {
@@ -406,6 +406,6 @@ public class TopPane_Vertical extends GridLayout {
     private Context m_Context;
 
     private int m_Selected = 0;
-    private BottomPane_Vertical m_BoardControls = null;
+    private ControlWidgetsAdaptor m_BoardControls = null;
     private TopPane_Vertical m_PairBoard = null;
 }

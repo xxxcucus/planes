@@ -12,7 +12,7 @@ import com.planes.javafx.PlaneRoundJavaFx;
  * the statistics, the buttons to toggle between game board views, start new game
  * button, button to mark the end of the board editing stage.
  */
-public class ControlWidgetsAdaptor {
+public class ControlWidgetsAdaptor implements OnControlButtonListener {
     public enum GameStages {
         GameNotStarted, BoardEditing, Game
     }
@@ -21,8 +21,38 @@ public class ControlWidgetsAdaptor {
         m_Activity = activity;
     }
 
+    //TODO: this should be in a controller object
+    public void onControlButtonClicked(String buttonId) {
+        if (buttonId.equals("left")) {
+            m_BoardWidgetsAdaptor.movePlaneLeft();
+        } else if (buttonId.equals("right")) {
+            m_BoardWidgetsAdaptor.movePlaneRight();
+        } else if (buttonId.equals("up")) {
+            m_BoardWidgetsAdaptor.movePlaneUp();
+        } else if (buttonId.equals("down")) {
+            m_BoardWidgetsAdaptor.movePlaneDown();
+        } else if (buttonId.equals("rotate")) {
+            m_BoardWidgetsAdaptor.rotatePlane();
+        } else if (buttonId.equals("done")) {
+            showGame();
+            m_BoardWidgetsAdaptor.setGameStage();
+            m_PlaneRound.doneClicked();
+        } else if (buttonId.equals("view_player_board")) {
+            //TODO: it appears that these methods are different depending on if in Game or GameNotStarted stage
+            m_BoardWidgetsAdaptor.setPlayerBoard();
+            updateStats(false);
+        } else if (buttonId.equals("view_computer_board")) {
+            m_BoardWidgetsAdaptor.setPlayerBoard();
+            updateStats(true);
+        } else if (buttonId.equals("start_new_game")) {
+            m_PlaneRound.initRound();
+            m_BoardWidgetsAdaptor.setBoardEditingStage();
+            showBoardEditing();
+        }
+    }
 
-    private void showBoardEditing() {
+
+    public void showBoardEditing() {
         m_CurStage = GameStages.BoardEditing;
         FragmentManager fragmentManager = m_Activity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -46,7 +76,7 @@ public class ControlWidgetsAdaptor {
         //TODO: de-reference other fragments
     }
 
-    private void showGame() {
+    public void showGame() {
         m_CurStage = GameStages.BoardEditing;
         FragmentManager fragmentManager = m_Activity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -70,7 +100,7 @@ public class ControlWidgetsAdaptor {
         //TODO: de-reference other fragments
     }
 
-    private void showGameNotStarted() {
+    public void showGameNotStarted() {
         m_CurStage = GameStages.GameNotStarted;
         FragmentManager fragmentManager = m_Activity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
