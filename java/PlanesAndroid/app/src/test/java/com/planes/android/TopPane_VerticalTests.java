@@ -5,15 +5,13 @@ import android.graphics.Color;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import com.planes.android.TopPane_Vertical;
-import com.planes.javafx.PlaneRoundJavaFx;
 
 public class TopPane_VerticalTests {
 	
 	@Test
     public void TopPaneVertical_ComputeSquareBackgroundColor1() {
 		PlaneRoundJavaFxMock planeRound = new PlaneRoundJavaFxMock();
-		TopPane_Vertical tpv = new TopPane_Vertical(null);
+		GameBoard tpv = new GameBoard(null);
 		tpv.setPlaneRound(planeRound);
 
 	    int i = -1;

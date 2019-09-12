@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:orientation="horizontal">
-        <com.planes.android.TopPane_Vertical
+        <com.planes.android.GameBoard
             android:id="@+id/top_pane"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"/>

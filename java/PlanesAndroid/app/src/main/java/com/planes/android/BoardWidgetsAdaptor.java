@@ -25,9 +25,9 @@ public class BoardWidgetsAdaptor {
      */
 
     public boolean init(Activity activity) {
-        m_BoardWidgetsPhone = (TopPane_Vertical)activity.findViewById(R.id.top_pane);
-        m_BoardWidgetsComputerTablet = (TopPane_Vertical)activity.findViewById(R.id.top_pane_computer);
-        m_BoardWidgetsPlayerTablet = (TopPane_Vertical)activity.findViewById(R.id.top_pane_player);
+        m_BoardWidgetsPhone = (GameBoard)activity.findViewById(R.id.top_pane);
+        m_BoardWidgetsComputerTablet = (GameBoard)activity.findViewById(R.id.top_pane_computer);
+        m_BoardWidgetsPlayerTablet = (GameBoard)activity.findViewById(R.id.top_pane_player);
 
         if (m_BoardWidgetsPhone != null && m_BoardWidgetsComputerTablet == null && m_BoardWidgetsPlayerTablet == null) {
             m_Tablet = false;
@@ -156,9 +156,9 @@ public class BoardWidgetsAdaptor {
     }
 
 
-    private TopPane_Vertical m_BoardWidgetsPhone = null;
-    private TopPane_Vertical m_BoardWidgetsPlayerTablet = null;
-    private TopPane_Vertical m_BoardWidgetsComputerTablet = null;
+    private GameBoard m_BoardWidgetsPhone = null;
+    private GameBoard m_BoardWidgetsPlayerTablet = null;
+    private GameBoard m_BoardWidgetsComputerTablet = null;
     boolean m_Tablet = false;
     boolean m_IsCorrect = false;
     private Context m_Context;

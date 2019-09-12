@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:orientation="vertical">
-            <com.planes.android.TopPane_Vertical
+            <com.planes.android.GameBoard
                 android:id="@+id/top_pane_computer"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"/>
@@ -40,7 +40,7 @@
                 android:id="@+id/bottom_pane_player"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"/>
-            <com.planes.android.TopPane_Vertical
+            <com.planes.android.GameBoard
                 android:id="@+id/top_pane_player"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

@@ -25,7 +25,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <com.planes.android.TopPane_Vertical
+        <com.planes.android.GameBoard
             android:id="@+id/top_pane_computer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                 android:layout_marginLeft="10dp"/>
 
         </LinearLayout>
-        <com.planes.android.TopPane_Vertical
+        <com.planes.android.GameBoard
             android:id="@+id/top_pane_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

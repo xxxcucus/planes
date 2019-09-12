@@ -3,10 +3,8 @@ package com.planes.android;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.media.Image;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.widget.GridLayout;
 
@@ -17,7 +15,7 @@ import java.util.Map;
 
 
 //TODO: to rename to GameBoard
-public class TopPane_Vertical extends GridLayout {
+public class GameBoard extends GridLayout {
     class PositionBoardPane {
         private int x = 0;
         private int y = 0;
@@ -57,21 +55,21 @@ public class TopPane_Vertical extends GridLayout {
         GameNotStarted, BoardEditing, Game
     }
 
-    public TopPane_Vertical(Context context) {
+    public GameBoard(Context context) {
         super(context);
         //setGameSettings(nrows, ncols, nplanes);
         //m_PlaneRound = planeRound;
         m_Context = context;
     }
 
-    public TopPane_Vertical(Context context, AttributeSet attrs) {
+    public GameBoard(Context context, AttributeSet attrs) {
         super(context, attrs);
         //setGameSettings(nrows, ncols, nplanes);
         //m_PlaneRound = planeRound;
         m_Context = context;
     }
 
-    public TopPane_Vertical(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GameBoard(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         //setGameSettings(nrows, ncols, nplanes);
         //m_PlaneRound = planeRound;
@@ -101,7 +99,6 @@ public class TopPane_Vertical extends GridLayout {
                     leftPos + child.getColNo() * newWidth + newWidth,  parentTop + child.getRowNo() * newWidth + newWidth);
         }
     }
-
 
     public void setGameSettings(PlaneRoundJavaFx planeRound, boolean isTablet) {
         m_PlaneRound = planeRound;
@@ -384,7 +381,7 @@ public class TopPane_Vertical extends GridLayout {
         m_BoardControls = controls;
     }
 
-    public void setPairBoard(TopPane_Vertical board) {
+    public void setPairBoard(GameBoard board) {
         m_PairBoard = board;
     }
 
@@ -407,5 +404,5 @@ public class TopPane_Vertical extends GridLayout {
 
     private int m_Selected = 0;
     private ControlWidgetsAdaptor m_BoardControls = null;
-    private TopPane_Vertical m_PairBoard = null;
+    private GameBoard m_PairBoard = null;
 }
