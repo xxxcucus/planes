@@ -20,7 +20,7 @@ public class BoardWidgetsAdaptor {
 
     /**
      * Depending on which layout is actually used initialize the necessary
-     * TopPane_Vertical objects. Saves if the device is a tablet or phone
+     * GameBoard objects. Saves if the device is a tablet or phone
      * and checks for errors.
      */
 
@@ -53,6 +53,12 @@ public class BoardWidgetsAdaptor {
     }
 
 
+    /**
+     * Passes the plane round object to the GameBoard objects
+     * For tablet sets which is the player and which is the computer GameBoard
+     * and makes cross reference between them.
+     * @param planeRound
+     */
     public void setGameSettings(PlaneRoundJavaFx planeRound) {
         if (m_Tablet) {
             m_BoardWidgetsPlayerTablet.setGameSettings(planeRound, m_Tablet);

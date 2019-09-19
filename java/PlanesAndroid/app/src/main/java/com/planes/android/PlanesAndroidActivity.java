@@ -18,7 +18,6 @@ import com.planes.javafx.PlaneRoundJavaFx;
 
 public class PlanesAndroidActivity extends AppCompatActivity implements OnControlButtonListener {
 
-    //TODO: this should be in a controller object
     public void onControlButtonClicked(String buttonId) {
         m_GameControls.onControlButtonClicked(buttonId);
     }
@@ -80,6 +79,8 @@ public class PlanesAndroidActivity extends AppCompatActivity implements OnContro
         m_GameControls.setBoardWidgets(m_BoardWidgetsAdaptor);
         m_BoardWidgetsAdaptor.setBoardControls(m_GameControls);
 
+        //in case the activity is created (for example orientation change)
+        //again start in the game stages where it was
         switch(m_PlaneRound.getGameStage()) {
             case 0:
                 m_BoardWidgetsAdaptor.setNewRoundStage();
@@ -94,7 +95,6 @@ public class PlanesAndroidActivity extends AppCompatActivity implements OnContro
                 m_GameControls.showGame();
                 break;
         }
-
 
         Log.d("Planes", "onCreate");
     }

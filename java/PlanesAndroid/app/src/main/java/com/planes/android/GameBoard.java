@@ -14,8 +14,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-//TODO: to rename to GameBoard
 public class GameBoard extends GridLayout {
+
+    /**
+     * Pair of ints used to index a grid square in the game board.
+     */
     class PositionBoardPane {
         private int x = 0;
         private int y = 0;
@@ -55,26 +58,42 @@ public class GameBoard extends GridLayout {
         GameNotStarted, BoardEditing, Game
     }
 
+    /**
+     * Constructor method inherited from GridLayout
+     * @param context
+     */
     public GameBoard(Context context) {
         super(context);
-        //setGameSettings(nrows, ncols, nplanes);
-        //m_PlaneRound = planeRound;
         m_Context = context;
     }
 
+    /**
+     * Constructor method inherited from GridLayout
+     * @param context
+     */
     public GameBoard(Context context, AttributeSet attrs) {
         super(context, attrs);
-        //setGameSettings(nrows, ncols, nplanes);
-        //m_PlaneRound = planeRound;
         m_Context = context;
     }
 
+    /**
+     * Constructor method inherited from GridLayout
+     * @param context
+     */
     public GameBoard(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        //setGameSettings(nrows, ncols, nplanes);
-        //m_PlaneRound = planeRound;
         m_Context = context;
     }
+
+    /**
+     * Repositioning of grid squares inside the game board when the layout changes
+     * (e.g. when going from one game stage to the other)
+     * @param changed
+     * @param left
+     * @param top
+     * @param right
+     * @param bottom
+     */
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
@@ -100,6 +119,13 @@ public class GameBoard extends GridLayout {
         }
     }
 
+    /**
+     * Save a reference to the game controller object.
+     * Initialize member variables that require the controller object.
+     * Create the grid squares.
+     * @param planeRound
+     * @param isTablet
+     */
     public void setGameSettings(PlaneRoundJavaFx planeRound, boolean isTablet) {
         m_PlaneRound = planeRound;
         m_GRows = m_PlaneRound.getRowNo();
@@ -114,6 +140,20 @@ public class GameBoard extends GridLayout {
     public void setPlaneRound(PlaneRoundJavaFx planeRound) {
         m_PlaneRound = planeRound;
     }
+
+    /**
+     *
+     * @param context
+     * @param isTablet
+     */
+
+    /**
+     * Depending of device orientation and type it computes the gameboard square size in pixels.
+     * It initializes the individual GridSquare objects that make the GameBoard and groups them
+     * inside the HashMap called m_GridSquares.
+     * @param context
+     * @param isTablet
+     */
 
     private void init(Context context, boolean isTablet) {
 
@@ -169,6 +209,11 @@ public class GameBoard extends GridLayout {
         }
     }
 
+
+    /**
+     * Read the position of the planes from the game controller as well as
+     * the guesses and display them on the game board.
+     */
     public void updateBoards() {
         //draw the squares background
         for (int i = 0; i < m_GRows + 2 * m_Padding; i++) {
@@ -211,6 +256,13 @@ public class GameBoard extends GridLayout {
         }
     }
 
+    /**
+     * For the given row and column on the game board give back the color of the
+     * grid square
+     * @param i - row
+     * @param j - column
+     * @return - computed color
+     */
     public int computeSquareBackgroundColor(int i, int j) {
         int squareColor = 0;
 
@@ -250,6 +302,11 @@ public class GameBoard extends GridLayout {
         return squareColor;
     }
 
+    /**
+     * React to touch events in the game
+     * @param row
+     * @param col
+     */
     public void touchEvent(int row, int col) {
         System.out.println("Touch event" + row + " " + col);
         System.out.println("IsComputer " + m_IsComputer);
@@ -270,13 +327,14 @@ public class GameBoard extends GridLayout {
 
         System.out.println("Game stage " + stageString);
 
+        //if it is player board and board editing change the selected plane when clicked on a plane
         if (!m_IsComputer && m_CurStage == GameStages.BoardEditing) {
             int type = m_PlaneRound.getPlaneSquareType(row - m_Padding, col - m_Padding, m_IsComputer ? 1 : 0);
             if (type > 0)
                 m_Selected = type - 1;
             updateBoards();
         }
-
+        //if it is computer board and game then it is a guessing attempt
         if (m_IsComputer && m_CurStage == GameStages.Game) {
             if (m_IsComputer) {
                 System.out.println("Player guess");
@@ -342,7 +400,6 @@ public class GameBoard extends GridLayout {
     }
 
     public void setPlayerBoard() {
-
         m_IsComputer = false;
         updateBoards();
     }
@@ -352,6 +409,11 @@ public class GameBoard extends GridLayout {
         updateBoards();
     }
 
+    /**
+     * Sets the game stage. If the boolean setRole is true, automatically transform to computer board.
+     * setRole is true for phone devices.
+     * @param setRole
+     */
     public void setGameStage(boolean setRole) {
         m_CurStage = GameStages.Game;
         if (setRole)
@@ -363,6 +425,11 @@ public class GameBoard extends GridLayout {
         return m_CurStage;
     }
 
+    /**
+     * Sets the board editing stage. If the boolean setRole is true, automatically transform to computer board.
+     * setRole is true for phone devices.
+     * @param setRole
+     */
     public void setBoardEditingStage(boolean setRole) {
         m_CurStage = GameStages.BoardEditing;
         if (setRole)
@@ -370,6 +437,11 @@ public class GameBoard extends GridLayout {
         updateBoards();
     }
 
+    /**
+     * Sets the new round stage. If the boolean setRole is true, automatically transform to computer board.
+     * setRole is true for phone devices.
+     * @param setRole
+     */
     public void setNewRoundStage(boolean setRole) {
         m_CurStage = GameStages.GameNotStarted;
         if (setRole)
@@ -385,13 +457,37 @@ public class GameBoard extends GridLayout {
         m_PairBoard = board;
     }
 
+    /**
+     * Container for squares on the game board
+     */
     private Map<PositionBoardPane, GridSquare> m_GridSquares;
+    /**
+     * Game controller object
+     */
     private PlaneRoundJavaFx m_PlaneRound;
+    /**
+     * how many rows are added to the game board in order to display plane rotation
+     */
     private int m_Padding = 0;
+    /**
+     * does the board belong to computer or player ?
+     */
     private boolean m_IsComputer = false;
+    /**
+     * Grey color used for the darkest plane
+     */
     private int m_MinPlaneBodyColor = 0;
+    /**
+     * Grey color used for the less dark plane
+     */
     private int m_MaxPlaneBodyColor = 200;
+    /**
+     * The current game stage.
+     */
     private GameStages m_CurStage = GameStages.BoardEditing;
+    /**
+     * The currently selected plane when editing the board.
+     */
     private int m_SelectedPlane = 0;
     //private EventHandler<MouseEvent> m_ClickedHandler;
 
@@ -402,7 +498,16 @@ public class GameBoard extends GridLayout {
 
     private Context m_Context;
 
+    /**
+     * Which plane is selected in board editing mode.
+     */
     private int m_Selected = 0;
+    /**
+     * Reference to the adaptor of controls.
+     */
     private ControlWidgetsAdaptor m_BoardControls = null;
+    /**
+     * If the device is a tablet, reference to the other board.
+     */
     private GameBoard m_PairBoard = null;
 }
