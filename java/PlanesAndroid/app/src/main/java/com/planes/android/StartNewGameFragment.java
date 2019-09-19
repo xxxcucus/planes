@@ -30,7 +30,7 @@ public class StartNewGameFragment extends Fragment {
         m_StartNewRound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                m_ButtonClickListener.onControlButtonClicked("start_new_game");
+            m_ButtonClickListener.onControlButtonClicked("start_new_game");
             }
         });
     }

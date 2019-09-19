@@ -55,6 +55,10 @@ public class GameStatsFragment extends Fragment {
         m_MovesLabel.setText(movesText);
     }
 
+    //dummy method overwritten in GameStatsWithToggleBoardButtonsFragmen
+    public void setButtonsEnabled(boolean isComputer) {
+    }
+
     protected TextView m_HitsTextView;
     protected TextView m_MissesTextView;
     protected TextView m_DeadTextView;

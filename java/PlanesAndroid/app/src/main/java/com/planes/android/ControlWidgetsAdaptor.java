@@ -1,6 +1,7 @@
 package com.planes.android;
 
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,7 +22,10 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
         m_Activity = activity;
     }
 
-    //TODO: this should be in a controller object
+    /**
+     * React to click on the control buttons
+     * @param buttonId
+     */
     public void onControlButtonClicked(String buttonId) {
         if (buttonId.equals("left")) {
             m_BoardWidgetsAdaptor.movePlaneLeft();
@@ -38,12 +42,17 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
             m_BoardWidgetsAdaptor.setGameStage();
             m_PlaneRound.doneClicked();
         } else if (buttonId.equals("view_player_board")) {
-            //TODO: it appears that these methods are different depending on if in Game or GameNotStarted stage
             m_BoardWidgetsAdaptor.setPlayerBoard();
-            updateStats(false);
+            m_GamePhoneFragment.setButtonsEnabled(false);
+            if (m_CurStage == GameStages.Game) {
+                updateStats(false);
+            }
         } else if (buttonId.equals("view_computer_board")) {
-            m_BoardWidgetsAdaptor.setPlayerBoard();
-            updateStats(true);
+            m_BoardWidgetsAdaptor.setComputerBoard();
+            m_GamePhoneFragment.setButtonsEnabled(false);
+            if (m_CurStage == GameStages.Game) {
+                updateStats(true);
+            }
         } else if (buttonId.equals("start_new_game")) {
             m_PlaneRound.initRound();
             m_BoardWidgetsAdaptor.setBoardEditingStage();
@@ -52,6 +61,9 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
     }
 
 
+    /**
+     * Show board editing controls
+     */
     public void showBoardEditing() {
         m_CurStage = GameStages.BoardEditing;
         FragmentManager fragmentManager = m_Activity.getSupportFragmentManager();
@@ -63,12 +75,16 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
             } else {
                 m_BoardEditingFragment = new BoardEditingPhoneFragment();
             }
-            fragmentTransaction.remove(fragmentManager.findFragmentById(R.id.bottom_pane_player));
+            Fragment fragmentToRemove = fragmentManager.findFragmentById(R.id.bottom_pane_player);
+            if (fragmentToRemove != null)
+                fragmentTransaction.remove(fragmentToRemove);
             fragmentTransaction.add(R.id.bottom_pane_player, m_BoardEditingFragment);
             fragmentTransaction.commit();
         } else {
             m_BoardEditingFragment = new BoardEditingPhoneFragment();
-            fragmentTransaction.remove(fragmentManager.findFragmentById(R.id.bottom_pane));
+            Fragment fragmentToRemove = fragmentManager.findFragmentById(R.id.bottom_pane);
+            if (fragmentToRemove != null)
+                fragmentTransaction.remove(fragmentToRemove);
             fragmentTransaction.add(R.id.bottom_pane, m_BoardEditingFragment);
             fragmentTransaction.commit();
         }
@@ -76,6 +92,9 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
         //TODO: de-reference other fragments
     }
 
+    /**
+     * Show game controls.
+     */
     public void showGame() {
         m_CurStage = GameStages.BoardEditing;
         FragmentManager fragmentManager = m_Activity.getSupportFragmentManager();
@@ -84,15 +103,21 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
         if (m_Tablet) {
             m_GamePlayerFragment = new GameStatsFragment();
             m_GameComputerFragment = new GameStatsFragment();
-            fragmentTransaction.remove(fragmentManager.findFragmentById(R.id.bottom_pane_player));
-            fragmentTransaction.remove(fragmentManager.findFragmentById(R.id.bottom_pane_computer));
+            Fragment fragmentToRemove_player = fragmentManager.findFragmentById(R.id.bottom_pane_player);
+            Fragment fragmentToRemove_computer = fragmentManager.findFragmentById(R.id.bottom_pane_computer);
+            if (fragmentToRemove_player != null)
+                fragmentTransaction.remove(fragmentToRemove_player);
+            if (fragmentToRemove_computer != null)
+                fragmentTransaction.remove(fragmentToRemove_computer);
             fragmentTransaction.add(R.id.bottom_pane_player, m_GamePlayerFragment);
             fragmentTransaction.add(R.id.bottom_pane_computer, m_GameComputerFragment);
             fragmentTransaction.commit();
 
         } else {
             m_GamePhoneFragment = new GameStatsWithToggleBoardButtonsFragment();
-            fragmentTransaction.remove(fragmentManager.findFragmentById(R.id.bottom_pane));
+            Fragment fragmentToRemove = fragmentManager.findFragmentById(R.id.bottom_pane);
+            if (fragmentToRemove != null)
+                fragmentTransaction.remove(fragmentToRemove);
             fragmentTransaction.add(R.id.bottom_pane, m_GamePhoneFragment);
             fragmentTransaction.commit();
         }
@@ -100,6 +125,9 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
         //TODO: de-reference other fragments
     }
 
+    /**
+     * Show start new game controls.
+     */
     public void showGameNotStarted() {
         m_CurStage = GameStages.GameNotStarted;
         FragmentManager fragmentManager = m_Activity.getSupportFragmentManager();
@@ -107,14 +135,20 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
 
         if (m_Tablet) {
             m_StartNewGameFragment = new StartNewGameFragment();
-            fragmentTransaction.remove(fragmentManager.findFragmentById(R.id.bottom_pane_player));
-            fragmentTransaction.remove(fragmentManager.findFragmentById(R.id.bottom_pane_computer));
+            Fragment fragmentToRemove_player = fragmentManager.findFragmentById(R.id.bottom_pane_player);
+            Fragment fragmentToRemove_computer = fragmentManager.findFragmentById(R.id.bottom_pane_computer);
+            if (fragmentToRemove_player != null)
+                fragmentTransaction.remove(fragmentToRemove_player);
+            if (fragmentToRemove_computer != null)
+                fragmentTransaction.remove(fragmentToRemove_computer);
             fragmentTransaction.add(R.id.bottom_pane_player, m_StartNewGameFragment);
             fragmentTransaction.commit();
 
         } else {
             m_StartNewGameFragment = new StartNewGameToggleButtonsFragment();
-            fragmentTransaction.remove(fragmentManager.findFragmentById(R.id.bottom_pane));
+            Fragment fragmentToRemove = fragmentManager.findFragmentById(R.id.bottom_pane);
+            if (fragmentToRemove != null)
+                fragmentTransaction.remove(fragmentToRemove);
             fragmentTransaction.add(R.id.bottom_pane, m_StartNewGameFragment);
             fragmentTransaction.commit();
         }
@@ -126,17 +160,35 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
      * Remove all fragments
       */
     public void resetGUI() {
+        FragmentManager fragmentManager = m_Activity.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+
         if (m_Tablet) {
-            m_Activity.getSupportFragmentManager().beginTransaction().
-                remove(m_Activity.getSupportFragmentManager().findFragmentById(R.id.bottom_pane_player)).commit();
-            m_Activity.getSupportFragmentManager().beginTransaction().
-                remove(m_Activity.getSupportFragmentManager().findFragmentById(R.id.bottom_pane_computer)).commit();
+            Fragment fragmentToRemove_player = fragmentManager.findFragmentById(R.id.bottom_pane_player);
+            if (fragmentToRemove_player != null) {
+                fragmentTransaction.remove(fragmentToRemove_player);
+            }
+            Fragment fragmentToRemove_computer = fragmentManager.findFragmentById(R.id.bottom_pane_computer);
+            if (fragmentToRemove_computer != null) {
+                fragmentTransaction.remove(fragmentToRemove_computer);
+            }
+            fragmentTransaction.commit();
         } else {
-            m_Activity.getSupportFragmentManager().beginTransaction().
-                remove(m_Activity.getSupportFragmentManager().findFragmentById(R.id.bottom_pane)).commit();
+            Fragment fragmentToRemove = fragmentManager.findFragmentById(R.id.bottom_pane);
+            if (fragmentToRemove != null) {
+                fragmentTransaction.remove(fragmentToRemove);
+                fragmentTransaction.commit();
+            }
         }
     }
 
+    /**
+     * Save a reference to the game controller object and remember if it is a tablet and the orientation
+     * @param planeRound
+     * @param isTablet
+     * @param isVertical
+     */
     public void setGameSettings(PlaneRoundJavaFx planeRound, boolean isTablet, boolean isVertical) {
         m_PlaneRound = planeRound;
         m_Tablet = isTablet;
@@ -157,6 +209,12 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
         return m_CurStage;
     }
 
+    /**
+     * What do to when round ends.
+     * @param playerWins
+     * @param computerWins
+     * @param isComputerWinner
+     */
     public void roundEnds(int playerWins, int computerWins, boolean isComputerWinner) {
         showGameNotStarted();
         int computer_wins = m_PlaneRound.playerGuess_StatNoComputerWins();
@@ -171,6 +229,10 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
         m_StartNewGameFragment.updateStats(computer_wins, player_wins, winnerText);
     }
 
+    /**
+     * Update stats in the game stage.
+     * @param isComputer
+     */
     public void updateStats(boolean isComputer) {
         if (isComputer) {
             int misses = m_PlaneRound.playerGuess_StatNoPlayerMisses();

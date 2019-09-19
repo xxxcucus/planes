@@ -51,6 +51,17 @@ public class GameStatsWithToggleBoardButtonsFragment extends GameStatsFragment {
         });
     }
 
+    @Override
+    public void setButtonsEnabled(boolean isComputer) {
+        if (isComputer) {
+            m_ViewComputerBoardButton.setEnabled(false);
+            m_ViewPlayerBoardButton.setEnabled(true);
+        } else {
+            m_ViewPlayerBoardButton.setEnabled(false);
+            m_ViewComputerBoardButton.setEnabled(true);
+        }
+    }
+
 
     protected Button m_ViewPlayerBoardButton;
     protected Button m_ViewComputerBoardButton;
