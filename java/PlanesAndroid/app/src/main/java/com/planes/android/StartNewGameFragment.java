@@ -68,6 +68,9 @@ public class StartNewGameFragment extends Fragment {
             m_WinnerTextView.setText(m_WinnerText);
     }
 
+    public void setButtonsEnabled(boolean isComputer) {
+    }
+
     protected TextView m_WinnerTextView;
     protected Button m_StartNewRound;
     protected TextView m_ComputerWins;

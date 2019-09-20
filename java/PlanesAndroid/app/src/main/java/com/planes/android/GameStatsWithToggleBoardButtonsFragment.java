@@ -64,7 +64,6 @@ public class GameStatsWithToggleBoardButtonsFragment extends GameStatsFragment {
         }
     }
 
-
     protected Button m_ViewPlayerBoardButton;
     protected Button m_ViewComputerBoardButton;
     protected OnControlButtonListener m_ButtonClickListener = null;

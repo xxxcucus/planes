@@ -43,16 +43,32 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
             m_PlaneRound.doneClicked();
         } else if (buttonId.equals("view_player_board")) {
             m_BoardWidgetsAdaptor.setPlayerBoard();
-            m_GamePhoneFragment.setButtonsEnabled(false);
+
             if (m_CurStage == GameStages.Game) {
+                System.out.println("Set 1");
+                m_GamePhoneFragment.setButtonsEnabled(false);
                 updateStats(false);
             }
+
+            if (m_CurStage == GameStages.GameNotStarted) {
+                System.out.println("Set 2");
+                m_StartNewGameFragment.setButtonsEnabled(false);
+            }
+
         } else if (buttonId.equals("view_computer_board")) {
             m_BoardWidgetsAdaptor.setComputerBoard();
-            m_GamePhoneFragment.setButtonsEnabled(true);
+
             if (m_CurStage == GameStages.Game) {
+                System.out.println("Set 3");
+                m_GamePhoneFragment.setButtonsEnabled(true);
                 updateStats(true);
             }
+
+            if (m_CurStage == GameStages.GameNotStarted) {
+                System.out.println("Set 4");
+                m_StartNewGameFragment.setButtonsEnabled(true);
+            }
+
         } else if (buttonId.equals("start_new_game")) {
             m_PlaneRound.initRound();
             m_BoardWidgetsAdaptor.setBoardEditingStage();
@@ -93,7 +109,7 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
      * Show game controls.
      */
     public void showGame() {
-        m_CurStage = GameStages.BoardEditing;
+        m_CurStage = GameStages.Game;
         FragmentManager fragmentManager = m_Activity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 

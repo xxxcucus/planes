@@ -51,6 +51,16 @@ public class StartNewGameToggleButtonsFragment extends StartNewGameFragment {
         });
     }
 
+    @Override
+    public void setButtonsEnabled(boolean isComputer) {
+        if (isComputer) {
+            m_ViewComputerBoardButton.setEnabled(false);
+            m_ViewPlayerBoardButton.setEnabled(true);
+        } else {
+            m_ViewPlayerBoardButton.setEnabled(false);
+            m_ViewComputerBoardButton.setEnabled(true);
+        }
+    }
 
     private Button m_ViewPlayerBoardButton;
     private Button m_ViewComputerBoardButton;
