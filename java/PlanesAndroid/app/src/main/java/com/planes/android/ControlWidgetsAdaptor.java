@@ -28,13 +28,13 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
      */
     public void onControlButtonClicked(String buttonId) {
         if (buttonId.equals("left")) {
-            m_BoardWidgetsAdaptor.movePlaneLeft();
-        } else if (buttonId.equals("right")) {
-            m_BoardWidgetsAdaptor.movePlaneRight();
-        } else if (buttonId.equals("up")) {
             m_BoardWidgetsAdaptor.movePlaneUp();
-        } else if (buttonId.equals("down")) {
+        } else if (buttonId.equals("right")) {
             m_BoardWidgetsAdaptor.movePlaneDown();
+        } else if (buttonId.equals("up")) {
+            m_BoardWidgetsAdaptor.movePlaneLeft();
+        } else if (buttonId.equals("down")) {
+            m_BoardWidgetsAdaptor.movePlaneRight();
         } else if (buttonId.equals("rotate")) {
             m_BoardWidgetsAdaptor.rotatePlane();
         } else if (buttonId.equals("done")) {
