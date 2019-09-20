@@ -9,17 +9,17 @@
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:layout_gravity="center_vertical"
-        android:layout_weight="2">
+        android:layout_weight="1">
         <Button
             android:id="@+id/view_computer_board1"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/view_computer_board"
             android:enabled="false"
             android:layout_weight="2"/>
         <Button
             android:id="@+id/view_player_board1"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/view_player_board"
             android:layout_weight="2"/>
