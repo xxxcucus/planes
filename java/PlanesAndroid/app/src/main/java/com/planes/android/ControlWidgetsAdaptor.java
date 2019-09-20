@@ -49,7 +49,7 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
             }
         } else if (buttonId.equals("view_computer_board")) {
             m_BoardWidgetsAdaptor.setComputerBoard();
-            m_GamePhoneFragment.setButtonsEnabled(false);
+            m_GamePhoneFragment.setButtonsEnabled(true);
             if (m_CurStage == GameStages.Game) {
                 updateStats(true);
             }
@@ -75,10 +75,7 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
             } else {
                 m_BoardEditingFragment = new BoardEditingPhoneFragment();
             }
-            Fragment fragmentToRemove = fragmentManager.findFragmentById(R.id.bottom_pane_player);
-            if (fragmentToRemove != null)
-                fragmentTransaction.remove(fragmentToRemove);
-            fragmentTransaction.add(R.id.bottom_pane_player, m_BoardEditingFragment);
+            fragmentTransaction.replace(R.id.bottom_pane_player, m_BoardEditingFragment);
             fragmentTransaction.commit();
         } else {
             m_BoardEditingFragment = new BoardEditingPhoneFragment();
@@ -103,22 +100,13 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
         if (m_Tablet) {
             m_GamePlayerFragment = new GameStatsFragment();
             m_GameComputerFragment = new GameStatsFragment();
-            Fragment fragmentToRemove_player = fragmentManager.findFragmentById(R.id.bottom_pane_player);
-            Fragment fragmentToRemove_computer = fragmentManager.findFragmentById(R.id.bottom_pane_computer);
-            if (fragmentToRemove_player != null)
-                fragmentTransaction.remove(fragmentToRemove_player);
-            if (fragmentToRemove_computer != null)
-                fragmentTransaction.remove(fragmentToRemove_computer);
-            fragmentTransaction.add(R.id.bottom_pane_player, m_GamePlayerFragment);
-            fragmentTransaction.add(R.id.bottom_pane_computer, m_GameComputerFragment);
+            fragmentTransaction.replace(R.id.bottom_pane_player, m_GamePlayerFragment);
+            fragmentTransaction.replace(R.id.bottom_pane_computer, m_GameComputerFragment);
             fragmentTransaction.commit();
 
         } else {
             m_GamePhoneFragment = new GameStatsWithToggleBoardButtonsFragment();
-            Fragment fragmentToRemove = fragmentManager.findFragmentById(R.id.bottom_pane);
-            if (fragmentToRemove != null)
-                fragmentTransaction.remove(fragmentToRemove);
-            fragmentTransaction.add(R.id.bottom_pane, m_GamePhoneFragment);
+            fragmentTransaction.replace(R.id.bottom_pane, m_GamePhoneFragment);
             fragmentTransaction.commit();
         }
 
@@ -135,21 +123,16 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
 
         if (m_Tablet) {
             m_StartNewGameFragment = new StartNewGameFragment();
-            Fragment fragmentToRemove_player = fragmentManager.findFragmentById(R.id.bottom_pane_player);
             Fragment fragmentToRemove_computer = fragmentManager.findFragmentById(R.id.bottom_pane_computer);
-            if (fragmentToRemove_player != null)
-                fragmentTransaction.remove(fragmentToRemove_player);
             if (fragmentToRemove_computer != null)
                 fragmentTransaction.remove(fragmentToRemove_computer);
-            fragmentTransaction.add(R.id.bottom_pane_player, m_StartNewGameFragment);
+            fragmentTransaction.replace(R.id.bottom_pane_player, m_StartNewGameFragment);
             fragmentTransaction.commit();
 
         } else {
+            System.out.println("Adding start new game controls phone");
             m_StartNewGameFragment = new StartNewGameToggleButtonsFragment();
-            Fragment fragmentToRemove = fragmentManager.findFragmentById(R.id.bottom_pane);
-            if (fragmentToRemove != null)
-                fragmentTransaction.remove(fragmentToRemove);
-            fragmentTransaction.add(R.id.bottom_pane, m_StartNewGameFragment);
+            fragmentTransaction.replace(R.id.bottom_pane, m_StartNewGameFragment);
             fragmentTransaction.commit();
         }
 
@@ -217,16 +200,13 @@ public class ControlWidgetsAdaptor implements OnControlButtonListener {
      */
     public void roundEnds(int playerWins, int computerWins, boolean isComputerWinner) {
         showGameNotStarted();
-        int computer_wins = m_PlaneRound.playerGuess_StatNoComputerWins();
-        int player_wins = m_PlaneRound.playerGuess_StatNoPlayerWins();
-
         String winnerText = null;
         if (isComputerWinner)
             winnerText = m_Activity.getResources().getText(R.string.computer_winner).toString();
         else
             winnerText = m_Activity.getResources().getText(R.string.player_winner).toString();
 
-        m_StartNewGameFragment.updateStats(computer_wins, player_wins, winnerText);
+        m_StartNewGameFragment.updateStats(computerWins, playerWins, winnerText);
     }
 
     /**

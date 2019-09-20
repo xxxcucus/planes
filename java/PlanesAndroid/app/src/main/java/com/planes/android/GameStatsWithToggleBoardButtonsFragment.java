@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 public class GameStatsWithToggleBoardButtonsFragment extends GameStatsFragment {
 
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View window = null;
         window = inflater.inflate(R.layout.game_stats_phone_vertical, container, false);
@@ -17,6 +18,7 @@ public class GameStatsWithToggleBoardButtonsFragment extends GameStatsFragment {
         return window;
     }
 
+    @Override
     public void createGUIMembers(View window) {
         super.createGUIMembers(window);
         m_ViewPlayerBoardButton = (Button)window.findViewById(R.id.view_player_board1);
