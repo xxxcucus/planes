@@ -24,7 +24,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/up_button"/>
+                android:text="@string/up_button"
+                android:textSize="20sp"/>
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,19 +42,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/left_button"/>
+                android:text="@string/left_button"
+                android:textSize="20sp"/>
             <Button
                 android:id="@+id/rotate_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/rotate_button"/>
+                android:text="@string/rotate_button"
+                android:textSize="20sp"/>
             <Button
                 android:id="@+id/right_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/right_button"/>
+                android:text="@string/right_button"
+                android:textSize="20sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -70,7 +74,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/down_button"/>
+                android:text="@string/down_button"
+                android:textSize="20sp"/>
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -84,6 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="@string/done_button"
+        android:textSize="20sp"
         android:layout_weight="1"/>
 
 </LinearLayout>
