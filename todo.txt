@@ -29,3 +29,4 @@ but the "Start New Round" button should only be active at the end of one round. 
 28. Different layout for tablet devices. Must define the following fragments: plane positioning with two possible layouts (vertical and horizontal),
  player stats, computer stats (one layout horizontal one vertical), stats with toggle buttons for the phone layouts, stats with toggle buttons and start new game (for both players together and for each player distinctively)
 29. Credits windows can not be removed from the screen.
+30. Scale the gameboard to allow the display of game controls (specially in the horizontal modus for tablet) and to leave a space between the two game boards in table modus.
