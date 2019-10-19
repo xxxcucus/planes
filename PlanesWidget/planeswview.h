@@ -9,7 +9,6 @@
 #include "planeround.h"
 
 //creates the main view object of the program
-//TODO: member variables are named m_
 class PlanesWView : public QWidget
 {
     Q_OBJECT
