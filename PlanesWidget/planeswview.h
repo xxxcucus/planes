@@ -54,7 +54,6 @@ public slots:
     //a widget is selected
     void widgetSelected(int); 
 
-	//TODO: implement in the controller
 	void doneClicked();
 	void receivedPlayerGuess(const GuessPoint& gp);
 	void startNewRound();
