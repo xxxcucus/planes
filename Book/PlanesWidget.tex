@@ -67,6 +67,8 @@ It is relevant to see the member variables of PlanesWView:
 
 The PlaneRound object is given to the PlanesWView as constructor parameter. In the constructor of PlanesWView the pointers to the 2 PlanesGrids and the ComputerLogic objects are read from the PlaneRound object. Based on these objects the 4 main widgets of the game interface: the 2 GameRenderArea, the GameStatsWidget and the EditPlanesControlWidget are created.
 
+The main operations of the PlaneRound: doneEditing(), playerGuess(), roundEnds() are triggered from the PlanesWView window class in reponse to signals from its composing widgets.
+
 GameStatsWidget and EditPlanesControlWidget are created based on graphically defined layouts EditControl.ui and GameForm.ui, which use a xml format to save the position of the elements of each layout.
 
 The two GameRenderArea, m\_playerArea and m\_computerArea, display the game boards of computer and player.
@@ -85,6 +87,86 @@ The board game is drawn centered inside the widget space allocated for the widge
 The class implements a method called drawGuesses() which displays the guesses made by the computer or player.
 
 \subsection{GameRenderArea}
+
+GameRenderArea uses a PlaneGrid (\ref{Game_Board}) class to display the game board and operations on it.
+
+The widget overrides paintEvent(), mouseMoveEvent(), mousePressEvent() for painting and interacting with the mouse.
+
+Relevant is the paintEvent() function that controlls what is displayed in the widget:
+
+\begin{lstlisting}
+
+void GameRenderArea::paintEvent(QPaintEvent *event)
+{
+	BaseRenderArea::paintEvent(event);
+	
+	QPainter painter(this);
+	
+	//if is computer
+	//draws the planes when the game has endet
+	//or colors the grid location selected
+	//with the mouse during the game
+	if (m_currentMode == Game && isComputer())
+	{
+		if (m_roundEndet)
+		drawConfirmedPlanes(&painter);
+		if (!m_roundEndet)
+		fillGridRect(m_curMouseRow, m_curMouseCol, QString("grey"), &painter);
+		drawGuesses(&painter);
+	}
+	
+	//in game mode for player
+	//draws the planes
+	//and the guesses made by the computer
+	if (m_currentMode == Game && !isComputer())
+	{
+		drawConfirmedPlanes(&painter);
+		drawGuesses(&painter);
+	}
+	
+	
+	//in editor mode for player    
+	if (m_currentMode == Editor && !isComputer())
+	{
+		//draws the planes
+		drawConfirmedPlanes(&painter);
+		
+		//draws the temp plane
+		if (m_currentOperation == Add_plane)
+		drawTempPlane(&painter);
+		
+		if (m_currentOperation == Move_plane && m_planeSelected)
+		drawTempPlane(&painter);
+		
+		if (m_currentOperation == Rotate_plane && m_planeSelected)
+		drawTempPlane(&painter);
+	}
+}
+
+\end{lstlisting}
+
+For the computer board in game mode:
+\begin{itemize}
+	\item the planes are displayed only when the round ends with the call to drawConfirmedPlanes()
+	\item the grid square under the mouse is highlighted 
+	\item all the guesses are displayed
+\end{itemize}
+
+
+For the player board in game mode:
+\begin{itemize}
+	\item displays all the planes
+	\item displays the computer guesses
+\end{itemize}
+
+
+For the player board in board editing mode:
+\begin{itemize}
+	\item draws the planes whose positions where already decided with drawConfirmedPlanes()
+	\item for the add plane, move plane, rotate plane operations show the temporary plane, which is an intermediary position of the plane to be updated. The used function is drawTempPlane().
+\end{itemize}
+
+An important aspect is that the GameRenderArea keeps track of whether a player or computer is concerned, the game stage: game, board editing, new game, and of the current operation performed on the planes: add plane, move plane, rotate plane, delete plane.
 
 \subsection{Connections Between Widgets}
 
