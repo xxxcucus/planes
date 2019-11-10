@@ -151,6 +151,8 @@ PlayerBoard and ComputerBoard in PlanesGraphicsScene correspond to GameRenderAre
 
 The most important improvement brought by GenericBoard when compared to BaseRenderArea is that it is not a QWidget where the paintEvent() method was overriden, but it uses a specialized framework of Qt: the GraphicsScene/GraphicsView framework.
 
+The display of the board works as follows: the GenericBoard class keeps a collection of GridSquare objects, one for each square of the game board. The GridSquare objects can be parts of the plane, empty squares, plane head, and guesses(hit, miss or dead). When the program is started GridSquare objects are created for every square on the player and computer game boards. Throughout the game, the GameBoard object reads the state of the game from the game engine (PlaneRound), and updates the GridSquare objects accordingly.
+
 \subsection{Qt Concepts}
 
 \subsubsection{Implementing a Custom Layout} \label{custom_qt_layout}
@@ -271,3 +273,90 @@ That means it will take the remaining size width as long as this width is not sm
 The other functions of the class are standard functions, like they are shown in tutorials on the Qt website.
 
 \subsubsection {GraphicsScene - GraphicsView Framework of Qt}
+
+The framework allows to create a space (or scene) (QGraphicsScene) where objects (QGraphicsItems) are displayed. The objects can be added to the scene with a addItem() function. During their lifetime objects can move on the scene, be deleted or change their appearance.
+
+In PlanesGraphicsScene the graphic items objects are of the class GridSquare, which derives from QGraphicsItem, and in the derived class PlayAreaGridSquare. In order to define the appearance of the graphic objects one has to override the function paint() from the QGraphicsItem class.
+
+For example in the PlayAreaGridSquare:
+
+\begin{lstlisting}
+void PlayAreaGridSquare::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+	Q_UNUSED(option)
+	Q_UNUSED(widget)
+	
+	painter->setRenderHint(QPainter::Antialiasing);
+	drawCommonGraphics(painter);
+	
+	if (m_ShowGuesses) {
+		switch(m_Status) {
+		case GameStatus::Empty:
+		break;
+		case GameStatus::PlaneGuessed:
+		drawPlaneGuessed(painter);
+		break;
+		case GameStatus::PlaneHeadGuessed:
+		drawPlaneHeadGuessed(painter);
+		break;
+		case GameStatus::TestedNotPlane:
+		drawTestedNotPlane(painter);
+		break;
+		}
+	}
+}
+
+void PlayAreaGridSquare::drawCommonGraphics(QPainter* painter)
+{
+	if (m_Selected) {
+		painter->fillRect(boundingRect(), Qt::blue);
+	} else {
+		if (m_ShowPlane) {
+			switch(m_Type) {
+			case Type::Empty:
+			painter->fillRect(boundingRect(), Qt::white);
+			break;
+			case Type::PlaneHead:
+			painter->fillRect(boundingRect(), Qt::green);
+			break;
+			case Type::Plane:
+			painter->fillRect(boundingRect(), m_Color);
+			break;
+			}
+		} else {
+			painter->fillRect(boundingRect(), Qt::white);
+		}
+	}
+	
+	//    if ((m_ShowPlane && m_Type != Type::Empty) || m_Selected)
+	//        painter->setPen(Qt::magenta);
+	//    else
+	painter->setPen(Qt::black);
+	painter->drawRect(boundingRect());
+}
+
+void PlayAreaGridSquare::drawPlaneGuessed(QPainter* painter)
+{
+	QPainterPath fillPath;
+	fillPath.moveTo(0, m_Width / 2);
+	fillPath.lineTo(m_Width / 2, 0);
+	fillPath.lineTo(m_Width, m_Width / 2);
+	fillPath.lineTo(m_Width / 2, m_Width);
+	fillPath.lineTo(0, m_Width / 2);
+	painter->fillPath(fillPath, Qt::darkRed);
+}
+
+void PlayAreaGridSquare::drawPlaneHeadGuessed(QPainter* painter)
+{
+	painter->setPen(Qt::red);
+	painter->drawLine(0, 0, m_Width, m_Width);
+	painter->drawLine(0, m_Width, m_Width, 0);
+}
+
+void PlayAreaGridSquare::drawTestedNotPlane(QPainter* painter)
+{
+	QPainterPath fillPath;
+	fillPath.addEllipse(m_Width / 4, m_Width / 4, m_Width / 2, m_Width / 2);
+	painter->fillPath(fillPath, Qt::red);
+}
+
+\end{lstlisting}
