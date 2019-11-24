@@ -108,14 +108,16 @@ public class GameBoard extends GridLayout {
         final int parentTop = getPaddingTop();
         final int parentBottom = bottom - top - getPaddingBottom();
 
-        final int newWidth = Math.min(parentBottom - parentTop, rightPos - leftPos) / (m_GRows + 2 * m_Padding);
+        int spacing = m_IsTablet ? m_SpacingBoardsTablet : 0;
+
+        final int newWidth = (Math.min(parentBottom - parentTop, rightPos - leftPos) - spacing )/ (m_GRows + 2 * m_Padding);
 
         for (int i = 0; i < count; i++) {
             GridSquare child = (GridSquare) getChildAt(i);
             child.setWidth(newWidth);
             //Log.d("Planes", "Set width " + i);
-            child.layout(leftPos + child.getColNo() * newWidth, parentTop + child.getRowNo() * newWidth,
-                    leftPos + child.getColNo() * newWidth + newWidth,  parentTop + child.getRowNo() * newWidth + newWidth);
+            child.layout(leftPos + spacing / 2 + child.getColNo() * newWidth, parentTop + spacing / 2 + child.getRowNo() * newWidth,
+                    leftPos +  spacing / 2 + child.getColNo() * newWidth + newWidth,  parentTop + spacing / 2 + child.getRowNo() * newWidth + newWidth);
         }
     }
 
@@ -156,6 +158,7 @@ public class GameBoard extends GridLayout {
      */
 
     private void init(Context context, boolean isTablet) {
+        m_IsTablet = isTablet;
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -180,7 +183,7 @@ public class GameBoard extends GridLayout {
         if (!isTablet) {
             gridSize = shortDim / (m_GRows + 2 * m_Padding);
         } else {
-            gridSize = Math.min(longDim / 2, shortDim) / (m_GRows + 2 * m_Padding);
+            gridSize = (Math.min(longDim / 2, shortDim) - m_SpacingBoardsTablet)/ (m_GRows + 2 * m_Padding);
         }
 
         setRowCount(m_GRows + 2 * m_Padding);
@@ -495,6 +498,8 @@ public class GameBoard extends GridLayout {
     private int m_GCols = 10;
     private int m_PlaneNo = 3;
     private int m_ColorStep = 50;
+    private int m_SpacingBoardsTablet = 50;
+    boolean m_IsTablet = false;
 
     private Context m_Context;
 
