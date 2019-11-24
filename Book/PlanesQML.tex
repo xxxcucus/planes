@@ -2,6 +2,8 @@
 
 The last of the 3 Qt based GUIs is PlanesQML. This uses QML, a declarative language similar to html to create the graphical interfaces.
 
+\subsection{Main Window}
+
 The main.cpp for the project looks as follows:
 
 \begin{lstlisting}
@@ -73,3 +75,36 @@ private:
 Observe that the class derives from QObject and that some methodes are declared using the Qt macro Q\_INVOKABLE. This allows the methods to be accessible from the QML code. PlaneGridQML has a header file with the same characteristics.
 
 In order to register the C++ object with the QML engine one uses the setContextProperty() function as shown above.
+
+By using the function load() one can define the start qml object for the project: main.qml
+
+\begin{lstlisting}
+
+Window {
+	visible: true
+	width: 1000
+	height: 700
+
+Row {
+	anchors.fill: parent
+	LeftPane {
+		id: leftPane
+	}
+	RightPane {
+		id: rightPane
+	}
+	}
+}
+\end{lstlisting}
+
+This defines a window with 100 X 700 size composed of two subobjects: LeftPane and RightPane, which play similar roles as in PlanesGraphicsScene.
+
+\begin{figure}[h]
+	\includegraphics[width = \textwidth]{PlanesQML_BoardEditing_WidgetNames.png}
+	\caption{Simplified Layout of PlanesQML}
+	\label{fig:planesqml_boardediting_widgetnames}
+\end{figure}
+
+\subsection {LeftPane}
+
+
