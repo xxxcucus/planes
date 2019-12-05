@@ -107,4 +107,103 @@ This defines a window with 100 X 700 size composed of two subobjects: LeftPane a
 
 \subsection {LeftPane}
 
+The QML code for the left pane is as follows:
 
+\begin{lstlisting}
+Rectangle {
+	width: parent.width/3
+	height: parent.height
+	property alias currentTab : stack.currentIndex
+	
+	StackLayout {
+		id: stack
+		width: parent.width
+		height: parent.height
+		
+		currentIndex: 1
+		GameStatistics {
+			id: roundTab
+		}
+		BoardEditorControls {
+		}
+		Rectangle {
+			id: startTab
+			color: "blue"
+		}
+	}
+	
+	Connections {
+		target: PlaneGame
+		onUpdateStats: {
+			roundTab.playerMoves = PlaneGame.getPlayerMoves()
+			roundTab.playerHits = PlaneGame.getPlayerHits()
+			roundTab.playerMisses = PlaneGame.getPlayerMisses()
+			roundTab.playerDead = PlaneGame.getPlayerDead()
+			roundTab.playerWins = PlaneGame.getPlayerWins()
+			roundTab.computerMoves = PlaneGame.getComputerMoves()
+			roundTab.computerHits = PlaneGame.getComputerHits()
+			roundTab.computerMisses = PlaneGame.getComputerMisses()
+			roundTab.computerDead = PlaneGame.getComputerDead()
+			roundTab.computerWins = PlaneGame.getComputerWins()
+		}
+	}
+}
+\end{lstlisting}
+
+\subsection {BoardEditing Tab}
+
+TODO: explain how the button works
+
+\subsection {QML Concepts}
+
+\subsubsection {QML Objects}
+
+QML objects can be declared with the following syntax: 
+
+\begin{lstlisting}
+
+ObjectTypeName {
+
+	attribute1: value1
+	attribute2: value2
+	..................
+}
+
+\end{lstlisting}
+
+One such example is the main window object:
+
+\begin{lstlisting}
+
+Window {
+	visible: true
+	width: 1000
+	height: 700
+}
+
+\end{lstlisting}
+
+\subsubsection {QML Object property}
+\subsubsection {QML Object property aliases}
+\subsubsection {QML Subobjects}
+
+In a QML application a hierarchy of objects and sub-objects exists. This hierarchy has a single root object. In our case it is the main window object. The other objects are all sub-objects of this main object. 
+For example LeftPane and RightPane are sub-objects of the main window. 
+
+\subsubsection {QML Layouts}
+
+One type of QML objects are layouts. For example Row in the main window allows to display the LeftPane and RightPane in the same horizontal row. Other examples of layouts used in this application are: StackLayout (used in the LeftPane), ColumnLayout and GridLayout (used in GameStatistics)
+
+\subsubsection {QML GridView}
+
+\subsubsection {QML ListView}
+
+\subsubsection {QML Canvas}
+
+\subsubsection {QML Animations}
+
+\subsubsection {QML MouseArea}
+
+\subsubsection {QML States}
+
+\subsubsection {QML Connections Attribute}
