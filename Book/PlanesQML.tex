@@ -150,9 +150,57 @@ Rectangle {
 }
 \end{lstlisting}
 
-\subsection {BoardEditing Tab}
+It contains a start tab, a board editing tab, containing the buttons to position the planes board, and a game tab, displaying computer and player game statistics during the game. These objects are grouped under a stack layout, that is a widget containing more superimposed widgets. For an explanation of the Connections element see \ref{qml:connections}.
 
-TODO: explain how the button works
+\subsubsection {BoardEditing Tab}
+
+The board editing tab contains buttons to position the planes on the game board. Here below is the implementation for the plane rotation button.
+
+
+\begin{lstlisting}
+import "ButtonPaintFunctions.js" as PaintFunctions
+
+Rectangle {
+	id: back
+	color: "red"
+	radius: 10
+	
+	Canvas {
+		width: back.width
+		height: back.height
+		
+		onPaint: {
+			var ctx = getContext("2d")
+			PaintFunctions.rotateButton(ctx)
+		}
+	}
+	
+	MouseArea {
+		width: parent.width
+		height: parent.height
+		onClicked: {
+		//console.log("Rotate clicked")
+		anim.start()
+		PlayerPlaneGrid.rotateSelectedPlane();
+		PlayerPlaneGrid.verifyPlanePositionValid()
+		}
+	}
+	
+	SequentialAnimation {
+		id: anim
+		PropertyAnimation { target: back; property: "color"; to: "green"; duration: 50 }
+		PropertyAnimation { target: back; property: "color"; to: "red"; duration: 50 }
+		}
+}
+\end{lstlisting}
+
+The button is encapsulated inside a rectangle with rounded corners (see attribute radius of the QML object Rectangle). It contains a canvas element which defines the design of the button. This is accomplished in the signal handler onPaint. In order to react to click events a MouseArea element is used. To graphically represent the click event a small animation is created - see \ref{qml:animation}.
+
+One remarks here that the buttons are not standard buttons as for example the Qt Widgets buttons that we used in PlanesWidgets or PlanesGraphicScene. They are completely custom defined, proving the flexibility and resourcefullness of QML.
+
+\subsubsection {Game Tab}
+
+\subsubsection {Start New Game Tab}
 
 \subsection {QML Concepts}
 
@@ -200,10 +248,130 @@ One type of QML objects are layouts. For example Row in the main window allows t
 
 \subsubsection {QML Canvas}
 
-\subsubsection {QML Animations}
+\subsubsection {QML Animations} \label{qml:animation}
 
-\subsubsection {QML MouseArea}
+In the definition of the rotation button, we see the following code block:
+
+\begin{lstlisting}
+SequentialAnimation {
+	id: anim
+	PropertyAnimation { target: back; property: "color"; to: "green"; duration: 50 }
+	PropertyAnimation { target: back; property: "color"; to: "red"; duration: 50 }
+}
+\end{lstlisting}
+
+Here a sequence of two animations is defined. Each of the two is a so called PropertyAnimation, where a property of a QML object changes over time. In this particular case, the property color of the object named back is to change to green over 50 ms, the first animation, and the property color of the object named back is to be then changed to red over the same duration of 50 ms.
+
+
+\subsubsection {QML MouseArea} \label{qml:mouse_area}
+
+The MouseArea element is used to capture events from the mouse. We illustrate this with the code of the MovePlaneDownwards button, used for board editing.
+
+\begin{lstlisting}
+Rectangle {
+	id: back
+	color: "red"
+	radius: 10
+	
+	Canvas {
+		anchors.fill: parent
+		width: back.width
+		height: back.height
+		
+		onPaint: {
+			var ctx = getContext("2d")
+			PaintFunctions.moveDownButton(ctx)
+		}
+	}
+	
+	MouseArea {
+		width: parent.width
+		height: parent.height
+		onClicked: {
+			//console.log("Plane downwards clicked")
+			anim.start()
+			PlayerPlaneGrid.moveDownSelectedPlane()
+			PlayerPlaneGrid.verifyPlanePositionValid()
+		}
+	}
+	
+	SequentialAnimation {
+		id: anim
+		PropertyAnimation { target: back; property: "color"; to: "green"; duration: 50 }
+		PropertyAnimation { target: back; property: "color"; to: "red"; duration: 50 }
+	}
+}
+\end{lstlisting}
+
+In the MouseArea, a onClicled element is defined, which describes what is be done when one clicks in the region associated with MouseArea.
+The surface covered by the MouseArea is defined with the help of the width and height attributes, in this case they are as big as the containing button.
 
 \subsubsection {QML States}
 
-\subsubsection {QML Connections Attribute}
+Here below is a part of the listing of the done button, used to confirm when the user has finished positioning his planes on the game board. 
+
+\begin{lstlisting}
+Rectangle {
+	id: back
+	state: "Enabled"
+	
+	Connections {
+		target: PlayerPlaneGrid
+		onPlanePositionNotValid: {
+		if (val == true) {
+		back.state = "Disabled"
+		//console.log("Plane position not valid")
+		} else {
+		back.state = "Enabled"
+		//console.log("Plane position valid")
+		}
+		}
+	}
+	
+	states: [
+		State {
+			name: "Enabled"
+			PropertyChanges {
+				target: back
+				color: back.enabledColor
+		}
+		},
+		State {
+			name: "Disabled"
+			PropertyChanges {
+				target: back
+				color: back.disabledColor
+			}
+		}
+	]
+}
+
+\end{lstlisting}
+
+In the states attribute the possible states of the button are defined: Enabled and Disabled. When switching to theses states the background color of the button changes to enabledColor when Enabled and to disabledColor when Disabled.
+
+\subsubsection {QML Connections Attribute} \label{qml:connections}
+
+In the definition of the LeftPane we see the following block:
+
+\begin{lstlisting}
+Connections {
+target: PlaneGame
+onUpdateStats: {
+	roundTab.playerMoves = PlaneGame.getPlayerMoves()
+	roundTab.playerHits = PlaneGame.getPlayerHits()
+	roundTab.playerMisses = PlaneGame.getPlayerMisses()
+	roundTab.playerDead = PlaneGame.getPlayerDead()
+	roundTab.playerWins = PlaneGame.getPlayerWins()
+	roundTab.computerMoves = PlaneGame.getComputerMoves()
+	roundTab.computerHits = PlaneGame.getComputerHits()
+	roundTab.computerMisses = PlaneGame.getComputerMisses()
+	roundTab.computerDead = PlaneGame.getComputerDead()
+	roundTab.computerWins = PlaneGame.getComputerWins()
+	}
+}
+	
+\end{lstlisting}
+
+In this case this code block allows to connect to a signal from a C++ object, registered with the QML engine with the name PlaneGame. 
+This is an extension of the normal version of reacting to signals from QML objects presented in the section \ref{qml:mouse_area}.
