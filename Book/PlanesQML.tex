@@ -232,7 +232,27 @@ Window {
 \end{lstlisting}
 
 \subsubsection {QML Object property}
+
+In addition to standard attributes one can declare custom attributes for a QML object, the so called properties. Properties are used for example in GenericBoard.qml:
+
+\begin{lstlisting}
+	property int gridSquaresOnLine: 10
+	property int gridBorder: 3
+	property string colorBackground: "yellow"
+	property string colorBoard: "#ea7025"
+	property string colorBorder: "aqua"
+	property int cellSize : (Math.min(width, height) - 20) / (board.gridSquaresOnLine + 2 * board.gridBorder)
+	property int spacing: 2
+	property variant boardModel: ComputerPlaneGrid
+	property bool isComputer: true
+\end{lstlisting}
+
+Each property has a type assigned to it and can be initiliazed with an expression depending on other properties and attributes.
+
 \subsubsection {QML Object property aliases}
+
+A property alias is a property which is a reference to another property. For example in the definition of the LeftPane we have the property alias currentTab which is a reference to the attribute stack.currentIndex, the index of the active view in the StackLayout of the LeftPane. 
+
 \subsubsection {QML Subobjects}
 
 In a QML application a hierarchy of objects and sub-objects exists. This hierarchy has a single root object. In our case it is the main window object. The other objects are all sub-objects of this main object. 
@@ -245,6 +265,58 @@ One type of QML objects are layouts. For example Row in the main window allows t
 \subsubsection {QML GridView}
 
 \subsubsection {QML ListView}
+
+The help page of PlanesQML is defined as follows:
+
+\begin{lstlisting}
+Rectangle {
+	color: 'yellow'
+	width: parent.width
+	height: parent.height
+	
+	ListView {
+		anchors.fill : parent 
+		model: HelpPageModel {}
+		delegate: Text {
+			text: "<h3> "+ name +  "</h3>" + " <p> " + content + " </p>"
+			width: parent.width - 10
+			x: 5
+			wrapMode: Text.WordWrap
+		}
+		clip: true
+		ScrollBar.vertical: ScrollBar {}
+	}
+}
+\end{lstlisting}
+
+It uses a model based view element: ListView. This element displays data based on a model, a QML object that gathers all the required data and does not have any connection with the graphical interface. The ListView element references the model as defined in the model attribute (in this case HelpPageModel) as well as how are the elements of the model rendered in the vie (in this case each element of the HelpPageModel will be transformed in a text paragraph as defined in the delegate attribute).
+
+The model itself is defined as follows (only partially reproduced here):
+
+\begin{lstlisting}
+ListModel {
+
+	ListElement {
+		content: ""
+		name: "How to play the game of Planes"
+	}
+	
+	ListElement {
+		content: "In order to win you must win more rounds as the computer."
+		name: "Winning a Game"
+	}
+	
+	ListElement {
+		name: "Players"
+		content: "There are two players: the computer and you."
+	}
+	
+	...........
+	
+}
+\end{lstlisting}
+
+It is similar to list of ListElement items. Each ListElement defines two roles: content and name, which are used in the implementation of the delegate of the ListView.
 
 \subsubsection {QML Canvas}
 
