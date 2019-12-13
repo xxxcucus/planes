@@ -200,7 +200,119 @@ One remarks here that the buttons are not standard buttons as for example the Qt
 
 \subsubsection {Game Tab}
 
+The GameTab contains the statistics for both the computer and the player. The data is displayed with a ColumnLayout (its elements are displayed all one under the other in a single column), that contains labels (texts) and tables configured with GridLayout layouts.
+
+For example the stats for the player are displayed with the following code:
+
+\begin{lstlisting}
+GridLayout {
+	columns: 2
+	columnSpacing:  gameStats.width/10
+	anchors.margins: gameStats.width/10
+	
+	Label {
+		font.pixelSize: gameStats.textSize
+		text: "Number of moves"
+		color: gameStats.textColorGame
+	}
+	Label {
+		font.pixelSize: gameStats.textSize
+		id: noMovesComputer
+		text: gameStats.computerMoves
+		color: gameStats.textColorGame
+	}
+	Label {
+		font.pixelSize: gameStats.textSize
+		text: "Number of misses"
+		color: gameStats.textColorGame
+	}
+	Label {
+		font.pixelSize: gameStats.textSize
+		id: noMissesComputer
+		text: gameStats.computerMisses
+		color: gameStats.textColorGame
+	}
+	Label {
+		font.pixelSize: gameStats.textSize
+		text: "Number of hits"
+		color: gameStats.textColorGame
+	}
+	Label {
+		font.pixelSize: gameStats.textSize
+		id: noHitsComputer
+		text: gameStats.computerHits
+		color: gameStats.textColorGame
+	}
+	Label {
+		font.pixelSize: gameStats.textSize
+		text: "Number of planes guessed"
+		color: gameStats.textColorGame
+	}
+	Label {
+		font.pixelSize: gameStats.textSize
+		id: noGuessedComputer
+		text: gameStats.computerDead
+		color: gameStats.textColorGame
+	}
+}
+\end{lstlisting}
+
+The GridLayout contains a list of Label sub-objects. The attribute columns specifies that the labels are to be displayed in two columns.
+
 \subsubsection {Start New Game Tab}
+
+The start new game tab is defined together with the game tab in the GameStatistics.qml source file and consists mainly of a button which when clicked triggers the start of a new game round.
+
+\subsection {RightPane}
+
+The RightPane contains the two important game boards and a help page glued together with the StackLayout. The most important part of the RightPane and of the application itself are the two game boards, defined in the QML object GenericBoard.
+
+The three main components of the right pane and their grouping in a StackLayout are shown below:
+
+\begin{lstlisting}
+StackLayout {
+	id: stackLayout
+	anchors.top: bar.bottom
+	currentIndex: bar.currentIndex
+	width: parent.width
+	height: parent.height - bar.height
+	
+	GenericBoard {
+		boardModel: PlayerPlaneGrid
+		id : playerBoard
+		isComputer: false
+	}
+	
+	GenericBoard {
+		boardModel: ComputerPlaneGrid
+		id : computerBoard
+		isComputer: true
+	}
+	
+	Rectangle {
+		color: 'yellow'
+		width: parent.width
+		height: parent.height
+		
+		ListView {
+			anchors.fill : parent 
+			model: HelpPageModel {}
+			delegate: Text {
+				text: "<h3> "+ name +  "</h3>" + " <p> " + content + " </p>"
+				width: parent.width - 10
+				x: 5
+				wrapMode: Text.WordWrap
+			}
+			clip: true
+			ScrollBar.vertical: ScrollBar {}
+		}
+	}
+}
+\end{lstlisting}
+
+The GenericBoard objects are custom objects defined in the application. Their two most important properties are boardModel, which represents the data model for the board, and the boolean isComputer, which specifies whether the board corresponds to a computer or a player.
+
+The core of the generic board is the GridView which is another one of QML's view model classes - see \ref{qml:gridview}
 
 \subsection {QML Concepts}
 
@@ -262,7 +374,92 @@ For example LeftPane and RightPane are sub-objects of the main window.
 
 One type of QML objects are layouts. For example Row in the main window allows to display the LeftPane and RightPane in the same horizontal row. Other examples of layouts used in this application are: StackLayout (used in the LeftPane), ColumnLayout and GridLayout (used in GameStatistics)
 
-\subsubsection {QML GridView}
+\subsubsection {QML GridView} \label{qml:gridview}
+
+The core of the game implementation is the display of the game board inside of a GridView layout using as model C++ functionality from the game engine.
+
+\begin{lstlisting}
+GridView {
+anchors.centerIn: parent
+width: parent.width
+height: parent.height
+cellWidth: board.cellSize
+cellHeight: board.cellSize
+flow: GridView.FlowTopToBottom
+
+
+model: board.boardModel
+delegate: Rectangle {
+	width: board.cellSize
+	height: board.cellSize
+	color: board.colorBackground
+	Rectangle {
+	
+	function squareColor() {
+		if (board.state == "GameNotStarted" )
+			return planeColorData;
+		if (!isComputer)
+			return planeColorData;
+		if (boardData == 1)
+			return planeColorData;
+		return "#ea7025"; //TODO: to change this
+	}
+	
+	anchors.centerIn: parent
+	width: parent.width - board.spacing
+	height: parent.height - board.spacing
+	radius: 5
+	color: squareColor()
+	Canvas {
+		anchors.fill: parent
+		width: parent.width
+		height: parent.height
+		
+		onPaint: {
+			var ctx = getContext("2d")
+			//enum Type {Miss = 0, Hit = 1, Dead = 2};
+			//console.log("guess is ", guessData);
+			if (guessData == 0)
+				PaintFunctions.testedNotPlane(ctx, width, height);
+			if (guessData == 1)
+				PaintFunctions.planeGuessed(ctx, width, height);
+			if (guessData == 2)
+				PaintFunctions.planeHeadGuessed(ctx, width, height);
+		}
+	}
+		
+	MouseArea {
+		anchors.fill : parent
+		onClicked : {
+			if (isComputer && board.state == "Game")
+				boardModel.computerBoardClick(index)
+		}
+	}
+}
+}
+\end{lstlisting}
+
+The model here is read from the boardModel property of the GenericBoard objects. The delegate, explaining what to do with each element of the model is defined here above. It specifies that for each element a rectangle containing a Canvas element is to be drawn. The color of the drawn rectangle is computed in the function squareColor() which uses planeColorData information supplied by the model. The shape being drawn in the rectangle is defined in the onPaint method of the Canvas and uses guessData information supplied by the model.
+
+The GridView has an attribute named flow which describes how are the Rectangles positioned with respect to the other, in this case GridView.FlowTopToBottom. The grid squares represented by the Rectangle objects drawn by the delegate are layed out one next to the other from top to bottom. When a row is full with squares it will be jumped to the next one. So, practically, if the sizes of the squares are correct, one obtaines the desired chess board layout.
+
+The model for the GridView is the class PlaneGridQML, which is a Qt class which subclasses QAbstractListModel in order to be able to be used as model for the GridView. The interface being overriden by PlaneGridQML in order to derive from QAbstractListModel is as follows:
+
+\begin{lstlisting}
+enum QMLGridRoles {
+	PlaneRole = Qt::UserRole + 1,
+	PlaneColorRole = Qt::UserRole + 2,
+	GuessRole = Qt::UserRole + 3,
+	BoardRole = Qt::UserRole + 4
+};
+
+QHash<int, QByteArray> roleNames() const override;
+
+int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+\end{lstlisting}
+
+As we see 4 roles are defined by the model, a role being a type of information being supplied by the model: PlaneRole, PlaneColorRole, GuessRole, BoardRole. The function roleNames() defines the names of the roles, and these names will be used by the delegate in the GridView to read data from the model. rowCount() defines how many rows there are in the model. The data() function defines, for each role, what information is supplied by the model at each position (index).
 
 \subsubsection {QML ListView}
 
@@ -289,7 +486,7 @@ Rectangle {
 }
 \end{lstlisting}
 
-It uses a model based view element: ListView. This element displays data based on a model, a QML object that gathers all the required data and does not have any connection with the graphical interface. The ListView element references the model as defined in the model attribute (in this case HelpPageModel) as well as how are the elements of the model rendered in the vie (in this case each element of the HelpPageModel will be transformed in a text paragraph as defined in the delegate attribute).
+It uses a model based view element: ListView. This element displays data based on a model, a QML object that gathers all the required data and does not have any connection with the graphical interface. The ListView element references the model as defined in the model attribute (in this case HelpPageModel) as well as how are the elements of the model rendered in the view (in this case each element of the HelpPageModel will be transformed in a text paragraph as defined in the delegate attribute).
 
 The model itself is defined as follows (only partially reproduced here):
 
@@ -319,6 +516,51 @@ ListModel {
 It is similar to list of ListElement items. Each ListElement defines two roles: content and name, which are used in the implementation of the delegate of the ListView.
 
 \subsubsection {QML Canvas}
+
+The Canvas object offers the possibility of drawing graphical elements inside its area. In PlanesQML it used to create the button icons. For example in the RotatePlane button we use the following Canvas element:
+
+\begin{lstlisting}
+    Canvas {
+	width: back.width
+	height: back.height
+	
+	onPaint: {
+		var ctx = getContext("2d")
+		PaintFunctions.rotateButton(ctx)
+	}
+}
+\end{lstlisting}
+
+The function rotateButton is defined as a JavaScript function as follows:
+
+\begin{lstlisting}
+function rotateButton(ctx) {
+	ctx.fillStyle = 'blue'
+	ctx.lineWidth = 4
+	
+	var centerX = width / 2
+	var centerY = height / 2
+	var radius = Math.min(width / 3, height / 3)
+	
+	ctx.beginPath()
+	ctx.moveTo(centerX + radius, centerY)
+	ctx.arc(centerX, centerY, radius, 0, Math.PI + Math.PI / 2, false)
+	ctx.lineTo(centerX, centerY - radius / 3)
+	ctx.arc(centerX, centerY, radius - radius / 3, Math.PI + Math.PI / 2, 0, true)
+	ctx.closePath()
+	ctx.fill()
+	
+	ctx.beginPath();
+	ctx.moveTo(centerX + radius - radius / 6, centerY);
+	ctx.lineTo(centerX + radius - radius / 6 - radius / 3 , centerY);
+	ctx.lineTo(centerX + radius - radius / 6 , centerY - radius / 3);
+	ctx.lineTo(centerX + radius - radius / 6 + radius / 3, centerY);
+	ctx.closePath();
+	ctx.fill();
+}
+\end{lstlisting}
+
+Here ctx is a graphical context allowing the drawing functions to be called.
 
 \subsubsection {QML Animations} \label{qml:animation}
 
