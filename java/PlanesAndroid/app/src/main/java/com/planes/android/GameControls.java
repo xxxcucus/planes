@@ -13,27 +13,27 @@ import com.planes.javafx.PlaneRoundJavaFx;
 
 
 //bottom pane in a vertical layout
-public class BottomPane_Vertical extends GridLayout {
+public class GameControls extends GridLayout {
 
     public enum GameStages {
         GameNotStarted, BoardEditing, Game
     }
 
-    public BottomPane_Vertical(Context context) {
+    public GameControls(Context context) {
         super(context);
         //setGameSettings(nrows, ncols, nplanes);
         //m_PlaneRound = planeRound;
         m_Context = context;
     }
 
-    public BottomPane_Vertical(Context context, AttributeSet attrs) {
+    public GameControls(Context context, AttributeSet attrs) {
         super(context, attrs);
         //setGameSettings(nrows, ncols, nplanes);
         //m_PlaneRound = planeRound;
         m_Context = context;
     }
 
-    public BottomPane_Vertical(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GameControls(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         //setGameSettings(nrows, ncols, nplanes);
         //m_PlaneRound = planeRound;
@@ -72,7 +72,7 @@ public class BottomPane_Vertical extends GridLayout {
         init(GameStages.BoardEditing);
     }
 
-    public void setTopPane(TopPane_Vertical top) {
+    public void setTopPane(GameBoard top) {
         m_TopPane = top;
     }
 
@@ -363,5 +363,5 @@ public class BottomPane_Vertical extends GridLayout {
     private TextView m_ComputerWins;
     private TextView m_PlayerWins;
 
-    private TopPane_Vertical m_TopPane;
+    private GameBoard m_TopPane;
 }

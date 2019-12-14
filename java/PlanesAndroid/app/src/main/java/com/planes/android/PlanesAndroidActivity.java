@@ -55,10 +55,10 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         m_PlaneRound = new PlaneRoundJavaFx();
         m_PlaneRound.createPlanesRound();
 
-        m_BoardWidgets = (TopPane_Vertical)findViewById(R.id.top_pane);
+        m_BoardWidgets = (GameBoard)findViewById(R.id.top_pane);
         m_BoardWidgets.setGameSettings(m_PlaneRound);
 
-        m_GameControls = (BottomPane_Vertical)findViewById(R.id.bottom_pane);
+        m_GameControls = (GameControls)findViewById(R.id.bottom_pane);
         m_GameControls.setGameSettings(m_PlaneRound);
         m_GameControls.setTopPane(m_BoardWidgets);
         m_BoardWidgets.setBottomPane(m_GameControls);
@@ -218,6 +218,6 @@ public class PlanesAndroidActivity extends AppCompatActivity {
     }
 
     private PlaneRoundJavaFx m_PlaneRound;
-    TopPane_Vertical m_BoardWidgets;
-    BottomPane_Vertical m_GameControls;
+    GameBoard m_BoardWidgets;
+    GameControls m_GameControls;
 }

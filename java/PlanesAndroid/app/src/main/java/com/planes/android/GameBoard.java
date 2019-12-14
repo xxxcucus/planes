@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class TopPane_Vertical extends GridLayout {
+public class GameBoard extends GridLayout {
     class PositionBoardPane {
         private int x = 0;
         private int y = 0;
@@ -54,21 +54,21 @@ public class TopPane_Vertical extends GridLayout {
         GameNotStarted, BoardEditing, Game
     }
 
-    public TopPane_Vertical(Context context) {
+    public GameBoard(Context context) {
         super(context);
         //setGameSettings(nrows, ncols, nplanes);
         //m_PlaneRound = planeRound;
         m_Context = context;
     }
 
-    public TopPane_Vertical(Context context, AttributeSet attrs) {
+    public GameBoard(Context context, AttributeSet attrs) {
         super(context, attrs);
         //setGameSettings(nrows, ncols, nplanes);
         //m_PlaneRound = planeRound;
         m_Context = context;
     }
 
-    public TopPane_Vertical(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GameBoard(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         //setGameSettings(nrows, ncols, nplanes);
         //m_PlaneRound = planeRound;
@@ -316,7 +316,7 @@ public class TopPane_Vertical extends GridLayout {
         updateBoards();
     }
 
-    public void setBottomPane(BottomPane_Vertical bottom) {
+    public void setBottomPane(GameControls bottom) {
         m_BottomPane = bottom;
     }
 
@@ -338,5 +338,5 @@ public class TopPane_Vertical extends GridLayout {
     private Context m_Context;
 
     private int m_Selected = 0;
-    private BottomPane_Vertical m_BottomPane;
+    private GameControls m_BottomPane;
 }

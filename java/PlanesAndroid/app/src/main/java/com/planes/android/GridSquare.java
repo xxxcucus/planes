@@ -103,7 +103,7 @@ public class GridSquare extends View {
         m_HitPath.close();
     }
 
-    public void setParent(TopPane_Vertical top) {
+    public void setParent(GameBoard top) {
         m_Parent = top;
     }
 
@@ -124,5 +124,5 @@ public class GridSquare extends View {
     private Path m_HitPath;
     int m_Width = 0;
 
-    private TopPane_Vertical m_Parent;
+    private GameBoard m_Parent;
 }
