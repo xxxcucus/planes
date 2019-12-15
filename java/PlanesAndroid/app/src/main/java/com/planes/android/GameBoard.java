@@ -245,9 +245,9 @@ public class GameBoard extends GridLayout {
                     //announceRoundWinner(winnerText);
                     m_CurStage = GameStages.GameNotStarted;
                     m_PlaneRound.roundEnds();
-                    m_BottomPane.roundEnds(playerWins, computerWins, m_PlaneRound.playerGuess_IsPlayerWinner());
+                    m_GameControls.roundEnds(playerWins, computerWins, m_PlaneRound.playerGuess_IsPlayerWinner());
                 } else {
-                    m_BottomPane.updateStats(m_IsComputer);
+                    m_GameControls.updateStats(m_IsComputer);
                 }
                 updateBoards();
             }
@@ -257,31 +257,31 @@ public class GameBoard extends GridLayout {
     public void movePlaneLeft() {
         boolean valid = m_PlaneRound.movePlaneLeft(m_Selected) == 1 ? true : false;
         updateBoards();
-        m_BottomPane.setDoneEnabled(valid);
+        m_GameControls.setDoneEnabled(valid);
     }
 
     public void movePlaneRight() {
         boolean valid = m_PlaneRound.movePlaneRight(m_Selected) == 1 ? true : false;
         updateBoards();
-        m_BottomPane.setDoneEnabled(valid);
+        m_GameControls.setDoneEnabled(valid);
     }
 
     public void movePlaneUp() {
         boolean valid = m_PlaneRound.movePlaneUpwards(m_Selected) == 1 ? true : false;
         updateBoards();
-        m_BottomPane.setDoneEnabled(valid);
+        m_GameControls.setDoneEnabled(valid);
     }
 
     public void movePlaneDown() {
         boolean valid = m_PlaneRound.movePlaneDownwards(m_Selected) == 1 ? true : false;
         updateBoards();
-        m_BottomPane.setDoneEnabled(valid);
+        m_GameControls.setDoneEnabled(valid);
     }
 
     public void rotatePlane() {
         boolean valid = m_PlaneRound.rotatePlane(m_Selected) == 1 ? true : false;
         updateBoards();
-        m_BottomPane.setDoneEnabled(valid);
+        m_GameControls.setDoneEnabled(valid);
     }
 
     public void setPlayerBoard() {
@@ -316,8 +316,8 @@ public class GameBoard extends GridLayout {
         updateBoards();
     }
 
-    public void setBottomPane(GameControls bottom) {
-        m_BottomPane = bottom;
+    public void setGameControls(GameControls gameControls) {
+        m_GameControls = gameControls;
     }
 
     private Map<PositionBoardPane, GridSquare> m_GridSquares;
@@ -338,5 +338,5 @@ public class GameBoard extends GridLayout {
     private Context m_Context;
 
     private int m_Selected = 0;
-    private GameControls m_BottomPane;
+    private GameControls m_GameControls;
 }
