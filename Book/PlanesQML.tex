@@ -200,6 +200,7 @@ One remarks here that the buttons are not standard buttons as for example the Qt
 
 \subsubsection {Game Tab}
 
+
 The GameTab contains the statistics for both the computer and the player. The data is displayed with a ColumnLayout (its elements are displayed all one under the other in a single column), that contains labels (texts) and tables configured with GridLayout layouts.
 
 For example the stats for the player are displayed with the following code:
@@ -313,6 +314,7 @@ StackLayout {
 The GenericBoard objects are custom objects defined in the application. Their two most important properties are boardModel, which represents the data model for the board, and the boolean isComputer, which specifies whether the board corresponds to a computer or a player.
 
 The core of the generic board is the GridView which is another one of QML's view model classes - see \ref{qml:gridview}
+
 
 \subsection {QML Concepts}
 
@@ -517,6 +519,7 @@ It is similar to list of ListElement items. Each ListElement defines two roles: 
 
 \subsubsection {QML Canvas}
 
+
 The Canvas object offers the possibility of drawing graphical elements inside its area. In PlanesQML it used to create the button icons. For example in the RotatePlane button we use the following Canvas element:
 
 \begin{lstlisting}
@@ -562,6 +565,7 @@ function rotateButton(ctx) {
 
 Here ctx is a graphical context allowing the drawing functions to be called.
 
+
 \subsubsection {QML Animations} \label{qml:animation}
 
 In the definition of the rotation button, we see the following code block:
@@ -575,6 +579,7 @@ SequentialAnimation {
 \end{lstlisting}
 
 Here a sequence of two animations is defined. Each of the two is a so called PropertyAnimation, where a property of a QML object changes over time. In this particular case, the property color of the object named back is to change to green over 50 ms, the first animation, and the property color of the object named back is to be then changed to red over the same duration of 50 ms.
+
 
 
 \subsubsection {QML MouseArea} \label{qml:mouse_area}
@@ -616,6 +621,7 @@ Rectangle {
 	}
 }
 \end{lstlisting}
+
 
 In the MouseArea, a onClicled element is defined, which describes what is be done when one clicks in the region associated with MouseArea.
 The surface covered by the MouseArea is defined with the help of the width and height attributes, in this case they are as big as the containing button.

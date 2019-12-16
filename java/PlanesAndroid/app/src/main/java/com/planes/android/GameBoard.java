@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class TopPane_Vertical extends GridLayout {
+public class GameBoard extends GridLayout {
     class PositionBoardPane {
         private int x = 0;
         private int y = 0;
@@ -54,21 +54,21 @@ public class TopPane_Vertical extends GridLayout {
         GameNotStarted, BoardEditing, Game
     }
 
-    public TopPane_Vertical(Context context) {
+    public GameBoard(Context context) {
         super(context);
         //setGameSettings(nrows, ncols, nplanes);
         //m_PlaneRound = planeRound;
         m_Context = context;
     }
 
-    public TopPane_Vertical(Context context, AttributeSet attrs) {
+    public GameBoard(Context context, AttributeSet attrs) {
         super(context, attrs);
         //setGameSettings(nrows, ncols, nplanes);
         //m_PlaneRound = planeRound;
         m_Context = context;
     }
 
-    public TopPane_Vertical(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GameBoard(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         //setGameSettings(nrows, ncols, nplanes);
         //m_PlaneRound = planeRound;
@@ -245,9 +245,9 @@ public class TopPane_Vertical extends GridLayout {
                     //announceRoundWinner(winnerText);
                     m_CurStage = GameStages.GameNotStarted;
                     m_PlaneRound.roundEnds();
-                    m_BottomPane.roundEnds(playerWins, computerWins, m_PlaneRound.playerGuess_IsPlayerWinner());
+                    m_GameControls.roundEnds(playerWins, computerWins, m_PlaneRound.playerGuess_IsPlayerWinner());
                 } else {
-                    m_BottomPane.updateStats(m_IsComputer);
+                    m_GameControls.updateStats(m_IsComputer);
                 }
                 updateBoards();
             }
@@ -257,31 +257,31 @@ public class TopPane_Vertical extends GridLayout {
     public void movePlaneLeft() {
         boolean valid = m_PlaneRound.movePlaneLeft(m_Selected) == 1 ? true : false;
         updateBoards();
-        m_BottomPane.setDoneEnabled(valid);
+        m_GameControls.setDoneEnabled(valid);
     }
 
     public void movePlaneRight() {
         boolean valid = m_PlaneRound.movePlaneRight(m_Selected) == 1 ? true : false;
         updateBoards();
-        m_BottomPane.setDoneEnabled(valid);
+        m_GameControls.setDoneEnabled(valid);
     }
 
     public void movePlaneUp() {
         boolean valid = m_PlaneRound.movePlaneUpwards(m_Selected) == 1 ? true : false;
         updateBoards();
-        m_BottomPane.setDoneEnabled(valid);
+        m_GameControls.setDoneEnabled(valid);
     }
 
     public void movePlaneDown() {
         boolean valid = m_PlaneRound.movePlaneDownwards(m_Selected) == 1 ? true : false;
         updateBoards();
-        m_BottomPane.setDoneEnabled(valid);
+        m_GameControls.setDoneEnabled(valid);
     }
 
     public void rotatePlane() {
         boolean valid = m_PlaneRound.rotatePlane(m_Selected) == 1 ? true : false;
         updateBoards();
-        m_BottomPane.setDoneEnabled(valid);
+        m_GameControls.setDoneEnabled(valid);
     }
 
     public void setPlayerBoard() {
@@ -294,9 +294,15 @@ public class TopPane_Vertical extends GridLayout {
         updateBoards();
     }
 
-    public void setGameStage() {
+    /**
+     * Sets the game stage. If the boolean setRole is true, automatically transform to computer board.
+     * setRole is true for phone devices.
+     * @param setRole
+     */
+    public void setGameStage(boolean setRole) {
         m_CurStage = GameStages.Game;
-        m_IsComputer = true;
+        if (setRole)
+            m_IsComputer = true;
         updateBoards();
     }
 
@@ -304,20 +310,32 @@ public class TopPane_Vertical extends GridLayout {
         return m_CurStage;
     }
 
-    public void setBoardEditingStage() {
+    /**
+     * Sets the board editing stage. If the boolean setRole is true, automatically transform to computer board.
+     * setRole is true for phone devices.
+     * @param setRole
+     */
+    public void setBoardEditingStage(boolean setRole) {
         m_CurStage = GameStages.BoardEditing;
-        m_IsComputer = false;
+        if (setRole)
+            m_IsComputer = false;
         updateBoards();
     }
 
-    public void setNewRoundStage() {
+    /**
+     * Sets the new round stage. If the boolean setRole is true, automatically transform to computer board.
+     * setRole is true for phone devices.
+     * @param setRole
+     */
+    public void setNewRoundStage(boolean setRole) {
         m_CurStage = GameStages.GameNotStarted;
-        m_IsComputer = true;
+        if (setRole)
+            m_IsComputer = true;
         updateBoards();
     }
 
-    public void setBottomPane(BottomPane_Vertical bottom) {
-        m_BottomPane = bottom;
+    public void setGameControls(GameControls gameControls) {
+        m_GameControls = gameControls;
     }
 
     private Map<PositionBoardPane, GridSquare> m_GridSquares;
@@ -338,5 +356,5 @@ public class TopPane_Vertical extends GridLayout {
     private Context m_Context;
 
     private int m_Selected = 0;
-    private BottomPane_Vertical m_BottomPane;
+    private GameControls m_GameControls;
 }
