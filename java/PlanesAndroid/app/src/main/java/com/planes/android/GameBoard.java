@@ -294,9 +294,15 @@ public class GameBoard extends GridLayout {
         updateBoards();
     }
 
-    public void setGameStage() {
+    /**
+     * Sets the game stage. If the boolean setRole is true, automatically transform to computer board.
+     * setRole is true for phone devices.
+     * @param setRole
+     */
+    public void setGameStage(boolean setRole) {
         m_CurStage = GameStages.Game;
-        m_IsComputer = true;
+        if (setRole)
+            m_IsComputer = true;
         updateBoards();
     }
 
@@ -304,15 +310,27 @@ public class GameBoard extends GridLayout {
         return m_CurStage;
     }
 
-    public void setBoardEditingStage() {
+    /**
+     * Sets the board editing stage. If the boolean setRole is true, automatically transform to computer board.
+     * setRole is true for phone devices.
+     * @param setRole
+     */
+    public void setBoardEditingStage(boolean setRole) {
         m_CurStage = GameStages.BoardEditing;
-        m_IsComputer = false;
+        if (setRole)
+            m_IsComputer = false;
         updateBoards();
     }
 
-    public void setNewRoundStage() {
+    /**
+     * Sets the new round stage. If the boolean setRole is true, automatically transform to computer board.
+     * setRole is true for phone devices.
+     * @param setRole
+     */
+    public void setNewRoundStage(boolean setRole) {
         m_CurStage = GameStages.GameNotStarted;
-        m_IsComputer = true;
+        if (setRole)
+            m_IsComputer = true;
         updateBoards();
     }
 

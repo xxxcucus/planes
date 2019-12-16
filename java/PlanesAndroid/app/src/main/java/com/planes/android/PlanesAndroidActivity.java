@@ -55,25 +55,40 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         m_PlaneRound = new PlaneRoundJavaFx();
         m_PlaneRound.createPlanesRound();
 
-        m_GameBoard = (GameBoard)findViewById(R.id.top_pane);
-        m_GameBoard.setGameSettings(m_PlaneRound);
+        boolean isTablet = false;
+        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.rootView);
+        if (linearLayout.getTag().toString().equals("tablet")) {
+            isTablet = true;
+        }
 
-        m_GameControls = (GameControls)findViewById(R.id.bottom_pane);
+        if (isTablet) {
+            GameBoard playerBoard = (GameBoard)findViewById(R.id.player_board);
+            playerBoard.setGameSettings(m_PlaneRound);
+            GameBoard computerBoard = (GameBoard)findViewById(R.id.computer_board);
+            computerBoard.setGameSettings(m_PlaneRound);
+            m_GameBoards = new GameBoardsAdaptor(playerBoard, computerBoard);
+        } else {
+            GameBoard gameBoard = (GameBoard)findViewById(R.id.game_boards);
+            gameBoard.setGameSettings(m_PlaneRound);
+            m_GameBoards = new GameBoardsAdaptor(gameBoard);
+        }
+
+        m_GameControls = (GameControls)findViewById(R.id.game_controls);
         m_GameControls.setGameSettings(m_PlaneRound);
-        m_GameControls.setTopPane(m_GameBoard);
-        m_GameBoard.setGameControls(m_GameControls);
+        m_GameControls.setGameBoards(m_GameBoards);
+        m_GameBoards.setGameControls(m_GameControls);
 
         switch(m_PlaneRound.getGameStage()) {
             case 0:
-                m_GameBoard.setNewRoundStage();
+                m_GameBoards.setNewRoundStage();
                 m_GameControls.setNewRoundStage();
                 break;
             case 1:
-                m_GameBoard.setBoardEditingStage();
+                m_GameBoards.setBoardEditingStage();
                 m_GameControls.setBoardEditingStage();
                 break;
             case 2:
-                m_GameBoard.setGameStage();
+                m_GameBoards.setGameStage();
                 m_GameControls.setGameStage();
                 break;
         }
@@ -170,7 +185,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         TextView helpTitleTextView = (TextView)popupView.findViewById(R.id.popup_help_title);
 
         if (helpTextView != null && helpTitleTextView != null) {
-            switch (m_GameBoard.getGameStage()) {
+            switch (m_GameBoards.getGameStage()) {
                 case GameNotStarted:
                     helpTitleTextView.setText(getResources().getString(R.string.game_not_started_stage));
                     helpTextView.setText("Touch on the \"Start New Game\" to start a new round.");
@@ -218,8 +233,6 @@ public class PlanesAndroidActivity extends AppCompatActivity {
     }
 
     private PlaneRoundJavaFx m_PlaneRound;
-    GameBoard m_GameBoard = null;
-    GameBoard m_PlayerBoard = null;
-    GameBoard m_ComputerBoard = null;
-    GameControls m_GameControls;
+    private GameBoardsAdaptor m_GameBoards;
+    private GameControls m_GameControls;
 }

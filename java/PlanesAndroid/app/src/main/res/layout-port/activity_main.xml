@@ -21,12 +21,12 @@
         android:layout_height="fill_parent"
         android:orientation="vertical">
     <com.planes.android.GameBoard
-        android:id="@+id/top_pane"
+        android:id="@+id/game_boards"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         />
     <com.planes.android.GameControls
-        android:id="@+id/bottom_pane"
+        android:id="@+id/game_controls"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent" />
     </LinearLayout>
