@@ -14,11 +14,6 @@ import com.planes.javafx.PlaneRoundJavaFx;
 
 //bottom pane in a vertical layout
 public class GameControls extends GridLayout {
-
-    public enum GameStages {
-        GameNotStarted, BoardEditing, Game
-    }
-
     public GameControls(Context context) {
         super(context);
         //setGameSettings(nrows, ncols, nplanes);

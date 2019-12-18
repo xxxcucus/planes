@@ -50,28 +50,18 @@ public class GameBoard extends GridLayout {
         }
     }
 
-    public enum GameStages {
-        GameNotStarted, BoardEditing, Game
-    }
-
     public GameBoard(Context context) {
         super(context);
-        //setGameSettings(nrows, ncols, nplanes);
-        //m_PlaneRound = planeRound;
         m_Context = context;
     }
 
     public GameBoard(Context context, AttributeSet attrs) {
         super(context, attrs);
-        //setGameSettings(nrows, ncols, nplanes);
-        //m_PlaneRound = planeRound;
         m_Context = context;
     }
 
     public GameBoard(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        //setGameSettings(nrows, ncols, nplanes);
-        //m_PlaneRound = planeRound;
         m_Context = context;
     }
 
@@ -80,7 +70,6 @@ public class GameBoard extends GridLayout {
         m_GRows = m_PlaneRound.getRowNo();
         m_GCols = m_PlaneRound.getColNo();
         m_PlaneNo = m_PlaneRound.getPlaneNo();
-        m_PlaneRound = planeRound;
         m_ColorStep = (m_MaxPlaneBodyColor - m_MinPlaneBodyColor) / m_PlaneNo;
         init(m_Context);
         updateBoards();

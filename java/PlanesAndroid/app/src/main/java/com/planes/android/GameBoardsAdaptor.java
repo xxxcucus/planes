@@ -99,7 +99,7 @@ public class GameBoardsAdaptor {
             m_GameBoard.setComputerBoard();
     }
 
-    public GameBoard.GameStages getGameStage() {
+    public GameStages getGameStage() {
         if (!m_Tablet) {
             return m_GameBoard.getGameStage();
         } else {
