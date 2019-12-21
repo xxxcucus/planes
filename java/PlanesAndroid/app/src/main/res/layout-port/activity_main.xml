@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/rootView"
     android:background="@drawable/background"
-    android:tag="phone">
+    android:tag="phone vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

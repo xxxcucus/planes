@@ -317,6 +317,7 @@ public class GameControls extends GridLayout {
 
     public void roundEnds(int playerWins, int computerWins, boolean isComputerWinner) {
         init(GameStages.GameNotStarted);
+        setVisibility(VISIBLE);
         if (isComputerWinner)
             m_WinnerTextView.setText(getResources().getText(R.string.computer_winner));
         else

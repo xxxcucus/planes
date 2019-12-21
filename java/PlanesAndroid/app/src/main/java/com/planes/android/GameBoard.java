@@ -65,12 +65,13 @@ public class GameBoard extends GridLayout {
         m_Context = context;
     }
 
-    public void setGameSettings(PlaneRoundJavaFx planeRound) {
+    public void setGameSettings(PlaneRoundJavaFx planeRound, boolean isTablet) {
         m_PlaneRound = planeRound;
         m_GRows = m_PlaneRound.getRowNo();
         m_GCols = m_PlaneRound.getColNo();
         m_PlaneNo = m_PlaneRound.getPlaneNo();
         m_ColorStep = (m_MaxPlaneBodyColor - m_MinPlaneBodyColor) / m_PlaneNo;
+        m_Tablet = isTablet;
         init(m_Context);
         updateBoards();
     }
@@ -92,7 +93,12 @@ public class GameBoard extends GridLayout {
             statusBarHeight = context.getResources().getDimensionPixelSize(resource);
         }
 
-        int gridSize = Math.min(height - actionBarHeight - statusBarHeight, width) / (m_GRows + 2 * m_Padding);
+        int availableHeight = height - actionBarHeight - statusBarHeight;
+        int gridSize = Math.min(availableHeight, width) / (m_GRows + 2 * m_Padding);
+
+        if (m_Tablet) {
+            gridSize = Math.min(Math.max(availableHeight, width) / 2, Math.min(availableHeight, width)) / (m_GRows + 2 * m_Padding);
+        }
 
         setRowCount(m_GRows + 2 * m_Padding);
         setColumnCount(m_GCols + 2 * m_Padding);
@@ -234,11 +240,14 @@ public class GameBoard extends GridLayout {
                     //announceRoundWinner(winnerText);
                     m_CurStage = GameStages.GameNotStarted;
                     m_PlaneRound.roundEnds();
+                    setVisibility(GONE);
                     m_GameControls.roundEnds(playerWins, computerWins, m_PlaneRound.playerGuess_IsPlayerWinner());
                 } else {
-                    m_GameControls.updateStats(m_IsComputer);
+                    if (!m_Tablet)
+                        m_GameControls.updateStats(m_IsComputer);
                 }
                 updateBoards();
+                m_SiblingBoard.updateBoards();
             }
         }
     }
@@ -327,6 +336,10 @@ public class GameBoard extends GridLayout {
         m_GameControls = gameControls;
     }
 
+    public void setSiblingBoard(GameBoard siblingBoard) {
+        m_SiblingBoard = siblingBoard;
+    }
+
     private Map<PositionBoardPane, GridSquare> m_GridSquares;
     private PlaneRoundJavaFx m_PlaneRound;
     private int m_Padding = 0;
@@ -345,5 +358,7 @@ public class GameBoard extends GridLayout {
     private Context m_Context;
 
     private int m_Selected = 0;
-    private GameControls m_GameControls;
+    private GameControls m_GameControls = null;
+    private boolean m_Tablet = false;
+    private GameBoard m_SiblingBoard = null;
 }

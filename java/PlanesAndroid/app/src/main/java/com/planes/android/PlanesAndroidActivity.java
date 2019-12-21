@@ -56,20 +56,28 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         m_PlaneRound.createPlanesRound();
 
         boolean isTablet = false;
+        boolean isHorizontal = false;
         LinearLayout linearLayout = (LinearLayout)findViewById(R.id.rootView);
-        if (linearLayout.getTag().toString().equals("tablet")) {
+        if (linearLayout.getTag().toString().contains("tablet")) {
             isTablet = true;
+        }
+
+        if (linearLayout.getTag().toString().contains("horizontal")) {
+            isHorizontal = true;
         }
 
         if (isTablet) {
             GameBoard playerBoard = (GameBoard)findViewById(R.id.player_board);
-            playerBoard.setGameSettings(m_PlaneRound);
+            playerBoard.setGameSettings(m_PlaneRound, true);
+            playerBoard.setPlayerBoard();
             GameBoard computerBoard = (GameBoard)findViewById(R.id.computer_board);
-            computerBoard.setGameSettings(m_PlaneRound);
+
+            computerBoard.setGameSettings(m_PlaneRound, true);
+            computerBoard.setComputerBoard();
             m_GameBoards = new GameBoardsAdaptor(playerBoard, computerBoard);
         } else {
             GameBoard gameBoard = (GameBoard)findViewById(R.id.game_boards);
-            gameBoard.setGameSettings(m_PlaneRound);
+            gameBoard.setGameSettings(m_PlaneRound, false);
             m_GameBoards = new GameBoardsAdaptor(gameBoard);
         }
 
