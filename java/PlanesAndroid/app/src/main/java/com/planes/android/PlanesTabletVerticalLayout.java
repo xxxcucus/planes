@@ -26,6 +26,14 @@ public class PlanesTabletVerticalLayout extends ViewGroup {
         m_Context = context;
     }
 
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        final int count = getChildCount();
+
+        if (count != 4)
+            return;
+    }
+
     private Context m_Context;
     private GameStages m_GameStage;
     private boolean m_CorrectChildren;

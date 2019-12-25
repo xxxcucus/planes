@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:orientation="vertical"
@@ -21,7 +21,7 @@
                 android:layout_weight="5"/>
             <Button
                 android:id="@+id/up_button"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/up_button"/>
@@ -38,19 +38,19 @@
             android:layout_weight="1">
             <Button
                 android:id="@+id/left_button"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/left_button"/>
             <Button
                 android:id="@+id/rotate_button"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/rotate_button"/>
             <Button
                 android:id="@+id/right_button"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/right_button"/>
@@ -67,7 +67,7 @@
                 android:layout_weight="5"/>
             <Button
                 android:id="@+id/down_button"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/down_button"/>
@@ -80,7 +80,7 @@
 
     <Button
         android:id="@+id/done_button"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="@string/done_button"
