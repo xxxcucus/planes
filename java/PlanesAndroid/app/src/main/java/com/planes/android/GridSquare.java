@@ -29,6 +29,10 @@ public class GridSquare extends View {
         init();
     }
 
+    public void setWidth(int newWidth) {
+        m_Width = newWidth;
+    }
+
     public void setBackgroundColor(int r, int g, int b) {
         m_BackgroundColor = (255 & 0xff) << 24 | (r & 0xff) << 16 | (g & 0xff) << 8 | (b & 0xff);
     }
@@ -47,6 +51,8 @@ public class GridSquare extends View {
     }
     public void setRow(int i) { m_Row = i; }
     public void setColumn(int j) { m_Col = j; }
+    public int getRowNo() { return m_Row; }
+    public int getColNo() { return m_Col; }
 
     @Override
     protected void onDraw(Canvas canvas) {

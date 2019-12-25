@@ -76,6 +76,51 @@ public class GameBoard extends GridLayout {
         updateBoards();
     }
 
+    /**
+     * Repositioning of grid squares inside the game board when the layout changes
+     * (e.g. when going from one game stage to the other)
+     * @param changed
+     * @param left
+     * @param top
+     * @param right
+     * @param bottom
+     */
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        final int count = getChildCount();
+
+        // These are the far left and right edges in which we are performing layout.
+        int leftPos = getPaddingLeft();
+        int rightPos = right - left - getPaddingRight();
+
+
+        // These are the top and bottom edges in which we are performing layout.
+        final int parentTop = getPaddingTop();
+        final int parentBottom = bottom - top - getPaddingBottom();
+
+        int spacing = 0;
+
+        final int newWidth = (Math.min(parentBottom - parentTop, rightPos - leftPos) - spacing )/ (m_GRows + 2 * m_Padding);
+
+        int verticalOffset = 0;
+        int horizontalOffset = 0;
+
+        if (parentBottom - parentTop > rightPos - leftPos) {
+            verticalOffset = (parentBottom - parentTop - rightPos + leftPos) / 2;
+        } else {
+            horizontalOffset = (rightPos - leftPos - parentBottom + parentTop) / 2;
+        }
+
+        for (int i = 0; i < count; i++) {
+            GridSquare child = (GridSquare) getChildAt(i);
+            child.setWidth(newWidth);
+            //Log.d("Planes", "Set width " + i);
+            child.layout(leftPos + horizontalOffset + spacing / 2 + child.getColNo() * newWidth, parentTop + verticalOffset + spacing / 2 + child.getRowNo() * newWidth,
+                    leftPos + horizontalOffset +  spacing / 2 + child.getColNo() * newWidth + newWidth,  parentTop + verticalOffset + spacing / 2 + child.getRowNo() * newWidth + newWidth);
+        }
+    }
+
     private void init(Context context) {
 
         DisplayMetrics displayMetrics = new DisplayMetrics();

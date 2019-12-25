@@ -1,7 +1,9 @@
 package com.planes.android;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,12 +102,19 @@ public class GameControls extends GridLayout {
     }
 
     private void showBoardEditing() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity)m_Context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+
+        removeAllViews();
         LayoutInflater layoutinflater = (LayoutInflater)m_Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View window = layoutinflater.inflate(R.layout.board_editing_controls_vertical, null);
         setRowCount(1);
         setColumnCount(1);
         GridLayout.LayoutParams paramsWindow = new GridLayout.LayoutParams(GridLayout.spec(0, 1), GridLayout.spec(0, 1));
         paramsWindow.setGravity(Gravity.CENTER);
+        paramsWindow.width = width;
         addView(window, paramsWindow);
         m_RotateButton = (Button)findViewById(R.id.rotate_button);
         m_LeftButton = (Button)findViewById(R.id.left_button);
@@ -160,6 +169,7 @@ public class GameControls extends GridLayout {
     }
 
     private void showGame() {
+        removeAllViews();
         LayoutInflater layoutinflater = (LayoutInflater) m_Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View window = layoutinflater.inflate(R.layout.game_stats_vertical, null);
         setRowCount(1);
@@ -238,12 +248,14 @@ public class GameControls extends GridLayout {
     }
 
     private void showGameNotStarted() {
+        removeAllViews();
         LayoutInflater layoutinflater = (LayoutInflater) m_Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View window = layoutinflater.inflate(R.layout.start_new_game_vertical, null);
         setRowCount(1);
         setColumnCount(1);
         GridLayout.LayoutParams paramsWindow = new GridLayout.LayoutParams(GridLayout.spec(0, 1), GridLayout.spec(0, 1));
         paramsWindow.setGravity(Gravity.CENTER);
+        paramsWindow.setMargins(0, 0,0,0);
         addView(window, paramsWindow);
 
         m_ComputerWins = (TextView)findViewById(R.id.computer_wins_count);
