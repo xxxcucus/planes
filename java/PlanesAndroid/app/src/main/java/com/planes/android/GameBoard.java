@@ -53,16 +53,19 @@ public class GameBoard extends GridLayout {
     public GameBoard(Context context) {
         super(context);
         m_Context = context;
+        init(m_Context);
     }
 
     public GameBoard(Context context, AttributeSet attrs) {
         super(context, attrs);
         m_Context = context;
+        init(m_Context);
     }
 
     public GameBoard(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         m_Context = context;
+        init(m_Context);
     }
 
     public void setGameSettings(PlaneRoundJavaFx planeRound, boolean isTablet) {
@@ -72,7 +75,7 @@ public class GameBoard extends GridLayout {
         m_PlaneNo = m_PlaneRound.getPlaneNo();
         m_ColorStep = (m_MaxPlaneBodyColor - m_MinPlaneBodyColor) / m_PlaneNo;
         m_Tablet = isTablet;
-        init(m_Context);
+        //init(m_Context);
         updateBoards();
     }
 
@@ -88,63 +91,57 @@ public class GameBoard extends GridLayout {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        final int count = getChildCount();
 
         // These are the far left and right edges in which we are performing layout.
         int leftPos = getPaddingLeft();
         int rightPos = right - left - getPaddingRight();
 
-
         // These are the top and bottom edges in which we are performing layout.
-        final int parentTop = getPaddingTop();
-        final int parentBottom = bottom - top - getPaddingBottom();
+        int topPos = getPaddingTop();
+        int bottomPos = bottom - top - getPaddingBottom();
 
         int spacing = 0;
 
-        final int newWidth = (Math.min(parentBottom - parentTop, rightPos - leftPos) - spacing )/ (m_GRows + 2 * m_Padding);
+        final int newWidth = (Math.min(bottomPos - topPos, rightPos - leftPos) - spacing )/ (m_GRows + 2 * m_Padding);
+        m_GridSquareSize = newWidth;
 
         int verticalOffset = 0;
         int horizontalOffset = 0;
 
-        if (parentBottom - parentTop > rightPos - leftPos) {
-            verticalOffset = (parentBottom - parentTop - rightPos + leftPos) / 2;
+        if (bottomPos - topPos > rightPos - leftPos) {
+            verticalOffset = (bottomPos - topPos - rightPos + leftPos) / 2;
         } else {
-            horizontalOffset = (rightPos - leftPos - parentBottom + parentTop) / 2;
+            horizontalOffset = (rightPos - leftPos - bottomPos + topPos) / 2;
         }
+
+        final int count = getChildCount();
 
         for (int i = 0; i < count; i++) {
             GridSquare child = (GridSquare) getChildAt(i);
             child.setWidth(newWidth);
             //Log.d("Planes", "Set width " + i);
-            child.layout(leftPos + horizontalOffset + spacing / 2 + child.getColNo() * newWidth, parentTop + verticalOffset + spacing / 2 + child.getRowNo() * newWidth,
-                    leftPos + horizontalOffset +  spacing / 2 + child.getColNo() * newWidth + newWidth,  parentTop + verticalOffset + spacing / 2 + child.getRowNo() * newWidth + newWidth);
+
+            int childLeft = leftPos + horizontalOffset + spacing / 2 + child.getColNo() * newWidth;
+            int childTop = topPos + verticalOffset + spacing / 2 + child.getRowNo() * newWidth;
+            int childRight = leftPos + horizontalOffset +  spacing / 2 + child.getColNo() * newWidth + newWidth;
+            int childBottom = topPos + verticalOffset + spacing / 2 + child.getRowNo() * newWidth + newWidth;
+
+            child.layout(childLeft, childTop, childRight, childBottom);
         }
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        //TODO: is this correct ?
+        if (m_GridSquareSize == 0)
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        else
+            setMeasuredDimension((m_GRows + 2 * m_Padding) * m_GridSquareSize, (m_GRows + 2 * m_Padding) * m_GridSquareSize);
+    }
+
     private void init(Context context) {
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-        int width = displayMetrics.widthPixels;
-
-        TypedValue tv = new TypedValue();
-        context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
-        int actionBarHeight = getResources().getDimensionPixelSize(tv.resourceId);
-
-        int statusBarHeight = 0;
-        int resource = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resource > 0) {
-            statusBarHeight = context.getResources().getDimensionPixelSize(resource);
-        }
-
-        int availableHeight = height - actionBarHeight - statusBarHeight;
-        int gridSize = Math.min(availableHeight, width) / (m_GRows + 2 * m_Padding);
-
-        if (m_Tablet) {
-            gridSize = Math.min(Math.max(availableHeight, width) / 2, Math.min(availableHeight, width)) / (m_GRows + 2 * m_Padding);
-        }
-
+        
+        int gridSize = 1;
         setRowCount(m_GRows + 2 * m_Padding);
         setColumnCount(m_GCols + 2 * m_Padding);
         m_GridSquares = new HashMap<PositionBoardPane, GridSquare>();
@@ -285,14 +282,14 @@ public class GameBoard extends GridLayout {
                     //announceRoundWinner(winnerText);
                     m_CurStage = GameStages.GameNotStarted;
                     m_PlaneRound.roundEnds();
-                    setVisibility(GONE);
                     m_GameControls.roundEnds(playerWins, computerWins, m_PlaneRound.playerGuess_IsPlayerWinner());
                 } else {
                     if (!m_Tablet)
                         m_GameControls.updateStats(m_IsComputer);
                 }
                 updateBoards();
-                m_SiblingBoard.updateBoards();
+                if (m_SiblingBoard != null)
+                    m_SiblingBoard.updateBoards();
             }
         }
     }
@@ -377,12 +374,16 @@ public class GameBoard extends GridLayout {
         updateBoards();
     }
 
-    public void setGameControls(GameControls gameControls) {
+    public void setGameControls(GameControlsAdaptor gameControls) {
         m_GameControls = gameControls;
     }
 
     public void setSiblingBoard(GameBoard siblingBoard) {
         m_SiblingBoard = siblingBoard;
+    }
+
+    public boolean isPlayer() {
+        return !m_IsComputer;
     }
 
     private Map<PositionBoardPane, GridSquare> m_GridSquares;
@@ -393,7 +394,6 @@ public class GameBoard extends GridLayout {
     private int m_MaxPlaneBodyColor = 200;
     private GameStages m_CurStage = GameStages.BoardEditing;
     private int m_SelectedPlane = 0;
-    //private EventHandler<MouseEvent> m_ClickedHandler;
 
     private int m_GRows = 10;
     private int m_GCols = 10;
@@ -403,7 +403,8 @@ public class GameBoard extends GridLayout {
     private Context m_Context;
 
     private int m_Selected = 0;
-    private GameControls m_GameControls = null;
+    private GameControlsAdaptor m_GameControls = null;
     private boolean m_Tablet = false;
     private GameBoard m_SiblingBoard = null;
+    private int m_GridSquareSize = 0;
 }

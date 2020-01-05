@@ -10,9 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.support.constraint.ConstraintLayout;
 
 import com.planes.javafx.PlaneRoundJavaFx;
 
@@ -55,6 +57,8 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         m_PlaneRound = new PlaneRoundJavaFx();
         m_PlaneRound.createPlanesRound();
 
+        m_PlanesLayout = (PlanesVerticalLayout)findViewById(R.id.planes_layout);
+
         boolean isTablet = false;
         boolean isHorizontal = false;
         LinearLayout linearLayout = (LinearLayout)findViewById(R.id.rootView);
@@ -81,23 +85,65 @@ public class PlanesAndroidActivity extends AppCompatActivity {
             m_GameBoards = new GameBoardsAdaptor(gameBoard);
         }
 
-        m_GameControls = (GameControls)findViewById(R.id.game_controls);
-        m_GameControls.setGameSettings(m_PlaneRound);
+        //Board Editing Buttons
+        Button upButton = (Button)findViewById(R.id.up_button);
+        Button downButton = (Button)findViewById(R.id.down_button);
+        Button leftButton = (Button)findViewById(R.id.left_button);
+        Button rightButton = (Button)findViewById(R.id.right_button);
+        Button doneButton = (Button)findViewById(R.id.done_button);
+        Button rotateButton = (Button)findViewById(R.id.rotate_button);
+
+        //Game Stage
+        Button viewPlayerBoardButton1 = (Button)findViewById(R.id.view_player_board1);
+        Button viewComputerBoardButton1 = (Button)findViewById(R.id.view_computer_board1);
+        TextView movesLabel = (TextView)findViewById(R.id.moves_label);
+        TextView movesCount = (TextView)findViewById(R.id.moves_count);
+        TextView missesLabel = (TextView)findViewById(R.id.misses_label);
+        TextView missesCount = (TextView)findViewById(R.id.misses_count);
+        TextView hitsLabel = (TextView)findViewById(R.id.hits_label);
+        TextView hitsCount = (TextView)findViewById(R.id.hits_count);
+        TextView deadsLabel = (TextView)findViewById(R.id.dead_label);
+        TextView deadCount = (TextView)findViewById(R.id.dead_count);
+
+        //Start New Game Stage
+        Button viewPlayerBoardButton2 = (Button)findViewById(R.id.view_player_board2);
+        Button viewComputerBoardButton2 = (Button)findViewById(R.id.view_computer_board2);
+        Button startNewGameButton = (Button)findViewById(R.id.start_new_game);
+        TextView computerWinsLabel = (TextView)findViewById(R.id.computer_wins_label);
+        TextView computerWinsCount = (TextView)findViewById(R.id.computer_wins_count);
+        TextView playerWinsLabel = (TextView)findViewById(R.id.player_wins_label);
+        TextView playerWinsCount = (TextView)findViewById(R.id.player_wins_count);
+        TextView winnerText = (TextView)findViewById(R.id.winner_textview);
+
+        m_GameControls = new GameControlsAdaptor(this);
+        m_GameControls.setBoardEditingControls(upButton, downButton, leftButton, rightButton, doneButton, rotateButton);
+        if (!isTablet)
+            m_GameControls.setGameControls(viewPlayerBoardButton1, viewComputerBoardButton1, movesLabel, movesCount, missesLabel, missesCount, hitsLabel, hitsCount, deadsLabel, deadCount);
+        m_GameControls.setStartNewGameControls(viewPlayerBoardButton2, viewComputerBoardButton2, startNewGameButton, computerWinsLabel, computerWinsCount, playerWinsLabel, playerWinsCount, winnerText);
+
+        m_GameControls.setGameSettings(m_PlaneRound, isTablet);
         m_GameControls.setGameBoards(m_GameBoards);
+        m_GameControls.setPlanesLayout(m_PlanesLayout);
         m_GameBoards.setGameControls(m_GameControls);
 
+        //TODO: should I recreate the plane round here and destroy in onSaveInstanceState?
+        //TODO: enum coded differently than in GameStages - to correct
         switch(m_PlaneRound.getGameStage()) {
             case 0:
                 m_GameBoards.setNewRoundStage();
                 m_GameControls.setNewRoundStage();
+                m_PlanesLayout.setNewRoundStage();
+
                 break;
             case 1:
                 m_GameBoards.setBoardEditingStage();
                 m_GameControls.setBoardEditingStage();
+                m_PlanesLayout.setBoardEditingStage();
                 break;
             case 2:
                 m_GameBoards.setGameStage();
                 m_GameControls.setGameStage();
+                m_PlanesLayout.setGameStage();
                 break;
         }
 
@@ -177,8 +223,6 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.help_popup, null);
 
-        LinearLayout main_layout = (LinearLayout)findViewById(R.id.main_layout);
-
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -187,7 +231,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
 
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
-        popupWindow.showAtLocation(main_layout, Gravity.CENTER, 0, 0);
+        popupWindow.showAtLocation(m_PlanesLayout, Gravity.CENTER, 0, 0);
 
         TextView helpTextView = (TextView)popupView.findViewById(R.id.popup_help_text);
         TextView helpTitleTextView = (TextView)popupView.findViewById(R.id.popup_help_title);
@@ -227,8 +271,6 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.credits_popup, null);
 
-        LinearLayout main_layout = (LinearLayout)findViewById(R.id.main_layout);
-
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -237,10 +279,11 @@ public class PlanesAndroidActivity extends AppCompatActivity {
 
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
-        popupWindow.showAtLocation(main_layout, Gravity.CENTER, 0, 0);
+        popupWindow.showAtLocation(m_PlanesLayout, Gravity.CENTER, 0, 0);
     }
 
     private PlaneRoundJavaFx m_PlaneRound;
     private GameBoardsAdaptor m_GameBoards;
-    private GameControls m_GameControls;
+    private GameControlsAdaptor m_GameControls;
+    private PlanesVerticalLayout m_PlanesLayout;
 }
