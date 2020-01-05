@@ -31,6 +31,8 @@ public class GridSquare extends View {
 
     public void setWidth(int newWidth) {
         m_Width = newWidth;
+        allocateMemory();
+        invalidate();
     }
 
     public void setBackgroundColor(int r, int g, int b) {
@@ -90,11 +92,12 @@ public class GridSquare extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         setMeasuredDimension(m_Width, m_Width);
-        allocateMemory();
+
     }
 
     private void init() {
         m_Paint = new Paint();
+        allocateMemory();
     }
 
     private void allocateMemory() {
@@ -131,4 +134,5 @@ public class GridSquare extends View {
     int m_Width = 0;
 
     private GameBoard m_Parent;
+
 }
