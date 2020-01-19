@@ -88,7 +88,8 @@
             app:gc_row="1"
             app:gc_col="1"
             app:gc_game_stage="2"
-            android:enabled="true"/>
+            android:enabled="true"
+            android:textSize="20dp"/>
         <Button
             android:id="@+id/view_player_board2"
             android:layout_width="wrap_content"
@@ -97,7 +98,8 @@
             app:gc_col="1"
             app:gc_game_stage="2"
             android:text="@string/view_player_board"
-            android:enabled="false"/>
+            android:enabled="false"
+            android:textSize="20dp"/>
         <Button
             android:id="@+id/start_new_game"
             android:layout_width="wrap_content"
@@ -105,7 +107,8 @@
             app:gc_row="3"
             app:gc_col="1"
             app:gc_game_stage="2"
-            android:text="@string/start_new_game" />
+            android:text="@string/start_new_game"
+            android:textSize="20dp"/>
 
         <TextView
             android:id="@+id/winner_textview"
@@ -114,7 +117,8 @@
             app:gc_row="1"
             app:gc_col="2"
             app:gc_game_stage="2"
-            android:text="@string/computer_winner"/>
+            android:text="@string/computer_winner"
+            android:textSize="20dp"/>
 
         <TextView
             android:id="@+id/computer_wins_label"
@@ -123,7 +127,8 @@
             app:gc_row="2"
             app:gc_col="2"
             app:gc_game_stage="2"
-            android:text="@string/computer_wins" />
+            android:text="@string/computer_wins"
+            android:textSize="20dp"/>
         <TextView
             android:id="@+id/computer_wins_count"
             android:layout_width="wrap_content"
@@ -131,7 +136,8 @@
             app:gc_row="2"
             app:gc_col="3"
             app:gc_game_stage="2"
-            android:text="0" />
+            android:text="0"
+            android:textSize="20dp"/>
         <TextView
             android:id="@+id/player_wins_label"
             android:layout_width="wrap_content"
@@ -139,7 +145,8 @@
             app:gc_row="3"
             app:gc_col="2"
             app:gc_game_stage="2"
-            android:text="@string/player_wins" />
+            android:text="@string/player_wins"
+            android:textSize="20dp"/>
         <TextView
             android:id="@+id/player_wins_count"
             android:layout_width="wrap_content"
@@ -147,6 +154,7 @@
             app:gc_row="3"
             app:gc_col="3"
             app:gc_game_stage="2"
-            android:text="0" />
+            android:text="0"
+            android:textSize="20dp"/>
     </com.planes.android.PlanesVerticalLayout>
 </LinearLayout>
