@@ -132,6 +132,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
             case 0:
                 m_GameBoards.setNewRoundStage();
                 m_GameControls.setNewRoundStage();
+                m_PlanesLayout.setComputerBoard();
                 m_PlanesLayout.setNewRoundStage();
 
                 break;

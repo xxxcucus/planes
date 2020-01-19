@@ -170,6 +170,8 @@ public class GameControlsAdaptor {
             });
         }
 
+        m_ViewComputerBoardButton2.setEnabled(false);
+        m_ViewPlayerBoardButton2.setEnabled(true);
 
         if (m_ViewPlayerBoardButton2 != null) {
             m_ViewPlayerBoardButton2.setOnClickListener(new View.OnClickListener() {
@@ -194,10 +196,11 @@ public class GameControlsAdaptor {
                 }
             });
         }
+
+
     }
 
     public void setNewRoundStage() {
-        m_PlanesLayout.setNewRoundStage();
         int computer_wins = m_PlaneRound.playerGuess_StatNoComputerWins();
         int player_wins = m_PlaneRound.playerGuess_StatNoPlayerWins();
         m_PlayerWins.setText(Integer.toString(player_wins));
@@ -254,6 +257,8 @@ public class GameControlsAdaptor {
     public void roundEnds(int playerWins, int computerWins, boolean isComputerWinner) {
         //TODO: do I need to update layout and game boards as well?
         setNewRoundStage();
+        m_PlanesLayout.setComputerBoard();
+        m_PlanesLayout.setNewRoundStage();
         if (isComputerWinner)
             m_WinnerTextView.setText(m_Context.getResources().getText(R.string.computer_winner));
         else

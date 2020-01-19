@@ -159,20 +159,20 @@ public class PlanesVerticalLayout extends ViewGroup {
         if (m_GameStage == GameStages.GameNotStarted) {
             if (m_Tablet) {
                 if (m_Vertical) {
-                    if (m_ShowPlayerBoard) {
-                        setPlayerBoardPosition(0, 0, layoutWidth,layoutHeight / 2, true);
-                        setGameControlsPositions(0, layoutHeight / 2, layoutWidth, layoutHeight);
-                    } else {
+                    if (!m_ShowPlayerBoard) {
                         setGameControlsPositions(0, 0, layoutWidth,layoutHeight / 2);
                         setComputerBoardPosition(0, layoutHeight / 2, layoutWidth, layoutHeight, true);
+                    } else {
+                        setPlayerBoardPosition(0, 0, layoutWidth,layoutHeight / 2, true);
+                        setGameControlsPositions(0, layoutHeight / 2, layoutWidth, layoutHeight);
                     }
                 } else {
                     if (m_ShowPlayerBoard) {
-                        setGameControlsPositions(0, 0,layoutWidth / 2,  layoutHeight);
-                        setPlayerBoardPosition(layoutWidth / 2, 0, layoutWidth, layoutHeight, true);
-                    } else {
-                        setComputerBoardPosition(0, 0,layoutWidth / 2,  layoutHeight, true);
+                        setPlayerBoardPosition(0, 0,layoutWidth / 2,  layoutHeight, true);
                         setGameControlsPositions(layoutWidth / 2, 0, layoutWidth, layoutHeight);
+                    } else {
+                        setGameControlsPositions(0, 0,layoutWidth / 2,  layoutHeight);
+                        setComputerBoardPosition(layoutWidth / 2, 0, layoutWidth, layoutHeight, true);
                     }
                 }
             } else {
@@ -267,6 +267,7 @@ public class PlanesVerticalLayout extends ViewGroup {
     public void setNewRoundStage() {
         m_GameStage = GameStages.GameNotStarted;
         invalidate();
+        requestLayout();
     }
 
     public void setGameStage() {
