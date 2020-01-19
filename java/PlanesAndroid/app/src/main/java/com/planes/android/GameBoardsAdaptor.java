@@ -1,10 +1,5 @@
 package com.planes.android;
 
-import android.view.View;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-
 public class GameBoardsAdaptor {
 
     public GameBoardsAdaptor(GameBoard gameBoard) {
@@ -19,7 +14,7 @@ public class GameBoardsAdaptor {
         m_ComputerBoard.setSiblingBoard(m_PlayerBoard);
     }
 
-    public void setGameControls(GameControls controls) {
+    public void setGameControls(GameControlsAdaptor controls) {
         if (m_Tablet) {
             m_PlayerBoard.setGameControls(controls);
             m_ComputerBoard.setGameControls(controls);
@@ -42,8 +37,6 @@ public class GameBoardsAdaptor {
         if (m_Tablet) {
             m_PlayerBoard.setBoardEditingStage(false);
             m_ComputerBoard.setBoardEditingStage(false);
-            m_ComputerBoard.setVisibility(GONE);
-            m_GameControls.setVisibility(VISIBLE);
         } else {
             m_GameBoard.setBoardEditingStage(true);
         }
@@ -53,8 +46,6 @@ public class GameBoardsAdaptor {
         if (m_Tablet) {
             m_PlayerBoard.setGameStage(false);
             m_ComputerBoard.setGameStage(false);
-            m_ComputerBoard.setVisibility(VISIBLE);
-            m_GameControls.setVisibility(GONE);
         } else {
             m_GameBoard.setGameStage(true);
         }
@@ -123,7 +114,7 @@ public class GameBoardsAdaptor {
     //used when playing on a tablet
     private GameBoard m_PlayerBoard = null;
     private GameBoard m_ComputerBoard = null;
-    private GameControls m_GameControls = null;
+    private GameControlsAdaptor m_GameControls = null;
 
     private boolean m_Tablet = false;
 }

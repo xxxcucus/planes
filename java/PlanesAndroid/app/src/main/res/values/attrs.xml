@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <declare-styleable name="PlanesVerticalLayout">
+        <attr name="gc_row" format="integer"/>
+        <attr name="gc_col" format="integer"/>
+        <attr name="gc_colspan" format="integer"/>
+        <attr name="gc_rowspan" format="integer"/>
+        <attr name="gc_game_stage" format="integer"/>
+    </declare-styleable>
+
+
+</resources>
