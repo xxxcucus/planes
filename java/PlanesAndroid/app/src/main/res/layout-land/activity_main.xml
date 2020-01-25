@@ -49,14 +49,13 @@
             app:gc_row="2"
             app:gc_col="2"
             app:gc_game_stage="0"/>
-        <Button
+        <com.planes.android.MoveRightButton
             android:id="@+id/right_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="2"
             app:gc_col="3"
-            app:gc_game_stage="0"
-            android:text="@string/right_button"/>
+            app:gc_game_stage="0" />
         <Button
             android:id="@+id/down_button"
             android:layout_width="wrap_content"
