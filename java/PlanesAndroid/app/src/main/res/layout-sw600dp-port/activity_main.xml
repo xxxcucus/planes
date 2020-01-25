@@ -62,22 +62,21 @@
             app:gc_row="2"
             app:gc_col="3"
             app:gc_game_stage="0" />
-        <Button
+        <com.planes.android.MoveDownButton
             android:id="@+id/down_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="3"
             app:gc_col="2"
-            app:gc_game_stage="0"
-            android:text="@string/down_button"/>
-        <Button
+            app:gc_game_stage="0" />
+        <com.planes.android.TextButton
             android:id="@+id/done_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="2"
             app:gc_col="4"
             app:gc_game_stage="0"
-            android:text="@string/done_button" />
+            app:gc_text="@string/done_button" />
 
         <!-- Buttons for start new game stage -->
         <Button
