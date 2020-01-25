@@ -30,14 +30,13 @@
             android:layout_height="fill_parent"
             />
         <!-- Buttons for board editing stage -->
-        <Button
+        <com.planes.android.MoveUpButton
             android:id="@+id/up_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="1"
             app:gc_col="2"
-            app:gc_game_stage="0"
-            android:text="@string/up_button"/>
+            app:gc_game_stage="0" />
         <com.planes.android.MoveLeftButton
             android:id="@+id/left_button"
             android:layout_width="wrap_content"
