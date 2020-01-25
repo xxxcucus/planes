@@ -25,6 +25,7 @@ public class PlanesVerticalLayout extends ViewGroup {
             m_Row = a.getInt(R.styleable.PlanesVerticalLayout_gc_row, 0);
             m_Col = a.getInt(R.styleable.PlanesVerticalLayout_gc_col, 0);
             m_GameStage = a.getInt(R.styleable.PlanesVerticalLayout_gc_game_stage, 0);
+            m_Text = a.getString(R.styleable.PlanesVerticalLayout_gc_text);
             a.recycle();
         }
 
@@ -36,12 +37,17 @@ public class PlanesVerticalLayout extends ViewGroup {
             super(source);
         }
 
+        public String getText() {
+            return m_Text;
+        }
+
         private int m_Row = 0;
         private int m_Col = 0;
         private int m_RowSpan = 0;
         private int m_ColSpan = 0;
         private int m_GameStage = -1;
         private boolean m_Player = false;
+        private String m_Text;
     }
 
     public PlanesVerticalLayout(Context context) {
