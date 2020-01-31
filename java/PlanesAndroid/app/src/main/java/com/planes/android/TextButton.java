@@ -32,12 +32,62 @@ public class TextButton extends AppCompatButton {
         m_Paint = new Paint();
     }
 
-    @Override
+ /*   @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
+    }*/
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int measuredHeight = measureHeight(heightMeasureSpec);
+        int measuredWidth = measureWidth(widthMeasureSpec);
+
+        setMeasuredDimension(measuredWidth, measuredHeight);
+    }
+
+    private int measureHeight(int measureSpec) {
+        int specMode = MeasureSpec.getMode(measureSpec);
+        int specSize = MeasureSpec.getSize(measureSpec);
+
+        int resultHeight = 10;
+
         PlanesVerticalLayout.PlanesVerticalLayoutParams lp = (PlanesVerticalLayout.PlanesVerticalLayoutParams) getLayoutParams();
         m_Text = lp.getText();
+
+        m_Paint.setTextSize(20);
+        Rect bounds = new Rect();
+        m_Paint.getTextBounds(m_Text, 0, m_Text.length(), bounds);
+        if (bounds.height() > resultHeight)
+            resultHeight = bounds.height();
+
+        if (specSize > resultHeight)
+            resultHeight = specSize;
+
+        return resultHeight;
     }
+
+    private int measureWidth(int measureSpec) {
+        int specMode = MeasureSpec.getMode(measureSpec);
+        int specSize = MeasureSpec.getSize(measureSpec);
+
+        int resultWidth = 10;
+
+        PlanesVerticalLayout.PlanesVerticalLayoutParams lp = (PlanesVerticalLayout.PlanesVerticalLayoutParams) getLayoutParams();
+        m_Text = lp.getText();
+
+        m_Paint.setTextSize(20);
+        Rect bounds = new Rect();
+        m_Paint.getTextBounds(m_Text, 0, m_Text.length(), bounds);
+
+        if (bounds.width() > resultWidth)
+            resultWidth = bounds.width();
+
+        if (specSize > resultWidth)
+            resultWidth = specSize;
+
+        return resultWidth;
+    }
+
 
     @Override
     public void onDraw(Canvas canvas) {
@@ -72,7 +122,17 @@ public class TextButton extends AppCompatButton {
     }
 
 
+    public int minWidth() {
+        return 30;
+    }
+
+    public int minHeight() {
+        return 30;
+    }
+
     private Paint m_Paint;
     private String m_Text;
+    private int m_MinWidth = 0;
+    private int m_MinHeight = 0;
 
 }

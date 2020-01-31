@@ -9,7 +9,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.support.v7.widget.AppCompatButton;
 
-public class RotateButton extends AppCompatButton {
+public class RotateButton extends ButtonWithPictogram {
 
     public RotateButton(Context context) {
         super(context);
@@ -24,10 +24,6 @@ public class RotateButton extends AppCompatButton {
     public RotateButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
-    }
-
-    public void init() {
-        m_Paint = new Paint();
     }
 
     @Override
@@ -63,6 +59,4 @@ public class RotateButton extends AppCompatButton {
 
         canvas.drawPath(path2, m_Paint);
     }
-
-    private Paint m_Paint;
 }

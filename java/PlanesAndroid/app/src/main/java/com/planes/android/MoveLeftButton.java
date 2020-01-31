@@ -8,7 +8,7 @@ import android.graphics.Path;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 
-public class MoveLeftButton extends AppCompatButton {
+public class MoveLeftButton extends ButtonWithPictogram {
 
     public MoveLeftButton(Context context) {
         super(context);
@@ -25,9 +25,6 @@ public class MoveLeftButton extends AppCompatButton {
         init();
     }
 
-    public void init() {
-        m_Paint = new Paint();
-    }
 
     @Override
     public void onDraw(Canvas canvas) {
@@ -56,7 +53,4 @@ public class MoveLeftButton extends AppCompatButton {
         canvas.drawPath(path2, m_Paint);
     }
 
-
-
-    private Paint m_Paint;
 }

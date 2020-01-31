@@ -10,6 +10,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.view.View.MeasureSpec.makeMeasureSpec;
+
 
 //vertical layout works with 2 GameBoard objects and 2 GameControl objects
 //the game control object should change depending on the game stage
@@ -41,6 +43,9 @@ public class PlanesVerticalLayout extends ViewGroup {
             return m_Text;
         }
 
+        //TODO: to add text formatting options
+        //adapt text size to available area
+        //word wrap, no word wrap
         private int m_Row = 0;
         private int m_Col = 0;
         private int m_RowSpan = 0;
@@ -254,18 +259,24 @@ public class PlanesVerticalLayout extends ViewGroup {
             PlanesVerticalLayoutParams lp = (PlanesVerticalLayoutParams) view.getLayoutParams();
 
             //TODO: create own buttons and textviews
-            /*int measWidth = view.getMeasuredWidth();
-            int measHeight = view.getMeasuredHeight();
 
-            int actualWidth = Math.max(stepX, measWidth);
-            int actualHeight = Math.max(stepY, measHeight);
+
+            int heightMeasureSpec = makeMeasureSpec(stepY, MeasureSpec.UNSPECIFIED);
+            int widthMeasureSpec = makeMeasureSpec(stepX, MeasureSpec.UNSPECIFIED);
+            view.measure(widthMeasureSpec, heightMeasureSpec);
+
+            int actualWidth = view.getMeasuredWidth();
+            int actualHeight = view.getMeasuredHeight();
+
+            /*int actualWidth = Math.max(stepX, measWidth);
+            int actualHeight = Math.max(stepY, measHeight);*/
 
             int viewCenterX = left + lp.m_Col * stepX + stepX / 2;
             int viewCenterY = top + lp.m_Row * stepY + stepY / 2;
 
-            view.layout(viewCenterX - actualWidth / 2, viewCenterY - actualHeight / 2, viewCenterX + actualWidth / 2, viewCenterY + actualWidth / 2);*/
+            view.layout(viewCenterX - actualWidth / 2, viewCenterY - actualHeight / 2, viewCenterX + actualWidth / 2, viewCenterY + actualHeight / 2);
 
-            view.layout(left + lp.m_Col * stepX, top + lp.m_Row * stepY, left + (lp.m_Col + 1) * stepX, top + (lp.m_Row + 1) * stepY);
+            //view.layout(left + lp.m_Col * stepX, top + lp.m_Row * stepY, left + (lp.m_Col + 1) * stepX, top + (lp.m_Row + 1) * stepY);
         }
     }
 

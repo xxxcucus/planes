@@ -8,7 +8,7 @@ import android.graphics.Path;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 
-public class MoveUpButton extends AppCompatButton {
+public class MoveUpButton extends ButtonWithPictogram {
 
     public MoveUpButton(Context context) {
         super(context);
@@ -23,10 +23,6 @@ public class MoveUpButton extends AppCompatButton {
     public MoveUpButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
-    }
-
-    public void init() {
-        m_Paint = new Paint();
     }
 
     @Override
@@ -57,5 +53,4 @@ public class MoveUpButton extends AppCompatButton {
         canvas.drawPath(path2, m_Paint);
     }
 
-    private Paint m_Paint;
 }
