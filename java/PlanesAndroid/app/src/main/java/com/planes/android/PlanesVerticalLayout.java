@@ -26,6 +26,8 @@ public class PlanesVerticalLayout extends ViewGroup {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PlanesVerticalLayout);
             m_Row = a.getInt(R.styleable.PlanesVerticalLayout_gc_row, 0);
             m_Col = a.getInt(R.styleable.PlanesVerticalLayout_gc_col, 0);
+            m_RowSpan = a.getInt(R.styleable.PlanesVerticalLayout_gc_rowspan, 0);
+            m_ColSpan = a.getInt(R.styleable.PlanesVerticalLayout_gc_colspan, 0);
             m_GameStage = a.getInt(R.styleable.PlanesVerticalLayout_gc_game_stage, 0);
             m_Text = a.getString(R.styleable.PlanesVerticalLayout_gc_text);
             a.recycle();
@@ -255,6 +257,11 @@ public class PlanesVerticalLayout extends ViewGroup {
         int stepX = (right - left) / (maxCol + 2);
         int stepY = (bottom - top) / (maxRow + 2);
 
+        if (!m_Tablet) {
+            stepX = (right - left) / maxCol;
+            stepY = (bottom - top) / maxRow;
+        }
+
         for (View view : m_GameControls.get(m_GameStage.getValue())) {
             PlanesVerticalLayoutParams lp = (PlanesVerticalLayoutParams) view.getLayoutParams();
 
@@ -273,6 +280,11 @@ public class PlanesVerticalLayout extends ViewGroup {
 
             int viewCenterX = left + lp.m_Col * stepX + stepX / 2;
             int viewCenterY = top + lp.m_Row * stepY + stepY / 2;
+
+            if (!m_Tablet) {
+                viewCenterX = left + lp.m_Col * stepX - stepX / 2;
+                viewCenterY = top + lp.m_Row * stepY - stepY / 2;
+            }
 
             view.layout(viewCenterX - actualWidth / 2, viewCenterY - actualHeight / 2, viewCenterX + actualWidth / 2, viewCenterY + actualHeight / 2);
 

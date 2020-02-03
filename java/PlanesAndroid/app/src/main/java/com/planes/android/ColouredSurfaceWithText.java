@@ -1,29 +1,26 @@
 package com.planes.android;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Rect;
-import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
+import android.view.View;
 
-public class TextButton extends AppCompatButton {
+public class ColouredSurfaceWithText extends View {
 
-    public TextButton(Context context) {
+    public ColouredSurfaceWithText(Context context) {
         super(context);
         init();
     }
 
-    public TextButton(Context context, AttributeSet attrs) {
+    public ColouredSurfaceWithText(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public TextButton(Context context, AttributeSet attrs, int defStyle) {
+    public ColouredSurfaceWithText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
@@ -32,9 +29,9 @@ public class TextButton extends AppCompatButton {
         m_Paint = new Paint();
     }
 
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
         PlanesVerticalLayout.PlanesVerticalLayoutParams lp = (PlanesVerticalLayout.PlanesVerticalLayoutParams) getLayoutParams();
         m_Text = lp.getText();
 
@@ -47,7 +44,6 @@ public class TextButton extends AppCompatButton {
     private int measureHeight(int measureSpec) {
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
-
         int resultHeight = 10;
 
         m_Paint.setTextSize(20);
@@ -68,6 +64,9 @@ public class TextButton extends AppCompatButton {
 
         int resultWidth = 10;
 
+        PlanesVerticalLayout.PlanesVerticalLayoutParams lp = (PlanesVerticalLayout.PlanesVerticalLayoutParams) getLayoutParams();
+        m_Text = lp.getText();
+
         m_Paint.setTextSize(20);
         Rect bounds = new Rect();
         m_Paint.getTextBounds(m_Text, 0, m_Text.length(), bounds);
@@ -81,10 +80,9 @@ public class TextButton extends AppCompatButton {
         return resultWidth;
     }
 
-
-    @Override
+//to adapt for this class
     public void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+        //TODO: draw the surface in the colour specified
 
         m_Paint.setColor(Color.BLUE);
         m_Paint.setTextSize(10);
@@ -114,18 +112,6 @@ public class TextButton extends AppCompatButton {
         canvas.drawText(m_Text, centerX - textWidth / 2, centerY + textHeight / 2, m_Paint);
     }
 
-
-    public int minWidth() {
-        return 30;
-    }
-
-    public int minHeight() {
-        return 30;
-    }
-
     private Paint m_Paint;
     private String m_Text;
-    private int m_MinWidth = 0;
-    private int m_MinHeight = 0;
-
 }

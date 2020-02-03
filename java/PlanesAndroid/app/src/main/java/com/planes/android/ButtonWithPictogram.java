@@ -46,7 +46,6 @@ public class ButtonWithPictogram extends AppCompatButton {
         setMeasuredDimension(measWidth, measHeight);
     }
 
-
     final int m_MinWidth = 30;
     final int m_MinHeight = 30;
 
