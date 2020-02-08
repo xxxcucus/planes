@@ -7,6 +7,8 @@
         <attr name="gc_rowspan" format="integer"/>
         <attr name="gc_game_stage" format="integer"/>
         <attr name="gc_text" format="string"/>
+        <attr name="gc_text1" format="string"/>
+        <attr name="gc_text2" format="string"/>
 
     </declare-styleable>
 

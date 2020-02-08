@@ -73,26 +73,17 @@
 
         <!-- Buttons for game stage -->
 
-        <com.planes.android.TextButton
+        <com.planes.android.TwoLineTextButtonWithState
             android:id="@+id/view_computer_board1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:gc_text="@string/view_computer_board"
+            app:gc_text1="View"
+            app:gc_text2="Computer Board"
             app:gc_row="1"
-            app:gc_colspan="2"
+            app:gc_colspan="3"
+            app:gc_rowspan="2"
             app:gc_col="1"
-            app:gc_game_stage="1"
-            android:enabled="false" />
-        <com.planes.android.TextButton
-            android:id="@+id/view_player_board1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:gc_text="@string/view_player_board"
-            app:gc_row="2"
-            app_gc_colspan="2"
-            app:gc_col="1"
-            app:gc_game_stage="1"
-            android:enabled="true"/>
+            app:gc_game_stage="1" />
 
         <TextView
             android:id="@+id/moves_label"
@@ -101,7 +92,7 @@
             android:text="@string/computer_moves"
             app:gc_row="1"
             app:gc_colspan="2"
-            app:gc_col="2"
+            app:gc_col="4"
             app:gc_game_stage="1"/>
         <TextView
             android:id="@+id/moves_count"
@@ -109,7 +100,7 @@
             android:layout_height="wrap_content"
             android:text="0"
             app:gc_row="1"
-            app:gc_col="3"
+            app:gc_col="6"
             app:gc_game_stage="1"/>
         <TextView
             android:id="@+id/misses_label"
@@ -118,7 +109,7 @@
             android:text="@string/computer_misses"
             app:gc_row="2"
             app:gc_colspan="2"
-            app:gc_col="2"
+            app:gc_col="4"
             app:gc_game_stage="1" />
 
         <TextView
@@ -127,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             app:gc_row="2"
-            app:gc_col="3"
+            app:gc_col="6"
             app:gc_game_stage="1"/>
         <TextView
             android:id="@+id/hits_label"
@@ -136,7 +127,7 @@
             android:text="@string/computer_hits"
             app:gc_row="3"
             app:gc_colspan="2"
-            app:gc_col="2"
+            app:gc_col="4"
             app:gc_game_stage="1"/>
         <TextView
             android:id="@+id/hits_count"
@@ -144,7 +135,7 @@
             android:layout_height="wrap_content"
             android:text="0"
             app:gc_row="3"
-            app:gc_col="3"
+            app:gc_col="6"
             app:gc_game_stage="1"/>
 
         <TextView
@@ -154,7 +145,7 @@
             android:text="@string/computer_dead"
             app:gc_row="4"
             app:gc_colspan="2"
-            app:gc_col="2"
+            app:gc_col="4"
             app:gc_game_stage="1"/>
         <TextView
             android:id="@+id/dead_count"
@@ -162,7 +153,7 @@
             android:layout_height="wrap_content"
             android:text="0"
             app:gc_row="4"
-            app:gc_col="3"
+            app:gc_col="6"
             app:gc_game_stage="1"/>
 
         <!-- Buttons for start new game stage -->

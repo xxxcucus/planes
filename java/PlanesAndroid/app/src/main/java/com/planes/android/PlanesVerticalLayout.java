@@ -30,6 +30,8 @@ public class PlanesVerticalLayout extends ViewGroup {
             m_ColSpan = a.getInt(R.styleable.PlanesVerticalLayout_gc_colspan, 0);
             m_GameStage = a.getInt(R.styleable.PlanesVerticalLayout_gc_game_stage, 0);
             m_Text = a.getString(R.styleable.PlanesVerticalLayout_gc_text);
+            m_Text1 = a.getString(R.styleable.PlanesVerticalLayout_gc_text1);
+            m_Text2 = a.getString(R.styleable.PlanesVerticalLayout_gc_text2);
             a.recycle();
         }
 
@@ -44,6 +46,8 @@ public class PlanesVerticalLayout extends ViewGroup {
         public String getText() {
             return m_Text;
         }
+        public String getText1() { return m_Text1; }
+        public String getText2() { return m_Text2; }
 
         //TODO: to add text formatting options
         //adapt text size to available area
@@ -55,6 +59,8 @@ public class PlanesVerticalLayout extends ViewGroup {
         private int m_GameStage = -1;
         private boolean m_Player = false;
         private String m_Text;
+        private String m_Text1;
+        private String m_Text2;
     }
 
     public PlanesVerticalLayout(Context context) {
@@ -105,11 +111,15 @@ public class PlanesVerticalLayout extends ViewGroup {
                     }
                     viewsForGameStage.add(child);
                     int maxRow = m_GameControlsMaxRow.get(lp.m_GameStage);
-                    if (lp.m_Row > maxRow)
-                        m_GameControlsMaxRow.put(lp.m_GameStage, lp.m_Row);
+
+                    int rowspan = lp.m_RowSpan != 0 ? lp.m_RowSpan - 1 : 0;
+                    int colspan = lp.m_ColSpan != 0 ? lp.m_ColSpan - 1 : 0;
+
+                    if (lp.m_Row + rowspan > maxRow)
+                        m_GameControlsMaxRow.put(lp.m_GameStage, lp.m_Row + rowspan);
                     int maxCol = m_GameControlsMaxCol.get(lp.m_GameStage);
-                    if (lp.m_Col > maxCol)
-                        m_GameControlsMaxCol.put(lp.m_GameStage, lp.m_Col);
+                    if (lp.m_Col + colspan > maxCol)
+                        m_GameControlsMaxCol.put(lp.m_GameStage, lp.m_Col + colspan);
                 }
             }
         }
@@ -257,34 +267,22 @@ public class PlanesVerticalLayout extends ViewGroup {
         int stepX = (right - left) / (maxCol + 2);
         int stepY = (bottom - top) / (maxRow + 2);
 
-        if (!m_Tablet) {
-            stepX = (right - left) / maxCol;
-            stepY = (bottom - top) / maxRow;
-        }
-
         for (View view : m_GameControls.get(m_GameStage.getValue())) {
             PlanesVerticalLayoutParams lp = (PlanesVerticalLayoutParams) view.getLayoutParams();
 
             //TODO: create own buttons and textviews
+            int rowspan = lp.m_RowSpan != 0 ? lp.m_RowSpan : 1;
+            int colspan = lp.m_ColSpan != 0 ? lp.m_ColSpan : 1;
 
-
-            int heightMeasureSpec = makeMeasureSpec(stepY, MeasureSpec.UNSPECIFIED);
-            int widthMeasureSpec = makeMeasureSpec(stepX, MeasureSpec.UNSPECIFIED);
+            int heightMeasureSpec = makeMeasureSpec(rowspan * stepY, MeasureSpec.UNSPECIFIED);
+            int widthMeasureSpec = makeMeasureSpec(colspan * stepX, MeasureSpec.UNSPECIFIED);
             view.measure(widthMeasureSpec, heightMeasureSpec);
 
             int actualWidth = view.getMeasuredWidth();
             int actualHeight = view.getMeasuredHeight();
 
-            /*int actualWidth = Math.max(stepX, measWidth);
-            int actualHeight = Math.max(stepY, measHeight);*/
-
-            int viewCenterX = left + lp.m_Col * stepX + stepX / 2;
-            int viewCenterY = top + lp.m_Row * stepY + stepY / 2;
-
-            if (!m_Tablet) {
-                viewCenterX = left + lp.m_Col * stepX - stepX / 2;
-                viewCenterY = top + lp.m_Row * stepY - stepY / 2;
-            }
+            int viewCenterX = left + lp.m_Col * stepX + colspan * stepX / 2;
+            int viewCenterY = top + lp.m_Row * stepY + rowspan * stepY / 2;
 
             view.layout(viewCenterX - actualWidth / 2, viewCenterY - actualHeight / 2, viewCenterX + actualWidth / 2, viewCenterY + actualHeight / 2);
 

@@ -1,29 +1,26 @@
 package com.planes.android;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Rect;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
 
-public class TextButton extends AppCompatButton {
+public class TwoLineTextButton extends AppCompatButton {
 
-    public TextButton(Context context) {
+    public TwoLineTextButton(Context context) {
         super(context);
         init();
     }
 
-    public TextButton(Context context, AttributeSet attrs) {
+    public TwoLineTextButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public TextButton(Context context, AttributeSet attrs, int defStyle) {
+    public TwoLineTextButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
@@ -36,7 +33,8 @@ public class TextButton extends AppCompatButton {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         PlanesVerticalLayout.PlanesVerticalLayoutParams lp = (PlanesVerticalLayout.PlanesVerticalLayoutParams) getLayoutParams();
-        m_Text = lp.getText();
+        m_Text1 = lp.getText1();
+        m_Text2 = lp.getText2();
 
         int measuredHeight = measureHeight(heightMeasureSpec);
         int measuredWidth = measureWidth(widthMeasureSpec);
@@ -51,10 +49,12 @@ public class TextButton extends AppCompatButton {
         int resultHeight = 10;
 
         m_Paint.setTextSize(20);
-        Rect bounds = new Rect();
-        m_Paint.getTextBounds(m_Text, 0, m_Text.length(), bounds);
-        if (bounds.height() > resultHeight)
-            resultHeight = bounds.height();
+        Rect bounds1 = new Rect();
+        m_Paint.getTextBounds(m_Text1, 0, m_Text1.length(), bounds1);
+        Rect bounds2 = new Rect();
+        m_Paint.getTextBounds(m_Text2, 0, m_Text2.length(), bounds2);
+        if (bounds1.height() + bounds2.height() + m_LineSpacing > resultHeight)
+            resultHeight = bounds1.height() + bounds2.height() + m_LineSpacing;
 
         if (specSize > resultHeight)
             resultHeight = specSize;
@@ -69,18 +69,19 @@ public class TextButton extends AppCompatButton {
         int resultWidth = 10;
 
         m_Paint.setTextSize(20);
-        Rect bounds = new Rect();
-        m_Paint.getTextBounds(m_Text, 0, m_Text.length(), bounds);
+        Rect bounds1 = new Rect();
+        m_Paint.getTextBounds(m_Text1, 0, m_Text1.length(), bounds1);
+        Rect bounds2 = new Rect();
+        m_Paint.getTextBounds(m_Text2, 0, m_Text2.length(), bounds2);
 
-        if (bounds.width() > resultWidth)
-            resultWidth = bounds.width();
+        if (Math.max(bounds1.width(), bounds2.width()) > resultWidth)
+            resultWidth = Math.max(bounds1.width(), bounds2.width());
 
         if (specSize > resultWidth)
             resultWidth = specSize;
 
         return resultWidth;
     }
-
 
     @Override
     public void onDraw(Canvas canvas) {
@@ -104,24 +105,28 @@ public class TextButton extends AppCompatButton {
         while (textWidth < width && textHeight < height) {
             curTextSize += searchStep;
             m_Paint.setTextSize(curTextSize);
-            Rect bounds = new Rect();
-            m_Paint.getTextBounds(m_Text, 0, m_Text.length(), bounds);
-            textHeight = bounds.height();
-            textWidth = bounds.width();
+            Rect bounds1 = new Rect();
+            m_Paint.getTextBounds(m_Text1, 0, m_Text1.length(), bounds1);
+            Rect bounds2 = new Rect();
+            m_Paint.getTextBounds(m_Text2, 0, m_Text2.length(), bounds2);
+            textHeight = bounds1.height() + bounds2.height() + m_LineSpacing;
+            textWidth = Math.max(bounds1.width(), bounds2.width());
         }
 
         m_Paint.setTextSize(curTextSize - searchStep);
-        Rect bounds = new Rect();
-        m_Paint.getTextBounds(m_Text, 0, m_Text.length(), bounds);
-        textHeight = bounds.height();
-        textWidth = bounds.width();
+        Rect bounds1 = new Rect();
+        m_Paint.getTextBounds(m_Text1, 0, m_Text1.length(), bounds1);
+        Rect bounds2 = new Rect();
+        m_Paint.getTextBounds(m_Text2, 0, m_Text2.length(), bounds2);
+        textHeight = bounds1.height() + bounds2.height() + m_LineSpacing;
+        textWidth = Math.max(bounds1.width(), bounds2.width());
 
-        canvas.drawText(m_Text, centerX - textWidth / 2, centerY + textHeight / 2, m_Paint);
+        canvas.drawText(m_Text1, centerX - bounds1.width() / 2, centerY - (textHeight / 2) + bounds1.height(), m_Paint);
+        canvas.drawText(m_Text2, centerX - bounds2.width() / 2, centerY + (textHeight / 2), m_Paint);
     }
 
-
-    private Paint m_Paint;
-    private String m_Text;
-    private int m_MinWidth = 0;
-    private int m_MinHeight = 0;
+    protected Paint m_Paint;
+    protected String m_Text1;
+    protected String m_Text2;
+    protected int m_LineSpacing = 10;
 }
