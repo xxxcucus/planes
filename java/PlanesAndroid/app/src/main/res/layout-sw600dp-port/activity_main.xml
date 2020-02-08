@@ -79,80 +79,72 @@
             app:gc_text="@string/done_button" />
 
         <!-- Buttons for start new game stage -->
-        <Button
+        <com.planes.android.TwoLineTextButtonWithState
             android:id="@+id/view_computer_board2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/view_computer_board"
-            android:textSize="20dp"
+            app:gc_text1="View"
+            app:gc_text2="Computer Board"
             app:gc_row="1"
             app:gc_col="1"
-            app:gc_game_stage="2"
-            android:enabled="false"/>
-        <Button
-            android:id="@+id/view_player_board2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:gc_row="2"
-            app:gc_col="1"
-            app:gc_game_stage="2"
-            android:text="@string/view_player_board"
-            android:textSize="20dp"/>
-        <Button
+            app:gc_rowspan="2"
+            app:gc_colspan="3"
+            app:gc_game_stage="2" />
+        <com.planes.android.TwoLineTextButton
             android:id="@+id/start_new_game"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:gc_text1="Start"
+            app:gc_text2="New Game"
             app:gc_row="3"
             app:gc_col="1"
-            app:gc_game_stage="2"
-            android:text="@string/start_new_game"
-            android:textSize="20dp"/>
+            app:gc_rowspan="2"
+            app:gc_colspan="3"
+            app:gc_game_stage="2" />
 
         <TextView
             android:id="@+id/winner_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="1"
-            app:gc_col="2"
+            app:gc_col="4"
+            app:gc_colspan="4"
             app:gc_game_stage="2"
-            android:text="@string/computer_winner"
-            android:textSize="20dp"/>
+            android:text="@string/computer_winner"/>
 
         <TextView
             android:id="@+id/computer_wins_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="2"
-            app:gc_col="2"
+            app:gc_col="4"
+            app:gc_colspan="3"
             app:gc_game_stage="2"
-            android:text="@string/computer_wins"
-            android:textSize="20dp"/>
+            android:text="@string/computer_wins" />
         <TextView
             android:id="@+id/computer_wins_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="2"
-            app:gc_col="3"
+            app:gc_col="8"
             app:gc_game_stage="2"
-            android:text="0"
-            android:textSize="20dp"/>
+            android:text="0" />
         <TextView
             android:id="@+id/player_wins_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="3"
-            app:gc_col="2"
+            app:gc_col="4"
+            app:gc_colspan="3"
             app:gc_game_stage="2"
-            android:text="@string/player_wins"
-            android:textSize="20dp"/>
+            android:text="@string/player_wins" />
         <TextView
             android:id="@+id/player_wins_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="3"
-            app:gc_col="3"
+            app:gc_col="8"
             app:gc_game_stage="2"
-            android:text="0"
-            android:textSize="20dp"/>
+            android:text="0" />
     </com.planes.android.PlanesVerticalLayout>
 </LinearLayout>

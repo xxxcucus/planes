@@ -105,9 +105,8 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         TextView deadCount = (TextView)findViewById(R.id.dead_count);
 
         //Start New Game Stage
-        Button viewPlayerBoardButton2 = (Button)findViewById(R.id.view_player_board2);
-        Button viewComputerBoardButton2 = (Button)findViewById(R.id.view_computer_board2);
-        Button startNewGameButton = (Button)findViewById(R.id.start_new_game);
+        TwoLineTextButtonWithState viewComputerBoardButton2 = (TwoLineTextButtonWithState)findViewById(R.id.view_computer_board2);
+        TwoLineTextButton startNewGameButton = (TwoLineTextButton)findViewById(R.id.start_new_game);
         TextView computerWinsLabel = (TextView)findViewById(R.id.computer_wins_label);
         TextView computerWinsCount = (TextView)findViewById(R.id.computer_wins_count);
         TextView playerWinsLabel = (TextView)findViewById(R.id.player_wins_label);
@@ -118,7 +117,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         m_GameControls.setBoardEditingControls(upButton, downButton, leftButton, rightButton, doneButton, rotateButton);
         if (!isTablet)
             m_GameControls.setGameControls(viewComputerBoardButton1, movesLabel, movesCount, missesLabel, missesCount, hitsLabel, hitsCount, deadsLabel, deadCount);
-        m_GameControls.setStartNewGameControls(viewPlayerBoardButton2, viewComputerBoardButton2, startNewGameButton, computerWinsLabel, computerWinsCount, playerWinsLabel, playerWinsCount, winnerText);
+        m_GameControls.setStartNewGameControls(viewComputerBoardButton2, startNewGameButton, computerWinsLabel, computerWinsCount, playerWinsLabel, playerWinsCount, winnerText);
 
         m_GameControls.setGameSettings(m_PlaneRound, isTablet);
         m_GameControls.setGameBoards(m_GameBoards);

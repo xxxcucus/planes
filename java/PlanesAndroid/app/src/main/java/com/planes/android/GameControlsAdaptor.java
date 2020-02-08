@@ -140,9 +140,8 @@ public class GameControlsAdaptor {
         }
     }
 
-    public void setStartNewGameControls(Button viewPlayerBoardButton2, Button viewComputerBoardButton2, Button startNewGameButton,
+    public void setStartNewGameControls(TwoLineTextButtonWithState viewComputerBoardButton2, TwoLineTextButton startNewGameButton,
                                         TextView computerWinsLabel, TextView computerWinsCount, TextView playerWinsLabel, TextView playerWinsCount, TextView winnerText ) {
-        m_ViewPlayerBoardButton2 = viewPlayerBoardButton2;
         m_ViewComputerBoardButton2 = viewComputerBoardButton2;
         m_StartNewRound = startNewGameButton;
         m_ComputerWinsLabel = computerWinsLabel;
@@ -163,34 +162,24 @@ public class GameControlsAdaptor {
             });
         }
 
-        m_ViewComputerBoardButton2.setEnabled(false);
-        m_ViewPlayerBoardButton2.setEnabled(true);
-
-        if (m_ViewPlayerBoardButton2 != null) {
-            m_ViewPlayerBoardButton2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                m_GameBoards.setPlayerBoard();
-                m_PlanesLayout.setPlayerBoard();
-                m_ViewComputerBoardButton2.setEnabled(true);
-                m_ViewPlayerBoardButton2.setEnabled(false);
-                }
-            });
-        }
+        m_ViewComputerBoardButton2.setState("player");
 
         if (m_ViewComputerBoardButton2 != null) {
             m_ViewComputerBoardButton2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                m_GameBoards.setComputerBoard();
-                m_PlanesLayout.setComputerBoard();
-                m_ViewComputerBoardButton2.setEnabled(false);
-                m_ViewPlayerBoardButton2.setEnabled(true);
+                    if (m_ViewComputerBoardButton2.getCurrentStateName() == "computer") {
+                        m_GameBoards.setComputerBoard();
+                        m_PlanesLayout.setComputerBoard();
+                        m_ViewComputerBoardButton2.setState("player");
+                    } else if (m_ViewComputerBoardButton2.getCurrentStateName() == "player") {
+                        m_GameBoards.setPlayerBoard();
+                        m_PlanesLayout.setPlayerBoard();
+                        m_ViewComputerBoardButton2.setState("computer");
+                    }
                 }
             });
         }
-
-
     }
 
     public void setNewRoundStage() {
@@ -305,11 +294,10 @@ public class GameControlsAdaptor {
 
     //Start New Game
     private TextView m_WinnerTextView;
-    private Button m_StartNewRound;
+    private TwoLineTextButton m_StartNewRound;
     private TextView m_ComputerWins;
     private TextView m_PlayerWins;
     private TextView m_ComputerWinsLabel;
     private TextView m_PlayerWinsLabel;
-    private Button m_ViewPlayerBoardButton2;
-    private Button m_ViewComputerBoardButton2;
+    private TwoLineTextButtonWithState m_ViewComputerBoardButton2;
 }
