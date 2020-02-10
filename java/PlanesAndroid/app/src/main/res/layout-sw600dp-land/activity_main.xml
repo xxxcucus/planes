@@ -98,7 +98,7 @@
             app:gc_colspan="3"
             app:gc_game_stage="2" />
 
-        <TextView
+        <com.planes.android.ColouredSurfaceWithText
             android:id="@+id/winner_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -106,9 +106,9 @@
             app:gc_col="4"
             app:gc_colspan="4"
             app:gc_game_stage="2"
-            android:text="@string/computer_winner"/>
+            app:gc_text="@string/computer_winner"/>
 
-        <TextView
+        <com.planes.android.ColouredSurfaceWithText
             android:id="@+id/computer_wins_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -116,16 +116,16 @@
             app:gc_col="4"
             app:gc_colspan="3"
             app:gc_game_stage="2"
-            android:text="@string/computer_wins" />
-        <TextView
+            app:gc_text="@string/computer_wins" />
+        <com.planes.android.ColouredSurfaceWithText
             android:id="@+id/computer_wins_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="2"
             app:gc_col="8"
             app:gc_game_stage="2"
-            android:text="0" />
-        <TextView
+            app:gc_text="0" />
+        <com.planes.android.ColouredSurfaceWithText
             android:id="@+id/player_wins_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -133,14 +133,14 @@
             app:gc_col="4"
             app:gc_colspan="3"
             app:gc_game_stage="2"
-            android:text="@string/player_wins" />
-        <TextView
+            app:gc_text="@string/player_wins" />
+        <com.planes.android.ColouredSurfaceWithText
             android:id="@+id/player_wins_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="3"
             app:gc_col="8"
             app:gc_game_stage="2"
-            android:text="0" />
+            app:gc_text="0" />
     </com.planes.android.PlanesVerticalLayout>
 </LinearLayout>

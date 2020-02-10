@@ -85,9 +85,13 @@ public class TwoLineTextButton extends AppCompatButton {
 
     @Override
     public void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+        //super.onDraw(canvas);
+
+        m_Paint.setColor(Color.GRAY);
+        canvas.drawRect(0, 0, getWidth(), getHeight(), m_Paint);
 
         m_Paint.setColor(Color.BLUE);
+
         m_Paint.setTextSize(10);
         m_Paint.setTextAlign(Paint.Align.LEFT);
         int curTextSize = 0;

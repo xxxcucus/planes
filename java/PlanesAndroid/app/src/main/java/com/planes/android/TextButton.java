@@ -84,39 +84,14 @@ public class TextButton extends AppCompatButton {
 
     @Override
     public void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+        //super.onDraw(canvas);
+
+        m_Paint.setColor(Color.GRAY);
+        canvas.drawRect(0, 0, getWidth(), getHeight(), m_Paint);
 
         m_Paint.setColor(Color.BLUE);
-        m_Paint.setTextSize(10);
-        m_Paint.setTextAlign(Paint.Align.LEFT);
-        int curTextSize = 0;
+        CanvasPaintUtilities.drawTextFitToSize(m_Text, canvas, m_Paint, getWidth(), getHeight());
 
-        int width = getWidth();
-        int height = getHeight();
-
-        int centerX = width / 2;
-        int centerY = height / 2;
-
-        int textWidth = 0;
-        int textHeight = 0;
-
-        int searchStep = 5;
-        while (textWidth < width && textHeight < height) {
-            curTextSize += searchStep;
-            m_Paint.setTextSize(curTextSize);
-            Rect bounds = new Rect();
-            m_Paint.getTextBounds(m_Text, 0, m_Text.length(), bounds);
-            textHeight = bounds.height();
-            textWidth = bounds.width();
-        }
-
-        m_Paint.setTextSize(curTextSize - searchStep);
-        Rect bounds = new Rect();
-        m_Paint.getTextBounds(m_Text, 0, m_Text.length(), bounds);
-        textHeight = bounds.height();
-        textWidth = bounds.width();
-
-        canvas.drawText(m_Text, centerX - textWidth / 2, centerY + textHeight / 2, m_Paint);
     }
 
 

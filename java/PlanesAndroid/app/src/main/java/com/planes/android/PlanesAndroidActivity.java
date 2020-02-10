@@ -95,23 +95,23 @@ public class PlanesAndroidActivity extends AppCompatActivity {
 
         //Game Stage
         TwoLineTextButtonWithState viewComputerBoardButton1 = (TwoLineTextButtonWithState)findViewById(R.id.view_computer_board1);
-        TextView movesLabel = (TextView)findViewById(R.id.moves_label);
-        TextView movesCount = (TextView)findViewById(R.id.moves_count);
-        TextView missesLabel = (TextView)findViewById(R.id.misses_label);
-        TextView missesCount = (TextView)findViewById(R.id.misses_count);
-        TextView hitsLabel = (TextView)findViewById(R.id.hits_label);
-        TextView hitsCount = (TextView)findViewById(R.id.hits_count);
-        TextView deadsLabel = (TextView)findViewById(R.id.dead_label);
-        TextView deadCount = (TextView)findViewById(R.id.dead_count);
+        ColouredSurfaceWithText movesLabel = (ColouredSurfaceWithText)findViewById(R.id.moves_label);
+        ColouredSurfaceWithText movesCount = (ColouredSurfaceWithText)findViewById(R.id.moves_count);
+        ColouredSurfaceWithText missesLabel = (ColouredSurfaceWithText)findViewById(R.id.misses_label);
+        ColouredSurfaceWithText missesCount = (ColouredSurfaceWithText)findViewById(R.id.misses_count);
+        ColouredSurfaceWithText hitsLabel = (ColouredSurfaceWithText)findViewById(R.id.hits_label);
+        ColouredSurfaceWithText hitsCount = (ColouredSurfaceWithText)findViewById(R.id.hits_count);
+        ColouredSurfaceWithText deadsLabel = (ColouredSurfaceWithText)findViewById(R.id.dead_label);
+        ColouredSurfaceWithText deadCount = (ColouredSurfaceWithText)findViewById(R.id.dead_count);
 
         //Start New Game Stage
         TwoLineTextButtonWithState viewComputerBoardButton2 = (TwoLineTextButtonWithState)findViewById(R.id.view_computer_board2);
         TwoLineTextButton startNewGameButton = (TwoLineTextButton)findViewById(R.id.start_new_game);
-        TextView computerWinsLabel = (TextView)findViewById(R.id.computer_wins_label);
-        TextView computerWinsCount = (TextView)findViewById(R.id.computer_wins_count);
-        TextView playerWinsLabel = (TextView)findViewById(R.id.player_wins_label);
-        TextView playerWinsCount = (TextView)findViewById(R.id.player_wins_count);
-        TextView winnerText = (TextView)findViewById(R.id.winner_textview);
+        ColouredSurfaceWithText computerWinsLabel = (ColouredSurfaceWithText)findViewById(R.id.computer_wins_label);
+        ColouredSurfaceWithText computerWinsCount = (ColouredSurfaceWithText)findViewById(R.id.computer_wins_count);
+        ColouredSurfaceWithText playerWinsLabel = (ColouredSurfaceWithText)findViewById(R.id.player_wins_label);
+        ColouredSurfaceWithText playerWinsCount = (ColouredSurfaceWithText)findViewById(R.id.player_wins_count);
+        ColouredSurfaceWithText winnerText = (ColouredSurfaceWithText)findViewById(R.id.winner_textview);
 
         m_GameControls = new GameControlsAdaptor(this);
         m_GameControls.setBoardEditingControls(upButton, downButton, leftButton, rightButton, doneButton, rotateButton);

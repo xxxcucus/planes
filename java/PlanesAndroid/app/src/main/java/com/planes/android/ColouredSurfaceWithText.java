@@ -29,6 +29,11 @@ public class ColouredSurfaceWithText extends View {
         m_Paint = new Paint();
     }
 
+    public void setText(String text) {
+        m_Text = text;
+        invalidate();
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
@@ -80,36 +85,13 @@ public class ColouredSurfaceWithText extends View {
         return resultWidth;
     }
 
-//to adapt for this class
     public void onDraw(Canvas canvas) {
         //TODO: draw the surface in the colour specified
+        m_Paint.setColor(Color.GRAY);
+        canvas.drawRect(0, 0, getWidth(), getHeight(), m_Paint);
 
         m_Paint.setColor(Color.BLUE);
-        m_Paint.setTextSize(10);
-        m_Paint.setTextAlign(Paint.Align.LEFT);
-        int curTextSize = 10;
-
-        int width = getWidth();
-        int height = getHeight();
-
-        int centerX = width / 2;
-        int centerY = height / 2;
-
-        int textWidth = 10;
-        int textHeight = 10;
-
-        while (textWidth < width / 2 && textHeight < height / 2) {
-            m_Paint.setTextSize(curTextSize + 10);
-            Rect bounds = new Rect();
-            m_Paint.getTextBounds(m_Text, 0, m_Text.length(), bounds);
-            textHeight = bounds.height();
-            textWidth = bounds.width();
-            curTextSize += 10;
-        }
-
-        m_Paint.setTextSize(curTextSize);
-
-        canvas.drawText(m_Text, centerX - textWidth / 2, centerY + textHeight / 2, m_Paint);
+        CanvasPaintUtilities.drawTextFitToSize(m_Text, canvas, m_Paint, getWidth(), getHeight());
     }
 
     private Paint m_Paint;
