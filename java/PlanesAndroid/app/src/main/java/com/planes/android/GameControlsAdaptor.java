@@ -80,8 +80,9 @@ public class GameControlsAdaptor {
         }
     }
 
-    public void setGameControls(TwoLineTextButtonWithState viewComputerBoardButton1, ColouredSurfaceWithText movesLabel, ColouredSurfaceWithText movesCount, ColouredSurfaceWithText missesLabel, ColouredSurfaceWithText missesCount,
+    public void setGameControls(ColouredSurfaceWithText statsTitle, TwoLineTextButtonWithState viewComputerBoardButton1, ColouredSurfaceWithText movesLabel, ColouredSurfaceWithText movesCount, ColouredSurfaceWithText missesLabel, ColouredSurfaceWithText missesCount,
                                 ColouredSurfaceWithText hitsLabel, ColouredSurfaceWithText hitsCount, ColouredSurfaceWithText deadsLabel, ColouredSurfaceWithText deadCount) {
+        m_StatsTitle = statsTitle;
         m_ViewComputerBoardButton1 = viewComputerBoardButton1;
         m_MovesLabel = movesLabel;
         m_MovesTextView = movesCount;
@@ -112,6 +113,7 @@ public class GameControlsAdaptor {
                         m_HitsTextView.setText(Integer.toString(hits));
                         m_DeadTextView.setText(Integer.toString(dead));
                         m_MovesTextView.setText(Integer.toString(moves));
+                        m_StatsTitle.setText("Computer Stats");
                     } else if (m_ViewComputerBoardButton1.getCurrentStateName() == "player") {
                         m_GameBoards.setPlayerBoard();
                         m_PlanesLayout.setPlayerBoard();
@@ -124,6 +126,7 @@ public class GameControlsAdaptor {
                         m_HitsTextView.setText(Integer.toString(hits));
                         m_DeadTextView.setText(Integer.toString(dead));
                         m_MovesTextView.setText(Integer.toString(moves));
+                        m_StatsTitle.setText("Player Stats");
                     }
                 }
             });
@@ -185,6 +188,7 @@ public class GameControlsAdaptor {
         if (!m_Tablet) {
             m_GameBoards.setComputerBoard();
             m_ViewComputerBoardButton1.setState("player");
+            m_StatsTitle.setText("Player Stats");
             updateStats(true);
         } else {
         }
@@ -264,6 +268,7 @@ public class GameControlsAdaptor {
     private Button m_DoneButton;
 
     //Game
+    private ColouredSurfaceWithText m_StatsTitle;
     private ColouredSurfaceWithText m_HitsTextView;
     private ColouredSurfaceWithText m_MissesTextView;
     private ColouredSurfaceWithText m_DeadTextView;
