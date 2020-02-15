@@ -267,10 +267,33 @@ public class PlanesVerticalLayout extends ViewGroup {
         int stepX = (right - left) / (maxCol + 2);
         int stepY = (bottom - top) / (maxRow + 2);
 
+        int currentOptimalTextSize = 100;
+
+        //compute text size
+        for (View view : m_GameControls.get(m_GameStage.getValue())) {
+
+            if (!(view instanceof ViewWithText))
+                continue;
+
+            PlanesVerticalLayoutParams lp = (PlanesVerticalLayoutParams) view.getLayoutParams();
+
+            int rowspan = lp.m_RowSpan != 0 ? lp.m_RowSpan : 1;
+            int colspan = lp.m_ColSpan != 0 ? lp.m_ColSpan : 1;
+
+            int heightMeasureSpec = makeMeasureSpec(rowspan * stepY, MeasureSpec.UNSPECIFIED);
+            int widthMeasureSpec = makeMeasureSpec(colspan * stepX, MeasureSpec.UNSPECIFIED);
+            view.measure(widthMeasureSpec, heightMeasureSpec);
+
+            int actualWidth = view.getMeasuredWidth();
+            int actualHeight = view.getMeasuredHeight();
+
+            currentOptimalTextSize = ((ViewWithText)view).getOptimalTextSize(currentOptimalTextSize, actualWidth, actualHeight);
+        }
+
+        //layout
         for (View view : m_GameControls.get(m_GameStage.getValue())) {
             PlanesVerticalLayoutParams lp = (PlanesVerticalLayoutParams) view.getLayoutParams();
 
-            //TODO: create own buttons and textviews
             int rowspan = lp.m_RowSpan != 0 ? lp.m_RowSpan : 1;
             int colspan = lp.m_ColSpan != 0 ? lp.m_ColSpan : 1;
 
@@ -284,6 +307,8 @@ public class PlanesVerticalLayout extends ViewGroup {
             int viewCenterX = left + lp.m_Col * stepX + colspan * stepX / 2;
             int viewCenterY = top + lp.m_Row * stepY + rowspan * stepY / 2;
 
+            if (view instanceof  ViewWithText)
+                ((ViewWithText)view).setTextSize(currentOptimalTextSize);
             view.layout(viewCenterX - actualWidth / 2, viewCenterY - actualHeight / 2, viewCenterX + actualWidth / 2, viewCenterY + actualHeight / 2);
 
             //view.layout(left + lp.m_Col * stepX, top + lp.m_Row * stepY, left + (lp.m_Col + 1) * stepX, top + (lp.m_Row + 1) * stepY);

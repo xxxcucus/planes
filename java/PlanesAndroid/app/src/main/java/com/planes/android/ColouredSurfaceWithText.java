@@ -8,7 +8,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class ColouredSurfaceWithText extends View {
+public class ColouredSurfaceWithText extends View implements ViewWithText {
 
     public ColouredSurfaceWithText(Context context) {
         super(context);
@@ -36,54 +36,15 @@ public class ColouredSurfaceWithText extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
         PlanesVerticalLayout.PlanesVerticalLayoutParams lp = (PlanesVerticalLayout.PlanesVerticalLayoutParams) getLayoutParams();
         m_Text = lp.getText();
 
-        int measuredHeight = measureHeight(heightMeasureSpec);
-        int measuredWidth = measureWidth(widthMeasureSpec);
+        int measuredHeight = CanvasPaintUtilities.measureHeightOneLineText(heightMeasureSpec, m_Paint, m_Text);
+        int measuredWidth = CanvasPaintUtilities.measureWidthOneLineText(widthMeasureSpec, m_Paint, m_Text);
 
         setMeasuredDimension(measuredWidth, measuredHeight);
     }
 
-    private int measureHeight(int measureSpec) {
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
-        int resultHeight = 10;
-
-        m_Paint.setTextSize(20);
-        Rect bounds = new Rect();
-        m_Paint.getTextBounds(m_Text, 0, m_Text.length(), bounds);
-        if (bounds.height() > resultHeight)
-            resultHeight = bounds.height();
-
-        if (specSize > resultHeight)
-            resultHeight = specSize;
-
-        return resultHeight;
-    }
-
-    private int measureWidth(int measureSpec) {
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
-
-        int resultWidth = 10;
-
-        PlanesVerticalLayout.PlanesVerticalLayoutParams lp = (PlanesVerticalLayout.PlanesVerticalLayoutParams) getLayoutParams();
-        m_Text = lp.getText();
-
-        m_Paint.setTextSize(20);
-        Rect bounds = new Rect();
-        m_Paint.getTextBounds(m_Text, 0, m_Text.length(), bounds);
-
-        if (bounds.width() > resultWidth)
-            resultWidth = bounds.width();
-
-        if (specSize > resultWidth)
-            resultWidth = specSize;
-
-        return resultWidth;
-    }
 
     public void onDraw(Canvas canvas) {
         //TODO: draw the surface in the colour specified
@@ -91,9 +52,20 @@ public class ColouredSurfaceWithText extends View {
         canvas.drawRect(0, 0, getWidth(), getHeight(), m_Paint);
 
         m_Paint.setColor(Color.BLUE);
-        CanvasPaintUtilities.drawTextFitToSize(m_Text, canvas, m_Paint, getWidth(), getHeight());
+        CanvasPaintUtilities.drawTextFitToSizeOneLine(m_Text, m_TextSize, canvas, m_Paint, getWidth(), getHeight());
     }
+
+    public int getOptimalTextSize(int maxTextSize, int viewWidth, int viewHeight) {
+        return CanvasPaintUtilities.computeOptimalTextSizeOneLine(m_Text, m_Paint, viewWidth, viewHeight, maxTextSize);
+    }
+
+    public void setTextSize(int textSize) {
+        m_TextSize = textSize;
+        invalidate();
+    }
+
 
     private Paint m_Paint;
     private String m_Text;
+    private int m_TextSize = 10;
 }

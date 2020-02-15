@@ -3,7 +3,7 @@ package com.planes.android;
 import android.content.Context;
 import android.util.AttributeSet;
 
-public class TwoLineTextButtonWithState extends TwoLineTextButton implements ObjectWithStringState {
+public class TwoLineTextButtonWithState extends TwoLineTextButton implements ObjectWithStringState, ViewWithText {
 
     public TwoLineTextButtonWithState(Context context) {
         super(context);
@@ -20,8 +20,6 @@ public class TwoLineTextButtonWithState extends TwoLineTextButton implements Obj
         init();
     }
 
-
-
     public void setState(String stateName) {
         //TODO: read texts from resources
         m_State = stateName;
@@ -37,9 +35,5 @@ public class TwoLineTextButtonWithState extends TwoLineTextButton implements Obj
     public String getCurrentStateName() {
         return m_State;
     }
-
-
     private String m_State;
-
-
 }
