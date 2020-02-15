@@ -78,7 +78,7 @@ public class CanvasPaintUtilities {
         int textHeight2 = 0;
 
         int searchStep = 1;
-        while (Math.max(textWidth1, textWidth2) < width && textHeight1 + textHeight2 + lineSpacing < height && curTextSize < maxSize) {
+        while (Math.max(textWidth1, textWidth2) < width && (textHeight1 + textHeight2 + lineSpacing < height) && curTextSize < maxSize) {
             curTextSize += searchStep;
             paint.setTextSize(curTextSize);
             Rect bounds1 = new Rect();

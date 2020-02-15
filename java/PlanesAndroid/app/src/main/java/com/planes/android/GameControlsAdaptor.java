@@ -104,11 +104,6 @@ public class GameControlsAdaptor {
                         m_GameBoards.setComputerBoard();
                         m_PlanesLayout.setComputerBoard();
                         m_ViewComputerBoardButton1.setState("player");
-
-                        m_HitsLabel.setText(m_Context.getResources().getString(R.string.player_hits));
-                        m_DeadLabel.setText(m_Context.getResources().getString(R.string.player_dead));
-                        m_MissesLabel.setText(m_Context.getResources().getString(R.string.player_misses));
-                        m_MovesLabel.setText(m_Context.getResources().getString(R.string.player_moves));
                         int misses = m_PlaneRound.playerGuess_StatNoPlayerMisses();
                         int hits = m_PlaneRound.playerGuess_StatNoPlayerHits();
                         int dead = m_PlaneRound.playerGuess_StatNoPlayerDead();
@@ -121,11 +116,6 @@ public class GameControlsAdaptor {
                         m_GameBoards.setPlayerBoard();
                         m_PlanesLayout.setPlayerBoard();
                         m_ViewComputerBoardButton1.setState("computer");
-
-                        m_HitsLabel.setText(m_Context.getResources().getString(R.string.computer_hits));
-                        m_DeadLabel.setText(m_Context.getResources().getString(R.string.computer_dead));
-                        m_MissesLabel.setText(m_Context.getResources().getString(R.string.computer_misses));
-                        m_MovesLabel.setText(m_Context.getResources().getString(R.string.computer_moves));
                         int misses = m_PlaneRound.playerGuess_StatNoComputerMisses();
                         int hits = m_PlaneRound.playerGuess_StatNoComputerHits();
                         int dead = m_PlaneRound.playerGuess_StatNoComputerDead();
@@ -215,10 +205,6 @@ public class GameControlsAdaptor {
             m_HitsTextView.setText(Integer.toString(hits));
             m_DeadTextView.setText(Integer.toString(dead));
             m_MovesTextView.setText(Integer.toString(moves));
-            m_HitsLabel.setText(m_Context.getResources().getString(R.string.player_hits));
-            m_DeadLabel.setText(m_Context.getResources().getString(R.string.player_dead));
-            m_MissesLabel.setText(m_Context.getResources().getString(R.string.player_misses));
-            m_MovesLabel.setText(m_Context.getResources().getString(R.string.player_moves));
         } else {
             int misses = m_PlaneRound.playerGuess_StatNoComputerMisses();
             int hits = m_PlaneRound.playerGuess_StatNoComputerHits();
@@ -228,10 +214,6 @@ public class GameControlsAdaptor {
             m_HitsTextView.setText(Integer.toString(hits));
             m_DeadTextView.setText(Integer.toString(dead));
             m_MovesTextView.setText(Integer.toString(moves));
-            m_HitsLabel.setText(m_Context.getResources().getString(R.string.computer_hits));
-            m_DeadLabel.setText(m_Context.getResources().getString(R.string.computer_dead));
-            m_MissesLabel.setText(m_Context.getResources().getString(R.string.computer_misses));
-            m_MovesLabel.setText(m_Context.getResources().getString(R.string.computer_moves));
         }
     }
 
