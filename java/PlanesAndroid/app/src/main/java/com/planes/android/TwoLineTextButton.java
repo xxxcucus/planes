@@ -33,8 +33,10 @@ public class TwoLineTextButton extends AppCompatButton implements ViewWithText {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         PlanesVerticalLayout.PlanesVerticalLayoutParams lp = (PlanesVerticalLayout.PlanesVerticalLayoutParams) getLayoutParams();
-        m_Text1 = lp.getText1();
-        m_Text2 = lp.getText2();
+        if (m_Text1 == null)
+            m_Text1 = lp.getText1();
+        if (m_Text2 == null)
+            m_Text2 = lp.getText2();
 
         int measuredHeight = CanvasPaintUtilities.measureHeightTwoLinesText(heightMeasureSpec, m_Paint, m_Text1, m_Text2, m_LineSpacing);
         int measuredWidth = CanvasPaintUtilities.measureWidthTwoLinesText(widthMeasureSpec, m_Paint, m_Text1, m_Text2);

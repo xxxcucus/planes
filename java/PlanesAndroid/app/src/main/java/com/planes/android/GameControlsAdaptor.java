@@ -71,8 +71,8 @@ public class GameControlsAdaptor {
             m_DoneButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                m_PlanesLayout.setGameStage();
                 setGameStage();
+                m_PlanesLayout.setGameStage();
                 m_GameBoards.setGameStage();
                 m_PlaneRound.doneClicked();
                 }

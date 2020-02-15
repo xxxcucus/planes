@@ -36,7 +36,8 @@ public class TextButton extends AppCompatButton implements ViewWithText {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         PlanesVerticalLayout.PlanesVerticalLayoutParams lp = (PlanesVerticalLayout.PlanesVerticalLayoutParams) getLayoutParams();
-        m_Text = lp.getText();
+        if (m_Text == null)
+            m_Text = lp.getText();
 
         int measuredHeight = CanvasPaintUtilities.measureHeightOneLineText(heightMeasureSpec, m_Paint, m_Text);
         int measuredWidth = CanvasPaintUtilities.measureWidthOneLineText(widthMeasureSpec, m_Paint, m_Text);
