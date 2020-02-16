@@ -54,6 +54,9 @@ public class TextButton extends AppCompatButton implements ViewWithText {
 
         m_Paint.setColor(Color.BLUE);
         CanvasPaintUtilities.drawTextFitToSizeOneLine(m_Text, m_TextSize, canvas, m_Paint, getWidth(), getHeight());
+
+        m_Paint.setColor(Color.BLACK);
+        CanvasPaintUtilities.drawButtonShadow(canvas, m_Paint, getWidth(), getHeight());
     }
 
     public int getOptimalTextSize(int maxTextSize, int viewWidth, int viewHeight) {

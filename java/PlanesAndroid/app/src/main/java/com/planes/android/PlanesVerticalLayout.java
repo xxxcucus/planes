@@ -287,7 +287,7 @@ public class PlanesVerticalLayout extends ViewGroup {
             int actualWidth = view.getMeasuredWidth();
             int actualHeight = view.getMeasuredHeight();
 
-            currentOptimalTextSize = ((ViewWithText)view).getOptimalTextSize(currentOptimalTextSize, actualWidth, actualHeight);
+            currentOptimalTextSize = ((ViewWithText)view).getOptimalTextSize(currentOptimalTextSize, actualWidth - m_GridSpacing, actualHeight - m_GridSpacing);
         }
 
         //layout
@@ -301,8 +301,8 @@ public class PlanesVerticalLayout extends ViewGroup {
             int widthMeasureSpec = makeMeasureSpec(colspan * stepX, MeasureSpec.UNSPECIFIED);
             view.measure(widthMeasureSpec, heightMeasureSpec);
 
-            int actualWidth = view.getMeasuredWidth();
-            int actualHeight = view.getMeasuredHeight();
+            int actualWidth = view.getMeasuredWidth() - m_GridSpacing;
+            int actualHeight = view.getMeasuredHeight() - m_GridSpacing;
 
             int viewCenterX = left + lp.m_Col * stepX + colspan * stepX / 2;
             int viewCenterY = top + lp.m_Row * stepY + rowspan * stepY / 2;
@@ -359,4 +359,5 @@ public class PlanesVerticalLayout extends ViewGroup {
     private boolean m_ShowPlayerBoard = false;  //in start new game stage which board to show
     private boolean m_Tablet = false;
     private boolean m_Vertical = false;
+    private int m_GridSpacing = 5;
 }

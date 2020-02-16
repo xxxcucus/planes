@@ -173,4 +173,9 @@ public class CanvasPaintUtilities {
     }
 
 
+    public static void drawButtonShadow(Canvas canvas, Paint paint, int width, int height) {
+        canvas.drawLine(0, height - 1, width, height - 1, paint);
+        canvas.drawLine(width - 1 , 0, width - 1, height, paint);
+    }
+
 }

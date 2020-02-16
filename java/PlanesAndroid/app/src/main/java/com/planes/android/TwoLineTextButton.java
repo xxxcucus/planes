@@ -52,6 +52,9 @@ public class TwoLineTextButton extends AppCompatButton implements ViewWithText {
 
         m_Paint.setColor(Color.BLUE);
         CanvasPaintUtilities.drawTextFitToSizeTwoLines(m_Text1, m_Text2, m_TextSize, canvas, m_Paint, getWidth(), getHeight(), m_LineSpacing);
+
+        m_Paint.setColor(Color.BLACK);
+        CanvasPaintUtilities.drawButtonShadow(canvas, m_Paint, getWidth(), getHeight());
     }
 
     public int getOptimalTextSize(int maxTextSize, int viewWidth, int viewHeight) {

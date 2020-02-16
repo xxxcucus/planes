@@ -1,6 +1,8 @@
 package com.planes.android;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
@@ -28,6 +30,15 @@ public class ButtonWithPictogram extends AppCompatButton {
 
     public void init() {
         m_Paint = new Paint();
+    }
+
+    @Override
+    public void onDraw(Canvas canvas) {
+        m_Paint.setColor(Color.GRAY);
+        canvas.drawRect(0, 0, getWidth(), getHeight(), m_Paint);
+
+        m_Paint.setColor(Color.BLACK);
+        CanvasPaintUtilities.drawButtonShadow(canvas, m_Paint, getWidth(), getHeight());
     }
 
     @Override
