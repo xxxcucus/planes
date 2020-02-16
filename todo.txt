@@ -33,3 +33,4 @@ but the "Start New Round" button should only be active at the end of one round. 
 32. Add crashalytics support.
 33. Reorganize repository based on programming language.
 34. Rewrite game engine in Java.
+35. Bug Infobox on Nexus 4.

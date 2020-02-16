@@ -287,7 +287,7 @@ public class PlanesVerticalLayout extends ViewGroup {
             int actualWidth = view.getMeasuredWidth();
             int actualHeight = view.getMeasuredHeight();
 
-            currentOptimalTextSize = ((ViewWithText)view).getOptimalTextSize(currentOptimalTextSize, actualWidth - m_GridSpacing, actualHeight - m_GridSpacing);
+            currentOptimalTextSize = ((ViewWithText)view).getOptimalTextSize(currentOptimalTextSize, actualWidth -  m_GridSpacing, actualHeight - m_GridSpacing);
         }
 
         //layout
@@ -315,7 +315,6 @@ public class PlanesVerticalLayout extends ViewGroup {
         }
     }
 
-    //TODO: is the use of invalidate appropriate?
     public void setNewRoundStage() {
         m_GameStage = GameStages.GameNotStarted;
         invalidate();
