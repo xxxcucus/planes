@@ -81,7 +81,8 @@
             app:gc_row="1"
             app:gc_colspan="3"
             app:gc_col="4"
-            app:gc_game_stage="1" />
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
         <com.planes.android.TwoLineTextButtonWithState
             android:id="@+id/view_computer_board1"
             android:layout_width="wrap_content"
@@ -101,7 +102,8 @@
             app:gc_row="2"
             app:gc_colspan="2"
             app:gc_col="4"
-            app:gc_game_stage="1"/>
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
         <com.planes.android.ColouredSurfaceWithText
             android:id="@+id/moves_count"
             android:layout_width="wrap_content"
@@ -109,7 +111,8 @@
             app:gc_text="0"
             app:gc_row="2"
             app:gc_col="6"
-            app:gc_game_stage="1"/>
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
         <com.planes.android.ColouredSurfaceWithText
             android:id="@+id/misses_label"
             android:layout_width="wrap_content"
@@ -118,7 +121,8 @@
             app:gc_row="3"
             app:gc_colspan="2"
             app:gc_col="4"
-            app:gc_game_stage="1" />
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
 
         <com.planes.android.ColouredSurfaceWithText
             android:id="@+id/misses_count"
@@ -128,7 +132,8 @@
             app:gc_text="0"
             app:gc_row="3"
             app:gc_col="6"
-            app:gc_game_stage="1"/>
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
         <com.planes.android.ColouredSurfaceWithText
             android:id="@+id/hits_label"
             android:layout_width="wrap_content"
@@ -137,7 +142,8 @@
             app:gc_row="4"
             app:gc_colspan="2"
             app:gc_col="4"
-            app:gc_game_stage="1"/>
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
         <com.planes.android.ColouredSurfaceWithText
             android:id="@+id/hits_count"
             android:layout_width="wrap_content"
@@ -145,7 +151,8 @@
             app:gc_text="0"
             app:gc_row="4"
             app:gc_col="6"
-            app:gc_game_stage="1"/>
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
 
         <com.planes.android.ColouredSurfaceWithText
             android:id="@+id/dead_label"
@@ -155,7 +162,8 @@
             app:gc_row="5"
             app:gc_colspan="2"
             app:gc_col="4"
-            app:gc_game_stage="1"/>
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
         <com.planes.android.ColouredSurfaceWithText
             android:id="@+id/dead_count"
             android:layout_width="wrap_content"
@@ -163,7 +171,8 @@
             app:gc_text="0"
             app:gc_row="5"
             app:gc_col="6"
-            app:gc_game_stage="1"/>
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
 
         <!-- Buttons for start new game stage -->
         <com.planes.android.TwoLineTextButtonWithState
@@ -195,7 +204,7 @@
             android:layout_height="wrap_content"
             app:gc_row="1"
             app:gc_col="4"
-            app:gc_colspan="4"
+            app:gc_colspan="5"
             app:gc_game_stage="2"
             app:gc_text="@string/computer_winner"/>
 
@@ -205,7 +214,7 @@
             android:layout_height="wrap_content"
             app:gc_row="2"
             app:gc_col="4"
-            app:gc_colspan="3"
+            app:gc_colspan="4"
             app:gc_game_stage="2"
             app:gc_text="@string/computer_wins" />
         <com.planes.android.ColouredSurfaceWithText
@@ -222,7 +231,7 @@
             android:layout_height="wrap_content"
             app:gc_row="3"
             app:gc_col="4"
-            app:gc_colspan="3"
+            app:gc_colspan="4"
             app:gc_game_stage="2"
             app:gc_text="@string/player_wins" />
         <com.planes.android.ColouredSurfaceWithText

@@ -39,6 +39,7 @@ public class ColouredSurfaceWithText extends View implements ViewWithText {
         PlanesVerticalLayout.PlanesVerticalLayoutParams lp = (PlanesVerticalLayout.PlanesVerticalLayoutParams) getLayoutParams();
         if (m_Text == null)
             m_Text = lp.getText();
+        m_BackgroundColor = lp.getColor();
 
         int measuredHeight = CanvasPaintUtilities.measureHeightOneLineText(heightMeasureSpec, m_Paint, m_Text);
         int measuredWidth = CanvasPaintUtilities.measureWidthOneLineText(widthMeasureSpec, m_Paint, m_Text);
@@ -49,7 +50,7 @@ public class ColouredSurfaceWithText extends View implements ViewWithText {
 
     public void onDraw(Canvas canvas) {
         //TODO: draw the surface in the colour specified
-        m_Paint.setColor(Color.GRAY);
+        m_Paint.setColor(m_BackgroundColor);
         canvas.drawRect(0, 0, getWidth(), getHeight(), m_Paint);
 
         m_Paint.setColor(Color.BLUE);
@@ -69,4 +70,5 @@ public class ColouredSurfaceWithText extends View implements ViewWithText {
     private Paint m_Paint;
     private String m_Text;
     private int m_TextSize = 10;
+    private int m_BackgroundColor;
 }

@@ -32,6 +32,7 @@ public class PlanesVerticalLayout extends ViewGroup {
             m_Text = a.getString(R.styleable.PlanesVerticalLayout_gc_text);
             m_Text1 = a.getString(R.styleable.PlanesVerticalLayout_gc_text1);
             m_Text2 = a.getString(R.styleable.PlanesVerticalLayout_gc_text2);
+            m_BackgroundColor = a.getColor(R.styleable.PlanesVerticalLayout_gc_background_color,getResources().getColor(R.color.grey));
             a.recycle();
         }
 
@@ -48,6 +49,7 @@ public class PlanesVerticalLayout extends ViewGroup {
         }
         public String getText1() { return m_Text1; }
         public String getText2() { return m_Text2; }
+        public int getColor() { return m_BackgroundColor; }
 
         //TODO: to add text formatting options
         //adapt text size to available area
@@ -61,6 +63,7 @@ public class PlanesVerticalLayout extends ViewGroup {
         private String m_Text;
         private String m_Text1;
         private String m_Text2;
+        private int m_BackgroundColor;
     }
 
     public PlanesVerticalLayout(Context context) {
