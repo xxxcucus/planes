@@ -179,7 +179,8 @@ public class GameControlsAdapter {
         int player_wins = m_PlaneRound.playerGuess_StatNoPlayerWins();
         m_PlayerWins.setText(Integer.toString(player_wins));
         m_ComputerWins.setText(Integer.toString(computer_wins));
-        m_PlanesLayout.setPlayerBoard();
+        m_ViewComputerBoardButton2.setState("player", m_Context.getResources().getString(R.string.view_player_board2).toString());
+        m_PlanesLayout.setComputerBoard();
     }
 
     public void setGameStage() {
@@ -225,7 +226,6 @@ public class GameControlsAdapter {
 
     public void roundEnds(int playerWins, int computerWins, boolean isComputerWinner) {
         //TODO: do I need to update layout and game boards as well?
-        setNewRoundStage();
         m_PlanesLayout.setComputerBoard();
         m_PlanesLayout.setNewRoundStage();
         if (isComputerWinner)
@@ -237,6 +237,7 @@ public class GameControlsAdapter {
         int player_wins = m_PlaneRound.playerGuess_StatNoPlayerWins();
         m_PlayerWins.setText(Integer.toString(player_wins));
         m_ComputerWins.setText(Integer.toString(computer_wins));
+        m_ViewComputerBoardButton2.setState("player", m_Context.getResources().getText(R.string.view_player_board2).toString());
     }
 
     public void setDoneEnabled(boolean enabled) {
