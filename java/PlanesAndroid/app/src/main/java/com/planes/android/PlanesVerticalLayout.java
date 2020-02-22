@@ -52,7 +52,6 @@ public class PlanesVerticalLayout extends ViewGroup {
         public int getColor() { return m_BackgroundColor; }
 
         //TODO: to add text formatting options
-        //adapt text size to available area
         //word wrap, no word wrap
         private int m_Row = 0;
         private int m_Col = 0;
@@ -162,14 +161,16 @@ public class PlanesVerticalLayout extends ViewGroup {
             }
         }
 
+        int boardSpacing = 20;
+
         if (m_GameStage == GameStages.Game) {
             if (m_Tablet) {
                 if (m_Vertical) {
-                    setPlayerBoardPosition(0, 0, layoutWidth,layoutHeight / 2, false);
-                    setComputerBoardPosition(0, layoutHeight / 2, layoutWidth, layoutHeight, false);
+                    setPlayerBoardPosition(0, 0, layoutWidth,layoutHeight / 2 - boardSpacing, false);
+                    setComputerBoardPosition(0, layoutHeight / 2 + boardSpacing, layoutWidth, layoutHeight, false);
                 } else {
-                    setPlayerBoardPosition(0, 0,layoutWidth / 2,  layoutHeight, false);
-                    setComputerBoardPosition(layoutWidth / 2, 0, layoutWidth, layoutHeight, false);
+                    setPlayerBoardPosition(0, 0,layoutWidth / 2 - boardSpacing,  layoutHeight, false);
+                    setComputerBoardPosition(layoutWidth / 2 + boardSpacing, 0, layoutWidth, layoutHeight, false);
                 }
             } else {
                 if (m_Vertical) {
