@@ -25,12 +25,12 @@ but the "Start New Round" button should only be active at the end of one round. 
 24. Add help in PlanesAndroid. - ok
 25. When clicking more times on the same position in PlanesAndroid the guess counters are increased. - ok 
 26. When closing the app with the back button, when starting again the application is in an inconsistent state - ok
-27. Position the planes with the buttons.
-28. Different layout for tablet devices
+27. Position the planes with pictogram buttons. - PlanesAndroid - ok - February 2020
+28. Different layout for tablet devices - PlanesAndroid - ok - February 2020
 29. Add color picker for colors in the game. - PlanesAndroid
 30. Add HomeActivity which allows to switch from multiplayer to single player game.
 31. Verify and improve saving an restoring of game. (destroy game engine object and save its state, then recreate and restore state).
 32. Add crashalytics support.
 33. Reorganize repository based on programming language.
 34. Rewrite game engine in Java.
-35. Bug Infobox on Nexus 4.
+35. Bug Infobox on Nexus 4. - PlanesAndroid - ok - February 2020
