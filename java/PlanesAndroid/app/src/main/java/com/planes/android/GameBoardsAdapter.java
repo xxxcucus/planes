@@ -1,20 +1,20 @@
 package com.planes.android;
 
-public class GameBoardsAdaptor {
+public class GameBoardsAdapter {
 
-    public GameBoardsAdaptor(GameBoard gameBoard) {
+    public GameBoardsAdapter(GameBoard gameBoard) {
         m_Tablet = false;
         m_GameBoard = gameBoard;
     }
 
-    public GameBoardsAdaptor(GameBoard playerBoard, GameBoard computerBoard) {
+    public GameBoardsAdapter(GameBoard playerBoard, GameBoard computerBoard) {
         m_Tablet = true;
         m_PlayerBoard = playerBoard;
         m_ComputerBoard = computerBoard;
         m_ComputerBoard.setSiblingBoard(m_PlayerBoard);
     }
 
-    public void setGameControls(GameControlsAdaptor controls) {
+    public void setGameControls(GameControlsAdapter controls) {
         if (m_Tablet) {
             m_PlayerBoard.setGameControls(controls);
             m_ComputerBoard.setGameControls(controls);
@@ -114,7 +114,7 @@ public class GameBoardsAdaptor {
     //used when playing on a tablet
     private GameBoard m_PlayerBoard = null;
     private GameBoard m_ComputerBoard = null;
-    private GameControlsAdaptor m_GameControls = null;
+    private GameControlsAdapter m_GameControls = null;
 
     private boolean m_Tablet = false;
 }

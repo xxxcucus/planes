@@ -1,11 +1,8 @@
 package com.planes.android;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.widget.GridLayout;
 
 import com.planes.javafx.PlaneRoundJavaFx;
@@ -374,7 +371,7 @@ public class GameBoard extends GridLayout {
         updateBoards();
     }
 
-    public void setGameControls(GameControlsAdaptor gameControls) {
+    public void setGameControls(GameControlsAdapter gameControls) {
         m_GameControls = gameControls;
     }
 
@@ -403,7 +400,7 @@ public class GameBoard extends GridLayout {
     private Context m_Context;
 
     private int m_Selected = 0;
-    private GameControlsAdaptor m_GameControls = null;
+    private GameControlsAdapter m_GameControls = null;
     private boolean m_Tablet = false;
     private GameBoard m_SiblingBoard = null;
     private int m_GridSquareSize = 0;

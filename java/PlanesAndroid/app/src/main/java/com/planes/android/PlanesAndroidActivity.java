@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.support.constraint.ConstraintLayout;
 
 import com.planes.javafx.PlaneRoundJavaFx;
 
@@ -78,11 +77,11 @@ public class PlanesAndroidActivity extends AppCompatActivity {
 
             computerBoard.setGameSettings(m_PlaneRound, true);
             computerBoard.setComputerBoard();
-            m_GameBoards = new GameBoardsAdaptor(playerBoard, computerBoard);
+            m_GameBoards = new GameBoardsAdapter(playerBoard, computerBoard);
         } else {
             GameBoard gameBoard = (GameBoard)findViewById(R.id.game_boards);
             gameBoard.setGameSettings(m_PlaneRound, false);
-            m_GameBoards = new GameBoardsAdaptor(gameBoard);
+            m_GameBoards = new GameBoardsAdapter(gameBoard);
         }
 
         //Board Editing Buttons
@@ -114,7 +113,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         ColouredSurfaceWithText playerWinsCount = (ColouredSurfaceWithText)findViewById(R.id.player_wins_count);
         ColouredSurfaceWithText winnerText = (ColouredSurfaceWithText)findViewById(R.id.winner_textview);
 
-        m_GameControls = new GameControlsAdaptor(this);
+        m_GameControls = new GameControlsAdapter(this);
         m_GameControls.setBoardEditingControls(upButton, downButton, leftButton, rightButton, doneButton, rotateButton);
         if (!isTablet)
             m_GameControls.setGameControls(statsTitle, viewComputerBoardButton1, movesLabel, movesCount, missesLabel, missesCount, hitsLabel, hitsCount, deadsLabel, deadCount);
@@ -292,7 +291,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
     }
 
     private PlaneRoundJavaFx m_PlaneRound;
-    private GameBoardsAdaptor m_GameBoards;
-    private GameControlsAdaptor m_GameControls;
+    private GameBoardsAdapter m_GameBoards;
+    private GameControlsAdapter m_GameControls;
     private PlanesVerticalLayout m_PlanesLayout;
 }
