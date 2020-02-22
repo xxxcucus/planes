@@ -92,7 +92,7 @@ public class GameControlsAdapter {
         m_DeadLabel = deadsLabel;
         m_DeadTextView = deadCount;
 
-        m_ViewComputerBoardButton1.setState("player");
+        m_ViewComputerBoardButton1.setState("player", m_Context.getResources().getString(R.string.view_player_board2));
 
 
         if (m_ViewComputerBoardButton1 != null) {
@@ -102,7 +102,7 @@ public class GameControlsAdapter {
 
                     if (m_ViewComputerBoardButton1.getCurrentStateName() == "computer") {
                         m_GameBoards.setComputerBoard();
-                        m_ViewComputerBoardButton1.setState("player");
+                        m_ViewComputerBoardButton1.setState("player", m_Context.getResources().getString(R.string.view_player_board2));
                         int misses = m_PlaneRound.playerGuess_StatNoComputerMisses();
                         int hits = m_PlaneRound.playerGuess_StatNoComputerHits();
                         int dead = m_PlaneRound.playerGuess_StatNoComputerDead();
@@ -111,11 +111,11 @@ public class GameControlsAdapter {
                         m_HitsTextView.setText(Integer.toString(hits));
                         m_DeadTextView.setText(Integer.toString(dead));
                         m_MovesTextView.setText(Integer.toString(moves));
-                        m_StatsTitle.setText("Computer Stats");
+                        m_StatsTitle.setText(m_Context.getResources().getString(R.string.computer_stats));
                         m_PlanesLayout.setComputerBoard();
                     } else if (m_ViewComputerBoardButton1.getCurrentStateName() == "player") {
                         m_GameBoards.setPlayerBoard();
-                        m_ViewComputerBoardButton1.setState("computer");
+                        m_ViewComputerBoardButton1.setState("computer", m_Context.getResources().getString(R.string.view_computer_board2));
                         int misses = m_PlaneRound.playerGuess_StatNoPlayerMisses();
                         int hits = m_PlaneRound.playerGuess_StatNoPlayerHits();
                         int dead = m_PlaneRound.playerGuess_StatNoPlayerDead();
@@ -124,7 +124,7 @@ public class GameControlsAdapter {
                         m_HitsTextView.setText(Integer.toString(hits));
                         m_DeadTextView.setText(Integer.toString(dead));
                         m_MovesTextView.setText(Integer.toString(moves));
-                        m_StatsTitle.setText("Player Stats");
+                        m_StatsTitle.setText(m_Context.getResources().getString(R.string.player_stats));
                         m_PlanesLayout.setPlayerBoard();
                     }
                 }
@@ -154,7 +154,7 @@ public class GameControlsAdapter {
             });
         }
 
-        m_ViewComputerBoardButton2.setState("player");
+        m_ViewComputerBoardButton2.setState("player", m_Context.getResources().getString(R.string.view_player_board2));
 
         if (m_ViewComputerBoardButton2 != null) {
             m_ViewComputerBoardButton2.setOnClickListener(new View.OnClickListener() {
@@ -163,11 +163,11 @@ public class GameControlsAdapter {
                     if (m_ViewComputerBoardButton2.getCurrentStateName() == "computer") {
                         m_GameBoards.setComputerBoard();
                         m_PlanesLayout.setComputerBoard();
-                        m_ViewComputerBoardButton2.setState("player");
+                        m_ViewComputerBoardButton2.setState("player", m_Context.getResources().getString(R.string.view_player_board2));
                     } else if (m_ViewComputerBoardButton2.getCurrentStateName() == "player") {
                         m_GameBoards.setPlayerBoard();
                         m_PlanesLayout.setPlayerBoard();
-                        m_ViewComputerBoardButton2.setState("computer");
+                        m_ViewComputerBoardButton2.setState("computer", m_Context.getResources().getString(R.string.view_computer_board2));
                     }
                 }
             });
@@ -186,8 +186,8 @@ public class GameControlsAdapter {
 
         if (!m_Tablet) {
             m_GameBoards.setComputerBoard();
-            m_ViewComputerBoardButton1.setState("player");
-            m_StatsTitle.setText("Computer Stats");
+            m_ViewComputerBoardButton1.setState("player", m_Context.getResources().getString(R.string.view_player_board2));
+            m_StatsTitle.setText(m_Context.getResources().getString(R.string.computer_stats));
             updateStats(true);
         } else {
         }

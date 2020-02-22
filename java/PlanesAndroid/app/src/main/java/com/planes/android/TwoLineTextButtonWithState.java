@@ -20,14 +20,14 @@ public class TwoLineTextButtonWithState extends TwoLineTextButton implements Obj
         init();
     }
 
-    public void setState(String stateName) {
+    public void setState(String stateName, String text) {
         //TODO: read texts from resources
         m_State = stateName;
         if (m_State == "player") {
-            m_Text2 = "Player Board";
+            m_Text2 = text;
         }
         if (m_State == "computer") {
-            m_Text2 = "Computer Board";
+            m_Text2 = text;
         }
 
         invalidate();
