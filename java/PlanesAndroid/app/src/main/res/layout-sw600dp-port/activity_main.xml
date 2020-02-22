@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             app:gc_row="1"
             app:gc_col="4"
-            app:gc_colspan="4"
+            app:gc_colspan="5"
             app:gc_game_stage="2"
             app:gc_text="@string/computer_winner"/>
 
@@ -118,7 +118,7 @@
             android:layout_height="wrap_content"
             app:gc_row="2"
             app:gc_col="4"
-            app:gc_colspan="3"
+            app:gc_colspan="4"
             app:gc_game_stage="2"
             app:gc_text="@string/computer_wins" />
         <com.planes.android.ColouredSurfaceWithText
@@ -135,7 +135,7 @@
             android:layout_height="wrap_content"
             app:gc_row="3"
             app:gc_col="4"
-            app:gc_colspan="3"
+            app:gc_colspan="4"
             app:gc_game_stage="2"
             app:gc_text="@string/player_wins" />
         <com.planes.android.ColouredSurfaceWithText

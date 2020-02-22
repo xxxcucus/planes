@@ -26,7 +26,7 @@ public class GameControlsAdaptor {
             m_LeftButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                m_GameBoards.movePlaneLeft();
+                m_GameBoards.movePlaneUp();
                 }
             });
         }
@@ -35,7 +35,7 @@ public class GameControlsAdaptor {
             m_RightButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                m_GameBoards.movePlaneRight();
+                m_GameBoards.movePlaneDown();
                 }
             });
         }
@@ -44,7 +44,7 @@ public class GameControlsAdaptor {
             m_UpButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                m_GameBoards.movePlaneUp();
+                m_GameBoards.movePlaneLeft();
                 }
             });
         }
@@ -53,7 +53,7 @@ public class GameControlsAdaptor {
             m_DownButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                m_GameBoards.movePlaneDown();
+                m_GameBoards.movePlaneRight();
                 }
             });
         }
