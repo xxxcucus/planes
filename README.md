@@ -1,5 +1,5 @@
 # planes
-Variant of battleships game implemented with Qt, C++ and with JavaFx and Android(under development).
+Variant of battleships game implemented with Qt, C++ and with JavaFx and Android.
 
 3 versions of the game of Planes are implemented with Qt: PlanesWidget, first naive version,
 PlanesGraphicsScene an implementation using QGraphicsScene,
