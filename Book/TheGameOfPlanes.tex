@@ -16,6 +16,7 @@
     filecolor=magenta,      
     urlcolor=cyan,
 }
+\usepackage[toc,page]{appendix}
 
 
 \title{Development of the Planes Game, a Version of the Battleships Game}
@@ -65,7 +66,11 @@ An essential aspect of the graphical user interface is how the board games are d
 \include{PlanesQML}
 \include{PlanesJavaFx}
 
-
+\begin{appendices}
+	\include{InstallationCMake}
+	\include{InstallationJNI}
+	\include{InstallationAndroid}
+\end{appendices}
 
 
 \end{document}

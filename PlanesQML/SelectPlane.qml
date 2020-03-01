@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.14
 import "ButtonPaintFunctions.js" as PaintFunctions
 
 Rectangle {
