@@ -2,7 +2,7 @@
 
 After you have cloned the repository from GitHub, you need to install Qt.
 
-In order to compile or generate binaries you have to use CMake either in command prompt or from a GUI CMake program. In Windows as well as in Linux CMake-gui is a GUI CMake program. In \ref{fig:cmakegui_planes} you can see a screenshot of what the cmake program will show after you give it the path to the project (the folder where the main CMakeLists.txt lies) and the folder where you want the project libraries to be built.
+In order to prepare the building process you have to configure CMake either in command prompt or from a GUI CMake program. In Windows as well as in Linux CMake-gui is a GUI CMake program. In \ref{fig:cmakegui_planes} you can see a screenshot of what the cmake program will show after you give it the path to the project (the folder where the main CMakeLists.txt lies) and the folder where you want the project libraries to be built.
 
 
 \begin{figure}[h]
@@ -24,10 +24,18 @@ CMake GUI uses so called generators to define which toolchain is used for compil
 
 Tested binaries of the project used Visual Studio, gcc and MinGW generators.
 
+To perform project configuration click "Configure" and then "Generate".
+
 \section {Binaries}
 
-Binaries will be generated in ... along with the associated libraries. 
+\subsection{Windows - Visual Studio}
 
-Differences Windows, Linux.
+For the Visual Studio generator, after "Generate" is clicked, a solution file is created (.sln). You can use this solution file to open the project. You need to build the INSTALL target inside the project to generate the binaries. 
 
-How to run the project.
+\subsection {Windows - MinGW} 
+
+You have to choose the MINGW generator before defining the CMAKE variables in the CMAKE-Gui. You have to run Configure and Generate as well as with the Visual Studio generator. After you have done that you have to go to Windows Command Prompt in the build path. There you should give the following command: cmake.exe --build . This will use MinGW's make program to build the program. To install the binaries in the installation path (configured in CMAKE-Gui with CMAKE\_INSTALL\_PREFIX) run cmake.exe --build install .
+
+\subsection {Linux - GCC}
+
+TODO.
