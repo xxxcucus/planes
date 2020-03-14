@@ -30,12 +30,14 @@ To perform project configuration click "Configure" and then "Generate".
 
 \subsection{Windows - Visual Studio}
 
-For the Visual Studio generator, after "Generate" is clicked, a solution file is created (.sln). You can use this solution file to open the project. You need to build the INSTALL target inside the project to generate the binaries. 
+For the Visual Studio generator, after "Generate" is clicked, a Visual Studio solution file is created (.sln). You can use this solution file to open the project. You need to build the INSTALL target inside the project to generate the binaries and move them along with the required dependencies in the installation path. 
 
 \subsection {Windows - MinGW} 
 
-You have to choose the MINGW generator before defining the CMAKE variables in the CMAKE-Gui. You have to run Configure and Generate as well as with the Visual Studio generator. After you have done that you have to go to Windows Command Prompt in the build path. There you should give the following command: cmake.exe --build . This will use MinGW's make program to build the program. To install the binaries in the installation path (configured in CMAKE-Gui with CMAKE\_INSTALL\_PREFIX) run cmake.exe --build install .
+You have to choose the MINGW generator before defining the CMAKE variables in the CMAKE-Gui. You have to run Configure and Generate as well as with the Visual Studio generator. After you have done that you have to go to Windows Command Prompt in the build path. There you should give the following command: cmake.exe --build . This will use MinGW's make program to build the program. To install the binaries along with their dependencies in the installation path (configured in CMAKE-Gui with CMAKE\_INSTALL\_PREFIX) run cmake.exe --build install .
 
 \subsection {Linux - GCC}
 
-TODO.
+Configuration of the project with CMake-Gui is the same. I am usually doing only the setting of the CMAKE variables with the gui programs and then stop CMake-Gui. This is because CMake-Gui for Linux has not been updated in a while and I want to use always the latest CMake version. 
+
+After closing CMake-GUI go to the build folder in terminal. Run cmake .. then make and make install to install the binaries and their dependencies in the installation path.

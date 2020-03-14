@@ -32,3 +32,6 @@ For Android
 
 or get the app directly from Google Play Store: https://play.google.com/store/apps/details?id=com.planes.android
 
+# compilation instructions
+
+For the C++ projects PlanesWidget, PlanesGraphicsScene and PlanesQML, you will find the compilation and installation instructions in the Appendix of the pdf documentation - see the Releases page (available after Release 0.3.1)
