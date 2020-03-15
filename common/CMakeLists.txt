@@ -32,7 +32,6 @@ set(COMMON_HEADR
 	planegrid.h
 	planeround.h
 	computerlogic.h
-	revertcomputerlogic.h
 	guesspoint.h
 	planeiterators.h
 	coordinate2d.h
@@ -49,7 +48,6 @@ set(COMMON_SRCS
 	planegrid.cpp
 	planeround.cpp
     computerlogic.cpp
-	revertcomputerlogic.cpp
 	guesspoint.cpp
 	planeiterators.cpp
 	gamestatistics.cpp

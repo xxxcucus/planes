@@ -27,7 +27,7 @@ public class GuessPoint {
             return false;
         GuessPoint gp = (GuessPoint) other;
 
-        return (m_row == gp.m_row) && (m_col == gp.m_col) && (m_type == gp.m_type);
+        return (m_row == gp.m_row) && (m_col == gp.m_col);
     }
 
     public boolean isDead() {
