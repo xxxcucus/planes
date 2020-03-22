@@ -18,6 +18,7 @@ public class GuessPoint {
         m_type = tp;
     }
 
+    @Override
     public boolean equals(final Object other) {
         if (this == other)
             return true;
