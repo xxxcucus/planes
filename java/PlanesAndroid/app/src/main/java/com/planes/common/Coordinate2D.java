@@ -2,7 +2,7 @@ package com.planes.common;
 
 import java.util.Objects;
 
-public class Coordinate2D {
+public class Coordinate2D implements Cloneable {
 
     public Coordinate2D() {}
     public Coordinate2D(int x, int y) {
@@ -22,6 +22,7 @@ public class Coordinate2D {
         return new Coordinate2D(m_x + other.m_x, m_y + other.m_y);
     }
 
+    @Override
     public boolean equals(final Object other) {
         if (this == other)
             return true;
@@ -34,6 +35,10 @@ public class Coordinate2D {
         return (m_x == coordinate.m_x) && (m_y == coordinate.m_y);
     }
 
+    @Override
+    public Object clone() {
+        return new Coordinate2D(m_x, m_y);
+    }
 
     private int m_x = 0;
     private int m_y = 0;

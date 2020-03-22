@@ -236,7 +236,7 @@ bool ComputerLogic::makeChoiceRandomMode(PlanesCommonTools::Coordinate2D& qp) co
     int idx = Plane::generateRandomNumber(maxChoiceNo);
 
     //starting from the point next to the point selected
-    int count = (idx+1) % maxChoiceNo;
+    int count = (idx + 1) % maxChoiceNo;
 
    //if it corresponds to a point with a choice of 0
     //choose this point

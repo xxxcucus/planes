@@ -13,7 +13,7 @@ HeadData::HeadData(int row, int col, int headRow, int headCol):
     m_correctOrient(-1)
 {
 
-    for(int i = 0;i < 4; i++)
+    for(int i = 0; i < 4; i++)
     {
         Plane pl(m_headRow, m_headCol, (Plane::Orientation)i);
         //create the four planes for each head position

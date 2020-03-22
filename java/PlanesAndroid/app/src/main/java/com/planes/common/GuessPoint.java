@@ -1,6 +1,6 @@
 package com.planes.common;
 
-public class GuessPoint {
+public class GuessPoint implements Cloneable {
 
     public GuessPoint(int row, int col) {
         m_row = row;
@@ -18,6 +18,7 @@ public class GuessPoint {
         m_type = tp;
     }
 
+    @Override
     public boolean equals(final Object other) {
         if (this == other)
             return true;
@@ -38,6 +39,10 @@ public class GuessPoint {
     }
     public boolean isMiss() {
         return m_type == Type.Miss;
+    }
+
+    public Object clone() {
+        return new GuessPoint(m_row, m_col, m_type);
     }
 
     public int m_row = 0;

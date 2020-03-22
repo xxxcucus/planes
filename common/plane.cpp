@@ -72,9 +72,9 @@ bool Plane::isPositionValid(int row, int col) const {
     while(ppi.hasNext())
     {
         PlanesCommonTools::Coordinate2D qp = ppi.next();
-        if(qp.x()<0 || qp.x()>=row)
+        if(qp.x() < 0 || qp.x() >= row)
             return false;
-        if(qp.y()<0 || qp.y()>=col)
+        if(qp.y() < 0 || qp.y() >= col)
             return false;
     }
 
