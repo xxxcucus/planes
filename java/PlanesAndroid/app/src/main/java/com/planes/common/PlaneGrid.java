@@ -108,6 +108,7 @@ public class PlaneGrid {
                 if(!isPointOnPlane(qp.x(), qp.y(), idx)) {
                     m_listPlanePoints.add((Coordinate2D)qp.clone());
                     //TODO: clone an integer ?
+
                     m_listPlanePointsAnnotations.add(annotation);
                 } else {
                     returnValue = false;
@@ -244,9 +245,9 @@ public class PlaneGrid {
         /*if (mask & annotation)
             retVal.push_back(i);*/
             if ((mask1 & annotation) > 0)
-                retVal.add(i); //TODO: clone an integer?
+                retVal.add(i);
             if ((mask2 & annotation) > 0)
-                retVal.add(-i - 1); //TODO: clone an integer?
+                retVal.add(-i - 1);
         }
         return retVal;
     }

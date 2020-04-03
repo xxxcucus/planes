@@ -143,7 +143,7 @@ public class PlaneRound {
         m_PlayerGrid.movePlaneRight(idx);
         return !(m_PlayerGrid.doPlanesOverlap() || m_PlayerGrid.isPlaneOutsideGrid());
     }
-    
+
     /**
      Move the plane upwards and return false if the current plane configuration is valid.
      */
