@@ -5,7 +5,7 @@ import java.util.Vector;
 public class VectorIterator<T> {
 
     public VectorIterator() {
-        m_internalList.clear();
+        m_internalList = new Vector<T>();
         reset();
     }
 
@@ -24,6 +24,11 @@ public class VectorIterator<T> {
 
     public int itemNo() {
         return m_internalList.size();
+    }
+
+    //for test purposes
+    public void setInternalList(final Vector<T> list) {
+        m_internalList = list;
     }
 
     protected Vector<T> m_internalList;
