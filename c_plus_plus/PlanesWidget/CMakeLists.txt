@@ -23,7 +23,8 @@ set (WIDGET_HEADR
 	gamerenderarea.h
 	gamestatswidget.h
 	planeswview.h
-	planeswwindow.h)
+	planeswwindow.h
+	revertcomputerlogic.h)
 
 set(WIDGET_SRCS 	
     baserenderarea.cpp
@@ -35,7 +36,8 @@ set(WIDGET_SRCS
 	gamestatswidget.cpp
 	main.cpp
 	planeswview.cpp
-	planeswwindow.cpp)
+	planeswwindow.cpp
+	revertcomputerlogic.cpp)
 
     qt5_wrap_ui(UI_HEADERS
         EditControl.ui
