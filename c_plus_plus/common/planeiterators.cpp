@@ -106,31 +106,14 @@ void PointInfluenceIterator::generateList()
 {
     m_internalList.clear();
 
-    //searches in a range around the selected QPoint
-    for(int i = -10 + m_point.x(); i < 10 + m_point.y(); i++)
-        for(int j = -10 + m_point.y(); j < 10 + m_point.y(); j++)
-        {
-            PlanesCommonTools::Coordinate2D qp(i, j);
-            //generates all planes intersecting the point
-            PlaneIntersectingPointIterator pipi(qp);
+	for (int i = 0; i < 4; i++) {
+		Plane pl(m_point.x(), m_point.y(), (Plane::Orientation)i);
+		PlanePointIterator ppi(pl);
 
-            bool pointFound = false;
-
-            //check to see if any of these planes correspond to the initial point
-            while(pipi.hasNext())
-            {
-                Plane pl = pipi.next();
-                if(pl.isHead(m_point))
-                {
-                    pointFound = true;
-                    break;
-                }
-            }
-
-            if(pointFound)
-            {
-                m_internalList.push_back(qp);
-                continue;
-            }
-        }
+		while (ppi.hasNext()) {
+			PlanesCommonTools::Coordinate2D point = ppi.next();
+			if (std::find(m_internalList.begin(), m_internalList.end(), point) == m_internalList.end())
+				m_internalList.push_back(point);
+		}
+	}
 }

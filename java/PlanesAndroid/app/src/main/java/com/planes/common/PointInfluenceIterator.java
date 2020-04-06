@@ -11,33 +11,16 @@ public class PointInfluenceIterator extends VectorIterator<Coordinate2D> {
     private void generateList() {
         m_internalList.clear();
 
-        //searches in a range around the selected QPoint
-        for(int i = -10 + m_point.x(); i < 10 + m_point.y(); i++)
-            for(int j = -10 + m_point.y(); j < 10 + m_point.y(); j++)
-            {
-                Coordinate2D qp = new Coordinate2D(i, j);
-                //generates all planes intersecting the point
-                PlaneIntersectingPointIterator pipi = new PlaneIntersectingPointIterator(qp);
+        for (int i = 0; i < 4; i++) {
+            Plane pl = new Plane(m_point.x(), m_point.y(), Orientation.values()[i]);
+            PlanePointIterator ppi = new PlanePointIterator(pl);
 
-                boolean pointFound = false;
-
-                //check to see if any of these planes correspond to the initial point
-                while(pipi.hasNext())
-                {
-                    Plane pl = pipi.next();
-                    if(pl.isHead(m_point))
-                    {
-                        pointFound = true;
-                        break;
-                    }
-                }
-
-                if(pointFound)
-                {
-                    m_internalList.add(qp);
-                    continue;
-                }
+            while (ppi.hasNext()) {
+                Coordinate2D point = ppi.next();
+                if (m_internalList.indexOf(point) < 0)
+                    m_internalList.add(point);
             }
+        }
     }
 
     private Coordinate2D m_point;
