@@ -122,11 +122,7 @@ public class Plane implements Cloneable {
     }
     //generates a random number from 0 and valmax-1
     public static int generateRandomNumber(int valmax) {
-        //TODO: to improve with a static Random object
-        Random rand = new Random();
-
-        // Generate random integers in range 0 to 999
-        return rand.nextInt(valmax);
+        return m_Random.nextInt(valmax);
     }
     //displays the plane
     @Override
@@ -170,4 +166,6 @@ public class Plane implements Cloneable {
     //coordinates of the position of the head of the plane
     private int m_row;
     private int m_col;
+
+    private static Random m_Random = new Random();
 }
