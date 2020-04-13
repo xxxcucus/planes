@@ -1,7 +1,5 @@
 package com.planes.common;
-
-import android.util.Pair;
-
+import android.support.v4.util.Pair;
 import java.util.Vector;
 
 public class PlaneRound {
@@ -186,14 +184,13 @@ public class PlaneRound {
 	i - plane but not head
     */
     public int getPlaneSquareType(int row, int col, boolean isComputer) {
-        boolean isOnPlane = false;
+        Pair<Boolean, Integer> isOnPlane = Pair.create(false, 0);
 
         if (isComputer) {
-            int idxInPlanePointList = 0;
-            isOnPlane = m_ComputerGrid.isPointOnPlane(row, col, idxInPlanePointList);
-            if (!isOnPlane)
+            isOnPlane = m_ComputerGrid.isPointOnPlane(row, col);
+            if (!isOnPlane.first)
                 return 0;
-            int annotation = m_ComputerGrid.getPlanePointAnnotation(idxInPlanePointList);
+            int annotation = m_ComputerGrid.getPlanePointAnnotation(isOnPlane.second);
             Vector<Integer> planesIdx = m_ComputerGrid.decodeAnnotation(annotation);
             if (planesIdx.size() > 1) {
                 return -1;
@@ -206,11 +203,10 @@ public class PlaneRound {
                     return (planesIdx.get(0) + 1);
             }
         } else {
-            int idxInPlanePointList = 0;
-            isOnPlane = m_PlayerGrid.isPointOnPlane(row, col, idxInPlanePointList);
-            if (!isOnPlane)
+            isOnPlane = m_PlayerGrid.isPointOnPlane(row, col);
+            if (!isOnPlane.first)
                 return 0;
-            int annotation = m_PlayerGrid.getPlanePointAnnotation(idxInPlanePointList);
+            int annotation = m_PlayerGrid.getPlanePointAnnotation(isOnPlane.second);
             Vector<Integer> planesIdx = m_PlayerGrid.decodeAnnotation(annotation);
             if (planesIdx.size() > 1) {
                 return -1;

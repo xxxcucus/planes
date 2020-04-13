@@ -13,7 +13,7 @@ package com.planes.common;
 //describes the data that is available about a given plane position
 //This structure keeps the information about the position of the head of the planes
 
-import android.util.Pair;
+import android.support.v4.util.Pair;
 
 import java.util.Iterator;
 import java.util.Vector;
@@ -88,37 +88,37 @@ public class ComputerLogic {
         //various random strategies for making a choice
         if(test2.first && test3.first) {
             if(idx < 6) {
-                return new Pair<Boolean, Coordinate2D>(true, (Coordinate2D)test1.second.clone());
+                return Pair.create(true, (Coordinate2D)test1.second.clone());
             }
 
             if(idx < 9) {
-                return new Pair<Boolean, Coordinate2D>(true, (Coordinate2D)test2.second.clone());
+                return Pair.create(true, (Coordinate2D)test2.second.clone());
             }
 
-            return new Pair<Boolean, Coordinate2D>(true, (Coordinate2D)test3.second.clone());
+            return Pair.create(true, (Coordinate2D)test3.second.clone());
         }
 
         if(!test2.first && test3.first) {
             if(idx < 7) {
-                return new Pair<Boolean, Coordinate2D>(true, (Coordinate2D)test1.second.clone());
+                return Pair.create(true, (Coordinate2D)test1.second.clone());
             }
 
-            return new Pair<Boolean, Coordinate2D>(true, (Coordinate2D)test3.second.clone());
+            return Pair.create(true, (Coordinate2D)test3.second.clone());
         }
 
         if(test2.first && !test3.first) {
             if(idx < 7) {
-                return new Pair<Boolean, Coordinate2D>(true, (Coordinate2D)test1.second.clone());
+                return Pair.create(true, (Coordinate2D)test1.second.clone());
             }
 
-            return new Pair<Boolean, Coordinate2D>(true, (Coordinate2D)test2.second.clone());
+            return Pair.create(true, (Coordinate2D)test2.second.clone());
         }
 
         if(!test2.first && !test3.first) {
-            return new Pair<Boolean, Coordinate2D>(true, (Coordinate2D)test1.second.clone());
+            return Pair.create(true, (Coordinate2D)test1.second.clone());
         }
 
-        return new Pair<Boolean, Coordinate2D>(false, (Coordinate2D)test1.second.clone());
+        return Pair.create(false, (Coordinate2D)test1.second.clone());
     }
     //new info is added the choices are updated
     public void addData(final GuessPoint gp) {
@@ -216,13 +216,13 @@ public class ComputerLogic {
 
         //if all the choices are impossible returns false
         if(m_choices.get(maxidx) == -1)
-            return new Pair<Boolean, Coordinate2D>(false, new Coordinate2D(0, 0));
+            return Pair.create(false, new Coordinate2D(0, 0));
 
         //choses randomly a point with the maximum probability
         int idx = Plane.generateRandomNumber(maxPos.size());
 
         //converts the choice into a plane's head position
-        return new Pair<Boolean, Coordinate2D>(true, mapIndexToQPoint(maxPos.get(idx)));
+        return Pair.create(true, mapIndexToQPoint(maxPos.get(idx)));
     }
     //make choice in find plane position mode
     //TODO: to return a struct
@@ -233,7 +233,7 @@ public class ComputerLogic {
 
         //if there are no head data structures return false
         if(m_headDataList.isEmpty())
-            return new Pair<Boolean, Coordinate2D>(false, new Coordinate2D(0, 0));
+            return Pair.create(false, new Coordinate2D(0, 0));
 
         //choses a random plane head from the list of heads
         int idx = Plane.generateRandomNumber(m_headDataList.size());
@@ -259,12 +259,12 @@ public class ComputerLogic {
         //if there is no not discarded position with more than zero points not tested
         //return false
         if(good_orientation == -1)
-            return new Pair<Boolean, Coordinate2D>(false, new Coordinate2D(0, 0));
+            return Pair.create(false, new Coordinate2D(0, 0));
 
         //choose randomly a point from the points not tested in the chosen orientation
         idx = Plane.generateRandomNumber(hd.m_options[good_orientation].m_pointsNotTested.size());
 
-        return new Pair<Boolean, Coordinate2D>(true, (Coordinate2D)hd.m_options[good_orientation].m_pointsNotTested.get(idx).clone());
+        return Pair.create(true, (Coordinate2D)hd.m_options[good_orientation].m_pointsNotTested.get(idx).clone());
     }
     //make a random choice
     private Pair<Boolean, Coordinate2D> makeChoiceRandomMode() {
@@ -279,7 +279,7 @@ public class ComputerLogic {
         while(count != idx)
         {
             if(m_choices.get(count) == 0) {
-                return new Pair<Boolean, Coordinate2D>(true, mapIndexToQPoint(count));
+                return Pair.create(true, mapIndexToQPoint(count));
             }
             //if the point does not correspond to a zero choice
             //move to the next point
@@ -287,7 +287,7 @@ public class ComputerLogic {
         }
         //loop until all the points in the m_choices table have been tested
 
-        return new Pair<Boolean, Coordinate2D>(false, new Coordinate2D(0, 0));
+        return Pair.create(false, new Coordinate2D(0, 0));
     }
 
     //updates the head data

@@ -32,7 +32,13 @@ public class PlaneTest {
 
     @Test
     public void Plane_translateWhenHeadPosValid() {
+        int rows = 10;
+        int cols = 10;
 
+        Plane pl = new Plane(rows / 2, 0, Orientation.NorthSouth);
+        pl.translateWhenHeadPosValid(-1, -1, rows, cols);
+
+        assertThat(pl.head()).isEqualTo(new Coordinate2D(rows / 2, 0));
     }
 
     @Test
