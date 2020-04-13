@@ -16,6 +16,9 @@ public class PlaneRound {
         //builds the computer logic object
         m_computerLogic = new ComputerLogic(m_rowNo, m_colNo, m_planeNo);
 
+        m_computerGuessList = new Vector<GuessPoint>();
+        m_playerGuessList = new Vector<GuessPoint>();
+
         reset();
         initRound();
     }

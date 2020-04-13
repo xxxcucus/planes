@@ -38,6 +38,11 @@ public class ComputerLogic {
             m_zero_choices.add(new Integer(-1));
         }
 
+        m_guessedPlaneList = new Vector<Plane>();
+        m_headDataList = new Vector<HeadData>();
+        m_guessesList = new Vector<GuessPoint>();
+        m_extendedGuessesList = new Vector<GuessPoint>();
+
         //initializes the table of choices and the head data
         reset();
         //initializes the iterator that generates all the planes that pass

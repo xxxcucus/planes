@@ -8,7 +8,7 @@ public class PlaneOrientationData {
     public PlaneOrientationData() {
         m_plane = new Plane(0, 0, Orientation.values()[0]);
         m_discarded = true;
-        m_pointsNotTested.clear();
+        m_pointsNotTested = new Vector<Coordinate2D>();
     }
     //another constructor
     public PlaneOrientationData(final Plane pl, boolean isDiscarded) {
