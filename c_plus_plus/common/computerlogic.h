@@ -115,9 +115,6 @@ private:
     void updateChoiceMapMissInfo(int row, int col);
     //updates the choices with the info about a found plane
     void updateChoiceMapPlaneData(const Plane& pl);
-
-    //Calculate the number of choice points influenced by a point
-    int noPointsInfluenced(const PlanesCommonTools::Coordinate2D& qp);
 };
 
 #endif // COMPUTERLOGIC_H

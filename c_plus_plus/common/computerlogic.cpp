@@ -13,7 +13,7 @@ ComputerLogic::ComputerLogic(int row, int col, int planeno):
 {
     //creates the tables of choices
     m_choices = new int[maxChoiceNo];
-    m_zero_choices = new int[maxChoiceNo/4];
+    m_zero_choices = new int[maxChoiceNo / 4];
 
     //initializes the table of choices and the head data
     reset();
@@ -433,47 +433,5 @@ void ComputerLogic::updateHeadData(const GuessPoint& gp)
     }
 }
 
-//Calculate the number of choice points influenced by a point
-int ComputerLogic::noPointsInfluenced(const PlanesCommonTools::Coordinate2D& qp)
-{
-    //checks to see if the point belongs already to a guess
-    //or if it cannot be a viable choice
-    //when this happens returns -1
-    bool point_not_good = true;
-
-    for(int i = 0;i < 4; i++)
-    {
-        Plane pl(qp, (Plane::Orientation)i);
-        int idx = mapPlaneToIndex(pl);
-        if(m_choices[idx] >= 0) {
-            point_not_good = false;
-            break;
-        }
-    }
-
-    if (point_not_good)
-        return -1;
-
-    int count = 0;
-
-    //get the planes intersecting the point
-    PlaneIntersectingPointIterator pipi(qp);
-
-    while (pipi.hasNext()) {
-        //for each plane
-        Plane pl = pipi.next();
-        //ignore if it's head is in the initial point
-        if (pl.head() == qp)
-            continue;
-
-        //find the index of the point
-        int idx = mapPlaneToIndex(pl);
-
-        if (m_choices[idx] >= 0)
-            count++;
-    }
-
-    return count;
-}
 
 

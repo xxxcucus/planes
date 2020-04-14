@@ -42,6 +42,7 @@ public class ComputerLogic {
         m_headDataList = new Vector<HeadData>();
         m_guessesList = new Vector<GuessPoint>();
         m_extendedGuessesList = new Vector<GuessPoint>();
+        m_pipi = new PlaneIntersectingPointIterator(new Coordinate2D(0, 0));
 
         //initializes the table of choices and the head data
         reset();
@@ -72,7 +73,6 @@ public class ComputerLogic {
     }
     //returns the plane choice with the highest score and true
     //or false if there are no more valid choices
-    //TODO: to test this method
     public Pair<Boolean, Coordinate2D> makeChoice() {
         //based on the 3 strategies of choice choses 3 possible moves
         Coordinate2D qp1 = null;
@@ -166,7 +166,7 @@ public class ComputerLogic {
     public int getColNo()  { return m_col; }
     //gets the number of planes
     public int getPlaneNo() { return m_planeNo; }
-    //gets the list of guesses: TODO is this correct ?
+    //gets the list of guesses
     public Vector<GuessPoint>  getListGuesses()  { return m_guessesList; }
     public Vector<GuessPoint> getExtendedListGuesses() { return m_extendedGuessesList; }
     //gets the choices
@@ -178,7 +178,7 @@ public class ComputerLogic {
     }
 
     //computes the plane corresponding to a given position in the choices array
-    private Plane mapIndexToPlane(int idx) {
+    public Plane mapIndexToPlane(int idx) {
         Orientation o = Orientation.values()[idx % 4];
         int temp = idx / 4;
 
@@ -188,7 +188,7 @@ public class ComputerLogic {
         return new Plane(row, col, o);
     }
     //computes the Coordinate2D corresponding to the head of the plane corresponding to the idx
-    private Coordinate2D mapIndexToQPoint(int idx) {
+    public Coordinate2D mapIndexToQPoint(int idx) {
         int temp = idx / 4;
 
         int row = temp % m_row;
@@ -206,7 +206,7 @@ public class ComputerLogic {
         int maxidx = 0;
         maxPos.clear();
 
-        for(int i = 1;i < maxChoiceNo; i++)
+        for(int i = 1; i < maxChoiceNo; i++)
         {
             if(m_choices.get(i).equals(m_choices.get(maxidx)))
                 maxPos.add(new Integer(i));
@@ -357,7 +357,6 @@ public class ComputerLogic {
             Plane pl = m_pipi.next();
             Coordinate2D qp = new Coordinate2D(row, col);
             //add current position to the index to obtain a plane option
-            //TODO: is this correct
             pl = pl.add(qp);
 
             //if choice is not valid continue to the next position
@@ -417,48 +416,6 @@ public class ComputerLogic {
                 m_extendedGuessesList.remove(idx);
             m_extendedGuessesList.add(gp);
         }
-    }
-
-    //Calculate the number of choice points influenced by a point
-    private int noPointsInfluenced(final Coordinate2D qp) {
-        //checks to see if the point belongs already to a guess
-        //or if it cannot be a viable choice
-        //when this happens returns -1
-        boolean point_not_good = true;
-
-        for(int i = 0;i < 4; i++)
-        {
-            Plane pl = new Plane(qp, Orientation.values()[i]);
-            int idx = mapPlaneToIndex(pl);
-            if(m_choices.get(idx) >= 0) {
-                point_not_good = false;
-                break;
-            }
-        }
-
-        if (point_not_good)
-            return -1;
-
-        int count = 0;
-
-        //get the planes intersecting the point
-        PlaneIntersectingPointIterator pipi = new PlaneIntersectingPointIterator(qp);
-
-        while (pipi.hasNext()) {
-            //for each plane
-            Plane pl = pipi.next();
-            //ignore if it's head is in the initial point
-            if (pl.head().equals(qp))
-                continue;
-
-            //find the index of the point
-            int idx = mapPlaneToIndex(pl);
-
-            if (m_choices.get(idx) >= 0)
-                count++;
-        }
-
-        return count;
     }
 
 
