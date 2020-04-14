@@ -230,7 +230,6 @@ public class ComputerLogic {
         return Pair.create(true, mapIndexToQPoint(maxPos.get(idx)));
     }
     //make choice in find plane position mode
-    //TODO: to return a struct
     private Pair<Boolean, Coordinate2D> makeChoiceFindPositionMode() {
         //chose randomly a head data from the list
         //and choose randomly an orientation which is not discarded

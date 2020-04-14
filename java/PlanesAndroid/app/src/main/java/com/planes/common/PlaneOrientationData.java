@@ -14,6 +14,7 @@ public class PlaneOrientationData {
     public PlaneOrientationData(final Plane pl, boolean isDiscarded) {
         m_plane = (Plane)pl.clone();
         m_discarded = isDiscarded;
+        m_pointsNotTested = new Vector<Coordinate2D>();
 
         PlanePointIterator ppi = new PlanePointIterator(m_plane);
         ppi.next();
@@ -22,15 +23,6 @@ public class PlaneOrientationData {
             m_pointsNotTested.add((Coordinate2D)ppi.next().clone());
         }
     }
-    //copy constructor
-    public PlaneOrientationData(final PlaneOrientationData pod) {
-        m_plane = (Plane)pod.m_plane.clone();
-        m_discarded = pod.m_discarded;
-        m_pointsNotTested = (Vector<Coordinate2D>)pod.m_pointsNotTested.clone();
-    }
-    //equals operator
-    //TODO
-    //void operator=(const PlaneOrientationData& pod);
 
     //update the info about this plane with another guess point
     //a guess point is a pair (position, guess result)
@@ -47,8 +39,8 @@ public class PlaneOrientationData {
             return;
 
         //if point found
-        //if dead and idx = 0 remove the head from the list of untested points
-        if (gp.m_type == Type.Dead && idx == 0)
+        //if dead and point is the planes head remove the head from the list of untested points
+        if (gp.m_type == Type.Dead && m_plane.isHead(new Coordinate2D(gp.m_row, gp.m_col)))
         {
             m_pointsNotTested.remove(idx);
             return;

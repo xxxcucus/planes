@@ -40,11 +40,11 @@ public class HeadData {
             return true;
 
         //update the four plane positions with this new data
-        for(int i = 0;i < 4; i++)
+        for(int i = 0; i < 4; i++)
             m_options[i].update(gp);
 
         //verify if we checked all points of a plane
-        for(int i = 0;i < 4; i++)
+        for(int i = 0; i < 4; i++)
         {
             if(!m_options[i].m_discarded && m_options[i].areAllPointsChecked())
             {
@@ -56,7 +56,7 @@ public class HeadData {
         //verify if 3 of the 4 possible orientations are discarded
         int count = 0;
         int good_orientation = -1;
-        for(int i = 0;i < 4; i++)
+        for(int i = 0; i < 4; i++)
         {
             if(m_options[i].m_discarded)
                 count++;
