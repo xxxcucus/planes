@@ -18,6 +18,7 @@ public class PlaneRound {
 
         m_computerGuessList = new Vector<GuessPoint>();
         m_playerGuessList = new Vector<GuessPoint>();
+        m_gameStats = new GameStatistics();
 
         reset();
         initRound();
@@ -53,7 +54,6 @@ public class PlaneRound {
     public PlayerGuessReaction playerGuess(final GuessPoint gp) {
         PlayerGuessReaction pgr = new PlayerGuessReaction();
 
-        //TODO: should we return error
         if (m_State != GameStages.Game)
             return pgr;
 
