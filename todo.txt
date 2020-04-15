@@ -31,6 +31,8 @@ but the "Start New Round" button should only be active at the end of one round. 
 30. Add HomeActivity which allows to switch from multiplayer to single player game.
 31. Verify and improve saving an restoring of game. (destroy game engine object and save its state, then recreate and restore state).
 32. Add crashalytics support.
-33. Reorganize repository based on programming language.
-34. Rewrite game engine in Java.
+33. Reorganize repository based on programming language. ok - April 2020
+34. Rewrite game engine in Java - ok April 2020
 35. Bug Infobox on Nexus 4. - PlanesAndroid - ok - February 2020
+36. Flickering of left pane when showing winner and not displaying of the button contents - Linux, Qt 5.14.1
+37. With Java game engine game is resettet when the device is rotated.
