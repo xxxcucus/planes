@@ -1,5 +1,6 @@
 #include "planeiterators.h"
 #include "coordinate2d.h"
+#include <algorithm>
 
 //constructor
 PlanePointIterator::PlanePointIterator(const Plane& pl):
