@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.planes.common.PlanesRoundJava;
 import com.planes.javafx.PlaneRoundJavaFx;
 
 public class PlanesAndroidActivity extends AppCompatActivity {
@@ -53,7 +54,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         Toolbar toolbar =(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        m_PlaneRound = new PlaneRoundJavaFx();
+        m_PlaneRound = new PlanesRoundJava();
         m_PlaneRound.createPlanesRound();
 
         m_PlanesLayout = (PlanesVerticalLayout)findViewById(R.id.planes_layout);
@@ -290,7 +291,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         });
     }
 
-    private PlaneRoundJavaFx m_PlaneRound;
+    private PlanesRoundInterface m_PlaneRound;
     private GameBoardsAdapter m_GameBoards;
     private GameControlsAdapter m_GameControls;
     private PlanesVerticalLayout m_PlanesLayout;

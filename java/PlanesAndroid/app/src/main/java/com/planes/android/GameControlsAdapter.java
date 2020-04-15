@@ -3,10 +3,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 
-import com.planes.javafx.PlaneRoundJavaFx;
-
-
-
 public class GameControlsAdapter {
 
     public GameControlsAdapter(Context context) {
@@ -244,7 +240,7 @@ public class GameControlsAdapter {
         m_DoneButton.setEnabled(enabled);
     }
 
-    public void setGameSettings(PlaneRoundJavaFx planeRound, boolean isTablet) {
+    public void setGameSettings(PlanesRoundInterface planeRound, boolean isTablet) {
         m_PlaneRound = planeRound;
         m_Tablet = isTablet;
     }
@@ -257,7 +253,7 @@ public class GameControlsAdapter {
 
     private Context m_Context;
     private GameStages m_CurStage = GameStages.BoardEditing;
-    private PlaneRoundJavaFx m_PlaneRound;
+    private PlanesRoundInterface m_PlaneRound;
     private GameBoardsAdapter m_GameBoards;
     private boolean m_Tablet = false;
     private PlanesVerticalLayout m_PlanesLayout = null;

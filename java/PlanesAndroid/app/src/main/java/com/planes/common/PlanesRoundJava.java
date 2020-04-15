@@ -1,137 +1,150 @@
 package com.planes.common;
-
+import android.support.v4.util.Pair;
 import com.planes.android.PlanesRoundInterface;
 
 public class PlanesRoundJava implements PlanesRoundInterface {
 
+    public PlanesRoundJava() {}
+
     //creates the PlaneRound object in the game engine
     //must be called a single time
     public void createPlanesRound() {
+        if (global_Round != null)
+            return;
 
+        global_Round = new PlaneRound(10, 10, 3);
+        global_Round.initRound();
     }
 
     //show the planes
     public int getRowNo() {
-        return 0;
+        return global_Round.getRowNo();
     }
     public int getColNo() {
-        return 0;
+        return global_Round.getColNo();
     }
     public int getPlaneNo() {
-        return 0;
+        return global_Round.getPlaneNo();
     }
     public int getPlaneSquareType(int i, int j, int isComputer) {
-        return 0;
+        return global_Round.getPlaneSquareType(i, j, isComputer > 0 ? true : false);
     }
 
     //edit the board
     public int movePlaneLeft(int idx) {
-        return 0;
+        return global_Round.movePlaneLeft(idx) ? 1 : 0;
     }
     public int movePlaneRight(int idx) {
-        return 0;
+        return global_Round.movePlaneRight(idx) ? 1 : 0;
     }
     public int movePlaneUpwards(int idx) {
-        return 0;
+        return global_Round.movePlaneUpwards(idx) ? 1 : 0;
     }
     public int movePlaneDownwards(int idx) {
-        return 0;
+        return global_Round.movePlaneDownwards(idx) ? 1 : 0;
     }
     public int rotatePlane(int idx) {
-        return 0;
+        return global_Round.rotatePlane(idx) ? 1 : 0;
     }
     public void doneClicked() {
-
+        global_Round.doneEditing();
     }
 
     //play the game
     public int playerGuessAlreadyMade(int row, int col) {
-        return 0;
+        return global_Round.playerGuessAlreadyMade(row, col);
     }
     public void playerGuess(int row, int col) {
-
+        Pair<Type, PlayerGuessReaction> result = global_Round.playerGuessIncomplete(row, col);
+        global_Guess_Result = result.first;
+        global_Player_Guess_Reaction = result.second;
     }
 
     public boolean playerGuess_RoundEnds() {
-        return false;
+        return global_Player_Guess_Reaction.m_RoundEnds;
     }
 
     public boolean playerGuess_IsPlayerWinner() {
-        return false;
+        return global_Player_Guess_Reaction.m_isPlayerWinner;
     }
 
     public boolean playerGuess_ComputerMoveGenerated() {
-        return false;
+        return global_Player_Guess_Reaction.m_ComputerMoveGenerated;
     }
 
     public int playerGuess_StatNoPlayerMoves() {
-        return 0;
+        return global_Player_Guess_Reaction.m_GameStats.m_playerMoves;
     }
 
     public int playerGuess_StatNoPlayerHits() {
-        return 0;
+        return global_Player_Guess_Reaction.m_GameStats.m_playerHits;
     }
     public int playerGuess_StatNoPlayerMisses() {
-        return 0;
+        return global_Player_Guess_Reaction.m_GameStats.m_playerMisses;
     }
     public int playerGuess_StatNoPlayerDead() {
-        return 0;
+        return global_Player_Guess_Reaction.m_GameStats.m_playerDead;
     }
     public int playerGuess_StatNoPlayerWins() {
-        return 0;
+        return global_Player_Guess_Reaction.m_GameStats.m_playerWins;
     }
     public int playerGuess_StatNoComputerMoves() {
-        return 0;
+        return global_Player_Guess_Reaction.m_GameStats.m_computerMoves;
     }
     public int playerGuess_StatNoComputerHits() {
-        return 0;
+        return global_Player_Guess_Reaction.m_GameStats.m_computerHits;
     }
     public int playerGuess_StatNoComputerMisses() {
-        return 0;
+        return global_Player_Guess_Reaction.m_GameStats.m_computerMisses;
     }
     public int playerGuess_StatNoComputerDead() {
-        return 0;
+        return global_Player_Guess_Reaction.m_GameStats.m_computerDead;
     }
     public int playerGuess_StatNoComputerWins() {
-        return 0;
+        return global_Player_Guess_Reaction.m_GameStats.m_computerWins;
     }
 
     public void roundEnds() {
-
+        global_Round.roundEnds();
     }
     public void initRound() {
-
+        global_Round.initRound();
+        global_Player_Guess_Reaction.m_GameStats.reset();
     }
 
     //show the guesses
     public int getPlayerGuessesNo() {
-        return 0;
+        return global_Round.getPlayerGuessesNo();
     }
     public int getPlayerGuessRow(int idx) {
-        return 0;
+        return global_Round.getPlayerGuess(idx).m_row;
     }
     public int getPlayerGuessCol(int idx) {
-        return 0;
+        return global_Round.getPlayerGuess(idx).m_col;
     }
     public int getPlayerGuessType(int idx) {
-        return 0;
+        return global_Round.getPlayerGuess(idx).m_type.getValue();
     }
 
     public int getComputerGuessesNo() {
-        return 0;
+        return global_Round.getComputerGuessesNo();
     }
     public int getComputerGuessRow(int idx) {
-        return 0;
+        return global_Round.getComputerGuess(idx).m_row;
     }
     public int getComputerGuessCol(int idx) {
-        return 0;
+        return global_Round.getComputerGuess(idx).m_col;
     }
     public int getComputerGuessType(int idx) {
-        return 0;
+        return global_Round.getComputerGuess(idx).m_type.getValue();
     }
 
     public int getGameStage() {
-        return 0;
+        return global_Round.getCurrentStage();
     }
+
+    private PlaneRound global_Round = null;
+    private Type global_Guess_Result = Type.Miss;
+    private PlayerGuessReaction global_Player_Guess_Reaction = new PlayerGuessReaction();
 
 }

@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.GridLayout;
 
-import com.planes.javafx.PlaneRoundJavaFx;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,7 +63,7 @@ public class GameBoard extends GridLayout {
         init(m_Context);
     }
 
-    public void setGameSettings(PlaneRoundJavaFx planeRound, boolean isTablet) {
+    public void setGameSettings(PlanesRoundInterface planeRound, boolean isTablet) {
         m_PlaneRound = planeRound;
         m_GRows = m_PlaneRound.getRowNo();
         m_GCols = m_PlaneRound.getColNo();
@@ -384,7 +382,7 @@ public class GameBoard extends GridLayout {
     }
 
     private Map<PositionBoardPane, GridSquare> m_GridSquares;
-    private PlaneRoundJavaFx m_PlaneRound;
+    private PlanesRoundInterface m_PlaneRound;
     private int m_Padding = 0;
     private boolean m_IsComputer = false;
     private int m_MinPlaneBodyColor = 0;

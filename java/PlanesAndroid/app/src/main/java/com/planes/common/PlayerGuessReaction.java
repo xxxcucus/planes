@@ -14,6 +14,7 @@ public class PlayerGuessReaction {
 
     public PlayerGuessReaction() {
         m_ComputerGuess = new GuessPoint(0, 0);
+        m_GameStats = new GameStatistics();
     }
 
 }
