@@ -5,16 +5,18 @@ Rectangle {
     id: back
     property color enabledColor: "red"
     property color disabledColor: "lightGray"
-    state: "Enabled"
+    state: "Disabled"
 	radius: 10
 
     Canvas {
+        id: playAgainCanvas
         anchors.centerIn: parent
         width: parent.width
         height: parent.height
         onPaint: {
             var ctx = getContext("2d")
             PaintFunctions.playAgainButton(ctx)
+            //console.log("Play Again paint")
         }
     }
 
@@ -49,6 +51,9 @@ Rectangle {
                 PropertyChanges {
                     target: back
                     color: back.enabledColor
+                }
+                StateChangeScript {
+                    script: playAgainCanvas.requestPaint()
                 }
             },
             State {

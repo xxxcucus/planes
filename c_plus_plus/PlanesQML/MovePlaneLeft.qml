@@ -21,7 +21,7 @@ Rectangle {
         width: parent.width
         height: parent.height
         onClicked: {
-            //console.log("Plane left clicked")
+            console.log("Plane left clicked")
             anim.start()
             PlayerPlaneGrid.moveLeftSelectedPlane()
 			PlayerPlaneGrid.verifyPlanePositionValid()
