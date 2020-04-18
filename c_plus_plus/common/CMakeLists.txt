@@ -5,11 +5,6 @@ cmake_policy(SET CMP0020 NEW)
 cmake_policy(SET CMP0043 NEW)
 
 
-if(DEFINED ENV{JAVA_HOME})
-	option(With_Java "" ON)
-endif()
-
-
 if (With_Java)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 endif(With_Java)
@@ -39,10 +34,6 @@ set(COMMON_HEADR
 	planeorientationdata.h
 	headdata.h)
 
-if (With_Java)
-	list(APPEND COMMON_HEADR com_planes_javafx_PlaneRoundJavaFx.h)
-endif (With_Java)
-
 set(COMMON_SRCS 	
 	plane.cpp
 	planegrid.cpp
@@ -54,10 +45,6 @@ set(COMMON_SRCS
 	coordinate2d.cpp
 	planeorientationdata.cpp
 	headdata.cpp)
-
-if (With_Java)
-	list(APPEND COMMON_SRCS com_planes_javafx_PlaneRoundJavaFx.cpp)
-endif (With_Java)
 
 
 add_library(libCommon SHARED ${COMMON_SRCS} ${COMMON_HEADR})
