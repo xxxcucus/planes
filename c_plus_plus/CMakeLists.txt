@@ -10,26 +10,6 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 find_package(Qt5 COMPONENTS Core Widgets Quick)
 
 option(With_Asan "Compile with Address Sanitizer support" OFF)
-option(With_Java "Compile libCommon for use with Java Native Interface" OFF)
-
-#generate jni header
-
-if (NOT UNIX)
-if(DEFINED ENV{JAVA_HOME})
-    string(REPLACE "\/" "\\" CUR_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-    set(javac_command "jni.bat ")
-    execute_process(COMMAND "${javac_command}"
-					WORKING_DIRECTORY "${CUR_DIR}")
-endif()
-endif (NOT UNIX)
-
-if (UNIX)
-if(DEFINED ENV{JAVA_HOME})
-    set(javac_command "./jni.sh")
-    execute_process(COMMAND "${javac_command}"
-					WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
-endif()
-endif (UNIX)
 
 
 if (UNIX)
