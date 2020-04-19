@@ -105,7 +105,7 @@ public class PlanesRoundJava implements PlanesRoundInterface {
     }
 
     public void roundEnds() {
-        global_Round.roundEnds();
+        global_Round.setRoundEnd();
     }
     public void initRound() {
         global_Round.initRound();

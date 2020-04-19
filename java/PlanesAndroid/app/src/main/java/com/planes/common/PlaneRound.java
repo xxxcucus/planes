@@ -37,7 +37,7 @@ public class PlaneRound {
         m_computerLogic.reset();
     }
     //switches to the state GameNotStarted
-    public void roundEnds() {
+    public void setRoundEnd() {
         m_State = GameStages.GameNotStarted;
     }
 
@@ -81,12 +81,12 @@ public class PlaneRound {
             pgr.m_ComputerGuess = gpc;
         }
 
-        boolean isPlayerWinner = false;
-        if (roundEnds(isPlayerWinner)) {
-            m_gameStats.updateWins(isPlayerWinner);
+        Pair<Boolean, Boolean> roundEndsResult = roundEnds();
+        if (roundEndsResult.first) {
+            m_gameStats.updateWins(!roundEndsResult.second);
             pgr.m_RoundEnds = true;
             m_State = GameStages.GameNotStarted;
-            pgr.m_isPlayerWinner = isPlayerWinner;
+            pgr.m_isPlayerWinner = roundEndsResult.second;
         } else {
             pgr.m_RoundEnds = false;
         }
@@ -298,17 +298,17 @@ public class PlaneRound {
         m_computerLogic.reset();
     }
     //check to see if there is a winner
-    private boolean roundEnds(boolean isPlayerWinner) {
+    private Pair<Boolean, Boolean> roundEnds() {
         //at equal scores computer wins
-        isPlayerWinner = false;
+        boolean isPlayerWinner = false;
 
-        boolean playerFinished = enoughGuesses(m_PlayerGrid, m_computerGuessList);
-        boolean computerFinished = enoughGuesses(m_ComputerGrid, m_playerGuessList);
+        boolean computerFinished = enoughGuesses(m_PlayerGrid, m_computerGuessList);
+        boolean playerFinished = enoughGuesses(m_ComputerGrid, m_playerGuessList);
 
         if (!computerFinished && playerFinished)
             isPlayerWinner = true;
 
-        return (playerFinished || computerFinished);
+        return Pair.create((playerFinished || computerFinished), isPlayerWinner);
     }
 
 
