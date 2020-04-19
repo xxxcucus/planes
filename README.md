@@ -20,9 +20,13 @@ For Windows:
 2. In the bin folder of the unzipped folder run one of the binaries PlanesQML.exe, PlanesGraphicsScene.exe, PlanesWidget.exe
 
 For Linux
+The easiest way is to use the Planes.x.y.z-x86_64.AppImage directly on your Linux machine.
+Alternatively you could:
+
 1. Download Planes.x.y.z_linux.tar.gz to a folder on your computer.
 2. Extract the installation folder from the archive with tar -xvf Planes.x.y.z_linux.tar.gz
 3. Execute one of the scripts PlanesWidget.sh, PlanesGraphicsScene.sh, PlanesQML.sh
+
 
 For Android 
 1. Download Planes.x.y.y_android.apk to the Download folder on your device.
