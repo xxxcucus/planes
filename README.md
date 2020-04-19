@@ -20,6 +20,7 @@ For Windows:
 2. In the bin folder of the unzipped folder run one of the binaries PlanesQML.exe, PlanesGraphicsScene.exe, PlanesWidget.exe
 
 For Linux
+
 The easiest way is to use the Planes.x.y.z-x86_64.AppImage directly on your Linux machine.
 Alternatively you could:
 
