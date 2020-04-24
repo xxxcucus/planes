@@ -274,8 +274,13 @@ public class GameBoard extends GridLayout {
                 if (m_PlaneRound.playerGuess_RoundEnds()) {
                     System.out.println("Round ends!");
                     String winnerText = m_PlaneRound.playerGuess_IsPlayerWinner() ? "Player wins !" : "Computer wins !";
-                    //announceRoundWinner(winnerText);
-                    m_CurStage = GameStages.GameNotStarted;
+
+                    if (m_Tablet) {
+                        m_SiblingBoard.setNewRoundStage(false);
+                        setNewRoundStage(false);
+                    } else {
+                        setNewRoundStage(true);
+                    }
                     m_PlaneRound.roundEnds();
                     m_GameControls.roundEnds(playerWins, computerWins, !m_PlaneRound.playerGuess_IsPlayerWinner());
                 } else {

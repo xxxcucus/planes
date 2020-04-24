@@ -249,10 +249,8 @@ public class PlanesAndroidActivity extends AppCompatActivity {
                     break;
                 case Game:
                     helpTitleTextView.setText(getResources().getString(R.string.game_stage));
-                    helpTextView.setText("Touch on the \"View Computer Board\" to see the computer's board. " +
-                            "\nTouch on the computer's board to guess where the computer's planes are." +
-                            "\nTo view the computer's progress touch on the \"View Player Board\"." +
-                            "\nX means target destroyed. Disc means nothing was hit. Square means a hit.");
+                    helpTextView.setText("\nTouch on the computer's board to guess where the computer's planes are." +
+                            "\nX means target destroyed. Disc means nothing was hit. Rhombus means a hit.");
                     break;
             }
         }
