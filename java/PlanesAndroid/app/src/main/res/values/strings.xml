@@ -41,6 +41,6 @@
     <string name="credits_software_title">Software</string>
     <string name="credits_software_content">This software was developed by Cristian Cucu and the complete source code can be found at www.github.com/xxxcucus/planes.</string>
     <string name="credits_graphics_title">Graphics</string>
-    <string name="credits_graphics_content">The logo of the game and the graphics for Google Play were created by Alexandru Vintilescu. Other work from Alex can be seen at https://axa951.wixsite.com/portfolio</string>
+    <string name="credits_graphics_content">The logo of the game and the store graphics were created by Alexandru Vintilescu. Other work from Alex can be seen at https://axa951.wixsite.com/portfolio</string>
 
 </resources>
