@@ -1,0 +1,3 @@
+Verstecke deine Flugzeuge auf dem Spielbrett und rate wo dein Gegner seine Flugzeuge versteckt hat. Wer findet als erster die Flugzeuge des Gegners gewinnt. Das Spiel wird gegen den Computer gespielt.
+
+Variante der Open-Source App für Linux und Windows wurden für die Betriebsysteme Linux und Windows zu Verfügung gestellt.

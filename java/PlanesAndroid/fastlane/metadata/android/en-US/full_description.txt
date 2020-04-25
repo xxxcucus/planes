@@ -1,0 +1,3 @@
+Position your planes on your game board and guess where the computer has hidden its before it guesses where you have hidden yours.
+
+The open-source app is also available for Windows and Linux.
