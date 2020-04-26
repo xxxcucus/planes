@@ -37,3 +37,6 @@ but the "Start New Round" button should only be active at the end of one round. 
 36. Flickering of left pane when showing winner and not displaying of the button contents - Linux, Qt 5.14.1 - April 2020
 37. With Java game engine game is resettet when the device is rotated. - April 2020
 38. Help texts for android tablet layouts are not correct anymore. - April 2020
+39. Add support for german and romanian.
+40. Add color picker
+41. Add game levels.
