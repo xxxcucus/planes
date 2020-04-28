@@ -1,10 +1,8 @@
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 
-import com.google.common.truth.Truth;
 import com.planes.common.Coordinate2D;
 import com.planes.common.Orientation;
 import com.planes.common.Plane;
-import com.planes.common.PlaneGrid;
 import com.planes.common.PlanePointIterator;
 import com.planes.common.Type;
 

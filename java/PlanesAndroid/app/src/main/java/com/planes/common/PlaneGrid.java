@@ -1,7 +1,7 @@
 package com.planes.common;
 import java.util.Iterator;
 import java.util.Vector;
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 
 /**Implements the logic of planes in a grid.
  *Manages a list of plane positions and orientations.

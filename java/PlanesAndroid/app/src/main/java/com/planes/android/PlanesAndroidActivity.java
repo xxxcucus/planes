@@ -1,8 +1,8 @@
 package com.planes.android;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,7 +16,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.planes.common.PlanesRoundJava;
-import com.planes.javafx.PlaneRoundJavaFx;
 
 public class PlanesAndroidActivity extends AppCompatActivity {
 

@@ -13,7 +13,7 @@ package com.planes.common;
 //describes the data that is available about a given plane position
 //This structure keeps the information about the position of the head of the planes
 
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 
 import java.util.Iterator;
 import java.util.Vector;

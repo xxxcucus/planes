@@ -1,5 +1,5 @@
 package com.planes.common;
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 import com.planes.android.PlanesRoundInterface;
 
 public class PlanesRoundJava implements PlanesRoundInterface {
