@@ -42,5 +42,10 @@
     <string name="credits_software_content">This software was developed by Cristian Cucu and the complete source code can be found at www.github.com/xxxcucus/planes.</string>
     <string name="credits_graphics_title">Graphics</string>
     <string name="credits_graphics_content">The logo of the game and the store graphics were created by Alexandru Vintilescu. Other work from Alex can be seen at https://axa951.wixsite.com/portfolio</string>
+    <string name="helptext_startnewgame_1">Touch on the "Start New Game" button to start a new round.</string>
+    <string name="helptext_boardediting_1">Touch on the plane\'s body to select it.</string>
+    <string name="helptext_boardediting_2">Touch on the control buttons to position the selected plane."</string>
+    <string name="helptext_game_1">Touch on the computer\'s board to guess where the computer\'s planes are.</string>
+    <string name="helptext_game_2">X means target destroyed. Disc means nothing was hit. Rhombus means a hit.</string>
 
 </resources>

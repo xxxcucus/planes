@@ -239,17 +239,17 @@ public class PlanesAndroidActivity extends AppCompatActivity {
             switch (m_GameBoards.getGameStage()) {
                 case GameNotStarted:
                     helpTitleTextView.setText(getResources().getString(R.string.game_not_started_stage));
-                    helpTextView.setText("Touch on the \"Start New Game\" to start a new round.");
+                    helpTextView.setText(getResources().getString(R.string.helptext_startnewgame_1));
                     break;
                 case BoardEditing:
                     helpTitleTextView.setText(getResources().getString(R.string.board_editing_stage));
-                    helpTextView.setText("Touch on the plane's body to select it." +
-                            "\nTouch on the control buttons to position the selected plane.");
+                    helpTextView.setText(getResources().getString(R.string.helptext_boardediting_1) + "\n" +
+                            getResources().getString(R.string.helptext_boardediting_2));
                     break;
                 case Game:
                     helpTitleTextView.setText(getResources().getString(R.string.game_stage));
-                    helpTextView.setText("\nTouch on the computer's board to guess where the computer's planes are." +
-                            "\nX means target destroyed. Disc means nothing was hit. Rhombus means a hit.");
+                    helpTextView.setText(getResources().getString(R.string.helptext_game_1) + "\n" +
+                            getResources().getString(R.string.helptext_game_2));
                     break;
             }
         }
