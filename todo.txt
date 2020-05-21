@@ -41,3 +41,4 @@ but the "Start New Round" button should only be active at the end of one round. 
 40. Add color picker
 41. Add game levels.
 42. Add graphic for plane 
+43. Change pictograms in the top bar
