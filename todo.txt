@@ -42,3 +42,5 @@ but the "Start New Round" button should only be active at the end of one round. 
 41. Add game levels.
 42. Add graphic for plane 
 43. Change pictograms in the top bar
+44. Shuffle planes button in board editing step.
+45. Moving of planes with touch.
