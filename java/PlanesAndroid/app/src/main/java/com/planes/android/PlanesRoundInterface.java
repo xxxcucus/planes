@@ -1,5 +1,6 @@
 package com.planes.android;
 
+//TODO: to move in common
 public interface PlanesRoundInterface {
 
     //creates the PlaneRound object in the game engine

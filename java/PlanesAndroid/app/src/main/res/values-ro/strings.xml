@@ -47,4 +47,6 @@
     <string name="helptext_boardediting_2">Apasa pe butoanele de control pentru a pozitiona avionul."</string>
     <string name="helptext_game_1">Apasa pe tabla computerului pentru a ghici unde se afla avioanele acestuia.</string>
     <string name="helptext_game_2">X inseamna tinta distrusa. Un disc inseamna ratare. Un romb inseamna lovitura reusita.</string>
+    <string name="credits_software_button">Mergi la pagina GitHub a proiectului</string>
+    <string name="credits_graphics_button">Mergi la pagina lui Alex</string>
 </resources>
