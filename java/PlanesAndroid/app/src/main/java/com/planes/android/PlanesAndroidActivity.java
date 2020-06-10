@@ -113,6 +113,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         ColouredSurfaceWithText playerWinsCount = (ColouredSurfaceWithText)findViewById(R.id.player_wins_count);
         ColouredSurfaceWithText winnerText = (ColouredSurfaceWithText)findViewById(R.id.winner_textview);
 
+
         m_GameControls = new GameControlsAdapter(this);
         m_GameControls.setBoardEditingControls(upButton, downButton, leftButton, rightButton, doneButton, rotateButton);
         if (!isTablet)
@@ -235,21 +236,41 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         TextView helpTextView = (TextView)popupView.findViewById(R.id.popup_help_text);
         TextView helpTitleTextView = (TextView)popupView.findViewById(R.id.popup_help_title);
 
+        final String link_tutorial_game = "https://www.youtube.com/watch?v=CAxSPp2h_Vo";
+        final String link_tutorial_board_editing = "https://www.youtube.com/watch?v=qgL0RdwqBRY";
+        Button helpButton = (Button)popupView.findViewById(R.id.popup_help_button);
+
         if (helpTextView != null && helpTitleTextView != null) {
             switch (m_GameBoards.getGameStage()) {
                 case GameNotStarted:
                     helpTitleTextView.setText(getResources().getString(R.string.game_not_started_stage));
                     helpTextView.setText(getResources().getString(R.string.helptext_startnewgame_1));
+                    helpButton.setEnabled(false);
+
                     break;
                 case BoardEditing:
                     helpTitleTextView.setText(getResources().getString(R.string.board_editing_stage));
                     helpTextView.setText(getResources().getString(R.string.helptext_boardediting_1) + "\n" +
                             getResources().getString(R.string.helptext_boardediting_2));
+                    helpButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Tools.openLink(view.getContext(), link_tutorial_board_editing);
+                        }
+                    });
+                    helpButton.setEnabled(true);
                     break;
                 case Game:
                     helpTitleTextView.setText(getResources().getString(R.string.game_stage));
                     helpTextView.setText(getResources().getString(R.string.helptext_game_1) + "\n" +
                             getResources().getString(R.string.helptext_game_2));
+                    helpButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Tools.openLink(view.getContext(), link_tutorial_game);
+                        }
+                    });
+                    helpButton.setEnabled(true);
                     break;
             }
         }
@@ -267,6 +288,23 @@ public class PlanesAndroidActivity extends AppCompatActivity {
     public void onButtonShowCreditsWindowClick() {
         LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.credits_popup, null);
+
+        Button showGithubPageButton = (Button)popupView.findViewById(R.id.credits_software_button);
+        Button showAlexPageButton = (Button)popupView.findViewById(R.id.credits_graphics_button);
+
+        showGithubPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Tools.openLink(view.getContext(), "https://www.github.com/xxxcucus/planes");
+            }
+        });
+
+        showAlexPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Tools.openLink(view.getContext(), "https://axa951.wixsite.com/portfolio");
+            }
+        });
 
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
