@@ -27,7 +27,7 @@
         android:textSize="15dp"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/credits_software_content"
-        android:text="Go to Project's GitHub Page"/>
+        android:text="@string/credits_software_button"/>
 
     <TextView
         android:id="@+id/credits_graphics_title"
@@ -52,6 +52,6 @@
         android:textSize="15dp"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/credits_graphics_content"
-        android:text="Go to Alex' Website"/>
+        android:text="@string/credits_graphics_button"/>
 
 </RelativeLayout>
