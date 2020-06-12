@@ -24,6 +24,7 @@ add_subdirectory(PlanesWidget)
 add_subdirectory(PlanesGraphicsScene)
 add_subdirectory(PlanesQML)
 add_subdirectory(common)
+add_subdirectory(PlanesServerTestGUI)
 
 set(ROOT_PATH ${Qt5_DIR}/../../../)
 
