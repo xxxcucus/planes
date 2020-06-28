@@ -245,7 +245,7 @@ public class GameBoard extends GridLayout {
     }
 
     public void touchEvent(int row, int col) {
-        System.out.println("Touch event" + row + " " + col);
+        //System.out.println("Touch event" + row + " " + col);
 
         if (!m_IsComputer && m_CurStage == GameStages.BoardEditing) {
             int type = m_PlaneRound.getPlaneSquareType(row - m_Padding, col - m_Padding, m_IsComputer ? 1 : 0);
