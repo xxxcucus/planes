@@ -25,6 +25,7 @@ add_subdirectory(PlanesGraphicsScene)
 add_subdirectory(PlanesQML)
 add_subdirectory(common)
 
+
 set(ROOT_PATH ${Qt5_DIR}/../../../)
 
 if (NOT UNIX)

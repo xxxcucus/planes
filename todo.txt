@@ -44,6 +44,6 @@ but the "Start New Round" button should only be active at the end of one round. 
 43. Change pictograms in the top bar
 44. Shuffle planes button in board editing step.
 45. Moving of planes with touch.
-46.Add tutorial video.
-47. Add links to pages in Credits popups.
+46.Add tutorial video. - May2020
+47. Add links to pages in Credits popups. - May2020
 48. Create style for popup windows (close button, nice frame)
