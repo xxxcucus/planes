@@ -117,9 +117,28 @@ public class GridSquare extends View {
     }
 
     public boolean onTouchEvent(MotionEvent event) {
-        m_Parent.touchEvent(m_Row, m_Col);
-        return super.onTouchEvent(event);
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                m_XTouched = (int)event.getRawX();
+                m_YTouched = (int)event.getRawY();
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                // touch move code
+                break;
+
+            case MotionEvent.ACTION_BUTTON_RELEASE:
+            case MotionEvent.ACTION_CANCEL:
+            case MotionEvent.ACTION_UP:
+                int xtouched = (int)event.getRawX();
+                int ytouched = (int)event.getRawY();
+                m_Parent.touchEventUp(m_Row, m_Col,(ytouched - m_YTouched) / m_Width, (xtouched - m_XTouched) / m_Width);
+                break;
+        }
+
+        return true;
     }
+
 
     private int m_BackgroundColor;
     private int m_GuessColor = Color.RED;
@@ -134,5 +153,6 @@ public class GridSquare extends View {
     int m_Width = 0;
 
     private GameBoard m_Parent;
-
+    private int m_XTouched = -1;
+    private int m_YTouched = -1;
 }

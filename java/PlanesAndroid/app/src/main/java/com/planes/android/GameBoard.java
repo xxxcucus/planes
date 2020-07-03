@@ -240,13 +240,20 @@ public class GameBoard extends GridLayout {
                     break;
             }
         }
-        //System.out.println(Integer.toString(i) + ", " + Integer.toString(j) + "= " + Integer.toString(squareColor));
         return squareColor;
     }
 
-    public void touchEvent(int row, int col) {
-        //System.out.println("Touch event" + row + " " + col);
 
+    public void touchEventUp(int row, int col, int row_diff, int col_diff) {
+        if (row_diff == 0 && col_diff == 0) {
+            touchInASingleSquare(row, col);
+        } else {
+            touchInMoreSquares(row, col, row + row_diff, col + col_diff);
+        }
+    }
+
+    //simple touch
+    private void touchInASingleSquare(int row, int col) {
         if (!m_IsComputer && m_CurStage == GameStages.BoardEditing) {
             int type = m_PlaneRound.getPlaneSquareType(row - m_Padding, col - m_Padding, m_IsComputer ? 1 : 0);
             if (type > 0)
@@ -290,6 +297,26 @@ public class GameBoard extends GridLayout {
                 updateBoards();
                 if (m_SiblingBoard != null)
                     m_SiblingBoard.updateBoards();
+            }
+        }
+    }
+
+    //drag
+    private void touchInMoreSquares(int row_first, int col_first, int row_last, int col_last) {
+        //System.out.println("Drag from " + Integer.toString(row_first) + ", " + Integer.toString(col_first) + " to " + Integer.toString(row_last) + " , " + Integer.toString(col_last));
+        if (!m_IsComputer && m_CurStage == GameStages.BoardEditing) {
+            if (Math.abs(row_last - row_first) > Math.abs(col_last - col_first)) {
+                //vertical movement
+                if (row_last > row_first)
+                    movePlaneRight();
+                else
+                    movePlaneLeft();
+            } else {
+                //horizontal movement
+                if (col_last > col_first)
+                    movePlaneDown();
+                else
+                    movePlaneUp();
             }
         }
     }
