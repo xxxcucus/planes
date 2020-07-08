@@ -39,3 +39,11 @@ release
 /Planes.pro.user
 /CMakeLists.txt.user
 /Planes_fastlane_secret
+.vs/
+4Planes.zip
+ImagePlanes_Dark/
+ImagePlanes_White/
+TextsTutorials/
+YoutubeTestAndroid/
+java/PlanesAndroid/app/.cxx/
+java/obsolete/PlanesJavaFx/src/com/planes/javafx/PlaneRoundJavaFx.class
