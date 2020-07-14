@@ -50,4 +50,6 @@
     <string name="credits_software_button">Mergi la pagina GitHub a proiectului</string>
     <string name="credits_graphics_button">Mergi la pagina lui Alex</string>
     <string name="popup_help_button_text">Vezi Video</string>
+    <string name="draws">Egalitate</string>
+    <string name="draw_result">Egalitate!</string>
 </resources>

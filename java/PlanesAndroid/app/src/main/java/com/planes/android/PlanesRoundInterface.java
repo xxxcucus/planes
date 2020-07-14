@@ -26,6 +26,7 @@ public interface PlanesRoundInterface {
     void playerGuess(int row, int col);
     boolean playerGuess_RoundEnds();
     boolean playerGuess_IsPlayerWinner();
+    boolean playerGuess_IsDraw();
     boolean playerGuess_ComputerMoveGenerated();
     int playerGuess_StatNoPlayerMoves();
     int playerGuess_StatNoPlayerHits();
@@ -37,6 +38,7 @@ public interface PlanesRoundInterface {
     int playerGuess_StatNoComputerMisses();
     int playerGuess_StatNoComputerDead();
     int playerGuess_StatNoComputerWins();
+    int playerGuess_StatNoDraws();
 
     void roundEnds();
     void initRound();

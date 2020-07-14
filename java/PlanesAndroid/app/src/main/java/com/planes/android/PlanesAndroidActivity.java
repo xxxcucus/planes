@@ -112,13 +112,15 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         ColouredSurfaceWithText playerWinsLabel = (ColouredSurfaceWithText)findViewById(R.id.player_wins_label);
         ColouredSurfaceWithText playerWinsCount = (ColouredSurfaceWithText)findViewById(R.id.player_wins_count);
         ColouredSurfaceWithText winnerText = (ColouredSurfaceWithText)findViewById(R.id.winner_textview);
+        ColouredSurfaceWithText drawsLabel = (ColouredSurfaceWithText)findViewById(R.id.draws_label);
+        ColouredSurfaceWithText drawsCount = (ColouredSurfaceWithText)findViewById(R.id.draws_count);
 
 
         m_GameControls = new GameControlsAdapter(this);
         m_GameControls.setBoardEditingControls(upButton, downButton, leftButton, rightButton, doneButton, rotateButton);
         if (!isTablet)
             m_GameControls.setGameControls(statsTitle, viewComputerBoardButton1, movesLabel, movesCount, missesLabel, missesCount, hitsLabel, hitsCount, deadsLabel, deadCount);
-        m_GameControls.setStartNewGameControls(viewComputerBoardButton2, startNewGameButton, computerWinsLabel, computerWinsCount, playerWinsLabel, playerWinsCount, winnerText);
+        m_GameControls.setStartNewGameControls(viewComputerBoardButton2, startNewGameButton, computerWinsLabel, computerWinsCount, playerWinsLabel, playerWinsCount, drawsLabel, drawsCount, winnerText);
 
         m_GameControls.setGameSettings(m_PlaneRound, isTablet);
         m_GameControls.setGameBoards(m_GameBoards);

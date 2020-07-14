@@ -272,15 +272,12 @@ public class GameBoard extends GridLayout {
 
                 m_PlaneRound.playerGuess(col - m_Padding, row - m_Padding);
 
-                //update the statistics
-                int playerWins = m_PlaneRound.playerGuess_StatNoPlayerWins();
-                int computerWins = m_PlaneRound.playerGuess_StatNoComputerWins();
-
-
                 //check if the round ended
                 if (m_PlaneRound.playerGuess_RoundEnds()) {
                     System.out.println("Round ends!");
                     String winnerText = m_PlaneRound.playerGuess_IsPlayerWinner() ? "Player wins !" : "Computer wins !";
+                    if (m_PlaneRound.playerGuess_IsDraw())
+                        winnerText = "Draw !";
 
                     if (m_Tablet) {
                         m_SiblingBoard.setNewRoundStage(false);
@@ -289,7 +286,7 @@ public class GameBoard extends GridLayout {
                         setNewRoundStage(true);
                     }
                     m_PlaneRound.roundEnds();
-                    m_GameControls.roundEnds(playerWins, computerWins, !m_PlaneRound.playerGuess_IsPlayerWinner());
+                    m_GameControls.roundEnds(!m_PlaneRound.playerGuess_IsPlayerWinner(), m_PlaneRound.playerGuess_IsDraw());
                 } else {
                     if (!m_Tablet)
                         m_GameControls.updateStats(m_IsComputer);

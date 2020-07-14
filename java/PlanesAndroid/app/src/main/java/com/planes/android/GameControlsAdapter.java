@@ -129,7 +129,9 @@ public class GameControlsAdapter {
     }
 
     public void setStartNewGameControls(TwoLineTextButtonWithState viewComputerBoardButton2, TwoLineTextButton startNewGameButton,
-                                        ColouredSurfaceWithText computerWinsLabel, ColouredSurfaceWithText computerWinsCount, ColouredSurfaceWithText playerWinsLabel, ColouredSurfaceWithText playerWinsCount, ColouredSurfaceWithText winnerText ) {
+                                        ColouredSurfaceWithText computerWinsLabel, ColouredSurfaceWithText computerWinsCount,
+                                        ColouredSurfaceWithText playerWinsLabel, ColouredSurfaceWithText playerWinsCount,
+                                        ColouredSurfaceWithText drawsLabel, ColouredSurfaceWithText drawsCount, ColouredSurfaceWithText winnerText ) {
         m_ViewComputerBoardButton2 = viewComputerBoardButton2;
         m_StartNewRound = startNewGameButton;
         m_ComputerWinsLabel = computerWinsLabel;
@@ -137,6 +139,8 @@ public class GameControlsAdapter {
         m_PlayerWinsLabel = playerWinsLabel;
         m_PlayerWins = playerWinsCount;
         m_WinnerTextView = winnerText;
+        m_Draws = drawsCount;
+        m_DrawsLabel = drawsLabel;
 
         if (m_StartNewRound != null) {
             m_StartNewRound.setOnClickListener(new View.OnClickListener() {
@@ -173,8 +177,10 @@ public class GameControlsAdapter {
     public void setNewRoundStage() {
         int computer_wins = m_PlaneRound.playerGuess_StatNoComputerWins();
         int player_wins = m_PlaneRound.playerGuess_StatNoPlayerWins();
+        int draws = m_PlaneRound.playerGuess_StatNoDraws();
         m_PlayerWins.setText(Integer.toString(player_wins));
         m_ComputerWins.setText(Integer.toString(computer_wins));
+        m_Draws.setText(Integer.toString(draws));
         m_ViewComputerBoardButton2.setState("player", m_Context.getResources().getString(R.string.view_player_board2).toString());
         m_PlanesLayout.setComputerBoard();
     }
@@ -220,19 +226,22 @@ public class GameControlsAdapter {
         }
     }
 
-    public void roundEnds(int playerWins, int computerWins, boolean isComputerWinner) {
-        //TODO: do I need to update layout and game boards as well?
+    public void roundEnds(boolean isComputerWinner, boolean isDraw) {
         m_PlanesLayout.setComputerBoard();
         m_PlanesLayout.setNewRoundStage();
         if (isComputerWinner)
             m_WinnerTextView.setText(m_Context.getResources().getText(R.string.computer_winner).toString());
         else
             m_WinnerTextView.setText(m_Context.getResources().getText(R.string.player_winner).toString());
+        if (isDraw)
+            m_WinnerTextView.setText(m_Context.getResources().getText(R.string.draw_result).toString());
 
         int computer_wins = m_PlaneRound.playerGuess_StatNoComputerWins();
         int player_wins = m_PlaneRound.playerGuess_StatNoPlayerWins();
+        int draws = m_PlaneRound.playerGuess_StatNoDraws();
         m_PlayerWins.setText(Integer.toString(player_wins));
         m_ComputerWins.setText(Integer.toString(computer_wins));
+        m_Draws.setText(Integer.toString(draws));
         m_ViewComputerBoardButton2.setState("player", m_Context.getResources().getText(R.string.view_player_board2).toString());
     }
 
@@ -283,7 +292,9 @@ public class GameControlsAdapter {
     private TwoLineTextButton m_StartNewRound;
     private ColouredSurfaceWithText m_ComputerWins;
     private ColouredSurfaceWithText m_PlayerWins;
+    private ColouredSurfaceWithText m_Draws;
     private ColouredSurfaceWithText m_ComputerWinsLabel;
     private ColouredSurfaceWithText m_PlayerWinsLabel;
+    private ColouredSurfaceWithText m_DrawsLabel;
     private TwoLineTextButtonWithState m_ViewComputerBoardButton2;
 }

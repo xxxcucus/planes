@@ -64,6 +64,10 @@ public class PlanesRoundJava implements PlanesRoundInterface {
         return global_Player_Guess_Reaction.m_RoundEnds;
     }
 
+    public boolean playerGuess_IsDraw() {
+        return global_Player_Guess_Reaction.m_IsDraw;
+    }
+
     public boolean playerGuess_IsPlayerWinner() {
         return global_Player_Guess_Reaction.m_isPlayerWinner;
     }
@@ -102,6 +106,10 @@ public class PlanesRoundJava implements PlanesRoundInterface {
     }
     public int playerGuess_StatNoComputerWins() {
         return global_Player_Guess_Reaction.m_GameStats.m_computerWins;
+    }
+
+    public int playerGuess_StatNoDraws() {
+        return global_Player_Guess_Reaction.m_GameStats.m_draws;
     }
 
     public void roundEnds() {

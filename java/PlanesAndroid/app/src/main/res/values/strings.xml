@@ -28,11 +28,13 @@
     <string name="general_dead">Dead</string>
     <string name="computer_winner">Computer Wins Round!</string>
     <string name="player_winner">Player Wins Round!</string>
+    <string name="draw_result">Draw !</string>
     <string name="start_new_game">Start New Game</string>
     <string name="start_new_game1">Start</string>
     <string name="start_new_game2">New Game</string>
     <string name="computer_wins">Computer Wins</string>
     <string name="player_wins">Player Wins</string>
+    <string name="draws">Draws</string>
     <string name="help">Help</string>
     <string name="board_editing_stage">Board Editing</string>
     <string name="game_stage">Game</string>
@@ -50,5 +52,6 @@
     <string name="helptext_game_1">Touch on the computer\'s board to guess where the computer\'s planes are.</string>
     <string name="helptext_game_2">X means target destroyed. Disc means nothing was hit. Rhombus means a hit.</string>
     <string name="popup_help_button_text">See Video</string>
+
 
 </resources>

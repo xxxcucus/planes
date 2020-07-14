@@ -146,5 +146,22 @@
             app:gc_col="8"
             app:gc_game_stage="2"
             app:gc_text="0" />
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/draws_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_row="4"
+            app:gc_col="4"
+            app:gc_colspan="4"
+            app:gc_game_stage="2"
+            app:gc_text="@string/draws" />
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/draws_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_row="4"
+            app:gc_col="8"
+            app:gc_game_stage="2"
+            app:gc_text="0" />
     </com.planes.android.PlanesVerticalLayout>
 </LinearLayout>

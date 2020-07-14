@@ -82,11 +82,17 @@ public class PlaneRound {
         }
 
         Pair<Boolean, Boolean> roundEndsResult = roundEnds();
-        if (roundEndsResult.first) {
-            m_gameStats.updateWins(!roundEndsResult.second);
+        if (roundEndsResult.first || roundEndsResult.second) {
+            if (roundEndsResult.first && roundEndsResult.second) {
+                m_gameStats.addDrawResult();
+                pgr.m_IsDraw = true;
+            } else {
+                pgr.m_IsDraw = false;
+            }
+            m_gameStats.updateWins(roundEndsResult.second);
             pgr.m_RoundEnds = true;
             m_State = GameStages.GameNotStarted;
-            pgr.m_isPlayerWinner = roundEndsResult.second;
+            pgr.m_isPlayerWinner = roundEndsResult.first;
         } else {
             pgr.m_RoundEnds = false;
         }
@@ -305,10 +311,7 @@ public class PlaneRound {
         boolean computerFinished = enoughGuesses(m_PlayerGrid, m_computerGuessList);
         boolean playerFinished = enoughGuesses(m_ComputerGrid, m_playerGuessList);
 
-        if (!computerFinished && playerFinished)
-            isPlayerWinner = true;
-
-        return Pair.create((playerFinished || computerFinished), isPlayerWinner);
+        return Pair.create(playerFinished, computerFinished);
     }
 
 

@@ -47,6 +47,9 @@ public class GameStatistics {
             m_playerWins++;
     }
 
+    public void addDrawResult() {
+        m_draws++;
+    }
 
     //keeps the number of moves and various guesses in the current round
     public int m_playerMoves = 0;
@@ -60,4 +63,5 @@ public class GameStatistics {
     //keeps the score
     public int m_playerWins = 0;
     public int m_computerWins = 0;
+    public int m_draws = 0;
 }
