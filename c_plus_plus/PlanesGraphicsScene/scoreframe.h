@@ -16,7 +16,7 @@ class ScoreFrame : public QFrame
 
 public:
     explicit ScoreFrame(QWidget* parent = nullptr);
-    void updateDisplayedValues(int computerScore, int playerScore);
+    void updateDisplayedValues(int computerScore, int playerScore, int draws);
 
 	void activateStartRoundButton() {
 		m_StartGameButton->setEnabled(true);
@@ -29,6 +29,7 @@ public:
 public:
     QLabel* m_PlayerScoreLabel = new QLabel("0");
     QLabel* m_ComputerScoreLabel = new QLabel("0");
+	QLabel* m_DrawsLabel = new QLabel("0");
     QPushButton* m_StartGameButton;
 
 signals:

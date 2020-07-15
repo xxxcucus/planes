@@ -18,6 +18,7 @@ struct GameStatistics
     //keeps the score
     int m_playerWins = 0;
     int m_computerWins = 0;
+	int m_draws = 0;
 
     //constructor
     GameStatistics();
@@ -27,6 +28,7 @@ struct GameStatistics
     void updateStats(const GuessPoint& gp, bool isComputer);
     //adds to the score
     void updateWins(bool isComputerWinner);
+	void updateDraws();
 };
 
 #endif // GAMESTATISTICS_H

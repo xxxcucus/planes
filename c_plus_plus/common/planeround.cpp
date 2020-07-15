@@ -91,8 +91,16 @@ void PlaneRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr)
 	}
 
 	bool isPlayerWinner = false;
-	if (roundEnds(isPlayerWinner)) {
-		m_gameStats.updateWins(isPlayerWinner);
+	bool isComputerWinner = false;
+	if (roundEnds(isPlayerWinner, isComputerWinner)) {
+		if (isPlayerWinner && isComputerWinner) {
+			m_gameStats.updateDraws();
+			pgr.m_isDraw = true;
+		} else {
+			m_gameStats.updateWins(isPlayerWinner);
+			pgr.m_isDraw = false;
+		}
+		
 		pgr.m_RoundEnds = true;
 		m_State = GameStages::GameNotStarted;
 		pgr.m_isPlayerWinner = isPlayerWinner;
@@ -140,18 +148,12 @@ GuessPoint PlaneRound::guessComputerMove()
 	return gp;
 }
 
-bool PlaneRound::roundEnds(bool& isPlayerWinner)
+bool PlaneRound::roundEnds(bool& isPlayerWinner, bool& isComputerWinner)
 {
-	//at equal scores computer wins
-	isPlayerWinner = false;
+	isPlayerWinner = enoughGuesses(m_PlayerGrid, m_computerGuessList);
+	isComputerWinner = enoughGuesses(m_ComputerGrid, m_playerGuessList);
 
-	bool playerFinished = enoughGuesses(m_PlayerGrid, m_computerGuessList);
-	bool computerFinished = enoughGuesses(m_ComputerGrid, m_playerGuessList);
-
-	if (!computerFinished && playerFinished)
-		isPlayerWinner = true;
-
-	return (playerFinished || computerFinished);
+	return (isPlayerWinner || isComputerWinner);
 }
 
 //decides whether all the planes have been guessed

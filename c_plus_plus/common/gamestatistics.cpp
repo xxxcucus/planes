@@ -6,6 +6,7 @@ GameStatistics::GameStatistics()
     reset();
     m_computerWins = 0;
     m_playerWins = 0;
+	m_draws = 0;
 }
 
 //resets the fields related to one round
@@ -50,4 +51,9 @@ void GameStatistics::updateWins(bool isComputerWinner)
         m_computerWins++;
     else
         m_playerWins++;
+}
+
+void GameStatistics::updateDraws()
+{
+	m_draws++;
 }

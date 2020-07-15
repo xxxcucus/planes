@@ -96,7 +96,7 @@ void LeftPane::updateGameStatistics(const GameStatistics &gs)
 {
     m_PlayerStatsFrame->updateDisplayedValues(gs.m_playerMoves, gs.m_playerMisses, gs.m_playerHits, gs.m_playerDead);
     m_ComputerStatsFrame->updateDisplayedValues(gs.m_computerMoves, gs.m_computerMisses, gs.m_computerHits, gs.m_computerDead);
-    m_ScoreFrame->updateDisplayedValues(gs.m_computerWins, gs.m_playerWins);
+    m_ScoreFrame->updateDisplayedValues(gs.m_computerWins, gs.m_playerWins, gs.m_draws);
 }
 
 void LeftPane::endRound(bool) {

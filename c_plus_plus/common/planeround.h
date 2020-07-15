@@ -12,6 +12,8 @@ struct PlayerGuessReaction {
 	bool m_RoundEnds = false;
 	//who won
 	bool m_isPlayerWinner = false;
+	//is draw
+	bool m_isDraw = false;
 	//if no victory then a computer move is generated
 	bool m_ComputerMoveGenerated = false;
 	//which computer move was generated 
@@ -137,7 +139,7 @@ private:
 	//resets the round
 	void reset();
 	//check to see if there is a winner
-	bool roundEnds(bool& isPlayerWinner);
+	bool roundEnds(bool& isPlayerWinner, bool& isComputerWinner);
 
 private:
 	//whether the computer or the player moves first
