@@ -32,7 +32,7 @@ public:
     /**
      * @brief : Actions to be taken when the round ends.
      */
-    void endRound(bool isPlayerWinner) override;
+    void endRound(bool isPlayerWinner, bool isDraw) override;
 
     inline void generateBoardItems() override {
         GenericBoard::generateBoardItems();

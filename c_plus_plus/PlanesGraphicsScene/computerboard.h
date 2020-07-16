@@ -12,7 +12,7 @@ public:
     /**
      * @brief : Actions to be taken when the round ends.
      */
-    void endRound(bool isPlayerWinner) override;
+    void endRound(bool isPlayerWinner, bool isDraw) override;
     void generateBoardItems() override;
 
 public slots:

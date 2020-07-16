@@ -91,9 +91,9 @@ void RightPane::doneClicked()
     m_ComputerBoard->setGameStage(GenericBoard::GameStages::Game);
 }
 
-void RightPane::endRound(bool isPlayerWinner) {
-    m_PlayerBoard->endRound(isPlayerWinner);
-    m_ComputerBoard->endRound(isPlayerWinner);
+void RightPane::endRound(bool isPlayerWinner, bool isDraw) {
+    m_PlayerBoard->endRound(isPlayerWinner, isDraw);
+    m_ComputerBoard->endRound(isPlayerWinner, isDraw);
 }
 
 void RightPane::startNewGame() {

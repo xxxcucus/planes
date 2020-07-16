@@ -60,7 +60,7 @@ void PlaneRound::initRound()
 	//reset();
 }
 
-//TODO: do we need to evaluate the player guess here ?
+
 void PlaneRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr)
 {
 	if (m_State != GameStages::Game)
@@ -159,6 +159,9 @@ bool PlaneRound::roundEnds(bool& isPlayerWinner, bool& isComputerWinner)
 //decides whether all the planes have been guessed
 bool PlaneRound::enoughGuesses(PlaneGrid* pg, const std::vector<GuessPoint>& guessList) const
 {
+	//for testing draw score
+	//if (guessList.size() > 10)
+	//	return true;
 	int count = 0;
 
 	for (unsigned int i = 0; i < guessList.size(); i++) {

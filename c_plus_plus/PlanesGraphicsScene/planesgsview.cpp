@@ -67,7 +67,7 @@ void PlanesGSView::receivedPlayerGuess(const GuessPoint& gp)
 	if (pgr.m_RoundEnds) {
 		printf("Round ends\n");
 		m_LeftPane->endRound(!pgr.m_isPlayerWinner);
-		m_RightPane->endRound(!pgr.m_isPlayerWinner);
+		m_RightPane->endRound(!pgr.m_isPlayerWinner, pgr.m_isDraw);
 		m_round->roundEnds();
 	}
 

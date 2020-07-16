@@ -36,7 +36,7 @@ public slots:
      * @brief Display winner message in the player and computer boards.
      * Block mouse click events in the computer board.
      */
-    void endRound(bool isPlayerWinner);
+    void endRound(bool isPlayerWinner, bool isDraw);
 
     void startNewGame();
 
