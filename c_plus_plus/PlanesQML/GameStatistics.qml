@@ -22,6 +22,7 @@ Rectangle {
     property int computerDead : 0
     property int computerMisses : 0
     property int computerWins : 0
+    property int draws : 0
 
     Rectangle {
         id: score
@@ -204,6 +205,16 @@ Rectangle {
                     text: gameStats.computerWins
                     color: gameStats.textColorGame
                 }
+                Label {
+                    font.pixelSize: gameStats.textSize
+                    text: "Draws"
+                    color: gameStats.textColorGame
+                }
+                Label {
+                    font.pixelSize: gameStats.textSize
+                    text: gameStats.draws
+                    color: gameStats.textColorGame
+                }                
             }
         }
     } //current game statistics - green rectangle
@@ -257,6 +268,7 @@ Rectangle {
             target: PlaneGame
             onRoundEnds: {
                 gameEndMessage.text = isPlayerWinner ? "Player wins!" : "Computer wins!"
+                gameEndMessage.text = isDraw ? "Draw !" : gameEndMessage.text
                 playAgainButton.visible = "true"
                 playAgainButton.state = "Enabled"
                 gameEndMessage.color= gameStats.textColorGlobal

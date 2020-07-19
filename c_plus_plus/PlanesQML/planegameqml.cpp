@@ -39,7 +39,7 @@ void PlaneGameQML::receivedPlayerGuess(const GuessPoint& gp)
 		emit computerMoveGenerated(pgr.m_ComputerGuess);
 	}
 	if (pgr.m_RoundEnds) {
-		emit roundEnds(!pgr.m_isPlayerWinner);
+		emit roundEnds(!pgr.m_isPlayerWinner, pgr.m_isDraw);
 		mRound->roundEnds();
 	}
 

@@ -24,6 +24,7 @@ public:
     Q_INVOKABLE inline int getComputerDead() { return m_Stats.m_computerDead; }
     Q_INVOKABLE inline int getComputerMisses() { return m_Stats.m_computerMisses; }
     Q_INVOKABLE inline int getComputerWins() { return m_Stats.m_computerWins; }
+	Q_INVOKABLE inline int getDraws() { return m_Stats.m_draws; }
 
     Q_INVOKABLE void startNewGame();
 
@@ -34,7 +35,7 @@ signals:
     void guessMade(const GuessPoint& gp);
     void computerMoveGenerated(const GuessPoint& gp);    
     void updateStats();
-    void roundEnds(bool isPlayerWinner);
+    void roundEnds(bool isPlayerWinner, bool isDraw);
 	void resetGrid();
 
 public slots:
