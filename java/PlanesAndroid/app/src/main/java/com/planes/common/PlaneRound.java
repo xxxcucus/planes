@@ -88,8 +88,9 @@ public class PlaneRound {
                 pgr.m_IsDraw = true;
             } else {
                 pgr.m_IsDraw = false;
+                m_gameStats.updateWins(roundEndsResult.second);
             }
-            m_gameStats.updateWins(roundEndsResult.second);
+
             pgr.m_RoundEnds = true;
             m_State = GameStages.GameNotStarted;
             pgr.m_isPlayerWinner = roundEndsResult.first;
@@ -264,6 +265,9 @@ public class PlaneRound {
     }
     //tests whether all of the planes have been guessed
     private boolean enoughGuesses(PlaneGrid pg, final Vector<GuessPoint> guessList) {
+        //to test draws
+        if (guessList.size() > 10)
+            return true;
 
         int count = 0;
 
