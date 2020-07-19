@@ -266,8 +266,8 @@ public class PlaneRound {
     //tests whether all of the planes have been guessed
     private boolean enoughGuesses(PlaneGrid pg, final Vector<GuessPoint> guessList) {
         //to test draws
-        if (guessList.size() > 10)
-            return true;
+        //if (guessList.size() > 10)
+         //   return true;
 
         int count = 0;
 
