@@ -5,6 +5,7 @@
 #include "computerlogic.h"
 #include "gamestatistics.h"
 #include "guesspoint.h"
+#include "planeroundoptions.h"
 
 
 struct PlayerGuessReaction {
@@ -146,6 +147,8 @@ private:
 	bool m_isComputerFirst = false;
 	//the  game statistics
 	GameStatistics m_gameStats;
+
+	PlaneRoundOptions m_RoundOptions;
 
 	//the player and computer's grid
 	PlaneGrid* m_PlayerGrid;
