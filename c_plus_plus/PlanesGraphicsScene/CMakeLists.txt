@@ -29,6 +29,8 @@ set(GS_SRCS
 	playerboard.cpp
 	rightpane.cpp
 	scoreframe.cpp
+	optionswindow.cpp
+	gamedifficultyoptions.cpp
 	main.cpp
 )
 
@@ -48,6 +50,8 @@ set(GS_HEADR
 	playerboard.h
 	rightpane.h
 	scoreframe.h
+	optionswindow.h
+	gamedifficultyoptions.h
 )
 
 add_executable(PlanesGraphicsScene 

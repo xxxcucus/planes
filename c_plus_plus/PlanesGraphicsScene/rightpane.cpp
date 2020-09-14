@@ -5,6 +5,7 @@
 #include <QTextEdit>
 #include <QFile>
 #include <QTextStream>
+#include "optionswindow.h"
 
 RightPane::RightPane(PlaneGrid& pGrid, PlaneGrid& cGrid, QWidget* parent) : QTabWidget(parent)
 {
@@ -22,8 +23,11 @@ RightPane::RightPane(PlaneGrid& pGrid, PlaneGrid& cGrid, QWidget* parent) : QTab
     m_PlayerBoard = new PlayerBoard(pGrid);
     m_ComputerBoard = new ComputerBoard(cGrid);
 
+	OptionsWindow* optionsWindow = new OptionsWindow();
+
     addTab(m_PlayerBoard->getView(), "Player Board");
     addTab(m_ComputerBoard->getView(), "Computer Board");
+	addTab(optionsWindow, "Options");
     addTab(helpWidget, "Help");
 
     connect(m_PlayerBoard, SIGNAL(planePositionNotValid(bool)), this, SIGNAL(planePositionNotValid(bool)));
