@@ -2,14 +2,16 @@
 #define RIGHTPANE_H
 
 #include <QTabWidget>
+#include <QSettings>
 #include "playerboard.h"
 #include "computerboard.h"
+#include "planeround.h"
 
 class RightPane : public QTabWidget
 {
     Q_OBJECT
 public:
-    explicit RightPane(PlaneGrid& pGrid, PlaneGrid& cGrid, QWidget* parent = nullptr);
+    explicit RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound *pr, QWidget* parent = nullptr);
     ~RightPane();
 
     void setMinWidth();
@@ -49,6 +51,8 @@ signals:
 private:
     PlayerBoard* m_PlayerBoard;
     ComputerBoard* m_ComputerBoard;
+	PlaneRound* m_PlaneRound; //for setting options
+	QSettings* m_Settings;
 private:
     void defineHelpWindow(QWidget* w);
 };

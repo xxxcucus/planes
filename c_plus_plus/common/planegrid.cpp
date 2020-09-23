@@ -278,6 +278,17 @@ bool PlaneGrid::getPlane(int pos, Plane& pl) const
     return true;
 }
 
+//gets the plane at a given position in the list of planes
+bool PlaneGrid::getPlanePoints(int pos, std::vector<PlanesCommonTools::Coordinate2D>& list) const
+{
+	if (pos < 0 || pos >= static_cast<int>(m_planeList.size()))
+		return false;
+
+	Plane pl = m_planeList.at(pos);
+	list = pl.getPlanePoints();
+	return true;
+}
+
 bool PlaneGrid::rotatePlane(int idx)
 {
     if (idx < 0 || idx >= static_cast<int>(m_planeList.size()))

@@ -6,8 +6,9 @@
 #include <QFile>
 #include <QTextStream>
 #include "optionswindow.h"
+#include "planeround.h"
 
-RightPane::RightPane(PlaneGrid& pGrid, PlaneGrid& cGrid, QWidget* parent) : QTabWidget(parent)
+RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr)
 {
     QWidget* helpWidget = new QWidget();
     QHBoxLayout* layout = new QHBoxLayout();
@@ -20,10 +21,11 @@ RightPane::RightPane(PlaneGrid& pGrid, PlaneGrid& cGrid, QWidget* parent) : QTab
     helpWidget->setLayout(layout);
 //    defineHelpWindow(helpWidget);
 
-    m_PlayerBoard = new PlayerBoard(pGrid);
-    m_ComputerBoard = new ComputerBoard(cGrid);
+    m_PlayerBoard = new PlayerBoard(*pGrid);
+    m_ComputerBoard = new ComputerBoard(*cGrid);
+	m_Settings = new QSettings("Cristian Cucu", "Planes");
 
-	OptionsWindow* optionsWindow = new OptionsWindow();
+	OptionsWindow* optionsWindow = new OptionsWindow(m_PlaneRound, m_Settings);
 
     addTab(m_PlayerBoard->getView(), "Player Board");
     addTab(m_ComputerBoard->getView(), "Computer Board");
@@ -39,6 +41,7 @@ RightPane::~RightPane()
 {
     delete m_PlayerBoard;
     delete m_ComputerBoard;
+	delete m_Settings;
 }
 
 void RightPane::defineHelpWindow(QWidget* w)

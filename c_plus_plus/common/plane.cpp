@@ -142,3 +142,14 @@ void Plane::translateWhenHeadPosValid(int offsetX, int offsetY, int row, int col
 Plane Plane::operator+(const PlanesCommonTools::Coordinate2D& qp) {
     return Plane(this->m_row + qp.x(), this->m_col + qp.y(), this->m_orient);
 }
+
+std::vector<PlanesCommonTools::Coordinate2D> Plane::getPlanePoints() const {
+
+	PlanePointIterator ppi(*this);
+	std::vector<PlanesCommonTools::Coordinate2D> retVal;
+	ppi.next();  //do not return the head
+	while (ppi.hasNext()) {
+		retVal.push_back(ppi.next());
+	}
+	return retVal;
+}

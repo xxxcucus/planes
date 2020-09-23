@@ -4,10 +4,11 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-OptionsWindow::OptionsWindow(QWidget* parent) : QWidget(parent) {
+
+OptionsWindow::OptionsWindow(PlaneRound* pr, QSettings* settings, QWidget* parent) : QWidget(parent), m_PlaneRound(pr), m_Settings(settings) {
 
 	QHBoxLayout* hlayout = new QHBoxLayout();
-	GameDifficultyOptions* gameDifficulty = new GameDifficultyOptions();
+	GameDifficultyOptions* gameDifficulty = new GameDifficultyOptions(m_PlaneRound, m_Settings);
 	hlayout->addWidget(gameDifficulty);
 	hlayout->addStretch(5);
 

@@ -63,6 +63,10 @@ public:
     int getPlaneListSize() const;
     //returns a plane from the list of planes
     bool getPlane(int pos, Plane &pl) const;
+
+	//gets the plane points of the plane with index pos except for the head
+	bool getPlanePoints(int pos, std::vector<PlanesCommonTools::Coordinate2D>& list) const;
+
     //returns the number of planes that we should draw
     int getPlaneNo() const { return m_planeNo; }
     //returns whether the grid belongs to a computer or not
