@@ -63,7 +63,7 @@ void GameDifficultyOptions::setShowAfterKill(int state) {
 
 	if (m_PlaneRound->setShowPlaneAfterKill(value)) {
 		m_CurrentShowPlane = value;
-		//m_Settings->setValue("gamedifficulty/showkilledplane", value);
+		m_Settings->setValue("gamedifficulty/showkilledplane", value);
 		qDebug() << "Set show after kill " << value << endl;
 	} else {
 		QMessageBox msgBox;

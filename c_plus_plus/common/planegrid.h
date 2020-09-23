@@ -25,6 +25,8 @@ private:
     bool m_PlanesOverlap = false;
     //whether a plane is outside of the grid
     bool m_PlaneOutsideGrid = false;
+	//list of all guesses made in grid
+	std::vector<GuessPoint> m_GuessList;
 
     ///for QML
     std::vector<int> m_listPlanePointsAnnotations;
@@ -104,6 +106,14 @@ public:
     int getPlanePointAnnotation(int idx) const { return m_listPlanePointsAnnotations[idx]; }
     //transforms the annotation in a list of plane ids
     std::vector<int> decodeAnnotation(int annotation) const;
+
+	void addGuess(const GuessPoint& gp) {
+		m_GuessList.push_back(gp);
+	}
+
+	std::vector<GuessPoint> getGuesses() {
+		return m_GuessList;
+	}
 
 private:
     //generates a plane at a random position on the grid

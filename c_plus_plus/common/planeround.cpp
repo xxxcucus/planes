@@ -68,7 +68,6 @@ void PlaneRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr)
 
 	if (m_isComputerFirst) {
 		//TODO: to synchronize list of guesses in PlaneRound, PlaneGrid and ComputerBoard, PlayerBoard
-
 		updateGameStatsAndReactionComputer(pgr);
 		updateGameStatsAndGuessListPlayer(gp);
 	} else {
@@ -119,7 +118,7 @@ GuessPoint PlaneRound::guessComputerMove()
 {
 	PlanesCommonTools::Coordinate2D qp;
 	//use the computer strategy to get a move
-	m_computerLogic->makeChoice(qp);
+	m_computerLogic->makeChoice(qp, m_RoundOptions.m_ComputerSkillLevel);
 
 	//use the player grid to see the result of the grid
 	GuessPoint::Type tp = m_PlayerGrid->getGuessResult(qp);
@@ -271,6 +270,7 @@ void PlaneRound::updateGameStatsAndGuessListPlayer(const GuessPoint& gp) {
 	//add the player's guess to the list of guesses
 	//assume that the guess is different from the other guesses
 	m_playerGuessList.push_back(gp);
+	m_ComputerGrid->addGuess(gp);
 	printf("guess is dead %d \n", gp.isDead());
 	printf("show after kill %d \n", m_RoundOptions.m_ShowPlaneAfterKill);
 	if (gp.isDead() && m_RoundOptions.m_ShowPlaneAfterKill) {
@@ -283,14 +283,17 @@ void PlaneRound::updateGameStatsAndGuessListPlayer(const GuessPoint& gp) {
 		for (int i = 0; i < planePoints.size(); i++) {
 			GuessPoint gp1(planePoints[i].x(), planePoints[i].y(), GuessPoint::Hit);
 			std::vector<GuessPoint>::iterator it = std::find(m_playerGuessList.begin(), m_playerGuessList.end(), gp1);
-			if (it == m_playerGuessList.end())
+			if (it == m_playerGuessList.end()) {
 				m_playerGuessList.push_back(gp1);
+				m_ComputerGrid->addGuess(gp1);
+			}
 		}
 	}
 }
 
 void PlaneRound::updateGameStatsAndReactionComputer(PlayerGuessReaction& pgr) {
 	GuessPoint gpc = guessComputerMove();
+	m_PlayerGrid->addGuess(gpc);
 	updateGameStats(gpc, true);
 	pgr.m_ComputerMoveGenerated = true;
 	pgr.m_ComputerGuess = gpc;
