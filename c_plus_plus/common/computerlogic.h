@@ -71,7 +71,7 @@ public:
     void reset();
     //returns the plane choice with the highest score and true
     //or false if there are no more valid choices
-    bool makeChoice(PlanesCommonTools::Coordinate2D& qp, int computerSkillLevel = 0) const;
+    bool makeChoice(PlanesCommonTools::Coordinate2D& qp, int computerSkillLevel = 2) const;
     //new info is added the choices are updated
     void addData(const GuessPoint& gp);
     //tests whether all plane positions are guessed

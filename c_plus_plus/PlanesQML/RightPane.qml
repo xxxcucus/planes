@@ -26,10 +26,19 @@ Rectangle {
             }
  
         }
+
+        TabButton {
+            text: "Options"
+            background: Rectangle {
+                color: bar.currentIndex ==  2 ? "green" : "gray"
+            }
+ 
+        }
+
         TabButton {
             text: "Help"
             background: Rectangle {
-                color: bar.currentIndex ==  2 ? "yellow" : "gray"
+                color: bar.currentIndex ==  3 ? "yellow" : "gray"
             }
  
         }
@@ -70,6 +79,30 @@ Rectangle {
             id : computerBoard
             isComputer: true
         }
+
+
+        Rectangle {
+            color: 'yellow'
+            id: gameOptions
+            width: parent.width
+            height: parent.height
+
+            Row {
+                anchors.fill: parent
+                LeftOptionsPane {
+                    id: leftOptionsPane
+                    width: parent.width / 2
+                    height: parent.height
+                }
+
+                RightOptionsPane {
+                    id: rightOptionsPane
+                    width: parent.width / 2
+                    height: parent.height
+                }
+            }
+        }
+
 
         Rectangle {
             color: 'yellow'
