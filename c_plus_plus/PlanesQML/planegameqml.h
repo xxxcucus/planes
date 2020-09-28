@@ -2,6 +2,8 @@
 #define PLANEGAMEQML_H
 
 #include <QObject>
+#include <QSettings>
+#include <QDebug>
 #include "planeround.h"
 #include "guesspoint.h"
 
@@ -28,6 +30,16 @@ public:
 
     Q_INVOKABLE void startNewGame();
 
+	Q_INVOKABLE bool setCurrentSkill(int skill);
+	Q_INVOKABLE bool setShowPlaneAfterKill(bool show);
+
+	Q_INVOKABLE inline int getCurrentSkill() {
+		return mRound->getComputerSkill();
+	}
+	Q_INVOKABLE inline bool getShowPlaneAfterKill() {
+		return mRound->getShowPlaneAfterKill();
+	}
+
     inline PlaneGrid* playerGrid() { return mRound->playerGrid(); }
     inline PlaneGrid* computerGrid() { return mRound->computerGrid(); }
 
@@ -46,6 +58,7 @@ private:
     //The controller object
     PlaneRound* mRound;
     GameStatistics m_Stats;
+	QSettings* m_Settings;
 };
 
 #endif // PLANEGAMEQML_H

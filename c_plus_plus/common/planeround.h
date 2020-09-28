@@ -140,6 +140,13 @@ public:
 	**/
 	bool setShowPlaneAfterKill(bool showPlane);
 
+	int getComputerSkill() {
+		return m_RoundOptions.m_ComputerSkillLevel;
+	}
+	bool getShowPlaneAfterKill() {
+		return m_RoundOptions.m_ShowPlaneAfterKill;
+	}
+
 private:
 	//update game statistics
 	void updateGameStats(const GuessPoint& gp, bool isComputer);
