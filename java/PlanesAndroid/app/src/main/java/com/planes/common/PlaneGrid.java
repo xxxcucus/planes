@@ -367,13 +367,12 @@ public class PlaneGrid {
     }
 
     //gets the plane points of the plane with index pos except for the head
-    public boolean getPlanePoints(int pos, Vector<Coordinate2D> list) {
+    public Pair<Boolean, Vector<Coordinate2D>> getPlanePoints(int pos) {
         if (pos < 0 || pos >= m_planeList.size())
-            return false;
+            return Pair.create(false, new Vector<Coordinate2D>());
 
         Plane pl = m_planeList.get(pos);
-        list = pl.getPlanePoints();
-        return true;
+        return Pair.create(true, pl.getPlanePoints());
     }
 
     public void addGuess(GuessPoint gp) {

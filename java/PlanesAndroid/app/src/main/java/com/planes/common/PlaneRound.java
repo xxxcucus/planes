@@ -315,8 +315,9 @@ public class PlaneRound {
             int pos = m_ComputerGrid.searchPlane(gp.m_row, gp.m_col);
             if (pos < 0)
                 return;
-            Vector<Coordinate2D> planePoints = new Vector<Coordinate2D>();
-            m_ComputerGrid.getPlanePoints(pos, planePoints);
+
+            Pair<Boolean, Vector<Coordinate2D>> planePointsResult = m_ComputerGrid.getPlanePoints(pos);
+            Vector<Coordinate2D> planePoints = planePointsResult.second;
             for (int i = 0; i < planePoints.size(); i++) {
                 GuessPoint gp1 = new GuessPoint(planePoints.get(i).x(), planePoints.get(i).y(), Type.Hit);
                 if (!m_playerGuessList.contains(gp1)) {
