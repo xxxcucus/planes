@@ -20,6 +20,8 @@ public class PlaneRound {
         m_playerGuessList = new Vector<GuessPoint>();
         m_gameStats = new GameStatistics();
 
+        m_RoundOptions = new PlaneRoundOptions();
+
         reset();
         initRound();
     }
@@ -58,27 +60,11 @@ public class PlaneRound {
             return pgr;
 
         if (m_isComputerFirst) {
-            GuessPoint gpc = guessComputerMove();
-            updateGameStats(gpc, true);
-            pgr.m_ComputerMoveGenerated = true;
-            pgr.m_ComputerGuess = gpc;
-
-            //update the game statistics
-            updateGameStats(gp, false);
-            //add the player's guess to the list of guesses
-            //assume that the guess is different from the other guesses
-            m_playerGuessList.add((GuessPoint)gp.clone());
+            updateGameStatsAndReactionComputer(pgr);
+            updateGameStatsAndGuessListPlayer(gp);
         } else {
-            //update the game statistics
-            updateGameStats(gp, false);
-            //add the player's guess to the list of guesses
-            //assume that the guess is different from the other guesses
-            m_playerGuessList.add((GuessPoint)gp.clone());
-
-            GuessPoint gpc = guessComputerMove();
-            updateGameStats(gpc, true);
-            pgr.m_ComputerMoveGenerated = true;
-            pgr.m_ComputerGuess = gpc;
+            updateGameStatsAndGuessListPlayer(gp);
+            updateGameStatsAndReactionComputer(pgr);
         }
 
         Pair<Boolean, Boolean> roundEndsResult = roundEnds();
@@ -282,7 +268,7 @@ public class PlaneRound {
     //based on the available information makes the next move for the computer
     private GuessPoint guessComputerMove() {
         //use the computer strategy to get a move
-        Pair<Boolean, Coordinate2D> p = m_computerLogic.makeChoice();
+        Pair<Boolean, Coordinate2D> p = m_computerLogic.makeChoice(m_RoundOptions.m_ComputerSkillLevel);
 
         //use the player grid to see the result of the grid
         Type tp = m_PlayerGrid.getGuessResult(p.second);
@@ -296,6 +282,59 @@ public class PlaneRound {
 
         return gp;
     }
+
+    /**
+     Sets the computer skill. When this is during a game reject the change.
+     **/
+    public boolean setComputerSkill(int computerSkill) {
+        if (m_State == GameStages.Game)
+            return false;
+
+        m_RoundOptions.m_ComputerSkillLevel = computerSkill;
+        return true;
+    }
+
+    /**
+     Sets the computer skill. When this is during a game reject the change.
+     **/
+    public boolean setShowPlaneAfterKill(boolean showPlane) {
+        if (m_State == GameStages.Game)
+            return false;
+        m_RoundOptions.m_ShowPlaneAfterKill = showPlane;
+        return true;
+    }
+
+    private void updateGameStatsAndGuessListPlayer(GuessPoint gp) {
+        //update the game statistics
+        updateGameStats(gp, false);
+        //add the player's guess to the list of guesses
+        // assume that the guess is different from the other guesses
+        m_playerGuessList.add((GuessPoint)gp.clone());
+        m_ComputerGrid.addGuess(gp);
+        if (gp.isDead() && m_RoundOptions.m_ShowPlaneAfterKill) {
+            int pos = m_ComputerGrid.searchPlane(gp.m_row, gp.m_col);
+            if (pos < 0)
+                return;
+            Vector<Coordinate2D> planePoints = new Vector<Coordinate2D>();
+            m_ComputerGrid.getPlanePoints(pos, planePoints);
+            for (int i = 0; i < planePoints.size(); i++) {
+                GuessPoint gp1 = new GuessPoint(planePoints.get(i).x(), planePoints.get(i).y(), Type.Hit);
+                if (!m_playerGuessList.contains(gp1)) {
+                    m_playerGuessList.add((GuessPoint) gp1.clone());
+                    m_ComputerGrid.addGuess(gp1);
+                }
+            }
+        }
+    }
+
+    private void updateGameStatsAndReactionComputer(PlayerGuessReaction pgr) {
+        GuessPoint gpc = guessComputerMove();
+        m_PlayerGrid.addGuess(gpc);
+        updateGameStats(gpc, true);
+        pgr.m_ComputerMoveGenerated = true;
+        pgr.m_ComputerGuess = gpc;
+    }
+
     //resets the round
     private void reset() {
         m_PlayerGrid.resetGrid();
@@ -342,4 +381,6 @@ public class PlaneRound {
     private int m_rowNo = 10;
     private int m_colNo = 10;
     private int m_planeNo = 3;
+
+    private PlaneRoundOptions m_RoundOptions;
 }

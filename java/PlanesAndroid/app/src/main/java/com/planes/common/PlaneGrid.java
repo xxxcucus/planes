@@ -18,6 +18,7 @@ public class PlaneGrid {
         m_planeList = new Vector<Plane>();
         m_listPlanePoints = new Vector<Coordinate2D>();
         m_listPlanePointsAnnotations = new Vector<Integer>();
+        m_GuessList = new Vector<GuessPoint>();
 
         initGrid();
     }
@@ -72,6 +73,7 @@ public class PlaneGrid {
         m_planeList.clear();
         m_listPlanePointsAnnotations.clear();
         m_listPlanePoints.clear();
+        m_GuessList.clear();
     }
     //returns whether a point is on a plane or not
     //additionaly it returns the position of the point on the plane
@@ -364,6 +366,25 @@ public class PlaneGrid {
         return annotation;
     }
 
+    //gets the plane points of the plane with index pos except for the head
+    public boolean getPlanePoints(int pos, Vector<Coordinate2D> list) {
+        if (pos < 0 || pos >= m_planeList.size())
+            return false;
+
+        Plane pl = m_planeList.get(pos);
+        list = pl.getPlanePoints();
+        return true;
+    }
+
+    public void addGuess(GuessPoint gp) {
+        m_GuessList.add((GuessPoint)gp.clone());
+    }
+
+    public Vector<GuessPoint> getGuesses() {
+        return m_GuessList;
+    }
+
+
     //for unit tests
     public void setPlanePoints(final Vector<Coordinate2D> list) {
         m_listPlanePoints = list;
@@ -393,4 +414,6 @@ public class PlaneGrid {
     //00001000 - head of plane 2
     //00010000 - belonging to plane 3
     //00100000 - head of plane 3
+
+    protected Vector<GuessPoint> m_GuessList;
 }

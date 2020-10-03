@@ -161,23 +161,22 @@ void PlaneGridQML::computerBoardClick(int index) {
 
     //verify if the guess point is not already in the list
     //emit a signal that the guess has been made
-    if (m_GuessList.indexOf(gp) == -1)
+    if (std::find(m_GuessList.begin(), m_GuessList.end(), gp) == m_GuessList.end())
     {
-        m_GuessList.append(gp);
-        m_GuessMap[std::make_pair(qp.x(), qp.y())] = tp;
+        m_GuessList.push_back(gp);
         //to not let the user draw while the computer is thinking
 //        m_currentMode = Editor;
         emit guessMade(gp);
     }
     endResetModel();
+	m_GuessList = m_PlaneGrid->getGuesses(); //add points when killed plane needs to be found
 }
 
 void PlaneGridQML::showComputerMove(const GuessPoint& gp) {
     beginResetModel();
-    if (m_GuessList.indexOf(gp) == -1)
+    if (std::find(m_GuessList.begin(), m_GuessList.end(), gp) == m_GuessList.end())
     {
-        m_GuessList.append(gp);
-        m_GuessMap[std::make_pair(gp.m_row, gp.m_col)] = gp.m_type;
+        m_GuessList.push_back(gp);
     }
     endResetModel();
 }
@@ -194,10 +193,12 @@ void PlaneGridQML::doneEditing() {
 }
 
 bool PlaneGridQML::wasGuessMade(int row, int col, GuessPoint::Type& guessRes) const {
-    auto p = std::make_pair(row, col);
-    auto it = m_GuessMap.find(p);
-    if (it != m_GuessMap.end()) {
-        guessRes = it->second;
+	std::vector<GuessPoint> guesses = m_PlaneGrid->getGuesses();
+	std::vector<GuessPoint>::iterator it = std::find_if(guesses.begin(), guesses.end(), [row, col](const GuessPoint& gp) {
+		return (gp.m_row == row && gp.m_col == col); });
+	
+    if (it != guesses.end()) {
+        guessRes = it->m_type;
         return true;
     }
     return false;

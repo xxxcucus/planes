@@ -312,7 +312,7 @@ On the existing head data, the function update() is called as described in the s
 
 \subsection {The Computer's Choice}
 
-The computer decides its move based on the information that it has gathered from the previous guesses. 3 possible next moves are generated with the functions makeChoiceFindHeadMode(),  makeChoiceFindPositionMode(),  makeChoiceRandomMode() and of them is statistically chosen as the next move. There is no optimization as to find the optimal next move. makeChoiceFindHeadMode() finds one random point in the choice map which has the highest score and returns that one. makeChoiceFindPositionMode() tries to find the correct plane position corresponding to a guessed plane head. makeChoiceRandomMode() chooses randomly a point on the board which has the score 0 in the choice map.
+The computer decides its move based on the information that it has gathered from the previous guesses. 3 possible next moves are generated with the functions makeChoiceFindHeadMode(),  makeChoiceFindPositionMode(),  makeChoiceRandomMode() and of them is statistically chosen as the next move. There is no optimization as to find the optimal next move. makeChoiceFindHeadMode() finds one random point in the choice map which has the highest score and returns that one. makeChoiceFindPositionMode() tries to find the correct plane position corresponding to a guessed plane head. makeChoiceRandomMode() chooses randomly a point on the board which has the score 0 in the choice map. The probability of the makeChoiceRandomMode() is set depending of the difficulty level chosen in the game interface.
 
 \subsection{C++ Concepts}
 

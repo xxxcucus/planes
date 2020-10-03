@@ -1,6 +1,7 @@
 package com.planes.common;
 
 import java.util.Random;
+import java.util.Vector;
 
 public class Plane implements Cloneable {
 
@@ -160,6 +161,17 @@ public class Plane implements Cloneable {
     public Object clone() {
         return new Plane(m_row, m_col, m_orient);
     }
+
+    Vector<Coordinate2D> getPlanePoints() {
+        PlanePointIterator ppi = new PlanePointIterator(this);
+        Vector<Coordinate2D> retVal = new Vector<Coordinate2D>();
+        ppi.next();  //do not return the head
+        while (ppi.hasNext()) {
+            retVal.add((Coordinate2D)ppi.next().clone());
+        }
+        return retVal;
+    }
+
 
     //plane orientation
     private Orientation m_orient;

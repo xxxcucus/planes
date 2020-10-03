@@ -99,7 +99,6 @@ public:
         if (!m_PlaneGrid->isComputer())
             m_SelectedPlane = 0;
         m_GuessList.clear();
-        m_GuessMap.clear();
         endResetModel();
     }
 
@@ -161,8 +160,7 @@ private:
     GameStages m_CurStage = GameStages::BoardEditing;
 
     ///list of guesses made up to now
-    QList<GuessPoint> m_GuessList;
-    std::map<std::pair<int, int>, GuessPoint::Type> m_GuessMap;
+    std::vector<GuessPoint> m_GuessList;
 
     ///@todo: to define
     QColor m_SelectedPlaneColor = QColor(0, 0, 255);
