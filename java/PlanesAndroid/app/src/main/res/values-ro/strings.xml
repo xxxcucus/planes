@@ -52,4 +52,10 @@
     <string name="popup_help_button_text">Vezi Video</string>
     <string name="draws">Egalitate</string>
     <string name="draw_result">Egalitate!</string>
+    <string name="game_difficulty_options">Dificultate</string>
+    <string name="computer_skill">Computer Level</string>
+    <string name="computer_skill_easy">Usor</string>
+    <string name="computer_skill_medium">Mediu</string>
+    <string name="computer_skill_advanced">Avansat</string>
+    <string name="show_plane_after_kill">Arata avionul dupa distrugere</string>
 </resources>
