@@ -54,8 +54,18 @@
     <string name="draw_result">Egalitate!</string>
     <string name="game_difficulty_options">Dificultate</string>
     <string name="computer_skill">Computer Level</string>
-    <string name="computer_skill_easy">Usor</string>
-    <string name="computer_skill_medium">Mediu</string>
-    <string name="computer_skill_advanced">Avansat</string>
+    <string-array name="computer_skills">
+        <item>Usor</item>
+        <item>Mediu</item>
+        <item>Avansat</item>
+    </string-array>
+    <string-array name="yesno_options">
+        <item>Da</item>
+        <item>Nu</item>
+    </string-array>
     <string name="show_plane_after_kill">Arata avionul dupa distrugere</string>
+    <string name="options">Optiuni</string>
+    <string name="warning_options_text">Aceasta optiune nu se poate set in timpul jocului.</string>
+    <string name="warning_options_title">Avertizare</string>
+    <string name="warning_options_button_text">OK</string>
 </resources>

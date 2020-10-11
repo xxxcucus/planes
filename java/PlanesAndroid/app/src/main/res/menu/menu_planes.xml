@@ -9,4 +9,7 @@
         android:icon="@drawable/ic_menu_allfriends"
         android:text="@string/credits"
         app:showAsAction="ifRoom|withText"/>
+    <item android:id="@+id/menu_options"
+        android:title="@string/options"
+        app:showAsAction="withText"/>
 </menu>

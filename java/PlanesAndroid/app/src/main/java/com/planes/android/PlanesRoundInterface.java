@@ -55,4 +55,10 @@ public interface PlanesRoundInterface {
     int getComputerGuessType(int idx);
 
     int getGameStage();
+
+    //game options
+    boolean setComputerSkill(int skill);
+    boolean setShowPlaneAfterKill(boolean show);
+    int getComputerSkill();
+    boolean getShowPlaneAfterKill();
 }

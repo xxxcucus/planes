@@ -304,6 +304,14 @@ public class PlaneRound {
         return true;
     }
 
+    public int getComputerSkill() {
+        return m_RoundOptions.m_ComputerSkillLevel;
+    }
+
+    public boolean getShowPlaneAfterKill() {
+        return m_RoundOptions.m_ShowPlaneAfterKill;
+    }
+
     private void updateGameStatsAndGuessListPlayer(GuessPoint gp) {
         //update the game statistics
         updateGameStats(gp, false);

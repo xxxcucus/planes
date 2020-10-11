@@ -1,5 +1,6 @@
 package com.planes.android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -38,6 +39,9 @@ public class PlanesAndroidActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.menu_credits) {
             onButtonShowCreditsWindowClick();
+            return true;
+        } else if (id == R.id.menu_options) {
+            onShowOptionsClick();
             return true;
         }
 
@@ -149,6 +153,14 @@ public class PlanesAndroidActivity extends AppCompatActivity {
                 break;
         }
 
+        m_PreferencesService = new PreferencesService(this);
+        m_PreferencesService.readPreferences();
+        if (!m_PlaneRound.setComputerSkill(m_PreferencesService.getComputerSkill())) {
+            m_PreferencesService.setComputerSkill(m_PlaneRound.getComputerSkill());
+        }
+        if (!m_PlaneRound.setShowPlaneAfterKill(m_PreferencesService.getShowPlaneAfterKill())) {
+            m_PreferencesService.setShowPlaneAfterKill(m_PlaneRound.getShowPlaneAfterKill());
+        }
 
         Log.d("Planes", "onCreate");
     }
@@ -184,15 +196,9 @@ public class PlanesAndroidActivity extends AppCompatActivity {
     @Override
     public void onDestroy()
     {
+        m_PreferencesService.writePreferences();
         super.onDestroy();
         Log.d("Planes", "onDestroy");
-
-        if (isFinishing()) {
-            // do stuff
-            Log.d("Planes", "isFinishing");
-        } else {
-            Log.d("Planes", "orientationChange");
-        }
     }
 
 
@@ -200,22 +206,6 @@ public class PlanesAndroidActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {
         super.onRestoreInstanceState(savedInstanceState);
-
-        /*switch(m_PlaneRound.getGameStage()) {
-            case 0:
-                m_GameBoard.setNewRoundStage();
-                m_GameControls.setNewRoundStage();
-                break;
-            case 1:
-                m_GameBoard.setBoardEditingStage();
-                m_GameControls.setBoardEditingStage();
-                break;
-            case 2:
-                m_GameBoard.setGameStage();
-                m_GameControls.setGameStage();
-                break;
-        }*/
-
         Log.d("Planes","onRestoreInstanceState");
     }
 
@@ -328,8 +318,34 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         });
     }
 
+    public void onShowOptionsClick() {
+        Intent intent = new Intent(this, OptionsActivity.class);
+        intent.putExtra("gamedifficulty/computerskill", m_PreferencesService.getComputerSkill());
+        intent.putExtra("gamedifficulty/showkilledplane", m_PreferencesService.getShowPlaneAfterKill());
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int
+            resultCode, Intent returnIntent)
+    {
+        if (resultCode != RESULT_OK)
+            return;
+        if (requestCode == 1) {
+            Bundle extras = returnIntent.getExtras();
+            if (extras != null)
+            {
+                m_PreferencesService.setComputerSkill(extras.getInt("gamedifficulty/computerskill"));
+                m_PreferencesService.setShowPlaneAfterKill(extras.getBoolean("gamedifficulty/showkilledplane"));
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, returnIntent);
+    }
+
     private PlanesRoundInterface m_PlaneRound;
     private GameBoardsAdapter m_GameBoards;
     private GameControlsAdapter m_GameControls;
     private PlanesVerticalLayout m_PlanesLayout;
+    private PreferencesService m_PreferencesService;
 }
