@@ -12,8 +12,7 @@
         android:testOnly="false"
         android:theme="@style/MyAppTheme">
         <activity
-            android:name=".OptionsActivity"
-            android:theme="@style/MyAppTheme.NoActionBar"></activity>
+            android:name=".OptionsActivity"></activity>
         <activity android:name=".PlanesAndroidActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
