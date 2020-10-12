@@ -65,7 +65,7 @@
     </string-array>
     <string name="show_plane_after_kill">Arata Avionul dupa Distrugere</string>
     <string name="options">Optiuni</string>
-    <string name="warning_options_text">Aceasta optiune nu se poate set in timpul jocului.</string>
+    <string name="warning_options_text">Aceasta optiune nu se poate seta in timpul jocului.</string>
     <string name="warning_options_title">Avertizare</string>
     <string name="warning_options_button_text">OK</string>
 </resources>
