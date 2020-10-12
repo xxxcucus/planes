@@ -47,10 +47,12 @@ but the "Start New Round" button should only be active at the end of one round. 
 46. Add tutorial video. - May2020
 47. Add links to pages in Credits popups. - May2020
 48. Create style for popup windows (close button, nice frame, provide texts with margin)
-49. Add possibility of draw.
+49. Add possibility of draw. - July 2020
 50. Add possibility to flag important cells on board.
 51. Add abort game button.
 52. Add statistics for every difficulty level.
 53. Add database support for statistics (score at every difficulty level, resolution time for each configuration and difficulty level
 , time series for progress in game)
 54. Add time tracking (should start when the game starts, stop when the app is closed and then again started when the app is started again).
+55. Create snap package for linux.
+
