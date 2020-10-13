@@ -1,6 +1,7 @@
 #include "planeround.h"
 #include <ctime>
 #include <cmath>
+#include <algorithm>
 
 PlaneRound::PlaneRound(int rowNo, int colNo, int planeNo):
 	m_rowNo(rowNo), m_colNo(colNo), m_planeNo(planeNo)
@@ -271,8 +272,8 @@ void PlaneRound::updateGameStatsAndGuessListPlayer(const GuessPoint& gp) {
 	//assume that the guess is different from the other guesses
 	m_playerGuessList.push_back(gp);
 	m_ComputerGrid->addGuess(gp);
-	printf("guess is dead %d \n", gp.isDead());
-	printf("show after kill %d \n", m_RoundOptions.m_ShowPlaneAfterKill);
+	//printf("guess is dead %d \n", gp.isDead());
+	//printf("show after kill %d \n", m_RoundOptions.m_ShowPlaneAfterKill);
 	if (gp.isDead() && m_RoundOptions.m_ShowPlaneAfterKill) {
 		int pos = m_ComputerGrid->searchPlane(gp.m_row, gp.m_col);
 		printf("pos %d\n", pos);
