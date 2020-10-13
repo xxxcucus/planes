@@ -28,7 +28,7 @@ void PlaneGameQML::statsUpdated(const GameStatistics& stats) {
 }
 
 void PlaneGameQML::startNewGame() {
-	printf("Start new round\n");
+	//printf("Start new round\n");
 	if (mRound->didRoundEnd()) {
 		mRound->initRound();
 		emit resetGrid();

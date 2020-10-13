@@ -276,7 +276,7 @@ void PlaneRound::updateGameStatsAndGuessListPlayer(const GuessPoint& gp) {
 	//printf("show after kill %d \n", m_RoundOptions.m_ShowPlaneAfterKill);
 	if (gp.isDead() && m_RoundOptions.m_ShowPlaneAfterKill) {
 		int pos = m_ComputerGrid->searchPlane(gp.m_row, gp.m_col);
-		printf("pos %d\n", pos);
+		//printf("pos %d\n", pos);
 		if (pos < 0)
 			return;
 		std::vector<PlanesCommonTools::Coordinate2D> planePoints;
