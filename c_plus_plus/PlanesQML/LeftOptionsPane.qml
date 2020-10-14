@@ -16,8 +16,8 @@ Rectangle {
 	property string textColorGlobal : "red"
 	property string backColorGlobal : "blue"
 
-	property int currentSkill: PlaneGame.getCurrentSkill()
-	property bool currentShowAfterKill: PlaneGame.getShowPlaneAfterKill()
+	property int currentSkill: PlaneGame == null ? 2 : PlaneGame.getCurrentSkill() 
+	property bool currentShowAfterKill: PlaneGame == null ? false : PlaneGame.getShowPlaneAfterKill()
 	
 	GridLayout {
 		columns: 2
@@ -77,7 +77,7 @@ Rectangle {
     	}
 
     	ComboBox {
-        	currentIndex: PlaneGame.getShowPlaneAfterKill() ? 0 : 1
+        	currentIndex: PlaneGame == null ? 1 : PlaneGame.getShowPlaneAfterKill() ? 0 : 1
         	id: showPlaneCombo
     		model: ["Yes", "No"]
     		onActivated: {
