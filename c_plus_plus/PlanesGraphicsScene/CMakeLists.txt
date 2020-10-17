@@ -29,6 +29,10 @@ set(GS_SRCS
 	playerboard.cpp
 	rightpane.cpp
 	scoreframe.cpp
+	accountwidget.cpp
+	loginregisterform.cpp
+	loginregisterstackedwidget.cpp
+	userprofileframe.cpp
 	main.cpp
 )
 
@@ -48,6 +52,10 @@ set(GS_HEADR
 	playerboard.h
 	rightpane.h
 	scoreframe.h
+	accountwidget.h
+	loginregisterform.h
+	loginregisterstackedwidget.h
+	userprofileframe.h
 )
 
 add_executable(PlanesGraphicsScene 
