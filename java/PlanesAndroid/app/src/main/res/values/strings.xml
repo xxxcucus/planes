@@ -52,6 +52,20 @@
     <string name="helptext_game_1">Touch on the computer\'s board to guess where the computer\'s planes are.</string>
     <string name="helptext_game_2">X means target destroyed. Disc means nothing was hit. Rhombus means a hit.</string>
     <string name="popup_help_button_text">See Video</string>
-
-
+    <string name="game_difficulty_options">Game Difficulty Options</string>
+    <string name="computer_skill">Computer Skill</string>
+    <string-array name="computer_skills">
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Advanced</item>
+    </string-array>
+    <string name="show_plane_after_kill">Show Plane After Kill</string>
+    <string-array name="yesno_options">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+    <string name="options">Preferences</string>
+    <string name="warning_options_text">Cannot set option during the game.</string>
+    <string name="warning_options_title">Warning</string>
+    <string name="warning_options_button_text">OK</string>
 </resources>

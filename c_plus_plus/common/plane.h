@@ -61,6 +61,7 @@ public:
     static int generateRandomNumber(int valmax);
     //displays the plane
     std::string toString() const;
+	std::vector<PlanesCommonTools::Coordinate2D> getPlanePoints() const;
 };
 
 

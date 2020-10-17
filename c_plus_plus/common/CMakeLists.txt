@@ -32,6 +32,7 @@ set(COMMON_HEADR
 	coordinate2d.h
 	vectoriterator.h
 	planeorientationdata.h
+	planeroundoptions.h
 	headdata.h)
 
 set(COMMON_SRCS 	
@@ -44,6 +45,7 @@ set(COMMON_SRCS
 	gamestatistics.cpp
 	coordinate2d.cpp
 	planeorientationdata.cpp
+	planeroundoptions.cpp
 	headdata.cpp)
 
 

@@ -14,7 +14,7 @@ PlanesGSView::PlanesGSView(PlaneRound *rd, QWidget *parent)
     m_LeftPane->setMinWidth();
     //m_LeftPane->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 
-    m_RightPane = new RightPane(*m_playerGrid, *m_computerGrid, this);
+    m_RightPane = new RightPane(m_playerGrid, m_computerGrid, m_round, this);
     m_RightPane->setMinWidth();
 
     hLayout->addWidget(m_LeftPane);

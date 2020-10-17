@@ -151,6 +151,22 @@ public class PlanesRoundJava implements PlanesRoundInterface {
         return global_Round.getCurrentStage();
     }
 
+    public boolean setComputerSkill(int skill) {
+        return global_Round.setComputerSkill(skill);
+    }
+
+    public boolean setShowPlaneAfterKill(boolean show) {
+        return global_Round.setShowPlaneAfterKill(show);
+    }
+
+    public int getComputerSkill() {
+        return global_Round.getComputerSkill();
+    }
+
+    public boolean getShowPlaneAfterKill() {
+        return global_Round.getShowPlaneAfterKill();
+    }
+
     private static PlaneRound global_Round = null;
     private static Type global_Guess_Result = Type.Miss;
     private static PlayerGuessReaction global_Player_Guess_Reaction = new PlayerGuessReaction();

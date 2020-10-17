@@ -1,6 +1,7 @@
 import androidx.core.util.Pair;
 
 import com.planes.common.Coordinate2D;
+import com.planes.common.GuessPoint;
 import com.planes.common.Orientation;
 import com.planes.common.Plane;
 import com.planes.common.PlanePointIterator;
@@ -199,4 +200,40 @@ public class PlaneGridTest {
         assertThat(grid.decodeAnnotation(5)).isEqualTo(new Vector<Integer>(Arrays.asList(new Integer[]{0, 1})));
         assertThat(grid.decodeAnnotation(9)).isEqualTo(new Vector<Integer>(Arrays.asList(new Integer[]{0, -2})));
     }
+
+    @Test
+    public void PlaneGridTest_addGuessPoints() {
+        int rows = 10;
+        int cols = 10;
+
+        PlaneGridStubNoPlanes grid = new PlaneGridStubNoPlanes(rows, cols, 3, false);
+
+        grid.addGuess(new GuessPoint(0, 0,Type.Hit));
+        Vector<GuessPoint> guesses = grid.getGuesses();
+        assertThat(guesses).containsExactly(new GuessPoint(0, 0, Type.Hit));
+    }
+
+    @Test
+    public void PlaneGridTest_getPlanePoints() {
+        int rows = 10;
+        int cols = 10;
+
+        PlaneGridStubNoPlanes grid = new PlaneGridStubNoPlanes(rows, cols, 3, false);
+
+        Plane[] pl_list = new Plane[]{new Plane(rows / 2, 0, Orientation.NorthSouth),
+                new Plane(0, 6, Orientation.EastWest), new Plane(6, 6, Orientation.EastWest)};
+
+        grid.savePlane(pl_list[0]);
+        grid.savePlane(pl_list[1]);
+        grid.savePlane(pl_list[2]);
+
+        Pair<Boolean, Vector<Coordinate2D>> planePointsResult = grid.getPlanePoints(-1);
+        assertThat(planePointsResult.second.size() == 0).isTrue();
+        assertThat(planePointsResult.first).isFalse();
+
+        Pair<Boolean, Vector<Coordinate2D>> planePointsResult1 = grid.getPlanePoints(0);
+        assertThat(planePointsResult1.second.size() == 9).isTrue();
+        assertThat(planePointsResult1.first).isTrue();
+    }
+
 }

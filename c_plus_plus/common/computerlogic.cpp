@@ -84,10 +84,13 @@ PlanesCommonTools::Coordinate2D ComputerLogic::mapIndexToQPoint(int idx) const
 }
 
 //chooses the next point
-bool ComputerLogic::makeChoice(PlanesCommonTools::Coordinate2D& qp) const
+bool ComputerLogic::makeChoice(PlanesCommonTools::Coordinate2D& qp, int computerSkillLevel) const
 {
     //based on the 3 strategies of choice choses 3 possible moves
     PlanesCommonTools::Coordinate2D qp1, qp2, qp3;
+
+	int skill = computerSkillLevel < 0 || computerSkillLevel > 2 ? 0 : computerSkillLevel;
+	int thresholds[3][2] = { { 2, 4 }, { 4, 6 }, { 6, 8 } };
 
     bool test1 = makeChoiceFindHeadMode(qp1);
     bool test2 = makeChoiceFindPositionMode(qp2);
@@ -102,12 +105,12 @@ bool ComputerLogic::makeChoice(PlanesCommonTools::Coordinate2D& qp) const
 
     //various random strategies for making a choice
     if(test2 && test3) {
-        if(idx < 6) {
+        if(idx < thresholds[skill][0]) {
             qp = qp1;
             return true;
         }
 
-        if(idx < 9) {
+        if(idx < thresholds[skill][1]) {
             qp = qp2;
             return true;
         }
@@ -117,7 +120,7 @@ bool ComputerLogic::makeChoice(PlanesCommonTools::Coordinate2D& qp) const
     }
 
     if(!test2 && test3) {
-        if(idx < 7) {
+        if(idx < thresholds[skill][0]) {
             qp = qp1;
             return true;
         }
@@ -127,7 +130,7 @@ bool ComputerLogic::makeChoice(PlanesCommonTools::Coordinate2D& qp) const
     }
 
     if(test2 && !test3) {
-        if(idx < 7) {
+        if(idx < thresholds[skill][0]) {
             qp = qp1;
             return true;
         }

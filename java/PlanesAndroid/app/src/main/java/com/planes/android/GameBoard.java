@@ -176,10 +176,11 @@ public class GameBoard extends GridLayout {
 
         int count = 0;
 
+
         if (m_IsComputer)
-            count = m_PlaneRound.getComputerGuessesNo();
-        else
             count = m_PlaneRound.getPlayerGuessesNo();
+        else
+            count = m_PlaneRound.getComputerGuessesNo();
 
         System.out.println("" + count + " guesses");
 

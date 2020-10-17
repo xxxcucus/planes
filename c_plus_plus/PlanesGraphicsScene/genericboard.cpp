@@ -88,7 +88,7 @@ void GenericBoard::hidePlanes()
 
 ///shows the guesses on the grid
 void GenericBoard::displayGuesses() {
-    for (GuessPoint gp : m_GuessList) {
+    for (GuessPoint gp : m_Grid.getGuesses()) {
         showGuessPoint(gp);
     }
 }

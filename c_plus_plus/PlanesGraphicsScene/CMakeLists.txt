@@ -33,6 +33,8 @@ set(GS_SRCS
 	loginregisterform.cpp
 	loginregisterstackedwidget.cpp
 	userprofileframe.cpp
+	optionswindow.cpp
+	gamedifficultyoptions.cpp
 	main.cpp
 )
 
@@ -56,6 +58,8 @@ set(GS_HEADR
 	loginregisterform.h
 	loginregisterstackedwidget.h
 	userprofileframe.h
+	optionswindow.h
+	gamedifficultyoptions.h
 )
 
 add_executable(PlanesGraphicsScene 

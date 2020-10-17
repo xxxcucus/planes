@@ -7,11 +7,12 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:label="Planes Android"
         android:icon="@mipmap/ic_launcher"
-        android:theme="@style/MyAppTheme"
-        android:testOnly="false">
-
+        android:label="Planes Android"
+        android:testOnly="false"
+        android:theme="@style/MyAppTheme">
+        <activity
+            android:name=".OptionsActivity"></activity>
         <activity android:name=".PlanesAndroidActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,4 +20,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

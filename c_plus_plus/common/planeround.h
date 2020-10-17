@@ -5,6 +5,7 @@
 #include "computerlogic.h"
 #include "gamestatistics.h"
 #include "guesspoint.h"
+#include "planeroundoptions.h"
 
 
 struct PlayerGuessReaction {
@@ -129,6 +130,23 @@ public:
 		return int(m_State);
 	}
 
+	/**
+	Sets the computer skill. When this is during a game reject the change.
+	**/
+	bool setComputerSkill(int computerSkill);
+
+	/**
+	Sets the computer skill. When this is during a game reject the change.
+	**/
+	bool setShowPlaneAfterKill(bool showPlane);
+
+	int getComputerSkill() {
+		return m_RoundOptions.m_ComputerSkillLevel;
+	}
+	bool getShowPlaneAfterKill() {
+		return m_RoundOptions.m_ShowPlaneAfterKill;
+	}
+
 private:
 	//update game statistics
 	void updateGameStats(const GuessPoint& gp, bool isComputer);
@@ -141,11 +159,16 @@ private:
 	//check to see if there is a winner
 	bool roundEnds(bool& isPlayerWinner, bool& isComputerWinner);
 
+	void updateGameStatsAndGuessListPlayer(const GuessPoint& gp);
+	void updateGameStatsAndReactionComputer(PlayerGuessReaction& pgr);
+
 private:
 	//whether the computer or the player moves first
 	bool m_isComputerFirst = false;
 	//the  game statistics
 	GameStatistics m_gameStats;
+
+	PlaneRoundOptions m_RoundOptions;
 
 	//the player and computer's grid
 	PlaneGrid* m_PlayerGrid;

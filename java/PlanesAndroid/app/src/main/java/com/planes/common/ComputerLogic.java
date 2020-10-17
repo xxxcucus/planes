@@ -73,7 +73,7 @@ public class ComputerLogic {
     }
     //returns the plane choice with the highest score and true
     //or false if there are no more valid choices
-    public Pair<Boolean, Coordinate2D> makeChoice() {
+    public Pair<Boolean, Coordinate2D> makeChoice(int computerSkillLevel) {
         //based on the 3 strategies of choice choses 3 possible moves
         Coordinate2D qp1 = null;
         Coordinate2D qp2 = null;
@@ -83,6 +83,10 @@ public class ComputerLogic {
         Pair<Boolean, Coordinate2D> test2 = makeChoiceFindPositionMode();
         Pair<Boolean, Coordinate2D> test3 = makeChoiceRandomMode();
 
+        int skill = computerSkillLevel < 0 || computerSkillLevel > 2 ? 0 : computerSkillLevel;
+
+        int thresholds[][] = { { 2, 4 }, { 4, 6 }, { 6, 8 } };
+
         //if there are no more choices to be tested return false
         if(!test1.first)
             return test1;
@@ -91,35 +95,35 @@ public class ComputerLogic {
         int idx = Plane.generateRandomNumber(10);
 
         //various random strategies for making a choice
-        if(test2.first && test3.first) {
-            if(idx < 6) {
+        if (test2.first && test3.first) {
+            if (idx < thresholds[skill][0]) {
                 return Pair.create(true, (Coordinate2D)test1.second.clone());
             }
 
-            if(idx < 9) {
+            if (idx < thresholds[skill][1]) {
                 return Pair.create(true, (Coordinate2D)test2.second.clone());
             }
 
             return Pair.create(true, (Coordinate2D)test3.second.clone());
         }
 
-        if(!test2.first && test3.first) {
-            if(idx < 7) {
+        if (!test2.first && test3.first) {
+            if  (idx < thresholds[skill][0]) {
                 return Pair.create(true, (Coordinate2D)test1.second.clone());
             }
 
             return Pair.create(true, (Coordinate2D)test3.second.clone());
         }
 
-        if(test2.first && !test3.first) {
-            if(idx < 7) {
+        if (test2.first && !test3.first) {
+            if(idx < thresholds[skill][0]) {
                 return Pair.create(true, (Coordinate2D)test1.second.clone());
             }
 
             return Pair.create(true, (Coordinate2D)test2.second.clone());
         }
 
-        if(!test2.first && !test3.first) {
+        if (!test2.first && !test3.first) {
             return Pair.create(true, (Coordinate2D)test1.second.clone());
         }
 
@@ -417,6 +421,7 @@ public class ComputerLogic {
             m_extendedGuessesList.add(gp);
         }
     }
+
 
 
     //defines the grid size

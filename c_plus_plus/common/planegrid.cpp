@@ -254,6 +254,7 @@ void PlaneGrid::resetGrid()
     m_planeList.clear();
     m_listPlanePointsAnnotations.clear();
     m_listPlanePoints.clear();
+	m_GuessList.clear();
 }
 
 //checks whether a plane is inside the grid
@@ -276,6 +277,17 @@ bool PlaneGrid::getPlane(int pos, Plane& pl) const
 
     pl = m_planeList.at(pos);
     return true;
+}
+
+//gets the plane at a given position in the list of planes
+bool PlaneGrid::getPlanePoints(int pos, std::vector<PlanesCommonTools::Coordinate2D>& list) const
+{
+	if (pos < 0 || pos >= static_cast<int>(m_planeList.size()))
+		return false;
+
+	Plane pl = m_planeList.at(pos);
+	list = pl.getPlanePoints();
+	return true;
 }
 
 bool PlaneGrid::rotatePlane(int idx)
