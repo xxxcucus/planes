@@ -154,6 +154,9 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         }
 
         m_PreferencesService = new PreferencesService(this);
+
+        // recovering the instance state
+
         m_PreferencesService.readPreferences();
         if (!m_PlaneRound.setComputerSkill(m_PreferencesService.getComputerSkill())) {
             m_PreferencesService.setComputerSkill(m_PlaneRound.getComputerSkill());
@@ -189,6 +192,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
     @Override
     protected void onStop()
     {
+        m_PreferencesService.writePreferences();
         super.onStop();
         Log.d("Planes", "onStop");
     }
@@ -201,13 +205,30 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         Log.d("Planes", "onDestroy");
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("gamedifficulty/computerskill", m_PreferencesService.getComputerSkill());
+        outState.putBoolean("gamedifficulty/showkilledplane", m_PreferencesService.getShowPlaneAfterKill());
+
+        // call superclass to save any view hierarchy
+        super.onSaveInstanceState(outState);
+        Log.d("Planes", "onSaveInstanceState");
+    }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState)
-    {
-        super.onRestoreInstanceState(savedInstanceState);
-        Log.d("Planes","onRestoreInstanceState");
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        m_PreferencesService.setComputerSkill(savedInstanceState.getInt("gamedifficulty/computerskill"));
+        m_PreferencesService.setShowPlaneAfterKill(savedInstanceState.getBoolean("gamedifficulty/showkilledplane"));
+
+        if (!m_PlaneRound.setComputerSkill(m_PreferencesService.getComputerSkill())) {
+            m_PreferencesService.setComputerSkill(m_PlaneRound.getComputerSkill());
+        }
+        if (!m_PlaneRound.setShowPlaneAfterKill(m_PreferencesService.getShowPlaneAfterKill())) {
+            m_PreferencesService.setShowPlaneAfterKill(m_PlaneRound.getShowPlaneAfterKill());
+        }
+        Log.d("Planes", "onRestoreInstanceState");
     }
+
 
     public void onButtonShowHelpWindowClick() {
 
