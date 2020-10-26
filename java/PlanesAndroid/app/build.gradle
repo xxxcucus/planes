@@ -5,8 +5,8 @@ android {
     defaultConfig {
         applicationId "com.planes.android"
         minSdkVersion 16
-        targetSdkVersion 29
-        versionCode 14
+        targetSdkVersion 30
+        versionCode 15
         versionName "0.3.10.1"
     }
     buildTypes {
