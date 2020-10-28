@@ -7,7 +7,7 @@
 class CustomHorizLayout : public QLayout
 {
 public:
-    CustomHorizLayout(QWidget *parent): QLayout(parent) {}
+    CustomHorizLayout(int leftSize, QWidget *parent): QLayout(parent), m_LeftWidgetSize(leftSize) {}
     ~CustomHorizLayout();
 
     QSize sizeHint() const;
@@ -21,6 +21,7 @@ public:
 
 private:
     QList<QLayoutItem*> m_ItemsList;
+    int m_LeftWidgetSize = 0;
 };
 
 #endif // CUSTOMHORIZLAYOUT_H

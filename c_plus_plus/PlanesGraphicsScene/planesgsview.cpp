@@ -9,7 +9,7 @@ PlanesGSView::PlanesGSView(PlaneRound *rd, QWidget *parent)
 	m_playerGrid = m_round->playerGrid();
 	m_computerGrid = m_round->computerGrid();
 
-    CustomHorizLayout* hLayout = new CustomHorizLayout(this);
+    CustomHorizLayout* hLayout = new CustomHorizLayout(20, this);
     m_LeftPane = new LeftPane(this);
     m_LeftPane->setMinWidth();
     //m_LeftPane->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
