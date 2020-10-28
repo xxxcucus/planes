@@ -41,8 +41,8 @@ void CustomHorizLayout::setGeometry(const QRect &r)
 
     QList<int> scalHoriz;
 
-    scalHoriz.append(20);
-    scalHoriz.append(80);
+    scalHoriz.append(m_LeftWidgetSize);
+    scalHoriz.append(100 - m_LeftWidgetSize);
 
     int w = r.width() - (count() + 1) * spacing();
     int i = 0;
