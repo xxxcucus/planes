@@ -7,7 +7,9 @@
 
 AccountWidget::AccountWidget(QWidget* parent) : QWidget(parent)
 {
-    CustomHorizLayout* cLayout = new CustomHorizLayout(50, this);
+    QHBoxLayout* hLayout = new QHBoxLayout(); 
+    
+    CustomHorizLayout* cLayout = new CustomHorizLayout(50);
     
     QWidget* leftPane = new QWidget();
     QVBoxLayout* vLayout = new QVBoxLayout();
@@ -19,5 +21,12 @@ AccountWidget::AccountWidget(QWidget* parent) : QWidget(parent)
     LoginRegisterStackedWidget* loginStackedWidget = new LoginRegisterStackedWidget();
     cLayout->addWidget(leftPane);
     cLayout->addWidget(loginStackedWidget);
-    setLayout(cLayout);
+    
+    
+    QWidget* norobotWidget = new QWidget();
+    
+    hLayout->addLayout(cLayout);
+    hLayout->addWidget(norobotWidget);
+    
+    setLayout(hLayout);
 }
