@@ -31,7 +31,8 @@ set(GS_SRCS
 	scoreframe.cpp
 	accountwidget.cpp
 	loginregisterform.cpp
-	loginregisterstackedwidget.cpp
+	mainaccountwidget.cpp
+	norobotwidget.cpp
 	userprofileframe.cpp
 	optionswindow.cpp
 	gamedifficultyoptions.cpp
@@ -56,7 +57,8 @@ set(GS_HEADR
 	scoreframe.h
 	accountwidget.h
 	loginregisterform.h
-	loginregisterstackedwidget.h
+	mainaccountwidget.h
+	norobotwidget.h
 	userprofileframe.h
 	optionswindow.h
 	gamedifficultyoptions.h
