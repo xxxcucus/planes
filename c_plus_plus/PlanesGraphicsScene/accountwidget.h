@@ -1,17 +1,12 @@
 #ifndef __ACCOUNT_WIDGET__
 #define __ACCOUNT_WIDGET__
 
-#include <QWidget>
+#include <QStackedWidget>
 
-/***
- * Main Widget for managing the user account:
- * It includes a user profile frame on the left 
- * and a stacked widget on the right.
- * The stacked widget includes a register / login form
- * and a no robot proof system
- * ***/
 
-class AccountWidget : public QWidget {
+
+class AccountWidget : public QStackedWidget {
+    Q_OBJECT
     
 public:
     AccountWidget(QWidget* parent = nullptr);
