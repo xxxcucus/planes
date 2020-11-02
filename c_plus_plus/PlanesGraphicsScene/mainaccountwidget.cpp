@@ -7,7 +7,7 @@
 #include "loginregisterform.h"
 
 
-MainAccountWidget::MainAccountWidget(QWidget* parent) : QWidget(parent)
+MainAccountWidget::MainAccountWidget(UserData* userData, QWidget* parent) : QWidget(parent), m_UserData(userData)
 {
     CustomHorizLayout* cLayout = new CustomHorizLayout(50);
     

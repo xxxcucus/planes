@@ -4,19 +4,20 @@
 #include <QStackedWidget>
 #include "mainaccountwidget.h"
 #include "norobotwidget.h"
+#include "userdata.h"
 
 
 class AccountWidget : public QStackedWidget {
     Q_OBJECT
     
 public:
-    AccountWidget(QWidget* parent = nullptr);
+    AccountWidget(UserData* userData, QWidget* parent = nullptr);
 
 
 private:
     MainAccountWidget* m_MainAccountWidget;
     NoRobotWidget* m_NoRobotWidget;
-    
+    UserData* m_UserData;
 };
 
 #endif

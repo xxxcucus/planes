@@ -34,6 +34,7 @@ set(GS_SRCS
 	mainaccountwidget.cpp
 	norobotwidget.cpp
 	userprofileframe.cpp
+	clickablelabel.cpp
 	optionswindow.cpp
 	gamedifficultyoptions.cpp
 	main.cpp
@@ -60,7 +61,9 @@ set(GS_HEADR
 	mainaccountwidget.h
 	norobotwidget.h
 	userprofileframe.h
+	clickablelabel.h
 	optionswindow.h
+	userdata.h
 	gamedifficultyoptions.h
 )
 

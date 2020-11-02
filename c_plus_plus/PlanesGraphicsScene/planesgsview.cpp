@@ -3,8 +3,8 @@
 #include <QHBoxLayout>
 #include "customhorizlayout.h"
 
-PlanesGSView::PlanesGSView(PlaneRound *rd, QWidget *parent)
-    : QWidget(parent), m_round(rd)
+PlanesGSView::PlanesGSView(PlaneRound *rd, UserData* userData, QWidget *parent)
+    : QWidget(parent), m_round(rd), m_UserData(userData)
 {
 	m_playerGrid = m_round->playerGrid();
 	m_computerGrid = m_round->computerGrid();
@@ -14,7 +14,7 @@ PlanesGSView::PlanesGSView(PlaneRound *rd, QWidget *parent)
     m_LeftPane->setMinWidth();
     //m_LeftPane->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 
-    m_RightPane = new RightPane(m_playerGrid, m_computerGrid, m_round, this);
+    m_RightPane = new RightPane(m_playerGrid, m_computerGrid, m_round, m_UserData, this);
     m_RightPane->setMinWidth();
 
     hLayout->addWidget(m_LeftPane);

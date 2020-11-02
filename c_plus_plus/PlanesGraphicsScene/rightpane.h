@@ -6,12 +6,13 @@
 #include "playerboard.h"
 #include "computerboard.h"
 #include "planeround.h"
+#include "userdata.h"
 
 class RightPane : public QTabWidget
 {
     Q_OBJECT
 public:
-    explicit RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound *pr, QWidget* parent = nullptr);
+    explicit RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound *pr, UserData* userData, QWidget* parent = nullptr);
     ~RightPane();
 
     void setMinWidth();
@@ -53,8 +54,9 @@ private:
     ComputerBoard* m_ComputerBoard;
 	PlaneRound* m_PlaneRound; //for setting options
 	QSettings* m_Settings;
+    UserData* m_UserData;
 private:
-    void defineHelpWindow(QWidget* w);
+    void defineHelpWindow(QWidget* w); //TODO: is this still used ?
 };
 
 #endif // RIGHTPANE_H

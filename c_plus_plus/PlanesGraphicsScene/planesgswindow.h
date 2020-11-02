@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "planesgsview.h"
 #include "planeround.h"
+#include "userdata.h"
 
 class PlanesGSWindow : public QMainWindow
 {
@@ -18,8 +19,11 @@ public slots:
 private:
     //The view object
     PlanesGSView* mPlanesView;
-    //The controller object
+    //The game object : playing against the computer
     PlaneRound* mRound;
+    //TODO: The game object: multiplayer
+    //User data for the multiplayer game
+    UserData* m_UserData;
 };
 
 #endif // PLANESGSWINDOW_H
