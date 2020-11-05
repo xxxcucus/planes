@@ -3,7 +3,8 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-LoginRegisterForm::LoginRegisterForm(bool login, QWidget* parent) : QWidget(parent), m_Login(login) {
+LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QWidget* parent) 
+        : QWidget(parent), m_Login(login), m_NetworkManager(networkManager) {
     
     m_passwordLineEdit = new QLineEdit();
     m_usernameLineEdit = new QLineEdit();
@@ -54,6 +55,7 @@ LoginRegisterForm::LoginRegisterForm(bool login, QWidget* parent) : QWidget(pare
 
 void LoginRegisterForm::toggleLoginRegistration()
 {
+    m_Login = !m_Login;
     QString titleText = QString("<b> Register</b>");
     if (m_Login)
         titleText = QString("<b> Login </b>");
@@ -63,6 +65,4 @@ void LoginRegisterForm::toggleLoginRegistration()
     
     m_passwordLineEdit->clear();
     m_usernameLineEdit->clear();
-    
-    m_Login = !m_Login;
 }

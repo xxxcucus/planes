@@ -7,7 +7,7 @@
 #include "loginregisterform.h"
 
 
-MainAccountWidget::MainAccountWidget(UserData* userData, QWidget* parent) : QWidget(parent), m_UserData(userData)
+MainAccountWidget::MainAccountWidget(UserData* userData, QNetworkAccessManager* networkManager, QWidget* parent) : QWidget(parent), m_UserData(userData), m_NetworkManager(networkManager)
 {
     CustomHorizLayout* cLayout = new CustomHorizLayout(50);
     
@@ -18,7 +18,7 @@ MainAccountWidget::MainAccountWidget(UserData* userData, QWidget* parent) : QWid
     QSpacerItem* spacer = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
     vLayout->addItem(spacer);
     leftPane->setLayout(vLayout);
-    LoginRegisterForm* loginRegisterForm = new LoginRegisterForm(true);
+    LoginRegisterForm* loginRegisterForm = new LoginRegisterForm(true, m_NetworkManager);
     cLayout->addWidget(leftPane);
     cLayout->addWidget(loginRegisterForm);
     setLayout(cLayout);

@@ -2,6 +2,7 @@
 #define PLANESGSVIEW_H
 
 #include <QWidget>
+#include <QNetworkAccessManager>
 
 #include "leftpane.h"
 #include "rightpane.h"
@@ -14,7 +15,7 @@ class PlanesGSView : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PlanesGSView(PlaneRound *rd, UserData* userData, QWidget *parent = 0);
+    explicit PlanesGSView(PlaneRound *rd, UserData* userData, QNetworkAccessManager* networkManager, QWidget *parent = 0);
 
 signals:
 
@@ -42,6 +43,7 @@ private:
     RightPane* m_RightPane;
     
     UserData* m_UserData;
+    QNetworkAccessManager* m_NetworkManager;
 };
 
 #endif // PLANESGSVIEW_H

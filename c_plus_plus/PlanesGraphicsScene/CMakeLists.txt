@@ -73,7 +73,8 @@ add_executable(PlanesGraphicsScene
 	resources.qrc)
 target_link_libraries(PlanesGraphicsScene
 	libCommon
-	${Qt5Widgets_LIBRARIES})
-qt5_use_modules(PlanesGraphicsScene Widgets)
+	${Qt5Widgets_LIBRARIES}
+	${Qt5Network_LIBRARIES})
+qt5_use_modules(PlanesGraphicsScene Widgets Network)
 
 install(TARGETS PlanesGraphicsScene DESTINATION bin)

@@ -9,7 +9,7 @@
 #include "accountwidget.h"
 #include "planeround.h"
 
-RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, UserData* userData, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_UserData(userData)
+RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, UserData* userData, QNetworkAccessManager* networkManager, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_UserData(userData), m_NetworkManager(networkManager)
 {
     QWidget* helpWidget = new QWidget();
     QHBoxLayout* layout = new QHBoxLayout();
@@ -27,7 +27,7 @@ RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, UserDat
 	m_Settings = new QSettings("Cristian Cucu", "Planes");
 
 	OptionsWindow* optionsWindow = new OptionsWindow(m_PlaneRound, m_Settings);
-    AccountWidget* accountWidget = new AccountWidget(m_UserData);
+    AccountWidget* accountWidget = new AccountWidget(m_UserData, m_NetworkManager);
 
     addTab(m_PlayerBoard->getView(), "Player Board");
     addTab(m_ComputerBoard->getView(), "Computer Board");

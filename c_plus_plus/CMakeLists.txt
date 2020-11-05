@@ -7,7 +7,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 
-find_package(Qt5 COMPONENTS Core Widgets Quick)
+find_package(Qt5 COMPONENTS Core Widgets Quick Network)
 
 option(With_Asan "Compile with Address Sanitizer support" OFF)
 
@@ -64,7 +64,7 @@ list(GET QT_VERSION_LIST 1 QT_MINOR)
 list(GET QT_VERSION_LIST 2 QT_REVISION)
 message("Used Qt Version: " ${QT_MAJOR} " " ${QT_MINOR} " " ${QT_REVISION})
 
-#todo: install qml in linux
+
 if (UNIX)
 	install(FILES ${ROOT_PATH}/lib/libQt5Widgets.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt5Gui.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)

@@ -2,6 +2,7 @@
 #define __ACCOUNT_WIDGET__
 
 #include <QStackedWidget>
+#include <QNetworkAccessManager>
 #include "mainaccountwidget.h"
 #include "norobotwidget.h"
 #include "userdata.h"
@@ -11,13 +12,14 @@ class AccountWidget : public QStackedWidget {
     Q_OBJECT
     
 public:
-    AccountWidget(UserData* userData, QWidget* parent = nullptr);
+    AccountWidget(UserData* userData, QNetworkAccessManager* networkManager, QWidget* parent = nullptr);
 
 
 private:
     MainAccountWidget* m_MainAccountWidget;
     NoRobotWidget* m_NoRobotWidget;
     UserData* m_UserData;
+    QNetworkAccessManager* m_NetworkManager;
 };
 
 #endif

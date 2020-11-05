@@ -2,6 +2,7 @@
 #define PLANESGSWINDOW_H
 
 #include <QMainWindow>
+#include <QNetworkAccessManager>
 #include "planesgsview.h"
 #include "planeround.h"
 #include "userdata.h"
@@ -24,6 +25,7 @@ private:
     //TODO: The game object: multiplayer
     //User data for the multiplayer game
     UserData* m_UserData;
+    QNetworkAccessManager* m_NetworkManager;
 };
 
 #endif // PLANESGSWINDOW_H

@@ -5,12 +5,13 @@
 #include <QLabel>
 #include <QWidget>
 #include <QPushButton>
+#include <QNetworkAccessManager>
 
 class LoginRegisterForm : public QWidget
 {
     Q_OBJECT
 public:
-    explicit LoginRegisterForm(bool login, QWidget *parent = nullptr);
+    explicit LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QWidget *parent = nullptr);
 
 private slots:
     void toggleLoginRegistration();
@@ -22,6 +23,7 @@ private:
     
     QLabel* m_TitleLabel = nullptr;
     QPushButton* m_ToggleLoginRegistrationButton = nullptr;
+    QNetworkAccessManager* m_NetworkManager;
 };
 
 
