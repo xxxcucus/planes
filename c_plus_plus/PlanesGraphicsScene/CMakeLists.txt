@@ -64,6 +64,7 @@ set(GS_HEADR
 	clickablelabel.h
 	optionswindow.h
 	userdata.h
+	logindata.h
 	gamedifficultyoptions.h
 )
 

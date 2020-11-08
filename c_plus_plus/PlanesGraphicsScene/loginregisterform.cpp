@@ -2,9 +2,14 @@
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QJsonDocument>
+#include <QMessageBox>
+#include <QTextCodec>
+#include <QDebug>
+#include "logindata.h"
 
-LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, QWidget* parent) 
-        : QWidget(parent), m_Login(login), m_NetworkManager(networkManager), m_Settings(settings) {
+LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, UserData* userData, QWidget* parent) 
+        : QWidget(parent), m_Login(login), m_NetworkManager(networkManager), m_Settings(settings), m_UserData(userData) {
     
     m_passwordLineEdit = new QLineEdit();
     m_usernameLineEdit = new QLineEdit();
@@ -70,7 +75,10 @@ void LoginRegisterForm::toggleLoginRegistration()
 
 void LoginRegisterForm::submitSlot()
 {
-    
+    if (m_Login)
+        submitLogin();
+    else
+        submitRegistration();
 }
 
 void LoginRegisterForm::submitLogin()
@@ -80,13 +88,39 @@ void LoginRegisterForm::submitLogin()
     QString loginRequestPath = settingsServerPath;
     if (settingsServerPath.isEmpty())
         loginRequestPath = defaultServerPath;
-    QUrl loginRequestUrl = QUrl(loginRequestPath + "/users/login/"); //TODO: or login without users
+    QUrl loginRequestUrl = QUrl(loginRequestPath + "/login/"); //TODO: or login without users
     
-    
+    LoginData loginData;
+    loginData.m_Password = m_passwordLineEdit->displayText(); //TODO: validation
+    loginData.m_UserName = m_usernameLineEdit->displayText(); //TODO: validation
+        
     QNetworkRequest request(loginRequestUrl);
     request.setRawHeader("Content-Type", "application/fhir+json");
-    //m_NetworkManager->post(request, QJsonDocument().toJson());    
+    
+    if (m_LoginReply != nullptr)
+        delete m_LoginReply;
+    m_LoginReply = m_NetworkManager->post(request, QJsonDocument(loginData.toJson()).toJson());    
+    connect(m_LoginReply, &QNetworkReply::finished, this, &LoginRegisterForm::finishedLogin);
+    connect(m_LoginReply, &QNetworkReply::errorOccurred, this, &LoginRegisterForm::errorLogin);
 }
+
+void LoginRegisterForm::errorLogin(QNetworkReply::NetworkError code)
+{
+    QMessageBox msgBox;
+    msgBox.setText("Error when logging  in"); //TODO: show error string
+    msgBox.exec();
+    m_UserData->m_AuthToken = QString();
+    m_UserData->m_UserName = QString();
+    m_UserData->m_UserPassword = QString();
+}
+
+void LoginRegisterForm::finishedLogin()
+{
+    QByteArray reply = m_LoginReply->readAll();
+    qDebug() << QTextCodec::codecForMib(106)->toUnicode(reply);
+}
+
+
 
 void LoginRegisterForm::submitRegistration()
 {

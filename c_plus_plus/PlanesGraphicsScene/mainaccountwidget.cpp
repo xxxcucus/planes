@@ -19,7 +19,7 @@ MainAccountWidget::MainAccountWidget(QSettings* settings, UserData* userData, QN
     QSpacerItem* spacer = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
     vLayout->addItem(spacer);
     leftPane->setLayout(vLayout);
-    LoginRegisterForm* loginRegisterForm = new LoginRegisterForm(true, m_NetworkManager, m_Settings);
+    LoginRegisterForm* loginRegisterForm = new LoginRegisterForm(true, m_NetworkManager, m_Settings, m_UserData);
     cLayout->addWidget(leftPane);
     cLayout->addWidget(loginRegisterForm);
     setLayout(cLayout);

@@ -7,12 +7,15 @@
 #include <QPushButton>
 #include <QNetworkAccessManager>
 #include <QSettings>
+#include <QNetworkReply>
+
+#include "userdata.h"
 
 class LoginRegisterForm : public QWidget
 {
     Q_OBJECT
 public:
-    explicit LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, QWidget *parent = nullptr);
+    explicit LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, UserData* userData, QWidget *parent = nullptr);
 
 private slots:
     void toggleLoginRegistration();
@@ -21,6 +24,8 @@ private slots:
 private:
     void submitLogin();
     void submitRegistration();
+    void errorLogin(QNetworkReply::NetworkError code);
+    void finishedLogin();
     
 private:
     QLineEdit* m_passwordLineEdit = nullptr;
@@ -31,6 +36,10 @@ private:
     QPushButton* m_ToggleLoginRegistrationButton = nullptr;
     QNetworkAccessManager* m_NetworkManager;
     QSettings* m_Settings;
+    UserData* m_UserData;
+    
+    QNetworkReply* m_LoginReply;
+    QNetworkReply* m_RegistrationReply;
 };
 
 
