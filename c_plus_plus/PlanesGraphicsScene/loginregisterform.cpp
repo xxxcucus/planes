@@ -3,8 +3,8 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QWidget* parent) 
-        : QWidget(parent), m_Login(login), m_NetworkManager(networkManager) {
+LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, QWidget* parent) 
+        : QWidget(parent), m_Login(login), m_NetworkManager(networkManager), m_Settings(settings) {
     
     m_passwordLineEdit = new QLineEdit();
     m_usernameLineEdit = new QLineEdit();
@@ -48,6 +48,7 @@ LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkM
     windowLayout->addItem(spacer);
     
     connect(m_ToggleLoginRegistrationButton, &QPushButton::clicked, this, &LoginRegisterForm::toggleLoginRegistration);
+    connect(submitButton, &QPushButton::clicked, this, &LoginRegisterForm::submitSlot);
     
     setLayout(windowLayout);
 }
@@ -66,3 +67,30 @@ void LoginRegisterForm::toggleLoginRegistration()
     m_passwordLineEdit->clear();
     m_usernameLineEdit->clear();
 }
+
+void LoginRegisterForm::submitSlot()
+{
+    
+}
+
+void LoginRegisterForm::submitLogin()
+{   
+    QString settingsServerPath = m_Settings->value("multiplayer/serverpath").toString();
+    QString defaultServerPath = "http://localhost:8080";
+    QString loginRequestPath = settingsServerPath;
+    if (settingsServerPath.isEmpty())
+        loginRequestPath = defaultServerPath;
+    QUrl loginRequestUrl = QUrl(loginRequestPath + "/users/login/"); //TODO: or login without users
+    
+    
+    QNetworkRequest request(loginRequestUrl);
+    request.setRawHeader("Content-Type", "application/fhir+json");
+    //m_NetworkManager->post(request, QJsonDocument().toJson());    
+}
+
+void LoginRegisterForm::submitRegistration()
+{
+}
+
+
+

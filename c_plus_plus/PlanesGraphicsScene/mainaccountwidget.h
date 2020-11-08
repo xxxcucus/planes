@@ -3,17 +3,19 @@
 
 #include <QWidget>
 #include <QNetworkAccessManager>
+#include <QSettings>
 #include "userdata.h"
 
 class MainAccountWidget : public QWidget {
     Q_OBJECT
     
 public:    
-    MainAccountWidget(UserData* userData, QNetworkAccessManager* m_NetworkManager, QWidget* parent = nullptr);
+    MainAccountWidget(QSettings* settings, UserData* userData, QNetworkAccessManager* m_NetworkManager, QWidget* parent = nullptr);
 
 private:
     UserData* m_UserData;
     QNetworkAccessManager* m_NetworkManager;
+    QSettings* m_Settings;
     
 };
 

@@ -27,7 +27,7 @@ RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, UserDat
 	m_Settings = new QSettings("Cristian Cucu", "Planes");
 
 	OptionsWindow* optionsWindow = new OptionsWindow(m_PlaneRound, m_Settings);
-    AccountWidget* accountWidget = new AccountWidget(m_UserData, m_NetworkManager);
+    AccountWidget* accountWidget = new AccountWidget(m_Settings, m_UserData, m_NetworkManager);
 
     addTab(m_PlayerBoard->getView(), "Player Board");
     addTab(m_ComputerBoard->getView(), "Computer Board");

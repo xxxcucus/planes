@@ -54,7 +54,7 @@ private:
     PlayerBoard* m_PlayerBoard;
     ComputerBoard* m_ComputerBoard;
 	PlaneRound* m_PlaneRound; //for setting options
-	QSettings* m_Settings;
+	QSettings* m_Settings; //TODO: to move planesgswindow
     UserData* m_UserData;
     QNetworkAccessManager* m_NetworkManager;
 private:
