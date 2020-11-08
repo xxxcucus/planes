@@ -6,10 +6,12 @@
 #include <QSettings>
 #include "userdata.h"
 
+
 class MainAccountWidget : public QWidget {
     Q_OBJECT
     
 public:    
+
     MainAccountWidget(QSettings* settings, UserData* userData, QNetworkAccessManager* m_NetworkManager, QWidget* parent = nullptr);
 
 private:
@@ -17,6 +19,7 @@ private:
     QNetworkAccessManager* m_NetworkManager;
     QSettings* m_Settings;
     
+
 };
 
 
