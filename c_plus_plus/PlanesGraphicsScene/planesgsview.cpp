@@ -4,7 +4,7 @@
 #include "customhorizlayout.h"
 
 PlanesGSView::PlanesGSView(PlaneRound *rd, UserData* userData, QNetworkAccessManager* networkManager, QWidget *parent)
-    : QWidget(parent), m_round(rd), m_UserData(userData), m_NetworkManager(m_NetworkManager)
+    : QWidget(parent), m_round(rd), m_UserData(userData), m_NetworkManager(networkManager)
 {
 	m_playerGrid = m_round->playerGrid();
 	m_computerGrid = m_round->computerGrid();

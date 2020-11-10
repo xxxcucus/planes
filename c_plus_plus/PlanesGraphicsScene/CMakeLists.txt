@@ -7,6 +7,7 @@ cmake_policy(SET CMP0043 NEW)
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_SOURCE_DIR}/../common
+	${CMAKE_CURRENT_SOURCE_DIR}/../bcrypt
 	${Qt5Widgets_INCLUDE_DIRS})
 
 #link_directories(
@@ -74,6 +75,7 @@ add_executable(PlanesGraphicsScene
 	resources.qrc)
 target_link_libraries(PlanesGraphicsScene
 	libCommon
+	libbcrypt
 	${Qt5Widgets_LIBRARIES}
 	${Qt5Network_LIBRARIES})
 qt5_use_modules(PlanesGraphicsScene Widgets Network)

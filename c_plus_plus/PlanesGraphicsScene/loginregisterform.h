@@ -38,8 +38,8 @@ private:
     QSettings* m_Settings;
     UserData* m_UserData;
     
-    QNetworkReply* m_LoginReply;
-    QNetworkReply* m_RegistrationReply;
+    QNetworkReply* m_LoginReply = nullptr;
+    QNetworkReply* m_RegistrationReply = nullptr;
 };
 
 

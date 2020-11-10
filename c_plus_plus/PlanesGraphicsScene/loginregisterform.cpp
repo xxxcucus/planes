@@ -83,12 +83,15 @@ void LoginRegisterForm::submitSlot()
 
 void LoginRegisterForm::submitLogin()
 {   
+    qDebug() << "1" ;
     QString settingsServerPath = m_Settings->value("multiplayer/serverpath").toString();
+    qDebug() << settingsServerPath ;
     QString defaultServerPath = "http://localhost:8080";
     QString loginRequestPath = settingsServerPath;
     if (settingsServerPath.isEmpty())
         loginRequestPath = defaultServerPath;
-    QUrl loginRequestUrl = QUrl(loginRequestPath + "/login/"); //TODO: or login without users
+    qDebug() << loginRequestPath ;
+    QUrl loginRequestUrl = QUrl(loginRequestPath + "/login"); //TODO: or login without users
     
     LoginData loginData;
     loginData.m_Password = m_passwordLineEdit->displayText(); //TODO: validation
@@ -99,7 +102,11 @@ void LoginRegisterForm::submitLogin()
     
     if (m_LoginReply != nullptr)
         delete m_LoginReply;
-    m_LoginReply = m_NetworkManager->post(request, QJsonDocument(loginData.toJson()).toJson());    
+    qDebug() << "2" ;
+    QByteArray data = QJsonDocument(loginData.toJson()).toJson();
+    qDebug() << "3";
+    m_LoginReply = m_NetworkManager->post(request, data); 
+    qDebug() << "4" ;
     connect(m_LoginReply, &QNetworkReply::finished, this, &LoginRegisterForm::finishedLogin);
     connect(m_LoginReply, &QNetworkReply::errorOccurred, this, &LoginRegisterForm::errorLogin);
 }
@@ -107,7 +114,7 @@ void LoginRegisterForm::submitLogin()
 void LoginRegisterForm::errorLogin(QNetworkReply::NetworkError code)
 {
     QMessageBox msgBox;
-    msgBox.setText("Error when logging  in"); //TODO: show error string
+    msgBox.setText("Error when logging  in " + QString::number(code)); //TODO: show error string
     msgBox.exec();
     m_UserData->m_AuthToken = QString();
     m_UserData->m_UserName = QString();
