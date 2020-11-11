@@ -38,6 +38,7 @@ set(GS_SRCS
 	clickablelabel.cpp
 	optionswindow.cpp
 	gamedifficultyoptions.cpp
+	communicationtools.cpp
 	main.cpp
 )
 
@@ -66,6 +67,7 @@ set(GS_HEADR
 	optionswindow.h
 	userdata.h
 	logindata.h
+	communicationtools.h
 	gamedifficultyoptions.h
 )
 

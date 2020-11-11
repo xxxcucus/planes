@@ -13,15 +13,22 @@ struct LoginData {
     
     public:
     
-    QJsonObject toJson() {
+    QJsonObject toLoginJson() {
         QJsonObject retVal;
         retVal.insert("username", m_UserName);
         std::string hash = BCrypt::generateHash(std::string(m_Password.toUtf8().data()));
         QString passToSend = QString::fromUtf8(hash.c_str());
         qDebug() << "Pass to send " << passToSend ;
-        retVal.insert("password", "$2y$12$NZBLwD5mq.fv3zt7Xt3vyOaUMvUZSYF7ED9xgSrOUdUn0n50d3UvO");
+        retVal.insert("password", "test1");
         return retVal;
     }
+    
+   QJsonObject toRegisterJson() {
+        QJsonObject retVal;
+        retVal.insert("username", m_UserName);
+        retVal.insert("password", m_Password);
+        return retVal;
+    }    
 };
 
 #endif

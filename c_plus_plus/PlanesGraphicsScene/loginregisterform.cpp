@@ -7,6 +7,7 @@
 #include <QTextCodec>
 #include <QDebug>
 #include "logindata.h"
+#include "communicationtools.h"
 
 LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, UserData* userData, QWidget* parent) 
         : QWidget(parent), m_Login(login), m_NetworkManager(networkManager), m_Settings(settings), m_UserData(userData) {
@@ -83,36 +84,24 @@ void LoginRegisterForm::submitSlot()
 
 void LoginRegisterForm::submitLogin()
 {   
-    qDebug() << "1" ;
-    QString settingsServerPath = m_Settings->value("multiplayer/serverpath").toString();
-    qDebug() << settingsServerPath ;
-    QString defaultServerPath = "http://localhost:8080";
-    QString loginRequestPath = settingsServerPath;
-    if (settingsServerPath.isEmpty())
-        loginRequestPath = defaultServerPath;
-    qDebug() << loginRequestPath ;
-    QUrl loginRequestUrl = QUrl(loginRequestPath + "/login"); //TODO: or login without users
-    
     LoginData loginData;
     loginData.m_Password = m_passwordLineEdit->displayText(); //TODO: validation
     loginData.m_UserName = m_usernameLineEdit->displayText(); //TODO: validation
-        
-    QNetworkRequest request(loginRequestUrl);
-    request.setRawHeader("Content-Type", "application/fhir+json");
-    
+
     if (m_LoginReply != nullptr)
         delete m_LoginReply;
-    qDebug() << "2" ;
-    QByteArray data = QJsonDocument(loginData.toJson()).toJson();
-    qDebug() << "3";
-    m_LoginReply = m_NetworkManager->post(request, data); 
-    qDebug() << "4" ;
+
+    m_LoginReply = CommunicationTools::buildPostRequest("/login", m_Settings->value("multiplayer/serverpath").toString(), loginData.toLoginJson(), m_NetworkManager);
+
     connect(m_LoginReply, &QNetworkReply::finished, this, &LoginRegisterForm::finishedLogin);
     connect(m_LoginReply, &QNetworkReply::errorOccurred, this, &LoginRegisterForm::errorLogin);
 }
 
 void LoginRegisterForm::errorLogin(QNetworkReply::NetworkError code)
 {
+    QByteArray errMsg = m_LoginReply->readAll();
+    QString errMsgQStr = QTextCodec::codecForMib(106)->toUnicode(errMsg);
+    QJsonObject errMsgJson = CommunicationTools::objectFromString(errMsgQStr); //TODO: show error description in message box
     QMessageBox msgBox;
     msgBox.setText("Error when logging  in " + QString::number(code)); //TODO: show error string
     msgBox.exec();
@@ -127,11 +116,52 @@ void LoginRegisterForm::finishedLogin()
     qDebug() << QTextCodec::codecForMib(106)->toUnicode(reply);
 }
 
-
-
 void LoginRegisterForm::submitRegistration()
 {
+    LoginData loginData;
+    loginData.m_Password = m_passwordLineEdit->displayText(); //TODO: validation
+    loginData.m_UserName = m_usernameLineEdit->displayText(); //TODO: validation
+
+    if (m_RegistrationReply != nullptr)
+        delete m_RegistrationReply;
+
+    m_RegistrationReply = CommunicationTools::buildPostRequest("/users/registration_request", m_Settings->value("multiplayer/serverpath").toString(), loginData.toRegisterJson(), m_NetworkManager);
+
+    connect(m_RegistrationReply, &QNetworkReply::finished, this, &LoginRegisterForm::finishedRegister);
+    connect(m_RegistrationReply, &QNetworkReply::errorOccurred, this, &LoginRegisterForm::errorRegister);
 }
 
 
+void LoginRegisterForm::errorRegister(QNetworkReply::NetworkError code)
+{
+    QMessageBox msgBox;
+    msgBox.setText("Error when logging  in " + QString::number(code)); //TODO: show error string
+    msgBox.exec();
+}
+
+void LoginRegisterForm::finishedRegister()
+{
+    QByteArray reply = m_RegistrationReply->readAll();
+    QString registrationReplyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
+    QJsonObject registrationReplyJson = CommunicationTools::objectFromString(registrationReplyQString);
+    
+    std::vector<QString> images;
+    
+    images.push_back(registrationReplyJson.value("image_id_1").toString());
+    images.push_back(registrationReplyJson.value("image_id_2").toString());    
+    images.push_back(registrationReplyJson.value("image_id_3").toString());
+    images.push_back(registrationReplyJson.value("image_id_4").toString());    
+    images.push_back(registrationReplyJson.value("image_id_5").toString());
+    images.push_back(registrationReplyJson.value("image_id_6").toString());    
+    images.push_back(registrationReplyJson.value("image_id_7").toString());
+    images.push_back(registrationReplyJson.value("image_id_8").toString());    
+    images.push_back(registrationReplyJson.value("image_id_9").toString());    
+    
+    qDebug() << "Registration request with id " << registrationReplyJson.value("id").toInt() << " received ";
+    //setCurrentIndex(1);
+    //m_RobotValidation->setImages(images);
+    //m_RobotValidation->setQuestion(obj.value("question").toString());
+    //m_RobotValidation->setRequestId(QString::number(obj.value("id").toInt()));
+    
+}
 
