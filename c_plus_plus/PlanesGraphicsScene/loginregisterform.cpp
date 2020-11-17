@@ -105,15 +105,30 @@ void LoginRegisterForm::errorLogin(QNetworkReply::NetworkError code)
     QMessageBox msgBox;
     msgBox.setText("Error when logging  in " + QString::number(code)); //TODO: show error string
     msgBox.exec();
-    m_UserData->m_AuthToken = QString();
+    m_UserData->m_AuthToken = QByteArray();
     m_UserData->m_UserName = QString();
     m_UserData->m_UserPassword = QString();
 }
 
 void LoginRegisterForm::finishedLogin()
 {
+    QMessageBox msgBox;
+    msgBox.setText("Login successfull!"); 
+    msgBox.exec();
+    
     QByteArray reply = m_LoginReply->readAll();
     qDebug() << QTextCodec::codecForMib(106)->toUnicode(reply);
+    
+    QList<QByteArray> headers = m_LoginReply->rawHeaderList();
+    
+    for(QByteArray hdr : headers) {
+        QString hdrQString = QTextCodec::codecForMib(106)->toUnicode(hdr);
+        if (hdrQString == "Authorization") {
+            m_UserData->m_AuthToken = m_LoginReply->rawHeader(hdr);
+            qDebug() << hdrQString << ":" << m_LoginReply->rawHeader(hdr);
+        }
+    }
+
 }
 
 void LoginRegisterForm::submitRegistration()
@@ -124,6 +139,8 @@ void LoginRegisterForm::submitRegistration()
 
     if (m_RegistrationReply != nullptr)
         delete m_RegistrationReply;
+    
+    //TODO: encode password with BCrypt
 
     m_RegistrationReply = CommunicationTools::buildPostRequest("/users/registration_request", m_Settings->value("multiplayer/serverpath").toString(), loginData.toRegisterJson(), m_NetworkManager);
 
@@ -156,12 +173,9 @@ void LoginRegisterForm::finishedRegister()
     images.push_back(registrationReplyJson.value("image_id_7").toString());
     images.push_back(registrationReplyJson.value("image_id_8").toString());    
     images.push_back(registrationReplyJson.value("image_id_9").toString());    
+    int request_id = registrationReplyJson.value("id").toInt();
     
-    qDebug() << "Registration request with id " << registrationReplyJson.value("id").toInt() << " received ";
-    //setCurrentIndex(1);
-    //m_RobotValidation->setImages(images);
-    //m_RobotValidation->setQuestion(obj.value("question").toString());
-    //m_RobotValidation->setRequestId(QString::number(obj.value("id").toInt()));
-    
+    qDebug() << "Registration request with id " << request_id << " received ";
+    emit noRobotRegistration(images, registrationReplyJson);
 }
 

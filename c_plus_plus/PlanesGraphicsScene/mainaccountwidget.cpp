@@ -24,4 +24,6 @@ MainAccountWidget::MainAccountWidget(QSettings* settings, UserData* userData, QN
     cLayout->addWidget(loginRegisterForm);
     setLayout(cLayout);
     
+    connect(loginRegisterForm, &LoginRegisterForm::noRobotRegistration, this, &MainAccountWidget::noRobotRegistration);
+    
 }

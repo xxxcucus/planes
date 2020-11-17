@@ -8,6 +8,7 @@
 #include <QNetworkAccessManager>
 #include <QSettings>
 #include <QNetworkReply>
+#include <QJsonObject>
 
 #include "userdata.h"
 
@@ -17,11 +18,12 @@ class LoginRegisterForm : public QWidget
 public:
     explicit LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, UserData* userData, QWidget *parent = nullptr);
 
+signals:
+    void noRobotRegistration(const std::vector<QString>& images, const QJsonObject& request);
+    
 private slots:
     void toggleLoginRegistration();
     void submitSlot();
-    
-private:
     void submitLogin();
     void submitRegistration();
     void errorLogin(QNetworkReply::NetworkError code);

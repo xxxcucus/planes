@@ -11,7 +11,7 @@
 
 class BCrypt {
 public:
-    static std::string generateHash(const std::string & password, int workload = 12){
+    static std::string generateHash(const std::string & password, int workload = 10){
         char salt[BCRYPT_HASHSIZE];
         char hash[BCRYPT_HASHSIZE];
         int ret;

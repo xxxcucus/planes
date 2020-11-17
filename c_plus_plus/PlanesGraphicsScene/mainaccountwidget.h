@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QNetworkAccessManager>
 #include <QSettings>
+#include <QJsonObject>
 #include "userdata.h"
 
 
@@ -14,6 +15,9 @@ public:
 
     MainAccountWidget(QSettings* settings, UserData* userData, QNetworkAccessManager* m_NetworkManager, QWidget* parent = nullptr);
 
+signals:
+    void noRobotRegistration(const std::vector<QString>& images, const QJsonObject& request);
+    
 private:
     UserData* m_UserData;
     QNetworkAccessManager* m_NetworkManager;
