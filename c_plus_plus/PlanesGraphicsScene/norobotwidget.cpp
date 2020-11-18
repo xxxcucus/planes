@@ -20,9 +20,11 @@ NoRobotWidget::NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* s
     for (int i = 0; i < m_ImagesCount; i++) {
         m_Labels[i] = new ClickableLabel();
         m_Labels[i]->setFrameShape(QFrame::NoFrame);
-        m_Labels[i]->setLineWidth(5);
+        QString objectName = "clabel"+QString::number(i);
+        m_Labels[i]->setObjectName(objectName);
+        
         connect(m_Labels[i], &ClickableLabel::clicked, [this, i] { imageClicked(i); });
-        gridLayout->addWidget(m_Labels[i], i / 3, i % 3);
+        gridLayout->addWidget(m_Labels[i], i / 3, i % 3, Qt::AlignCenter);
     }
 
     m_QuestionLabel = new QLabel();
@@ -89,11 +91,22 @@ void NoRobotWidget::setImages(const std::vector<QString>& images)
         QString path = m_PhotosMap[images[i]];
         qDebug() << "Working with path " << path;
         QPixmap pix(m_PhotosMap[images[i]]);
-        pix = pix.scaledToWidth(100); //TODO: to optimize scaling
-        if (m_Answer[i])
-            m_Labels[i]->setFrameShape(QFrame::Box);
-        else
-            m_Labels[i]->setFrameShape(QFrame::NoFrame);        
+        
+        int availWidth = width() / 3;
+        int availHeight = height() * 5 / 6 / 3;
+        
+        if (pix.width() > pix.height()) {
+            pix = pix.scaledToWidth(availWidth);
+        } else {
+            pix = pix.scaledToHeight(availHeight);
+        }
+        
+        //pix = pix.scaledToWidth(100); //TODO: to optimize scaling
+        if (m_Answer[i]) {
+            m_Labels[i]->setSelected(true);
+        } else {
+            m_Labels[i]->setSelected(false);
+        }
         m_Labels[i]->setPixmap(pix);
     }
 }
@@ -107,9 +120,9 @@ void NoRobotWidget::imageClicked(int imageIndex)
 {
     m_Answer[imageIndex] = !m_Answer[imageIndex];
     if (m_Answer[imageIndex])
-        m_Labels[imageIndex]->setFrameShape(QFrame::Box);
+        m_Labels[imageIndex]->setSelected(true);
     else
-        m_Labels[imageIndex]->setFrameShape(QFrame::NoFrame);
+        m_Labels[imageIndex]->setSelected(false);
     update();
     
     qDebug() << "Image clicked " << imageIndex;
