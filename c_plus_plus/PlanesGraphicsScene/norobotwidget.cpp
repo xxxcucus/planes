@@ -15,6 +15,7 @@ NoRobotWidget::NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* s
     
     m_Labels = std::vector<ClickableLabel*>(m_ImagesCount);
     m_Answer = std::vector<bool>(m_ImagesCount, false);
+    m_Images = std::vector<QString>();
 
     
     for (int i = 0; i < m_ImagesCount; i++) {
@@ -87,10 +88,20 @@ void NoRobotWidget::setImages(const std::vector<QString>& images)
     for (int i = 0; i < m_ImagesCount; i++)
         m_Answer[i] = false;
     
+    m_Images = images;
+    displayAndScaleImages();
+}
+
+void NoRobotWidget::displayAndScaleImages()
+{
+    qDebug() << m_Images.size();
+    if (m_Images.size() != m_ImagesCount)
+        return;
+    
     for (int i = 0; i < m_ImagesCount; i++) {
-        QString path = m_PhotosMap[images[i]];
+        QString path = m_PhotosMap[m_Images[i]];
         qDebug() << "Working with path " << path;
-        QPixmap pix(m_PhotosMap[images[i]]);
+        QPixmap pix(m_PhotosMap[m_Images[i]]);
         
         int availWidth = width() / 3;
         int availHeight = height() * 5 / 6 / 3;
@@ -110,6 +121,7 @@ void NoRobotWidget::setImages(const std::vector<QString>& images)
         m_Labels[i]->setPixmap(pix);
     }
 }
+
 
 void NoRobotWidget::setQuestion(const QString& category)
 {
@@ -177,3 +189,11 @@ void NoRobotWidget::finishedRegister()
     m_UserData->m_UserName = registrationReplyJson.value("username").toString(); //TODO: save token
     emit registrationComplete();
 }
+
+void NoRobotWidget::resizeEvent(QResizeEvent* event)
+{
+    displayAndScaleImages();    
+    QWidget::resizeEvent(event);
+}
+    
+
