@@ -31,6 +31,8 @@ private slots:
     void errorRegister(QNetworkReply::NetworkError code);
     void finishedRegister();
 
+private:
+    bool validateRegistrationReply(const QJsonObject& registrationReply);
     
 private:
     QLineEdit* m_passwordLineEdit = nullptr;

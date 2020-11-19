@@ -151,16 +151,31 @@ void LoginRegisterForm::submitRegistration()
 
 void LoginRegisterForm::errorRegister(QNetworkReply::NetworkError code)
 {
+    QByteArray reply = m_RegistrationReply->readAll();
+    QString registrationReplyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
+
     QMessageBox msgBox;
-    msgBox.setText("Error when logging  in " + QString::number(code)); //TODO: show error string
+    msgBox.setText("Error when logging  in: " + m_RegistrationReply->errorString() + "\n" +  registrationReplyQString); 
     msgBox.exec();
 }
 
 void LoginRegisterForm::finishedRegister()
 {
+    if (m_RegistrationReply->error() != QNetworkReply::NoError) {
+        return;
+    }
+    
     QByteArray reply = m_RegistrationReply->readAll();
     QString registrationReplyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
     QJsonObject registrationReplyJson = CommunicationTools::objectFromString(registrationReplyQString);
+ 
+    if (!validateRegistrationReply(registrationReplyJson)) {
+        QMessageBox msgBox;
+        msgBox.setText("Registration reply was not recognized"); 
+        msgBox.exec();
+
+        return;
+    }
     
     std::vector<QString> images;
     
@@ -179,3 +194,9 @@ void LoginRegisterForm::finishedRegister()
     emit noRobotRegistration(images, registrationReplyJson);
 }
 
+bool LoginRegisterForm::validateRegistrationReply(const QJsonObject& reply) {
+   return (reply.contains("id") && reply.contains("username") && reply.contains("createdAt") && reply.contains("question") && 
+        reply.contains("image_id_1") && reply.contains("image_id_2") && reply.contains("image_id_3") &&
+        reply.contains("image_id_4") && reply.contains("image_id_5") && reply.contains("image_id_6") &&
+        reply.contains("image_id_7") && reply.contains("image_id_8") && reply.contains("image_id_9"));
+}
