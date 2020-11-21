@@ -6,9 +6,10 @@
 #include <QFile>
 #include <QTextStream>
 #include "optionswindow.h"
+#include "accountwidget.h"
 #include "planeround.h"
 
-RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr)
+RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, UserData* userData, QNetworkAccessManager* networkManager, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_UserData(userData), m_NetworkManager(networkManager)
 {
     QWidget* helpWidget = new QWidget();
     QHBoxLayout* layout = new QHBoxLayout();
@@ -26,10 +27,12 @@ RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, QWidget
 	m_Settings = new QSettings("Cristian Cucu", "Planes");
 
 	OptionsWindow* optionsWindow = new OptionsWindow(m_PlaneRound, m_Settings);
+    AccountWidget* accountWidget = new AccountWidget(m_Settings, m_UserData, m_NetworkManager);
 
     addTab(m_PlayerBoard->getView(), "Player Board");
     addTab(m_ComputerBoard->getView(), "Computer Board");
 	addTab(optionsWindow, "Options");
+    addTab(accountWidget, "Account");
     addTab(helpWidget, "Help");
 
     connect(m_PlayerBoard, SIGNAL(planePositionNotValid(bool)), this, SIGNAL(planePositionNotValid(bool)));

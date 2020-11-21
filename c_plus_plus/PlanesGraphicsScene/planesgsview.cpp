@@ -3,18 +3,18 @@
 #include <QHBoxLayout>
 #include "customhorizlayout.h"
 
-PlanesGSView::PlanesGSView(PlaneRound *rd, QWidget *parent)
-    : QWidget(parent), m_round(rd)
+PlanesGSView::PlanesGSView(PlaneRound *rd, UserData* userData, QNetworkAccessManager* networkManager, QWidget *parent)
+    : QWidget(parent), m_round(rd), m_UserData(userData), m_NetworkManager(networkManager)
 {
 	m_playerGrid = m_round->playerGrid();
 	m_computerGrid = m_round->computerGrid();
 
-    CustomHorizLayout* hLayout = new CustomHorizLayout(this);
+    CustomHorizLayout* hLayout = new CustomHorizLayout(20, this);
     m_LeftPane = new LeftPane(this);
     m_LeftPane->setMinWidth();
     //m_LeftPane->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 
-    m_RightPane = new RightPane(m_playerGrid, m_computerGrid, m_round, this);
+    m_RightPane = new RightPane(m_playerGrid, m_computerGrid, m_round, m_UserData, m_NetworkManager, this);
     m_RightPane->setMinWidth();
 
     hLayout->addWidget(m_LeftPane);
