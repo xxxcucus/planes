@@ -14,6 +14,7 @@ LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkM
     
     m_passwordLineEdit = new QLineEdit();
     m_usernameLineEdit = new QLineEdit();
+    m_passwordLineEdit->setEchoMode(QLineEdit::Password);
     
     QFrame* loginRegisterFrame = new QFrame();
     
@@ -91,6 +92,9 @@ void LoginRegisterForm::submitLogin()
     if (m_LoginReply != nullptr)
         delete m_LoginReply;
 
+    m_UserData->reset();
+    m_UserData->m_UserName = loginData.m_UserName;
+    m_UserData->m_UserPassword = loginData.m_Password;
     m_LoginReply = CommunicationTools::buildPostRequest("/login", m_Settings->value("multiplayer/serverpath").toString(), loginData.toLoginJson(), m_NetworkManager);
 
     connect(m_LoginReply, &QNetworkReply::finished, this, &LoginRegisterForm::finishedLogin);
@@ -99,36 +103,41 @@ void LoginRegisterForm::submitLogin()
 
 void LoginRegisterForm::errorLogin(QNetworkReply::NetworkError code)
 {
-    QByteArray errMsg = m_LoginReply->readAll();
-    QString errMsgQStr = QTextCodec::codecForMib(106)->toUnicode(errMsg);
-    QJsonObject errMsgJson = CommunicationTools::objectFromString(errMsgQStr); //TODO: show error description in message box
-    QMessageBox msgBox;
-    msgBox.setText("Error when logging  in " + QString::number(code)); //TODO: show error string
-    msgBox.exec();
-    m_UserData->m_AuthToken = QByteArray();
-    m_UserData->m_UserName = QString();
-    m_UserData->m_UserPassword = QString();
+    CommunicationTools::treatCommunicationError("logging in ", m_LoginReply);
+    m_UserData->reset();
 }
 
 void LoginRegisterForm::finishedLogin()
 {
-    QMessageBox msgBox;
-    msgBox.setText("Login successfull!"); 
-    msgBox.exec();
-    
+    if (m_LoginReply->error() != QNetworkReply::NoError) {
+        return;
+    }
+
     QByteArray reply = m_LoginReply->readAll();
     qDebug() << QTextCodec::codecForMib(106)->toUnicode(reply);
     
     QList<QByteArray> headers = m_LoginReply->rawHeaderList();
+    bool successfull = false;
     
     for(QByteArray hdr : headers) {
         QString hdrQString = QTextCodec::codecForMib(106)->toUnicode(hdr);
         if (hdrQString == "Authorization") {
             m_UserData->m_AuthToken = m_LoginReply->rawHeader(hdr);
             qDebug() << hdrQString << ":" << m_LoginReply->rawHeader(hdr);
+            successfull = true;
         }
     }
-
+    
+    if (successfull) {
+        QMessageBox msgBox;
+        msgBox.setText("Login successfull!"); 
+        msgBox.exec();               
+        emit loginCompleted();
+    } else {
+        QMessageBox msgBox;
+        msgBox.setText("Login reply was not recognized"); 
+        msgBox.exec();        
+    }
 }
 
 void LoginRegisterForm::submitRegistration()
@@ -139,8 +148,6 @@ void LoginRegisterForm::submitRegistration()
 
     if (m_RegistrationReply != nullptr)
         delete m_RegistrationReply;
-    
-    //TODO: encode password with BCrypt
 
     m_RegistrationReply = CommunicationTools::buildPostRequest("/users/registration_request", m_Settings->value("multiplayer/serverpath").toString(), loginData.toRegisterJson(), m_NetworkManager);
 
@@ -151,12 +158,7 @@ void LoginRegisterForm::submitRegistration()
 
 void LoginRegisterForm::errorRegister(QNetworkReply::NetworkError code)
 {
-    QByteArray reply = m_RegistrationReply->readAll();
-    QString registrationReplyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
-
-    QMessageBox msgBox;
-    msgBox.setText("Error when logging  in: " + m_RegistrationReply->errorString() + "\n" +  registrationReplyQString); 
-    msgBox.exec();
+    CommunicationTools::treatCommunicationError("registering ", m_RegistrationReply);
 }
 
 void LoginRegisterForm::finishedRegister()

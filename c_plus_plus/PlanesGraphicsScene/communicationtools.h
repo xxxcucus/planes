@@ -13,7 +13,7 @@ private:
 public:
     static QNetworkReply* buildPostRequest(const QString& routePath, const QString& serverPath, const QJsonObject& jsonObject, QNetworkAccessManager* networkManager);
     static QJsonObject objectFromString(const QString& in);
-    
+    static void treatCommunicationError(const QString& actionName, QNetworkReply* reply);
     
 };
 

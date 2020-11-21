@@ -1,6 +1,8 @@
 #include "communicationtools.h"
 
 #include <QJsonDocument>
+#include <QMessageBox>
+#include <QTextCodec>
 
 QString CommunicationTools::localTestServerPath = "http://localhost:8080";
 
@@ -40,3 +42,11 @@ QJsonObject CommunicationTools::objectFromString(const QString& in)
     return obj;
 }
 
+void CommunicationTools::treatCommunicationError(const QString& actionName, QNetworkReply* reply) {
+    QByteArray replyBA = reply->readAll();
+    QString registrationReplyQString = QTextCodec::codecForMib(106)->toUnicode(replyBA);
+
+    QMessageBox msgBox;
+    msgBox.setText("Error when logging  in: " + reply->errorString() + "\n" +  registrationReplyQString); 
+    msgBox.exec();
+}

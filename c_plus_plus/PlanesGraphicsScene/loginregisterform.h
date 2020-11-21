@@ -20,6 +20,7 @@ public:
 
 signals:
     void noRobotRegistration(const std::vector<QString>& images, const QJsonObject& request);
+    void loginCompleted();
     
 private slots:
     void toggleLoginRegistration();

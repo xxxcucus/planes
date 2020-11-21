@@ -14,7 +14,7 @@ MainAccountWidget::MainAccountWidget(QSettings* settings, UserData* userData, QN
     
     QWidget* leftPane = new QWidget();
     QVBoxLayout* vLayout = new QVBoxLayout();
-    UserProfileFrame* userProfileFrame = new UserProfileFrame();
+    UserProfileFrame* userProfileFrame = new UserProfileFrame(m_UserData);
     vLayout->addWidget(userProfileFrame);
     QSpacerItem* spacer = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
     vLayout->addItem(spacer);
@@ -25,5 +25,6 @@ MainAccountWidget::MainAccountWidget(QSettings* settings, UserData* userData, QN
     setLayout(cLayout);
     
     connect(loginRegisterForm, &LoginRegisterForm::noRobotRegistration, this, &MainAccountWidget::noRobotRegistration);
+    connect(loginRegisterForm, &LoginRegisterForm::loginCompleted, userProfileFrame, &UserProfileFrame::loginCompleted);
     
 }

@@ -9,6 +9,13 @@ struct UserData {
     QString m_UserName;
     QString m_UserPassword;
     QByteArray m_AuthToken;
+    
+public:
+    void reset() {
+        m_AuthToken = QByteArray();
+        m_UserName = QString();
+        m_UserPassword = QString();
+    }
 };
 
 #endif

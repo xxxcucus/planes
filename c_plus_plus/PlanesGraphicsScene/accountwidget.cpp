@@ -11,6 +11,7 @@ AccountWidget::AccountWidget(QSettings* settings, UserData* userData, QNetworkAc
     
     connect(m_MainAccountWidget, &MainAccountWidget::noRobotRegistration, this, &AccountWidget::noRobotRegistrationSlot);
     connect(m_NoRobotWidget, &NoRobotWidget::registrationComplete, this, &AccountWidget::registrationComplete);
+    connect(m_NoRobotWidget, &NoRobotWidget::registrationFailed, this, &AccountWidget::registrationComplete);
 }
 
 void AccountWidget::noRobotRegistrationSlot(const std::vector<QString>& images, const QJsonObject& registrationReplyJson) {

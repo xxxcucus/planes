@@ -41,9 +41,11 @@ NoRobotWidget::NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* s
     
     qDebug() << "Current dir " << QDir::currentPath();
     QDir dog_dir = QDir::current();
+    dog_dir.cd("img");
     dog_dir.cd("dog_photos_scaled");
     qDebug() << "Dogs " << dog_dir.absolutePath();
     QDir cat_dir = QDir::current();
+    cat_dir.cd("img");
     cat_dir.cd("cat_photos_scaled");
     qDebug() << "Cats " << cat_dir.absolutePath();
     
@@ -170,24 +172,39 @@ void NoRobotWidget::setRequestId(const QString& id)
 
 void NoRobotWidget::errorRegister(QNetworkReply::NetworkError code)
 {
-    QMessageBox msgBox;
-    msgBox.setText("Error when performing robot validation " + QString::number(code)); //TODO: show error string
-    msgBox.exec();
-    //TODO: switch to login window
+    CommunicationTools::treatCommunicationError("registering ", m_RegistrationReply);
+    emit registrationFailed();
+    
 }
 
 void NoRobotWidget::finishedRegister()
 {
+    if (m_RegistrationReply->error() != QNetworkReply::NoError) {
+        return;
+    }
+    
     QByteArray reply = m_RegistrationReply->readAll();
     QString registrationReplyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
     QJsonObject registrationReplyJson = CommunicationTools::objectFromString(registrationReplyQString);
-        
+    
+    if (!validateRegistrationReply(registrationReplyJson)) {
+        QMessageBox msgBox;
+        msgBox.setText("Registration reply was not recognized"); 
+        msgBox.exec();
+        return;
+    }
+            
+    QString username = registrationReplyJson.value("username").toString();
     QMessageBox msgBox;
-    msgBox.setText("User created " + registrationReplyJson.value("username").toString()); //TODO: show error string
+    msgBox.setText("User " + username + " created "); 
     msgBox.exec();
 
-    m_UserData->m_UserName = registrationReplyJson.value("username").toString(); //TODO: save token
+    m_UserData->m_UserName = username;
     emit registrationComplete();
+}
+
+bool NoRobotWidget::validateRegistrationReply(const QJsonObject& reply) {
+    return (reply.contains("id") && reply.contains("username") && reply.contains("createdAt") && reply.contains("status"));
 }
 
 void NoRobotWidget::resizeEvent(QResizeEvent* event)

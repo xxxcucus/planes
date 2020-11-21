@@ -30,9 +30,12 @@ private slots:
 
 signals:
     void registrationComplete();
+    void registrationFailed();
     
 private:
     void displayAndScaleImages();
+    bool validateRegistrationReply(const QJsonObject& registrationReply);    
+    
     
 private:
     std::vector<ClickableLabel*> m_Labels;
