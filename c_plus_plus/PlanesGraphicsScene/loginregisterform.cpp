@@ -9,8 +9,8 @@
 #include "logindata.h"
 #include "communicationtools.h"
 
-LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, UserData* userData, QWidget* parent) 
-        : QWidget(parent), m_Login(login), m_NetworkManager(networkManager), m_Settings(settings), m_UserData(userData) {
+LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, UserData* userData, GameInfo* gameInfo, QWidget* parent) 
+        : QWidget(parent), m_Login(login), m_NetworkManager(networkManager), m_Settings(settings), m_UserData(userData), m_GameInfo(gameInfo) {
     
     m_passwordLineEdit = new QLineEdit();
     m_usernameLineEdit = new QLineEdit();
@@ -103,12 +103,17 @@ void LoginRegisterForm::submitLogin()
 
 void LoginRegisterForm::errorLogin(QNetworkReply::NetworkError code)
 {
+    if (m_GameInfo->getSinglePlayer())
+        return;
     CommunicationTools::treatCommunicationError("logging in ", m_LoginReply);
     m_UserData->reset();
 }
 
 void LoginRegisterForm::finishedLogin()
 {
+    if (m_GameInfo->getSinglePlayer())
+        return;
+
     if (m_LoginReply->error() != QNetworkReply::NoError) {
         return;
     }
@@ -158,11 +163,17 @@ void LoginRegisterForm::submitRegistration()
 
 void LoginRegisterForm::errorRegister(QNetworkReply::NetworkError code)
 {
+    if (m_GameInfo->getSinglePlayer())
+        return;
+
     CommunicationTools::treatCommunicationError("registering ", m_RegistrationReply);
 }
 
 void LoginRegisterForm::finishedRegister()
 {
+    if (m_GameInfo->getSinglePlayer())
+        return;
+
     if (m_RegistrationReply->error() != QNetworkReply::NoError) {
         return;
     }

@@ -6,6 +6,7 @@
 #include "planesgsview.h"
 #include "planeround.h"
 #include "userdata.h"
+#include "gameinfo.h"
 
 class PlanesGSWindow : public QMainWindow
 {
@@ -26,6 +27,7 @@ private:
     //User data for the multiplayer game
     UserData* m_UserData;
     QNetworkAccessManager* m_NetworkManager;
+    GameInfo* m_GameInfo;
 };
 
 #endif // PLANESGSWINDOW_H

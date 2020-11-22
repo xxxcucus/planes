@@ -7,8 +7,9 @@ PlanesGSWindow::PlanesGSWindow(QWidget *parent) : QMainWindow(parent)
 
     m_UserData = new UserData();    
     m_NetworkManager = new QNetworkAccessManager(this);
+    m_GameInfo = new GameInfo();
     
     //builds the view object
-    mPlanesView = new PlanesGSView(mRound, m_UserData, m_NetworkManager);
+    mPlanesView = new PlanesGSView(mRound, m_UserData, m_NetworkManager, m_GameInfo);
     setCentralWidget(mPlanesView);
 }

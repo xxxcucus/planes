@@ -11,12 +11,13 @@
 #include <QJsonObject>
 
 #include "userdata.h"
+#include "gameinfo.h"
 
 class LoginRegisterForm : public QWidget
 {
     Q_OBJECT
 public:
-    explicit LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, UserData* userData, QWidget *parent = nullptr);
+    explicit LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, UserData* userData, GameInfo* gameInfo, QWidget *parent = nullptr);
 
 signals:
     void noRobotRegistration(const std::vector<QString>& images, const QJsonObject& request);
@@ -45,6 +46,7 @@ private:
     QNetworkAccessManager* m_NetworkManager;
     QSettings* m_Settings;
     UserData* m_UserData;
+    GameInfo* m_GameInfo;
     
     QNetworkReply* m_LoginReply = nullptr;
     QNetworkReply* m_RegistrationReply = nullptr;

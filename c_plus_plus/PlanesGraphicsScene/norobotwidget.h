@@ -9,12 +9,13 @@
 #include <QNetworkReply>
 #include "clickablelabel.h"
 #include "userdata.h"
+#include "gameinfo.h"
 
 class NoRobotWidget: public QWidget {
     Q_OBJECT
 
 public:
-    NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* settings, UserData* userData, QWidget* parent = nullptr);
+    NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* settings, UserData* userData, GameInfo* gameInfo, QWidget* parent = nullptr);
     
     void setImages(const std::vector<QString>& images);
     void setQuestion(const QString& category);
@@ -50,6 +51,7 @@ private:
     QNetworkAccessManager* m_NetworkManager;
     QSettings* m_Settings;
     UserData* m_UserData;
+    GameInfo* m_GameInfo;
     
     QNetworkReply* m_RegistrationReply = nullptr;
 };

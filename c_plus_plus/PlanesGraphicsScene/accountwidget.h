@@ -9,13 +9,14 @@
 #include "mainaccountwidget.h"
 #include "norobotwidget.h"
 #include "userdata.h"
+#include "gameinfo.h"
 
 
 class AccountWidget : public QStackedWidget {
     Q_OBJECT
     
 public:
-    AccountWidget(QSettings* settings, UserData* userData, QNetworkAccessManager* networkManager, QWidget* parent = nullptr);
+    AccountWidget(QSettings* settings, UserData* userData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent = nullptr);
 
     
 private slots:
@@ -28,6 +29,7 @@ private:
     UserData* m_UserData;
     QNetworkAccessManager* m_NetworkManager;
     QSettings* m_Settings;
+    GameInfo* m_GameInfo;
 };
 
 #endif

@@ -9,13 +9,14 @@
 #include "planegrid.h"
 #include "planeround.h"
 #include "userdata.h"
+#include "gameinfo.h"
 
 
 class PlanesGSView : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PlanesGSView(PlaneRound *rd, UserData* userData, QNetworkAccessManager* networkManager, QWidget *parent = 0);
+    explicit PlanesGSView(PlaneRound *rd, UserData* userData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget *parent = 0);
 
 signals:
 
@@ -44,6 +45,7 @@ private:
     
     UserData* m_UserData;
     QNetworkAccessManager* m_NetworkManager;
+    GameInfo* m_GameInfo;
 };
 
 #endif // PLANESGSVIEW_H

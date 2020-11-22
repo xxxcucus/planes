@@ -5,7 +5,7 @@
 #include <QHBoxLayout>
 
 
-OptionsWindow::OptionsWindow(PlaneRound* pr, QSettings* settings, QWidget* parent) : QWidget(parent), m_PlaneRound(pr), m_Settings(settings) {
+OptionsWindow::OptionsWindow(PlaneRound* pr,  QSettings* settings, GameInfo* gameInfo, QWidget* parent) : QWidget(parent), m_PlaneRound(pr), m_Settings(settings), m_GameInfo(gameInfo) {
 
 	QHBoxLayout* hlayout = new QHBoxLayout();
 	GameDifficultyOptions* gameDifficulty = new GameDifficultyOptions(m_PlaneRound, m_Settings);

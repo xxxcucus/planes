@@ -9,8 +9,8 @@
 #include "norobotdata.h"
 #include "communicationtools.h"
 
-NoRobotWidget::NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* settings, UserData* userData, QWidget* parent) 
-    : QWidget(parent), m_NetworkManager(networkManager), m_Settings(settings), m_UserData(userData) {
+NoRobotWidget::NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* settings, UserData* userData, GameInfo* gameInfo, QWidget* parent) 
+    : QWidget(parent), m_NetworkManager(networkManager), m_Settings(settings), m_UserData(userData), m_GameInfo(gameInfo) {
     QGridLayout* gridLayout = new QGridLayout();
     
     m_Labels = std::vector<ClickableLabel*>(m_ImagesCount);
@@ -172,13 +172,18 @@ void NoRobotWidget::setRequestId(const QString& id)
 
 void NoRobotWidget::errorRegister(QNetworkReply::NetworkError code)
 {
+    if (m_GameInfo->getSinglePlayer())
+        return;
+
     CommunicationTools::treatCommunicationError("registering ", m_RegistrationReply);
-    emit registrationFailed();
-    
+    emit registrationFailed();    
 }
 
 void NoRobotWidget::finishedRegister()
 {
+    if (m_GameInfo->getSinglePlayer())
+        return;
+
     if (m_RegistrationReply->error() != QNetworkReply::NoError) {
         return;
     }

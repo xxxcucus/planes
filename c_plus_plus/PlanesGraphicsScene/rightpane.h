@@ -8,12 +8,13 @@
 #include "computerboard.h"
 #include "planeround.h"
 #include "userdata.h"
+#include "gameinfo.h"
 
 class RightPane : public QTabWidget
 {
     Q_OBJECT
 public:
-    explicit RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound *pr, UserData* userData, QNetworkAccessManager* networkManager, QWidget* parent = nullptr);
+    explicit RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound *pr, UserData* userData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent = nullptr);
     ~RightPane();
 
     void setMinWidth();
@@ -57,6 +58,11 @@ private:
 	QSettings* m_Settings; //TODO: to move planesgswindow
     UserData* m_UserData;
     QNetworkAccessManager* m_NetworkManager;
+    GameInfo* m_GameInfo;
+    
+    int m_OwnBoardIndex = 0;
+    int m_OpponentBoardIndex = 0;
+    int m_AccountWidgetIndex = 0;
 private:
     void defineHelpWindow(QWidget* w); //TODO: is this still used ?
 };

@@ -6,12 +6,13 @@
 #include "gamestatsframe.h"
 #include "scoreframe.h"
 #include "gamestatistics.h"
+#include "gameinfo.h"
 
 class LeftPane : public QTabWidget
 {
     Q_OBJECT
 public:
-    explicit LeftPane(QWidget *parent = 0);
+    explicit LeftPane(GameInfo* gameInfo, QWidget *parent = 0);
 
     void activateGameTab();
     void activateEditorTab();
@@ -80,6 +81,8 @@ private:
     QPushButton* m_doneButton;
 
     ScoreFrame* m_ScoreFrame;
+    
+    GameInfo* m_GameInfo;
 };
 
 #endif // PLANESGSLEFTPANE_H

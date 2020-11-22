@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QSpacerItem>
 
-LeftPane::LeftPane(QWidget *parent) : QTabWidget(parent)
+LeftPane::LeftPane(GameInfo* gameInfo, QWidget *parent) : QTabWidget(parent), m_GameInfo(gameInfo)
 {
     m_PlayerStatsFrame = new GameStatsFrame("Player");
     m_ComputerStatsFrame = new GameStatsFrame("Computer");

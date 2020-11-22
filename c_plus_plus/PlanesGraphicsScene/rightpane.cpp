@@ -9,7 +9,7 @@
 #include "accountwidget.h"
 #include "planeround.h"
 
-RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, UserData* userData, QNetworkAccessManager* networkManager, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_UserData(userData), m_NetworkManager(networkManager)
+RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, UserData* userData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_UserData(userData), m_NetworkManager(networkManager), m_GameInfo(gameInfo)
 {
     QWidget* helpWidget = new QWidget();
     QHBoxLayout* layout = new QHBoxLayout();
@@ -26,13 +26,15 @@ RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, UserDat
     m_ComputerBoard = new ComputerBoard(*cGrid);
 	m_Settings = new QSettings("Cristian Cucu", "Planes");
 
-	OptionsWindow* optionsWindow = new OptionsWindow(m_PlaneRound, m_Settings);
-    AccountWidget* accountWidget = new AccountWidget(m_Settings, m_UserData, m_NetworkManager);
+	OptionsWindow* optionsWindow = new OptionsWindow(m_PlaneRound, m_Settings, m_GameInfo);
+    AccountWidget* accountWidget = new AccountWidget(m_Settings, m_UserData, m_NetworkManager, m_GameInfo);
 
-    addTab(m_PlayerBoard->getView(), "Player Board");
-    addTab(m_ComputerBoard->getView(), "Computer Board");
+    m_OwnBoardIndex = addTab(m_PlayerBoard->getView(), "Player Board");
+    m_OpponentBoardIndex = addTab(m_ComputerBoard->getView(), "Computer Board");
 	addTab(optionsWindow, "Options");
-    addTab(accountWidget, "Account");
+    m_AccountWidgetIndex = addTab(accountWidget, "Account");
+    if (m_GameInfo->getSinglePlayer())
+        setTabEnabled(m_AccountWidgetIndex, false);
     addTab(helpWidget, "Help");
 
     connect(m_PlayerBoard, SIGNAL(planePositionNotValid(bool)), this, SIGNAL(planePositionNotValid(bool)));
@@ -95,7 +97,7 @@ void RightPane::rightPlaneClicked(bool val)
 
 void RightPane::doneClicked()
 {
-    setCurrentIndex(1);
+    setCurrentIndex(m_OpponentBoardIndex);
     m_PlayerBoard->setGameStage(GenericBoard::GameStages::Game);
     m_PlayerBoard->setSelectedPlaneIndex(-1);
     m_ComputerBoard->setGameStage(GenericBoard::GameStages::Game);
@@ -107,7 +109,7 @@ void RightPane::endRound(bool isPlayerWinner, bool isDraw) {
 }
 
 void RightPane::startNewGame() {
-    setCurrentIndex(0);
+    setCurrentIndex(m_OwnBoardIndex);
 }
 
 void RightPane::setMinWidth()

@@ -70,6 +70,7 @@ set(GS_HEADR
 	norobotdata.h
 	communicationtools.h
 	gamedifficultyoptions.h
+	gameinfo.h
 )
 
 add_executable(PlanesGraphicsScene 
