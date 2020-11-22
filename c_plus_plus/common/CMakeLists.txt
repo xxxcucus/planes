@@ -33,7 +33,8 @@ set(COMMON_HEADR
 	vectoriterator.h
 	planeorientationdata.h
 	planeroundoptions.h
-	headdata.h)
+	headdata.h
+	playerguessreaction.h)
 
 set(COMMON_SRCS 	
 	plane.cpp

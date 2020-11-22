@@ -6,23 +6,8 @@
 #include "gamestatistics.h"
 #include "guesspoint.h"
 #include "planeroundoptions.h"
+#include "playerguessreaction.h"
 
-
-struct PlayerGuessReaction {
-	//victory for computer or player
-	bool m_RoundEnds = false;
-	//who won
-	bool m_isPlayerWinner = false;
-	//is draw
-	bool m_isDraw = false;
-	//if no victory then a computer move is generated
-	bool m_ComputerMoveGenerated = false;
-	//which computer move was generated 
-	GuessPoint m_ComputerGuess;
-	GameStatistics m_GameStats;
-
-	PlayerGuessReaction() : m_ComputerGuess(0, 0) { }
-};
 
 class PlaneRound {
 public:
