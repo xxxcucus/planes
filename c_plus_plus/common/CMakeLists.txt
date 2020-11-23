@@ -26,6 +26,7 @@ set(COMMON_HEADR
 	plane.h
 	planegrid.h
 	planeround.h
+	abstractplaneround.h
 	computerlogic.h
 	guesspoint.h
 	planeiterators.h
@@ -40,6 +41,7 @@ set(COMMON_SRCS
 	plane.cpp
 	planegrid.cpp
 	planeround.cpp
+	abstractplaneround.cpp
     computerlogic.cpp
 	guesspoint.cpp
 	planeiterators.cpp
