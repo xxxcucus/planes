@@ -4,7 +4,7 @@
 class GameInfo {
 
 private:
-    bool m_IsSinglePlayer = true;
+    bool m_IsSinglePlayer = false;
     
 public:
     GameInfo() {}
