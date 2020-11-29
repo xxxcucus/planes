@@ -356,8 +356,10 @@ public class PlanesAndroidActivity extends AppCompatActivity {
             Bundle extras = returnIntent.getExtras();
             if (extras != null)
             {
-                m_PreferencesService.setComputerSkill(extras.getInt("gamedifficulty/computerskill"));
-                m_PreferencesService.setShowPlaneAfterKill(extras.getBoolean("gamedifficulty/showkilledplane"));
+                int skill = extras.getInt("gamedifficulty/computerskill");
+                boolean show = extras.getBoolean("gamedifficulty/showkilledplane");
+                m_PreferencesService.setComputerSkill(skill);
+                m_PreferencesService.setShowPlaneAfterKill(show);
             }
         }
 
