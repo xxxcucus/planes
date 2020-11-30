@@ -6,8 +6,8 @@ android {
         applicationId "com.planes.android"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 15
-        versionName "0.3.10.1"
+        versionCode 16
+        versionName "0.3.11"
     }
     buildTypes {
         release {
