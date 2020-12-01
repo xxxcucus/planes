@@ -8,6 +8,7 @@
 #include "optionswindow.h"
 #include "accountwidget.h"
 #include "planeround.h"
+#include "gamewidget.h"
 
 RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, UserData* userData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_UserData(userData), m_NetworkManager(networkManager), m_GameInfo(gameInfo)
 {
@@ -28,11 +29,13 @@ RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, UserDat
 
 	OptionsWindow* optionsWindow = new OptionsWindow(m_PlaneRound, m_Settings, m_GameInfo);
     AccountWidget* accountWidget = new AccountWidget(m_Settings, m_UserData, m_NetworkManager, m_GameInfo);
+    GameWidget* gameWidget = new GameWidget(m_GameInfo);
 
     m_OwnBoardIndex = addTab(m_PlayerBoard->getView(), "Player Board");
     m_OpponentBoardIndex = addTab(m_ComputerBoard->getView(), "Computer Board");
 	addTab(optionsWindow, "Options");
     m_AccountWidgetIndex = addTab(accountWidget, "Account");
+    m_GameWidgetIndex = addTab(gameWidget, "Game");
     if (m_GameInfo->getSinglePlayer())
         setTabEnabled(m_AccountWidgetIndex, false);
     addTab(helpWidget, "Help");

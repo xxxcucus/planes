@@ -31,6 +31,10 @@ set(GS_SRCS
 	rightpane.cpp
 	scoreframe.cpp
 	accountwidget.cpp
+	gamewidget.cpp
+	gameendwidget.cpp
+	gamestatuswidget.cpp
+	creategamewidget.cpp
 	loginregisterform.cpp
 	mainaccountwidget.cpp
 	norobotwidget.cpp
@@ -59,6 +63,10 @@ set(GS_HEADR
 	rightpane.h
 	scoreframe.h
 	accountwidget.h
+	gamewidget.h
+	gameendwidget.h
+	gamestatuswidget.h
+	creategamewidget.h
 	loginregisterform.h
 	mainaccountwidget.h
 	norobotwidget.h

@@ -13,7 +13,7 @@ class GameStatsFrame : public QFrame
     Q_OBJECT
 
 public:
-    explicit GameStatsFrame(const QString& title, QWidget* parent = nullptr);
+    GameStatsFrame(const QString& title, QWidget* parent = nullptr);
     void updateDisplayedValues(int moves, int misses, int hits, int kills);
 
 public:
