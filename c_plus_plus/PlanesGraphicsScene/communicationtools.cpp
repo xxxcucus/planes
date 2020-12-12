@@ -45,8 +45,8 @@ QJsonObject CommunicationTools::objectFromString(const QString& in)
 void CommunicationTools::treatCommunicationError(const QString& actionName, QNetworkReply* reply) {
     QByteArray replyBA = reply->readAll();
     QString registrationReplyQString = QTextCodec::codecForMib(106)->toUnicode(replyBA);
-
+    
     QMessageBox msgBox;
-    msgBox.setText("Error when logging  in: " + reply->errorString() + "\n" +  registrationReplyQString); 
+    msgBox.setText("Error when " + actionName + " " + reply->errorString() + "\n" +  registrationReplyQString); 
     msgBox.exec();
 }

@@ -86,15 +86,14 @@ void LoginRegisterForm::submitSlot()
 void LoginRegisterForm::submitLogin()
 {   
     LoginData loginData;
-    loginData.m_Password = m_passwordLineEdit->displayText(); //TODO: validation
+    loginData.m_Password = m_passwordLineEdit->text(); //TODO: validation
     loginData.m_UserName = m_usernameLineEdit->displayText(); //TODO: validation
 
     if (m_LoginReply != nullptr)
         delete m_LoginReply;
 
     m_UserData->reset();
-    m_UserData->m_UserName = loginData.m_UserName;
-    m_UserData->m_UserPassword = loginData.m_Password;
+    m_UserBeingLoggedIn = loginData.m_UserName;
     m_LoginReply = CommunicationTools::buildPostRequest("/login", m_Settings->value("multiplayer/serverpath").toString(), loginData.toLoginJson(), m_NetworkManager);
 
     connect(m_LoginReply, &QNetworkReply::finished, this, &LoginRegisterForm::finishedLogin);
@@ -137,6 +136,7 @@ void LoginRegisterForm::finishedLogin()
         QMessageBox msgBox;
         msgBox.setText("Login successfull!"); 
         msgBox.exec();               
+        m_UserData->m_UserName = m_UserBeingLoggedIn;
         emit loginCompleted();
     } else {
         QMessageBox msgBox;
