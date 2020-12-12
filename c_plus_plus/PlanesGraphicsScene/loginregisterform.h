@@ -47,6 +47,7 @@ private:
     QSettings* m_Settings;
     UserData* m_UserData;
     GameInfo* m_GameInfo;
+    QString m_UserBeingLoggedIn;
     
     QNetworkReply* m_LoginReply = nullptr;
     QNetworkReply* m_RegistrationReply = nullptr;
