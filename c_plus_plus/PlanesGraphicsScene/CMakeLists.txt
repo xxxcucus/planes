@@ -75,6 +75,7 @@ set(GS_HEADR
 	optionswindow.h
 	userdata.h
 	logindata.h
+	gamedata.h
 	norobotdata.h
 	communicationtools.h
 	gamedifficultyoptions.h

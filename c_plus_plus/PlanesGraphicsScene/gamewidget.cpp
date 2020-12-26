@@ -8,21 +8,22 @@
 #include "creategamewidget.h"
 #include "gameendwidget.h"
 
-GameWidget::GameWidget(GameInfo* gameInfo, QWidget* parent) : QWidget(parent), m_GameInfo(gameInfo) {
+GameWidget::GameWidget(UserData* userData, GameInfo* gameInfo, QNetworkAccessManager* networkManager, QSettings* settings, QWidget* parent)
+    : QWidget(parent), m_UserData(userData), m_GameInfo(gameInfo), m_NetworkManager(networkManager), m_Settings(settings) {
 
     CustomHorizLayout* cLayout = new CustomHorizLayout(50);
     
     QWidget* leftPane = new QWidget();
     QVBoxLayout* vLayout = new QVBoxLayout();
-    GameStatusWidget* userProfileFrame = new GameStatusWidget();
-    vLayout->addWidget(userProfileFrame);
+    GameStatusWidget* gameStatusWidget = new GameStatusWidget();
+    vLayout->addWidget(gameStatusWidget);
     QSpacerItem* spacer = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
     vLayout->addItem(spacer);
     leftPane->setLayout(vLayout);
     
     QWidget* rightContent = new QWidget();
     QVBoxLayout* vLayout1 = new QVBoxLayout();
-    CreateGameWidget* createGameWidget = new CreateGameWidget();
+    CreateGameWidget* createGameWidget = new CreateGameWidget(m_UserData, m_GameInfo, m_NetworkManager, m_Settings);
     GameEndWidget* gameEndWidget = new GameEndWidget();
     QSpacerItem* spacer1 = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
     vLayout1->addWidget(createGameWidget);
@@ -40,5 +41,7 @@ GameWidget::GameWidget(GameInfo* gameInfo, QWidget* parent) : QWidget(parent), m
     cLayout->addWidget(leftPane);
     cLayout->addWidget(rightPane);
     setLayout(cLayout);
-    
+
+    connect(createGameWidget, &CreateGameWidget::gameCreated, gameStatusWidget, &GameStatusWidget::gameCreatedSlot);
+        
 }

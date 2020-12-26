@@ -29,7 +29,7 @@ RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, UserDat
 
 	OptionsWindow* optionsWindow = new OptionsWindow(m_PlaneRound, m_Settings, m_GameInfo);
     AccountWidget* accountWidget = new AccountWidget(m_Settings, m_UserData, m_NetworkManager, m_GameInfo);
-    GameWidget* gameWidget = new GameWidget(m_GameInfo);
+    GameWidget* gameWidget = new GameWidget(m_UserData, m_GameInfo, m_NetworkManager, m_Settings);
 
     m_OwnBoardIndex = addTab(m_PlayerBoard->getView(), "Player Board");
     m_OpponentBoardIndex = addTab(m_ComputerBoard->getView(), "Computer Board");

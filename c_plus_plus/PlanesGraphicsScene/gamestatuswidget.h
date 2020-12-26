@@ -13,6 +13,9 @@ public:
     explicit GameStatusWidget(QWidget* parent = nullptr);
     //void updateDisplayedValues(int moves, int misses, int hits, int kills); TODO
 
+public slots:
+    void gameCreatedSlot(const QString& gameName, const QString& username);
+    
 public:
     QLabel* m_GameName;
     QLabel* m_FirstPlayerName;

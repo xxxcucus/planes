@@ -33,3 +33,9 @@ GameStatusWidget::GameStatusWidget(QWidget* parent) : QFrame(parent)
     setLayout(gridLayout);
     setFrameStyle(QFrame::Panel | QFrame::Raised);
 }
+
+void GameStatusWidget::gameCreatedSlot(const QString& gameName, const QString& username)
+{
+    m_GameName->setText(gameName);
+    m_FirstPlayerName->setText(username);
+}
