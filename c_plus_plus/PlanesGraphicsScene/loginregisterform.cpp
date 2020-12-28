@@ -148,7 +148,7 @@ void LoginRegisterForm::finishedLogin()
 void LoginRegisterForm::submitRegistration()
 {
     LoginData loginData;
-    loginData.m_Password = m_passwordLineEdit->displayText(); //TODO: validation
+    loginData.m_Password = m_passwordLineEdit->text(); //TODO: validation
     loginData.m_UserName = m_usernameLineEdit->displayText(); //TODO: validation
 
     if (m_RegistrationReply != nullptr)

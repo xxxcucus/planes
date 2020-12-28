@@ -43,5 +43,5 @@ GameWidget::GameWidget(UserData* userData, GameInfo* gameInfo, QNetworkAccessMan
     setLayout(cLayout);
 
     connect(createGameWidget, &CreateGameWidget::gameCreated, gameStatusWidget, &GameStatusWidget::gameCreatedSlot);
-        
+    connect(createGameWidget, &CreateGameWidget::gameConnectedTo, gameStatusWidget, &GameStatusWidget::gameConnectedToSlot);        
 }

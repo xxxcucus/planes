@@ -24,9 +24,13 @@ public slots:
     void connectToGameSlot();
     void errorCreateGame(QNetworkReply::NetworkError code);
     void finishedCreateGame();    
+    void errorConnectToGame(QNetworkReply::NetworkError code);
+    void finishedConnectToGame();    
+
     
 signals:
     void gameCreated(const QString& gameName, const QString& username);
+    void gameConnectedTo(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName);
 
 private:
     bool validateCreateGameReply(const QJsonObject& reply);

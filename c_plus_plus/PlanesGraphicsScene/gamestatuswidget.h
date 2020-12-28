@@ -15,6 +15,7 @@ public:
 
 public slots:
     void gameCreatedSlot(const QString& gameName, const QString& username);
+    void gameConnectedToSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName);
     
 public:
     QLabel* m_GameName;

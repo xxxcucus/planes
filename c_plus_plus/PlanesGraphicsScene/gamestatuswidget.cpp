@@ -1,6 +1,7 @@
 #include "gamestatuswidget.h"
 
 #include <QGridLayout>
+#include <QDebug>
 
 GameStatusWidget::GameStatusWidget(QWidget* parent) : QFrame(parent)
 {
@@ -38,4 +39,12 @@ void GameStatusWidget::gameCreatedSlot(const QString& gameName, const QString& u
 {
     m_GameName->setText(gameName);
     m_FirstPlayerName->setText(username);
+}
+
+void GameStatusWidget::gameConnectedToSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName) 
+{
+    qDebug() << gameName << " - " << firstPlayerName << "-" << secondPlayerName;
+    m_GameName->setText(gameName);
+    m_FirstPlayerName->setText(firstPlayerName);
+    m_SecondPlayerName->setText(secondPlayerName);
 }

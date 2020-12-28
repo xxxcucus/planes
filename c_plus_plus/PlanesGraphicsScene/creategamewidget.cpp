@@ -64,6 +64,28 @@ void CreateGameWidget::createGameSlot() {
 }
 
 void CreateGameWidget::connectToGameSlot() {
+    if (m_UserData->m_UserName.isEmpty()) {
+        QMessageBox msgBox;
+        msgBox.setText("No user logged in"); 
+        msgBox.exec();
+        return;
+    }
+
+        
+    GameData gameData;
+    gameData.m_GameName = m_GameName->text(); //TODO: validation
+    gameData.m_Username = m_UserData->m_UserName; //TODO: validation and trim
+    gameData.m_UserId = 0; 
+
+    if (m_ConnectToGameReply != nullptr)
+        delete m_ConnectToGameReply;
+    
+    m_UserData->m_GameId = 0;
+  
+    m_ConnectToGameReply = CommunicationTools::buildPostRequestWithAuth("/game/connect", m_Settings->value("multiplayer/serverpath").toString(), gameData.toJson(), m_UserData->m_AuthToken, m_NetworkManager);
+
+    connect(m_ConnectToGameReply, &QNetworkReply::finished, this, &CreateGameWidget::finishedConnectToGame);
+    connect(m_ConnectToGameReply, &QNetworkReply::errorOccurred, this, &CreateGameWidget::errorConnectToGame);
     
 }
 
@@ -102,6 +124,44 @@ void CreateGameWidget::finishedCreateGame()
     m_UserData->m_GameId = (long int)createGameReplyJson.value("id").toDouble();
     emit gameCreated(m_GameName->text(), m_UserData->m_UserName);
 }
+
+void CreateGameWidget::errorConnectToGame(QNetworkReply::NetworkError code)
+{
+    if (m_GameInfo->getSinglePlayer())
+        return;
+
+    CommunicationTools::treatCommunicationError("connecting to game ", m_ConnectToGameReply);
+}
+
+void CreateGameWidget::finishedConnectToGame()
+{
+    if (m_GameInfo->getSinglePlayer())
+        return;
+
+    if (m_ConnectToGameReply->error() != QNetworkReply::NoError) {
+        return;
+    }
+    
+    QByteArray reply = m_ConnectToGameReply->readAll();
+    QString connectToGameReplyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
+    QJsonObject connectToGameReplyJson = CommunicationTools::objectFromString(connectToGameReplyQString);
+    
+    if (!validateCreateGameReply(connectToGameReplyJson)) {
+        QMessageBox msgBox;
+        msgBox.setText("Connect to game reply was not recognized"); 
+        msgBox.exec();
+
+        return;
+    }
+    
+    QMessageBox msgBox;
+    msgBox.setText("Connection to game successfull!"); 
+    msgBox.exec();               
+    m_UserData->m_GameId = (long int)connectToGameReplyJson.value("id").toDouble();
+    QString firstPlayerName = connectToGameReplyJson.value("firstPlayerName").toString();
+    emit gameConnectedTo(m_GameName->text(), firstPlayerName, m_UserData->m_UserName);
+}
+
 
 bool CreateGameWidget::validateCreateGameReply(const QJsonObject& reply) {
     return (reply.contains("id") && reply.contains("firstPlayerName") && reply.contains("secondPlayerName") && reply.contains("gameName"));
