@@ -15,7 +15,7 @@ GameWidget::GameWidget(UserData* userData, GameInfo* gameInfo, QNetworkAccessMan
     
     QWidget* leftPane = new QWidget();
     QVBoxLayout* vLayout = new QVBoxLayout();
-    GameStatusWidget* gameStatusWidget = new GameStatusWidget();
+    GameStatusWidget* gameStatusWidget = new GameStatusWidget(m_UserData, m_Settings, m_NetworkManager, m_GameInfo);
     vLayout->addWidget(gameStatusWidget);
     QSpacerItem* spacer = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
     vLayout->addItem(spacer);
