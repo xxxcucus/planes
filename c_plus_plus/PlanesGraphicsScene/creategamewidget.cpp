@@ -159,12 +159,13 @@ void CreateGameWidget::finishedConnectToGame()
     msgBox.exec();               
     m_UserData->m_GameId = (long int)connectToGameReplyJson.value("id").toDouble();
     QString firstPlayerName = connectToGameReplyJson.value("firstPlayerName").toString();
-    emit gameConnectedTo(m_GameName->text(), firstPlayerName, m_UserData->m_UserName);
+    QString currentRoundId = connectToGameReplyJson.value("currentRoundId").toString();
+    emit gameConnectedTo(m_GameName->text(), firstPlayerName, m_UserData->m_UserName, currentRoundId);
 }
 
 
 bool CreateGameWidget::validateCreateGameReply(const QJsonObject& reply) {
-    return (reply.contains("id") && reply.contains("firstPlayerName") && reply.contains("secondPlayerName") && reply.contains("gameName"));
+    return (reply.contains("id") && reply.contains("firstPlayerName") && reply.contains("secondPlayerName") && reply.contains("gameName") && reply.contains("currentRoundId"));
 }
 
 

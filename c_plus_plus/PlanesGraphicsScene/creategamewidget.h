@@ -30,7 +30,7 @@ public slots:
     
 signals:
     void gameCreated(const QString& gameName, const QString& username);
-    void gameConnectedTo(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName);
+    void gameConnectedTo(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
 
 private:
     bool validateCreateGameReply(const QJsonObject& reply);

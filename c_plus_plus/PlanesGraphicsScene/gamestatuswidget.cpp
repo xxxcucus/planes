@@ -53,11 +53,12 @@ void GameStatusWidget::gameCreatedSlot(const QString& gameName, const QString& u
     m_FirstPlayerName->setText(username);
 }
 
-void GameStatusWidget::gameConnectedToSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName) 
+void GameStatusWidget::gameConnectedToSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId) 
 {
     m_GameName->setText(gameName);
     m_FirstPlayerName->setText(firstPlayerName);
     m_SecondPlayerName->setText(secondPlayerName);
+    m_RoundName->setText(currentRoundId);
 }
 
 void GameStatusWidget::refreshSlot()
@@ -112,10 +113,11 @@ void GameStatusWidget::finishedRefreshStatus()
     m_GameName->setText(refreshStatusReplyJson.value("gameName").toString());
     m_FirstPlayerName->setText(refreshStatusReplyJson.value("firstPlayerName").toString());
     m_SecondPlayerName->setText(refreshStatusReplyJson.value("secondPlayerName").toString());
+    m_RoundName->setText(QString::number(refreshStatusReplyJson.value("currentRoundId").toInt()));
 }
 
 bool GameStatusWidget::validateRefreshStatusReply(const QJsonObject& reply) {
-    return (reply.contains("id") && reply.contains("firstPlayerName") && reply.contains("secondPlayerName") && reply.contains("gameName"));
+    return (reply.contains("id") && reply.contains("firstPlayerName") && reply.contains("secondPlayerName") && reply.contains("gameName") && reply.contains("currentRoundId"));
 }
 
 

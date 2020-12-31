@@ -20,7 +20,7 @@ public:
 
 public slots:
     void gameCreatedSlot(const QString& gameName, const QString& username);
-    void gameConnectedToSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName);
+    void gameConnectedToSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
     void refreshSlot();
     void errorRefreshStatus(QNetworkReply::NetworkError code);
     void finishedRefreshStatus(); 
