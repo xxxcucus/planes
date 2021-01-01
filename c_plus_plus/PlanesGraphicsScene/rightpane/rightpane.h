@@ -4,8 +4,8 @@
 #include <QTabWidget>
 #include <QSettings>
 #include <QNetworkAccessManager>
-#include "playerboard.h"
-#include "computerboard.h"
+#include "boards/playerboard.h"
+#include "boards/computerboard.h"
 #include "planeround.h"
 #include "userdata.h"
 #include "gameinfo.h"

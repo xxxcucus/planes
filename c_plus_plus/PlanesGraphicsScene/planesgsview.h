@@ -4,8 +4,8 @@
 #include <QWidget>
 #include <QNetworkAccessManager>
 
-#include "leftpane.h"
-#include "rightpane.h"
+#include "leftpane/leftpane.h"
+#include "rightpane/rightpane.h"
 #include "planegrid.h"
 #include "planeround.h"
 #include "userdata.h"

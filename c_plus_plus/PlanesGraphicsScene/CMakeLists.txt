@@ -15,70 +15,70 @@ include_directories(
 #)
 
 set(GS_SRCS 	
-	animatedtextitem.cpp
-	computerboard.cpp
-	customgraphicsscene.cpp
-	customgraphicsview.cpp
-	customhorizlayout.cpp
-	gamestatsframe.cpp
-	genericboard.cpp
-	gridsquare.cpp
-	leftpane.cpp
-	planesgsview.cpp
-	planesgswindow.cpp
-	playareagridsquare.cpp
-	playerboard.cpp
-	rightpane.cpp
-	scoreframe.cpp
-	accountwidget.cpp
-	gamewidget.cpp
-	gameendwidget.cpp
-	gamestatuswidget.cpp
-	creategamewidget.cpp
-	loginregisterform.cpp
-	mainaccountwidget.cpp
-	norobotwidget.cpp
-	userprofileframe.cpp
-	clickablelabel.cpp
-	optionswindow.cpp
-	gamedifficultyoptions.cpp
+	leftpane/leftpane.cpp
+	leftpane/gamestatsframe.cpp
+	leftpane/scoreframe.cpp
+    rightpane/rightpane.cpp
+    rightpane/account/accountwidget.cpp
+    rightpane/account/clickablelabel.cpp
+    rightpane/account/loginregisterform.cpp
+    rightpane/account/mainaccountwidget.cpp
+    rightpane/account/norobotwidget.cpp
+    rightpane/account/userprofileframe.cpp
+    rightpane/boards/computerboard.cpp
+	rightpane/boards/customgraphicsscene.cpp
+	rightpane/boards/customgraphicsview.cpp
+	rightpane/boards/genericboard.cpp
+	rightpane/boards/gridsquare.cpp
+	rightpane/boards/playareagridsquare.cpp
+	rightpane/boards/playerboard.cpp
+	rightpane/game/gamewidget.cpp
+	rightpane/game/gameendwidget.cpp
+	rightpane/game/gamestatuswidget.cpp
+	rightpane/game/creategamewidget.cpp
+	rightpane/options/gamedifficultyoptions.cpp
+	rightpane/options/optionswindow.cpp
 	communicationtools.cpp
 	main.cpp
+    animatedtextitem.cpp
+    customhorizlayout.cpp
+	planesgsview.cpp
+	planesgswindow.cpp
 )
 
-set(GS_HEADR 	
-	animatedtextitem.h
-	computerboard.h
-	customgraphicsscene.h
-	customgraphicsview.h
+set(GS_HEADR
+	leftpane/leftpane.h
+	leftpane/gamestatsframe.h
+	leftpane/scoreframe.h
+    rightpane/rightpane.h
+    rightpane/account/accountwidget.h
+    rightpane/account/clickablelabel.h
+    rightpane/account/loginregisterform.h
+    rightpane/account/mainaccountwidget.h
+    rightpane/account/norobotwidget.h
+    rightpane/account/userprofileframe.h
+    rightpane/boards/computerboard.h
+	rightpane/boards/customgraphicsscene.h
+	rightpane/boards/customgraphicsview.h
+	rightpane/boards/genericboard.h
+	rightpane/boards/gridsquare.h
+	rightpane/boards/playareagridsquare.h
+	rightpane/boards/playerboard.h
+	rightpane/game/gamewidget.h
+	rightpane/game/gameendwidget.h
+	rightpane/game/gamestatuswidget.h
+	rightpane/game/creategamewidget.h
+	rightpane/options/gamedifficultyoptions.h
+	rightpane/options/optionswindow.h
 	customhorizlayout.h
-	gamestatsframe.h
-	genericboard.h
-	gridsquare.h
-	leftpane.h
+	animatedtextitem.h
 	planesgsview.h
-	planesgswindow.h
-	playareagridsquare.h
-	playerboard.h
-	rightpane.h
-	scoreframe.h
-	accountwidget.h
-	gamewidget.h
-	gameendwidget.h
-	gamestatuswidget.h
-	creategamewidget.h
-	loginregisterform.h
-	mainaccountwidget.h
-	norobotwidget.h
-	userprofileframe.h
-	clickablelabel.h
-	optionswindow.h
+	planesgswindow.h	
 	userdata.h
 	logindata.h
 	gamedata.h
 	norobotdata.h
 	communicationtools.h
-	gamedifficultyoptions.h
 	gameinfo.h
 )
 

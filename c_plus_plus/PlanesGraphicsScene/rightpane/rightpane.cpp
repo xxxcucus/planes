@@ -5,10 +5,10 @@
 #include <QTextEdit>
 #include <QFile>
 #include <QTextStream>
-#include "optionswindow.h"
-#include "accountwidget.h"
+#include "options/optionswindow.h"
+#include "account/accountwidget.h"
 #include "planeround.h"
-#include "gamewidget.h"
+#include "game/gamewidget.h"
 
 RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, UserData* userData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_UserData(userData), m_NetworkManager(networkManager), m_GameInfo(gameInfo)
 {
