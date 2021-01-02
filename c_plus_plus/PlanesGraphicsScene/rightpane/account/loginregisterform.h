@@ -10,14 +10,14 @@
 #include <QNetworkReply>
 #include <QJsonObject>
 
-#include "userdata.h"
+#include "global/globaldata.h"
 #include "gameinfo.h"
 
 class LoginRegisterForm : public QWidget
 {
     Q_OBJECT
 public:
-    explicit LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, UserData* userData, GameInfo* gameInfo, QWidget *parent = nullptr);
+    explicit LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, QWidget *parent = nullptr);
 
 signals:
     void noRobotRegistration(const std::vector<QString>& images, const QJsonObject& request);
@@ -45,7 +45,7 @@ private:
     QPushButton* m_ToggleLoginRegistrationButton = nullptr;
     QNetworkAccessManager* m_NetworkManager;
     QSettings* m_Settings;
-    UserData* m_UserData;
+    GlobalData* m_GlobalData;
     GameInfo* m_GameInfo;
     QString m_UserBeingLoggedIn;
     

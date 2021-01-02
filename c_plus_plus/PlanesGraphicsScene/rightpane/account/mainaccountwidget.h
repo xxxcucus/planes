@@ -5,7 +5,7 @@
 #include <QNetworkAccessManager>
 #include <QSettings>
 #include <QJsonObject>
-#include "userdata.h"
+#include "global/globaldata.h"
 #include "gameinfo.h"
 
 
@@ -14,13 +14,13 @@ class MainAccountWidget : public QWidget {
     
 public:    
 
-    MainAccountWidget(QSettings* settings, UserData* userData, QNetworkAccessManager* m_NetworkManager, GameInfo* gameInfo, QWidget* parent = nullptr);
+    MainAccountWidget(QSettings* settings, GlobalData* globalData, QNetworkAccessManager* m_NetworkManager, GameInfo* gameInfo, QWidget* parent = nullptr);
 
 signals:
     void noRobotRegistration(const std::vector<QString>& images, const QJsonObject& request);
     
 private:
-    UserData* m_UserData;
+    GlobalData* m_GlobalData;
     QNetworkAccessManager* m_NetworkManager;
     QSettings* m_Settings;
     GameInfo* m_GameInfo;

@@ -2,7 +2,7 @@
 #include <QGridLayout>
 
 
-UserProfileFrame::UserProfileFrame(UserData* userData, QWidget* parent): QFrame(parent), m_UserData(userData)
+UserProfileFrame::UserProfileFrame(GlobalData* globalData, QWidget* parent): QFrame(parent), m_GlobalData(globalData)
 {
     QString titleText = QString("<b> User Profile</b>");
     QLabel* titleLabel = new QLabel();
@@ -22,7 +22,7 @@ UserProfileFrame::UserProfileFrame(UserData* userData, QWidget* parent): QFrame(
 void UserProfileFrame::loginCompleted()
 {
     m_UserNotLoggedInLabel->setText("");
-    m_UserNameLabel->setText(m_UserData->m_UserName);
+    m_UserNameLabel->setText(m_GlobalData->m_UserData.m_UserName);
     m_UserNameTextLabel->setText("User name: ");
 }
 

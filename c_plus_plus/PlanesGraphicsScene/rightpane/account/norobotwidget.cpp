@@ -6,11 +6,11 @@
 #include <QFileInfoList>
 #include <QMessageBox>
 #include <QTextCodec>
-#include "norobotdata.h"
+#include "viewmodels/norobotviewmodel.h"
 #include "communicationtools.h"
 
-NoRobotWidget::NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* settings, UserData* userData, GameInfo* gameInfo, QWidget* parent) 
-    : QWidget(parent), m_NetworkManager(networkManager), m_Settings(settings), m_UserData(userData), m_GameInfo(gameInfo) {
+NoRobotWidget::NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, QWidget* parent) 
+    : QWidget(parent), m_NetworkManager(networkManager), m_Settings(settings), m_GlobalData(globalData), m_GameInfo(gameInfo) {
     QGridLayout* gridLayout = new QGridLayout();
     
     m_Labels = std::vector<ClickableLabel*>(m_ImagesCount);
@@ -144,7 +144,7 @@ void NoRobotWidget::imageClicked(int imageIndex)
 
 void NoRobotWidget::submitAnswer()
 {
-    NoRobotData requestData;
+    NoRobotViewModel requestData;
     requestData.m_requestId = m_RequestId;
     
     QString answer;
@@ -204,7 +204,7 @@ void NoRobotWidget::finishedRegister()
     msgBox.setText("User " + username + " created "); 
     msgBox.exec();
 
-    m_UserData->m_UserName = username;
+    m_GlobalData->m_UserData.m_UserName = username;
     emit registrationComplete();
 }
 

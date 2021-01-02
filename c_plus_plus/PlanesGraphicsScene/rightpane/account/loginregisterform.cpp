@@ -6,11 +6,11 @@
 #include <QMessageBox>
 #include <QTextCodec>
 #include <QDebug>
-#include "logindata.h"
+#include "viewmodels/loginviewmodel.h"
 #include "communicationtools.h"
 
-LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, UserData* userData, GameInfo* gameInfo, QWidget* parent) 
-        : QWidget(parent), m_Login(login), m_NetworkManager(networkManager), m_Settings(settings), m_UserData(userData), m_GameInfo(gameInfo) {
+LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, QWidget* parent) 
+        : QWidget(parent), m_Login(login), m_NetworkManager(networkManager), m_Settings(settings), m_GlobalData(globalData), m_GameInfo(gameInfo) {
     
     m_passwordLineEdit = new QLineEdit();
     m_usernameLineEdit = new QLineEdit();
@@ -85,14 +85,14 @@ void LoginRegisterForm::submitSlot()
 
 void LoginRegisterForm::submitLogin()
 {   
-    LoginData loginData;
+    LoginViewModel loginData;
     loginData.m_Password = m_passwordLineEdit->text(); //TODO: validation
     loginData.m_UserName = m_usernameLineEdit->displayText(); //TODO: validation
 
     if (m_LoginReply != nullptr)
         delete m_LoginReply;
 
-    m_UserData->reset();
+    m_GlobalData->reset();
     m_UserBeingLoggedIn = loginData.m_UserName;
     m_LoginReply = CommunicationTools::buildPostRequest("/login", m_Settings->value("multiplayer/serverpath").toString(), loginData.toLoginJson(), m_NetworkManager);
 
@@ -105,7 +105,7 @@ void LoginRegisterForm::errorLogin(QNetworkReply::NetworkError code)
     if (m_GameInfo->getSinglePlayer())
         return;
     CommunicationTools::treatCommunicationError("logging in ", m_LoginReply);
-    m_UserData->reset();
+    m_GlobalData->reset();
 }
 
 void LoginRegisterForm::finishedLogin()
@@ -126,7 +126,7 @@ void LoginRegisterForm::finishedLogin()
     for(QByteArray hdr : headers) {
         QString hdrQString = QTextCodec::codecForMib(106)->toUnicode(hdr);
         if (hdrQString == "Authorization") {
-            m_UserData->m_AuthToken = m_LoginReply->rawHeader(hdr);
+            m_GlobalData->m_UserData.m_AuthToken = m_LoginReply->rawHeader(hdr);
             qDebug() << hdrQString << ":" << m_LoginReply->rawHeader(hdr);
             successfull = true;
         }
@@ -136,7 +136,7 @@ void LoginRegisterForm::finishedLogin()
         QMessageBox msgBox;
         msgBox.setText("Login successfull!"); 
         msgBox.exec();               
-        m_UserData->m_UserName = m_UserBeingLoggedIn;
+        m_GlobalData->m_UserData.m_UserName = m_UserBeingLoggedIn;
         emit loginCompleted();
     } else {
         QMessageBox msgBox;
@@ -147,7 +147,7 @@ void LoginRegisterForm::finishedLogin()
 
 void LoginRegisterForm::submitRegistration()
 {
-    LoginData loginData;
+    LoginViewModel loginData;
     loginData.m_Password = m_passwordLineEdit->text(); //TODO: validation
     loginData.m_UserName = m_usernameLineEdit->displayText(); //TODO: validation
 

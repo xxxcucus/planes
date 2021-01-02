@@ -8,7 +8,7 @@
 #include <vector>
 #include "mainaccountwidget.h"
 #include "norobotwidget.h"
-#include "userdata.h"
+#include "global/globaldata.h"
 #include "gameinfo.h"
 
 
@@ -16,7 +16,7 @@ class AccountWidget : public QStackedWidget {
     Q_OBJECT
     
 public:
-    AccountWidget(QSettings* settings, UserData* userData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent = nullptr);
+    AccountWidget(QSettings* settings, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent = nullptr);
 
     
 private slots:
@@ -26,7 +26,7 @@ private slots:
 private:
     MainAccountWidget* m_MainAccountWidget;
     NoRobotWidget* m_NoRobotWidget;
-    UserData* m_UserData;
+    GlobalData* m_GlobalData;
     QNetworkAccessManager* m_NetworkManager;
     QSettings* m_Settings;
     GameInfo* m_GameInfo;

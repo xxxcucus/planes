@@ -7,14 +7,14 @@
 #include "boards/playerboard.h"
 #include "boards/computerboard.h"
 #include "planeround.h"
-#include "userdata.h"
+#include "global/globaldata.h"
 #include "gameinfo.h"
 
 class RightPane : public QTabWidget
 {
     Q_OBJECT
 public:
-    explicit RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound *pr, UserData* userData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent = nullptr);
+    explicit RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound *pr, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent = nullptr);
     ~RightPane();
 
     void setMinWidth();
@@ -56,7 +56,7 @@ private:
     ComputerBoard* m_ComputerBoard;
 	PlaneRound* m_PlaneRound; //for setting options
 	QSettings* m_Settings; //TODO: to move planesgswindow
-    UserData* m_UserData;
+    GlobalData* m_GlobalData;
     QNetworkAccessManager* m_NetworkManager;
     GameInfo* m_GameInfo;
     

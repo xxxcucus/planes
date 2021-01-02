@@ -1,10 +1,10 @@
-#ifndef __GAME_DATA__
-#define __GAME_DATA__
+#ifndef __GAME_VIEW_MODEL__
+#define __GAME_VIEW_MODEL__
 
 #include <QString>
 #include <QJsonObject>
 
-struct GameData {
+struct GameViewModel {
     QString m_GameName;
     QString m_Username;
     long int m_UserId;

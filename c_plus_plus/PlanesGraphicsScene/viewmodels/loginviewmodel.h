@@ -1,5 +1,5 @@
-#ifndef __LOGIN_DATA__
-#define __LOGIN_DATA__
+#ifndef __LOGIN_VIEW_MODEL__
+#define __LOGIN_VIEW_MODEL__
 
 #include <QJsonObject>
 #include <QString>
@@ -7,7 +7,7 @@
 #include "BCrypt.hpp"
 
 
-struct LoginData {
+struct LoginViewModel {
     QString m_UserName;
     QString m_Password;
     

@@ -7,7 +7,7 @@
 #include <QNetworkAccessManager>
 #include <QSettings>
 
-#include "userdata.h"
+#include "global/globaldata.h"
 #include "gameinfo.h"
 
 
@@ -16,7 +16,7 @@ class CreateGameWidget : public QFrame
     Q_OBJECT
 
 public:
-    CreateGameWidget(UserData* userData, GameInfo* gameInfo, QNetworkAccessManager* networkManager, QSettings* settings, QWidget* parent = nullptr);
+    CreateGameWidget(GlobalData* globalData, GameInfo* gameInfo, QNetworkAccessManager* networkManager, QSettings* settings, QWidget* parent = nullptr);
     //void updateDisplayedValues(int moves, int misses, int hits, int kills); TODO
 
 public slots:
@@ -39,7 +39,7 @@ public:
     QLineEdit* m_GameName;
     QNetworkReply* m_CreateGameReply = nullptr;
     QNetworkReply* m_ConnectToGameReply = nullptr;
-    UserData* m_UserData;
+    GlobalData* m_GlobalData;
     GameInfo* m_GameInfo;
     QNetworkAccessManager* m_NetworkManager;
     QSettings* m_Settings;

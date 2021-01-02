@@ -70,14 +70,16 @@ set(GS_HEADR
 	rightpane/game/creategamewidget.h
 	rightpane/options/gamedifficultyoptions.h
 	rightpane/options/optionswindow.h
+	viewmodels/gameviewmodel.h
+	viewmodels/loginviewmodel.h
+	viewmodels/norobotviewmodel.h
+	global/globaluserdata.h
+	global/globalgamedata.h
+	global/globaldata.h
 	customhorizlayout.h
 	animatedtextitem.h
 	planesgsview.h
 	planesgswindow.h	
-	userdata.h
-	logindata.h
-	gamedata.h
-	norobotdata.h
 	communicationtools.h
 	gameinfo.h
 )

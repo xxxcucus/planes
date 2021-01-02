@@ -5,7 +5,7 @@
 #include <QNetworkAccessManager>
 #include "planesgsview.h"
 #include "planeround.h"
-#include "userdata.h"
+#include "global/globaldata.h"
 #include "gameinfo.h"
 
 class PlanesGSWindow : public QMainWindow
@@ -25,7 +25,7 @@ private:
     PlaneRound* mRound;
     //TODO: The game object: multiplayer
     //User data for the multiplayer game
-    UserData* m_UserData;
+    GlobalData* m_GlobalData;
     QNetworkAccessManager* m_NetworkManager;
     GameInfo* m_GameInfo;
 };

@@ -1,11 +1,11 @@
-#ifndef __NOROBOTDATA__
-#define __NOROBOTDATA__
+#ifndef __NOROBOT_VIEW_MODEL__
+#define __NOROBOT_VIEW_MODEL__
 
 #include <QString>
 #include <QJsonObject>
 #include <vector>
 
-struct NoRobotData {
+struct NoRobotViewModel {
     QString m_requestId;
     QString m_answer;
     

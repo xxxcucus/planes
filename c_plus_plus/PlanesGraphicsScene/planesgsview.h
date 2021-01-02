@@ -8,7 +8,7 @@
 #include "rightpane/rightpane.h"
 #include "planegrid.h"
 #include "planeround.h"
-#include "userdata.h"
+#include "global/globaldata.h"
 #include "gameinfo.h"
 
 
@@ -16,7 +16,7 @@ class PlanesGSView : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PlanesGSView(PlaneRound *rd, UserData* userData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget *parent = 0);
+    explicit PlanesGSView(PlaneRound *rd, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget *parent = 0);
 
 signals:
 
@@ -43,7 +43,7 @@ private:
     LeftPane* m_LeftPane;
     RightPane* m_RightPane;
     
-    UserData* m_UserData;
+    GlobalData* m_GlobalData;
     QNetworkAccessManager* m_NetworkManager;
     GameInfo* m_GameInfo;
 };

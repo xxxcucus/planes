@@ -6,16 +6,16 @@
 #include <QSettings>
 
 #include "gameinfo.h"
-#include "userdata.h"
+#include "global/globaldata.h"
 
 
 class GameWidget : public QWidget {
     
 public:
-    GameWidget(UserData* userData, GameInfo* gameInfo, QNetworkAccessManager* networkManager, QSettings* settings, QWidget* parent = nullptr);
+    GameWidget(GlobalData* globalData, GameInfo* gameInfo, QNetworkAccessManager* networkManager, QSettings* settings, QWidget* parent = nullptr);
     
 private:    
-    UserData* m_UserData;
+    GlobalData* m_GlobalData;
     GameInfo* m_GameInfo;
     QNetworkAccessManager* m_NetworkManager;
     QSettings* m_Settings;

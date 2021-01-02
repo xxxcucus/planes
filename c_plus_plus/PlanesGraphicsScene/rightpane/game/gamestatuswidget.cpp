@@ -5,11 +5,11 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QTextCodec>
-#include "gamedata.h"
+#include "viewmodels/gameviewmodel.h"
 #include "communicationtools.h"
 
-GameStatusWidget::GameStatusWidget(UserData* userData, QSettings* settings, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) 
-    : QFrame(parent), m_UserData(userData), m_Settings(settings), m_NetworkManager(networkManager), m_GameInfo(gameInfo)
+GameStatusWidget::GameStatusWidget(GlobalData* globalData, QSettings* settings, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) 
+    : QFrame(parent), m_GlobalData(globalData), m_Settings(settings), m_NetworkManager(networkManager), m_GameInfo(gameInfo)
 {
     QString titleText = QString("<b> Game Status </b>");
     QLabel* titleLabel = new QLabel("");
@@ -51,6 +51,8 @@ void GameStatusWidget::gameCreatedSlot(const QString& gameName, const QString& u
 {
     m_GameName->setText(gameName);
     m_FirstPlayerName->setText(username);
+    m_SecondPlayerName->clear();
+    m_RoundName->clear();
 }
 
 void GameStatusWidget::gameConnectedToSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId) 
@@ -67,14 +69,14 @@ void GameStatusWidget::refreshSlot()
         return;
 
 
-    GameData gameData;
+    GameViewModel gameData;
     gameData.m_GameName = m_GameName->text(); //TODO: validation
 
     if (m_RefreshGameStatusReply != nullptr)
         delete m_RefreshGameStatusReply;
     
   
-    m_RefreshGameStatusReply = CommunicationTools::buildPostRequestWithAuth("/game/status", m_Settings->value("multiplayer/serverpath").toString(), gameData.toJson(), m_UserData->m_AuthToken, m_NetworkManager);
+    m_RefreshGameStatusReply = CommunicationTools::buildPostRequestWithAuth("/game/status", m_Settings->value("multiplayer/serverpath").toString(), gameData.toJson(), m_GlobalData->m_UserData.m_AuthToken, m_NetworkManager);
 
     connect(m_RefreshGameStatusReply, &QNetworkReply::finished, this, &GameStatusWidget::finishedRefreshStatus);
     connect(m_RefreshGameStatusReply, &QNetworkReply::errorOccurred, this, &GameStatusWidget::errorRefreshStatus);
@@ -110,10 +112,13 @@ void GameStatusWidget::finishedRefreshStatus()
         return;
     }
     
+    m_GlobalData->m_GameData.m_GameId = (long int)refreshStatusReplyJson.value("id").toDouble();
+    m_GlobalData->m_GameData.m_RoundId = (long int)refreshStatusReplyJson.value("currentRoundId").toDouble();
+    
     m_GameName->setText(refreshStatusReplyJson.value("gameName").toString());
     m_FirstPlayerName->setText(refreshStatusReplyJson.value("firstPlayerName").toString());
     m_SecondPlayerName->setText(refreshStatusReplyJson.value("secondPlayerName").toString());
-    m_RoundName->setText(QString::number(refreshStatusReplyJson.value("currentRoundId").toInt()));
+    m_RoundName->setText(QString::number(refreshStatusReplyJson.value("currentRoundId").toInt())); //TODO it is long not int
 }
 
 bool GameStatusWidget::validateRefreshStatusReply(const QJsonObject& reply) {

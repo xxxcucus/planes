@@ -6,7 +6,7 @@
 #include <QNetworkReply>
 #include <QSettings>
 #include <QNetworkAccessManager>
-#include "userdata.h"
+#include "global/globaldata.h"
 #include "gameinfo.h"
 
 
@@ -15,7 +15,7 @@ class GameStatusWidget : public QFrame
     Q_OBJECT
 
 public:
-    explicit GameStatusWidget(UserData* userData, QSettings* settings, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent = nullptr);
+    explicit GameStatusWidget(GlobalData* globalData, QSettings* settings, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent = nullptr);
     //void updateDisplayedValues(int moves, int misses, int hits, int kills); TODO
 
 public slots:
@@ -35,7 +35,7 @@ public:
     QLabel* m_RoundName;
     QNetworkReply* m_RefreshGameStatusReply = nullptr;
     
-    UserData* m_UserData;
+    GlobalData* m_GlobalData;
     QSettings* m_Settings;
     QNetworkAccessManager* m_NetworkManager;
     GameInfo* m_GameInfo;

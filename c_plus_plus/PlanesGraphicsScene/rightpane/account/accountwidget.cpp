@@ -1,11 +1,11 @@
 #include "accountwidget.h"
 
-AccountWidget::AccountWidget(QSettings* settings, UserData* userData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) 
-    : QStackedWidget(parent), m_UserData(userData), m_NetworkManager(networkManager), m_Settings(settings), m_GameInfo(gameInfo)
+AccountWidget::AccountWidget(QSettings* settings, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) 
+    : QStackedWidget(parent), m_GlobalData(globalData), m_NetworkManager(networkManager), m_Settings(settings), m_GameInfo(gameInfo)
 {
-    m_MainAccountWidget = new MainAccountWidget(m_Settings, m_UserData, m_NetworkManager, m_GameInfo);
+    m_MainAccountWidget = new MainAccountWidget(m_Settings, m_GlobalData, m_NetworkManager, m_GameInfo);
     addWidget(m_MainAccountWidget);
-    m_NoRobotWidget = new NoRobotWidget(m_NetworkManager, m_Settings, m_UserData, m_GameInfo);
+    m_NoRobotWidget = new NoRobotWidget(m_NetworkManager, m_Settings, m_GlobalData, m_GameInfo);
     addWidget(m_NoRobotWidget);
     setCurrentIndex(0);
     

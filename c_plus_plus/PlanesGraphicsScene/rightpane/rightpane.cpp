@@ -10,7 +10,7 @@
 #include "planeround.h"
 #include "game/gamewidget.h"
 
-RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, UserData* userData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_UserData(userData), m_NetworkManager(networkManager), m_GameInfo(gameInfo)
+RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_GlobalData(globalData), m_NetworkManager(networkManager), m_GameInfo(gameInfo)
 {
     QWidget* helpWidget = new QWidget();
     QHBoxLayout* layout = new QHBoxLayout();
@@ -28,8 +28,8 @@ RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, UserDat
 	m_Settings = new QSettings("Cristian Cucu", "Planes");
 
 	OptionsWindow* optionsWindow = new OptionsWindow(m_PlaneRound, m_Settings, m_GameInfo);
-    AccountWidget* accountWidget = new AccountWidget(m_Settings, m_UserData, m_NetworkManager, m_GameInfo);
-    GameWidget* gameWidget = new GameWidget(m_UserData, m_GameInfo, m_NetworkManager, m_Settings);
+    AccountWidget* accountWidget = new AccountWidget(m_Settings, m_GlobalData, m_NetworkManager, m_GameInfo);
+    GameWidget* gameWidget = new GameWidget(m_GlobalData, m_GameInfo, m_NetworkManager, m_Settings);
 
     m_OwnBoardIndex = addTab(m_PlayerBoard->getView(), "Player Board");
     m_OpponentBoardIndex = addTab(m_ComputerBoard->getView(), "Computer Board");
