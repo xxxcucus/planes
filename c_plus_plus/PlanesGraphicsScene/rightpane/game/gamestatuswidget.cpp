@@ -23,7 +23,7 @@ GameStatusWidget::GameStatusWidget(GlobalData* globalData, QSettings* settings, 
     QLabel* secondPlayerNameLabel = new QLabel("Player 2");
     m_SecondPlayerName = new QLabel("");
     
-    QLabel* roundNameLabel = new QLabel("Round Name");
+    QLabel* roundNameLabel = new QLabel("Round Id");
     m_RoundName = new QLabel("No round started");
     
     QPushButton* refreshStatusButton = new QPushButton("Refresh");
