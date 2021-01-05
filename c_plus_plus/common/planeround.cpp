@@ -4,7 +4,7 @@
 #include <algorithm>
 
 PlaneRound::PlaneRound(int rowNo, int colNo, int planeNo):
-    AbstractPlaneRound(),
+    AbstractPlaneRound(rowNo, colNo, planeNo),
     m_computerLogic(new ComputerLogic(rowNo, colNo, planeNo))
 {
 	//initializes the random number generator
@@ -16,9 +16,6 @@ PlaneRound::PlaneRound(int rowNo, int colNo, int planeNo):
 	time(&timer);  /* get current time; same as: timer = time(NULL)  */
 	seconds = difftime(timer, mktime(&y2k));
 	srand(int(floor(seconds)));
-
-    m_PlayerGrid = new PlaneGrid(m_rowNo, m_colNo, m_planeNo, false);
-    m_ComputerGrid = new PlaneGrid(m_rowNo, m_colNo, m_planeNo, true);
 
 	//builds the plane grid objects
 

@@ -7,6 +7,7 @@
 #include "planeround.h"
 #include "global/globaldata.h"
 #include "gameinfo.h"
+#include "multiplayerround.h"
 
 class PlanesGSWindow : public QMainWindow
 {
@@ -23,7 +24,7 @@ private:
     PlanesGSView* mPlanesView;
     //The game object : playing against the computer
     PlaneRound* mRound;
-    //TODO: The game object: multiplayer
+    MultiplayerRound* m_MultiRound;
     //User data for the multiplayer game
     GlobalData* m_GlobalData;
     QNetworkAccessManager* m_NetworkManager;

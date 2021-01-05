@@ -10,7 +10,7 @@
 #include "planeround.h"
 #include "game/gamewidget.h"
 
-RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_GlobalData(globalData), m_NetworkManager(networkManager), m_GameInfo(gameInfo)
+RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_MultiRound(mrd), m_GlobalData(globalData), m_NetworkManager(networkManager), m_GameInfo(gameInfo)
 {
     QWidget* helpWidget = new QWidget();
     QHBoxLayout* layout = new QHBoxLayout();
@@ -23,8 +23,13 @@ RightPane::RightPane(PlaneGrid* pGrid, PlaneGrid* cGrid, PlaneRound* pr, GlobalD
     helpWidget->setLayout(layout);
 //    defineHelpWindow(helpWidget);
 
-    m_PlayerBoard = new PlayerBoard(*pGrid);
-    m_ComputerBoard = new ComputerBoard(*cGrid);
+    if (m_GameInfo->getSinglePlayer()) {
+        m_PlayerBoard = new PlayerBoard(*m_PlaneRound->playerGrid());
+        m_ComputerBoard = new ComputerBoard(*m_PlaneRound->computerGrid());
+    } else {
+        m_PlayerBoard = new PlayerBoard(*m_MultiRound->playerGrid());
+        m_ComputerBoard = new ComputerBoard(*m_MultiRound->computerGrid());
+    }
 	m_Settings = new QSettings("Cristian Cucu", "Planes");
 
 	OptionsWindow* optionsWindow = new OptionsWindow(m_PlaneRound, m_Settings, m_GameInfo);

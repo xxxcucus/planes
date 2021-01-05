@@ -38,6 +38,7 @@ set(GS_SRCS
 	rightpane/game/creategamewidget.cpp
 	rightpane/options/gamedifficultyoptions.cpp
 	rightpane/options/optionswindow.cpp
+	multiplayerround.cpp
 	communicationtools.cpp
 	main.cpp
     animatedtextitem.cpp
@@ -76,6 +77,7 @@ set(GS_HEADR
 	global/globaluserdata.h
 	global/globalgamedata.h
 	global/globaldata.h
+	multiplayerround.h
 	customhorizlayout.h
 	animatedtextitem.h
 	planesgsview.h

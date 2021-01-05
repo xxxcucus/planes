@@ -10,13 +10,13 @@
 #include "planeround.h"
 #include "global/globaldata.h"
 #include "gameinfo.h"
-
+#include "multiplayerround.h"
 
 class PlanesGSView : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PlanesGSView(PlaneRound *rd, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget *parent = 0);
+    PlanesGSView(PlaneRound* rd, MultiplayerRound* mrd, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget *parent = 0);
 
 signals:
 
@@ -39,6 +39,7 @@ private:
 
     //PlaneRound is the object that coordinates the game
     PlaneRound* m_round;
+    MultiplayerRound* m_MultiRound;
 
     LeftPane* m_LeftPane;
     RightPane* m_RightPane;

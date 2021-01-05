@@ -4,6 +4,7 @@ PlanesGSWindow::PlanesGSWindow(QWidget *parent) : QMainWindow(parent)
 {
     //builds the game object - the controller
     mRound = new PlaneRound(10, 10, 3);
+    m_MultiRound = new MultiplayerRound(10, 10, 3);
 
     m_GlobalData = new GlobalData();
     m_GlobalData->reset();
@@ -11,6 +12,6 @@ PlanesGSWindow::PlanesGSWindow(QWidget *parent) : QMainWindow(parent)
     m_GameInfo = new GameInfo();
     
     //builds the view object
-    mPlanesView = new PlanesGSView(mRound, m_GlobalData, m_NetworkManager, m_GameInfo);
+    mPlanesView = new PlanesGSView(mRound, m_MultiRound, m_GlobalData, m_NetworkManager, m_GameInfo);
     setCentralWidget(mPlanesView);
 }
