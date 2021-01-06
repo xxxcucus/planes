@@ -115,10 +115,16 @@ void GameStatusWidget::finishedRefreshStatus()
     m_GlobalData->m_GameData.m_GameId = (long int)refreshStatusReplyJson.value("id").toDouble();
     m_GlobalData->m_GameData.m_RoundId = (long int)refreshStatusReplyJson.value("currentRoundId").toDouble();
     
-    m_GameName->setText(refreshStatusReplyJson.value("gameName").toString());
-    m_FirstPlayerName->setText(refreshStatusReplyJson.value("firstPlayerName").toString());
-    m_SecondPlayerName->setText(refreshStatusReplyJson.value("secondPlayerName").toString());
-    m_RoundName->setText(QString::number(refreshStatusReplyJson.value("currentRoundId").toInt())); //TODO it is long not int
+    QString gameName = refreshStatusReplyJson.value("gameName").toString();
+    QString firstPlayerName = refreshStatusReplyJson.value("firstPlayerName").toString();
+    QString secondPlayerName = refreshStatusReplyJson.value("secondPlayerName").toString();
+    QString currentRoundId = QString::number(refreshStatusReplyJson.value("currentRoundId").toInt());
+    
+    m_GameName->setText(gameName);
+    m_FirstPlayerName->setText(firstPlayerName);
+    m_SecondPlayerName->setText(secondPlayerName);
+    m_RoundName->setText(currentRoundId); //TODO it is long not int
+    emit gameStatusRefreshed(gameName, firstPlayerName, secondPlayerName, currentRoundId);
 }
 
 bool GameStatusWidget::validateRefreshStatusReply(const QJsonObject& reply) {

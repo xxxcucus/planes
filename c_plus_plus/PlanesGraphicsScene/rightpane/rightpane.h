@@ -47,6 +47,8 @@ public slots:
     void startNewGame();
 
 	void showComputerMove(const GuessPoint& gp);
+    
+    void multiplayerRoundReset(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
 
 signals:
     void planePositionNotValid(bool);

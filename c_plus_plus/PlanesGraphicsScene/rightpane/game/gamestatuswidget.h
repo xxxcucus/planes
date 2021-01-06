@@ -25,6 +25,9 @@ public slots:
     void errorRefreshStatus(QNetworkReply::NetworkError code);
     void finishedRefreshStatus(); 
     
+signals:
+    void gameStatusRefreshed(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);    
+    
 private:
     bool validateRefreshStatusReply(const QJsonObject& reply);
     

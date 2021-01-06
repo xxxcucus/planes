@@ -10,9 +10,13 @@
 
 
 class GameWidget : public QWidget {
+    Q_OBJECT
     
 public:
     GameWidget(GlobalData* globalData, GameInfo* gameInfo, QNetworkAccessManager* networkManager, QSettings* settings, QWidget* parent = nullptr);
+ 
+signals:
+    void gameConnectedTo(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
     
 private:    
     GlobalData* m_GlobalData;

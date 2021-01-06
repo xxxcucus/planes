@@ -6,6 +6,9 @@
 
 class MultiplayerRound : public AbstractPlaneRound {
     
+private:
+    long int m_RoundId = 0;
+    
     
 public:
     MultiplayerRound(int rows, int cols, int planeNo);
@@ -14,6 +17,13 @@ public:
 
     void playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr) override;
     void playerGuessIncomplete(int row, int col, GuessPoint::Type& guessRes, PlayerGuessReaction& pgr) override;
+    
+    void setRoundId(long int id) {
+        m_RoundId = id;
+    }
+    long int getRoundId() {
+        return m_RoundId;
+    }
 };
 
 

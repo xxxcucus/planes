@@ -48,6 +48,7 @@ RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, GlobalData* globalDa
     connect(m_PlayerBoard, SIGNAL(planePositionNotValid(bool)), this, SIGNAL(planePositionNotValid(bool)));
     //connect(this, SIGNAL(showComputerMove(const GuessPoint&)), m_PlayerBoard, SLOT(showMove(const GuessPoint&)));
     connect(m_ComputerBoard, SIGNAL(guessMade(const GuessPoint&)), this, SIGNAL(guessMade(const GuessPoint&)));
+    connect(gameWidget, &GameWidget::gameConnectedTo, this, &RightPane::multiplayerRoundReset);
 }
 
 RightPane::~RightPane()
@@ -128,4 +129,22 @@ void RightPane::setMinWidth()
 void RightPane::showComputerMove(const GuessPoint& gp)
 {
 	m_PlayerBoard->showMove(gp);
+}
+
+void RightPane::multiplayerRoundReset(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundIdQString) {
+    
+    bool okConv = true;
+    long int desiredRoundId = currentRoundIdQString.toLong(&okConv);
+    if (!okConv) {
+        qDebug() << "Convertion error QString -> long int";
+        return;
+    }
+    
+    long int currentRoundId =  m_MultiRound->getRoundId();
+    if (currentRoundId == desiredRoundId)
+        return;
+ 
+    //TODO cancel current round
+    m_MultiRound->initRound();
+    m_MultiRound->setRoundId(desiredRoundId);
 }

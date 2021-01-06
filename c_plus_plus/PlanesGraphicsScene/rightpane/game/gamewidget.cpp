@@ -43,5 +43,7 @@ GameWidget::GameWidget(GlobalData* globalData, GameInfo* gameInfo, QNetworkAcces
     setLayout(cLayout);
 
     connect(createGameWidget, &CreateGameWidget::gameCreated, gameStatusWidget, &GameStatusWidget::gameCreatedSlot);
-    connect(createGameWidget, &CreateGameWidget::gameConnectedTo, gameStatusWidget, &GameStatusWidget::gameConnectedToSlot);        
+    connect(createGameWidget, &CreateGameWidget::gameConnectedTo, gameStatusWidget, &GameStatusWidget::gameConnectedToSlot);   
+    connect(createGameWidget, &CreateGameWidget::gameConnectedTo, this, &GameWidget::gameConnectedTo);
+    connect(gameStatusWidget, &GameStatusWidget::gameStatusRefreshed, this, &GameWidget::gameConnectedTo);
 }
