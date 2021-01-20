@@ -51,6 +51,7 @@ void CreateGameWidget::createGameSlot() {
     gameData.m_GameName = m_GameName->text(); //TODO: validation
     gameData.m_Username = m_GlobalData->m_UserData.m_UserName; //TODO: validation and trim
     gameData.m_UserId = 0; 
+    gameData.m_GameId = 0;
 
     if (m_CreateGameReply != nullptr)
         delete m_CreateGameReply;
@@ -76,6 +77,7 @@ void CreateGameWidget::connectToGameSlot() {
     gameData.m_GameName = m_GameName->text(); //TODO: validation
     gameData.m_Username = m_GlobalData->m_UserData.m_UserName; //TODO: validation and trim
     gameData.m_UserId = 0; 
+    gameData.m_GameId = 0;
 
     if (m_ConnectToGameReply != nullptr)
         delete m_ConnectToGameReply;

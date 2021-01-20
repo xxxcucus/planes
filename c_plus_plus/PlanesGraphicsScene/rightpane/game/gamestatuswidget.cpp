@@ -71,6 +71,9 @@ void GameStatusWidget::refreshSlot()
 
     GameViewModel gameData;
     gameData.m_GameName = m_GameName->text(); //TODO: validation
+    gameData.m_GameId = 0;
+    gameData.m_UserId = 0;
+    gameData.m_Username = QString();
 
     if (m_RefreshGameStatusReply != nullptr)
         delete m_RefreshGameStatusReply;

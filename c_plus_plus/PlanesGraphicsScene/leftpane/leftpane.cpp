@@ -76,6 +76,19 @@ void LeftPane::activateDoneButton(bool planesOverlap)
     m_doneButton->setEnabled(!planesOverlap);
 }
 
+void LeftPane::activateGameTabDeactivateButtons()
+{
+    emit doneClicked();
+    activateGameTab();
+    m_selectPlaneButton->setEnabled(false);
+    m_rotatePlaneButton->setEnabled(false);
+    m_leftPlaneButton->setEnabled(false);
+    m_rightPlaneButton->setEnabled(false);
+    m_upPlaneButton->setEnabled(false);
+    m_downPlaneButton->setEnabled(false);
+    m_doneButton->setEnabled(false);
+}
+
 void LeftPane::doneClickedSlot()
 {
     if (m_MultiRound->getRoundId() == 0 && !m_GameInfo->getSinglePlayer()) {
@@ -91,15 +104,7 @@ void LeftPane::doneClickedSlot()
     }
 
     if (m_GameInfo->getSinglePlayer()) {
-        emit doneClicked();
-        activateGameTab();
-        m_selectPlaneButton->setEnabled(false);
-        m_rotatePlaneButton->setEnabled(false);
-        m_leftPlaneButton->setEnabled(false);
-        m_rightPlaneButton->setEnabled(false);
-        m_upPlaneButton->setEnabled(false);
-        m_downPlaneButton->setEnabled(false);
-        m_doneButton->setEnabled(false);
+        activateGameTabDeactivateButtons();    
     }
 }
 
@@ -197,15 +202,7 @@ void LeftPane::finishedDoneClicked()
             msgBox.exec();
             return;            
         }
-        emit doneClicked();
-        activateGameTab();
-        m_selectPlaneButton->setEnabled(false);
-        m_rotatePlaneButton->setEnabled(false);
-        m_leftPlaneButton->setEnabled(false);
-        m_rightPlaneButton->setEnabled(false);
-        m_upPlaneButton->setEnabled(false);
-        m_downPlaneButton->setEnabled(false);
-        m_doneButton->setEnabled(false);        
+        activateGameTabDeactivateButtons();
     } else {
         m_MultiRound->setCurrentStage(AbstractPlaneRound::GameStages::WaitForOpponentPlanesPositions);
         m_selectPlaneButton->setEnabled(false);
@@ -293,7 +290,8 @@ void LeftPane::finishedAcquireOpponentPositions() {
         msgBox.exec();
         return;            
     }
-    
+
+    activateGameTabDeactivateButtons();    
 }
 
 void LeftPane::errorAcquireOpponentPositions(QNetworkReply::NetworkError code) {

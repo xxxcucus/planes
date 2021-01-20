@@ -8,19 +8,14 @@ struct GameViewModel {
     QString m_GameName;
     QString m_Username;
     long int m_UserId;
+    long int m_GameId;
     
     QJsonObject toJson() {
         QJsonObject retVal;
         retVal.insert("gameName", m_GameName);
-        QJsonObject userObject1;
-        userObject1.insert("username", m_Username);
-        userObject1.insert("id", QString::number(m_UserId));
-        retVal.insert("firstPlayer", userObject1);
-        QJsonObject userObject2;
-        userObject2.insert("username", m_Username);
-        userObject2.insert("id", QString::number(m_UserId));
-        retVal.insert("secondPlayer", userObject2);
-
+        retVal.insert("gameId", QString::number(m_GameId));
+        retVal.insert("userId", QString::number(m_UserId));
+        retVal.insert("userName", m_Username);
         return retVal;
     }
 };
