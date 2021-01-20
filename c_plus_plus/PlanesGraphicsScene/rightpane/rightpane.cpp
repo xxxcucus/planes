@@ -10,7 +10,7 @@
 #include "planeround.h"
 #include "game/gamewidget.h"
 
-RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_MultiRound(mrd), m_GlobalData(globalData), m_NetworkManager(networkManager), m_GameInfo(gameInfo)
+RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_MultiRound(mrd), m_GlobalData(globalData), m_NetworkManager(networkManager), m_Settings(settings), m_GameInfo(gameInfo)
 {
     QWidget* helpWidget = new QWidget();
     QHBoxLayout* layout = new QHBoxLayout();
@@ -30,7 +30,7 @@ RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, GlobalData* globalDa
         m_PlayerBoard = new PlayerBoard(*m_MultiRound->playerGrid());
         m_ComputerBoard = new ComputerBoard(*m_MultiRound->computerGrid());
     }
-	m_Settings = new QSettings("Cristian Cucu", "Planes");
+	
 
 	OptionsWindow* optionsWindow = new OptionsWindow(m_PlaneRound, m_Settings, m_GameInfo);
     AccountWidget* accountWidget = new AccountWidget(m_Settings, m_GlobalData, m_NetworkManager, m_GameInfo);
@@ -139,6 +139,9 @@ void RightPane::multiplayerRoundReset(const QString& gameName, const QString& fi
         qDebug() << "Convertion error QString -> long int";
         return;
     }
+
+    qDebug() << "Multiround reset!! " << desiredRoundId;
+
     
     long int currentRoundId =  m_MultiRound->getRoundId();
     if (currentRoundId == desiredRoundId)
@@ -147,4 +150,10 @@ void RightPane::multiplayerRoundReset(const QString& gameName, const QString& fi
     //TODO cancel current round
     m_MultiRound->initRound();
     m_MultiRound->setRoundId(desiredRoundId);
+    
+    m_PlayerBoard->refreshPlanes();
+    m_ComputerBoard->refreshPlanes();
+
+    qDebug() << "Multiround reset!! " << desiredRoundId;
+
 }

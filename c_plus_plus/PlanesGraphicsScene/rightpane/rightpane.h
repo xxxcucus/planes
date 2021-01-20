@@ -4,6 +4,7 @@
 #include <QTabWidget>
 #include <QSettings>
 #include <QNetworkAccessManager>
+#include <QSettings>
 #include "boards/playerboard.h"
 #include "boards/computerboard.h"
 #include "planeround.h"
@@ -15,7 +16,7 @@ class RightPane : public QTabWidget
 {
     Q_OBJECT
 public:
-    RightPane(PlaneRound *pr, MultiplayerRound* mrd, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent = nullptr);
+    RightPane(PlaneRound *pr, MultiplayerRound* mrd, QSettings *settings, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent = nullptr);
     ~RightPane();
 
     void setMinWidth();

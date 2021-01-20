@@ -24,6 +24,9 @@ public:
     long int getRoundId() {
         return m_RoundId;
     }
+    
+    void getPlayerPlaneNo(int pos, Plane& pl);
+    bool setComputerPlanes(int plane1_x, int plane1_y, Plane::Orientation plane1_orient, int plane2_x, int plane2_y, Plane::Orientation plane2_orient, int plane3_x, int plane3_y, Plane::Orientation plane3_orient); 
 };
 
 

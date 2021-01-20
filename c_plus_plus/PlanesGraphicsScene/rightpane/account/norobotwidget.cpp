@@ -200,11 +200,13 @@ void NoRobotWidget::finishedRegister()
     }
             
     QString username = registrationReplyJson.value("username").toString();
+    long int userid = registrationReplyJson.value("id").toString().toLong(); //TODO check for convertion errors
     QMessageBox msgBox;
     msgBox.setText("User " + username + " created "); 
     msgBox.exec();
 
     m_GlobalData->m_UserData.m_UserName = username;
+    m_GlobalData->m_UserData.m_UserId = userid;
     emit registrationComplete();
 }
 

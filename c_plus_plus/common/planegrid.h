@@ -43,6 +43,8 @@ public:
     PlaneGrid(int row, int col, int planesNo, bool isComputer);
     //initializes the grid
     void initGrid();
+    bool initGridByUser(int plane1_x, int plane1_y, Plane::Orientation plane1_orient, int plane2_x, int plane2_y, Plane::Orientation plane2_orient, int plane3_x, int plane3_y, Plane::Orientation plane3_orient);
+
     //searches a plane in the list of planes
     int searchPlane(const Plane& pl) const;
     //searches a plane for a given  plane head position
@@ -65,7 +67,7 @@ public:
     int getPlaneListSize() const;
     //returns a plane from the list of planes
     bool getPlane(int pos, Plane &pl) const;
-
+    
 	//gets the plane points of the plane with index pos except for the head
 	bool getPlanePoints(int pos, std::vector<PlanesCommonTools::Coordinate2D>& list) const;
 

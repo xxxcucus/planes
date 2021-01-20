@@ -3,15 +3,15 @@
 #include <QHBoxLayout>
 #include "customhorizlayout.h"
 
-PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget *parent)
-    : QWidget(parent), m_round(rd), m_MultiRound(mrd), m_GlobalData(globalData), m_NetworkManager(networkManager), m_GameInfo(gameInfo)
+PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QSettings* settings, QWidget *parent)
+    : QWidget(parent), m_round(rd), m_MultiRound(mrd), m_GlobalData(globalData), m_NetworkManager(networkManager), m_GameInfo(gameInfo), m_Settings(settings)
 {
     CustomHorizLayout* hLayout = new CustomHorizLayout(20, this);
-    m_LeftPane = new LeftPane(m_GameInfo, this);
+    m_LeftPane = new LeftPane(m_GameInfo, m_NetworkManager, m_GlobalData, m_Settings, m_MultiRound, this);
     m_LeftPane->setMinWidth();
     //m_LeftPane->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 
-    m_RightPane = new RightPane(m_round, m_MultiRound, m_GlobalData, m_NetworkManager, m_GameInfo, this);
+    m_RightPane = new RightPane(m_round, m_MultiRound, m_Settings, m_GlobalData, m_NetworkManager, m_GameInfo, this);
     m_RightPane->setMinWidth();
 
     hLayout->addWidget(m_LeftPane);

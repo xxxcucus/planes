@@ -201,7 +201,7 @@ void LoginRegisterForm::finishedRegister()
     images.push_back(registrationReplyJson.value("image_id_7").toString());
     images.push_back(registrationReplyJson.value("image_id_8").toString());    
     images.push_back(registrationReplyJson.value("image_id_9").toString());    
-    int request_id = registrationReplyJson.value("id").toInt();
+    long int request_id = registrationReplyJson.value("id").toString().toLong();
     
     qDebug() << "Registration request with id " << request_id << " received ";
     emit noRobotRegistration(images, registrationReplyJson);

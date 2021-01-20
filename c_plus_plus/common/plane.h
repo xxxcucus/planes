@@ -42,7 +42,8 @@ public:
     bool operator==(const Plane& pl1) const;
     //translates a plane by a 2d translation vector
     Plane operator+(const PlanesCommonTools::Coordinate2D& qp);
-
+    
+    
     //geometrical transformations
     //clockwise rotation of planes
     void rotate();

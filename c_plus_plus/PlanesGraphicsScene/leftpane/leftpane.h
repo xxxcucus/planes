@@ -3,16 +3,23 @@
 
 #include <QTabWidget>
 #include <QPushButton>
+#include <QNetworkAccessManager>
+#include <QMessageBox>
+#include <QNetworkReply>
+#include <QSettings>
+#include <QJsonObject>
 #include "gamestatsframe.h"
 #include "scoreframe.h"
 #include "gamestatistics.h"
 #include "gameinfo.h"
+#include "global/globaldata.h"
+#include "multiplayerround.h"
 
 class LeftPane : public QTabWidget
 {
     Q_OBJECT
 public:
-    explicit LeftPane(GameInfo* gameInfo, QWidget *parent = 0);
+    LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, MultiplayerRound* mrd, QWidget *parent = 0);
 
     void activateGameTab();
     void activateEditorTab();
@@ -43,6 +50,43 @@ public slots:
     void doneClickedSlot();
 
     /**
+     * @brief Sends the corresponding signal or shows warning message 
+     * when in multiplayer mode and no round was started
+     */
+    void selectPlaneClickedSlot(bool c);
+    /**
+     * @brief Sends the corresponding signal or shows warning message 
+     * when in multiplayer mode and no round was started
+     */
+    void rotatePlaneClickedSlot(bool c);
+    /**
+     * @brief Sends the corresponding signal or shows warning message 
+     * when in multiplayer mode and no round was started
+     */
+    void upPlaneClickedSlot(bool c);
+    /**
+     * @brief Sends the corresponding signal or shows warning message 
+     * when in multiplayer mode and no round was started
+     */
+    void downPlaneClickedSlot(bool c);
+    /**
+     * @brief Sends the corresponding signal or shows warning message 
+     * when in multiplayer mode and no round was started
+     */
+    void leftPlaneClickedSlot(bool c);
+    /**
+     * @brief Sends the corresponding signal or shows warning message 
+     * when in multiplayer mode and no round was started
+     */
+    void rightPlaneClickedSlot(bool c);
+
+
+    /**
+     * @brief Query the server for the opponent's plane positions
+     */
+    void acquireOpponentPositionsClickedSlot(bool c);
+    
+    /**
      * @brief activates the editing board tab and the buttons in it
      */
     void activateEditingBoard();
@@ -59,6 +103,19 @@ public slots:
 
     void endRound(bool isPlayerWinner);
 
+    void errorDoneClicked(QNetworkReply::NetworkError code);
+
+    void finishedDoneClicked();    
+    
+    void finishedAcquireOpponentPositions();
+    void errorAcquireOpponentPositions(QNetworkReply::NetworkError code);
+ 
+    
+    
+private:
+    void submitDoneClicked();
+    bool validateDoneClickedReply(const QJsonObject& reply);
+    
 private:
     GameStatsFrame* m_PlayerStatsFrame;
     GameStatsFrame* m_ComputerStatsFrame;
@@ -79,10 +136,17 @@ private:
     QPushButton* m_upPlaneButton;
     QPushButton* m_downPlaneButton;
     QPushButton* m_doneButton;
-
-    ScoreFrame* m_ScoreFrame;
+    QPushButton* m_acquireOpponentPositionsButton;
     
+    ScoreFrame* m_ScoreFrame;
     GameInfo* m_GameInfo;
+    QNetworkAccessManager* m_NetworkManager;
+    GlobalData* m_GlobalData;
+    QSettings* m_Settings;
+    MultiplayerRound* m_MultiRound;
+    
+    QNetworkReply* m_DoneClickedReply = nullptr;
+    QNetworkReply* m_AcquireOpponentPositionsReply = nullptr;
 };
 
 #endif // PLANESGSLEFTPANE_H

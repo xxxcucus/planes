@@ -10,8 +10,9 @@ PlanesGSWindow::PlanesGSWindow(QWidget *parent) : QMainWindow(parent)
     m_GlobalData->reset();
     m_NetworkManager = new QNetworkAccessManager(this);
     m_GameInfo = new GameInfo();
+    m_Settings = new QSettings("Cristian Cucu", "Planes");
     
     //builds the view object
-    mPlanesView = new PlanesGSView(mRound, m_MultiRound, m_GlobalData, m_NetworkManager, m_GameInfo);
+    mPlanesView = new PlanesGSView(mRound, m_MultiRound, m_GlobalData, m_NetworkManager, m_GameInfo, m_Settings);
     setCentralWidget(mPlanesView);
 }

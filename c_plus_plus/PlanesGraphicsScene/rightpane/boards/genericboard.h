@@ -28,6 +28,8 @@ public:
         return (m_Grid.getColNo() + 2 * m_PaddingEditingBoard) * m_SquareWidth;
     }
 
+    void refreshPlanes();
+    
 signals:
     void planePositionNotValid(bool);
 
@@ -46,7 +48,8 @@ protected:
     virtual void generateBoardItems();
     ///shows the planes on the grid
     void displayPlanes();
-    ///hide the planes
+
+    ///hide the planes    
     ///@todo: hide everything
     void hidePlanes();
     ///shows the guesses on the grid

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QNetworkAccessManager>
+#include <QSettings>
 #include "planesgsview.h"
 #include "planeround.h"
 #include "global/globaldata.h"
@@ -29,6 +30,7 @@ private:
     GlobalData* m_GlobalData;
     QNetworkAccessManager* m_NetworkManager;
     GameInfo* m_GameInfo;
+    QSettings* m_Settings;
 };
 
 #endif // PLANESGSWINDOW_H

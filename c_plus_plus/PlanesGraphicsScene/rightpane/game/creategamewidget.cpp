@@ -122,6 +122,8 @@ void CreateGameWidget::finishedCreateGame()
     msgBox.setText("Game creation successfull!"); 
     msgBox.exec();               
     m_GlobalData->m_GameData.m_GameId = (long int)createGameReplyJson.value("id").toDouble();
+    long int userId2 = createGameReplyJson.value("secondPlayerId").toString().toLong();
+    m_GlobalData->m_UserData.m_UserId = userId2;
     emit gameCreated(m_GameName->text(), m_GlobalData->m_UserData.m_UserName);
 }
 
@@ -159,16 +161,22 @@ void CreateGameWidget::finishedConnectToGame()
     msgBox.exec();               
     
     qDebug() << connectToGameReplyQString;
-    m_GlobalData->m_GameData.m_GameId = (long int)connectToGameReplyJson.value("id").toDouble();
-    m_GlobalData->m_GameData.m_RoundId = (long int)connectToGameReplyJson.value("currentRoundId").toDouble();
+    m_GlobalData->m_GameData.m_GameId = connectToGameReplyJson.value("id").toString().toLong(); //TODO conversion errors
+    m_GlobalData->m_GameData.m_RoundId = connectToGameReplyJson.value("currentRoundId").toString().toLong();
+    long int userId1 = connectToGameReplyJson.value("firstPlayerId").toString().toLong();
+    long int userId2 = connectToGameReplyJson.value("secondPlayerId").toString().toLong();
+    m_GlobalData->m_GameData.m_OtherUserId =  userId1; //so does the server
+    m_GlobalData->m_GameData.m_UserId = userId2;
+    m_GlobalData->m_UserData.m_UserId = userId2;
     QString firstPlayerName = connectToGameReplyJson.value("firstPlayerName").toString();
-    QString currentRoundId = QString::number(connectToGameReplyJson.value("currentRoundId").toInt()); //TODO send round id as string in server
+    QString currentRoundId = connectToGameReplyJson.value("currentRoundId").toString(); //TODO send round id as string in server
     emit gameConnectedTo(m_GameName->text(), firstPlayerName, m_GlobalData->m_UserData.m_UserName, currentRoundId);
 }
 
 
 bool CreateGameWidget::validateCreateGameReply(const QJsonObject& reply) {
-    return (reply.contains("id") && reply.contains("firstPlayerName") && reply.contains("secondPlayerName") && reply.contains("gameName") && reply.contains("currentRoundId"));
+    return (reply.contains("id") && reply.contains("firstPlayerName") && reply.contains("secondPlayerName") && reply.contains("gameName") && reply.contains("currentRoundId")
+        && reply.contains("firstPlayerId") && reply.contains("secondPlayerId"));
 }
 
 

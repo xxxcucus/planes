@@ -8,7 +8,7 @@
 class AbstractPlaneRound {
     
 public:
-	enum class GameStages { GameNotStarted = 0, BoardEditing = 1, Game = 2};
+	enum class GameStages { GameNotStarted = 0, BoardEditing = 1, Game = 2, WaitForOpponentPlanesPositions = 3};
 
 	AbstractPlaneRound(int rowNo, int colNo, int planeNo);
     AbstractPlaneRound() {
@@ -113,6 +113,10 @@ public:
 	int getCurrentStage() {
 		return int(m_State);
 	}
+	
+	void setCurrentStage(GameStages stage) {
+        m_State = stage;
+    }
 
 protected:
 	//update game statistics

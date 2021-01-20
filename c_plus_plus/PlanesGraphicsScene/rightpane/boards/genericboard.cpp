@@ -4,6 +4,7 @@
 #include "coordinate2d.h"
 
 #include <QPropertyAnimation>
+#include <QDebug>
 
 ///@todo: to add destructor
 GenericBoard::GenericBoard(PlaneGrid& grid, int squareWidth) : m_Grid(grid), m_SquareWidth(squareWidth)
@@ -74,6 +75,7 @@ void GenericBoard::displayPlanes() {
             showPlane(pl, QColor(greyLevel, greyLevel, greyLevel));
         else
             showSelectedPlane(pl);
+        qDebug() << "Display plane " << i << " " << pl.row() << " " << pl.col() << " " << pl.orientation();
     }
 }
 
@@ -85,6 +87,13 @@ void GenericBoard::hidePlanes()
         for (int j = 0; j < cols; j++)
             m_SceneItems[std::make_pair(i, j)]->clearPlaneOptions();
 }
+
+void GenericBoard::refreshPlanes()
+{
+    hidePlanes();
+    displayPlanes();
+}
+
 
 ///shows the guesses on the grid
 void GenericBoard::displayGuesses() {

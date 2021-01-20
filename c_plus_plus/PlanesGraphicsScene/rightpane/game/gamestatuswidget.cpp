@@ -118,17 +118,28 @@ void GameStatusWidget::finishedRefreshStatus()
     QString gameName = refreshStatusReplyJson.value("gameName").toString();
     QString firstPlayerName = refreshStatusReplyJson.value("firstPlayerName").toString();
     QString secondPlayerName = refreshStatusReplyJson.value("secondPlayerName").toString();
-    QString currentRoundId = QString::number(refreshStatusReplyJson.value("currentRoundId").toInt());
+    QString currentRoundId = refreshStatusReplyJson.value("currentRoundId").toString();
     
+    m_GlobalData->m_GameData.m_GameId = refreshStatusReplyJson.value("id").toString().toLong(); //TODO conversion errors
+    m_GlobalData->m_GameData.m_RoundId = refreshStatusReplyJson.value("currentRoundId").toString().toLong();
+    m_GlobalData->m_GameData.m_UserId = m_GlobalData->m_UserData.m_UserId;
+    long int userId1 = refreshStatusReplyJson.value("firstPlayerId").toString().toLong();
+    long int userId2 = refreshStatusReplyJson.value("secondPlayerId").toString().toLong();
+    qDebug() << "userId1 " << userId1;
+    qDebug() << "userId2 " << userId2;
+    qDebug() << "m_GlobalData.m_UserData.m_UserId " << m_GlobalData->m_UserData.m_UserId;
+    m_GlobalData->m_GameData.m_OtherUserId = (userId1 == m_GlobalData->m_UserData.m_UserId) ? userId2 : userId1; //TODO validation m_UserData.m_UserId should be sent from server
+
     m_GameName->setText(gameName);
     m_FirstPlayerName->setText(firstPlayerName);
     m_SecondPlayerName->setText(secondPlayerName);
-    m_RoundName->setText(currentRoundId); //TODO it is long not int
+    m_RoundName->setText(currentRoundId); 
     emit gameStatusRefreshed(gameName, firstPlayerName, secondPlayerName, currentRoundId);
 }
 
 bool GameStatusWidget::validateRefreshStatusReply(const QJsonObject& reply) {
-    return (reply.contains("id") && reply.contains("firstPlayerName") && reply.contains("secondPlayerName") && reply.contains("gameName") && reply.contains("currentRoundId"));
+    return (reply.contains("id") && reply.contains("firstPlayerName") && reply.contains("secondPlayerName") && reply.contains("gameName") && reply.contains("currentRoundId")
+        && reply.contains("firstPlayerId") && reply.contains("secondPlayerId"));
 }
 
 

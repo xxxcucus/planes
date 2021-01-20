@@ -96,6 +96,24 @@ bool PlaneGrid::initGridByAutomaticGeneration()
 	return true;
 }
 
+bool PlaneGrid::initGridByUser(int plane1_x, int plane1_y, Plane::Orientation plane1_orient, int plane2_x, int plane2_y, Plane::Orientation plane2_orient, int plane3_x, int plane3_y, Plane::Orientation plane3_orient) {
+    if (m_planeNo != 3)
+        return false;
+    
+    Plane pl1(plane1_x, plane1_y, plane1_orient);
+    Plane pl2(plane2_x, plane2_y, plane2_orient);
+    Plane pl3(plane3_x, plane3_y, plane3_orient);
+    
+    if (!savePlane(pl1))
+        return false;
+    if (!savePlane(pl2))
+        return false;
+    if (!savePlane(pl3))
+        return false;
+    
+    return !computePlanePointsList(false);
+}
+
 //generate a plane at a random grid position
 Plane PlaneGrid::generateRandomPlane() const
 {
