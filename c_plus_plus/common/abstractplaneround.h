@@ -120,7 +120,7 @@ public:
 
 protected:
 	//update game statistics
-	void updateGameStats(const GuessPoint& gp, bool isComputer);
+	bool updateGameStats(const GuessPoint& gp, bool isComputer);
 	//tests whether all of the planes have been guessed
 	bool enoughGuesses(PlaneGrid* pg, const std::vector<GuessPoint>& guessList) const;
 	//based on the available information makes the next move for the computer

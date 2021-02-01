@@ -84,7 +84,9 @@ public slots:
     /**
      * @brief Query the server for the opponent's plane positions
      */
-    void acquireOpponentPositionsClickedSlot(bool c);
+    void acquireOpponentPositionsClickedSlot(bool c);    
+    void acquireOpponentMovesClickedSlot(bool c);
+    
     
     /**
      * @brief activates the editing board tab and the buttons in it
@@ -115,6 +117,7 @@ public slots:
 private:
     void submitDoneClicked();
     bool validateDoneClickedReply(const QJsonObject& reply);
+    void activateGameTabDeactivateButtons();
     
 private:
     GameStatsFrame* m_PlayerStatsFrame;
@@ -137,6 +140,7 @@ private:
     QPushButton* m_downPlaneButton;
     QPushButton* m_doneButton;
     QPushButton* m_acquireOpponentPositionsButton;
+    QPushButton* m_acquireOpponentMovesButton;
     
     ScoreFrame* m_ScoreFrame;
     GameInfo* m_GameInfo;

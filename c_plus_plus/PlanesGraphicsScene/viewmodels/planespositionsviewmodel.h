@@ -25,13 +25,13 @@ struct PlanesPositionsViewModel {
         retVal.insert("playerId", QString::number(m_UserId));      
         retVal.insert("plane1_x", m_Plane1X);
         retVal.insert("plane1_y", m_Plane1Y);
-        retVal.insert("plane1_orient", m_Plane1Orient);
+        retVal.insert("plane1_orient", (int)m_Plane1Orient);
         retVal.insert("plane2_x", m_Plane2X);
         retVal.insert("plane2_y", m_Plane2Y);
-        retVal.insert("plane2_orient", m_Plane2Orient);
+        retVal.insert("plane2_orient", (int)m_Plane2Orient);
         retVal.insert("plane3_x", m_Plane3X);
         retVal.insert("plane3_y", m_Plane3Y);
-        retVal.insert("plane3_orient", m_Plane3Orient);
+        retVal.insert("plane3_orient", (int)m_Plane3Orient);
         return retVal;
     }
     

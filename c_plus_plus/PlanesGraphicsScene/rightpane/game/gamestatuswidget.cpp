@@ -115,7 +115,7 @@ void GameStatusWidget::finishedRefreshStatus()
         return;
     }
     
-    m_GlobalData->m_GameData.m_GameId = (long int)refreshStatusReplyJson.value("id").toDouble();
+    m_GlobalData->m_GameData.m_GameId = refreshStatusReplyJson.value("id").toString().toLong();
     m_GlobalData->m_GameData.m_RoundId = (long int)refreshStatusReplyJson.value("currentRoundId").toDouble();
     
     QString gameName = refreshStatusReplyJson.value("gameName").toString();

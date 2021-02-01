@@ -1,6 +1,7 @@
 #include "planesgsview.h"
 
 #include <QHBoxLayout>
+#include <QDebug>
 #include "customhorizlayout.h"
 
 PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QSettings* settings, QWidget *parent)
@@ -32,6 +33,9 @@ PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* gl
     connect(m_RightPane, SIGNAL(guessMade(const GuessPoint&)), this, SLOT(receivedPlayerGuess(const GuessPoint&)));
     connect(m_LeftPane, SIGNAL(startNewGame()), this, SLOT(startNewGame()));
 
+    connect(m_MultiRound, &MultiplayerRound::opponentMoveGenerated, this, &PlanesGSView::opponentMoveGeneratedSlot);
+
+    
 	m_round->initRound();
 	m_RightPane->resetGameBoard();
 	m_LeftPane->activateEditingBoard();
@@ -55,21 +59,34 @@ void PlanesGSView::displayStatusMsg(const std::string& str)
 
 void PlanesGSView::receivedPlayerGuess(const GuessPoint& gp)
 {
-	PlayerGuessReaction pgr;
-	m_round->playerGuess(gp, pgr);
 
-	if (pgr.m_ComputerMoveGenerated) {
-		m_RightPane->showComputerMove(pgr.m_ComputerGuess);
-	}
-	if (pgr.m_RoundEnds) {
-		printf("Round ends\n");
-		m_LeftPane->endRound(!pgr.m_isPlayerWinner);
-		m_RightPane->endRound(!pgr.m_isPlayerWinner, pgr.m_isDraw);
-		m_round->roundEnds();
-	}
+    if (m_GameInfo->getSinglePlayer()) {
+        PlayerGuessReaction pgr;
+        m_round->playerGuess(gp, pgr);
 
-	m_LeftPane->updateGameStatistics(pgr.m_GameStats);
+        if (pgr.m_ComputerMoveGenerated) {
+            m_RightPane->showComputerMove(pgr.m_ComputerGuess);
+        }
+        if (pgr.m_RoundEnds) {
+            printf("Round ends\n");
+            m_LeftPane->endRound(!pgr.m_isPlayerWinner);
+            m_RightPane->endRound(!pgr.m_isPlayerWinner, pgr.m_isDraw);
+            m_round->roundEnds();
+        }
+
+        m_LeftPane->updateGameStatistics(pgr.m_GameStats);
+    } else {
+        PlayerGuessReaction pgr;
+        m_MultiRound->playerGuess(gp, pgr);
+    }
 }
+
+void PlanesGSView::opponentMoveGeneratedSlot(const GuessPoint& gp)
+{
+    qDebug() << "opponentMoveGeneratedSlot";
+    m_RightPane->showComputerMove(gp);
+}
+
 
 void PlanesGSView::doneClicked()
 {

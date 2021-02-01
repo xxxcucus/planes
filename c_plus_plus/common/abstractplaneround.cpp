@@ -141,9 +141,14 @@ bool AbstractPlaneRound::enoughGuesses(PlaneGrid* pg, const std::vector<GuessPoi
 }
 
 //based on a guesspoint updates the game stats
-void AbstractPlaneRound::updateGameStats(const GuessPoint& gp, bool isComputer)
+bool AbstractPlaneRound::updateGameStats(const GuessPoint& gp, bool isComputer)
 {
-	m_gameStats.updateStats(gp, isComputer);
+    if ((!isComputer && !m_gameStats.playerFinished(m_planeNo)) || (isComputer && !m_gameStats.computerFinished(m_planeNo))) {
+        m_gameStats.updateStats(gp, isComputer);
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void AbstractPlaneRound::doneEditing() {

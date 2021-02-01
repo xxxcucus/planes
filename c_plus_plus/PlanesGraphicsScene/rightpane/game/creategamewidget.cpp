@@ -123,7 +123,7 @@ void CreateGameWidget::finishedCreateGame()
     QMessageBox msgBox;
     msgBox.setText("Game creation successfull!"); 
     msgBox.exec();               
-    m_GlobalData->m_GameData.m_GameId = (long int)createGameReplyJson.value("id").toDouble();
+    m_GlobalData->m_GameData.m_GameId = createGameReplyJson.value("id").toString().toLong();
     long int userId2 = createGameReplyJson.value("secondPlayerId").toString().toLong();
     m_GlobalData->m_UserData.m_UserId = userId2;
     emit gameCreated(m_GameName->text(), m_GlobalData->m_UserData.m_UserName);

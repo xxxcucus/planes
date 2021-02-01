@@ -76,6 +76,7 @@ set(GS_HEADR
 	viewmodels/norobotviewmodel.h
 	viewmodels/planespositionsviewmodel.h
 	viewmodels/getopponentplanespositionsviewmodel.h
+	viewmodels/newmoveviewmodel.h
 	global/globaluserdata.h
 	global/globalgamedata.h
 	global/globaldata.h

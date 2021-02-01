@@ -104,14 +104,28 @@ bool PlaneGrid::initGridByUser(int plane1_x, int plane1_y, Plane::Orientation pl
     Plane pl2(plane2_x, plane2_y, plane2_orient);
     Plane pl3(plane3_x, plane3_y, plane3_orient);
     
-    if (!savePlane(pl1))
-        return false;
-    if (!savePlane(pl2))
-        return false;
-    if (!savePlane(pl3))
-        return false;
+    resetGrid();
     
-    return !computePlanePointsList(false);
+    if (!savePlane(pl1)) {
+        printf("Fail 1");
+        return false;
+    }
+    if (!savePlane(pl2)) {
+        printf("Fail 2");
+        return false;
+    }
+    if (!savePlane(pl3)) {
+        printf("Fail 3");
+        return false;
+    }
+    
+    bool retval = computePlanePointsList(false);
+    
+    if (!retval) {
+        printf("Fail 4");
+    }
+    
+    return retval;
 }
 
 //generate a plane at a random grid position

@@ -29,6 +29,14 @@ struct GameStatistics
     //adds to the score
     void updateWins(bool isComputerWinner);
 	void updateDraws();
+    
+    bool playerFinished(int noPlanes) {
+        return m_playerDead >= noPlanes;
+    }
+    
+    bool computerFinished(int noPlanes) {
+        return m_computerDead >= noPlanes;
+    }
 };
 
 #endif // GAMESTATISTICS_H

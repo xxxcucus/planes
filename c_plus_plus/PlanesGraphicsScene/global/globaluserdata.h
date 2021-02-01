@@ -13,7 +13,7 @@ struct GlobalUserData {
     
 public:
     void reset() {
-        m_AuthToken = QByteArray();
+        m_AuthToken = QByteArray();  //TODO: token expires some  times
         m_UserName = QString();
         m_UserPassword = QString();
         m_UserId = 0;

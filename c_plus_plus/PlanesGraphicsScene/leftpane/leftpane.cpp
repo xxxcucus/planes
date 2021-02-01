@@ -10,6 +10,7 @@
 #include "viewmodels/getopponentplanespositionsviewmodel.h"
 #include "communicationtools.h"
 #include <global/globalgamedata.h>
+#include "viewmodels/getopponentemovesviewmodel.h"
 
 LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, MultiplayerRound* mrd, QWidget *parent) 
     : QTabWidget(parent), m_GameInfo(gameInfo), m_NetworkManager(networkManager), m_GlobalData(globalData), m_Settings(settings), m_MultiRound(mrd)
@@ -17,8 +18,10 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     m_PlayerStatsFrame = new GameStatsFrame("Player");
     m_ComputerStatsFrame = new GameStatsFrame("Computer");
     QVBoxLayout* vLayout = new QVBoxLayout();
+    m_acquireOpponentMovesButton = new QPushButton("Acquire opponent moves");
     vLayout->addWidget(m_PlayerStatsFrame);
     vLayout->addWidget(m_ComputerStatsFrame);
+    vLayout->addWidget(m_acquireOpponentMovesButton);
     vLayout->addStretch(5);
     m_GameWidget = new QWidget();
     m_GameWidget->setLayout(vLayout);
@@ -31,7 +34,7 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     m_upPlaneButton = new QPushButton("Plane upwards");
     m_downPlaneButton = new QPushButton("Plane downwards");
     m_doneButton = new QPushButton("Done editing");
-    m_acquireOpponentPositionsButton = new QPushButton("Acquired opponent planes positions");
+    m_acquireOpponentPositionsButton = new QPushButton("Acquire opponent planes positions");
     QSpacerItem* spacer = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
     QGridLayout* gridLayout = new QGridLayout();
     gridLayout->addWidget(m_selectPlaneButton, 0, 0, 1, 3);
@@ -55,7 +58,7 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     connect(m_leftPlaneButton, SIGNAL(clicked(bool)), this, SLOT(leftPlaneClickedSlot(bool)));
     connect(m_rightPlaneButton, SIGNAL(clicked(bool)), this, SLOT(rightPlaneClickedSlot(bool)));
     connect(m_acquireOpponentPositionsButton, SIGNAL(clicked(bool)), this, SLOT(acquireOpponentPositionsClickedSlot(bool)));
-    
+    connect(m_acquireOpponentMovesButton, SIGNAL(clicked(bool)), this, SLOT(acquireOpponentMovesClickedSlot(bool)));
     m_GameTabIndex = addTab(m_GameWidget, "Round");
     m_EditorTabIndex = addTab(m_BoardEditingWidget, "BoardEditing");
 
@@ -137,11 +140,11 @@ void LeftPane::submitDoneClicked()
     planesPositionsData.m_Plane3Y = pl3.col();
     planesPositionsData.m_Plane3Orient = pl3.orientation();
     
-    qDebug() << "Plane 1 " << pl1.row() << " " << pl1.col() << " " << pl1.orientation();
-    qDebug() << "Plane 2 " << pl2.row() << " " << pl2.col() << " " << pl2.orientation();
-    qDebug() << "Plane 3 " << pl3.row() << " " << pl3.col() << " " << pl3.orientation();
+    qDebug() << "Plane 1 " << pl1.row() << " " << pl1.col() << " " << (int)pl1.orientation();
+    qDebug() << "Plane 2 " << pl2.row() << " " << pl2.col() << " " << (int)pl2.orientation();
+    qDebug() << "Plane 3 " << pl3.row() << " " << pl3.col() << " " << (int)pl3.orientation();
     
-    if (m_DoneClickedReply != nullptr)
+    if (m_DoneClickedReply != nullptr) //TODO what if we click fast one after the other
         delete m_DoneClickedReply;
 
     m_DoneClickedReply = CommunicationTools::buildPostRequestWithAuth("/round/myplanespositions", m_Settings->value("multiplayer/serverpath").toString(), planesPositionsData.toJson(), m_GlobalData->m_UserData.m_AuthToken, m_NetworkManager);
@@ -241,6 +244,13 @@ void LeftPane::acquireOpponentPositionsClickedSlot(bool c)
     connect(m_AcquireOpponentPositionsReply, &QNetworkReply::finished, this, &LeftPane::finishedAcquireOpponentPositions);
     connect(m_AcquireOpponentPositionsReply, &QNetworkReply::errorOccurred, this, &LeftPane::errorAcquireOpponentPositions);
 }
+
+void LeftPane::acquireOpponentMovesClickedSlot(bool c)
+{
+    if (!m_GameInfo->getSinglePlayer())
+        m_MultiRound->requestOpponentMoves();
+}
+
 
 void LeftPane::finishedAcquireOpponentPositions() {
     if (m_GameInfo->getSinglePlayer())

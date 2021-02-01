@@ -30,6 +30,8 @@ public slots:
 	void receivedPlayerGuess(const GuessPoint& gp);
 	void doneClicked();
 	void startNewGame();
+    
+    void opponentMoveGeneratedSlot(const GuessPoint& gp);
 
 private:
 
