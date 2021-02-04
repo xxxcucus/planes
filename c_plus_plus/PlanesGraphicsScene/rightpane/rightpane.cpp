@@ -49,6 +49,7 @@ RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings,
     //connect(this, SIGNAL(showComputerMove(const GuessPoint&)), m_PlayerBoard, SLOT(showMove(const GuessPoint&)));
     connect(m_ComputerBoard, SIGNAL(guessMade(const GuessPoint&)), this, SIGNAL(guessMade(const GuessPoint&)));
     connect(gameWidget, &GameWidget::gameConnectedTo, this, &RightPane::multiplayerRoundReset);
+    connect(m_MultiRound, SIGNAL(roundWasCancelled()), this, SLOT(roundWasCancelledSlot()));
 }
 
 RightPane::~RightPane()
@@ -156,4 +157,10 @@ void RightPane::multiplayerRoundReset(const QString& gameName, const QString& fi
 
     qDebug() << "Multiround reset!! " << desiredRoundId;
 
+}
+
+void RightPane::roundWasCancelledSlot()
+{
+    m_PlayerBoard->setGameStage(GenericBoard::GameStages::GameNotStarted); //to deactivate guessing
+    m_ComputerBoard->setGameStage(GenericBoard::GameStages::GameNotStarted);
 }

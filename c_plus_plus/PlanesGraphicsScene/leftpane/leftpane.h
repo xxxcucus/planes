@@ -106,17 +106,21 @@ public slots:
     void endRound(bool isPlayerWinner);
 
     void errorDoneClicked(QNetworkReply::NetworkError code);
-
     void finishedDoneClicked();    
     
     void finishedAcquireOpponentPositions();
     void errorAcquireOpponentPositions(QNetworkReply::NetworkError code);
  
+    void roundWasCancelledSlot();
+    void cancelRoundClicked(bool b);
     
+    void errorCancelRoundClicked(QNetworkReply::NetworkError code);
+    void finishedCancelRoundClicked();    
     
 private:
     void submitDoneClicked();
     bool validateDoneClickedReply(const QJsonObject& reply);
+    bool validateCancelRoundReply(const QJsonObject& reply);
     void activateGameTabDeactivateButtons();
     
 private:
@@ -141,6 +145,8 @@ private:
     QPushButton* m_doneButton;
     QPushButton* m_acquireOpponentPositionsButton;
     QPushButton* m_acquireOpponentMovesButton;
+    QPushButton* m_CancelRoundButton_BoardEditing;
+    QPushButton* m_CancelRoundButton_Game;
     
     ScoreFrame* m_ScoreFrame;
     GameInfo* m_GameInfo;
@@ -151,6 +157,7 @@ private:
     
     QNetworkReply* m_DoneClickedReply = nullptr;
     QNetworkReply* m_AcquireOpponentPositionsReply = nullptr;
+    QNetworkReply* m_CancelRoundReply = nullptr;
 };
 
 #endif // PLANESGSLEFTPANE_H

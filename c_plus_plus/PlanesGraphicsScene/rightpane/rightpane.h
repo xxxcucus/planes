@@ -51,6 +51,9 @@ public slots:
     
     void multiplayerRoundReset(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
 
+    void roundWasCancelledSlot();
+    
+    
 signals:
     void planePositionNotValid(bool);
 

@@ -77,6 +77,8 @@ void MultiplayerRound::errorNewMoveClicked(QNetworkReply::NetworkError code)
 
 void MultiplayerRound::finishedNewMoveClicked()
 {
+    
+    
     if (m_PlayerMoveReply->error() != QNetworkReply::NoError) {
         return;
     }
@@ -92,6 +94,14 @@ void MultiplayerRound::finishedNewMoveClicked()
         msgBox.setText("Opponent moves reply not recognized"); 
         msgBox.exec();
 
+        return;
+    }
+
+    bool rCancelled = newMoveClickedReplyJson.value("cancelled").toBool();
+    
+    if (rCancelled) {
+        roundCancelled();
+        emit roundWasCancelled();
         return;
     }
     
@@ -120,7 +130,7 @@ void MultiplayerRound::finishedNewMoveClicked()
 }
 
 bool MultiplayerRound::validateOpponentMovesReply(const QJsonObject& reply) {
-    if (!(reply.contains("roundId") && reply.contains("opponentUserId") && reply.contains("startIndex") && reply.contains("listMoves"))) {
+    if (!(reply.contains("roundId") && reply.contains("opponentUserId") && reply.contains("startIndex") && reply.contains("cancelled") && reply.contains("listMoves"))) {
         qDebug() << "error 1";
         return false;
     }
@@ -163,6 +173,7 @@ void MultiplayerRound::getPlayerPlaneNo(int pos, Plane& pl) {
 }
 
 bool MultiplayerRound::setComputerPlanes(int plane1_x, int plane1_y, Plane::Orientation plane1_orient, int plane2_x, int plane2_y, Plane::Orientation plane2_orient, int plane3_x, int plane3_y, Plane::Orientation plane3_orient) {
+    m_State = AbstractPlaneRound::GameStages::Game;
     return m_ComputerGrid->initGridByUser(plane1_x, plane1_y, plane1_orient, plane2_x, plane2_y, plane2_orient, plane3_x, plane3_y, plane3_orient);
 }
 
@@ -203,6 +214,15 @@ void MultiplayerRound::finishedAcquireOpponentMoves() {
 
         return;
     }
+
+    bool rCancelled = newMoveClickedReplyJson.value("cancelled").toBool();
+    
+    if (rCancelled) {
+        roundCancelled();
+        emit roundWasCancelled();
+        return;
+    }
+
     
     QJsonValue movesObject = newMoveClickedReplyJson.value("listMoves");
     QJsonArray movesArray = movesObject.toArray();
@@ -230,4 +250,10 @@ void MultiplayerRound::finishedAcquireOpponentMoves() {
 
 void MultiplayerRound::errorAcquireOpponentMoves(QNetworkReply::NetworkError code) {
     CommunicationTools::treatCommunicationError("sending move to server ", m_PlayerMoveReply);        
+}
+
+
+void MultiplayerRound::roundCancelled()
+{
+    m_State = AbstractPlaneRound::GameStages::GameNotStarted;
 }

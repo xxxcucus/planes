@@ -23,7 +23,8 @@ private:
     QSettings* m_Settings;
     QNetworkReply* m_PlayerMoveReply = nullptr; //TODO list of network replies
     QNetworkReply* m_OpponentMoveReply = nullptr;
-    
+    //TODO: to add game info to check for multi-single player in network operations
+
     
 private slots:
     void errorNewMoveClicked(QNetworkReply::NetworkError code);
@@ -33,6 +34,7 @@ private slots:
     
 signals:
     void opponentMoveGenerated(const GuessPoint& gp);
+    void roundWasCancelled();
 
 public:
     MultiplayerRound(int rows, int cols, int planeNo, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings);
@@ -53,6 +55,9 @@ public:
     
     void getPlayerPlaneNo(int pos, Plane& pl);
     bool setComputerPlanes(int plane1_x, int plane1_y, Plane::Orientation plane1_orient, int plane2_x, int plane2_y, Plane::Orientation plane2_orient, int plane3_x, int plane3_y, Plane::Orientation plane3_orient); 
+    
+    //TODO to add method also in normal round
+    void roundCancelled();
     
 private:
     bool validateOpponentMovesReply(const QJsonObject& reply);
