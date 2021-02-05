@@ -78,6 +78,7 @@ set(GS_HEADR
 	viewmodels/getopponentplanespositionsviewmodel.h
 	viewmodels/newmoveviewmodel.h
 	viewmodels/cancelroundviewmodel.h
+	viewmodels/startnewroundviewmodel.h
 	global/globaluserdata.h
 	global/globalgamedata.h
 	global/globaldata.h

@@ -12,6 +12,7 @@
 #include <global/globalgamedata.h>
 #include "viewmodels/getopponentemovesviewmodel.h"
 #include "viewmodels/cancelroundviewmodel.h"
+#include "viewmodels/startnewroundviewmodel.h"
 
 LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, MultiplayerRound* mrd, QWidget *parent) 
     : QTabWidget(parent), m_GameInfo(gameInfo), m_NetworkManager(networkManager), m_GlobalData(globalData), m_Settings(settings), m_MultiRound(mrd)
@@ -80,7 +81,7 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     m_StartGameWidget = new QWidget();
     m_StartGameWidget->setLayout(vLayout1);
     m_GameStartIndex = addTab(m_StartGameWidget, "Start Round");
-    connect(m_ScoreFrame, SIGNAL(startNewGame()), this, SIGNAL(startNewGame()));
+    connect(m_ScoreFrame, SIGNAL(startNewGame()), this, SLOT(startNewGameSlot()));
 
     activateEditorTab();
 }
@@ -530,3 +531,70 @@ void LeftPane::finishedCancelRoundClicked()
 bool LeftPane::validateCancelRoundReply(const QJsonObject& reply) {
    return (reply.contains("roundId"));
 }
+
+void LeftPane::startNewGameSlot()
+{
+    if (m_GameInfo->getSinglePlayer()) {
+        emit startNewGame();
+        return;
+    }
+        
+    StartNewRoundViewModel startNewRoundData;
+    startNewRoundData.m_GameId = m_GlobalData->m_GameData.m_GameId;
+    
+    if (m_StartNewRoundReply != nullptr) //TODO what if we click fast one after the other
+        delete m_StartNewRoundReply;
+
+    m_StartNewRoundReply = CommunicationTools::buildPostRequestWithAuth("/round/start", m_Settings->value("multiplayer/serverpath").toString(), startNewRoundData.toJson(), m_GlobalData->m_UserData.m_AuthToken, m_NetworkManager);
+
+    connect(m_StartNewRoundReply, &QNetworkReply::finished, this, &LeftPane::finishedStartNewRound);
+    connect(m_StartNewRoundReply, &QNetworkReply::errorOccurred, this, &LeftPane::errorStartNewRound);
+    
+}
+
+void LeftPane::errorStartNewRound(QNetworkReply::NetworkError code)
+{
+    if (m_GameInfo->getSinglePlayer())
+        return;
+
+    CommunicationTools::treatCommunicationError("starting new round ", m_StartNewRoundReply);    
+}
+
+void LeftPane::finishedStartNewRound()
+{
+    if (m_GameInfo->getSinglePlayer())
+        return;
+
+    if (m_StartNewRoundReply->error() != QNetworkReply::NoError) {
+        return;
+    }
+    
+    QByteArray reply = m_StartNewRoundReply->readAll();
+    QString startNewRoundReplyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
+    QJsonObject startNewRoundReplyJson = CommunicationTools::objectFromString(startNewRoundReplyQString);
+ 
+    qDebug() << startNewRoundReplyQString;
+    
+    if (!validateStartNewRoundReply(startNewRoundReplyJson)) {
+        QMessageBox msgBox;
+        msgBox.setText("Start New Round failed!"); 
+        msgBox.exec();
+
+        return;
+    }
+
+    long int roundId = startNewRoundReplyJson.value("roundId").toString().toLong(); //TODO: to add validation
+    m_GlobalData->m_GameData.m_RoundId = roundId;
+    
+    m_MultiRound->initRound();
+    m_MultiRound->setRoundId(roundId);  
+    
+    emit startNewGame();
+    activateEditingBoard();
+}
+
+bool LeftPane::validateStartNewRoundReply(const QJsonObject& reply)
+{
+   return (reply.contains("roundId") && reply.contains("newRoundCreated"));    
+}
+

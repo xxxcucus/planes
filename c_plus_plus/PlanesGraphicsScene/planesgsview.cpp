@@ -43,13 +43,20 @@ PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* gl
 
 void PlanesGSView::startNewGame() {
 	printf("Start new round\n");
-	if (m_round->didRoundEnd()) {
-		m_round->initRound();
-		m_RightPane->startNewGame();
-		m_RightPane->resetGameBoard();
-		m_LeftPane->activateEditingBoard();
-		m_LeftPane->updateGameStatistics(GameStatistics());
-	}
+    
+    if (m_GameInfo->getSinglePlayer()) {
+        if (m_round->didRoundEnd()) {
+            m_round->initRound();
+            m_RightPane->startNewGame();
+            m_RightPane->resetGameBoard();
+            m_LeftPane->activateEditingBoard();
+            m_LeftPane->updateGameStatistics(GameStatistics());
+        }
+        return;
+    }
+    
+    m_RightPane->startNewGame();
+    m_RightPane->resetGameBoard();
 }
 
 void PlanesGSView::displayStatusMsg(const std::string& str)

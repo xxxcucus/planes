@@ -120,6 +120,10 @@ void RightPane::endRound(bool isPlayerWinner, bool isDraw) {
 
 void RightPane::startNewGame() {
     setCurrentIndex(m_OwnBoardIndex);
+    if (!m_GameInfo->getSinglePlayer()) {
+        m_PlayerBoard->refreshPlanes();
+        m_ComputerBoard->refreshPlanes();
+    }
 }
 
 void RightPane::setMinWidth()

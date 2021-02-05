@@ -87,6 +87,7 @@ public slots:
     void acquireOpponentPositionsClickedSlot(bool c);    
     void acquireOpponentMovesClickedSlot(bool c);
     
+    void startNewGameSlot();
     
     /**
      * @brief activates the editing board tab and the buttons in it
@@ -116,11 +117,16 @@ public slots:
     
     void errorCancelRoundClicked(QNetworkReply::NetworkError code);
     void finishedCancelRoundClicked();    
+
+    void errorStartNewRound(QNetworkReply::NetworkError code);
+    void finishedStartNewRound();    
+
     
 private:
     void submitDoneClicked();
     bool validateDoneClickedReply(const QJsonObject& reply);
     bool validateCancelRoundReply(const QJsonObject& reply);
+    bool validateStartNewRoundReply(const QJsonObject& reply);
     void activateGameTabDeactivateButtons();
     
 private:
@@ -158,6 +164,7 @@ private:
     QNetworkReply* m_DoneClickedReply = nullptr;
     QNetworkReply* m_AcquireOpponentPositionsReply = nullptr;
     QNetworkReply* m_CancelRoundReply = nullptr;
+    QNetworkReply* m_StartNewRoundReply = nullptr;
 };
 
 #endif // PLANESGSLEFTPANE_H

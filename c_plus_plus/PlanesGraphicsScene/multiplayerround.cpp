@@ -32,7 +32,16 @@ void MultiplayerRound::initRound()
 }
 
 void MultiplayerRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr) {
-	//update the game statistics
+    if (m_State != AbstractPlaneRound::GameStages::Game) {
+        QMessageBox msgBox;
+        msgBox.setText("Not ready to play game.\n You do not have the opponent's planes positions!"); 
+        msgBox.exec();
+
+        return;        
+    }
+        
+    
+    //update the game statistics
 	if (updateGameStats(gp, false)) {
         //add the player's guess to the list of guesses
         //assume that the guess is different from the other guesses

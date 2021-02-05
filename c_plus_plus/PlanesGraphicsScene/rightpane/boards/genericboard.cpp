@@ -92,6 +92,7 @@ void GenericBoard::refreshPlanes()
 {
     hidePlanes();
     displayPlanes();
+    
 }
 
 

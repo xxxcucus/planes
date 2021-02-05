@@ -3,7 +3,7 @@
 
 #include <QString>
 #include <QJsonObject>
-#include <vector>
+
 
 struct NoRobotViewModel {
     QString m_requestId;
