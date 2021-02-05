@@ -7,6 +7,7 @@ cmake_policy(SET CMP0043 NEW)
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_SOURCE_DIR}/../common
+	${CMAKE_CURRENT_SOURCE_DIR}/../multiround/
 	${CMAKE_CURRENT_SOURCE_DIR}/../bcrypt
 	${Qt5Widgets_INCLUDE_DIRS})
 
@@ -38,8 +39,6 @@ set(GS_SRCS
 	rightpane/game/creategamewidget.cpp
 	rightpane/options/gamedifficultyoptions.cpp
 	rightpane/options/optionswindow.cpp
-	multiplayerround.cpp
-	communicationtools.cpp
 	main.cpp
     animatedtextitem.cpp
     customhorizlayout.cpp
@@ -71,23 +70,10 @@ set(GS_HEADR
 	rightpane/game/creategamewidget.h
 	rightpane/options/gamedifficultyoptions.h
 	rightpane/options/optionswindow.h
-	viewmodels/gameviewmodel.h
-	viewmodels/loginviewmodel.h
-	viewmodels/norobotviewmodel.h
-	viewmodels/planespositionsviewmodel.h
-	viewmodels/getopponentplanespositionsviewmodel.h
-	viewmodels/newmoveviewmodel.h
-	viewmodels/cancelroundviewmodel.h
-	viewmodels/startnewroundviewmodel.h
-	global/globaluserdata.h
-	global/globalgamedata.h
-	global/globaldata.h
-	multiplayerround.h
 	customhorizlayout.h
 	animatedtextitem.h
 	planesgsview.h
 	planesgswindow.h	
-	communicationtools.h
 	gameinfo.h
 )
 
@@ -97,6 +83,7 @@ add_executable(PlanesGraphicsScene
 	resources.qrc)
 target_link_libraries(PlanesGraphicsScene
 	libCommon
+	libMultiRound
 	libbcrypt
 	${Qt5Widgets_LIBRARIES}
 	${Qt5Network_LIBRARIES})
