@@ -8,6 +8,7 @@
 #include <QNetworkAccessManager>
 #include "global/globaldata.h"
 #include "gameinfo.h"
+#include "multiplayerround.h"
 
 
 class GameStatusWidget : public QFrame
@@ -15,7 +16,7 @@ class GameStatusWidget : public QFrame
     Q_OBJECT
 
 public:
-    explicit GameStatusWidget(GlobalData* globalData, QSettings* settings, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent = nullptr);
+    explicit GameStatusWidget(GlobalData* globalData, QSettings* settings, QNetworkAccessManager* networkManager, GameInfo* gameInfo, MultiplayerRound* mrd, QWidget* parent = nullptr);
     //void updateDisplayedValues(int moves, int misses, int hits, int kills); TODO
 
 public slots:
@@ -42,6 +43,7 @@ public:
     QSettings* m_Settings;
     QNetworkAccessManager* m_NetworkManager;
     GameInfo* m_GameInfo;
+    MultiplayerRound* m_MultiRound;
 };
 
 

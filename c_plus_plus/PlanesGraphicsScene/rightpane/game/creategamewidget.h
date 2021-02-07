@@ -9,6 +9,7 @@
 
 #include "global/globaldata.h"
 #include "gameinfo.h"
+#include "multiplayerround.h"
 
 
 class CreateGameWidget : public QFrame
@@ -16,7 +17,7 @@ class CreateGameWidget : public QFrame
     Q_OBJECT
 
 public:
-    CreateGameWidget(GlobalData* globalData, GameInfo* gameInfo, QNetworkAccessManager* networkManager, QSettings* settings, QWidget* parent = nullptr);
+    CreateGameWidget(GlobalData* globalData, GameInfo* gameInfo, QNetworkAccessManager* networkManager, QSettings* settings, MultiplayerRound* mrd, QWidget* parent = nullptr);
     //void updateDisplayedValues(int moves, int misses, int hits, int kills); TODO
 
 public slots:
@@ -29,7 +30,6 @@ public slots:
 
     
 signals:
-    void gameCreated(const QString& gameName, const QString& username);
     void gameConnectedTo(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
 
 private:
@@ -43,6 +43,7 @@ public:
     GameInfo* m_GameInfo;
     QNetworkAccessManager* m_NetworkManager;
     QSettings* m_Settings;
+    MultiplayerRound* m_MultiRound;
 };
 
 

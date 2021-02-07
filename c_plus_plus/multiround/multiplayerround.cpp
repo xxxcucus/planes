@@ -10,6 +10,11 @@
 MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings)
     : AbstractPlaneRound(rows, cols, planeNo), m_NetworkManager(networkManager), m_GlobalData(globalData), m_Settings(settings)
 {
+    m_IsSinglePlayer = false;
+    m_CreateGameObj = new CreateGameCommObj("/game/create/", "creating game", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData);
+    connect(m_CreateGameObj, &CreateGameCommObj::gameCreated, this, &MultiplayerRound::gameCreated);
+
+    
     reset();
     initRound();
 }
@@ -265,4 +270,10 @@ void MultiplayerRound::errorAcquireOpponentMoves(QNetworkReply::NetworkError cod
 void MultiplayerRound::roundCancelled()
 {
     m_State = AbstractPlaneRound::GameStages::GameNotStarted;
+}
+
+
+void MultiplayerRound::createGame(const QString& gameName)
+{
+    m_CreateGameObj->makeRequest(gameName);
 }

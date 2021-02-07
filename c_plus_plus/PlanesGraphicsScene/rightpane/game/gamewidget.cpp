@@ -8,14 +8,14 @@
 #include "creategamewidget.h"
 #include "gameendwidget.h"
 
-GameWidget::GameWidget(GlobalData* globalData, GameInfo* gameInfo, QNetworkAccessManager* networkManager, QSettings* settings, QWidget* parent)
-    : QWidget(parent), m_GlobalData(globalData), m_GameInfo(gameInfo), m_NetworkManager(networkManager), m_Settings(settings) {
+GameWidget::GameWidget(GlobalData* globalData, GameInfo* gameInfo, QNetworkAccessManager* networkManager, QSettings* settings, MultiplayerRound* mrd, QWidget* parent)
+    : QWidget(parent), m_GlobalData(globalData), m_GameInfo(gameInfo), m_NetworkManager(networkManager), m_Settings(settings), m_MultiRound(mrd) {
 
     CustomHorizLayout* cLayout = new CustomHorizLayout(50);
     
     QWidget* leftPane = new QWidget();
     QVBoxLayout* vLayout = new QVBoxLayout();
-    GameStatusWidget* gameStatusWidget = new GameStatusWidget(m_GlobalData, m_Settings, m_NetworkManager, m_GameInfo);
+    GameStatusWidget* gameStatusWidget = new GameStatusWidget(m_GlobalData, m_Settings, m_NetworkManager, m_GameInfo, m_MultiRound);
     vLayout->addWidget(gameStatusWidget);
     QSpacerItem* spacer = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
     vLayout->addItem(spacer);
@@ -23,7 +23,7 @@ GameWidget::GameWidget(GlobalData* globalData, GameInfo* gameInfo, QNetworkAcces
     
     QWidget* rightContent = new QWidget();
     QVBoxLayout* vLayout1 = new QVBoxLayout();
-    CreateGameWidget* createGameWidget = new CreateGameWidget(m_GlobalData, m_GameInfo, m_NetworkManager, m_Settings);
+    CreateGameWidget* createGameWidget = new CreateGameWidget(m_GlobalData, m_GameInfo, m_NetworkManager, m_Settings, m_MultiRound);
     GameEndWidget* gameEndWidget = new GameEndWidget();
     QSpacerItem* spacer1 = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
     vLayout1->addWidget(createGameWidget);
@@ -42,7 +42,7 @@ GameWidget::GameWidget(GlobalData* globalData, GameInfo* gameInfo, QNetworkAcces
     cLayout->addWidget(rightPane);
     setLayout(cLayout);
 
-    connect(createGameWidget, &CreateGameWidget::gameCreated, gameStatusWidget, &GameStatusWidget::gameCreatedSlot);
+    connect(m_MultiRound, &MultiplayerRound::gameCreated, gameStatusWidget, &GameStatusWidget::gameCreatedSlot);
     connect(createGameWidget, &CreateGameWidget::gameConnectedTo, gameStatusWidget, &GameStatusWidget::gameConnectedToSlot);   
     connect(createGameWidget, &CreateGameWidget::gameConnectedTo, this, &GameWidget::gameConnectedTo);
     connect(gameStatusWidget, &GameStatusWidget::gameStatusRefreshed, this, &GameWidget::gameConnectedTo);

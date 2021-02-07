@@ -10,8 +10,8 @@
 #include "communicationtools.h"
 #include "creategamewidget.h"
 
-CreateGameWidget::CreateGameWidget(GlobalData* globalData, GameInfo* gameInfo, QNetworkAccessManager* networkManager, QSettings* settings, QWidget* parent) 
-    : QFrame(parent), m_GlobalData(globalData), m_GameInfo(gameInfo), m_NetworkManager(networkManager), m_Settings(settings)
+CreateGameWidget::CreateGameWidget(GlobalData* globalData, GameInfo* gameInfo, QNetworkAccessManager* networkManager, QSettings* settings, MultiplayerRound* mrd, QWidget* parent) 
+    : QFrame(parent), m_GlobalData(globalData), m_GameInfo(gameInfo), m_NetworkManager(networkManager), m_Settings(settings), m_MultiRound(mrd)
 {
     QString titleText = QString("<b> Create Game </b>");
     QLabel* titleLabel = new QLabel("");
@@ -39,7 +39,7 @@ CreateGameWidget::CreateGameWidget(GlobalData* globalData, GameInfo* gameInfo, Q
 
 
 void CreateGameWidget::createGameSlot() {
-    if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
+    /*if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         QMessageBox msgBox;
         msgBox.setText("No user logged in"); 
         msgBox.exec();
@@ -61,7 +61,9 @@ void CreateGameWidget::createGameSlot() {
     m_CreateGameReply = CommunicationTools::buildPostRequestWithAuth("/game/create", m_Settings->value("multiplayer/serverpath").toString(), gameData.toJson(), m_GlobalData->m_UserData.m_AuthToken, m_NetworkManager);
 
     connect(m_CreateGameReply, &QNetworkReply::finished, this, &CreateGameWidget::finishedCreateGame);
-    connect(m_CreateGameReply, &QNetworkReply::errorOccurred, this, &CreateGameWidget::errorCreateGame);
+    connect(m_CreateGameReply, &QNetworkReply::errorOccurred, this, &CreateGameWidget::errorCreateGame);*/
+    
+    m_MultiRound->createGame(m_GameName->text()); //TODO: validation
 }
 
 void CreateGameWidget::connectToGameSlot() {
@@ -93,15 +95,15 @@ void CreateGameWidget::connectToGameSlot() {
 
 void CreateGameWidget::errorCreateGame(QNetworkReply::NetworkError code)
 {
-    if (m_GameInfo->getSinglePlayer())
+/*    if (m_GameInfo->getSinglePlayer())
         return;
 
-    CommunicationTools::treatCommunicationError("creating game ", m_CreateGameReply);
+    CommunicationTools::treatCommunicationError("creating game ", m_CreateGameReply);*/
 }
 
 void CreateGameWidget::finishedCreateGame()
 {
-    if (m_GameInfo->getSinglePlayer())
+/*    if (m_GameInfo->getSinglePlayer())
         return;
 
     if (m_CreateGameReply->error() != QNetworkReply::NoError) {
@@ -126,7 +128,7 @@ void CreateGameWidget::finishedCreateGame()
     m_GlobalData->m_GameData.m_GameId = createGameReplyJson.value("id").toString().toLong();
     long int userId2 = createGameReplyJson.value("secondPlayerId").toString().toLong();
     m_GlobalData->m_UserData.m_UserId = userId2;
-    emit gameCreated(m_GameName->text(), m_GlobalData->m_UserData.m_UserName);
+    emit gameCreated(m_GameName->text(), m_GlobalData->m_UserData.m_UserName);*/
 }
 
 void CreateGameWidget::errorConnectToGame(QNetworkReply::NetworkError code)

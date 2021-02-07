@@ -8,6 +8,7 @@
 #include <QNetworkReply>
 #include "abstractplaneround.h"
 #include "global/globaldata.h"
+#include "communicationobjects/creategamecommobj.h"
 
 class MultiplayerRound : public QObject, public AbstractPlaneRound  {
     Q_OBJECT
@@ -24,6 +25,10 @@ private:
     QNetworkReply* m_PlayerMoveReply = nullptr; //TODO list of network replies
     QNetworkReply* m_OpponentMoveReply = nullptr;
     //TODO: to add game info to check for multi-single player in network operations
+    
+    bool m_IsSinglePlayer = false;
+    
+    CreateGameCommObj* m_CreateGameObj;
 
     
 private slots:
@@ -35,6 +40,9 @@ private slots:
 signals:
     void opponentMoveGenerated(const GuessPoint& gp);
     void roundWasCancelled();
+
+    void gameCreated(const QString& gameName, const QString& userName);
+
 
 public:
     MultiplayerRound(int rows, int cols, int planeNo, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings);
@@ -58,6 +66,11 @@ public:
     
     //TODO to add method also in normal round
     void roundCancelled();
+
+
+    //Requests to server
+    void createGame(const QString& gameName);
+
     
 private:
     bool validateOpponentMovesReply(const QJsonObject& reply);

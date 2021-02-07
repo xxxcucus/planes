@@ -8,8 +8,8 @@
 #include "viewmodels/gameviewmodel.h"
 #include "communicationtools.h"
 
-GameStatusWidget::GameStatusWidget(GlobalData* globalData, QSettings* settings, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) 
-    : QFrame(parent), m_GlobalData(globalData), m_Settings(settings), m_NetworkManager(networkManager), m_GameInfo(gameInfo)
+GameStatusWidget::GameStatusWidget(GlobalData* globalData, QSettings* settings, QNetworkAccessManager* networkManager, GameInfo* gameInfo, MultiplayerRound* mrd, QWidget* parent) 
+    : QFrame(parent), m_GlobalData(globalData), m_Settings(settings), m_NetworkManager(networkManager), m_GameInfo(gameInfo), m_MultiRound(mrd)
 {
     QString titleText = QString("<b> Game Status </b>");
     QLabel* titleLabel = new QLabel("");
