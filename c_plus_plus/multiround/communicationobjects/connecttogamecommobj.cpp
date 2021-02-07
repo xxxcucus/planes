@@ -46,6 +46,7 @@ void ConnectToGameCommObj::finishedRequest()
     m_GlobalData->m_UserData.m_UserId = userId2;
     QString firstPlayerName = retJson.value("firstPlayerName").toString();
     QString currentRoundId = retJson.value("currentRoundId").toString(); 
+    
     emit gameConnectedTo(m_GameName, firstPlayerName, m_GlobalData->m_UserData.m_UserName, currentRoundId);
 }
 

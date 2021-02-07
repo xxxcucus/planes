@@ -28,7 +28,8 @@ void MultiplayerRound::reset()
     AbstractPlaneRound::reset();
     m_PlayerMoveIndex = 0;
     m_ComputerMoveIndex = 0;
-    m_RoundId = 0;
+    m_GlobalData->m_GameData.reset();
+    m_GlobalData->m_UserData.reset();
 }
 
 void MultiplayerRound::initRound()
@@ -277,10 +278,10 @@ void MultiplayerRound::roundCancelled()
 
 void MultiplayerRound::startNewRound(long int desiredRoundId) {
     //TODO cancel current round
-    if (desiredRoundId == m_RoundId)
+    if (desiredRoundId == m_GlobalData->m_GameData.m_RoundId)
         return;
     initRound();
-    setRoundId(desiredRoundId);
+    m_GlobalData->m_GameData.m_RoundId = desiredRoundId;
 }
 
 void MultiplayerRound::createGame(const QString& gameName)

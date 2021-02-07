@@ -587,7 +587,6 @@ void LeftPane::finishedStartNewRound()
     m_GlobalData->m_GameData.m_RoundId = roundId;
     
     m_MultiRound->initRound();
-    m_MultiRound->setRoundId(roundId);  
     
     emit startNewGame();
     activateEditingBoard();

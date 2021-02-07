@@ -18,7 +18,6 @@ class MultiplayerRound : public QObject, public AbstractPlaneRound  {
 private:
     
     //TODO: computer moves with index so that it also works when replies come in different order as they were sent
-    long int m_RoundId = 0;
     int m_PlayerMoveIndex = 0;
     int m_ComputerMoveIndex = 0;
     QNetworkAccessManager* m_NetworkManager;
@@ -60,11 +59,8 @@ public:
     
     void requestOpponentMoves();
     
-    void setRoundId(long int id) {
-        m_RoundId = id;
-    }
     long int getRoundId() {
-        return m_RoundId;
+        return m_GlobalData->m_GameData.m_RoundId;
     }
     
     void getPlayerPlaneNo(int pos, Plane& pl);
