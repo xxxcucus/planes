@@ -46,9 +46,9 @@ RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings,
     addTab(helpWidget, "Help");
 
     connect(m_PlayerBoard, SIGNAL(planePositionNotValid(bool)), this, SIGNAL(planePositionNotValid(bool)));
-    //connect(this, SIGNAL(showComputerMove(const GuessPoint&)), m_PlayerBoard, SLOT(showMove(const GuessPoint&)));
     connect(m_ComputerBoard, SIGNAL(guessMade(const GuessPoint&)), this, SIGNAL(guessMade(const GuessPoint&)));
-    connect(gameWidget, &GameWidget::gameConnectedTo, this, &RightPane::multiplayerRoundReset);
+    connect(m_MultiRound, &MultiplayerRound::gameConnectedTo, this, &RightPane::multiplayerRoundReset);
+    connect(m_MultiRound, &MultiplayerRound::refreshStatus, this, &RightPane::multiplayerRoundReset);
     connect(m_MultiRound, SIGNAL(roundWasCancelled()), this, SLOT(roundWasCancelledSlot()));
 }
 
@@ -152,15 +152,8 @@ void RightPane::multiplayerRoundReset(const QString& gameName, const QString& fi
     if (currentRoundId == desiredRoundId)
         return;
  
-    //TODO cancel current round
-    m_MultiRound->initRound();
-    m_MultiRound->setRoundId(desiredRoundId);
-    
     m_PlayerBoard->refreshPlanes();
     m_ComputerBoard->refreshPlanes();
-
-    qDebug() << "Multiround reset!! " << desiredRoundId;
-
 }
 
 void RightPane::roundWasCancelledSlot()

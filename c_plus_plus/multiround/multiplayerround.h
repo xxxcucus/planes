@@ -9,6 +9,8 @@
 #include "abstractplaneround.h"
 #include "global/globaldata.h"
 #include "communicationobjects/creategamecommobj.h"
+#include "communicationobjects/connecttogamecommobj.h"
+#include "communicationobjects/refreshgamestatuscommobj.h"
 
 class MultiplayerRound : public QObject, public AbstractPlaneRound  {
     Q_OBJECT
@@ -29,7 +31,8 @@ private:
     bool m_IsSinglePlayer = false;
     
     CreateGameCommObj* m_CreateGameObj;
-
+    ConnectToGameCommObj* m_ConnectToGameObj;
+    RefreshGameStatusCommObj* m_RefreshGameStatusCommObj;
     
 private slots:
     void errorNewMoveClicked(QNetworkReply::NetworkError code);
@@ -37,12 +40,15 @@ private slots:
     void finishedAcquireOpponentMoves();
     void errorAcquireOpponentMoves(QNetworkReply::NetworkError code);
     
+    void connectedToGameSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
+    
 signals:
     void opponentMoveGenerated(const GuessPoint& gp);
     void roundWasCancelled();
 
     void gameCreated(const QString& gameName, const QString& userName);
-
+    void gameConnectedTo(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
+    void refreshStatus(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
 
 public:
     MultiplayerRound(int rows, int cols, int planeNo, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings);
@@ -66,15 +72,17 @@ public:
     
     //TODO to add method also in normal round
     void roundCancelled();
+    
 
 
     //Requests to server
     void createGame(const QString& gameName);
-
+    void connectToGame(const QString& gameName);
+    void refreshGameStatus(const QString& gameName);
     
 private:
     bool validateOpponentMovesReply(const QJsonObject& reply);
-    
+    void startNewRound(long int desiredRoundId);
 };
 
 

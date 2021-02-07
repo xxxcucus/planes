@@ -15,7 +15,7 @@ GameWidget::GameWidget(GlobalData* globalData, GameInfo* gameInfo, QNetworkAcces
     
     QWidget* leftPane = new QWidget();
     QVBoxLayout* vLayout = new QVBoxLayout();
-    GameStatusWidget* gameStatusWidget = new GameStatusWidget(m_GlobalData, m_Settings, m_NetworkManager, m_GameInfo, m_MultiRound);
+    GameStatusWidget* gameStatusWidget = new GameStatusWidget(m_MultiRound);
     vLayout->addWidget(gameStatusWidget);
     QSpacerItem* spacer = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
     vLayout->addItem(spacer);
@@ -23,7 +23,7 @@ GameWidget::GameWidget(GlobalData* globalData, GameInfo* gameInfo, QNetworkAcces
     
     QWidget* rightContent = new QWidget();
     QVBoxLayout* vLayout1 = new QVBoxLayout();
-    CreateGameWidget* createGameWidget = new CreateGameWidget(m_GlobalData, m_GameInfo, m_NetworkManager, m_Settings, m_MultiRound);
+    CreateGameWidget* createGameWidget = new CreateGameWidget(m_MultiRound);
     GameEndWidget* gameEndWidget = new GameEndWidget();
     QSpacerItem* spacer1 = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
     vLayout1->addWidget(createGameWidget);
@@ -43,7 +43,5 @@ GameWidget::GameWidget(GlobalData* globalData, GameInfo* gameInfo, QNetworkAcces
     setLayout(cLayout);
 
     connect(m_MultiRound, &MultiplayerRound::gameCreated, gameStatusWidget, &GameStatusWidget::gameCreatedSlot);
-    connect(createGameWidget, &CreateGameWidget::gameConnectedTo, gameStatusWidget, &GameStatusWidget::gameConnectedToSlot);   
-    connect(createGameWidget, &CreateGameWidget::gameConnectedTo, this, &GameWidget::gameConnectedTo);
-    connect(gameStatusWidget, &GameStatusWidget::gameStatusRefreshed, this, &GameWidget::gameConnectedTo);
+    connect(m_MultiRound, &MultiplayerRound::gameConnectedTo, gameStatusWidget, &GameStatusWidget::gameConnectedToSlot);   
 }

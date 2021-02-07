@@ -10,8 +10,7 @@
 #include "communicationtools.h"
 #include "creategamewidget.h"
 
-CreateGameWidget::CreateGameWidget(GlobalData* globalData, GameInfo* gameInfo, QNetworkAccessManager* networkManager, QSettings* settings, MultiplayerRound* mrd, QWidget* parent) 
-    : QFrame(parent), m_GlobalData(globalData), m_GameInfo(gameInfo), m_NetworkManager(networkManager), m_Settings(settings), m_MultiRound(mrd)
+CreateGameWidget::CreateGameWidget(MultiplayerRound* mrd, QWidget* parent) : QFrame(parent), m_MultiRound(mrd)
 {
     QString titleText = QString("<b> Create Game </b>");
     QLabel* titleLabel = new QLabel("");
@@ -39,149 +38,30 @@ CreateGameWidget::CreateGameWidget(GlobalData* globalData, GameInfo* gameInfo, Q
 
 
 void CreateGameWidget::createGameSlot() {
-    /*if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
+
+    QString gameName = m_GameName->text().trimmed();
+    if (gameName.isEmpty()) {
         QMessageBox msgBox;
-        msgBox.setText("No user logged in"); 
+        msgBox.setText("Game name cannot be empty!"); 
         msgBox.exec();
         return;
     }
-
-        
-    GameViewModel gameData;
-    gameData.m_GameName = m_GameName->text(); //TODO: validation
-    gameData.m_Username = m_GlobalData->m_UserData.m_UserName; //TODO: validation and trim
-    gameData.m_UserId = 0; 
-    gameData.m_GameId = 0;
-
-    if (m_CreateGameReply != nullptr)
-        delete m_CreateGameReply;
-    
-    m_GlobalData->m_GameData.reset();
-  
-    m_CreateGameReply = CommunicationTools::buildPostRequestWithAuth("/game/create", m_Settings->value("multiplayer/serverpath").toString(), gameData.toJson(), m_GlobalData->m_UserData.m_AuthToken, m_NetworkManager);
-
-    connect(m_CreateGameReply, &QNetworkReply::finished, this, &CreateGameWidget::finishedCreateGame);
-    connect(m_CreateGameReply, &QNetworkReply::errorOccurred, this, &CreateGameWidget::errorCreateGame);*/
-    
     m_MultiRound->createGame(m_GameName->text()); //TODO: validation
 }
 
 void CreateGameWidget::connectToGameSlot() {
-    if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
+
+    QString gameName = m_GameName->text().trimmed();
+    if (gameName.isEmpty()) {
         QMessageBox msgBox;
-        msgBox.setText("No user logged in"); 
+        msgBox.setText("Game name cannot be empty!"); 
         msgBox.exec();
         return;
     }
 
-        
-    GameViewModel gameData;
-    gameData.m_GameName = m_GameName->text(); //TODO: validation
-    gameData.m_Username = m_GlobalData->m_UserData.m_UserName; //TODO: validation and trim
-    gameData.m_UserId = 0; 
-    gameData.m_GameId = 0;
-
-    if (m_ConnectToGameReply != nullptr)
-        delete m_ConnectToGameReply;
-    
-    m_GlobalData->m_GameData.reset();
-  
-    m_ConnectToGameReply = CommunicationTools::buildPostRequestWithAuth("/game/connect", m_Settings->value("multiplayer/serverpath").toString(), gameData.toJson(), m_GlobalData->m_UserData.m_AuthToken, m_NetworkManager);
-
-    connect(m_ConnectToGameReply, &QNetworkReply::finished, this, &CreateGameWidget::finishedConnectToGame);
-    connect(m_ConnectToGameReply, &QNetworkReply::errorOccurred, this, &CreateGameWidget::errorConnectToGame);
-    
+    m_MultiRound->connectToGame(m_GameName->text()); //TODO validation
 }
 
-void CreateGameWidget::errorCreateGame(QNetworkReply::NetworkError code)
-{
-/*    if (m_GameInfo->getSinglePlayer())
-        return;
-
-    CommunicationTools::treatCommunicationError("creating game ", m_CreateGameReply);*/
-}
-
-void CreateGameWidget::finishedCreateGame()
-{
-/*    if (m_GameInfo->getSinglePlayer())
-        return;
-
-    if (m_CreateGameReply->error() != QNetworkReply::NoError) {
-        return;
-    }
-    
-    QByteArray reply = m_CreateGameReply->readAll();
-    QString createGameReplyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
-    QJsonObject createGameReplyJson = CommunicationTools::objectFromString(createGameReplyQString);
- 
-    if (!validateCreateGameReply(createGameReplyJson)) {
-        QMessageBox msgBox;
-        msgBox.setText("Create game reply was not recognized"); 
-        msgBox.exec();
-
-        return;
-    }
-    
-    QMessageBox msgBox;
-    msgBox.setText("Game creation successfull!"); 
-    msgBox.exec();               
-    m_GlobalData->m_GameData.m_GameId = createGameReplyJson.value("id").toString().toLong();
-    long int userId2 = createGameReplyJson.value("secondPlayerId").toString().toLong();
-    m_GlobalData->m_UserData.m_UserId = userId2;
-    emit gameCreated(m_GameName->text(), m_GlobalData->m_UserData.m_UserName);*/
-}
-
-void CreateGameWidget::errorConnectToGame(QNetworkReply::NetworkError code)
-{
-    if (m_GameInfo->getSinglePlayer())
-        return;
-
-    CommunicationTools::treatCommunicationError("connecting to game ", m_ConnectToGameReply);
-}
-
-void CreateGameWidget::finishedConnectToGame()
-{
-    if (m_GameInfo->getSinglePlayer())
-        return;
-
-    if (m_ConnectToGameReply->error() != QNetworkReply::NoError) {
-        return;
-    }
-    
-    QByteArray reply = m_ConnectToGameReply->readAll();
-    QString connectToGameReplyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
-    QJsonObject connectToGameReplyJson = CommunicationTools::objectFromString(connectToGameReplyQString);
-    
-    if (!validateCreateGameReply(connectToGameReplyJson)) {
-        QMessageBox msgBox;
-        msgBox.setText("Connect to game reply was not recognized"); 
-        msgBox.exec();
-
-        return;
-    }
-    
-    QMessageBox msgBox;
-    msgBox.setText("Connection to game successfull!"); 
-    msgBox.exec();               
-    
-    qDebug() << connectToGameReplyQString;
-    m_GlobalData->m_GameData.m_GameId = connectToGameReplyJson.value("id").toString().toLong(); //TODO conversion errors
-    m_GlobalData->m_GameData.m_RoundId = connectToGameReplyJson.value("currentRoundId").toString().toLong();
-    long int userId1 = connectToGameReplyJson.value("firstPlayerId").toString().toLong();
-    long int userId2 = connectToGameReplyJson.value("secondPlayerId").toString().toLong();
-    m_GlobalData->m_GameData.m_OtherUserId =  userId1; //so does the server
-    m_GlobalData->m_GameData.m_UserId = userId2;
-    m_GlobalData->m_UserData.m_UserId = userId2;
-    QString firstPlayerName = connectToGameReplyJson.value("firstPlayerName").toString();
-    QString currentRoundId = connectToGameReplyJson.value("currentRoundId").toString(); //TODO send round id as string in server
-    emit gameConnectedTo(m_GameName->text(), firstPlayerName, m_GlobalData->m_UserData.m_UserName, currentRoundId);
-}
-
-
-bool CreateGameWidget::validateCreateGameReply(const QJsonObject& reply) {
-    return (reply.contains("id") && reply.contains("firstPlayerName") && reply.contains("secondPlayerName") && reply.contains("gameName") && reply.contains("currentRoundId")
-        && reply.contains("firstPlayerId") && reply.contains("secondPlayerId"));
-}
 
 
 

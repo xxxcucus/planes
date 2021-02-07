@@ -13,7 +13,10 @@ MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QNetworkAcce
     m_IsSinglePlayer = false;
     m_CreateGameObj = new CreateGameCommObj("/game/create/", "creating game", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData);
     connect(m_CreateGameObj, &CreateGameCommObj::gameCreated, this, &MultiplayerRound::gameCreated);
-
+    m_ConnectToGameObj = new ConnectToGameCommObj("/game/connect/", "connecting to game ", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData);
+    connect(m_ConnectToGameObj, &ConnectToGameCommObj::gameConnectedTo, this, &MultiplayerRound::gameConnectedTo);
+    m_RefreshGameStatusCommObj = new RefreshGameStatusCommObj("/game/status/", "refreshing game status ", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData);
+    connect(m_RefreshGameStatusCommObj, &RefreshGameStatusCommObj::refreshStatus, this, &MultiplayerRound::refreshStatus);
     
     reset();
     initRound();
@@ -272,8 +275,30 @@ void MultiplayerRound::roundCancelled()
     m_State = AbstractPlaneRound::GameStages::GameNotStarted;
 }
 
+void MultiplayerRound::startNewRound(long int desiredRoundId) {
+    //TODO cancel current round
+    if (desiredRoundId == m_RoundId)
+        return;
+    initRound();
+    setRoundId(desiredRoundId);
+}
 
 void MultiplayerRound::createGame(const QString& gameName)
 {
     m_CreateGameObj->makeRequest(gameName);
+}
+
+void MultiplayerRound::connectToGame(const QString& gameName)
+{
+    m_ConnectToGameObj->makeRequest(gameName);
+}
+
+void MultiplayerRound::connectedToGameSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId) {
+    long int roundId = currentRoundId.toLong(); //TODO error treatment
+    startNewRound(roundId);
+}
+
+void MultiplayerRound::refreshGameStatus(const QString& gameName)
+{
+    m_RefreshGameStatusCommObj->makeRequest(gameName);
 }

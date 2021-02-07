@@ -27,6 +27,8 @@ set(MULTIROUND_HEADR
 	viewmodels/startnewroundviewmodel.h
     communicationobjects/basiscommobj.h
     communicationobjects/creategamecommobj.h
+    communicationobjects/refreshgamestatuscommobj.h
+    communicationobjects/connecttogamecommobj.h
 	
     communicationtools.h)
 
@@ -35,6 +37,8 @@ set(MULTIROUND_SRCS
     communicationtools.cpp
     communicationobjects/basiscommobj.cpp
     communicationobjects/creategamecommobj.cpp
+    communicationobjects/refreshgamestatuscommobj.cpp
+    communicationobjects/connecttogamecommobj.cpp
     )
 
 
