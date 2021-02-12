@@ -17,6 +17,9 @@
 #include "communicationobjects/sendplanepositionscommobj.h"
 #include "communicationobjects/acquireopponentpositionscommobj.h"
 #include "communicationobjects/sendmovecommobj.h"
+#include "communicationobjects/requestopponentmovescommobj.h"
+#include "communicationobjects/cancelroundcommobj.h"
+#include "communicationobjects/startnewroundcommobj.h"
 
 class MultiplayerRound : public QObject, public AbstractPlaneRound  {
     Q_OBJECT
@@ -44,16 +47,17 @@ private:
     SendPlanePositionsCommObj* m_SendPlanePositionsCommObj;
     AcquireOpponentPositionsCommObj* m_AcquireOpponentPlanePositions;
     SendMoveCommObj* m_SendMoveCommObj;
+    RequestOpponentMovesCommObj* m_RequestOpponentMovesObj;
+    CancelRoundCommObj* m_CancelRoundCommObj;
+    StartNewRoundCommObj* m_StartNewRoundCommObj;
     
-private slots:
-    void finishedAcquireOpponentMoves();
-    void errorAcquireOpponentMoves(QNetworkReply::NetworkError code);
-    
+private slots:    
     void connectedToGameSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
     
 signals:
     void opponentMoveGenerated(const GuessPoint& gp);
     void roundWasCancelled();
+    void newRoundStarted();
 
     void gameCreated(const QString& gameName, const QString& userName);
     void gameConnectedTo(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
@@ -74,7 +78,6 @@ public:
     void playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr) override;
     void playerGuessIncomplete(int row, int col, GuessPoint::Type& guessRes, PlayerGuessReaction& pgr) override;
     
-    void requestOpponentMoves();
     void addOpponentMove(GuessPoint& gp);
     
     long int getRoundId() {
@@ -97,6 +100,9 @@ public:
     void sendPlanePositions();
     void acquireOpponentPlanePositions();
     void sendMove(const GuessPoint& gp, int ownMoveIndex, int opponentMoveIndex);
+    void requestOpponentMoves();
+    void cancelRound();
+    void startNewRound();
     
 private:
     bool validateOpponentMovesReply(const QJsonObject& reply);

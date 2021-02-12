@@ -35,7 +35,8 @@ signals:
     void leftPlaneClicked(bool);
     void rightPlaneClicked(bool);
     void doneClicked();
-    void startNewGame();
+    void newRoundStarted();
+
 
 public slots:
     /**
@@ -109,20 +110,13 @@ public slots:
     void roundWasCancelledSlot();
     void cancelRoundClicked(bool b);
     
-    void errorCancelRoundClicked(QNetworkReply::NetworkError code);
-    void finishedCancelRoundClicked();    
-
-    void errorStartNewRound(QNetworkReply::NetworkError code);
-    void finishedStartNewRound();    
-
     void activateGameTabDeactivateButtons();
     void WaitForOpponentPlanesPositionsSlot();
     
-private:
-    void submitDoneClicked();
-    bool validateCancelRoundReply(const QJsonObject& reply);
-    bool validateStartNewRoundReply(const QJsonObject& reply);
+    void startNewRound();
     
+private:
+    void submitDoneClicked();    
     
 private:
     GameStatsFrame* m_PlayerStatsFrame;
@@ -155,11 +149,6 @@ private:
     GlobalData* m_GlobalData;
     QSettings* m_Settings;
     MultiplayerRound* m_MultiRound;
-    
-    QNetworkReply* m_DoneClickedReply = nullptr;
-    QNetworkReply* m_AcquireOpponentPositionsReply = nullptr;
-    QNetworkReply* m_CancelRoundReply = nullptr;
-    QNetworkReply* m_StartNewRoundReply = nullptr;
 };
 
 #endif // PLANESGSLEFTPANE_H

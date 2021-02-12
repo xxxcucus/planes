@@ -31,9 +31,16 @@ MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QNetworkAcce
     m_AcquireOpponentPlanePositions = new AcquireOpponentPositionsCommObj("/round/otherplanespositions", "acquiring plane positions ", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData, this);
     connect(m_AcquireOpponentPlanePositions, &AcquireOpponentPositionsCommObj::roundCancelled, this, &MultiplayerRound::roundWasCancelled);
     connect(m_AcquireOpponentPlanePositions, &AcquireOpponentPositionsCommObj::opponentPlanePositionsReceived, this, &MultiplayerRound::opponentPlanePositionsReceived);    
-    m_SendMoveCommObj= new SendMoveCommObj("/round/mymove", "sending move ", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData, this);
+    m_SendMoveCommObj = new SendMoveCommObj("/round/mymove", "sending move ", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData, this);
     connect(m_SendMoveCommObj, &SendMoveCommObj::opponentMoveGenerated, this, &MultiplayerRound::opponentMoveGenerated);
     connect(m_SendMoveCommObj, &SendMoveCommObj::roundCancelled, this, &MultiplayerRound::roundWasCancelled);
+    m_RequestOpponentMovesObj = new RequestOpponentMovesCommObj("/round/othermoves", "requesting moves ", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData, this);
+    connect(m_RequestOpponentMovesObj, &RequestOpponentMovesCommObj::opponentMoveGenerated, this, &MultiplayerRound::opponentMoveGenerated);
+    connect(m_RequestOpponentMovesObj, &RequestOpponentMovesCommObj::roundCancelled, this, &MultiplayerRound::roundWasCancelled);
+    m_CancelRoundCommObj = new CancelRoundCommObj("/round/cancel", "cancelling round ", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData, this);
+    connect(m_CancelRoundCommObj, &CancelRoundCommObj::roundCancelled, this, &MultiplayerRound::roundWasCancelled);
+    m_StartNewRoundCommObj = new StartNewRoundCommObj("/round/start", "starting round ", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData, this);
+    connect(m_StartNewRoundCommObj, &StartNewRoundCommObj::startNewRound, this, &MultiplayerRound::newRoundStarted);
     
     reset();
     initRound();
@@ -84,7 +91,6 @@ void MultiplayerRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pg
         //TODO: round ending logic
     }
     
-    
     //evaluate the guess using computergrid and save in playerguessreaction
     //send the guess together with the guess index to the server
     //slot for answer should confirm sending and receive opponents moves
@@ -102,82 +108,6 @@ bool MultiplayerRound::setComputerPlanes(int plane1_x, int plane1_y, Plane::Orie
     m_State = AbstractPlaneRound::GameStages::Game;
     return m_ComputerGrid->initGridByUser(plane1_x, plane1_y, plane1_orient, plane2_x, plane2_y, plane2_orient, plane3_x, plane3_y, plane3_orient);
 }
-
-void MultiplayerRound::requestOpponentMoves()
-{
-    GetOpponentsMovesViewModel opponentViewModel;
-    opponentViewModel.m_GameId = m_GlobalData->m_GameData.m_GameId;
-    opponentViewModel.m_RoundId = m_GlobalData->m_GameData.m_RoundId;
-    opponentViewModel.m_OwnUserId = m_GlobalData->m_GameData.m_UserId;
-    opponentViewModel.m_OpponentUserId = m_GlobalData->m_GameData.m_OtherUserId;
-    opponentViewModel.m_MoveIndex = m_ComputerMoveIndex;
-    
-    if (m_OpponentMoveReply != nullptr)
-        delete m_OpponentMoveReply;
-
-    m_OpponentMoveReply = CommunicationTools::buildPostRequestWithAuth("/round/othermoves", m_Settings->value("multiplayer/serverpath").toString(), opponentViewModel.toJson(), m_GlobalData->m_UserData.m_AuthToken, m_NetworkManager);
-
-    connect(m_OpponentMoveReply, &QNetworkReply::finished, this, &MultiplayerRound::finishedAcquireOpponentMoves);
-    connect(m_OpponentMoveReply, &QNetworkReply::errorOccurred, this, &MultiplayerRound::errorAcquireOpponentMoves);
-}
-
-//TODO it is the same function as with reply for my move
-void MultiplayerRound::finishedAcquireOpponentMoves() {
-    if (m_OpponentMoveReply->error() != QNetworkReply::NoError) {
-        return;
-    }
-    
-    QByteArray reply = m_OpponentMoveReply->readAll();
-    QString newMoveClickedReplyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
-    QJsonObject newMoveClickedReplyJson = CommunicationTools::objectFromString(newMoveClickedReplyQString);
-    
-    qDebug() << newMoveClickedReplyQString;
-    
-    if (!validateOpponentMovesReply(newMoveClickedReplyJson)) {
-        QMessageBox msgBox;
-        msgBox.setText("Opponent moves reply not recognized"); 
-        msgBox.exec();
-
-        return;
-    }
-
-    bool rCancelled = newMoveClickedReplyJson.value("cancelled").toBool();
-    
-    if (rCancelled) {
-        setRoundCancelled();
-        emit roundWasCancelled();
-        return;
-    }
-
-    
-    QJsonValue movesObject = newMoveClickedReplyJson.value("listMoves");
-    QJsonArray movesArray = movesObject.toArray();
-    
-    for (int i = 0; i < movesArray.size(); i++) {
-        QJsonValue moveValue = movesArray.at(i);
-        QJsonObject moveObject = moveValue.toObject();
-        if (moveObject.contains("moveX") && moveObject.contains("moveY")) {
-            GuessPoint gp = GuessPoint(moveObject.value("moveX").toInt(), moveObject.value("moveY").toInt());
-            if (updateGameStats(gp, true)) {
-                GuessPoint::Type guessResult =  m_PlayerGrid->getGuessResult(PlanesCommonTools::Coordinate2D(gp.m_row, gp.m_col));
-                gp.setType(guessResult);
-                m_computerGuessList.push_back(gp);
-                m_PlayerGrid->addGuess(gp);
-                m_ComputerMoveIndex++;
-                emit opponentMoveGenerated(gp);
-            } else {
-                qDebug() << "update game stats computer returned false";
-                //TODO: round ending logic 
-            }
-        }
-    }    
-}
-
-
-void MultiplayerRound::errorAcquireOpponentMoves(QNetworkReply::NetworkError code) {
-    CommunicationTools::treatCommunicationError("sending move to server ", m_PlayerMoveReply);        
-}
-
 
 void MultiplayerRound::setRoundCancelled()
 {
@@ -247,4 +177,19 @@ void MultiplayerRound::addOpponentMove(GuessPoint& gp)
     m_computerGuessList.push_back(gp);
     m_PlayerGrid->addGuess(gp);
     m_ComputerMoveIndex++;
+}
+
+void MultiplayerRound::requestOpponentMoves()
+{
+    m_RequestOpponentMovesObj->makeRequest(m_ComputerMoveIndex);
+}
+
+void MultiplayerRound::cancelRound()
+{
+    m_CancelRoundCommObj->makeRequest();
+}
+
+void MultiplayerRound::startNewRound()
+{
+    m_StartNewRoundCommObj->makeRequest();
 }

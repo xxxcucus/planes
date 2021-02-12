@@ -35,6 +35,9 @@ set(MULTIROUND_HEADR
     communicationobjects/sendplanepositionscommobj.h
     communicationobjects/acquireopponentpositionscommobj.h
     communicationobjects/sendmovecommobj.h
+    communicationobjects/requestopponentmovescommobj.h
+    communicationobjects/cancelroundcommobj.h
+    communicationobjects/startnewroundcommobj.h
     communicationtools.h)
 
 set(MULTIROUND_SRCS 	
@@ -50,6 +53,9 @@ set(MULTIROUND_SRCS
     communicationobjects/sendplanepositionscommobj.cpp
     communicationobjects/acquireopponentpositionscommobj.cpp
     communicationobjects/sendmovecommobj.cpp
+    communicationobjects/requestopponentmovescommobj.cpp
+    communicationobjects/cancelroundcommobj.cpp
+    communicationobjects/startnewroundcommobj.cpp
     )
 
 
