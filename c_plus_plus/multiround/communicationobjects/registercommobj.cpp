@@ -1,6 +1,4 @@
 #include "registercommobj.h"
-#include <QMessageBox>
-#include <QTextCodec>
 #include "viewmodels/loginviewmodel.h"
 
 bool RegisterCommObj::makeRequest(const QString& username, const QString& password)

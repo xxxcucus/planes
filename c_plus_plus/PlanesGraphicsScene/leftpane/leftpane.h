@@ -105,13 +105,7 @@ public slots:
      */
 
     void endRound(bool isPlayerWinner);
-
-    void errorDoneClicked(QNetworkReply::NetworkError code);
-    void finishedDoneClicked();    
-    
-    void finishedAcquireOpponentPositions();
-    void errorAcquireOpponentPositions(QNetworkReply::NetworkError code);
- 
+     
     void roundWasCancelledSlot();
     void cancelRoundClicked(bool b);
     
@@ -121,13 +115,14 @@ public slots:
     void errorStartNewRound(QNetworkReply::NetworkError code);
     void finishedStartNewRound();    
 
+    void activateGameTabDeactivateButtons();
+    void WaitForOpponentPlanesPositionsSlot();
     
 private:
     void submitDoneClicked();
-    bool validateDoneClickedReply(const QJsonObject& reply);
     bool validateCancelRoundReply(const QJsonObject& reply);
     bool validateStartNewRoundReply(const QJsonObject& reply);
-    void activateGameTabDeactivateButtons();
+    
     
 private:
     GameStatsFrame* m_PlayerStatsFrame;

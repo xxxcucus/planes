@@ -10,12 +10,13 @@
 #include "clickablelabel.h"
 #include "global/globaldata.h"
 #include "gameinfo.h"
+#include "multiplayerround.h"
 
 class NoRobotWidget: public QWidget {
     Q_OBJECT
 
 public:
-    NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, QWidget* parent = nullptr);
+    NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, MultiplayerRound* mrd, QWidget* parent = nullptr);
     
     void setImages(const std::vector<QString>& images);
     void setQuestion(const QString& category);
@@ -26,16 +27,9 @@ public:
 private slots:
     void imageClicked(int imageIndex);
     void submitAnswer();    
-    void errorRegister(QNetworkReply::NetworkError code);
-    void finishedRegister();
-
-signals:
-    void registrationComplete();
-    void registrationFailed();
     
 private:
     void displayAndScaleImages();
-    bool validateRegistrationReply(const QJsonObject& registrationReply);    
     
     
 private:
@@ -52,8 +46,7 @@ private:
     QSettings* m_Settings;
     GlobalData* m_GlobalData;
     GameInfo* m_GameInfo;
-    
-    QNetworkReply* m_RegistrationReply = nullptr;
+    MultiplayerRound* m_MultiRound;
 };
 
 #endif

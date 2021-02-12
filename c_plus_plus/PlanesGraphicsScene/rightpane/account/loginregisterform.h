@@ -12,29 +12,19 @@
 
 #include "global/globaldata.h"
 #include "gameinfo.h"
+#include "multiplayerround.h"
 
 class LoginRegisterForm : public QWidget
 {
     Q_OBJECT
 public:
-    explicit LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, QWidget *parent = nullptr);
-
-signals:
-    void noRobotRegistration(const std::vector<QString>& images, const QJsonObject& request);
-    void loginCompleted();
+    explicit LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, MultiplayerRound* mrd, QWidget *parent = nullptr);
     
 private slots:
     void toggleLoginRegistration();
     void submitSlot();
     void submitLogin();
     void submitRegistration();
-    void errorLogin(QNetworkReply::NetworkError code);
-    void finishedLogin();
-    void errorRegister(QNetworkReply::NetworkError code);
-    void finishedRegister();
-
-private:
-    bool validateRegistrationReply(const QJsonObject& registrationReply);
     
 private:
     QLineEdit* m_passwordLineEdit = nullptr;
@@ -47,10 +37,7 @@ private:
     QSettings* m_Settings;
     GlobalData* m_GlobalData;
     GameInfo* m_GameInfo;
-    QString m_UserBeingLoggedIn;
-    
-    QNetworkReply* m_LoginReply = nullptr;
-    QNetworkReply* m_RegistrationReply = nullptr;
+    MultiplayerRound* m_MultiRound;    
 };
 
 

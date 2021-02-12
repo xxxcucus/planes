@@ -2,7 +2,7 @@
 #include <QGridLayout>
 
 
-UserProfileFrame::UserProfileFrame(GlobalData* globalData, QWidget* parent): QFrame(parent), m_GlobalData(globalData)
+UserProfileFrame::UserProfileFrame(GlobalData* globalData, MultiplayerRound* mrd, QWidget* parent): QFrame(parent), m_GlobalData(globalData), m_MultiRound(mrd)
 {
     QString titleText = QString("<b> User Profile</b>");
     QLabel* titleLabel = new QLabel();
@@ -17,6 +17,8 @@ UserProfileFrame::UserProfileFrame(GlobalData* globalData, QWidget* parent): QFr
     gridLayout1->addWidget(m_UserNameLabel, 2, 1);
     setLayout(gridLayout1);
     setFrameStyle(QFrame::Panel | QFrame::Raised);
+    
+    connect(m_MultiRound, &MultiplayerRound::loginCompleted, this, &UserProfileFrame::loginCompleted);
 }
 
 void UserProfileFrame::loginCompleted()

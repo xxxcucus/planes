@@ -29,7 +29,12 @@ set(MULTIROUND_HEADR
     communicationobjects/creategamecommobj.h
     communicationobjects/refreshgamestatuscommobj.h
     communicationobjects/connecttogamecommobj.h
-	
+    communicationobjects/logincommobj.h
+    communicationobjects/registercommobj.h
+    communicationobjects/norobotcommobj.h
+    communicationobjects/sendplanepositionscommobj.h
+    communicationobjects/acquireopponentpositionscommobj.h
+    communicationobjects/sendmovecommobj.h
     communicationtools.h)
 
 set(MULTIROUND_SRCS 	
@@ -39,12 +44,18 @@ set(MULTIROUND_SRCS
     communicationobjects/creategamecommobj.cpp
     communicationobjects/refreshgamestatuscommobj.cpp
     communicationobjects/connecttogamecommobj.cpp
+    communicationobjects/logincommobj.cpp
+    communicationobjects/registercommobj.cpp
+    communicationobjects/norobotcommobj.cpp
+    communicationobjects/sendplanepositionscommobj.cpp
+    communicationobjects/acquireopponentpositionscommobj.cpp
+    communicationobjects/sendmovecommobj.cpp
     )
 
 
 add_library(libMultiRound SHARED 
-        ${MULTIROUND_SRCS}
-        ${MULTIROUND_HEADR}
+    ${MULTIROUND_SRCS}
+    ${MULTIROUND_HEADR}
 )
 
 target_link_libraries(libMultiRound

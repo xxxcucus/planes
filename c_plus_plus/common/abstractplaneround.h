@@ -118,9 +118,11 @@ public:
         m_State = stage;
     }
 
-protected:
 	//update game statistics
 	bool updateGameStats(const GuessPoint& gp, bool isComputer);
+    
+    
+protected:
 	//tests whether all of the planes have been guessed
 	bool enoughGuesses(PlaneGrid* pg, const std::vector<GuessPoint>& guessList) const;
 	//based on the available information makes the next move for the computer

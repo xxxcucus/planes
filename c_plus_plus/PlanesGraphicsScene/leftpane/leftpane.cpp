@@ -70,6 +70,8 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     connect(m_CancelRoundButton_BoardEditing, SIGNAL(clicked(bool)), this, SLOT(cancelRoundClicked(bool)));
     
     connect(m_MultiRound, SIGNAL(roundWasCancelled()), this, SLOT(roundWasCancelledSlot()));
+    connect(m_MultiRound, &MultiplayerRound::opponentPlanePositionsReceived, this, &LeftPane::activateGameTabDeactivateButtons);
+    connect(m_MultiRound, &MultiplayerRound::waitForOpponentPlanePositions, this, &LeftPane::WaitForOpponentPlanesPositionsSlot);
     
     m_GameTabIndex = addTab(m_GameWidget, "Round");
     m_EditorTabIndex = addTab(m_BoardEditingWidget, "BoardEditing");
@@ -126,219 +128,34 @@ void LeftPane::doneClickedSlot()
 //TODO : should allow only one time to click on done - after that the controlls should be disabled
 void LeftPane::submitDoneClicked()
 {
-    PlanesPositionsViewModel planesPositionsData;
-    planesPositionsData.m_RoundId = m_MultiRound->getRoundId();
-    planesPositionsData.m_UserId = m_GlobalData->m_UserData.m_UserId;
-    
-    Plane pl1;
-    Plane pl2;
-    Plane pl3;
-    
-    qDebug() << "Plane 1 " << pl1.row() << " " << pl1.col() << " " << pl1.orientation();
-    qDebug() << "Plane 2 " << pl2.row() << " " << pl2.col() << " " << pl2.orientation();
-    qDebug() << "Plane 3 " << pl3.row() << " " << pl3.col() << " " << pl3.orientation();
-    
-    m_MultiRound->getPlayerPlaneNo(0, pl1);
-    m_MultiRound->getPlayerPlaneNo(1, pl2);
-    m_MultiRound->getPlayerPlaneNo(2, pl3);
-    
-    planesPositionsData.m_Plane1X = pl1.row();
-    planesPositionsData.m_Plane1Y = pl1.col();
-    planesPositionsData.m_Plane1Orient = pl1.orientation();
-    planesPositionsData.m_Plane2X = pl2.row();
-    planesPositionsData.m_Plane2Y = pl2.col();
-    planesPositionsData.m_Plane2Orient = pl2.orientation();
-    planesPositionsData.m_Plane3X = pl3.row();
-    planesPositionsData.m_Plane3Y = pl3.col();
-    planesPositionsData.m_Plane3Orient = pl3.orientation();
-    
-    qDebug() << "Plane 1 " << pl1.row() << " " << pl1.col() << " " << (int)pl1.orientation();
-    qDebug() << "Plane 2 " << pl2.row() << " " << pl2.col() << " " << (int)pl2.orientation();
-    qDebug() << "Plane 3 " << pl3.row() << " " << pl3.col() << " " << (int)pl3.orientation();
-    
-    if (m_DoneClickedReply != nullptr) //TODO what if we click fast one after the other
-        delete m_DoneClickedReply;
-
-    m_DoneClickedReply = CommunicationTools::buildPostRequestWithAuth("/round/myplanespositions", m_Settings->value("multiplayer/serverpath").toString(), planesPositionsData.toJson(), m_GlobalData->m_UserData.m_AuthToken, m_NetworkManager);
-
-    connect(m_DoneClickedReply, &QNetworkReply::finished, this, &LeftPane::finishedDoneClicked);
-    connect(m_DoneClickedReply, &QNetworkReply::errorOccurred, this, &LeftPane::errorDoneClicked);
-
+    m_MultiRound->sendPlanePositions();
 }
 
-void LeftPane::errorDoneClicked(QNetworkReply::NetworkError code)
-{
-    if (m_GameInfo->getSinglePlayer())
-        return;
 
-    CommunicationTools::treatCommunicationError("sending plane positions ", m_DoneClickedReply);
-}
-
-void LeftPane::finishedDoneClicked()
-{
-    if (m_GameInfo->getSinglePlayer())
-        return;
-
-    if (m_DoneClickedReply->error() != QNetworkReply::NoError) {
-        return;
-    }
+void LeftPane::WaitForOpponentPlanesPositionsSlot() {
+    m_selectPlaneButton->setEnabled(false);
+    m_rotatePlaneButton->setEnabled(false);
+    m_leftPlaneButton->setEnabled(false);
+    m_rightPlaneButton->setEnabled(false);
+    m_upPlaneButton->setEnabled(false);
+    m_downPlaneButton->setEnabled(false);
+    m_doneButton->setEnabled(false);
+    m_acquireOpponentPositionsButton->setEnabled(true); //TODO make sure this is consistent everywhere
     
-    QByteArray reply = m_DoneClickedReply->readAll();
-    QString doneClickedReplyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
-    QJsonObject doneClickedReplyJson = CommunicationTools::objectFromString(doneClickedReplyQString);
- 
-    if (!validateDoneClickedReply(doneClickedReplyJson)) {
-        QMessageBox msgBox;
-        msgBox.setText("Planes positions sending reply was not recognized"); 
-        msgBox.exec();
-
-        return;
-    }
-    
-    bool roundCancelled = doneClickedReplyJson.value("cancelled").toBool();
-    
-    if (roundCancelled) {
-        m_MultiRound->roundCancelled();
-        activateStartGameTab();
-        return;
-    }
-    
-    bool otherPositionsExist = doneClickedReplyJson.value("otherExist").toBool();
-    if (otherPositionsExist) {
-        //TODO treat errors
-        int plane1_x = doneClickedReplyJson.value("plane1_x").toInt();
-        int plane1_y = doneClickedReplyJson.value("plane1_y").toInt();
-        int plane1_orient = doneClickedReplyJson.value("plane1_orient").toInt(); //TODO to check this
-        int plane2_x = doneClickedReplyJson.value("plane2_x").toInt();
-        int plane2_y = doneClickedReplyJson.value("plane2_y").toInt();
-        int plane2_orient = doneClickedReplyJson.value("plane2_orient").toInt(); //TODO to check this
-        int plane3_x = doneClickedReplyJson.value("plane3_x").toInt();
-        int plane3_y = doneClickedReplyJson.value("plane3_y").toInt();
-        int plane3_orient = doneClickedReplyJson.value("plane3_orient").toInt(); //TODO to check this        
-        qDebug() << "Plane 1 from opponent " << plane1_x << " " << plane1_y << " " << plane1_orient;
-        qDebug() << "Plane 2 from opponent" << plane2_x << " " << plane2_y << " " << plane2_orient;
-        qDebug() << "Plane 3 from opponent" << plane3_x << " " << plane3_y << " " << plane3_orient;
-        bool setOk = m_MultiRound->setComputerPlanes(plane1_x, plane1_y, (Plane::Orientation)plane1_orient, plane2_x, plane2_y, (Plane::Orientation)plane2_orient, plane3_x, plane3_y, (Plane::Orientation)plane3_orient);
-        if (!setOk) {
-            QMessageBox msgBox;
-            msgBox.setText("Planes positions from opponent are not valid"); 
-            msgBox.exec();
-            return;            
-        }
-        activateGameTabDeactivateButtons();
-    } else {
-        m_MultiRound->setCurrentStage(AbstractPlaneRound::GameStages::WaitForOpponentPlanesPositions);
-        m_selectPlaneButton->setEnabled(false);
-        m_rotatePlaneButton->setEnabled(false);
-        m_leftPlaneButton->setEnabled(false);
-        m_rightPlaneButton->setEnabled(false);
-        m_upPlaneButton->setEnabled(false);
-        m_downPlaneButton->setEnabled(false);
-        m_doneButton->setEnabled(false);
-        m_acquireOpponentPositionsButton->setEnabled(true); //TODO make sure this is consistent everywhere
-        
-        QMessageBox msgBox;
-        msgBox.setText("Your opponent has not decided where he wants to place the planes yet\nPlease click on the \"Acquired opponent positions\" button! "); 
-        msgBox.exec();
-    }
-}
-
-bool LeftPane::validateDoneClickedReply(const QJsonObject& reply) {
-   return (reply.contains("otherExist") && reply.contains("cancelled") && reply.contains("plane1_x") && 
-        reply.contains("plane1_y") && reply.contains("plane1_orient") && 
-        reply.contains("plane2_x") && reply.contains("plane2_y") && reply.contains("plane2_orient") &&
-        reply.contains("plane3_x") && reply.contains("plane3_y") && reply.contains("plane3_orient"));
+    QMessageBox msgBox;
+    msgBox.setText("Your opponent has not decided where he wants to place the planes yet\nPlease click on the \"Acquired opponent positions\" button! "); 
+    msgBox.exec();    
 }
 
 void LeftPane::acquireOpponentPositionsClickedSlot(bool c)
 {
-    GetOpponentsPlanesPositionsViewModel opponentViewModel;
-    opponentViewModel.m_RoundId = m_MultiRound->getRoundId();
-    opponentViewModel.m_UserId = m_GlobalData->m_GameData.m_OtherUserId; 
-
-    
-    if (m_AcquireOpponentPositionsReply != nullptr)
-        delete m_AcquireOpponentPositionsReply;
-
-    m_AcquireOpponentPositionsReply = CommunicationTools::buildPostRequestWithAuth("/round/otherplanespositions", m_Settings->value("multiplayer/serverpath").toString(), opponentViewModel.toJson(), m_GlobalData->m_UserData.m_AuthToken, m_NetworkManager);
-
-    connect(m_AcquireOpponentPositionsReply, &QNetworkReply::finished, this, &LeftPane::finishedAcquireOpponentPositions);
-    connect(m_AcquireOpponentPositionsReply, &QNetworkReply::errorOccurred, this, &LeftPane::errorAcquireOpponentPositions);
+    m_MultiRound->acquireOpponentPlanePositions();
 }
 
 void LeftPane::acquireOpponentMovesClickedSlot(bool c)
 {
     if (!m_GameInfo->getSinglePlayer())
         m_MultiRound->requestOpponentMoves();
-}
-
-
-void LeftPane::finishedAcquireOpponentPositions() {
-    if (m_GameInfo->getSinglePlayer())
-        return;
-
-    if (m_AcquireOpponentPositionsReply->error() != QNetworkReply::NoError) {
-        return;
-    }
-    
-    QByteArray reply = m_AcquireOpponentPositionsReply->readAll();
-    QString acquireOpponentPositionsReplyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
-    QJsonObject acquireOpponentPositionsReplyJson = CommunicationTools::objectFromString(acquireOpponentPositionsReplyQString);
- 
-    if (!validateDoneClickedReply(acquireOpponentPositionsReplyJson)) {
-        QMessageBox msgBox;
-        msgBox.setText("Acquire opponent positions reply was not recognized"); 
-        msgBox.exec();
-
-        return;
-    }
-
-    bool roundCancelled = acquireOpponentPositionsReplyJson.value("cancelled").toBool();
-    
-    if (roundCancelled) {
-        m_MultiRound->roundCancelled();
-        activateStartGameTab();
-        return;
-    }
-
-    
-    bool otherPositionsExist = acquireOpponentPositionsReplyJson.value("otherExist").toBool();
-    if (!otherPositionsExist) {
-        QMessageBox msgBox;
-        msgBox.setText("Opponents' planes positions are not available yet!"); 
-        msgBox.exec();
-        return;
-    }
-        
-    int plane1_x = acquireOpponentPositionsReplyJson.value("plane1_x").toInt();
-    int plane1_y = acquireOpponentPositionsReplyJson.value("plane1_y").toInt();
-    int plane1_orient = acquireOpponentPositionsReplyJson.value("plane1_orient").toInt(); //TODO to check this
-    int plane2_x = acquireOpponentPositionsReplyJson.value("plane2_x").toInt();
-    int plane2_y = acquireOpponentPositionsReplyJson.value("plane2_y").toInt();
-    int plane2_orient = acquireOpponentPositionsReplyJson.value("plane2_orient").toInt(); //TODO to check this
-    int plane3_x = acquireOpponentPositionsReplyJson.value("plane3_x").toInt();
-    int plane3_y = acquireOpponentPositionsReplyJson.value("plane3_y").toInt();
-    int plane3_orient = acquireOpponentPositionsReplyJson.value("plane3_orient").toInt(); //TODO to check this        
-    bool setOk = m_MultiRound->setComputerPlanes(plane1_x, plane1_y, (Plane::Orientation)plane1_orient, plane2_x, plane2_y, (Plane::Orientation)plane2_orient, plane3_x, plane3_y, (Plane::Orientation)plane3_orient);
-    qDebug() << "Plane 1 from opponent" << plane1_x << " " << plane1_y << " " << plane1_orient;
-    qDebug() << "Plane 2 from opponent" << plane2_x << " " << plane2_y << " " << plane2_orient;
-    qDebug() << "Plane 3 from opponent" << plane3_x << " " << plane3_y << " " << plane3_orient;
-
-    if (!setOk) {
-        QMessageBox msgBox;
-        msgBox.setText("Planes positions from opponent are not valid"); 
-        msgBox.exec();
-        return;            
-    }
-
-    activateGameTabDeactivateButtons();    
-}
-
-void LeftPane::errorAcquireOpponentPositions(QNetworkReply::NetworkError code) {
-    if (m_GameInfo->getSinglePlayer())
-        return;
-
-    CommunicationTools::treatCommunicationError("acquiring other player planes' positions ", m_DoneClickedReply);
 }
 
 void LeftPane::selectPlaneClickedSlot(bool c) {
@@ -524,7 +341,7 @@ void LeftPane::finishedCancelRoundClicked()
         return;
     }
 
-    m_MultiRound->roundCancelled();
+    m_MultiRound->setRoundCancelled();
     activateStartGameTab();
 }
 

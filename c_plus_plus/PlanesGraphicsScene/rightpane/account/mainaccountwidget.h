@@ -7,6 +7,7 @@
 #include <QJsonObject>
 #include "global/globaldata.h"
 #include "gameinfo.h"
+#include "multiplayerround.h"
 
 
 class MainAccountWidget : public QWidget {
@@ -14,16 +15,14 @@ class MainAccountWidget : public QWidget {
     
 public:    
 
-    MainAccountWidget(QSettings* settings, GlobalData* globalData, QNetworkAccessManager* m_NetworkManager, GameInfo* gameInfo, QWidget* parent = nullptr);
-
-signals:
-    void noRobotRegistration(const std::vector<QString>& images, const QJsonObject& request);
+    MainAccountWidget(QSettings* settings, GlobalData* globalData, QNetworkAccessManager* m_NetworkManager, GameInfo* gameInfo, MultiplayerRound* mrd, QWidget* parent = nullptr);
     
 private:
     GlobalData* m_GlobalData;
     QNetworkAccessManager* m_NetworkManager;
     QSettings* m_Settings;
     GameInfo* m_GameInfo;
+    MultiplayerRound* m_MultiRound;
 
 };
 

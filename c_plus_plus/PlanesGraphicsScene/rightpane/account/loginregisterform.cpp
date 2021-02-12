@@ -9,8 +9,8 @@
 #include "viewmodels/loginviewmodel.h"
 #include "communicationtools.h"
 
-LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, QWidget* parent) 
-        : QWidget(parent), m_Login(login), m_NetworkManager(networkManager), m_Settings(settings), m_GlobalData(globalData), m_GameInfo(gameInfo) {
+LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, MultiplayerRound* mrd, QWidget* parent) 
+        : QWidget(parent), m_Login(login), m_NetworkManager(networkManager), m_Settings(settings), m_GlobalData(globalData), m_GameInfo(gameInfo), m_MultiRound(mrd) {
     
     m_passwordLineEdit = new QLineEdit();
     m_usernameLineEdit = new QLineEdit();
@@ -85,131 +85,17 @@ void LoginRegisterForm::submitSlot()
 
 void LoginRegisterForm::submitLogin()
 {   
-    LoginViewModel loginData;
-    loginData.m_Password = m_passwordLineEdit->text(); //TODO: validation
-    loginData.m_UserName = m_usernameLineEdit->displayText(); //TODO: validation
+    QString username = m_passwordLineEdit->text().trimmed();
+    QString password = m_usernameLineEdit->displayText();
 
-    if (m_LoginReply != nullptr)
-        delete m_LoginReply;
-
-    m_GlobalData->reset();
-    m_UserBeingLoggedIn = loginData.m_UserName;
-    m_LoginReply = CommunicationTools::buildPostRequest("/login", m_Settings->value("multiplayer/serverpath").toString(), loginData.toLoginJson(), m_NetworkManager);
-
-    connect(m_LoginReply, &QNetworkReply::finished, this, &LoginRegisterForm::finishedLogin);
-    connect(m_LoginReply, &QNetworkReply::errorOccurred, this, &LoginRegisterForm::errorLogin);
-}
-
-void LoginRegisterForm::errorLogin(QNetworkReply::NetworkError code)
-{
-    if (m_GameInfo->getSinglePlayer())
-        return;
-    CommunicationTools::treatCommunicationError("logging in ", m_LoginReply);
-    m_GlobalData->reset();
-}
-
-void LoginRegisterForm::finishedLogin()
-{
-    if (m_GameInfo->getSinglePlayer())
-        return;
-
-    if (m_LoginReply->error() != QNetworkReply::NoError) {
-        return;
-    }
-
-    QByteArray reply = m_LoginReply->readAll();
-    qDebug() << QTextCodec::codecForMib(106)->toUnicode(reply);
-    
-    QList<QByteArray> headers = m_LoginReply->rawHeaderList();
-    bool successfull = false;
-    
-    for(QByteArray hdr : headers) {
-        QString hdrQString = QTextCodec::codecForMib(106)->toUnicode(hdr);
-        if (hdrQString == "Authorization") {
-            m_GlobalData->m_UserData.m_AuthToken = m_LoginReply->rawHeader(hdr);
-            qDebug() << hdrQString << ":" << m_LoginReply->rawHeader(hdr);
-            successfull = true;
-        }
-    }
-    
-    if (successfull) {
-        QMessageBox msgBox;
-        msgBox.setText("Login successfull!"); 
-        msgBox.exec();               
-        m_GlobalData->m_UserData.m_UserName = m_UserBeingLoggedIn;
-        emit loginCompleted();
-    } else {
-        QMessageBox msgBox;
-        msgBox.setText("Login reply was not recognized"); 
-        msgBox.exec();        
-    }
+    m_MultiRound->login(username, password);
 }
 
 void LoginRegisterForm::submitRegistration()
 {
-    LoginViewModel loginData;
-    loginData.m_Password = m_passwordLineEdit->text(); //TODO: validation
-    loginData.m_UserName = m_usernameLineEdit->displayText(); //TODO: validation
+    QString username = m_passwordLineEdit->text().trimmed();
+    QString password = m_usernameLineEdit->displayText();
 
-    if (m_RegistrationReply != nullptr)
-        delete m_RegistrationReply;
-
-    m_RegistrationReply = CommunicationTools::buildPostRequest("/users/registration_request", m_Settings->value("multiplayer/serverpath").toString(), loginData.toRegisterJson(), m_NetworkManager);
-
-    connect(m_RegistrationReply, &QNetworkReply::finished, this, &LoginRegisterForm::finishedRegister);
-    connect(m_RegistrationReply, &QNetworkReply::errorOccurred, this, &LoginRegisterForm::errorRegister);
+    m_MultiRound->registerUser(username, password);
 }
 
-
-void LoginRegisterForm::errorRegister(QNetworkReply::NetworkError code)
-{
-    if (m_GameInfo->getSinglePlayer())
-        return;
-
-    CommunicationTools::treatCommunicationError("registering ", m_RegistrationReply);
-}
-
-void LoginRegisterForm::finishedRegister()
-{
-    if (m_GameInfo->getSinglePlayer())
-        return;
-
-    if (m_RegistrationReply->error() != QNetworkReply::NoError) {
-        return;
-    }
-    
-    QByteArray reply = m_RegistrationReply->readAll();
-    QString registrationReplyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
-    QJsonObject registrationReplyJson = CommunicationTools::objectFromString(registrationReplyQString);
- 
-    if (!validateRegistrationReply(registrationReplyJson)) {
-        QMessageBox msgBox;
-        msgBox.setText("Registration reply was not recognized"); 
-        msgBox.exec();
-
-        return;
-    }
-    
-    std::vector<QString> images;
-    
-    images.push_back(registrationReplyJson.value("image_id_1").toString());
-    images.push_back(registrationReplyJson.value("image_id_2").toString());    
-    images.push_back(registrationReplyJson.value("image_id_3").toString());
-    images.push_back(registrationReplyJson.value("image_id_4").toString());    
-    images.push_back(registrationReplyJson.value("image_id_5").toString());
-    images.push_back(registrationReplyJson.value("image_id_6").toString());    
-    images.push_back(registrationReplyJson.value("image_id_7").toString());
-    images.push_back(registrationReplyJson.value("image_id_8").toString());    
-    images.push_back(registrationReplyJson.value("image_id_9").toString());    
-    long int request_id = registrationReplyJson.value("id").toString().toLong();
-    
-    qDebug() << "Registration request with id " << request_id << " received ";
-    emit noRobotRegistration(images, registrationReplyJson);
-}
-
-bool LoginRegisterForm::validateRegistrationReply(const QJsonObject& reply) {
-   return (reply.contains("id") && reply.contains("username") && reply.contains("createdAt") && reply.contains("question") && 
-        reply.contains("image_id_1") && reply.contains("image_id_2") && reply.contains("image_id_3") &&
-        reply.contains("image_id_4") && reply.contains("image_id_5") && reply.contains("image_id_6") &&
-        reply.contains("image_id_7") && reply.contains("image_id_8") && reply.contains("image_id_9"));
-}

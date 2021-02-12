@@ -9,8 +9,8 @@
 #include "viewmodels/norobotviewmodel.h"
 #include "communicationtools.h"
 
-NoRobotWidget::NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, QWidget* parent) 
-    : QWidget(parent), m_NetworkManager(networkManager), m_Settings(settings), m_GlobalData(globalData), m_GameInfo(gameInfo) {
+NoRobotWidget::NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, MultiplayerRound* mrd, QWidget* parent) 
+    : QWidget(parent), m_NetworkManager(networkManager), m_Settings(settings), m_GlobalData(globalData), m_GameInfo(gameInfo), m_MultiRound(mrd) {
     QGridLayout* gridLayout = new QGridLayout();
     
     m_Labels = std::vector<ClickableLabel*>(m_ImagesCount);
@@ -144,74 +144,16 @@ void NoRobotWidget::imageClicked(int imageIndex)
 
 void NoRobotWidget::submitAnswer()
 {
-    NoRobotViewModel requestData;
-    requestData.m_requestId = m_RequestId;
-    
     QString answer;
     for (int i = 0; i < m_ImagesCount; i++) {
         answer += m_Answer[i] ? "1" : "0";
     }
-    requestData.m_answer = answer;
-    
-    qDebug() << "Request id " << requestData.m_requestId;
-    qDebug() << "Answer " << requestData.m_answer;
-
-    if (m_RegistrationReply != nullptr)
-        delete m_RegistrationReply;
-
-    m_RegistrationReply = CommunicationTools::buildPostRequest("/users/registration_confirm", m_Settings->value("multiplayer/serverpath").toString(), requestData.toJson(), m_NetworkManager);
-
-    connect(m_RegistrationReply, &QNetworkReply::finished, this, &NoRobotWidget::finishedRegister);
-    connect(m_RegistrationReply, &QNetworkReply::errorOccurred, this, &NoRobotWidget::errorRegister);
+    m_MultiRound->noRobotRegister(m_RequestId, answer);
 }
 
 void NoRobotWidget::setRequestId(const QString& id)
 {
     m_RequestId = id;
-}
-
-void NoRobotWidget::errorRegister(QNetworkReply::NetworkError code)
-{
-    if (m_GameInfo->getSinglePlayer())
-        return;
-
-    CommunicationTools::treatCommunicationError("registering ", m_RegistrationReply);
-    emit registrationFailed();    
-}
-
-void NoRobotWidget::finishedRegister()
-{
-    if (m_GameInfo->getSinglePlayer())
-        return;
-
-    if (m_RegistrationReply->error() != QNetworkReply::NoError) {
-        return;
-    }
-    
-    QByteArray reply = m_RegistrationReply->readAll();
-    QString registrationReplyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
-    QJsonObject registrationReplyJson = CommunicationTools::objectFromString(registrationReplyQString);
-    
-    if (!validateRegistrationReply(registrationReplyJson)) {
-        QMessageBox msgBox;
-        msgBox.setText("Registration reply was not recognized"); 
-        msgBox.exec();
-        return;
-    }
-            
-    QString username = registrationReplyJson.value("username").toString();
-    long int userid = registrationReplyJson.value("id").toString().toLong(); //TODO check for convertion errors
-    QMessageBox msgBox;
-    msgBox.setText("User " + username + " created "); 
-    msgBox.exec();
-
-    m_GlobalData->m_UserData.m_UserName = username;
-    m_GlobalData->m_UserData.m_UserId = userid;
-    emit registrationComplete();
-}
-
-bool NoRobotWidget::validateRegistrationReply(const QJsonObject& reply) {
-    return (reply.contains("id") && reply.contains("username") && reply.contains("createdAt") && reply.contains("status"));
 }
 
 void NoRobotWidget::resizeEvent(QResizeEvent* event)

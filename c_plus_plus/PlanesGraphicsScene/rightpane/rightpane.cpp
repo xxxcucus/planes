@@ -33,7 +33,7 @@ RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings,
 	
 
 	OptionsWindow* optionsWindow = new OptionsWindow(m_PlaneRound, m_Settings, m_GameInfo);
-    AccountWidget* accountWidget = new AccountWidget(m_Settings, m_GlobalData, m_NetworkManager, m_GameInfo);
+    AccountWidget* accountWidget = new AccountWidget(m_Settings, m_GlobalData, m_NetworkManager, m_GameInfo, m_MultiRound);
     GameWidget* gameWidget = new GameWidget(m_GlobalData, m_GameInfo, m_NetworkManager, m_Settings, m_MultiRound);
 
     m_OwnBoardIndex = addTab(m_PlayerBoard->getView(), "Player Board");
