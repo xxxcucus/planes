@@ -14,8 +14,10 @@ bool SendPlanePositionsCommObj::makeRequest()
     }
 
     PlanesPositionsViewModel planesPositionsData;
+    planesPositionsData.m_GameId = m_GlobalData->m_GameData.m_GameId;
     planesPositionsData.m_RoundId = m_GlobalData->m_GameData.m_RoundId;
-    planesPositionsData.m_UserId = m_GlobalData->m_UserData.m_UserId;
+    planesPositionsData.m_OwnUserId = m_GlobalData->m_UserData.m_UserId;
+    planesPositionsData.m_OpponentUserId = m_GlobalData->m_GameData.m_OtherUserId;
     
     Plane pl1;
     Plane pl2;
@@ -96,10 +98,6 @@ void SendPlanePositionsCommObj::finishedRequest()
         m_acquireOpponentPositionsButton->setEnabled(true); //TODO make sure this is consistent everywhere*/
         
         emit waitForOpponentPlanePositions();
-        
-        QMessageBox msgBox;
-        msgBox.setText("Your opponent has not decided where he wants to place the planes yet\nPlease click on the \"Acquired opponent positions\" button! "); 
-        msgBox.exec();
     }
 }
 

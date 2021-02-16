@@ -5,13 +5,17 @@
 
 struct GetOpponentsPlanesPositionsViewModel {
     
+    long int m_GameId;
     long int m_RoundId;
-    long int m_UserId;
+    long int m_OwnUserId;
+    long int m_OpponentUserId;
     
     QJsonObject toJson() {
         QJsonObject retVal;
+        retVal.insert("gameId", QString::number(m_GameId));
         retVal.insert("roundId", QString::number(m_RoundId));
-        retVal.insert("playerId", QString::number(m_UserId));      
+        retVal.insert("ownUserId", QString::number(m_OwnUserId));
+        retVal.insert("opponentUserId", QString::number(m_OpponentUserId));
         return retVal;
     }
 };

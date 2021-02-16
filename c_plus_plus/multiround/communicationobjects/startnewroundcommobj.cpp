@@ -16,7 +16,8 @@ bool StartNewRoundCommObj::makeRequest()
 
     StartNewRoundViewModel startNewRoundData;
     startNewRoundData.m_GameId = m_GlobalData->m_GameData.m_GameId;
-
+    startNewRoundData.m_OwnUserId = m_GlobalData->m_GameData.m_UserId;
+    startNewRoundData.m_OpponentUserId = m_GlobalData->m_GameData.m_OtherUserId;
 
     m_RequestData = startNewRoundData.toJson();
     
