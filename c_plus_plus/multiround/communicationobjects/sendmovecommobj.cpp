@@ -6,6 +6,8 @@
 #include "viewmodels/newmoveviewmodel.h"
 #include "multiplayerround.h"
 
+
+//TODO: send moves with index 
 bool SendMoveCommObj::makeRequest(const GuessPoint& gp, int ownMoveIndex, int opponentMoveIndex)
 {
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
@@ -53,14 +55,9 @@ void SendMoveCommObj::finishedRequest()
         QJsonObject moveObject = moveValue.toObject();
         if (moveObject.contains("moveX") && moveObject.contains("moveY")) {
             GuessPoint gp = GuessPoint(moveObject.value("moveX").toInt(), moveObject.value("moveY").toInt());
-            if (m_MultiRound->updateGameStats(gp, true)) {
-                qDebug() << "add opponent move to grid ";
-                m_MultiRound->addOpponentMove(gp);
-                emit opponentMoveGenerated(gp);
-            } else {
-                qDebug() << "update game stats computer returned false";
-                //TODO: round ending logic
-            }
+            qDebug() << "add opponent move to grid ";
+            m_MultiRound->addOpponentMove(gp);
+            emit opponentMoveGenerated(gp);
         }
     }
 }

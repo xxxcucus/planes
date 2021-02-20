@@ -20,6 +20,7 @@
 #include "communicationobjects/requestopponentmovescommobj.h"
 #include "communicationobjects/cancelroundcommobj.h"
 #include "communicationobjects/startnewroundcommobj.h"
+#include "communicationobjects/sendwinnercommobj.h"
 
 class MultiplayerRound : public QObject, public AbstractPlaneRound  {
     Q_OBJECT
@@ -27,14 +28,16 @@ class MultiplayerRound : public QObject, public AbstractPlaneRound  {
 private:
     
     //TODO: computer moves with index so that it also works when replies come in different order as they were sent
+    //player and computer moves with index
+    //when requesting moves send a list of indices that need to be sent
+    //when error on send move send again
+    //when sending allow multiple moves to be sent
+    //save indices that were succesfully sent
     int m_PlayerMoveIndex = 0;
     int m_ComputerMoveIndex = 0;
     QNetworkAccessManager* m_NetworkManager;
     GlobalData* m_GlobalData;
     QSettings* m_Settings;
-    QNetworkReply* m_PlayerMoveReply = nullptr; //TODO list of network replies
-    QNetworkReply* m_OpponentMoveReply = nullptr;
-    //TODO: to add game info to check for multi-single player in network operations
     
     bool m_IsSinglePlayer = false;
     
@@ -50,6 +53,7 @@ private:
     RequestOpponentMovesCommObj* m_RequestOpponentMovesObj;
     CancelRoundCommObj* m_CancelRoundCommObj;
     StartNewRoundCommObj* m_StartNewRoundCommObj;
+    SendWinnerCommObj* m_SendWinnerCommObj;
     
 private slots:    
     void connectedToGameSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
@@ -69,6 +73,8 @@ signals:
     
     void opponentPlanePositionsReceived();
     void waitForOpponentPlanePositions();
+    void winnerSent(bool isPlayerWinner, bool draw);
+    void gameStatsUpdated(const GameStatistics& gameStats);
     
 public:
     MultiplayerRound(int rows, int cols, int planeNo, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings);
@@ -103,10 +109,12 @@ public:
     void requestOpponentMoves();
     void cancelRound();
     void startNewRound();
+    void sendWinner(bool draw, long int winnerId);
     
 private:
     bool validateOpponentMovesReply(const QJsonObject& reply);
     void startNewRound(long int desiredRoundId);
+    bool checkRoundEnd(bool& draw, long int& winnerId, bool& isPlayerWinner);
 };
 
 

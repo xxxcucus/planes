@@ -50,6 +50,7 @@ RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings,
     connect(m_MultiRound, &MultiplayerRound::gameConnectedTo, this, &RightPane::multiplayerRoundReset);
     connect(m_MultiRound, &MultiplayerRound::refreshStatus, this, &RightPane::multiplayerRoundReset);
     connect(m_MultiRound, SIGNAL(roundWasCancelled()), this, SLOT(roundWasCancelledSlot()));
+    connect(m_MultiRound, &MultiplayerRound::winnerSent, this, &RightPane::endRound);
 }
 
 RightPane::~RightPane()

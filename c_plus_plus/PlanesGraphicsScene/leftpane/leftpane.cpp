@@ -73,6 +73,8 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     connect(m_MultiRound, &MultiplayerRound::opponentPlanePositionsReceived, this, &LeftPane::activateGameTabDeactivateButtons);
     connect(m_MultiRound, &MultiplayerRound::waitForOpponentPlanePositions, this, &LeftPane::WaitForOpponentPlanesPositionsSlot);
     connect(m_MultiRound, &MultiplayerRound::newRoundStarted, this, &LeftPane::startNewRound);
+    connect(m_MultiRound, &MultiplayerRound::winnerSent, this, &LeftPane::endRound);
+    connect(m_MultiRound, &MultiplayerRound::gameStatsUpdated, this, &LeftPane::updateGameStatistics);    
     
     m_GameTabIndex = addTab(m_GameWidget, "Round");
     m_EditorTabIndex = addTab(m_BoardEditingWidget, "BoardEditing");

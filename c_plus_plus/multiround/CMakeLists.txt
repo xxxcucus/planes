@@ -25,6 +25,7 @@ set(MULTIROUND_HEADR
 	viewmodels/newmoveviewmodel.h
 	viewmodels/cancelroundviewmodel.h
 	viewmodels/startnewroundviewmodel.h
+	viewmodels/sendwinnerviewmodel.h
     communicationobjects/basiscommobj.h
     communicationobjects/creategamecommobj.h
     communicationobjects/refreshgamestatuscommobj.h
@@ -38,6 +39,7 @@ set(MULTIROUND_HEADR
     communicationobjects/requestopponentmovescommobj.h
     communicationobjects/cancelroundcommobj.h
     communicationobjects/startnewroundcommobj.h
+    communicationobjects/sendwinnercommobj.h
     communicationtools.h)
 
 set(MULTIROUND_SRCS 	
@@ -56,6 +58,7 @@ set(MULTIROUND_SRCS
     communicationobjects/requestopponentmovescommobj.cpp
     communicationobjects/cancelroundcommobj.cpp
     communicationobjects/startnewroundcommobj.cpp
+    communicationobjects/sendwinnercommobj.cpp
     )
 
 
