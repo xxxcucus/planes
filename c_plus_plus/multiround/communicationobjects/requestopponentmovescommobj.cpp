@@ -55,7 +55,7 @@ void RequestOpponentMovesCommObj::finishedRequest()
         if (moveObject.contains("moveX") && moveObject.contains("moveY")) {
             GuessPoint gp = GuessPoint(moveObject.value("moveX").toInt(), moveObject.value("moveY").toInt());
             qDebug() << "add opponent move to grid ";
-            m_MultiRound->addOpponentMove(gp);
+            m_MultiRound->addOpponentMove(gp, moveObject.value("moveIndex").toInt());
             emit opponentMoveGenerated(gp);
         }
     }

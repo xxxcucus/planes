@@ -8,6 +8,9 @@
 
 void BasisCommObj::makeRequestBasis(bool withToken)
 {
+    if (m_ReplyObject != nullptr && m_ReplyObject->isRunning())
+        return;
+    
     if (m_ReplyObject != nullptr)
         delete m_ReplyObject;
       
@@ -52,6 +55,7 @@ bool BasisCommObj::finishRequestHelper(QJsonObject& retJson)
     
     QByteArray reply = m_ReplyObject->readAll();
     QString replyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
+    qDebug() << replyQString;
     retJson = CommunicationTools::objectFromString(replyQString);
  
     if (!validateReply(retJson)) {

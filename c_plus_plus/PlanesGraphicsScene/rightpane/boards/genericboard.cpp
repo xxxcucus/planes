@@ -154,7 +154,7 @@ void GenericBoard::showMove(const GuessPoint& gp)
 
 void GenericBoard::showGuessPoint(const GuessPoint &gp)
 {
-    //qDebug() << "show guess point " << gp.m_row << " " << gp.m_col;
+    qDebug() << "show guess point " << gp.m_row << " " << gp.m_col;
     GridSquare::GameStatus st = GridSquare::GameStatus::TestedNotPlane;
     if (gp.isHit())
         st = GridSquare::GameStatus::PlaneGuessed;

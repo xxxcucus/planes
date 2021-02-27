@@ -26,6 +26,7 @@ set(MULTIROUND_HEADR
 	viewmodels/cancelroundviewmodel.h
 	viewmodels/startnewroundviewmodel.h
 	viewmodels/sendwinnerviewmodel.h
+	viewmodels/unsentmovesviewmodel.h
     communicationobjects/basiscommobj.h
     communicationobjects/creategamecommobj.h
     communicationobjects/refreshgamestatuscommobj.h

@@ -13,7 +13,7 @@ public:
     SendMoveCommObj(const QString& requestPath, const QString& actionName, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData, MultiplayerRound* mrd):
         BasisCommObj(requestPath, actionName, networkManager, settings, isSinglePlayer, globalData), m_MultiRound(mrd) {}
     
-    bool makeRequest(const GuessPoint& gp, int ownMoveIndex, int opponentMoveIndex);
+    bool makeRequest(const std::vector<GuessPoint>& guessList, const std::vector<int>& notSentMoves, const std::vector<int>& receivedMoves);
     bool validateReply(const QJsonObject& retJson) override;
     
 public slots:
@@ -24,7 +24,11 @@ signals:
     void opponentMoveGenerated(const GuessPoint& gp);
     
 private:
+    std::vector<int> computeNotReceivedMoves(const std::vector<int>& receivedMoves, int& maxReceivedIndex);
+    
+private:
     MultiplayerRound* m_MultiRound;
+    std::vector<int> m_LastNotSentMoveIndex;
 };
 
 

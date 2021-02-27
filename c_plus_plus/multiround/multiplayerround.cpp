@@ -34,9 +34,9 @@ MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QNetworkAcce
     m_SendMoveCommObj = new SendMoveCommObj("/round/mymove", "sending move ", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData, this);
     connect(m_SendMoveCommObj, &SendMoveCommObj::opponentMoveGenerated, this, &MultiplayerRound::opponentMoveGenerated);
     connect(m_SendMoveCommObj, &SendMoveCommObj::roundCancelled, this, &MultiplayerRound::roundWasCancelled);
-    m_RequestOpponentMovesObj = new RequestOpponentMovesCommObj("/round/othermoves", "requesting moves ", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData, this);
+    /*m_RequestOpponentMovesObj = new RequestOpponentMovesCommObj("/round/othermoves", "requesting moves ", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData, this);
     connect(m_RequestOpponentMovesObj, &RequestOpponentMovesCommObj::opponentMoveGenerated, this, &MultiplayerRound::opponentMoveGenerated);
-    connect(m_RequestOpponentMovesObj, &RequestOpponentMovesCommObj::roundCancelled, this, &MultiplayerRound::roundWasCancelled);
+    connect(m_RequestOpponentMovesObj, &RequestOpponentMovesCommObj::roundCancelled, this, &MultiplayerRound::roundWasCancelled);*/
     m_CancelRoundCommObj = new CancelRoundCommObj("/round/cancel", "cancelling round ", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData, this);
     connect(m_CancelRoundCommObj, &CancelRoundCommObj::roundCancelled, this, &MultiplayerRound::roundWasCancelled);
     m_StartNewRoundCommObj = new StartNewRoundCommObj("/round/start", "starting round ", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData, this);
@@ -62,6 +62,8 @@ void MultiplayerRound::initRound()
     AbstractPlaneRound::initRound();
     m_PlayerMoveIndex = 0;
     m_ComputerMoveIndex = 0;
+    m_NotSentMoves.clear();
+    m_ReceivedMoves.clear();
  
     emit gameStatsUpdated(m_gameStats);
     //round id is set through separate function
@@ -172,7 +174,8 @@ void MultiplayerRound::acquireOpponentPlanePositions()
 }
 
 void MultiplayerRound::sendMove(const GuessPoint& gp, int ownMoveIndex, int opponentMoveIndex) {
-    m_SendMoveCommObj->makeRequest(gp, ownMoveIndex, opponentMoveIndex);
+    addToNotSentList(ownMoveIndex);
+    m_SendMoveCommObj->makeRequest(m_playerGuessList, m_NotSentMoves, m_ReceivedMoves);
 }
 
 bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPlayerWinner) {
@@ -224,8 +227,9 @@ bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPla
     return false;
 }
 
-void MultiplayerRound::addOpponentMove(GuessPoint& gp)
+void MultiplayerRound::addOpponentMove(GuessPoint& gp, int moveIndex)
 {
+    addToReceivedList(moveIndex);
     GuessPoint::Type guessResult =  m_PlayerGrid->getGuessResult(PlanesCommonTools::Coordinate2D(gp.m_row, gp.m_col));
     gp.setType(guessResult);    
     
@@ -251,7 +255,7 @@ void MultiplayerRound::addOpponentMove(GuessPoint& gp)
 
 void MultiplayerRound::requestOpponentMoves()
 {
-    m_RequestOpponentMovesObj->makeRequest(m_ComputerMoveIndex);
+    m_SendMoveCommObj->makeRequest(m_playerGuessList, m_NotSentMoves, m_ReceivedMoves);
 }
 
 void MultiplayerRound::cancelRound()
@@ -269,3 +273,28 @@ void MultiplayerRound::sendWinner(bool draw, long winnerId)
     m_SendWinnerCommObj->makeRequest(draw, winnerId);
 }
 
+void MultiplayerRound::deleteFromNotSentList(int value)
+{
+    std::vector<int>::iterator it = std::find(m_NotSentMoves.begin(), m_NotSentMoves.end(), value);
+    if (it != m_NotSentMoves.end())
+        m_NotSentMoves.erase(it);
+}
+
+void MultiplayerRound::addToNotSentList(int value)
+{
+    std::vector<int>::iterator it = std::find(m_NotSentMoves.begin(), m_NotSentMoves.end(), value);
+    if (it == m_NotSentMoves.end())
+        m_NotSentMoves.push_back(value);
+
+}
+
+bool MultiplayerRound::moveAlreadyReceived(int moveIndex)
+{
+    std::vector<int>::iterator it = std::find(m_ReceivedMoves.begin(), m_ReceivedMoves.end(), moveIndex);
+    return (it != m_ReceivedMoves.end());
+}
+
+void MultiplayerRound::addToReceivedList(int value)
+{
+    m_ReceivedMoves.push_back(value);
+}

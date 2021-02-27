@@ -50,10 +50,13 @@ private:
     SendPlanePositionsCommObj* m_SendPlanePositionsCommObj;
     AcquireOpponentPositionsCommObj* m_AcquireOpponentPlanePositions;
     SendMoveCommObj* m_SendMoveCommObj;
-    RequestOpponentMovesCommObj* m_RequestOpponentMovesObj;
+    //RequestOpponentMovesCommObj* m_RequestOpponentMovesObj;
     CancelRoundCommObj* m_CancelRoundCommObj;
     StartNewRoundCommObj* m_StartNewRoundCommObj;
     SendWinnerCommObj* m_SendWinnerCommObj;
+
+    std::vector<int> m_NotSentMoves;
+    std::vector<int> m_ReceivedMoves;
     
 private slots:    
     void connectedToGameSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
@@ -84,7 +87,7 @@ public:
     void playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr) override;
     void playerGuessIncomplete(int row, int col, GuessPoint::Type& guessRes, PlayerGuessReaction& pgr) override;
     
-    void addOpponentMove(GuessPoint& gp);
+    void addOpponentMove(GuessPoint& gp, int moveIndex);
     
     long int getRoundId() {
         return m_GlobalData->m_GameData.m_RoundId;
@@ -110,6 +113,11 @@ public:
     void cancelRound();
     void startNewRound();
     void sendWinner(bool draw, long int winnerId);
+    
+    void deleteFromNotSentList(int value); 
+    void addToNotSentList(int value);
+    bool moveAlreadyReceived(int moveIndex);
+    void addToReceivedList(int value);
     
 private:
     bool validateOpponentMovesReply(const QJsonObject& reply);
