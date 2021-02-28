@@ -5,7 +5,7 @@
 #include <QDebug>
 #include "communicationtools.h"
 
-
+//TODO: add timer to control maximum duration of request
 void BasisCommObj::makeRequestBasis(bool withToken)
 {
     if (m_ReplyObject != nullptr && m_ReplyObject->isRunning())
