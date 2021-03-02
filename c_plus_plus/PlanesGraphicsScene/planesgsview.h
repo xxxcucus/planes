@@ -32,6 +32,7 @@ public slots:
 	void startNewGame();
     
     void opponentMoveGeneratedSlot(const GuessPoint& gp);
+    void roundWasCancelledSlot();
 
 private:
 

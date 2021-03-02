@@ -7,7 +7,7 @@ private:
     bool m_IsSinglePlayer = false;
     
 public:
-    GameInfo() {}
+    GameInfo(bool isMultiplayer) { m_IsSinglePlayer = !isMultiplayer; }
     
     void setSinglePlayer(bool singlePlayer) {
         m_IsSinglePlayer = singlePlayer;

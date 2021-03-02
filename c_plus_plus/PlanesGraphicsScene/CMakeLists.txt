@@ -74,7 +74,6 @@ set(GS_HEADR
 	animatedtextitem.h
 	planesgsview.h
 	planesgswindow.h	
-	gameinfo.h
 )
 
 add_executable(PlanesGraphicsScene 

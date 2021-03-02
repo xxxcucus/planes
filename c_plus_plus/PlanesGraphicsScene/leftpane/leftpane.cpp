@@ -24,7 +24,8 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     QVBoxLayout* vLayout = new QVBoxLayout();
     vLayout->addWidget(m_PlayerStatsFrame);
     vLayout->addWidget(m_ComputerStatsFrame);
-    vLayout->addWidget(m_acquireOpponentMovesButton);
+    if (!m_GameInfo->getSinglePlayer())
+        vLayout->addWidget(m_acquireOpponentMovesButton);
     vLayout->addWidget(m_CancelRoundButton_Game);
     vLayout->addStretch(5);
     m_GameWidget = new QWidget();
@@ -49,9 +50,10 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     gridLayout->addWidget(m_rightPlaneButton, 3, 2);
     gridLayout->addWidget(m_downPlaneButton, 4, 1);
     gridLayout->addWidget(m_doneButton, 5, 0, 1, 3);
-    gridLayout->addWidget(m_acquireOpponentPositionsButton, 6, 0, 1, 3);
-    gridLayout->addWidget(m_CancelRoundButton_BoardEditing, 7, 0, 1, 3);
-    gridLayout->addItem(spacer, 6, 0, 1, 3);
+    gridLayout->addWidget(m_CancelRoundButton_BoardEditing, 6, 0, 1, 3);
+    if (!m_GameInfo->getSinglePlayer())
+        gridLayout->addWidget(m_acquireOpponentPositionsButton, 7, 0, 1, 3);
+    //gridLayout->addItem(spacer, 6, 0, 1, 3);
     gridLayout->setRowStretch(6, 5);
     m_BoardEditingWidget->setLayout(gridLayout);
 
@@ -294,12 +296,18 @@ void LeftPane::roundWasCancelledSlot()
 
 void LeftPane::cancelRoundClicked(bool b)
 {
-    m_MultiRound->cancelRound();
+    if (!m_GameInfo->getSinglePlayer()) {
+        m_MultiRound->cancelRound();
+    } else {
+        activateStartGameTab();
+        emit roundWasCancelled();
+    }
 }
 
 void LeftPane::startNewGameSlot()
 {
     if (m_GameInfo->getSinglePlayer()) {
+        activateEditingBoard();
         emit newRoundStarted();
         return;
     }

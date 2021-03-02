@@ -8,6 +8,11 @@
 //TODO: add timer to control maximum duration of request
 void BasisCommObj::makeRequestBasis(bool withToken)
 {
+    if (m_IsSinglePlayer) {
+        qDebug() << "makeRequestBasis in single player modus";
+        return;
+    }
+    
     if (m_ReplyObject != nullptr && m_ReplyObject->isRunning())
         return;
     
@@ -28,8 +33,10 @@ void BasisCommObj::makeRequestBasis(bool withToken)
 void BasisCommObj::errorRequest(QNetworkReply::NetworkError code)
 {
     qDebug() << "Error 1";
-    if (m_IsSinglePlayer)
+    if (m_IsSinglePlayer) {
+        qDebug() << "errorRequest in single player modus";
         return;
+    }
 
     CommunicationTools::treatCommunicationError(m_ActionName, m_ReplyObject);
 }
@@ -45,9 +52,10 @@ void BasisCommObj::finishedRequest()
 
 bool BasisCommObj::finishRequestHelper(QJsonObject& retJson)
 {
-    qDebug() << "finishRequestHelper";
-    if (m_IsSinglePlayer)
+    if (m_IsSinglePlayer) {
+        qDebug() << "finishRequestHelper in single player modus";
         return false;
+    }
 
     if (m_ReplyObject->error() != QNetworkReply::NoError) {
         return false;

@@ -27,7 +27,8 @@ PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* gl
     connect(m_LeftPane, SIGNAL(leftPlaneClicked(bool)), m_RightPane, SLOT(leftPlaneClicked(bool)));
     connect(m_LeftPane, SIGNAL(rightPlaneClicked(bool)), m_RightPane, SLOT(rightPlaneClicked(bool)));
     connect(m_LeftPane, SIGNAL(doneClicked()), m_RightPane, SLOT(doneClicked()));
-
+    connect(m_LeftPane, SIGNAL(roundWasCancelled()), this, SLOT(roundWasCancelledSlot()));
+    
     connect(m_RightPane, SIGNAL(planePositionNotValid(bool)), m_LeftPane, SLOT(activateDoneButton(bool)));
     connect(m_LeftPane, SIGNAL(doneClicked()), this, SLOT(doneClicked()));
     connect(m_RightPane, SIGNAL(guessMade(const GuessPoint&)), this, SLOT(receivedPlayerGuess(const GuessPoint&)));
@@ -35,7 +36,6 @@ PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* gl
     connect(m_MultiRound, SIGNAL(newRoundStarted()), this, SLOT(startNewGame()));
     
     connect(m_MultiRound, &MultiplayerRound::opponentMoveGenerated, this, &PlanesGSView::opponentMoveGeneratedSlot);
-
     
 	m_round->initRound();
 	m_RightPane->resetGameBoard();
@@ -43,7 +43,7 @@ PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* gl
 }
 
 void PlanesGSView::startNewGame() {
-	printf("Start new round\n");
+	qDebug() << "Start new round";
     
     if (m_GameInfo->getSinglePlayer()) {
         if (m_round->didRoundEnd()) {
@@ -101,4 +101,9 @@ void PlanesGSView::doneClicked()
 	m_round->doneEditing();
 	m_LeftPane->activateGameTab();
 	m_RightPane->doneClicked();
+}
+
+void PlanesGSView::roundWasCancelledSlot() {
+    m_round->setRoundCancelled();
+    m_RightPane->roundWasCancelledSlot();
 }

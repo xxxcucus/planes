@@ -54,6 +54,12 @@ public:
 	bool getShowPlaneAfterKill() {
 		return m_RoundOptions.m_ShowPlaneAfterKill;
 	}
+	
+	void setRoundCancelled() {
+        m_State = AbstractPlaneRound::GameStages::GameNotStarted;
+        m_playerGuessList.clear();
+        m_computerGuessList.clear();
+    }
 
 private:
 	//based on the available information makes the next move for the computer

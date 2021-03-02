@@ -7,6 +7,7 @@
 #include <QJsonObject>
 #include <QNetworkReply>
 #include "abstractplaneround.h"
+#include "gameinfo.h"
 #include "global/globaldata.h"
 #include "communicationobjects/creategamecommobj.h"
 #include "communicationobjects/connecttogamecommobj.h"
@@ -27,20 +28,13 @@ class MultiplayerRound : public QObject, public AbstractPlaneRound  {
     
 private:
     
-    //TODO: computer moves with index so that it also works when replies come in different order as they were sent
-    //player and computer moves with index
-    //when requesting moves send a list of indices that need to be sent
-    //when error on send move send again
-    //when sending allow multiple moves to be sent
-    //save indices that were succesfully sent
     int m_PlayerMoveIndex = 0;
     int m_ComputerMoveIndex = 0;
     QNetworkAccessManager* m_NetworkManager;
     GlobalData* m_GlobalData;
     QSettings* m_Settings;
-    
-    bool m_IsSinglePlayer = false;
-    
+    GameInfo* m_GameInfo;
+        
     CreateGameCommObj* m_CreateGameObj;
     ConnectToGameCommObj* m_ConnectToGameObj;
     RefreshGameStatusCommObj* m_RefreshGameStatusCommObj;
@@ -80,7 +74,7 @@ signals:
     void gameStatsUpdated(const GameStatistics& gameStats);
     
 public:
-    MultiplayerRound(int rows, int cols, int planeNo, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings);
+    MultiplayerRound(int rows, int cols, int planeNo, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo);
     void reset() override;
     void initRound() override;
 

@@ -12,6 +12,7 @@
 
 RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_MultiRound(mrd), m_GlobalData(globalData), m_NetworkManager(networkManager), m_Settings(settings), m_GameInfo(gameInfo)
 {
+    //TODO: different help for multiplayer
     QWidget* helpWidget = new QWidget();
     QHBoxLayout* layout = new QHBoxLayout();
     QTextEdit* textEdit = new QTextEdit();
@@ -41,8 +42,10 @@ RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings,
 	addTab(optionsWindow, "Options");
     m_AccountWidgetIndex = addTab(accountWidget, "Account");
     m_GameWidgetIndex = addTab(gameWidget, "Game");
-    if (m_GameInfo->getSinglePlayer())
+    if (m_GameInfo->getSinglePlayer()) {
         setTabEnabled(m_AccountWidgetIndex, false);
+        setTabEnabled(m_GameWidgetIndex, false);
+    }
     addTab(helpWidget, "Help");
 
     connect(m_PlayerBoard, SIGNAL(planePositionNotValid(bool)), this, SIGNAL(planePositionNotValid(bool)));
@@ -124,6 +127,11 @@ void RightPane::startNewGame() {
     if (!m_GameInfo->getSinglePlayer()) {
         m_PlayerBoard->refreshPlanes();
         m_ComputerBoard->refreshPlanes();
+    } else {
+        m_PlayerBoard->reset();
+        m_ComputerBoard->reset();
+        m_PlayerBoard->refreshPlanes();
+        m_ComputerBoard->refreshPlanes();        
     }
 }
 

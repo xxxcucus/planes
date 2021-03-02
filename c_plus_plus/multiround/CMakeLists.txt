@@ -41,7 +41,8 @@ set(MULTIROUND_HEADR
     communicationobjects/cancelroundcommobj.h
     communicationobjects/startnewroundcommobj.h
     communicationobjects/sendwinnercommobj.h
-    communicationtools.h)
+    communicationtools.h
+    gameinfo.h)
 
 set(MULTIROUND_SRCS 	
     multiplayerround.cpp

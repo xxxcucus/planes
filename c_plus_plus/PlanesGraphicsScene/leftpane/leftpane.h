@@ -36,7 +36,7 @@ signals:
     void rightPlaneClicked(bool);
     void doneClicked();
     void newRoundStarted();
-
+    void roundWasCancelled();
 
 public slots:
     /**
