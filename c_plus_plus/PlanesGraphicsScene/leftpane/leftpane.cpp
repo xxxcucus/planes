@@ -130,7 +130,6 @@ void LeftPane::doneClickedSlot()
     }
 }
 
-//TODO : should allow only one time to click on done - after that the controlls should be disabled
 void LeftPane::submitDoneClicked()
 {
     m_MultiRound->sendPlanePositions();
