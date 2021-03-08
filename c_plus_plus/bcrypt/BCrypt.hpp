@@ -2,14 +2,15 @@
 #define __BCRYPT__
 
 #ifdef _WIN32
-#include "winbcrypt.h"
+#include "include/winbcrypt.h"
 #else
 
 #include "bcrypt.h"
+#include "libbcrypt_EXPORTS.h"
 #include <string>
 #include <stdexcept>
 
-class BCrypt {
+class BCRYPT_EXPORT BCrypt {
 public:
     static std::string generateHash(const std::string & password, int workload = 10){
         char salt[BCRYPT_HASHSIZE];

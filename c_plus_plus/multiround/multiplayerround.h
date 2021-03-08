@@ -1,6 +1,12 @@
 #ifndef __MULTIPLAYER_ROUND__
 #define __MULTIPLAYER_ROUND__
 
+#if defined MAKE_MULTIPLAYERROUND_LIB
+#define MULTIPLAYER_EXPORT Q_DECL_EXPORT
+#else
+#define MULTIPLAYER_EXPORT Q_DECL_IMPORT
+#endif
+
 #include <QObject>
 #include <QNetworkAccessManager>
 #include <QSettings>
@@ -23,7 +29,9 @@
 #include "communicationobjects/startnewroundcommobj.h"
 #include "communicationobjects/sendwinnercommobj.h"
 
-class MultiplayerRound : public QObject, public AbstractPlaneRound  {
+
+
+class MULTIPLAYER_EXPORT MultiplayerRound : public QObject, public AbstractPlaneRound  {
     Q_OBJECT
     
 private:

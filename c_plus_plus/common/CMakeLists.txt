@@ -4,7 +4,6 @@ project (libCommon)
 cmake_policy(SET CMP0020 NEW)
 cmake_policy(SET CMP0043 NEW)
 
-
 if (With_Java)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 endif(With_Java)

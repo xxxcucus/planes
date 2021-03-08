@@ -26,11 +26,10 @@
 // On windows we need to generate random bytes differently.
 typedef __int64 ssize_t;
 #define BCRYPT_HASHSIZE 60
-
-#include "../include/bcrypt/bcrypt.h"
-
 #include <windows.h>
 #include <wincrypt.h> /* CryptAcquireContext, CryptGenRandom */
+#include "bcrypt.h"
+
 #else
 #include "bcrypt.h"
 #include "ow-crypt.h"

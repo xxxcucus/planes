@@ -9,7 +9,8 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../common
 	${CMAKE_CURRENT_SOURCE_DIR}/../multiround/
 	${CMAKE_CURRENT_SOURCE_DIR}/../bcrypt
-	${Qt5Widgets_INCLUDE_DIRS})
+	${Qt5Widgets_INCLUDE_DIRS}
+	${Qt5Core_INCLUDE_DIRS})
 
 #link_directories(
 #	${CMAKE_CURRENT_BINARY_DIR}/../common/Release/
@@ -85,7 +86,8 @@ target_link_libraries(PlanesGraphicsScene
 	libMultiRound
 	libbcrypt
 	${Qt5Widgets_LIBRARIES}
-	${Qt5Network_LIBRARIES})
-qt5_use_modules(PlanesGraphicsScene Widgets Network)
+	${Qt5Network_LIBRARIES}
+	${Qt5Core_LIBRARIES})
+qt5_use_modules(PlanesGraphicsScene Core Widgets Network)
 
 install(TARGETS PlanesGraphicsScene DESTINATION bin)

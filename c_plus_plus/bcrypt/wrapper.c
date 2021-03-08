@@ -42,10 +42,10 @@
 #endif
 
 #ifdef _WIN32 | _WIN64
-#include "../include/bcrypt/ow-crypt.h"
+#include "include/ow-crypt.h"
 
-#include "../include/bcrypt/crypt_blowfish.h"
-#include "../include/bcrypt/crypt_gensalt.h"
+#include "include/crypt_blowfish.h"
+#include "include/crypt_gensalt.h"
 #else
 #include "ow-crypt.h"
 

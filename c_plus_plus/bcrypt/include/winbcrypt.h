@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "crypt_blowfish.h"
-#include "./bcrypt.h"
+#include "bcrypt.h"
 
 class BCrypt {
 public:

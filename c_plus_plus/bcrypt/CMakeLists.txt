@@ -9,24 +9,21 @@
 #
 #  @author: Tino Rusch (tino.rusch@webvariants.de)
 #
-###################################################################################
-
-
-project(libbcrypt)
-
-enable_language(ASM)
+###############################################################################et( CMAKE_ASM_FLAGS "${CXXFLAGS} -x assembler-with-cpp")
 
 set( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall --std=c++11 -O3" )
 set( CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -Wall -O3" )
 
-set( CMAKE_ASM_FLAGS "${CXXFLAGS} -x assembler-with-cpp")
+if (NOT WIN32)
+	include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/include)
+endif()
+
 
 set(BCRYPT_SRCS
 	bcrypt.c
 	crypt_blowfish.c
 	crypt_gensalt.c
 	wrapper.c
-	x86.S
 )
 
 set(BCRYPT_HEADRS
@@ -39,8 +36,7 @@ set(BCRYPT_HEADRS
     winbcrypt.h
 )
 
-add_library(libbcrypt SHARED ${BCRYPT_SRCS} ${BCRYPT_HEADRS})
-
+add_library(libbcrypt SHARED ${BCRYPT_SRCS})
 
 if (UNIX)
 install(TARGETS libbcrypt DESTINATION lib)
