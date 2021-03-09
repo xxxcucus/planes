@@ -5,12 +5,11 @@
 #include "include/winbcrypt.h"
 #else
 
-#include "bcrypt.h"
-#include "libbcrypt_EXPORTS.h"
+#include "include/bcrypt.h"
 #include <string>
 #include <stdexcept>
 
-class BCRYPT_EXPORT BCrypt {
+class  BCrypt {
 public:
     static std::string generateHash(const std::string & password, int workload = 10){
         char salt[BCRYPT_HASHSIZE];
