@@ -8,10 +8,10 @@
 
     QMessageBox msgBox;
     msgBox.setText("Single player / Multiplayer game?"); 
-    msgBox.addButton("Single player", QMessageBox::YesRole);
-    msgBox.addButton("Multiplayer", QMessageBox::NoRole);
+    QPushButton* singlePlayerButton = msgBox.addButton("Single player", QMessageBox::YesRole);
+    QPushButton* multiplayerButton = msgBox.addButton("Multiplayer", QMessageBox::NoRole);
     msgBox.exec();
-    bool isMultiplayer = msgBox.standardButton(msgBox.clickedButton()) == QMessageBox::No;
+    bool isMultiplayer = msgBox.clickedButton() == multiplayerButton;
     
     //constructs and shows the program main window
     PlanesGSWindow *planesWindow = new PlanesGSWindow(isMultiplayer);
