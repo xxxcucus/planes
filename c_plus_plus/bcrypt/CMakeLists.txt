@@ -9,7 +9,9 @@
 #
 #  @author: Tino Rusch (tino.rusch@webvariants.de)
 #
-###############################################################################et( CMAKE_ASM_FLAGS "${CXXFLAGS} -x assembler-with-cpp")
+###############################################################################
+
+set( CMAKE_ASM_FLAGS "${CXXFLAGS} -x assembler-with-cpp")
 
 set( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall --std=c++11 -O3" )
 set( CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -Wall -O3" )
