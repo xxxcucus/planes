@@ -287,7 +287,6 @@ void LeftPane::setMinHeight()
     setMinimumHeight(fm.height() * 12);
 }
 
-//TODO: implement cancelled for single player as well
 void LeftPane::roundWasCancelledSlot()
 {
     activateStartGameTab();
