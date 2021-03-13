@@ -7,7 +7,6 @@
 #include <QJsonObject>
 #include <vector>
 #include "mainaccountwidget.h"
-#include "norobotwidget.h"
 #include "global/globaldata.h"
 #include "gameinfo.h"
 #include "multiplayerround.h"
@@ -25,7 +24,6 @@ private slots:
     
 private:
     MainAccountWidget* m_MainAccountWidget;
-    NoRobotWidget* m_NoRobotWidget;
     GlobalData* m_GlobalData;
     QNetworkAccessManager* m_NetworkManager;
     QSettings* m_Settings;

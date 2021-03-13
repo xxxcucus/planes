@@ -2,6 +2,7 @@
 #define __GAME_WIDGET__
 
 #include <QWidget>
+#include <QFrame>
 #include <QNetworkAccessManager>
 #include <QSettings>
 
@@ -9,7 +10,7 @@
 #include "global/globaldata.h"
 #include "multiplayerround.h"
 
-class GameWidget : public QWidget {
+class GameWidget : public QFrame {
     Q_OBJECT
     
 public:

@@ -6,9 +6,7 @@
 #include <QFile>
 #include <QTextStream>
 #include "options/optionswindow.h"
-#include "account/accountwidget.h"
 #include "planeround.h"
-#include "game/gamewidget.h"
 
 RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_MultiRound(mrd), m_GlobalData(globalData), m_NetworkManager(networkManager), m_Settings(settings), m_GameInfo(gameInfo)
 {
@@ -34,18 +32,18 @@ RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings,
 	
 
 	OptionsWindow* optionsWindow = new OptionsWindow(m_PlaneRound, m_Settings, m_GameInfo);
-    AccountWidget* accountWidget = new AccountWidget(m_Settings, m_GlobalData, m_NetworkManager, m_GameInfo, m_MultiRound);
-    GameWidget* gameWidget = new GameWidget(m_GlobalData, m_GameInfo, m_NetworkManager, m_Settings, m_MultiRound);
+    //AccountWidget* accountWidget = new AccountWidget(m_Settings, m_GlobalData, m_NetworkManager, m_GameInfo, m_MultiRound);
+    //GameWidget* gameWidget = new GameWidget(m_GlobalData, m_GameInfo, m_NetworkManager, m_Settings, m_MultiRound);
 
     m_OwnBoardIndex = addTab(m_PlayerBoard->getView(), "Player Board");
     m_OpponentBoardIndex = addTab(m_ComputerBoard->getView(), "Computer Board");
 	addTab(optionsWindow, "Options");
-    m_AccountWidgetIndex = addTab(accountWidget, "Account");
-    m_GameWidgetIndex = addTab(gameWidget, "Game");
-    if (m_GameInfo->getSinglePlayer()) {
+    //m_AccountWidgetIndex = addTab(accountWidget, "Account");
+    //m_GameWidgetIndex = addTab(gameWidget, "Game");
+    /*if (m_GameInfo->getSinglePlayer()) {
         setTabEnabled(m_AccountWidgetIndex, false);
         setTabEnabled(m_GameWidgetIndex, false);
-    }
+    }*/
     addTab(helpWidget, "Help");
 
     connect(m_PlayerBoard, SIGNAL(planePositionNotValid(bool)), this, SIGNAL(planePositionNotValid(bool)));
@@ -135,13 +133,11 @@ void RightPane::startNewGame() {
     }
 }
 
-void RightPane::setMinWidth()
-{
+void RightPane::setMinWidth() {
     setMinimumWidth(m_PlayerBoard->getMinWidth());
 }
 
-void RightPane::showComputerMove(const GuessPoint& gp)
-{
+void RightPane::showComputerMove(const GuessPoint& gp) {
 	m_PlayerBoard->showMove(gp);
 }
 
@@ -165,8 +161,7 @@ void RightPane::multiplayerRoundReset(const QString& gameName, const QString& fi
     m_ComputerBoard->refreshPlanes();
 }
 
-void RightPane::roundWasCancelledSlot()
-{
+void RightPane::roundWasCancelledSlot() {
     m_PlayerBoard->setGameStage(GenericBoard::GameStages::GameNotStarted); //to deactivate guessing
     m_ComputerBoard->setGameStage(GenericBoard::GameStages::GameNotStarted);
 }

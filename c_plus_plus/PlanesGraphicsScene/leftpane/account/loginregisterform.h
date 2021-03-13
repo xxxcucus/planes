@@ -14,11 +14,11 @@
 #include "gameinfo.h"
 #include "multiplayerround.h"
 
-class LoginRegisterForm : public QWidget
+class LoginRegisterForm : public QFrame
 {
     Q_OBJECT
 public:
-    explicit LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, MultiplayerRound* mrd, QWidget *parent = nullptr);
+    LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, MultiplayerRound* mrd, QWidget *parent = nullptr);
     
 private slots:
     void toggleLoginRegistration();

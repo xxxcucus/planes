@@ -18,15 +18,18 @@ include_directories(
 
 set(GS_SRCS 	
 	leftpane/leftpane.cpp
-	leftpane/gamestatsframe.cpp
-	leftpane/scoreframe.cpp
+	leftpane/round/gamestatsframe.cpp
+	leftpane/round/playroundwidget.cpp
+	leftpane/boardediting/boardeditingwidget.cpp
+	leftpane/startnewround/startnewroundwidget.cpp
+	leftpane/startnewround/scoreframe.cpp
     rightpane/rightpane.cpp
-    rightpane/account/accountwidget.cpp
-    rightpane/account/clickablelabel.cpp
-    rightpane/account/loginregisterform.cpp
-    rightpane/account/mainaccountwidget.cpp
-    rightpane/account/norobotwidget.cpp
-    rightpane/account/userprofileframe.cpp
+    leftpane/account/accountwidget.cpp
+    leftpane/account/clickablelabel.cpp
+    leftpane/account/loginregisterform.cpp
+    leftpane/account/mainaccountwidget.cpp
+    leftpane/account/norobotwidget.cpp
+    leftpane/account/userprofileframe.cpp
     rightpane/boards/computerboard.cpp
 	rightpane/boards/customgraphicsscene.cpp
 	rightpane/boards/customgraphicsview.cpp
@@ -34,10 +37,10 @@ set(GS_SRCS
 	rightpane/boards/gridsquare.cpp
 	rightpane/boards/playareagridsquare.cpp
 	rightpane/boards/playerboard.cpp
-	rightpane/game/gamewidget.cpp
-	rightpane/game/gameendwidget.cpp
-	rightpane/game/gamestatuswidget.cpp
-	rightpane/game/creategamewidget.cpp
+	leftpane/game/gamewidget.cpp
+	leftpane/game/gameendwidget.cpp
+	leftpane/game/gamestatuswidget.cpp
+	leftpane/game/creategamewidget.cpp
 	rightpane/options/gamedifficultyoptions.cpp
 	rightpane/options/optionswindow.cpp
 	main.cpp
@@ -49,15 +52,18 @@ set(GS_SRCS
 
 set(GS_HEADR
 	leftpane/leftpane.h
-	leftpane/gamestatsframe.h
-	leftpane/scoreframe.h
+	leftpane/round/gamestatsframe.h
+	leftpane/round/playroundwidget.h
+	leftpane/boardediting/boardeditingwidget.h
+	leftpane/startnewround/startnewroundwidget.h
+	leftpane/startnewround/scoreframe.h
     rightpane/rightpane.h
-    rightpane/account/accountwidget.h
-    rightpane/account/clickablelabel.h
-    rightpane/account/loginregisterform.h
-    rightpane/account/mainaccountwidget.h
-    rightpane/account/norobotwidget.h
-    rightpane/account/userprofileframe.h
+    leftpane/account/accountwidget.h
+    leftpane/account/clickablelabel.h
+    leftpane/account/loginregisterform.h
+    leftpane/account/mainaccountwidget.h
+    leftpane/account/norobotwidget.h
+    leftpane/account/userprofileframe.h
     rightpane/boards/computerboard.h
 	rightpane/boards/customgraphicsscene.h
 	rightpane/boards/customgraphicsview.h
@@ -65,10 +71,10 @@ set(GS_HEADR
 	rightpane/boards/gridsquare.h
 	rightpane/boards/playareagridsquare.h
 	rightpane/boards/playerboard.h
-	rightpane/game/gamewidget.h
-	rightpane/game/gameendwidget.h
-	rightpane/game/gamestatuswidget.h
-	rightpane/game/creategamewidget.h
+	leftpane/game/gamewidget.h
+	leftpane/game/gameendwidget.h
+	leftpane/game/gamestatuswidget.h
+	leftpane/game/creategamewidget.h
 	rightpane/options/gamedifficultyoptions.h
 	rightpane/options/optionswindow.h
 	customhorizlayout.h

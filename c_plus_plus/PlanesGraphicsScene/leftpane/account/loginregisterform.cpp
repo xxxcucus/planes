@@ -10,14 +10,12 @@
 #include "communicationtools.h"
 
 LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, MultiplayerRound* mrd, QWidget* parent) 
-        : QWidget(parent), m_Login(login), m_NetworkManager(networkManager), m_Settings(settings), m_GlobalData(globalData), m_GameInfo(gameInfo), m_MultiRound(mrd) {
+        : QFrame(parent), m_Login(login), m_NetworkManager(networkManager), m_Settings(settings), m_GlobalData(globalData), m_GameInfo(gameInfo), m_MultiRound(mrd) {
     
     m_passwordLineEdit = new QLineEdit();
     m_usernameLineEdit = new QLineEdit();
     m_passwordLineEdit->setEchoMode(QLineEdit::Password);
-    
-    QFrame* loginRegisterFrame = new QFrame();
-    
+        
     
     QString titleText = QString("<b> Register</b>");
     if (m_Login)
@@ -41,23 +39,13 @@ LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkM
     gridLayout1->addWidget(submitButton, 3, 1);
     gridLayout1->addWidget(m_ToggleLoginRegistrationButton, 4, 1);
 
-    loginRegisterFrame->setLayout(gridLayout1);
-    loginRegisterFrame->setFrameStyle(QFrame::Panel | QFrame::Raised);
-
-    QHBoxLayout* hLayout = new QHBoxLayout();
-    QSpacerItem* spacer1 = new QSpacerItem(10, 10, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    hLayout->addWidget(loginRegisterFrame);
-    hLayout->addItem(spacer1);
-    
-    QVBoxLayout* windowLayout = new QVBoxLayout();
-    windowLayout->addLayout(hLayout);
-    QSpacerItem* spacer = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
-    windowLayout->addItem(spacer);
+    setLayout(gridLayout1);
+    setFrameStyle(QFrame::Panel | QFrame::Raised);
     
     connect(m_ToggleLoginRegistrationButton, &QPushButton::clicked, this, &LoginRegisterForm::toggleLoginRegistration);
     connect(submitButton, &QPushButton::clicked, this, &LoginRegisterForm::submitSlot);
     
-    setLayout(windowLayout);
+    setLayout(gridLayout1);
 }
 
 
