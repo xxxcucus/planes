@@ -34,7 +34,7 @@
     <string name="start_new_game2">Neues Spiel</string>
     <string name="computer_wins">Computer Siege</string>
     <string name="player_wins">Spieler Siege</string>
-    <string name="draws">Unenschiedene Spiele</string>
+    <string name="draws">Unentschiedene Spiele</string>
     <string name="help">Hilfe</string>
     <string name="board_editing_stage">Spielbrett bearbeiten</string>
     <string name="game_stage">Spiel</string>
