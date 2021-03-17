@@ -11,7 +11,7 @@
 
 LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, MultiplayerRound* mrd, QWidget* parent) 
         : QFrame(parent), m_Login(login), m_NetworkManager(networkManager), m_Settings(settings), m_GlobalData(globalData), m_GameInfo(gameInfo), m_MultiRound(mrd) {
-    
+            
     m_passwordLineEdit = new QLineEdit();
     m_usernameLineEdit = new QLineEdit();
     m_passwordLineEdit->setEchoMode(QLineEdit::Password);
@@ -43,7 +43,8 @@ LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkM
     setFrameStyle(QFrame::Panel | QFrame::Raised);
     
     connect(m_ToggleLoginRegistrationButton, &QPushButton::clicked, this, &LoginRegisterForm::toggleLoginRegistration);
-    connect(submitButton, &QPushButton::clicked, this, &LoginRegisterForm::submitSlot);
+    connect(submitButton, &QPushButton::clicked, this, &LoginRegisterForm::submitSlot);    
+    connect(m_MultiRound, &MultiplayerRound::noRobotRegistration, this, &LoginRegisterForm::noRobotRegistrationSlot);
     
     setLayout(gridLayout1);
 }
@@ -87,3 +88,25 @@ void LoginRegisterForm::submitRegistration()
     m_MultiRound->registerUser(username, password);
 }
 
+void LoginRegisterForm::noRobotRegistrationSlot(const std::vector<QString>& images, const QJsonObject& registrationReplyJson) {
+
+    if (m_NoRobotWidget != nullptr)
+        delete m_NoRobotWidget;
+    
+    qDebug() << "noRobotRegistrationSlot";
+    QDialog mainDialog;
+    m_NoRobotWidget = new NoRobotWidget(m_NetworkManager, m_Settings, m_GlobalData, m_GameInfo, m_MultiRound, &mainDialog);
+    mainDialog.setWindowModality(Qt::WindowModal); //you want your dialog modal not your widget.
+    mainDialog.setLayoutDirection(Qt::LayoutDirection::LeftToRight);
+    mainDialog.resize(800, 600);
+    QBoxLayout mainDialogLayout(QBoxLayout::LeftToRight);
+    mainDialogLayout.addWidget(m_NoRobotWidget); 
+    mainDialogLayout.setMargin (0);
+    mainDialog.setLayout(&mainDialogLayout);
+    m_NoRobotWidget->setImages(images);
+    m_NoRobotWidget->setQuestion(registrationReplyJson.value("question").toString());
+    m_NoRobotWidget->setRequestId(registrationReplyJson.value("id").toString());
+    connect(m_NoRobotWidget, &NoRobotWidget::noRobotSubmit, &mainDialog, &QDialog::close);
+    //mainDialog.setWindowState(mainDialog.windowState() | Qt::WindowMaximized);
+    mainDialog.exec();
+}

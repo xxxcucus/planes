@@ -21,9 +21,11 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     m_BoardEditingWidget = new BoardEditingWidget(m_GameInfo);
     m_StartNewRoundWidget = new StartNewRoundWidget();
     m_MainAccountWidget = new MainAccountWidget(m_Settings, m_GlobalData, m_NetworkManager, m_GameInfo, m_MultiRound);
-    m_GameWidget = new GameWidget(m_GlobalData, m_GameInfo, m_NetworkManager, m_Settings, m_MultiRound); 
-    //TODO: to optimize
+    m_GameWidget = new GameWidget(m_GlobalData, m_MultiRound); 
 
+    connect(m_MainAccountWidget, &MainAccountWidget::toGameCreationClicked, this, &LeftPane::activateGameWidget);
+    connect(m_GameWidget, &GameWidget::toGameButtonClicked, this, &LeftPane::activateEditingBoard);
+    
     connect(m_BoardEditingWidget, &BoardEditingWidget::selectPlaneClicked, this, &LeftPane::selectPlaneClickedSlot);
     connect(m_BoardEditingWidget, &BoardEditingWidget::rotatePlaneClicked, this, &LeftPane::rotatePlaneClickedSlot);
     connect(m_BoardEditingWidget, &BoardEditingWidget::doneClicked, this, &LeftPane::doneClickedSlot);
@@ -37,7 +39,6 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     connect(m_PlayRoundWidget, &PlayRoundWidget::acquireOpponentMovesClicked, this, &LeftPane::acquireOpponentMovesClickedSlot);
     connect(m_PlayRoundWidget, &PlayRoundWidget::cancelRoundClicked, this, &LeftPane::cancelRoundClickedSlot);
 
-    
     connect(m_MultiRound, SIGNAL(roundWasCancelled()), this, SLOT(roundWasCancelledSlot()));
     connect(m_MultiRound, &MultiplayerRound::opponentPlanePositionsReceived, this, &LeftPane::activateGameTabDeactivateButtons);
     connect(m_MultiRound, &MultiplayerRound::waitForOpponentPlanePositions, this, &LeftPane::WaitForOpponentPlanesPositionsSlot);
@@ -47,13 +48,18 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
 
     connect(m_StartNewRoundWidget, &StartNewRoundWidget::startNewGame, this, &LeftPane::startNewGameSlot);
 
-    m_MainAccountWidgetIndex = addTab(m_MainAccountWidget, "Login");    
-    m_GameWidgetIndex = addTab(m_GameWidget, "ConnectToGame");
+    if (!m_GameInfo->getSinglePlayer()) {
+        m_MainAccountWidgetIndex = addTab(m_MainAccountWidget, "Login");    
+        m_GameWidgetIndex = addTab(m_GameWidget, "ConnectToGame");
+    }
     m_GameTabIndex = addTab(m_PlayRoundWidget, "Round");
     m_EditorTabIndex = addTab(m_BoardEditingWidget, "BoardEditing");
     m_GameStartIndex = addTab(m_StartNewRoundWidget, "Start Round");
     
-    activateAccountWidget();
+    if (!m_GameInfo->getSinglePlayer())
+        activateAccountWidget();
+    else
+        activateEditingBoard();
 }
 
 void LeftPane::activateDoneButton(bool planesOverlap)
@@ -188,6 +194,10 @@ void LeftPane::endRound(bool) {
 }
 
 void LeftPane::activateGameTab() {
+    if (!m_GameInfo->getSinglePlayer()) {
+        setTabEnabled(m_MainAccountWidgetIndex, false);
+        setTabEnabled(m_GameWidgetIndex, false);
+    }
     setCurrentIndex(m_GameTabIndex);
     setTabEnabled(m_EditorTabIndex, false);
     setTabEnabled(m_GameTabIndex, true);
@@ -196,14 +206,22 @@ void LeftPane::activateGameTab() {
 }
 
 void LeftPane::activateEditorTab() {
+    if (!m_GameInfo->getSinglePlayer()) {
+        setTabEnabled(m_MainAccountWidgetIndex, false);
+        setTabEnabled(m_GameWidgetIndex, false);
+    }
     setCurrentIndex(m_EditorTabIndex);
     setTabEnabled(m_EditorTabIndex, true);
     setTabEnabled(m_GameTabIndex, false);
-    setTabEnabled(m_GameStartIndex, true);
+    setTabEnabled(m_GameStartIndex, false);
 	m_StartNewRoundWidget->deactivateStartRoundButton();
 }
 
 void LeftPane::activateStartGameTab() {
+    if (!m_GameInfo->getSinglePlayer()) {
+        setTabEnabled(m_MainAccountWidgetIndex, true);
+        setTabEnabled(m_GameWidgetIndex, true);
+    }
     setCurrentIndex(m_GameStartIndex);
     setTabEnabled(m_EditorTabIndex, false);
     setTabEnabled(m_GameTabIndex, false);
@@ -263,6 +281,17 @@ void LeftPane::startNewRound()
 void LeftPane::activateAccountWidget()
 {
     setCurrentIndex(m_MainAccountWidgetIndex);
+    setTabEnabled(m_GameWidgetIndex, false);
+    setTabEnabled(m_EditorTabIndex, false);
+    setTabEnabled(m_GameTabIndex, false);
+    setTabEnabled(m_GameStartIndex, false);    
+}
+
+void LeftPane::activateGameWidget()
+{
+    setTabEnabled(m_MainAccountWidgetIndex, true);
+    setCurrentIndex(m_GameWidgetIndex);
+    setTabEnabled(m_GameWidgetIndex, true);
     setTabEnabled(m_EditorTabIndex, false);
     setTabEnabled(m_GameTabIndex, false);
     setTabEnabled(m_GameStartIndex, false);    

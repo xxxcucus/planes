@@ -14,13 +14,16 @@ class GameWidget : public QFrame {
     Q_OBJECT
     
 public:
-    GameWidget(GlobalData* globalData, GameInfo* gameInfo, QNetworkAccessManager* networkManager, QSettings* settings, MultiplayerRound* mrd, QWidget* parent = nullptr);
-     
+    GameWidget(GlobalData* globalData, MultiplayerRound* mrd, QWidget* parent = nullptr);
+
+public:
+    void toGameButtonClickedSlot(bool value);
+    
+signals:
+    void toGameButtonClicked(bool value);
+    
 private:    
     GlobalData* m_GlobalData;
-    GameInfo* m_GameInfo;
-    QNetworkAccessManager* m_NetworkManager;
-    QSettings* m_Settings;
     MultiplayerRound* m_MultiRound;
 };
 

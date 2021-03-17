@@ -62,6 +62,7 @@ private:
     
 private slots:    
     void connectedToGameSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
+    void gameCreatedSlot(const QString& gameName, const QString& userName);
     
 signals:
     void opponentMoveGenerated(const GuessPoint& gp);

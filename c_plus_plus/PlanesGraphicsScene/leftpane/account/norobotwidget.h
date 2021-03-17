@@ -31,6 +31,8 @@ private slots:
 private:
     void displayAndScaleImages();
     
+signals:
+    void noRobotSubmit();
     
 private:
     std::vector<ClickableLabel*> m_Labels;
@@ -41,6 +43,8 @@ private:
     int m_ImagesCount = 9;
     std::map<QString, QString> m_PhotosMap;
     std::vector<QString> m_Images;    
+
+    bool m_ResizedOnce = false;
     
     QNetworkAccessManager* m_NetworkManager;
     QSettings* m_Settings;

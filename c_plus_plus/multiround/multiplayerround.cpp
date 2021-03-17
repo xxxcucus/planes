@@ -11,9 +11,9 @@ MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QNetworkAcce
     : AbstractPlaneRound(rows, cols, planeNo), m_NetworkManager(networkManager), m_GlobalData(globalData), m_Settings(settings), m_GameInfo(gameInfo)
 {
     m_CreateGameObj = new CreateGameCommObj("/game/create/", "creating game", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
-    connect(m_CreateGameObj, &CreateGameCommObj::gameCreated, this, &MultiplayerRound::gameCreated);
+    connect(m_CreateGameObj, &CreateGameCommObj::gameCreated, this, &MultiplayerRound::gameCreatedSlot);
     m_ConnectToGameObj = new ConnectToGameCommObj("/game/connect/", "connecting to game ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
-    connect(m_ConnectToGameObj, &ConnectToGameCommObj::gameConnectedTo, this, &MultiplayerRound::gameConnectedTo);
+    connect(m_ConnectToGameObj, &ConnectToGameCommObj::gameConnectedTo, this, &MultiplayerRound::connectedToGameSlot);
     m_RefreshGameStatusCommObj = new RefreshGameStatusCommObj("/game/status/", "refreshing game status ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_RefreshGameStatusCommObj, &RefreshGameStatusCommObj::refreshStatus, this, &MultiplayerRound::refreshStatus);
     m_LoginCommObj = new LoginCommObj("/login/", "logging in ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
@@ -142,6 +142,12 @@ void MultiplayerRound::connectToGame(const QString& gameName)
 void MultiplayerRound::connectedToGameSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId) {
     long int roundId = currentRoundId.toLong(); //TODO error treatment
     startNewRound(roundId);
+    emit gameConnectedTo(gameName, firstPlayerName, secondPlayerName, currentRoundId);
+}
+
+void MultiplayerRound::gameCreatedSlot(const QString& gameName, const QString& userName) {
+    initRound();
+    emit gameCreated(gameName, userName);
 }
 
 void MultiplayerRound::refreshGameStatus(const QString& gameName)

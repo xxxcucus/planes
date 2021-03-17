@@ -11,6 +11,7 @@
 #include "gameinfo.h"
 #include "multiplayerround.h"
 
+//TODO: to delete and to rename MainAccountWidget
 class AccountWidget : public QStackedWidget {
     Q_OBJECT
     

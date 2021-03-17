@@ -13,6 +13,7 @@
 #include "global/globaldata.h"
 #include "gameinfo.h"
 #include "multiplayerround.h"
+#include "norobotwidget.h"
 
 class LoginRegisterForm : public QFrame
 {
@@ -25,11 +26,14 @@ private slots:
     void submitSlot();
     void submitLogin();
     void submitRegistration();
+    void noRobotRegistrationSlot(const std::vector<QString>& images, const QJsonObject& registrationReplyJson);
     
 private:
     QLineEdit* m_passwordLineEdit = nullptr;
     QLineEdit* m_usernameLineEdit = nullptr;
     bool m_Login = false;
+    
+    NoRobotWidget* m_NoRobotWidget = nullptr;
     
     QLabel* m_TitleLabel = nullptr;
     QPushButton* m_ToggleLoginRegistrationButton = nullptr;

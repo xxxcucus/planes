@@ -118,6 +118,7 @@ public slots:
     
     void startNewRound();
     void activateAccountWidget();
+    void activateGameWidget();
     
 private:
     void submitDoneClicked();    

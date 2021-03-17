@@ -18,6 +18,12 @@ public:
 
     MainAccountWidget(QSettings* settings, GlobalData* globalData, QNetworkAccessManager* m_NetworkManager, GameInfo* gameInfo, MultiplayerRound* mrd, QWidget* parent = nullptr);
     
+signals:
+    void toGameCreationClicked(bool value);
+    
+public slots:
+    void toGameCreationClickedSlot(bool value);
+    
 private:
     UserProfileFrame* m_userProfileFrame;
     LoginRegisterForm* m_loginRegisterForm;
