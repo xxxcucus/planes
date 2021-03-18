@@ -45,6 +45,8 @@ GameStatusWidget::GameStatusWidget(MultiplayerRound* mrd, QWidget* parent)
 
     connect(refreshStatusButton, &QPushButton::clicked, this, &GameStatusWidget::refreshSlot);
     connect(m_MultiRound, &MultiplayerRound::refreshStatus, this, &GameStatusWidget::gameConnectedToSlot);
+    connect(m_MultiRound, &MultiplayerRound::loginCompleted, this, &GameStatusWidget::clearDataSlot);
+    connect(m_MultiRound, &MultiplayerRound::loginFailed, this, &GameStatusWidget::clearDataSlot);
 }
 
 void GameStatusWidget::gameCreatedSlot(const QString& gameName, const QString& username)
@@ -77,6 +79,13 @@ void GameStatusWidget::refreshSlot()
     m_MultiRound->refreshGameStatus(gameName);    
 }
 
+void GameStatusWidget::clearDataSlot()
+{
+    m_GameName->setText("No game created");
+    m_FirstPlayerName->clear();
+    m_SecondPlayerName->clear();
+    m_RoundName->setText("No round started");;
+}
 
 
 

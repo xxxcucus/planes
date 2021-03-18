@@ -18,6 +18,7 @@ MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QNetworkAcce
     connect(m_RefreshGameStatusCommObj, &RefreshGameStatusCommObj::refreshStatus, this, &MultiplayerRound::refreshStatus);
     m_LoginCommObj = new LoginCommObj("/login/", "logging in ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_LoginCommObj, &LoginCommObj::loginCompleted, this, &MultiplayerRound::loginCompleted);
+    connect(m_LoginCommObj, &LoginCommObj::loginFailed, this, &MultiplayerRound::loginFailed);
     m_RegisterCommObj = new RegisterCommObj("/users/registration_request", "registering ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_RegisterCommObj, &RegisterCommObj::noRobotRegistration, this, &MultiplayerRound::noRobotRegistration);
     m_NoRobotCommObj = new NoRobotCommObj("/users/registration_confirm", "registering ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);

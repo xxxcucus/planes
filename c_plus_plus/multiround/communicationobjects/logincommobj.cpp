@@ -42,8 +42,11 @@ void LoginCommObj::finishedRequest()
     if (successfull) {
         QMessageBox msgBox;
         msgBox.setText("Login successfull!"); 
-        msgBox.exec();               
+        msgBox.exec();                       
         m_GlobalData->m_UserData.m_UserName = m_UserName;
+        m_GlobalData->m_UserData.m_UserId = 0;
+        m_GlobalData->m_UserData.m_UserPassword.clear();
+        m_GlobalData->m_GameData.reset();
         emit loginCompleted();
     } else {
         QMessageBox msgBox;
@@ -54,4 +57,10 @@ void LoginCommObj::finishedRequest()
 
 bool LoginCommObj::validateReply(const QJsonObject& reply) {
     return true;
+}
+
+void LoginCommObj::errorRequest(QNetworkReply::NetworkError code)
+{
+    BasisCommObj::errorRequest(code);
+    emit loginFailed();
 }
