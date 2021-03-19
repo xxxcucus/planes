@@ -8,7 +8,7 @@ bool RegisterCommObj::makeRequest(const QString& username, const QString& passwo
     loginData.m_UserName = username; 
 
     m_UserName = username;
-    m_RequestData = loginData.toLoginJson();
+    m_RequestData = loginData.toRegisterJson();
     
     makeRequestBasis(false);
     return true;

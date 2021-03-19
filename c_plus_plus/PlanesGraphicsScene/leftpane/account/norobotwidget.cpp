@@ -6,6 +6,7 @@
 #include <QFileInfoList>
 #include <QMessageBox>
 #include <QTextCodec>
+#include <QResizeEvent>
 #include "viewmodels/norobotviewmodel.h"
 #include "communicationtools.h"
 
@@ -149,6 +150,7 @@ void NoRobotWidget::submitAnswer()
         answer += m_Answer[i] ? "1" : "0";
     }
     m_MultiRound->noRobotRegister(m_RequestId, answer);
+    emit noRobotSubmit();
 }
 
 void NoRobotWidget::setRequestId(const QString& id)
@@ -158,7 +160,10 @@ void NoRobotWidget::setRequestId(const QString& id)
 
 void NoRobotWidget::resizeEvent(QResizeEvent* event)
 {
-    displayAndScaleImages();    
+    if (!m_ResizedOnce) {
+        m_ResizedOnce = true;
+        displayAndScaleImages();
+    }
     QWidget::resizeEvent(event);
 }
     

@@ -8,12 +8,15 @@
 #include <QNetworkReply>
 #include <QSettings>
 #include <QJsonObject>
-#include "gamestatsframe.h"
-#include "scoreframe.h"
 #include "gamestatistics.h"
 #include "gameinfo.h"
 #include "global/globaldata.h"
 #include "multiplayerround.h"
+#include "round/playroundwidget.h"
+#include "boardediting/boardeditingwidget.h"
+#include "startnewround/startnewroundwidget.h"
+#include "account/mainaccountwidget.h"
+#include "game/gamewidget.h"
 
 class LeftPane : public QTabWidget
 {
@@ -108,42 +111,33 @@ public slots:
     void endRound(bool isPlayerWinner);
      
     void roundWasCancelledSlot();
-    void cancelRoundClicked(bool b);
+    void cancelRoundClickedSlot(bool b);
     
     void activateGameTabDeactivateButtons();
     void WaitForOpponentPlanesPositionsSlot();
     
     void startNewRound();
+    void activateAccountWidget();
+    void activateGameWidget();
     
 private:
     void submitDoneClicked();    
     
 private:
-    GameStatsFrame* m_PlayerStatsFrame;
-    GameStatsFrame* m_ComputerStatsFrame;
+    
+    PlayRoundWidget* m_PlayRoundWidget;
+    BoardEditingWidget* m_BoardEditingWidget;
+    StartNewRoundWidget* m_StartNewRoundWidget;
+    MainAccountWidget* m_MainAccountWidget;
+    GameWidget* m_GameWidget;
 
-    QWidget* m_GameWidget;
-    QWidget* m_BoardEditingWidget;
-    QWidget* m_StartGameWidget;
-
+    int m_MainAccountWidgetIndex = -1;
+    int m_GameWidgetIndex = -1;
     int m_GameTabIndex = -1;
     int m_EditorTabIndex = -1;
     int m_GameStartIndex = -1;
 
-    ///butons to edit the position of the planes
-    QPushButton* m_selectPlaneButton;
-    QPushButton* m_rotatePlaneButton;
-    QPushButton* m_leftPlaneButton;
-    QPushButton* m_rightPlaneButton;
-    QPushButton* m_upPlaneButton;
-    QPushButton* m_downPlaneButton;
-    QPushButton* m_doneButton;
-    QPushButton* m_acquireOpponentPositionsButton;
-    QPushButton* m_acquireOpponentMovesButton;
-    QPushButton* m_CancelRoundButton_BoardEditing;
-    QPushButton* m_CancelRoundButton_Game;
-    
-    ScoreFrame* m_ScoreFrame;
+        
     GameInfo* m_GameInfo;
     QNetworkAccessManager* m_NetworkManager;
     GlobalData* m_GlobalData;

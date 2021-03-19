@@ -14,10 +14,12 @@ public:
     bool validateReply(const QJsonObject& retJson) override;
     
 public slots:
+    void errorRequest(QNetworkReply::NetworkError code) override;
     void finishedRequest() override;       
     
 signals:
     void loginCompleted();
+    void loginFailed();
     
 private:
     QString m_UserName;
