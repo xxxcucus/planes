@@ -170,8 +170,8 @@ void GenericBoard::showGuessPoint(const GuessPoint &gp)
     pags->setGameStatus(st);
 }
 
-void GenericBoard::endRound(bool isPlayerWinner, bool isDraw) {
-    QString winnerText = isPlayerWinner ? "Player wins!" : "Computer wins!";
+void GenericBoard::endRound(bool isPlayerWinner, bool isDraw, bool isSinglePlayer) {
+    QString winnerText = isPlayerWinner ? "Player wins!" : isSinglePlayer ? "Computer wins!" : "Opponent wins!";
 	if (isDraw)
 		winnerText = "Draw!";
     m_RoundEndsAnimatedText->setPlainText(winnerText);

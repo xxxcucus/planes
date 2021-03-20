@@ -6,7 +6,12 @@ PlayRoundWidget::PlayRoundWidget(GameInfo* gameInfo, QWidget *parent)
     : QWidget(parent), m_GameInfo(gameInfo) {
 
     m_PlayerStatsFrame = new GameStatsFrame("Player");
-    m_ComputerStatsFrame = new GameStatsFrame("Computer");
+    
+    QString computerFrameTitle = "Computer";
+    if (!m_GameInfo->getSinglePlayer())
+        computerFrameTitle = "Opponent";
+    
+    m_ComputerStatsFrame = new GameStatsFrame(computerFrameTitle);
     m_acquireOpponentMovesButton = new QPushButton("Acquire opponent moves");
     m_CancelRoundButton = new QPushButton("Cancel Round");
     QVBoxLayout* vLayout = new QVBoxLayout();

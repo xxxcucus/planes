@@ -36,7 +36,7 @@ RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings,
     //GameWidget* gameWidget = new GameWidget(m_GlobalData, m_GameInfo, m_NetworkManager, m_Settings, m_MultiRound);
 
     m_OwnBoardIndex = addTab(m_PlayerBoard->getView(), "Player Board");
-    m_OpponentBoardIndex = addTab(m_ComputerBoard->getView(), "Computer Board");
+    m_OpponentBoardIndex = addTab(m_ComputerBoard->getView(), m_GameInfo->getSinglePlayer() ? "Computer Board" : "Opponent Board");
 	addTab(optionsWindow, "Options");
     //m_AccountWidgetIndex = addTab(accountWidget, "Account");
     //m_GameWidgetIndex = addTab(gameWidget, "Game");
@@ -116,8 +116,8 @@ void RightPane::doneClicked()
 }
 
 void RightPane::endRound(bool isPlayerWinner, bool isDraw) {
-    m_PlayerBoard->endRound(isPlayerWinner, isDraw);
-    m_ComputerBoard->endRound(isPlayerWinner, isDraw);
+    m_PlayerBoard->endRound(isPlayerWinner, isDraw, m_GameInfo->getSinglePlayer());
+    m_ComputerBoard->endRound(isPlayerWinner, isDraw, m_GameInfo->getSinglePlayer());
 }
 
 void RightPane::startNewGame() {

@@ -40,8 +40,8 @@ void ComputerBoard::gridSquareClicked(int row, int col)
     }
 }
 
-void ComputerBoard::endRound(bool isPlayerWinner, bool isDraw) {
-    GenericBoard::endRound(isPlayerWinner, isDraw);
+void ComputerBoard::endRound(bool isPlayerWinner, bool isDraw, bool isSinglePlayer) {
+    GenericBoard::endRound(isPlayerWinner, isDraw, isSinglePlayer);
     ///show the computer planes at the end of the round
     for (auto sit : m_SceneItems) {
         PlayAreaGridSquare* pags = dynamic_cast<PlayAreaGridSquare*>(sit.second);

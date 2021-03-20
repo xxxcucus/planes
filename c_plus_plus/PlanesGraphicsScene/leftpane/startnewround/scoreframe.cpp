@@ -2,12 +2,17 @@
 
 #include <QGridLayout>
 
-ScoreFrame::ScoreFrame(QWidget* parent): QFrame(parent)
+ScoreFrame::ScoreFrame(GameInfo* gameInfo, QWidget* parent): QFrame(parent), m_GameInfo(gameInfo)
 {
     QString titleText = QString("<b> General Score</b>");
     QLabel* titleLabel = new QLabel();
     titleLabel->setText(titleText);
-    QLabel* computerScoreTextLabel = new QLabel("Computer: ");
+    
+    QString computerScoreText = "Computer";
+    if (!m_GameInfo->getSinglePlayer())
+        computerScoreText = "Opponent";
+    
+    QLabel* computerScoreTextLabel = new QLabel(computerScoreText);
     QLabel* playerScoreTextLabel = new QLabel("Player: ");
 	QLabel* drawsTextLabel = new QLabel("Draws: ");
     m_ComputerScoreLabel = new QLabel("0");

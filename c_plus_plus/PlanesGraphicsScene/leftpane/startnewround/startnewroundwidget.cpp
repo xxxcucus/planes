@@ -2,8 +2,8 @@
 
 #include <QVBoxLayout>
 
-StartNewRoundWidget::StartNewRoundWidget(QWidget* parent): QWidget(parent) {    
-    m_ScoreFrame = new ScoreFrame();
+StartNewRoundWidget::StartNewRoundWidget(GameInfo *gameInfo, QWidget* parent): QWidget(parent), m_GameInfo(gameInfo) {    
+    m_ScoreFrame = new ScoreFrame(m_GameInfo);
     QVBoxLayout* vLayout1 = new QVBoxLayout();
     vLayout1->addWidget(m_ScoreFrame);
     vLayout1->addStretch(5);

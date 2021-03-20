@@ -19,7 +19,7 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
 {
     m_PlayRoundWidget = new PlayRoundWidget(m_GameInfo); 
     m_BoardEditingWidget = new BoardEditingWidget(m_GameInfo);
-    m_StartNewRoundWidget = new StartNewRoundWidget();
+    m_StartNewRoundWidget = new StartNewRoundWidget(m_GameInfo);
     m_MainAccountWidget = new MainAccountWidget(m_Settings, m_GlobalData, m_NetworkManager, m_GameInfo, m_MultiRound);
     m_GameWidget = new GameWidget(m_GlobalData, m_MultiRound); 
 

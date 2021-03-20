@@ -6,6 +6,8 @@
 #include <QLabel>
 #include <QPushButton>
 
+#include "gameinfo.h"
+
 
 ///statistics for player or computer
 ///it is a QFrame containing labels
@@ -15,7 +17,7 @@ class ScoreFrame : public QFrame
     Q_OBJECT
 
 public:
-    explicit ScoreFrame(QWidget* parent = nullptr);
+    explicit ScoreFrame(GameInfo* gameInfo, QWidget* parent = nullptr);
     void updateDisplayedValues(int computerScore, int playerScore, int draws);
 
 	void activateStartRoundButton() {
@@ -32,6 +34,9 @@ public:
 	QLabel* m_DrawsLabel = new QLabel("0");
     QPushButton* m_StartGameButton;
 
+private:
+    GameInfo* m_GameInfo;
+    
 signals:
     void startNewGame();
 };

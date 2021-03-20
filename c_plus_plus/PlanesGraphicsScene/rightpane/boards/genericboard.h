@@ -22,7 +22,7 @@ public:
     ///and creates the board for placing the planes
     void reset();
     inline void setGameStage(GameStages stage) { m_CurStage = stage; }
-    virtual void endRound(bool isPlayerWinner, bool isDraw);
+    virtual void endRound(bool isPlayerWinner, bool isDraw, bool isSinglePlayer);
 
     int getMinWidth() const {
         return (m_Grid.getColNo() + 2 * m_PaddingEditingBoard) * m_SquareWidth;

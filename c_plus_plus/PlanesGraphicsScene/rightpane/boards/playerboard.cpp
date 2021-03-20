@@ -43,6 +43,6 @@ void PlayerBoard::rightPlaneClicked(bool )
     updateEditorBoard();
 }
 
-void PlayerBoard::endRound(bool isPlayerWinner, bool isDraw) {
-    GenericBoard::endRound(isPlayerWinner, isDraw);
+void PlayerBoard::endRound(bool isPlayerWinner, bool isDraw, bool isSinglePlayer) {
+    GenericBoard::endRound(isPlayerWinner, isDraw, isSinglePlayer);
 }
