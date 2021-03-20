@@ -10,7 +10,7 @@ GameDifficultyOptions::GameDifficultyOptions(PlaneRound* pr, QSettings* settings
 	m_CurrentShowPlane = m_Settings->value("gamedifficulty/showkilledplane").toBool();
 	//qDebug() << "Show plane from settings " << m_Settings->value("gamedifficulty/showkilledplane") << endl;
 	
-	QString titleText = QString("<b> Game Difficulty</b>");
+	QString titleText = QString("<b> Game Difficulty (for single player version) </b>");
 	QLabel* titleLabel = new QLabel();
 	titleLabel->setText(titleText);
 	QLabel* computerSkillTextLabel = new QLabel("Computer Skill: ");
