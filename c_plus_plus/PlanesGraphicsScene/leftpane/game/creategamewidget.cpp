@@ -17,7 +17,7 @@ CreateGameWidget::CreateGameWidget(MultiplayerRound* mrd, QWidget* parent) : QFr
     titleLabel->setText(titleText);
     
     QLabel* gameNameLabel = new QLabel("Game Name");
-    m_GameName = new QLineEdit();  //TODO: to add validation
+    m_GameName = new QLineEdit();
     
     QPushButton* connectToGameButton = new QPushButton("Connect to Game");
     QPushButton* createAndConnectToGameButton = new QPushButton("Create and Connect to Game");
@@ -46,7 +46,7 @@ void CreateGameWidget::createGameSlot() {
         msgBox.exec();
         return;
     }
-    m_MultiRound->createGame(m_GameName->text()); //TODO: validation
+    m_MultiRound->createGame(m_GameName->text());
 }
 
 void CreateGameWidget::connectToGameSlot() {
@@ -59,7 +59,7 @@ void CreateGameWidget::connectToGameSlot() {
         return;
     }
 
-    m_MultiRound->connectToGame(m_GameName->text()); //TODO validation
+    m_MultiRound->connectToGame(m_GameName->text()); 
 }
 
 

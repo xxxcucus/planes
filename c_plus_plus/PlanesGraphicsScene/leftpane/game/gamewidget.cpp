@@ -38,7 +38,7 @@ GameWidget::GameWidget(GlobalData* globalData, MultiplayerRound* mrd, QWidget* p
 void GameWidget::toGameButtonClickedSlot(bool value)
 {
     if (m_GlobalData->m_GameData.m_GameId == 0 || m_GlobalData->m_GameData.m_OtherUserId == 0 || m_GlobalData->m_GameData.m_UserId == 0
-        || m_GlobalData->m_GameData.m_RoundId  == 0) {   //TODO: this should work also after a new game is created
+        || m_GlobalData->m_GameData.m_RoundId  == 0) { 
             QMessageBox msgBox;
             msgBox.setText("Round was not yet initialized.\nTry acquiring all round data by clicking on the \'Refresh\' button"); 
             msgBox.exec();

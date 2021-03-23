@@ -24,6 +24,7 @@ public slots:
     
 protected:
     bool finishRequestHelper(QJsonObject& retJson);
+    bool checkInt(const QJsonValue& jsonValue);
     
 protected:
     QNetworkReply* m_ReplyObject = nullptr;

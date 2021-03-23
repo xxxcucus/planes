@@ -115,7 +115,6 @@ void NoRobotWidget::displayAndScaleImages()
             pix = pix.scaledToHeight(availHeight);
         }
         
-        //pix = pix.scaledToWidth(100); //TODO: to optimize scaling
         if (m_Answer[i]) {
             m_Labels[i]->setSelected(true);
         } else {

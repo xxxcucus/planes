@@ -10,7 +10,7 @@ class GameEndWidget : public QFrame
 
 public:
     explicit GameEndWidget(QWidget* parent = nullptr);
-    //void updateDisplayedValues(int moves, int misses, int hits, int kills); TODO
+    //void updateDisplayedValues(int moves, int misses, int hits, int kills); 
 
 public:
     /*QLabel* m_GameName;

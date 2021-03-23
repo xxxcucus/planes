@@ -72,8 +72,7 @@ private:
     int m_OpponentBoardIndex = 0;
     int m_AccountWidgetIndex = 0;
     int m_GameWidgetIndex = 0;
-private:
-    void defineHelpWindow(QWidget* w); //TODO: is this still used ?
+
 };
 
 #endif // RIGHTPANE_H

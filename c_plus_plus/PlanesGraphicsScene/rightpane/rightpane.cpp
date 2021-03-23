@@ -10,7 +10,6 @@
 
 RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_MultiRound(mrd), m_GlobalData(globalData), m_NetworkManager(networkManager), m_Settings(settings), m_GameInfo(gameInfo)
 {
-    //TODO: different help for multiplayer
     QWidget* helpWidget = new QWidget();
     QHBoxLayout* layout = new QHBoxLayout();
     QTextEdit* textEdit = new QTextEdit();
@@ -20,7 +19,6 @@ RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings,
     textEdit->setHtml(stream.readAll());
     layout->addWidget(textEdit);
     helpWidget->setLayout(layout);
-//    defineHelpWindow(helpWidget);
 
     if (m_GameInfo->getSinglePlayer()) {
         m_PlayerBoard = new PlayerBoard(*m_PlaneRound->playerGrid());
@@ -60,22 +58,6 @@ RightPane::~RightPane()
     delete m_ComputerBoard;
 	delete m_Settings;
 }
-
-void RightPane::defineHelpWindow(QWidget* w)
-{
-    QHBoxLayout* layout = new QHBoxLayout();
-    QTextEdit* textEdit = new QTextEdit();
-    QFile file("qrc:/../doc/index.html");
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    QByteArray dump = file.readAll();
-    //qDebug() << "contents: " << dump;
-    //qDebug() << "error status:" << file.error();
-    textEdit->loadResource(QTextDocument::HtmlResource, QUrl("qrc://help.html"));
-    textEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    layout->addWidget(textEdit);
-    w->setLayout(layout);
-}
-
 
 void RightPane::selectPlaneClicked(bool val)
 {

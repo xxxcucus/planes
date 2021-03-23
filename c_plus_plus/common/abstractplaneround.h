@@ -72,7 +72,7 @@ public:
 
 	PlaneGrid* playerGrid() { return m_PlayerGrid; }
 	PlaneGrid* computerGrid() { return m_ComputerGrid; }
-	//ComputerLogic* computerLogic() { return m_computerLogic; } //TODO
+
 
 	int getRowNo() const {
 		return m_rowNo;

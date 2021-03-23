@@ -1,8 +1,11 @@
 #include "basiscommobj.h"
 
+#include <cmath>
+
 #include <QTextCodec>
 #include <QMessageBox>
 #include <QDebug>
+#include <QJsonValue>
 #include "communicationtools.h"
 
 //TODO: add timer to control maximum duration of request
@@ -77,4 +80,12 @@ bool BasisCommObj::finishRequestHelper(QJsonObject& retJson)
     return true;
 }
 
+bool BasisCommObj::checkInt(const QJsonValue& jsonValue) {
+    double val = jsonValue.toDouble();
+    double fractpart, intpart;
+    fractpart = modf(val , &intpart);
+    if (fractpart < 0.000001)
+        return true;
+    return false;
+}
 

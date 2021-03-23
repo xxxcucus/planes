@@ -85,18 +85,8 @@ void SendPlanePositionsCommObj::finishedRequest()
             return;            
         }
         emit opponentPlanePositionsReceived();
-        //activateGameTabDeactivateButtons();
     } else {
         m_MultiRound->setCurrentStage(AbstractPlaneRound::GameStages::WaitForOpponentPlanesPositions);
-        /*m_selectPlaneButton->setEnabled(false);
-        m_rotatePlaneButton->setEnabled(false);
-        m_leftPlaneButton->setEnabled(false);
-        m_rightPlaneButton->setEnabled(false);
-        m_upPlaneButton->setEnabled(false);
-        m_downPlaneButton->setEnabled(false);
-        m_doneButton->setEnabled(false);
-        m_acquireOpponentPositionsButton->setEnabled(true); //TODO make sure this is consistent everywhere*/
-        
         emit waitForOpponentPlanePositions();
     }
 }

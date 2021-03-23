@@ -53,7 +53,7 @@ void BoardEditingWidget::waitForOpponentPlanesPositions()
     m_upPlaneButton->setEnabled(false);
     m_downPlaneButton->setEnabled(false);
     m_doneButton->setEnabled(false);
-    m_acquireOpponentPositionsButton->setEnabled(true); //TODO make sure this is consistent everywhere
+    m_acquireOpponentPositionsButton->setEnabled(true);
 }
 
 void BoardEditingWidget::activateEditingBoard()
