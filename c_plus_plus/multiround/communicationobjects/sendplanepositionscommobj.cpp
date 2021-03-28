@@ -64,16 +64,15 @@ void SendPlanePositionsCommObj::finishedRequest()
     
     bool otherPositionsExist = retJson.value("otherExist").toBool();
     if (otherPositionsExist) {
-        //TODO treat errors
         int plane1_x = retJson.value("plane1_x").toInt();
         int plane1_y = retJson.value("plane1_y").toInt();
-        int plane1_orient = retJson.value("plane1_orient").toInt(); //TODO to check this
+        int plane1_orient = retJson.value("plane1_orient").toInt();
         int plane2_x = retJson.value("plane2_x").toInt();
         int plane2_y = retJson.value("plane2_y").toInt();
-        int plane2_orient = retJson.value("plane2_orient").toInt(); //TODO to check this
+        int plane2_orient = retJson.value("plane2_orient").toInt();
         int plane3_x = retJson.value("plane3_x").toInt();
         int plane3_y = retJson.value("plane3_y").toInt();
-        int plane3_orient = retJson.value("plane3_orient").toInt(); //TODO to check this        
+        int plane3_orient = retJson.value("plane3_orient").toInt();
         qDebug() << "Plane 1 from opponent " << plane1_x << " " << plane1_y << " " << plane1_orient;
         qDebug() << "Plane 2 from opponent" << plane2_x << " " << plane2_y << " " << plane2_orient;
         qDebug() << "Plane 3 from opponent" << plane3_x << " " << plane3_y << " " << plane3_orient;
@@ -92,8 +91,24 @@ void SendPlanePositionsCommObj::finishedRequest()
 }
 
 bool SendPlanePositionsCommObj::validateReply(const QJsonObject& reply) {
-      return (reply.contains("otherExist") && reply.contains("cancelled") && reply.contains("plane1_x") && 
+      if  (!((reply.contains("otherExist") && reply.contains("cancelled") && reply.contains("plane1_x") && 
         reply.contains("plane1_y") && reply.contains("plane1_orient") && 
         reply.contains("plane2_x") && reply.contains("plane2_y") && reply.contains("plane2_orient") &&
-        reply.contains("plane3_x") && reply.contains("plane3_y") && reply.contains("plane3_orient"));
+        reply.contains("plane3_x") && reply.contains("plane3_y") && reply.contains("plane3_orient"))))
+          return false;
+          
+      if (!reply.value("otherExist").isBool() || !reply.value("cancelled").isBool())
+          return false;
+      
+      if (!reply.value("plane1_x").isDouble() || !reply.value("plane1_y").isDouble() && !reply.value("plane1_orient").isDouble() ||
+        !reply.value("plane2_x").isDouble() || !reply.value("plane2_y").isDouble() || !reply.value("plane2_orient").isDouble() ||
+        !reply.value("plane3_x").isDouble() || !reply.value("plane3_y").isDouble() || !reply.value("plane3_orient").isDouble())
+          return false;  
+      
+      if (!checkInt(reply.value("plane1_x")) || !checkInt(reply.value("plane1_y")) && !checkInt(reply.value("plane1_orient")) ||
+        !checkInt(reply.value("plane2_x")) || !checkInt(reply.value("plane2_y")) || !checkInt(reply.value("plane2_orient")) ||
+        !checkInt(reply.value("plane3_x")) || !checkInt(reply.value("plane3_y")) || !checkInt(reply.value("plane3_orient")))
+          return false;  
+          
+      return true;
 }

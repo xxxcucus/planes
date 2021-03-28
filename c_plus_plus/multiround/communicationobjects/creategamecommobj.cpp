@@ -17,7 +17,7 @@ bool CreateGameCommObj::makeRequest(const QString& gameName)
         
     GameViewModel gameData;
     gameData.m_GameName = gameName; 
-    gameData.m_Username = m_GlobalData->m_UserData.m_UserName; //TODO: validation and trim
+    gameData.m_Username = m_GlobalData->m_UserData.m_UserName;
     gameData.m_UserId = 0; 
     gameData.m_GameId = 0;
     

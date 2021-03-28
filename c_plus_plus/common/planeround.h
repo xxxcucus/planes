@@ -55,7 +55,7 @@ public:
 		return m_RoundOptions.m_ShowPlaneAfterKill;
 	}
 	
-	void setRoundCancelled() {
+	void setRoundCancelled() override {
         m_State = AbstractPlaneRound::GameStages::GameNotStarted;
         m_playerGuessList.clear();
         m_computerGuessList.clear();

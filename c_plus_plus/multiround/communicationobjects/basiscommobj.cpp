@@ -89,3 +89,9 @@ bool BasisCommObj::checkInt(const QJsonValue& jsonValue) {
     return false;
 }
 
+bool BasisCommObj::checkLong(const QString& stringVal)
+{
+    bool ok = false;
+    stringVal.toLong(&ok, 10); 
+    return ok;
+}

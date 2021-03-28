@@ -32,6 +32,8 @@ public:
 	*/
 	virtual void playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr) = 0;
 
+    virtual void setRoundCancelled() = 0;
+    
 	/**
 	@param[in] row, col - coordinates of player's guess
 	Check if a guess was already made at this position.

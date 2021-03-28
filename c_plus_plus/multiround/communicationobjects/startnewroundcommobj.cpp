@@ -6,7 +6,6 @@
 
 bool StartNewRoundCommObj::makeRequest()
 {
-    //TODO: check that multiplayer
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         QMessageBox msgBox;
         msgBox.setText("No user logged in"); 
@@ -41,5 +40,14 @@ void StartNewRoundCommObj::finishedRequest()
 }
 
 bool StartNewRoundCommObj::validateReply(const QJsonObject& reply) {
-    return (reply.contains("roundId") && reply.contains("newRoundCreated"));   
+    if  (!(reply.contains("roundId") && reply.contains("newRoundCreated")))
+        return false;
+    
+      if (!checkLong(reply.value("roundId").toString()))
+        return false;
+      
+      if (!reply.value("newRoundCreated").isBool())
+          return false;
+      
+      return true;
 }

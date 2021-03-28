@@ -100,8 +100,7 @@ public:
     void getPlayerPlaneNo(int pos, Plane& pl);
     bool setComputerPlanes(int plane1_x, int plane1_y, Plane::Orientation plane1_orient, int plane2_x, int plane2_y, Plane::Orientation plane2_orient, int plane3_x, int plane3_y, Plane::Orientation plane3_orient); 
     
-    //TODO to add method also in normal round
-    void setRoundCancelled();
+    void setRoundCancelled() override;
     
     //Requests to server
     void createGame(const QString& gameName);
@@ -112,7 +111,7 @@ public:
     void noRobotRegister(const QString& requestId, const QString& answer);
     void sendPlanePositions();
     void acquireOpponentPlanePositions();
-    void sendMove(const GuessPoint& gp, int ownMoveIndex, int opponentMoveIndex);
+    void sendMove(const GuessPoint& gp, int ownMoveIndex);
     void requestOpponentMoves();
     void cancelRound();
     void startNewRound();

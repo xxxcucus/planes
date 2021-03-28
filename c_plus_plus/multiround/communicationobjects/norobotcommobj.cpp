@@ -28,7 +28,7 @@ void NoRobotCommObj::finishedRequest()
         return;
 
     QString username = retJson.value("username").toString();
-    long int userid = retJson.value("id").toString().toLong(); //TODO check for convertion errors
+    long int userid = retJson.value("id").toString().toLong();
     QMessageBox msgBox;
     msgBox.setText("User " + username + " created "); 
     msgBox.exec();
@@ -37,5 +37,11 @@ void NoRobotCommObj::finishedRequest()
 }
 
 bool NoRobotCommObj::validateReply(const QJsonObject& reply) {
-    return (reply.contains("id") && reply.contains("username") && reply.contains("createdAt") && reply.contains("status"));
+    if (!(reply.contains("id") && reply.contains("username") && reply.contains("createdAt") && reply.contains("status")))
+        return false;
+    
+    if (!checkLong(reply.value("id").toString()))
+        return false;
+      
+    return true;
 }

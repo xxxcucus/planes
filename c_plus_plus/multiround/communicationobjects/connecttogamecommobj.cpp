@@ -37,7 +37,7 @@ void ConnectToGameCommObj::finishedRequest()
     msgBox.setText("Connection to game successfull!"); 
     msgBox.exec();               
     
-    m_GlobalData->m_GameData.m_GameId = retJson.value("id").toString().toLong(); //TODO conversion errors
+    m_GlobalData->m_GameData.m_GameId = retJson.value("id").toString().toLong(); 
     m_GlobalData->m_GameData.m_RoundId = retJson.value("currentRoundId").toString().toLong();
     long int userId1 = retJson.value("firstPlayerId").toString().toLong();
     long int userId2 = retJson.value("secondPlayerId").toString().toLong();
@@ -51,6 +51,21 @@ void ConnectToGameCommObj::finishedRequest()
 }
 
 bool ConnectToGameCommObj::validateReply(const QJsonObject& reply) {
-    return (reply.contains("id") && reply.contains("firstPlayerName") && reply.contains("secondPlayerName") && reply.contains("gameName") && reply.contains("currentRoundId")
-        && reply.contains("firstPlayerId") && reply.contains("secondPlayerId"));
+    if (!(reply.contains("id") && reply.contains("firstPlayerName") && reply.contains("secondPlayerName") && reply.contains("gameName") && reply.contains("currentRoundId")
+        && reply.contains("firstPlayerId") && reply.contains("secondPlayerId")))
+        return false;
+    
+    if (!checkLong(reply.value("id").toString()))
+        return false;
+
+    if (!checkLong(reply.value("currentRoundId").toString()))
+        return false;
+
+    if (!checkLong(reply.value("firstPlayerId").toString()))
+        return false;
+
+    if (!checkLong(reply.value("secondPlayerId").toString()))
+        return false;
+        
+    return true;
 }

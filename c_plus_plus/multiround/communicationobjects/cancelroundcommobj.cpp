@@ -6,8 +6,11 @@
 
 
 bool CancelRoundCommObj::makeRequest()
-{
-    //TODO: check that multiplayer
+{ 
+    if (m_IsSinglePlayer) {
+        qDebug() << "makeRequestBasis in single player modus";
+        return false;
+    }
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         QMessageBox msgBox;
         msgBox.setText("No user logged in"); 

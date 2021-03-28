@@ -94,8 +94,12 @@ bool SendMoveCommObj::validateReply(const QJsonObject& reply) {
         qDebug() << "error 1";
         return false;
     }
-    
-    //TODO: validation round ids, user id and start index
+
+    if (!checkLong(reply.value("roundId").toString()))
+        return false;
+
+    if (!checkLong(reply.value("opponentUserId").toString()))
+        return false;
     
     QJsonValue movesObject = reply.value("listMoves");
     if (!movesObject.isArray()) {
@@ -119,6 +123,13 @@ bool SendMoveCommObj::validateReply(const QJsonObject& reply) {
         QJsonObject moveObject = moveValue.toObject();
         if (!(moveObject.contains("moveX") && moveObject.contains("moveY")))
             return false;
+        
+        if (!(checkInt(moveObject.value("moveX"))))
+            return false;
+        
+        if (!(checkInt(moveObject.value("moveY"))))
+            return false;
+        
     }
     
     return true;

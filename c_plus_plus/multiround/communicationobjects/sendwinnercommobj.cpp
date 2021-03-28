@@ -6,7 +6,6 @@
 
 bool SendWinnerCommObj::makeRequest(bool draw, long int winnerId)
 {
-    //TODO: check that multiplayer
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         QMessageBox msgBox;
         msgBox.setText("No user logged in"); 

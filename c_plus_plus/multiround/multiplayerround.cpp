@@ -87,8 +87,8 @@ void MultiplayerRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pg
         m_ComputerGrid->addGuess(gp);
 
         //GuessPoint::Type guessResult =  m_ComputerGrid->getGuessResult(PlanesCommonTools::Coordinate2D(gp.m_row, gp.m_col));
-        m_PlayerMoveIndex++; //TODO do we need this
-        sendMove(gp, m_PlayerMoveIndex, m_ComputerMoveIndex);
+        m_PlayerMoveIndex++; 
+        sendMove(gp, m_PlayerMoveIndex);
     } else {
         qDebug() << "Player has already found all planes";
     }
@@ -141,7 +141,12 @@ void MultiplayerRound::connectToGame(const QString& gameName)
 }
 
 void MultiplayerRound::connectedToGameSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId) {
-    long int roundId = currentRoundId.toLong(); //TODO error treatment
+    bool ok = false;
+    long int roundId = currentRoundId.toLong(&ok, 10);
+    if (!ok) {
+        qDebug() << "RoundId is not Long !!";
+        return;
+    }
     startNewRound(roundId);
     emit gameConnectedTo(gameName, firstPlayerName, secondPlayerName, currentRoundId);
 }
@@ -179,7 +184,7 @@ void MultiplayerRound::acquireOpponentPlanePositions()
     m_AcquireOpponentPlanePositions->makeRequest();
 }
 
-void MultiplayerRound::sendMove(const GuessPoint& gp, int ownMoveIndex, int opponentMoveIndex) {
+void MultiplayerRound::sendMove(const GuessPoint& gp, int ownMoveIndex) {
     addToNotSentList(ownMoveIndex);
     m_SendMoveCommObj->makeRequest(m_playerGuessList, m_NotSentMoves, m_ReceivedMoves);
 }
