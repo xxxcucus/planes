@@ -31,7 +31,7 @@ void RegisterCommObj::finishedRequest()
     images.push_back(retJson.value("image_id_7").toString());
     images.push_back(retJson.value("image_id_8").toString());    
     images.push_back(retJson.value("image_id_9").toString());    
-    long int request_id = retJson.value("id").toString().toLong();
+    long int request_id = retJson.value("id").toString().toLong(); //TODO validation
     
     qDebug() << "Registration request with id " << request_id << " received ";
     emit noRobotRegistration(images, retJson);
