@@ -2,7 +2,6 @@
 
 #include <QPushButton>
 #include <QGridLayout>
-#include <QLabel>
 #include <QTextCodec>
 #include <QMessageBox>
 
@@ -19,21 +18,30 @@ CreateGameWidget::CreateGameWidget(MultiplayerRound* mrd, QWidget* parent) : QFr
     QLabel* gameNameLabel = new QLabel("Game Name");
     m_GameName = new QLineEdit();
     
-    QPushButton* connectToGameButton = new QPushButton("Connect to Game");
-    QPushButton* createAndConnectToGameButton = new QPushButton("Create and Connect to Game");
+    QPushButton* submitButton = new QPushButton("Perform action");
+    
+    QLabel* chooseActionLabel = new QLabel("Choose action");
+    m_ActionDescriptionLabel = new QTextEdit(m_CreateGameHelp);
+    m_ActionDescriptionLabel->setReadOnly(true);
+    
+    m_ChooseActionComboBox = new QComboBox();
+	m_ChooseActionComboBox->addItem("Create Game");
+	m_ChooseActionComboBox->addItem("Connect to Game");
+	m_ChooseActionComboBox->setCurrentIndex(0);
     
     QGridLayout* gridLayout = new QGridLayout();
     gridLayout->addWidget(titleLabel, 0, 0, 1, 2);
     gridLayout->addWidget(gameNameLabel, 1, 0);
     gridLayout->addWidget(m_GameName, 1, 1);
-    gridLayout->addWidget(connectToGameButton, 2, 0, 1, 2);
-    gridLayout->addWidget(createAndConnectToGameButton, 3, 0, 1, 2);
-
+    gridLayout->addWidget(chooseActionLabel, 2, 0, 1, 1);
+    gridLayout->addWidget(m_ChooseActionComboBox, 2, 1, 1, 1);
+    gridLayout->addWidget(m_ActionDescriptionLabel, 3, 0, 2, 2);
+    gridLayout->addWidget(submitButton, 5, 1, 1, 1);
     setLayout(gridLayout);
     setFrameStyle(QFrame::Panel | QFrame::Raised);
     
-    connect(createAndConnectToGameButton, &QPushButton::clicked, this, &CreateGameWidget::createGameSlot);
-    connect(connectToGameButton, &QPushButton::clicked, this, &CreateGameWidget::connectToGameSlot);
+    connect(submitButton, &QPushButton::clicked, this, &CreateGameWidget::submitButtonClickedSlot);
+    connect(m_ChooseActionComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CreateGameWidget::actionChangedSlot);
 }
 
 
@@ -63,5 +71,28 @@ void CreateGameWidget::connectToGameSlot() {
 }
 
 
+void CreateGameWidget::submitButtonClickedSlot()
+{
+    switch(m_ChooseActionComboBox->currentIndex()) {
+        case 0:
+            createGameSlot();
+            break;
+        case 1:
+            connectToGameSlot();
+            break;
+        
+    }
+}
 
 
+void CreateGameWidget::actionChangedSlot()
+{
+    switch(m_ChooseActionComboBox->currentIndex()) {
+        case 0:
+            m_ActionDescriptionLabel->setText(m_CreateGameHelp);
+            break;
+        case 1:
+            m_ActionDescriptionLabel->setText(m_ConnectToGameHelp);
+            break;
+    }
+}
