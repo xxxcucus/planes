@@ -28,7 +28,7 @@
 #include "communicationobjects/cancelroundcommobj.h"
 #include "communicationobjects/startnewroundcommobj.h"
 #include "communicationobjects/sendwinnercommobj.h"
-
+#include "communicationobjects/getserverversioncommobj.h"
 
 
 class MULTIPLAYER_EXPORT MultiplayerRound : public QObject, public AbstractPlaneRound  {
@@ -56,7 +56,9 @@ private:
     CancelRoundCommObj* m_CancelRoundCommObj;
     StartNewRoundCommObj* m_StartNewRoundCommObj;
     SendWinnerCommObj* m_SendWinnerCommObj;
-
+    GetServerVersionCommObj* m_GetServerVersionCommObj;
+    
+    
     std::vector<int> m_NotSentMoves;
     std::vector<int> m_ReceivedMoves;
     
@@ -121,6 +123,8 @@ public:
     void addToNotSentList(int value);
     bool moveAlreadyReceived(int moveIndex);
     void addToReceivedList(int value);
+
+    void testServerVersion();
     
 private:
     bool validateOpponentMovesReply(const QJsonObject& reply);

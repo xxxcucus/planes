@@ -42,6 +42,7 @@ MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QNetworkAcce
     m_StartNewRoundCommObj = new StartNewRoundCommObj("/round/start", "starting round ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData, this);
     connect(m_StartNewRoundCommObj, &StartNewRoundCommObj::startNewRound, this, &MultiplayerRound::newRoundStarted);
     m_SendWinnerCommObj = new SendWinnerCommObj("/round/end", "ending round ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
+    m_GetServerVersionCommObj = new GetServerVersionCommObj("/status/getversion", "getting version", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     
     reset();
     initRound();
@@ -308,4 +309,9 @@ bool MultiplayerRound::moveAlreadyReceived(int moveIndex)
 void MultiplayerRound::addToReceivedList(int value)
 {
     m_ReceivedMoves.push_back(value);
+}
+
+void MultiplayerRound::testServerVersion()
+{
+    m_GetServerVersionCommObj->makeRequest();
 }
