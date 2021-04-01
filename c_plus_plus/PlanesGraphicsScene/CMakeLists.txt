@@ -41,6 +41,7 @@ set(GS_SRCS
 	leftpane/game/gamestatuswidget.cpp
 	leftpane/game/creategamewidget.cpp
 	rightpane/options/gamedifficultyoptions.cpp
+	rightpane/options/serversettingsoptions.cpp
 	rightpane/options/optionswindow.cpp
 	main.cpp
     animatedtextitem.cpp
@@ -74,6 +75,7 @@ set(GS_HEADR
 	leftpane/game/gamestatuswidget.h
 	leftpane/game/creategamewidget.h
 	rightpane/options/gamedifficultyoptions.h
+	rightpane/options/serversettingsoptions.h
 	rightpane/options/optionswindow.h
 	customhorizlayout.h
 	animatedtextitem.h
