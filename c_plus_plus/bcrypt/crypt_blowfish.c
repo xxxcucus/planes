@@ -44,6 +44,7 @@
  */
 
 #include <string.h>
+#include <stdio.h>
 
 #include <errno.h>
 #ifndef __set_errno
@@ -673,6 +674,7 @@ static char *BF_crypt(const char *key, const char *setting,
 
 	if (size < 7 + 22 + 31 + 1) {
 		__set_errno(ERANGE);
+		printf("BF_crypt 1 %d\n", ERANGE);
 		return NULL;
 	}
 
@@ -686,12 +688,14 @@ static char *BF_crypt(const char *key, const char *setting,
 	    (setting[4] == '3' && setting[5] > '1') ||
 	    setting[6] != '$') {
 		__set_errno(EINVAL);
+		printf("BF_crypt 2 %d\n", EINVAL);
 		return NULL;
 	}
 
 	count = (BF_word)1 << ((setting[4] - '0') * 10 + (setting[5] - '0'));
 	if (count < min || BF_decode(data.binary.salt, &setting[7], 16)) {
 		__set_errno(EINVAL);
+		printf("BF_crypt 3 %d\n", EINVAL);
 		return NULL;
 	}
 	BF_swap(data.binary.salt, 4);
@@ -820,6 +824,7 @@ int _crypt_output_magic(const char *setting, char *output, int size)
 char *_crypt_blowfish_rn(const char *key, const char *setting,
 	char *output, int size)
 {
+	printf("crypt_blowfish_rn\n");
 	const char *test_key = "8b \xd0\xc1\xd2\xcf\xcc\xd8";
 	const char *test_setting = "$2a$00$abcdefghijklmnopqrstuu";
 	static const char * const test_hashes[2] =
@@ -839,6 +844,7 @@ char *_crypt_blowfish_rn(const char *key, const char *setting,
 	retval = BF_crypt(key, setting, output, size, 16);
 	save_errno = errno;
 
+	printf("crypt_blowfish_rn %d\n", errno);
 /*
  * Do a quick self-test.  It is important that we make both calls to BF_crypt()
  * from the same scope such that they likely use the same stack locations,

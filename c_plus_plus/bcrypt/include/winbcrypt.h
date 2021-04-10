@@ -12,9 +12,12 @@ public:
 		char salt[BCRYPT_HASHSIZE];
 		char hash[BCRYPT_HASHSIZE];
 		int ret;
+		printf("generateHash %d\n", BCRYPT_HASHSIZE);
 		ret = bcrypt_gensalt(workload, salt);
+		printf("bcrypt_gensalt %d\n", ret);
 		if (ret != 0)throw std::runtime_error{ "bcrypt: can not generate salt" };
 		ret = bcrypt_hashpw(password.c_str(), salt, hash);
+		printf("bcrypt_hashpw %d\n", ret);
 		if (ret != 0)throw std::runtime_error{ "bcrypt: can not generate hash" };
 		return std::string{ hash };
 	}

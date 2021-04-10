@@ -42,10 +42,16 @@ NoRobotWidget::NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* s
     
     qDebug() << "Current dir " << QDir::currentPath();
     QDir dog_dir = QDir::current();
+#ifdef _WIN32 || _WIN64
+    dog_dir.cdUp();
+#endif
     dog_dir.cd("img");
     dog_dir.cd("dog_photos_scaled");
     qDebug() << "Dogs " << dog_dir.absolutePath();
     QDir cat_dir = QDir::current();
+#ifdef _WIN32 || _WIN64
+    cat_dir.cdUp();
+#endif
     cat_dir.cd("img");
     cat_dir.cd("cat_photos_scaled");
     qDebug() << "Cats " << cat_dir.absolutePath();
