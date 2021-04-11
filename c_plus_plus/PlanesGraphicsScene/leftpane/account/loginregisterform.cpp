@@ -89,9 +89,6 @@ void LoginRegisterForm::submitRegistration()
 }
 
 void LoginRegisterForm::noRobotRegistrationSlot(const std::vector<QString>& images, const QJsonObject& registrationReplyJson) {
-
-    if (m_NoRobotWidget != nullptr)
-        delete m_NoRobotWidget;
     
     qDebug() << "noRobotRegistrationSlot";
     QDialog mainDialog;

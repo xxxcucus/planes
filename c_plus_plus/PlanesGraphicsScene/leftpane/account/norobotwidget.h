@@ -45,7 +45,7 @@ private:
     std::vector<QString> m_Images;    
 
     bool m_ResizedOnce = false;
-    
+        
     QNetworkAccessManager* m_NetworkManager;
     QSettings* m_Settings;
     GlobalData* m_GlobalData;
