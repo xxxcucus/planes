@@ -74,16 +74,16 @@ void LoginRegisterForm::submitSlot()
 
 void LoginRegisterForm::submitLogin()
 {   
-    QString username = m_passwordLineEdit->text().trimmed();
-    QString password = m_usernameLineEdit->displayText();
+    QString password = m_passwordLineEdit->text().trimmed();
+    QString username = m_usernameLineEdit->displayText();
 
     m_MultiRound->login(username, password);
 }
 
 void LoginRegisterForm::submitRegistration()
 {
-    QString username = m_passwordLineEdit->text().trimmed();
-    QString password = m_usernameLineEdit->displayText();
+    QString password = m_passwordLineEdit->text().trimmed();
+    QString username = m_usernameLineEdit->displayText();
 
     m_MultiRound->registerUser(username, password);
 }
