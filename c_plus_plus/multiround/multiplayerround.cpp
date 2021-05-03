@@ -34,6 +34,7 @@ MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QNetworkAcce
     m_SendMoveCommObj = new SendMoveCommObj("/round/mymove", "sending move ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData, this);
     connect(m_SendMoveCommObj, &SendMoveCommObj::opponentMoveGenerated, this, &MultiplayerRound::opponentMoveGenerated);
     connect(m_SendMoveCommObj, &SendMoveCommObj::roundCancelled, this, &MultiplayerRound::roundWasCancelled);
+    connect(m_SendMoveCommObj, &SendMoveCommObj::allGuessedAndMovesStillToSend, this, &MultiplayerRound::sendLastMoves);
     /*m_RequestOpponentMovesObj = new RequestOpponentMovesCommObj("/round/othermoves", "requesting moves ", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData, this);
     connect(m_RequestOpponentMovesObj, &RequestOpponentMovesCommObj::opponentMoveGenerated, this, &MultiplayerRound::opponentMoveGenerated);
     connect(m_RequestOpponentMovesObj, &RequestOpponentMovesCommObj::roundCancelled, this, &MultiplayerRound::roundWasCancelled);*/
@@ -43,7 +44,7 @@ MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QNetworkAcce
     connect(m_StartNewRoundCommObj, &StartNewRoundCommObj::startNewRound, this, &MultiplayerRound::newRoundStarted);
     m_SendWinnerCommObj = new SendWinnerCommObj("/round/end", "ending round ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     m_GetServerVersionCommObj = new GetServerVersionCommObj("/status/getversion", "getting version", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
-    
+        
     reset();
     initRound();
 }
@@ -78,8 +79,7 @@ void MultiplayerRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pg
 
         return;        
     }
-        
-    
+            
     //update the game statistics
 	if (updateGameStats(gp, false)) {
         //add the player's guess to the list of guesses
@@ -105,10 +105,16 @@ void MultiplayerRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pg
     emit gameStatsUpdated(m_gameStats);
 }
 
+void MultiplayerRound::sendLastMoves() {
+    if (someoneFinished() && !m_NotSentMoves.empty())
+        m_SendMoveCommObj->makeRequest(m_playerGuessList, m_NotSentMoves, m_ReceivedMoves);    
+}
+
+
 void MultiplayerRound::playerGuessIncomplete(int row, int col, GuessPoint::Type& guessRes, PlayerGuessReaction& pgr) {
 }
 
-//TODO to add function in plane round as well and in AbstractPlaneRound
+//TODO to add function in plane round as well as in AbstractPlaneRound
 void MultiplayerRound::getPlayerPlaneNo(int pos, Plane& pl) {
     m_PlayerGrid->getPlane(pos, pl);
 }

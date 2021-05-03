@@ -13,14 +13,18 @@ class BasisCommObj : public QObject {
     
 public:
     BasisCommObj(const QString& requestPath, const QString& actionName, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData): 
-        m_RequestPath(requestPath), m_ActionName(actionName), m_NetworkManager(networkManager), m_Settings(settings), m_IsSinglePlayer(isSinglePlayer), m_GlobalData(globalData) {}
+        m_RequestPath(requestPath), m_ActionName(actionName), m_NetworkManager(networkManager), m_Settings(settings), m_IsSinglePlayer(isSinglePlayer), m_GlobalData(globalData) {
+            connect( m_NetworkManager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), this, SLOT(sslErrorOccured(QNetworkReply*,QList<QSslError>)));
+            m_ReplyObjectPointer = nullptr;
+        }
     
-    void makeRequestBasis(bool withToken);
+    bool makeRequestBasis(bool withToken, bool fromFinishedSlot = false);
     virtual bool validateReply(const QJsonObject& reply) = 0;
     
 public slots:
     virtual void errorRequest(QNetworkReply::NetworkError code);
     virtual void finishedRequest();   
+    void sslErrorOccured(QNetworkReply* reply, const QList<QSslError>& errors);
     
 protected:
     bool finishRequestHelper(QJsonObject& retJson);
@@ -28,6 +32,8 @@ protected:
     bool checkLong(const QString& stringVal);
     
 protected:
+    std::vector<QNetworkReply*> m_ReplyObjectVector; //TODO: we don't need this
+    QNetworkReply** m_ReplyObjectPointer;
     QNetworkReply* m_ReplyObject = nullptr;
     QString m_RequestPath;
     QString m_ActionName;

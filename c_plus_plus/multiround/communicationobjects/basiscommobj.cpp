@@ -9,28 +9,39 @@
 #include "communicationtools.h"
 
 //TODO: add timer to control maximum duration of request
-void BasisCommObj::makeRequestBasis(bool withToken)
-{
+bool BasisCommObj::makeRequestBasis(bool withToken, bool fromFinishedSlot) 
+{   
     if (m_IsSinglePlayer) {
         qDebug() << "makeRequestBasis in single player modus";
-        return;
+        return false;
     }
+        
+    if ( m_ReplyObjectPointer != nullptr && (*m_ReplyObjectPointer )->isRunning())
+        return false;
     
-    if (m_ReplyObject != nullptr && m_ReplyObject->isRunning())
-        return;
-    
-    if (m_ReplyObject != nullptr)
-        delete m_ReplyObject;
+    if ( m_ReplyObjectPointer!= nullptr && *m_ReplyObjectPointer != nullptr) {
+        if (!fromFinishedSlot) {
+            delete *m_ReplyObjectPointer;
+        } else { //cannot delete the reply object from finished slot
+            m_ReplyObjectVector.push_back(*m_ReplyObjectPointer ); //TODO: I don't really need this
+            (*m_ReplyObjectPointer )->deleteLater();
+        }        
+    }
       
+     
     if (withToken) {
         m_ReplyObject = CommunicationTools::buildPostRequestWithAuth(m_RequestPath, m_Settings->value("multiplayer/serverpath").toString(), m_RequestData, m_GlobalData->m_UserData.m_AuthToken, m_NetworkManager);
     } else {
         m_ReplyObject = CommunicationTools::buildPostRequest(m_RequestPath, m_Settings->value("multiplayer/serverpath").toString(), m_RequestData, m_NetworkManager);
     }
+    
 
     connect(m_ReplyObject, &QNetworkReply::finished, this, &BasisCommObj::finishedRequest);
     connect(m_ReplyObject, &QNetworkReply::errorOccurred, this, &BasisCommObj::errorRequest);
-        
+
+    m_ReplyObjectPointer = &m_ReplyObject;
+    
+    return true;
 }
 
 void BasisCommObj::errorRequest(QNetworkReply::NetworkError code)
@@ -41,7 +52,7 @@ void BasisCommObj::errorRequest(QNetworkReply::NetworkError code)
         return;
     }
 
-    CommunicationTools::treatCommunicationError(m_ActionName, m_ReplyObject);
+    CommunicationTools::treatCommunicationError(m_ActionName, *m_ReplyObjectPointer );
 }
 
 
@@ -60,11 +71,11 @@ bool BasisCommObj::finishRequestHelper(QJsonObject& retJson)
         return false;
     }
 
-    if (m_ReplyObject->error() != QNetworkReply::NoError) {
+    if ( m_ReplyObjectPointer != nullptr && (*m_ReplyObjectPointer )->error() != QNetworkReply::NoError) {
         return false;
     }
     
-    QByteArray reply = m_ReplyObject->readAll();
+    QByteArray reply = (*m_ReplyObjectPointer )->readAll();
     QString replyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
     qDebug() << replyQString;
     retJson = CommunicationTools::objectFromString(replyQString);
@@ -95,3 +106,12 @@ bool BasisCommObj::checkLong(const QString& stringVal)
     stringVal.toLong(&ok, 10); 
     return ok;
 }
+
+void BasisCommObj::sslErrorOccured(QNetworkReply* reply, const QList<QSslError>& errors)
+{
+    qDebug() << "Ssl errors";
+    for (auto error : errors) {
+        qDebug() << error.errorString();
+    }    
+}
+    

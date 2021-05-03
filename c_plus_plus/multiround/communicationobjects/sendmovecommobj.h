@@ -22,13 +22,15 @@ public slots:
 signals:
     void roundCancelled();
     void opponentMoveGenerated(const GuessPoint& gp);
+    void allGuessedAndMovesStillToSend();
     
 private:
     std::vector<int> computeNotReceivedMoves(const std::vector<int>& receivedMoves, int& maxReceivedIndex);
     
 private:
     MultiplayerRound* m_MultiRound;
-    std::vector<int> m_LastNotSentMoveIndex;
+    std::vector<int> m_LastNotSentMoveIndexSucces;  //Not sent moves sent when the controller method on the server was called
+    std::vector<int> m_LastNotSentMoveIndexError; //Not sent moves when  the controller method on the server was not called (called too fast after previous call)
 };
 
 

@@ -12,6 +12,7 @@
 #include <QSettings>
 #include <QJsonObject>
 #include <QNetworkReply>
+#include <QTimer>
 #include "abstractplaneround.h"
 #include "gameinfo.h"
 #include "global/globaldata.h"
@@ -65,6 +66,11 @@ private:
 private slots:    
     void connectedToGameSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
     void gameCreatedSlot(const QString& gameName, const QString& userName);
+    
+    /**
+     * When all the planes were discovered but the last moves were not sent to the server (because too fast clicking)
+     * */
+    void sendLastMoves();
     
 signals:
     void opponentMoveGenerated(const GuessPoint& gp);

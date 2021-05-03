@@ -24,6 +24,8 @@ public:
 	bool didRoundEnd() {
 		return m_State == GameStages::GameNotStarted;
 	}
+	
+	bool someoneFinished();
 
 	/**
 	@param[in] gp - the player's guess together with its evaluation

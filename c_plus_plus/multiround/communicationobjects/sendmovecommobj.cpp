@@ -8,7 +8,7 @@
 
 
 
-bool SendMoveCommObj::makeRequest(const std::vector<GuessPoint>& guessList, const std::vector<int>& notSentMoves, const std::vector<int>& receivedMoves)
+bool SendMoveCommObj::makeRequest(const std::vector<GuessPoint>& guessList, const std::vector<int>& notSentMoves, const std::vector<int>& receivedMoves) 
 {
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         QMessageBox msgBox;
@@ -49,8 +49,13 @@ bool SendMoveCommObj::makeRequest(const std::vector<GuessPoint>& guessList, cons
     for (auto idx: receivedMoves)
         qDebug() << idx;
     
-    makeRequestBasis(true);
-    m_LastNotSentMoveIndex = notSentMoves;
+    if (makeRequestBasis(true)) {
+        m_LastNotSentMoveIndexSucces = notSentMoves;
+        m_LastNotSentMoveIndexError.clear();
+    } else {
+        m_LastNotSentMoveIndexError = notSentMoves;
+    }
+    
     return true;
 }
 
@@ -68,7 +73,7 @@ void SendMoveCommObj::finishedRequest()
         return;
     }
     
-    for (auto idx : m_LastNotSentMoveIndex)
+    for (auto idx : m_LastNotSentMoveIndexSucces)
     m_MultiRound->deleteFromNotSentList(idx);
     
     QJsonValue movesObject = retJson.value("listMoves");
@@ -86,6 +91,11 @@ void SendMoveCommObj::finishedRequest()
                 emit opponentMoveGenerated(gp); 
             }
         }
+    }
+    
+    //TODO: when not sent elements with error exist and player finished  send them as well
+    if (!m_LastNotSentMoveIndexError.empty()) {
+        emit allGuessedAndMovesStillToSend();
     }
 }
 

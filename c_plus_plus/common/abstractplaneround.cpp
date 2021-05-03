@@ -78,6 +78,10 @@ bool AbstractPlaneRound::updateGameStats(const GuessPoint& gp, bool isComputer)
     }
 }
 
+bool AbstractPlaneRound::someoneFinished() {
+    return m_gameStats.playerFinished(m_planeNo) || m_gameStats.computerFinished(m_planeNo);
+}
+
 void AbstractPlaneRound::doneEditing() {
 	m_State = GameStages::Game;
 }
