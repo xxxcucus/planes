@@ -15,7 +15,6 @@ public:
     BasisCommObj(const QString& requestPath, const QString& actionName, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData): 
         m_RequestPath(requestPath), m_ActionName(actionName), m_NetworkManager(networkManager), m_Settings(settings), m_IsSinglePlayer(isSinglePlayer), m_GlobalData(globalData) {
             connect( m_NetworkManager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), this, SLOT(sslErrorOccured(QNetworkReply*,QList<QSslError>)));
-            m_ReplyObjectPointer = nullptr;
         }
     
     bool makeRequestBasis(bool withToken, bool fromFinishedSlot = false);
@@ -33,7 +32,6 @@ protected:
     
 protected:
     std::vector<QNetworkReply*> m_ReplyObjectVector; //TODO: we don't need this
-    QNetworkReply** m_ReplyObjectPointer;
     QNetworkReply* m_ReplyObject = nullptr;
     QString m_RequestPath;
     QString m_ActionName;

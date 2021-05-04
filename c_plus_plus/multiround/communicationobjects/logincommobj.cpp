@@ -27,14 +27,14 @@ void LoginCommObj::finishedRequest()
 
     //TODO: to receive the user id when successfull
     
-    QList<QByteArray> headers = (*m_ReplyObjectPointer)->rawHeaderList();
+    QList<QByteArray> headers = m_ReplyObject->rawHeaderList();
     bool successfull = false;
     
     for(QByteArray hdr : headers) {
         QString hdrQString = QTextCodec::codecForMib(106)->toUnicode(hdr);
         if (hdrQString == "Authorization") {
-            m_GlobalData->m_UserData.m_AuthToken = (*m_ReplyObjectPointer)->rawHeader(hdr);
-            qDebug() << hdrQString << ":" << (*m_ReplyObjectPointer)->rawHeader(hdr);
+            m_GlobalData->m_UserData.m_AuthToken = m_ReplyObject->rawHeader(hdr);
+            qDebug() << hdrQString << ":" << m_ReplyObject->rawHeader(hdr);
             successfull = true;
         }
     }

@@ -16,15 +16,15 @@ bool BasisCommObj::makeRequestBasis(bool withToken, bool fromFinishedSlot)
         return false;
     }
         
-    if ( m_ReplyObjectPointer != nullptr && (*m_ReplyObjectPointer )->isRunning())
+    if ( m_ReplyObject != nullptr && m_ReplyObject->isRunning())
         return false;
     
-    if ( m_ReplyObjectPointer!= nullptr && *m_ReplyObjectPointer != nullptr) {
+    if ( m_ReplyObject!= nullptr) {
         if (!fromFinishedSlot) {
-            delete *m_ReplyObjectPointer;
+            delete m_ReplyObject;
         } else { //cannot delete the reply object from finished slot
-            m_ReplyObjectVector.push_back(*m_ReplyObjectPointer ); //TODO: I don't really need this
-            (*m_ReplyObjectPointer )->deleteLater();
+            m_ReplyObjectVector.push_back(m_ReplyObject); //TODO: I don't really need this
+            m_ReplyObjectVector[m_ReplyObjectVector.size() - 1]->deleteLater();
         }        
     }
       
@@ -38,8 +38,6 @@ bool BasisCommObj::makeRequestBasis(bool withToken, bool fromFinishedSlot)
 
     connect(m_ReplyObject, &QNetworkReply::finished, this, &BasisCommObj::finishedRequest);
     connect(m_ReplyObject, &QNetworkReply::errorOccurred, this, &BasisCommObj::errorRequest);
-
-    m_ReplyObjectPointer = &m_ReplyObject;
     
     return true;
 }
@@ -52,7 +50,7 @@ void BasisCommObj::errorRequest(QNetworkReply::NetworkError code)
         return;
     }
 
-    CommunicationTools::treatCommunicationError(m_ActionName, *m_ReplyObjectPointer );
+    CommunicationTools::treatCommunicationError(m_ActionName, m_ReplyObject);
 }
 
 
@@ -71,11 +69,14 @@ bool BasisCommObj::finishRequestHelper(QJsonObject& retJson)
         return false;
     }
 
-    if ( m_ReplyObjectPointer != nullptr && (*m_ReplyObjectPointer )->error() != QNetworkReply::NoError) {
+    if (m_ReplyObject == nullptr)
+        return false;
+    
+    if (m_ReplyObject->error() != QNetworkReply::NoError) {
         return false;
     }
     
-    QByteArray reply = (*m_ReplyObjectPointer )->readAll();
+    QByteArray reply = m_ReplyObject->readAll();
     QString replyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
     qDebug() << replyQString;
     retJson = CommunicationTools::objectFromString(replyQString);
