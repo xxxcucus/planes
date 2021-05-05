@@ -106,7 +106,7 @@ void MultiplayerRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pg
 }
 
 void MultiplayerRound::sendLastMoves() {
-    if (someoneFinished() && !m_NotSentMoves.empty())
+    if (playerFinished() && !m_NotSentMoves.empty())
         m_SendMoveCommObj->makeRequest(m_playerGuessList, m_NotSentMoves, m_ReceivedMoves);    
 }
 

@@ -8,7 +8,7 @@
 
 
 
-bool SendMoveCommObj::makeRequest(const std::vector<GuessPoint>& guessList, const std::vector<int>& notSentMoves, const std::vector<int>& receivedMoves) 
+bool SendMoveCommObj::makeRequest(const std::vector<GuessPoint>& guessList, const std::vector<int>& notSentMoves, const std::vector<int>& receivedMoves, bool fromFinishedSlot) 
 {
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         QMessageBox msgBox;
@@ -49,7 +49,7 @@ bool SendMoveCommObj::makeRequest(const std::vector<GuessPoint>& guessList, cons
     for (auto idx: receivedMoves)
         qDebug() << idx;
     
-    if (makeRequestBasis(true)) {
+    if (makeRequestBasis(true, fromFinishedSlot)) {
         m_LastNotSentMoveIndexSucces = notSentMoves;
         m_LastNotSentMoveIndexError.clear();
     } else {

@@ -25,7 +25,7 @@ public:
 		return m_State == GameStages::GameNotStarted;
 	}
 	
-	bool someoneFinished();
+	bool playerFinished();
 
 	/**
 	@param[in] gp - the player's guess together with its evaluation
