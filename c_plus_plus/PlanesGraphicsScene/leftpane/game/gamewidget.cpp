@@ -13,7 +13,7 @@
 GameWidget::GameWidget(GlobalData* globalData, MultiplayerRound* mrd, QWidget* parent)
     : QFrame(parent), m_GlobalData(globalData), m_MultiRound(mrd) {
 
-    GameStatusWidget* gameStatusWidget = new GameStatusWidget(m_MultiRound);
+    m_GameStatusWidget = new GameStatusWidget(m_MultiRound);
     CreateGameWidget* createGameWidget = new CreateGameWidget(m_MultiRound);
     QHBoxLayout* hLayout = new QHBoxLayout();
     QSpacerItem* spacer1 = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -22,16 +22,20 @@ GameWidget::GameWidget(GlobalData* globalData, MultiplayerRound* mrd, QWidget* p
     hLayout->addWidget(toGameButton);
     QSpacerItem* spacer = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
     QVBoxLayout* vLayout = new QVBoxLayout();
-    vLayout->addWidget(gameStatusWidget);
+    vLayout->addWidget(m_GameStatusWidget);
     vLayout->addWidget(createGameWidget);
     vLayout->addItem(spacer);
     vLayout->addLayout(hLayout);
     
     setLayout(vLayout);
 
-    connect(m_MultiRound, &MultiplayerRound::gameCreated, gameStatusWidget, &GameStatusWidget::gameCreatedSlot);
-    connect(m_MultiRound, &MultiplayerRound::gameConnectedTo, gameStatusWidget, &GameStatusWidget::gameConnectedToSlot);   
+    connect(m_MultiRound, &MultiplayerRound::gameCreated, m_GameStatusWidget, &GameStatusWidget::gameCreatedSlot);
+    connect(m_MultiRound, &MultiplayerRound::gameCreated, this, &GameWidget::periodicallyRefreshStatusSlot);
+    connect(m_MultiRound, &MultiplayerRound::gameConnectedTo, m_GameStatusWidget, &GameStatusWidget::gameConnectedToSlot);   
     connect(toGameButton, &QPushButton::clicked, this, &GameWidget::toGameButtonClickedSlot);
+ 
+    m_RefreshStatusTimer = new QTimer(this);
+    connect(m_RefreshStatusTimer, &QTimer::timeout, this, &GameWidget::refreshStatusWithTimer);
         
 }
 
@@ -47,3 +51,20 @@ void GameWidget::toGameButtonClickedSlot(bool value)
 
     emit toGameButtonClicked(value);
 }
+
+void GameWidget::periodicallyRefreshStatusSlot()
+{
+    m_RefreshStatusTimer->start(5000);
+}
+
+void GameWidget::refreshStatusWithTimer()
+{
+    if (m_GlobalData->m_GameData.m_GameId != 0 && m_GlobalData->m_GameData.m_RoundId != 0
+        && m_GlobalData->m_GameData.m_UserId != 0 && m_GlobalData->m_GameData.m_OtherUserId != 0) {
+        m_RefreshStatusTimer->stop();
+        return;
+    }
+    
+    m_MultiRound->refreshGameStatus(m_GameStatusWidget->getGameName());
+}
+

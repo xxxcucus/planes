@@ -17,7 +17,8 @@ class GameStatusWidget : public QFrame
 
 public:
     explicit GameStatusWidget(MultiplayerRound* mrd, QWidget* parent = nullptr);
-
+    QString getGameName();
+    
 public slots:
     void gameCreatedSlot(const QString& gameName, const QString& username);
     void gameConnectedToSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);

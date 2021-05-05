@@ -87,5 +87,7 @@ void GameStatusWidget::clearDataSlot()
     m_RoundName->setText("No round started");;
 }
 
-
+QString GameStatusWidget::getGameName() {
+    return m_GameName->text().trimmed();
+}
 
