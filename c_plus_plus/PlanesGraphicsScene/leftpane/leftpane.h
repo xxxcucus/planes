@@ -89,6 +89,7 @@ public slots:
      * @brief Query the server for the opponent's plane positions
      */
     void acquireOpponentPositionsClickedSlot(bool c);    
+    void acquireOpponentMovesTimeoutSlot();
     void acquireOpponentMovesClickedSlot(bool c);
     
     void startNewGameSlot();
@@ -145,6 +146,8 @@ private:
     GlobalData* m_GlobalData;
     QSettings* m_Settings;
     MultiplayerRound* m_MultiRound;
+    
+    QTimer* m_AcquireOpponentPlanesPositionsTimer = nullptr;
 };
 
 #endif // PLANESGSLEFTPANE_H

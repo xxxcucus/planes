@@ -71,7 +71,8 @@ void GameWidget::refreshStatusWithTimer()
 
 void GameWidget::stopRefreshStatusTimer()
 {
-    m_RefreshStatusTimer->stop();
+    if (m_RefreshStatusTimer != nullptr)
+        m_RefreshStatusTimer->stop();
 }
 
 void GameWidget::currentTabChanged()

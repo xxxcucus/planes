@@ -43,12 +43,12 @@ void AcquireOpponentPositionsCommObj::finishedRequest()
     
     bool otherPositionsExist = retJson.value("otherExist").toBool();
 
-    if (!otherPositionsExist) {
+    /*if (!otherPositionsExist) {
         QMessageBox msgBox;
         msgBox.setText("Opponents' planes positions are not available yet!"); 
         msgBox.exec();
         return;
-    }
+    }*/
 
         
     int plane1_x = retJson.value("plane1_x").toInt();

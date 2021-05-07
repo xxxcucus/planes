@@ -37,7 +37,7 @@ signals:
 private:    
     GlobalData* m_GlobalData;
     MultiplayerRound* m_MultiRound;
-    QTimer* m_RefreshStatusTimer;
+    QTimer* m_RefreshStatusTimer = nullptr;
     GameStatusWidget* m_GameStatusWidget;
 };
 

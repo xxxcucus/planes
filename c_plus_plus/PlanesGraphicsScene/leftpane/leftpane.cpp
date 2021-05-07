@@ -62,6 +62,9 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
         activateAccountWidget();
     else
         activateEditingBoard();
+    
+    m_AcquireOpponentPlanesPositionsTimer = new QTimer(this);
+    connect(m_AcquireOpponentPlanesPositionsTimer, &QTimer::timeout, this, &LeftPane::acquireOpponentMovesTimeoutSlot);
 }
 
 void LeftPane::activateDoneButton(bool planesOverlap)
@@ -105,14 +108,22 @@ void LeftPane::WaitForOpponentPlanesPositionsSlot() {
     m_BoardEditingWidget->waitForOpponentPlanesPositions();
     
     QMessageBox msgBox;
-    msgBox.setText("Your opponent has not decided where he wants to place the planes yet\nPlease click on the \"Acquired opponent positions\" button! "); 
+    msgBox.setText("Your opponent has not decided where he wants to place the planes yet\nPlease wait or try to acquire them by clicking \n on the \"Acquired opponent positions\" button! "); 
     msgBox.exec();    
+    
+    m_AcquireOpponentPlanesPositionsTimer->start(5000);
 }
 
 void LeftPane::acquireOpponentPositionsClickedSlot(bool c)
 {
     m_MultiRound->acquireOpponentPlanePositions();
 }
+
+void LeftPane::acquireOpponentMovesTimeoutSlot()
+{
+    acquireOpponentPositionsClickedSlot(false);
+}
+
 
 void LeftPane::acquireOpponentMovesClickedSlot(bool c)
 {
@@ -304,4 +315,7 @@ void LeftPane::currentTabChangedSlot()
     if (!m_GameInfo->getSinglePlayer()) {
         m_GameWidget->currentTabChanged();
     }
+    
+    if (m_AcquireOpponentPlanesPositionsTimer != nullptr)
+        m_AcquireOpponentPlanesPositionsTimer->stop();
 }
