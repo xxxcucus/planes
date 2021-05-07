@@ -47,6 +47,8 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     connect(m_MultiRound, &MultiplayerRound::gameStatsUpdated, this, &LeftPane::updateGameStatistics);    
 
     connect(m_StartNewRoundWidget, &StartNewRoundWidget::startNewGame, this, &LeftPane::startNewGameSlot);
+    
+    connect(this, &LeftPane::currentChanged, this, &LeftPane::currentTabChangedSlot);
 
     if (!m_GameInfo->getSinglePlayer()) {
         m_MainAccountWidgetIndex = addTab(m_MainAccountWidget, "Login");    
@@ -297,3 +299,9 @@ void LeftPane::activateGameWidget()
     setTabEnabled(m_GameStartIndex, false);    
 }
 
+void LeftPane::currentTabChangedSlot()
+{
+    if (!m_GameInfo->getSinglePlayer()) {
+        m_GameWidget->currentTabChanged();
+    }
+}

@@ -120,6 +120,8 @@ public slots:
     void activateAccountWidget();
     void activateGameWidget();
     
+    void currentTabChangedSlot();
+    
 private:
     void submitDoneClicked();    
     

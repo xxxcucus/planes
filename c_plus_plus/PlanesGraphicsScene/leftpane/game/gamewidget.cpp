@@ -33,7 +33,8 @@ GameWidget::GameWidget(GlobalData* globalData, MultiplayerRound* mrd, QWidget* p
     connect(m_MultiRound, &MultiplayerRound::gameCreated, this, &GameWidget::periodicallyRefreshStatusSlot);
     connect(m_MultiRound, &MultiplayerRound::gameConnectedTo, m_GameStatusWidget, &GameStatusWidget::gameConnectedToSlot);   
     connect(toGameButton, &QPushButton::clicked, this, &GameWidget::toGameButtonClickedSlot);
- 
+    connect(createGameWidget, &CreateGameWidget::connectToGameCalled, this, &GameWidget::connectToGameSlot);
+    
     m_RefreshStatusTimer = new QTimer(this);
     connect(m_RefreshStatusTimer, &QTimer::timeout, this, &GameWidget::refreshStatusWithTimer);
         
@@ -68,3 +69,17 @@ void GameWidget::refreshStatusWithTimer()
     m_MultiRound->refreshGameStatus(m_GameStatusWidget->getGameName());
 }
 
+void GameWidget::stopRefreshStatusTimer()
+{
+    m_RefreshStatusTimer->stop();
+}
+
+void GameWidget::currentTabChanged()
+{
+    stopRefreshStatusTimer();
+}
+
+void GameWidget::connectToGameSlot()
+{
+    stopRefreshStatusTimer();
+}

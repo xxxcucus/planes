@@ -16,11 +16,20 @@ class GameWidget : public QFrame {
     
 public:
     GameWidget(GlobalData* globalData, MultiplayerRound* mrd, QWidget* parent = nullptr);
+    
+    /**
+     * Tab is changed in the left pane
+     * **/
+    void currentTabChanged();
 
 public slots:
     void toGameButtonClickedSlot(bool value);
     void periodicallyRefreshStatusSlot();
     void refreshStatusWithTimer();
+    void connectToGameSlot();
+    
+private:
+    void stopRefreshStatusTimer();
     
 signals:
     void toGameButtonClicked(bool value);

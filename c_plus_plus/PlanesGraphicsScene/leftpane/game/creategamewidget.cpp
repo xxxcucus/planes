@@ -58,6 +58,8 @@ void CreateGameWidget::createGameSlot() {
 }
 
 void CreateGameWidget::connectToGameSlot() {
+    
+    emit connectToGameCalled();
 
     QString gameName = m_GameName->text().trimmed();
     if (gameName.isEmpty()) {
