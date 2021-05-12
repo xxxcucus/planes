@@ -23,6 +23,7 @@ signals:
     void roundCancelled();
     void opponentMoveGenerated(const GuessPoint& gp);
     void allGuessedAndMovesStillToSend();
+    void allMovesSent();
     
 private:
     std::vector<int> computeNotReceivedMoves(const std::vector<int>& receivedMoves, int& maxReceivedIndex);

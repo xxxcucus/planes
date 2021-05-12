@@ -35,6 +35,7 @@ MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QNetworkAcce
     connect(m_SendMoveCommObj, &SendMoveCommObj::opponentMoveGenerated, this, &MultiplayerRound::opponentMoveGenerated);
     connect(m_SendMoveCommObj, &SendMoveCommObj::roundCancelled, this, &MultiplayerRound::roundWasCancelled);
     connect(m_SendMoveCommObj, &SendMoveCommObj::allGuessedAndMovesStillToSend, this, &MultiplayerRound::sendLastMoves);
+    connect(m_SendMoveCommObj, &SendMoveCommObj::allMovesSent, this, &MultiplayerRound::allMovesSentSlot);
     /*m_RequestOpponentMovesObj = new RequestOpponentMovesCommObj("/round/othermoves", "requesting moves ", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData, this);
     connect(m_RequestOpponentMovesObj, &RequestOpponentMovesCommObj::opponentMoveGenerated, this, &MultiplayerRound::opponentMoveGenerated);
     connect(m_RequestOpponentMovesObj, &RequestOpponentMovesCommObj::roundCancelled, this, &MultiplayerRound::roundWasCancelled);*/
@@ -106,6 +107,7 @@ void MultiplayerRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pg
 }
 
 void MultiplayerRound::sendLastMoves() {
+    qDebug() << "sendLastMoves";
     if (playerFinished() && !m_NotSentMoves.empty())
         m_SendMoveCommObj->makeRequest(m_playerGuessList, m_NotSentMoves, m_ReceivedMoves);    
 }
@@ -320,4 +322,11 @@ void MultiplayerRound::addToReceivedList(int value)
 void MultiplayerRound::testServerVersion()
 {
     m_GetServerVersionCommObj->makeRequest();
+}
+
+void MultiplayerRound::allMovesSentSlot()
+{
+    qDebug() << "allMovesSent" ;
+    if (playerFinished() && !computerFinished())
+        emit allMovesSent();
 }

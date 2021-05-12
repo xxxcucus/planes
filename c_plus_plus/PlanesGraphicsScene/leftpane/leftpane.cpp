@@ -45,9 +45,11 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     connect(m_MultiRound, &MultiplayerRound::newRoundStarted, this, &LeftPane::startNewRound);
     connect(m_MultiRound, &MultiplayerRound::winnerSent, this, &LeftPane::endRound);
     connect(m_MultiRound, &MultiplayerRound::gameStatsUpdated, this, &LeftPane::updateGameStatistics);    
+    
+    connect(m_MultiRound, &MultiplayerRound::allMovesSent, this, &LeftPane::acquireOpponentMovesSlot);
+    
 
     connect(m_StartNewRoundWidget, &StartNewRoundWidget::startNewGame, this, &LeftPane::startNewGameSlot);
-    
     connect(this, &LeftPane::currentChanged, this, &LeftPane::currentTabChangedSlot);
 
     if (!m_GameInfo->getSinglePlayer()) {
@@ -64,7 +66,10 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
         activateEditingBoard();
     
     m_AcquireOpponentPlanesPositionsTimer = new QTimer(this);
-    connect(m_AcquireOpponentPlanesPositionsTimer, &QTimer::timeout, this, &LeftPane::acquireOpponentMovesTimeoutSlot);
+    connect(m_AcquireOpponentPlanesPositionsTimer, &QTimer::timeout, this, &LeftPane::acquireOpponentPositionsTimeoutSlot);
+    
+    m_AcquireOpponentMovesTimer = new QTimer(this);
+    connect(m_AcquireOpponentMovesTimer, &QTimer::timeout, this, &LeftPane::acquireOpponentMovesTimeoutSlot);
 }
 
 void LeftPane::activateDoneButton(bool planesOverlap)
@@ -119,9 +124,14 @@ void LeftPane::acquireOpponentPositionsClickedSlot(bool c)
     m_MultiRound->acquireOpponentPlanePositions();
 }
 
-void LeftPane::acquireOpponentMovesTimeoutSlot()
+void LeftPane::acquireOpponentPositionsTimeoutSlot()
 {
     acquireOpponentPositionsClickedSlot(false);
+}
+
+void LeftPane::acquireOpponentMovesTimeoutSlot()
+{
+    acquireOpponentMovesClickedSlot(false);
 }
 
 
@@ -318,4 +328,13 @@ void LeftPane::currentTabChangedSlot()
     
     if (m_AcquireOpponentPlanesPositionsTimer != nullptr)
         m_AcquireOpponentPlanesPositionsTimer->stop();
+    
+    if (m_AcquireOpponentMovesTimer != nullptr)
+        m_AcquireOpponentMovesTimer->stop();
 }
+
+void LeftPane::acquireOpponentMovesSlot()
+{
+    m_AcquireOpponentMovesTimer->start(5000);
+}
+

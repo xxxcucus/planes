@@ -82,6 +82,12 @@ bool AbstractPlaneRound::playerFinished() {
     return m_gameStats.playerFinished(m_planeNo);
 }
 
+bool AbstractPlaneRound::computerFinished()
+{
+    return m_gameStats.computerFinished(m_planeNo);
+}
+
+
 void AbstractPlaneRound::doneEditing() {
 	m_State = GameStages::Game;
 }

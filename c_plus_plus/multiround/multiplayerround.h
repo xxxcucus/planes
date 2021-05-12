@@ -72,6 +72,11 @@ private slots:
      * */
     void sendLastMoves();
     
+    /**
+     * No postponed sends, all the moves were sent. Emit allMovesSent when the player guessed the planes positions
+     * **/
+    void allMovesSentSlot();
+    
 signals:
     void opponentMoveGenerated(const GuessPoint& gp);
     void roundWasCancelled();
@@ -90,6 +95,8 @@ signals:
     void waitForOpponentPlanePositions();
     void winnerSent(bool isPlayerWinner, bool draw);
     void gameStatsUpdated(const GameStatistics& gameStats);
+    
+    void allMovesSent();
     
 public:
     MultiplayerRound(int rows, int cols, int planeNo, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo);

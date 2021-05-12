@@ -26,6 +26,7 @@ public:
 	}
 	
 	bool playerFinished();
+    bool computerFinished();
 
 	/**
 	@param[in] gp - the player's guess together with its evaluation

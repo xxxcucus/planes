@@ -96,6 +96,8 @@ void SendMoveCommObj::finishedRequest()
     //TODO: when not sent elements with error exist and player finished  send them as well
     if (!m_LastNotSentMoveIndexError.empty()) {
         emit allGuessedAndMovesStillToSend();
+    } else {
+        emit allMovesSent();
     }
 }
 
