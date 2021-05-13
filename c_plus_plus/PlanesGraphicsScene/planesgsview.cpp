@@ -7,7 +7,18 @@
 PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QSettings* settings, QWidget *parent)
     : QWidget(parent), m_round(rd), m_MultiRound(mrd), m_GlobalData(globalData), m_NetworkManager(networkManager), m_GameInfo(gameInfo), m_Settings(settings)
 {
-    CustomHorizLayout* hLayout = new CustomHorizLayout(20, this);
+    QWidget* statusBarWidget = new QWidget();
+    QVBoxLayout* vLayout1 = new QVBoxLayout();
+    QLabel* statusLabel = new QLabel();
+    if (m_GameInfo->getSinglePlayer())
+        statusLabel->setText("Single Player Game");
+    else
+        statusLabel->setText("Multi-Player Game");
+    vLayout1->addWidget(statusLabel);
+    statusBarWidget->setLayout(vLayout1);
+    
+    QWidget* controlsAndBoardsWidget = new QWidget();
+    CustomHorizLayout* hLayout = new CustomHorizLayout(20, controlsAndBoardsWidget);
     m_LeftPane = new LeftPane(m_GameInfo, m_NetworkManager, m_GlobalData, m_Settings, m_MultiRound, this);
     m_LeftPane->setMinWidth();
     //m_LeftPane->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
@@ -17,7 +28,12 @@ PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* gl
 
     hLayout->addWidget(m_LeftPane);
     hLayout->addWidget(m_RightPane);
-    setLayout(hLayout);
+    controlsAndBoardsWidget->setLayout(hLayout);
+    
+    QVBoxLayout* vLayout2 = new QVBoxLayout();
+    vLayout2->addWidget(statusBarWidget);
+    vLayout2->addWidget(controlsAndBoardsWidget);
+    setLayout(vLayout2);
 
     ///controls for editing the player's board in the first round of the game
     connect(m_LeftPane, SIGNAL(selectPlaneClicked(bool)), m_RightPane, SLOT(selectPlaneClicked(bool)));
