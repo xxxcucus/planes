@@ -12,6 +12,7 @@
 #include "global/globaldata.h"
 #include "gameinfo.h"
 #include "multiplayerround.h"
+#include "statusbarwidget.h"
 
 class PlanesGSView : public QWidget
 {
@@ -47,6 +48,7 @@ private:
 
     LeftPane* m_LeftPane;
     RightPane* m_RightPane;
+    StatusBarWidget* m_StatusBarWidget;
     
     GlobalData* m_GlobalData;
     QNetworkAccessManager* m_NetworkManager;

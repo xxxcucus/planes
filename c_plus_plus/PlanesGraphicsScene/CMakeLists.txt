@@ -48,6 +48,7 @@ set(GS_SRCS
     customhorizlayout.cpp
 	planesgsview.cpp
 	planesgswindow.cpp
+	statusbarwidget.cpp
 )
 
 set(GS_HEADR
@@ -80,7 +81,8 @@ set(GS_HEADR
 	customhorizlayout.h
 	animatedtextitem.h
 	planesgsview.h
-	planesgswindow.h	
+	planesgswindow.h
+	statusbarwidget.h
 )
 
 add_executable(PlanesGraphicsScene 

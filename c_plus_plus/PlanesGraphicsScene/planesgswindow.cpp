@@ -1,5 +1,6 @@
 #include "planesgswindow.h"
 
+//TODO: add destructor
 PlanesGSWindow::PlanesGSWindow(bool isMultiplayer, QWidget *parent) : QMainWindow(parent)
 {
     m_GlobalData = new GlobalData();

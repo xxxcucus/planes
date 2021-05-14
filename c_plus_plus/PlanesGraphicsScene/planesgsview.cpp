@@ -7,15 +7,7 @@
 PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QSettings* settings, QWidget *parent)
     : QWidget(parent), m_round(rd), m_MultiRound(mrd), m_GlobalData(globalData), m_NetworkManager(networkManager), m_GameInfo(gameInfo), m_Settings(settings)
 {
-    QWidget* statusBarWidget = new QWidget();
-    QVBoxLayout* vLayout1 = new QVBoxLayout();
-    QLabel* statusLabel = new QLabel();
-    if (m_GameInfo->getSinglePlayer())
-        statusLabel->setText("Single Player Game");
-    else
-        statusLabel->setText("Multi-Player Game");
-    vLayout1->addWidget(statusLabel);
-    statusBarWidget->setLayout(vLayout1);
+    m_StatusBarWidget = new StatusBarWidget(m_GameInfo, m_GlobalData);
     
     QWidget* controlsAndBoardsWidget = new QWidget();
     CustomHorizLayout* hLayout = new CustomHorizLayout(20, controlsAndBoardsWidget);
@@ -31,7 +23,7 @@ PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* gl
     controlsAndBoardsWidget->setLayout(hLayout);
     
     QVBoxLayout* vLayout2 = new QVBoxLayout();
-    vLayout2->addWidget(statusBarWidget);
+    vLayout2->addWidget(m_StatusBarWidget);
     vLayout2->addWidget(controlsAndBoardsWidget);
     setLayout(vLayout2);
 
