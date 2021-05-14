@@ -25,7 +25,7 @@ public slots:
     void toGameCreationClickedSlot(bool value);
     
 private:
-    UserProfileFrame* m_userProfileFrame;
+    //UserProfileFrame* m_userProfileFrame;
     LoginRegisterForm* m_loginRegisterForm;
     
     
