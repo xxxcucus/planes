@@ -10,6 +10,7 @@ class StatusBarWidget : public QWidget {
     
 public:
     StatusBarWidget(GameInfo* gameInfo, GlobalData* globalData, QWidget* parent = nullptr);
+    void update();
 
 private:    
     GlobalData* m_GlobalData;
