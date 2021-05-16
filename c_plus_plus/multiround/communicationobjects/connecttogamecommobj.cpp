@@ -38,10 +38,12 @@ void ConnectToGameCommObj::finishedRequest()
     msgBox.exec();               
     
     m_GlobalData->m_GameData.m_GameId = retJson.value("id").toString().toLong(); 
+    m_GlobalData->m_GameData.m_GameName = retJson.value("gameName").toString();
     m_GlobalData->m_GameData.m_RoundId = retJson.value("currentRoundId").toString().toLong();
     long int userId1 = retJson.value("firstPlayerId").toString().toLong();
     long int userId2 = retJson.value("secondPlayerId").toString().toLong();
     m_GlobalData->m_GameData.m_OtherUserId =  userId1; //so does the server
+    m_GlobalData->m_GameData.m_OtherUsername = retJson.value("firstPlayerName").toString();
     m_GlobalData->m_GameData.m_UserId = userId2;
     m_GlobalData->m_UserData.m_UserId = userId2;
     QString firstPlayerName = retJson.value("firstPlayerName").toString();
@@ -52,7 +54,7 @@ void ConnectToGameCommObj::finishedRequest()
 
 bool ConnectToGameCommObj::validateReply(const QJsonObject& reply) {
     if (!(reply.contains("id") && reply.contains("firstPlayerName") && reply.contains("secondPlayerName") && reply.contains("gameName") && reply.contains("currentRoundId")
-        && reply.contains("firstPlayerId") && reply.contains("secondPlayerId")))
+        && reply.contains("firstPlayerId") && reply.contains("secondPlayerId"))) 
         return false;
     
     if (!checkLong(reply.value("id").toString()))

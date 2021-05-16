@@ -21,7 +21,9 @@ class CreateGameWidget : public QFrame
 
 public:
     CreateGameWidget(MultiplayerRound* mrd, QWidget* parent = nullptr);
-
+    QString getGameName();
+    
+    
 signals:
     void connectToGameCalled();
     

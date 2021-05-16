@@ -44,6 +44,10 @@ PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* gl
     connect(m_MultiRound, SIGNAL(newRoundStarted()), this, SLOT(startNewGame()));
     
     connect(m_MultiRound, &MultiplayerRound::opponentMoveGenerated, this, &PlanesGSView::opponentMoveGeneratedSlot);
+    connect(m_MultiRound, &MultiplayerRound::loginCompleted, m_StatusBarWidget, &StatusBarWidget::updateSlot);
+    connect(m_MultiRound, &MultiplayerRound::gameCreated, m_StatusBarWidget, &StatusBarWidget::updateSlot);
+    connect(m_MultiRound, &MultiplayerRound::gameConnectedTo, m_StatusBarWidget, &StatusBarWidget::updateSlot);   
+   
     
 	m_round->initRound();
 	m_RightPane->resetGameBoard();

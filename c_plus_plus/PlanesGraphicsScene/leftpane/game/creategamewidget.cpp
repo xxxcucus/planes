@@ -98,3 +98,9 @@ void CreateGameWidget::actionChangedSlot()
             break;
     }
 }
+
+QString CreateGameWidget::getGameName()
+{
+    return m_GameName->text().trimmed();
+}
+

@@ -10,6 +10,7 @@
 #include "global/globaldata.h"
 #include "multiplayerround.h"
 #include "gamestatuswidget.h"
+#include "creategamewidget.h"
 
 class GameWidget : public QFrame {
     Q_OBJECT
@@ -38,7 +39,7 @@ private:
     GlobalData* m_GlobalData;
     MultiplayerRound* m_MultiRound;
     QTimer* m_RefreshStatusTimer = nullptr;
-    GameStatusWidget* m_GameStatusWidget;
+    CreateGameWidget* m_CreateGameWidget;
 };
 
 #endif

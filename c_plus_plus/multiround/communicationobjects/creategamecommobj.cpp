@@ -37,6 +37,7 @@ void CreateGameCommObj::finishedRequest()
     msgBox.setText("Game creation successfull!"); 
     msgBox.exec();               
     m_GlobalData->m_GameData.m_GameId = retJson.value("id").toString().toLong();
+    m_GlobalData->m_GameData.m_GameName = retJson.value("gameName").toString();
     m_GlobalData->m_GameData.m_RoundId = 0;
     m_GlobalData->m_GameData.m_UserId = 0;
     m_GlobalData->m_GameData.m_OtherUserId = 0;
