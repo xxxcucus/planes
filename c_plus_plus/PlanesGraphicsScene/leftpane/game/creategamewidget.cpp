@@ -11,37 +11,35 @@
 
 CreateGameWidget::CreateGameWidget(MultiplayerRound* mrd, QWidget* parent) : QFrame(parent), m_MultiRound(mrd)
 {
-    QString titleText = QString("<b> Create Game </b>");
+    QString titleText = QString("<b> Game </b>");
     QLabel* titleLabel = new QLabel("");
     titleLabel->setText(titleText);
+    titleLabel->setFont(QFont("Timer", 20, QFont::Bold));
+    titleLabel->setAlignment(Qt::AlignCenter);
     
     QLabel* gameNameLabel = new QLabel("Game Name");
     m_GameName = new QLineEdit();
     
-    QPushButton* submitButton = new QPushButton("Perform action");
-    
-    QLabel* chooseActionLabel = new QLabel("Choose action");
-    m_ActionDescriptionLabel = new QTextEdit(m_CreateGameHelp);
-    m_ActionDescriptionLabel->setReadOnly(true);
-    
-    m_ChooseActionComboBox = new QComboBox();
-	m_ChooseActionComboBox->addItem("Create Game");
-	m_ChooseActionComboBox->addItem("Connect to Game");
-	m_ChooseActionComboBox->setCurrentIndex(0);
-    
+    QPushButton* submitButton = new QPushButton("Submit");
+        
     QGridLayout* gridLayout = new QGridLayout();
-    gridLayout->addWidget(titleLabel, 0, 0, 1, 2);
     gridLayout->addWidget(gameNameLabel, 1, 0);
-    gridLayout->addWidget(m_GameName, 1, 1);
-    gridLayout->addWidget(chooseActionLabel, 2, 0, 1, 1);
-    gridLayout->addWidget(m_ChooseActionComboBox, 2, 1, 1, 1);
-    gridLayout->addWidget(m_ActionDescriptionLabel, 3, 0, 2, 2);
-    gridLayout->addWidget(submitButton, 5, 1, 1, 1);
-    setLayout(gridLayout);
-    setFrameStyle(QFrame::Panel | QFrame::Raised);
+    gridLayout->addWidget(m_GameName, 2, 0, 1, 2);
+    gridLayout->addWidget(submitButton, 3, 1, 1, 1);    
+    
+    QHBoxLayout* hLayout1 = new QHBoxLayout();
+    QSpacerItem* spacer3 = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Fixed);
+    QSpacerItem* spacer4 = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Fixed);
+    
+    hLayout1->addItem(spacer3);
+    hLayout1->addLayout(gridLayout);
+    hLayout1->addItem(spacer4);
+
+    setLayout(hLayout1);
+    setFrameStyle(QFrame::NoFrame);
     
     connect(submitButton, &QPushButton::clicked, this, &CreateGameWidget::submitButtonClickedSlot);
-    connect(m_ChooseActionComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CreateGameWidget::actionChangedSlot);
+    connect(m_MultiRound, &MultiplayerRound::refreshStatus, this, &CreateGameWidget::choiceToCreateGameSlot);
 }
 
 
@@ -75,32 +73,41 @@ void CreateGameWidget::connectToGameSlot() {
 
 void CreateGameWidget::submitButtonClickedSlot()
 {
-    switch(m_ChooseActionComboBox->currentIndex()) {
-        case 0:
-            createGameSlot();
-            break;
-        case 1:
-            connectToGameSlot();
-            break;
-        
-    }
+    m_SubmitCalled = true;
+    m_MultiRound->refreshGameStatus(m_GameName->text().trimmed());
 }
 
-
-void CreateGameWidget::actionChangedSlot()
-{
-    switch(m_ChooseActionComboBox->currentIndex()) {
-        case 0:
-            m_ActionDescriptionLabel->setText(m_CreateGameHelp);
-            break;
-        case 1:
-            m_ActionDescriptionLabel->setText(m_ConnectToGameHelp);
-            break;
-    }
-}
 
 QString CreateGameWidget::getGameName()
 {
     return m_GameName->text().trimmed();
 }
 
+
+void CreateGameWidget::choiceToCreateGameSlot(bool exists, const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId) {
+    
+    if (!m_SubmitCalled)
+        return;
+    m_SubmitCalled = false;
+    if (!exists) {
+        QMessageBox msgBox;
+        msgBox.setText("You may create a new game with this name"); 
+        QPushButton* createButton = msgBox.addButton("Create New Game", QMessageBox::YesRole);
+        QPushButton* cancelButton = msgBox.addButton("Cancel", QMessageBox::NoRole);
+        msgBox.exec();
+        if (msgBox.clickedButton() == createButton)
+            createGameSlot();
+    } else if (firstPlayerName == secondPlayerName) {
+        QMessageBox msgBox;
+        msgBox.setText("You may connect to the game created by " + firstPlayerName); 
+        QPushButton* connectButton = msgBox.addButton("Connect to Game", QMessageBox::YesRole);
+        QPushButton* cancelButton = msgBox.addButton("Cancel", QMessageBox::NoRole);
+        msgBox.exec();
+        if (msgBox.clickedButton() == connectButton)
+            connectToGameSlot();        
+    } else {
+        QMessageBox msgBox;
+        msgBox.setText("It is not possible to create or connect to a a game with this name"); 
+        msgBox.exec();
+    }
+}

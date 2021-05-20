@@ -18,7 +18,7 @@ public slots:
     void finishedRequest() override;       
     
 signals:
-    void refreshStatus(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
+    void refreshStatus(bool exists, const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
     
 private:
     QString m_GameName;

@@ -46,7 +46,7 @@ RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings,
 
     connect(m_PlayerBoard, SIGNAL(planePositionNotValid(bool)), this, SIGNAL(planePositionNotValid(bool)));
     connect(m_ComputerBoard, SIGNAL(guessMade(const GuessPoint&)), this, SIGNAL(guessMade(const GuessPoint&)));
-    connect(m_MultiRound, &MultiplayerRound::gameConnectedTo, this, &RightPane::multiplayerRoundReset);
+    connect(m_MultiRound, &MultiplayerRound::gameConnectedTo, this, &RightPane::gameConnectedToSlot);
     connect(m_MultiRound, &MultiplayerRound::refreshStatus, this, &RightPane::multiplayerRoundReset);
     connect(m_MultiRound, SIGNAL(roundWasCancelled()), this, SLOT(roundWasCancelledSlot()));
     connect(m_MultiRound, &MultiplayerRound::winnerSent, this, &RightPane::endRound);
@@ -123,8 +123,15 @@ void RightPane::showComputerMove(const GuessPoint& gp) {
 	m_PlayerBoard->showMove(gp);
 }
 
-void RightPane::multiplayerRoundReset(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundIdQString) {
+void RightPane::gameConnectedToSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundIdQString) {
+    multiplayerRoundReset(true, gameName, firstPlayerName, secondPlayerName, currentRoundIdQString);
+}
+
+
+void RightPane::multiplayerRoundReset(bool exists, const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundIdQString) {
     
+    if (!exists)
+        return;
     bool okConv = true;
     long int desiredRoundId = currentRoundIdQString.toLong(&okConv);
     if (!okConv) {

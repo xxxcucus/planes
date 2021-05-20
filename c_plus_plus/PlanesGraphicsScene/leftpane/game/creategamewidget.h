@@ -32,7 +32,7 @@ public slots:
     void connectToGameSlot();
     
     void submitButtonClickedSlot();
-    void actionChangedSlot();
+    void choiceToCreateGameSlot(bool exists, const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
     
 public:
     QLineEdit* m_GameName;
@@ -40,6 +40,7 @@ public:
     QString m_ConnectToGameHelp = QString("You connect to an existing game.The game must have been created by your opponent.After connecting you can directly start playing.");
     QString m_CreateGameHelp = QString("You create a new game. After game creation you have to wait for the opponent to connect to the game. Click \"Refresh\" to verify that the opponent is connected to the game. After the two players are listed in the \"Game Status\" you can start playing.");
     QTextEdit* m_ActionDescriptionLabel;
+    bool m_SubmitCalled = false;
     GlobalData* m_GlobalData;
     GameInfo* m_GameInfo;
     QNetworkAccessManager* m_NetworkManager;

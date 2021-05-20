@@ -293,12 +293,13 @@ void LeftPane::startNewGameSlot()
         return;
     }
         
-    m_MultiRound->startNewRound();    
+    m_MultiRound->startNewRound();
 }
 
 void LeftPane::startNewRound()
 {
     activateEditingBoard();
+    emit newRoundStarted();
 }
 
 void LeftPane::activateAccountWidget()

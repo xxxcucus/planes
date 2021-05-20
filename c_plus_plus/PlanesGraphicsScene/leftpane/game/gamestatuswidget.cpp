@@ -44,7 +44,7 @@ GameStatusWidget::GameStatusWidget(MultiplayerRound* mrd, QWidget* parent)
     setFrameStyle(QFrame::Panel | QFrame::Raised);
 
     connect(refreshStatusButton, &QPushButton::clicked, this, &GameStatusWidget::refreshSlot);
-    connect(m_MultiRound, &MultiplayerRound::refreshStatus, this, &GameStatusWidget::gameConnectedToSlot);
+    //connect(m_MultiRound, &MultiplayerRound::refreshStatus, this, &GameStatusWidget::gameConnectedToSlot);
     connect(m_MultiRound, &MultiplayerRound::loginCompleted, this, &GameStatusWidget::clearDataSlot);
     connect(m_MultiRound, &MultiplayerRound::loginFailed, this, &GameStatusWidget::clearDataSlot);
 }

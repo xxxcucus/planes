@@ -84,7 +84,7 @@ signals:
 
     void gameCreated(const QString& gameName, const QString& userName);
     void gameConnectedTo(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
-    void refreshStatus(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
+    void refreshStatus(bool exists, const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
     void loginCompleted();
     void loginFailed();
     void noRobotRegistration(const std::vector<QString>& images, const QJsonObject& request);

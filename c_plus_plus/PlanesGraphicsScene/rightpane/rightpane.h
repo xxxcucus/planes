@@ -49,8 +49,9 @@ public slots:
 
 	void showComputerMove(const GuessPoint& gp);
     
-    void multiplayerRoundReset(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
-
+    void multiplayerRoundReset(bool exists, const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
+    void gameConnectedToSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
+    
     void roundWasCancelledSlot();
     
     

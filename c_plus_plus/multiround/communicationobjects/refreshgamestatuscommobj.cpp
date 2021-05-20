@@ -43,6 +43,7 @@ void RefreshGameStatusCommObj::finishedRequest()
     QString currentRoundId = retJson.value("currentRoundId").toString();
     
     m_GlobalData->m_GameData.m_GameId = retJson.value("id").toString().toLong(); 
+    m_GlobalData->m_GameData.m_GameName = retJson.value("gameName").toString();
     m_GlobalData->m_GameData.m_RoundId = retJson.value("currentRoundId").toString().toLong();
     m_GlobalData->m_GameData.m_UserId = m_GlobalData->m_UserData.m_UserId;
     long int userId1 = retJson.value("firstPlayerId").toString().toLong();
@@ -51,13 +52,15 @@ void RefreshGameStatusCommObj::finishedRequest()
     qDebug() << "userId2 " << userId2;
     qDebug() << "m_GlobalData.m_UserData.m_UserId " << m_GlobalData->m_UserData.m_UserId;
     m_GlobalData->m_GameData.m_OtherUserId = (userId1 == m_GlobalData->m_UserData.m_UserId) ? userId2 : userId1; //TODO validation m_UserData.m_UserId should be sent from server
-
-    emit refreshStatus(gameName, firstPlayerName, secondPlayerName, currentRoundId);
+    m_GlobalData->m_GameData.m_OtherUsername = (userId1 == m_GlobalData->m_UserData.m_UserId) ? secondPlayerName : firstPlayerName;
+    
+    bool exists = retJson.value("exists").toBool();
+    
+    emit refreshStatus(exists, gameName, firstPlayerName, secondPlayerName, currentRoundId);
 }
 
 bool RefreshGameStatusCommObj::validateReply(const QJsonObject& reply) {
-    if (!(reply.contains("id") && reply.contains("firstPlayerName") && reply.contains("secondPlayerName") && reply.contains("gameName") && reply.contains("currentRoundId")
-        && reply.contains("firstPlayerId") && reply.contains("secondPlayerId")))
+    if (!(reply.contains("exists") && reply.contains("id") && reply.contains("firstPlayerName") && reply.contains("secondPlayerName") && reply.contains("gameName") && reply.contains("currentRoundId") && reply.contains("firstPlayerId") && reply.contains("secondPlayerId")))
         return false;
     
     if (!checkLong(reply.value("id").toString()))
