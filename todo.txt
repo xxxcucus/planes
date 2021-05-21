@@ -62,4 +62,5 @@ but the "Start New Round" button should only be active at the end of one round. 
 60. Add timer to control maximum duration of requests to server.
 61. Add credits to PlanesGraphicsScene
 62. AdressSanitizer PlanesGraphicsScene
-63. Join function to create game and connect to game in a single button.
+63. Join function to create game and connect to game in a single button. - May 2021
+64. Send password as hash for PlanesGraphicsScene.
