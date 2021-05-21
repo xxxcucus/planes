@@ -2,11 +2,16 @@
 
 #include <QVBoxLayout>
 
-StartNewRoundWidget::StartNewRoundWidget(GameInfo *gameInfo, QWidget* parent): QWidget(parent), m_GameInfo(gameInfo) {    
+StartNewRoundWidget::StartNewRoundWidget(GameInfo *gameInfo, QWidget* parent): QWidget(parent), m_GameInfo(gameInfo) { 
+    
+    QSpacerItem* spacer = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    QSpacerItem* spacer2 = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    
     m_ScoreFrame = new ScoreFrame(m_GameInfo);
     QVBoxLayout* vLayout1 = new QVBoxLayout();
+    vLayout1->addItem(spacer);
     vLayout1->addWidget(m_ScoreFrame);
-    vLayout1->addStretch(5);
+    vLayout1->addItem(spacer2);
     setLayout(vLayout1);
     
     connect(m_ScoreFrame, &ScoreFrame::startNewGame, this, &StartNewRoundWidget::startNewGame);
