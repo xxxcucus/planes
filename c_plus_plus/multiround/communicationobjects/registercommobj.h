@@ -8,8 +8,8 @@ class RegisterCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:
-    RegisterCommObj(const QString& requestPath, const QString& actionName, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
-        BasisCommObj(requestPath, actionName, networkManager, settings, isSinglePlayer, globalData) {}
+    RegisterCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
+        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {}
     
     bool makeRequest(const QString& username, const QString& password);
     bool validateReply(const QJsonObject& retJson) override;

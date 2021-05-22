@@ -47,7 +47,7 @@ void CreateGameWidget::createGameSlot() {
 
     QString gameName = m_GameName->text().trimmed();
     if (gameName.isEmpty()) {
-        QMessageBox msgBox;
+        QMessageBox msgBox(this);
         msgBox.setText("Game name cannot be empty!"); 
         msgBox.exec();
         return;
@@ -61,7 +61,7 @@ void CreateGameWidget::connectToGameSlot() {
 
     QString gameName = m_GameName->text().trimmed();
     if (gameName.isEmpty()) {
-        QMessageBox msgBox;
+        QMessageBox msgBox(this);
         msgBox.setText("Game name cannot be empty!"); 
         msgBox.exec();
         return;
@@ -90,7 +90,7 @@ void CreateGameWidget::choiceToCreateGameSlot(bool exists, const QString& gameNa
         return;
     m_SubmitCalled = false;
     if (!exists) {
-        QMessageBox msgBox;
+        QMessageBox msgBox(this);
         msgBox.setText("You may create a new game with this name"); 
         QPushButton* createButton = msgBox.addButton("Create New Game", QMessageBox::YesRole);
         QPushButton* cancelButton = msgBox.addButton("Cancel", QMessageBox::NoRole);
@@ -98,7 +98,7 @@ void CreateGameWidget::choiceToCreateGameSlot(bool exists, const QString& gameNa
         if (msgBox.clickedButton() == createButton)
             createGameSlot();
     } else if (firstPlayerName == secondPlayerName) {
-        QMessageBox msgBox;
+        QMessageBox msgBox(this);
         msgBox.setText("You may connect to the game created by " + firstPlayerName); 
         QPushButton* connectButton = msgBox.addButton("Connect to Game", QMessageBox::YesRole);
         QPushButton* cancelButton = msgBox.addButton("Cancel", QMessageBox::NoRole);
@@ -106,7 +106,7 @@ void CreateGameWidget::choiceToCreateGameSlot(bool exists, const QString& gameNa
         if (msgBox.clickedButton() == connectButton)
             connectToGameSlot();        
     } else {
-        QMessageBox msgBox;
+        QMessageBox msgBox(this);
         msgBox.setText("It is not possible to create or connect to a a game with this name"); 
         msgBox.exec();
     }

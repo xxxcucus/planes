@@ -8,7 +8,7 @@
 bool AcquireOpponentPositionsCommObj::makeRequest()
 {
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        QMessageBox msgBox;
+        QMessageBox msgBox(m_ParentWidget);
         msgBox.setText("No user logged in"); 
         msgBox.exec();
         return false;
@@ -65,7 +65,7 @@ void AcquireOpponentPositionsCommObj::finishedRequest()
     qDebug() << "Plane 3 from opponent" << plane3_x << " " << plane3_y << " " << plane3_orient;
     bool setOk = m_MultiRound->setComputerPlanes(plane1_x, plane1_y, (Plane::Orientation)plane1_orient, plane2_x, plane2_y, (Plane::Orientation)plane2_orient, plane3_x, plane3_y, (Plane::Orientation)plane3_orient);
     if (!setOk) {
-        QMessageBox msgBox;
+        QMessageBox msgBox(m_ParentWidget);
         msgBox.setText("Planes positions from opponent are not valid"); 
         msgBox.exec();
         return;            

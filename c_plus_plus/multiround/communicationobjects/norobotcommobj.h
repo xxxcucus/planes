@@ -8,8 +8,8 @@ class NoRobotCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:
-    NoRobotCommObj(const QString& requestPath, const QString& actionName, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
-        BasisCommObj(requestPath, actionName, networkManager, settings, isSinglePlayer, globalData) {}
+    NoRobotCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
+        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {}
     
     bool makeRequest(const QString& requestId, const QString& answer);
     bool validateReply(const QJsonObject& retJson) override;

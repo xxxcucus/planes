@@ -13,6 +13,7 @@
 #include <QJsonObject>
 #include <QNetworkReply>
 #include <QTimer>
+#include <QWidget>
 #include "abstractplaneround.h"
 #include "gameinfo.h"
 #include "global/globaldata.h"
@@ -39,6 +40,7 @@ private:
     
     int m_PlayerMoveIndex = 0;
     int m_ComputerMoveIndex = 0;
+    QWidget* m_ParentWidget;
     QNetworkAccessManager* m_NetworkManager;
     GlobalData* m_GlobalData;
     QSettings* m_Settings;
@@ -99,7 +101,7 @@ signals:
     void allMovesSent();
     
 public:
-    MultiplayerRound(int rows, int cols, int planeNo, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo);
+    MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo);
     void reset() override;
     void initRound() override;
 

@@ -11,7 +11,7 @@
 bool SendMoveCommObj::makeRequest(const std::vector<GuessPoint>& guessList, const std::vector<int>& notSentMoves, const std::vector<int>& receivedMoves, bool fromFinishedSlot) 
 {
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        QMessageBox msgBox;
+        QMessageBox msgBox(m_ParentWidget);
         msgBox.setText("No user logged in"); 
         msgBox.exec();
         return false;

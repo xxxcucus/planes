@@ -50,7 +50,7 @@ void BasisCommObj::errorRequest(QNetworkReply::NetworkError code)
         return;
     }
 
-    CommunicationTools::treatCommunicationError(m_ActionName, m_ReplyObject);
+    CommunicationTools::treatCommunicationError(m_ActionName, m_ReplyObject, m_ParentWidget);
 }
 
 
@@ -82,7 +82,7 @@ bool BasisCommObj::finishRequestHelper(QJsonObject& retJson)
     retJson = CommunicationTools::objectFromString(replyQString);
  
     if (!validateReply(retJson)) {
-        QMessageBox msgBox;
+        QMessageBox msgBox(m_ParentWidget);
         msgBox.setText(m_ActionName + " reply was not recognized"); 
         msgBox.exec();
 

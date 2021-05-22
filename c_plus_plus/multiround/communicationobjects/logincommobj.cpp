@@ -40,7 +40,7 @@ void LoginCommObj::finishedRequest()
     }
     
     if (successfull) {
-        QMessageBox msgBox;
+        QMessageBox msgBox(m_ParentWidget);
         msgBox.setText("Login successfull!"); 
         msgBox.exec();                       
         m_GlobalData->m_UserData.m_UserName = m_UserName;
@@ -49,7 +49,7 @@ void LoginCommObj::finishedRequest()
         m_GlobalData->m_GameData.reset();
         emit loginCompleted();
     } else {
-        QMessageBox msgBox;
+        QMessageBox msgBox(m_ParentWidget);
         msgBox.setText("Login reply was not recognized"); 
         msgBox.exec();        
     }

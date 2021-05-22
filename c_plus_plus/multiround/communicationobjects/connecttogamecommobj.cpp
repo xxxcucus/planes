@@ -6,7 +6,7 @@
 bool ConnectToGameCommObj::makeRequest(const QString& gameName)
 {
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        QMessageBox msgBox;
+        QMessageBox msgBox(m_ParentWidget);
         msgBox.setText("No user logged in"); 
         msgBox.exec();
         return false;
@@ -33,7 +33,7 @@ void ConnectToGameCommObj::finishedRequest()
     if (!finishRequestHelper(retJson)) 
         return;
 
-    QMessageBox msgBox;
+    QMessageBox msgBox(m_ParentWidget);
     msgBox.setText("Connection to game successfull!"); 
     msgBox.exec();               
     

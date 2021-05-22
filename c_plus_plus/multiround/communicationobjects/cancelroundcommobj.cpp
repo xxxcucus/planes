@@ -12,7 +12,7 @@ bool CancelRoundCommObj::makeRequest()
         return false;
     }
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        QMessageBox msgBox;
+        QMessageBox msgBox(m_ParentWidget);
         msgBox.setText("No user logged in"); 
         msgBox.exec();
         return false;

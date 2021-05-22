@@ -42,7 +42,7 @@ void GameDifficultyOptions::setComputerSkill(int idx) {
 		m_CurrentSkill = idx;
 		m_Settings->setValue("gamedifficulty/computerskill", idx);
 	} else {
-		QMessageBox msgBox;
+		QMessageBox msgBox(this);
 		msgBox.setText("Cannot set option during the game.");
 		msgBox.exec();
 		m_ComputerSkillComboBox->setCurrentIndex(m_CurrentSkill);
@@ -66,7 +66,7 @@ void GameDifficultyOptions::setShowAfterKill(int state) {
 		m_Settings->setValue("gamedifficulty/showkilledplane", value);
 		//qDebug() << "Set show after kill " << value << endl;
 	} else {
-		QMessageBox msgBox;
+		QMessageBox msgBox(this);
 		msgBox.setText("Cannot set option during the game.");
 		msgBox.exec();
 		m_ShowPlaneAfterKillCheckBox->setChecked(value);

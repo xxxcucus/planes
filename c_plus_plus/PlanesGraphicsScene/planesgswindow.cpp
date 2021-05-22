@@ -12,7 +12,7 @@ PlanesGSWindow::PlanesGSWindow(bool isMultiplayer, QWidget *parent) : QMainWindo
 
     //builds the game object - the controller
     mRound = new PlaneRound(10, 10, 3);
-    m_MultiRound = new MultiplayerRound(10, 10, 3, m_NetworkManager, m_GlobalData, m_Settings, m_GameInfo);
+    m_MultiRound = new MultiplayerRound(10, 10, 3, this, m_NetworkManager, m_GlobalData, m_Settings, m_GameInfo);
     if (isMultiplayer)  //TODO: can the user change the server ?
         m_MultiRound->testServerVersion();
     

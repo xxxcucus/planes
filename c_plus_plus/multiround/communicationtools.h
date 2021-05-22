@@ -4,6 +4,7 @@
 #include <QString>
 #include <QNetworkReply>
 #include <QJsonObject>
+#include <QWidget>
 
 class CommunicationTools {
 
@@ -14,7 +15,7 @@ public:
     static QNetworkReply* buildPostRequest(const QString& routePath, const QString& serverPath, const QJsonObject& jsonObject, QNetworkAccessManager* networkManager);
     static QNetworkReply* buildPostRequestWithAuth(const QString& routePath, const QString& serverPath, const QJsonObject& jsonObject, const QByteArray& authToken, QNetworkAccessManager* networkManager);
     static QJsonObject objectFromString(const QString& in);
-    static void treatCommunicationError(const QString& actionName, QNetworkReply* reply);
+    static void treatCommunicationError(const QString& actionName, QNetworkReply* reply, QWidget* parentWidget);
     
 };
 

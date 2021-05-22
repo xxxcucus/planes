@@ -6,14 +6,15 @@
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
 #include <QSettings>
+#include <QWidget>
 #include "global/globaldata.h"
 
 class BasisCommObj : public QObject {
     Q_OBJECT
     
 public:
-    BasisCommObj(const QString& requestPath, const QString& actionName, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData): 
-        m_RequestPath(requestPath), m_ActionName(actionName), m_NetworkManager(networkManager), m_Settings(settings), m_IsSinglePlayer(isSinglePlayer), m_GlobalData(globalData) {
+    BasisCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData): 
+        m_RequestPath(requestPath), m_ActionName(actionName), m_ParentWidget(parentWidget), m_NetworkManager(networkManager), m_Settings(settings), m_IsSinglePlayer(isSinglePlayer), m_GlobalData(globalData) {
             connect( m_NetworkManager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), this, SLOT(sslErrorOccured(QNetworkReply*,QList<QSslError>)));
         }
     
@@ -37,6 +38,7 @@ protected:
     QString m_ActionName;
     QJsonObject m_RequestData;
     
+    QWidget* m_ParentWidget;
     QNetworkAccessManager* m_NetworkManager;
     QSettings* m_Settings;
     bool m_IsSinglePlayer = true;

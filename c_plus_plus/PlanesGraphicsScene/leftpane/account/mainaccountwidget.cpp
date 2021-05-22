@@ -39,7 +39,7 @@ MainAccountWidget::MainAccountWidget(QSettings* settings, GlobalData* globalData
 void MainAccountWidget::toGameCreationClickedSlot(bool value) {
         
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) { 
-            QMessageBox msgBox;
+            QMessageBox msgBox(this);
             msgBox.setText("Please login to game server first"); 
             msgBox.exec();
             return;

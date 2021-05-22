@@ -8,8 +8,8 @@ class SendWinnerCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:
-    SendWinnerCommObj(const QString& requestPath, const QString& actionName, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
-        BasisCommObj(requestPath, actionName, networkManager, settings, isSinglePlayer, globalData) {}
+    SendWinnerCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
+        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {}
     
     bool makeRequest(bool draw, long int winnerId);
     bool validateReply(const QJsonObject& retJson) override;

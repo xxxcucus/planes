@@ -7,31 +7,31 @@
 #include "viewmodels/newmoveviewmodel.h"
 #include "viewmodels/getopponentemovesviewmodel.h"
 
-MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo)
-    : AbstractPlaneRound(rows, cols, planeNo), m_NetworkManager(networkManager), m_GlobalData(globalData), m_Settings(settings), m_GameInfo(gameInfo)
+MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo)
+    : AbstractPlaneRound(rows, cols, planeNo), m_ParentWidget(parentWidget), m_NetworkManager(networkManager), m_GlobalData(globalData), m_Settings(settings), m_GameInfo(gameInfo)
 {
-    m_CreateGameObj = new CreateGameCommObj("/game/create/", "creating game", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
+    m_CreateGameObj = new CreateGameCommObj("/game/create/", "creating game", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_CreateGameObj, &CreateGameCommObj::gameCreated, this, &MultiplayerRound::gameCreatedSlot);
-    m_ConnectToGameObj = new ConnectToGameCommObj("/game/connect/", "connecting to game ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
+    m_ConnectToGameObj = new ConnectToGameCommObj("/game/connect/", "connecting to game ", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_ConnectToGameObj, &ConnectToGameCommObj::gameConnectedTo, this, &MultiplayerRound::connectedToGameSlot);
-    m_RefreshGameStatusCommObj = new RefreshGameStatusCommObj("/game/status/", "refreshing game status ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
+    m_RefreshGameStatusCommObj = new RefreshGameStatusCommObj("/game/status/", "refreshing game status ", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_RefreshGameStatusCommObj, &RefreshGameStatusCommObj::refreshStatus, this, &MultiplayerRound::refreshStatus);
-    m_LoginCommObj = new LoginCommObj("/login/", "logging in ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
+    m_LoginCommObj = new LoginCommObj("/login/", "logging in ", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_LoginCommObj, &LoginCommObj::loginCompleted, this, &MultiplayerRound::loginCompleted);
     connect(m_LoginCommObj, &LoginCommObj::loginFailed, this, &MultiplayerRound::loginFailed);
-    m_RegisterCommObj = new RegisterCommObj("/users/registration_request", "registering ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
+    m_RegisterCommObj = new RegisterCommObj("/users/registration_request", "registering ", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_RegisterCommObj, &RegisterCommObj::noRobotRegistration, this, &MultiplayerRound::noRobotRegistration);
-    m_NoRobotCommObj = new NoRobotCommObj("/users/registration_confirm", "registering ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
+    m_NoRobotCommObj = new NoRobotCommObj("/users/registration_confirm", "registering ", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_NoRobotCommObj, &NoRobotCommObj::registrationComplete, this, &MultiplayerRound::registrationComplete);
     connect(m_NoRobotCommObj, &NoRobotCommObj::registrationFailed, this, &MultiplayerRound::registrationFailed);
-    m_SendPlanePositionsCommObj = new SendPlanePositionsCommObj("/round/myplanespositions", "sending plane positions ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData, this);
+    m_SendPlanePositionsCommObj = new SendPlanePositionsCommObj("/round/myplanespositions", "sending plane positions ", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData, this);
     connect(m_SendPlanePositionsCommObj, &SendPlanePositionsCommObj::roundCancelled, this, &MultiplayerRound::roundWasCancelled);
     connect(m_SendPlanePositionsCommObj, &SendPlanePositionsCommObj::opponentPlanePositionsReceived, this, &MultiplayerRound::opponentPlanePositionsReceived);    
     connect(m_SendPlanePositionsCommObj, &SendPlanePositionsCommObj::waitForOpponentPlanePositions, this, &MultiplayerRound::waitForOpponentPlanePositions);    
-    m_AcquireOpponentPlanePositions = new AcquireOpponentPositionsCommObj("/round/otherplanespositions", "acquiring plane positions ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData, this);
+    m_AcquireOpponentPlanePositions = new AcquireOpponentPositionsCommObj("/round/otherplanespositions", "acquiring plane positions ", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData, this);
     connect(m_AcquireOpponentPlanePositions, &AcquireOpponentPositionsCommObj::roundCancelled, this, &MultiplayerRound::roundWasCancelled);
     connect(m_AcquireOpponentPlanePositions, &AcquireOpponentPositionsCommObj::opponentPlanePositionsReceived, this, &MultiplayerRound::opponentPlanePositionsReceived);    
-    m_SendMoveCommObj = new SendMoveCommObj("/round/mymove", "sending move ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData, this);
+    m_SendMoveCommObj = new SendMoveCommObj("/round/mymove", "sending move ", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData, this);
     connect(m_SendMoveCommObj, &SendMoveCommObj::opponentMoveGenerated, this, &MultiplayerRound::opponentMoveGenerated);
     connect(m_SendMoveCommObj, &SendMoveCommObj::roundCancelled, this, &MultiplayerRound::roundWasCancelled);
     connect(m_SendMoveCommObj, &SendMoveCommObj::allGuessedAndMovesStillToSend, this, &MultiplayerRound::sendLastMoves);
@@ -39,12 +39,12 @@ MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QNetworkAcce
     /*m_RequestOpponentMovesObj = new RequestOpponentMovesCommObj("/round/othermoves", "requesting moves ", m_NetworkManager, m_Settings, m_IsSinglePlayer, m_GlobalData, this);
     connect(m_RequestOpponentMovesObj, &RequestOpponentMovesCommObj::opponentMoveGenerated, this, &MultiplayerRound::opponentMoveGenerated);
     connect(m_RequestOpponentMovesObj, &RequestOpponentMovesCommObj::roundCancelled, this, &MultiplayerRound::roundWasCancelled);*/
-    m_CancelRoundCommObj = new CancelRoundCommObj("/round/cancel", "cancelling round ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData, this);
+    m_CancelRoundCommObj = new CancelRoundCommObj("/round/cancel", "cancelling round ", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData, this);
     connect(m_CancelRoundCommObj, &CancelRoundCommObj::roundCancelled, this, &MultiplayerRound::roundWasCancelled);
-    m_StartNewRoundCommObj = new StartNewRoundCommObj("/round/start", "starting round ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData, this);
+    m_StartNewRoundCommObj = new StartNewRoundCommObj("/round/start", "starting round ", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData, this);
     connect(m_StartNewRoundCommObj, &StartNewRoundCommObj::startNewRound, this, &MultiplayerRound::newRoundStarted);
-    m_SendWinnerCommObj = new SendWinnerCommObj("/round/end", "ending round ", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
-    m_GetServerVersionCommObj = new GetServerVersionCommObj("/status/getversion", "getting version", m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
+    m_SendWinnerCommObj = new SendWinnerCommObj("/round/end", "ending round ", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
+    m_GetServerVersionCommObj = new GetServerVersionCommObj("/status/getversion", "getting version", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
         
     reset();
     initRound();
@@ -74,7 +74,7 @@ void MultiplayerRound::initRound()
 
 void MultiplayerRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr) {
     if (m_State != AbstractPlaneRound::GameStages::Game) {
-        QMessageBox msgBox;
+        QMessageBox msgBox(m_ParentWidget);
         msgBox.setText("Not ready to play game.\n You do not have the opponent's planes positions!"); 
         msgBox.exec();
 

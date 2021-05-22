@@ -42,7 +42,7 @@ void GameWidget::toGameButtonClickedSlot(bool value)
 {
     if (m_GlobalData->m_GameData.m_GameId == 0 || m_GlobalData->m_GameData.m_OtherUserId == 0 || m_GlobalData->m_GameData.m_UserId == 0
         || m_GlobalData->m_GameData.m_RoundId  == 0) { 
-            QMessageBox msgBox;
+            QMessageBox msgBox(this);
             msgBox.setText("Your opponent has not connected to the game yet!"); 
             msgBox.exec();
             return;

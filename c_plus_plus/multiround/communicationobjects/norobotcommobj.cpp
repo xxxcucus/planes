@@ -29,7 +29,7 @@ void NoRobotCommObj::finishedRequest()
 
     QString username = retJson.value("username").toString();
     long int userid = retJson.value("id").toString().toLong();
-    QMessageBox msgBox;
+    QMessageBox msgBox(m_ParentWidget);
     msgBox.setText("User " + username + " created "); 
     msgBox.exec();
 

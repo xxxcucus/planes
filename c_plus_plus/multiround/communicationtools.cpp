@@ -67,11 +67,11 @@ QJsonObject CommunicationTools::objectFromString(const QString& in)
     return obj;
 }
 
-void CommunicationTools::treatCommunicationError(const QString& actionName, QNetworkReply* reply) {
+void CommunicationTools::treatCommunicationError(const QString& actionName, QNetworkReply* reply, QWidget* parentWidget) {
     QByteArray replyBA = reply->readAll();
     QString registrationReplyQString = QTextCodec::codecForMib(106)->toUnicode(replyBA);
     
-    QMessageBox msgBox;
+    QMessageBox msgBox(parentWidget);
     msgBox.setText("Error when " + actionName + " " + reply->errorString() + "\n" +  registrationReplyQString); 
     msgBox.exec();
 }

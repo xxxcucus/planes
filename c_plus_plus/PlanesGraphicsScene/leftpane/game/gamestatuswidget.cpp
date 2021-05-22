@@ -69,7 +69,7 @@ void GameStatusWidget::refreshSlot()
 {
     QString gameName = m_GameName->text().trimmed();
     if (gameName.isEmpty()) {
-        QMessageBox msgBox;
+        QMessageBox msgBox(this);
         msgBox.setText("Game name cannot be empty"); 
         msgBox.exec();
 
