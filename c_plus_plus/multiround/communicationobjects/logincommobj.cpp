@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QTextCodec>
 #include "viewmodels/loginviewmodel.h"
+#include "communicationtools.h"
 
 bool LoginCommObj::makeRequest(const QString& username, const QString& password)
 {
@@ -24,8 +25,6 @@ void LoginCommObj::finishedRequest()
     QJsonObject retJson;
     if (!finishRequestHelper(retJson)) 
         return;
-
-    //TODO: to receive the user id when successfull
     
     QList<QByteArray> headers = m_ReplyObject->rawHeaderList();
     bool successfull = false;
@@ -43,10 +42,11 @@ void LoginCommObj::finishedRequest()
         QMessageBox msgBox(m_ParentWidget);
         msgBox.setText("Login successfull!"); 
         msgBox.exec();                       
-        m_GlobalData->m_UserData.m_UserName = m_UserName;
-        m_GlobalData->m_UserData.m_UserId = 0;
+        m_GlobalData->m_UserData.m_UserName = retJson.value("username").toString();
+        m_GlobalData->m_UserData.m_UserId = retJson.value("id").toString().toLong();
         m_GlobalData->m_UserData.m_UserPassword.clear();
         m_GlobalData->m_GameData.reset();
+        qDebug() << "Login successfull " << m_GlobalData->m_UserData.m_UserName << " " << m_GlobalData->m_UserData.m_UserId;
         emit loginCompleted();
     } else {
         QMessageBox msgBox(m_ParentWidget);
@@ -56,6 +56,12 @@ void LoginCommObj::finishedRequest()
 }
 
 bool LoginCommObj::validateReply(const QJsonObject& reply) {
+    if (!reply.contains("id") || !reply.contains("username"))
+        return false;
+
+    if (!checkLong(reply.value("id").toString()))
+        return false;
+    
     return true;
 }
 

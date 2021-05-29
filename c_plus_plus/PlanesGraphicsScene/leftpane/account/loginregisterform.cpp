@@ -65,8 +65,6 @@ LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkM
     connect(m_ToggleLoginRegistrationButton, &QPushButton::clicked, this, &LoginRegisterForm::toggleLoginRegistration);
     connect(submitButton, &QPushButton::clicked, this, &LoginRegisterForm::submitSlot);    
     connect(m_MultiRound, &MultiplayerRound::noRobotRegistration, this, &LoginRegisterForm::noRobotRegistrationSlot);
-    
-    setLayout(gridLayout1);
 }
 
 

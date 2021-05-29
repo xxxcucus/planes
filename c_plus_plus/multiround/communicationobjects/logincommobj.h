@@ -20,7 +20,7 @@ public slots:
 signals:
     void loginCompleted();
     void loginFailed();
-    
+        
 private:
     QString m_UserName;
 };
