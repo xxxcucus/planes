@@ -43,24 +43,28 @@ Similarly a statistic for the computer/opponent's attempts is displayed as well.
 
 <p>In the multiplayer version the player is required to connect to the game server. In the beginning one should register a username and password on the game server.
 This is achived in the Tab "Login" in the left pane which will be shown immediately after starting the game in multiplayer modus.
-Once the username and password was registered one can use them to login. 
-After successfull login one can connect to a game or create a game together with another player.</p>
+Once the username and password were registered one can use them to login. 
+After successfull login one can connect to a game or create a game togetheto play with another player.</p>
 
 <h3> Creating or Connecting to a game (multiplayer version) </h3>
 <p> In the multiplayer version there are two players involved. They should decide upon a game name and fill in the "GameName" field in the "ConnectToGame" Tab.
-The player that initiates the game should click "Create and Connect to Game" button. When successfull the game name and player name should be displayed in the 
-"Game Status" section of the "ConnectToGame" Tab.
-The other player should click "Connect to Game". When successfull the game name, the players' names as well as a round id should be displayed in the "Game Status"
-section of the "ConnectToGame" Tab.
-Finally the player that initiated the game should click on the "Refresh" button and when successfull game name, the players' names as well as a round id should be displayed in the "Game Status"
-section of the "ConnectToGame" Tab.
-After that both player can click on the "Start playing" button to start the game. 
+After clicking "Submit" there are three  possibilites: 
+<ul>
+	<li> There is no game with this name. The software offers the possibility to a create a new game with this name. </li>
+	<li> There exist a new game with this name. In this case the user will be notified which user created the game and offered the possibility to connect to the game </li>
+	<li> An older (where it has been played) game exists with this name. It is not possible to connect to such a game. Older games are periodically deleted from the database. </li> 
+</ul>
+
+The status bar indicates to which game the user is connected and with which player.
+After  both players connect to the same game they can click on the "Start playing" button to start the game. 
 </p>
 
 <h3> Exchanging plane positions (multiplayer version) </h3>
 <p>
-Plane positions are set exactly the same as in the single player version. After deciding where to place the planes the data needs to be sent to the opponent. When clicking on "Done editing" the plane positions are automatically sent to the opponent. However it can be that your opponent has not decided yet where to place the planes. In order to get the data at a later moment you can use
-the button "Acquire opponent planes positions". Once the opponent planes positions were acquired from server you can start guessing on the opponent's game board.
+Plane positions are set exactly the same as in the single player version. After deciding where to place the planes the data needs to be sent to the opponent. 
+When clicking on "Done editing" the plane positions are automatically sent to the opponent. However it can be that your opponent has not decided yet where to place the planes. 
+In order to get the data at a later moment you can use the button "Acquire opponent planes positions" or simply wait until the software reads the opponent's positions from the server. 
+Once the opponent planes positions were acquired from server you can start guessing on the opponent's game board.
 </p>
 
 <h3> Exchanging moves (multiplayer version) </h3>
