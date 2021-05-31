@@ -17,9 +17,22 @@ RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings,
     file.open(QFile::ReadOnly | QFile::Text);
     QTextStream stream(&file);
     textEdit->setHtml(stream.readAll());
+    textEdit->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
     layout->addWidget(textEdit);
     helpWidget->setLayout(layout);
 
+    QWidget* aboutWidget = new QWidget();
+    QHBoxLayout* hlayout1 = new QHBoxLayout();
+    QTextEdit* textEdit1 = new QTextEdit();
+    QFile file1(":/about.html");
+    file1.open(QFile::ReadOnly | QFile::Text);
+    QTextStream stream1(&file1);
+    textEdit1->setHtml(stream1.readAll());
+    textEdit1->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+    hlayout1->addWidget(textEdit1);
+    aboutWidget->setLayout(hlayout1);
+    
+    
     if (m_GameInfo->getSinglePlayer()) {
         m_PlayerBoard = new PlayerBoard(*m_PlaneRound->playerGrid());
         m_ComputerBoard = new ComputerBoard(*m_PlaneRound->computerGrid());
@@ -43,6 +56,7 @@ RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings,
         setTabEnabled(m_GameWidgetIndex, false);
     }*/
     addTab(helpWidget, "Help");
+    addTab(aboutWidget, "About");
 
     connect(m_PlayerBoard, SIGNAL(planePositionNotValid(bool)), this, SIGNAL(planePositionNotValid(bool)));
     connect(m_ComputerBoard, SIGNAL(guessMade(const GuessPoint&)), this, SIGNAL(guessMade(const GuessPoint&)));
