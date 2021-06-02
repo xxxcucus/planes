@@ -60,7 +60,7 @@ PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* gl
 }
 
 void PlanesGSView::startNewGame() {
-	qDebug() << "Start new round";
+	//qDebug() << "Start new round";
     
     if (m_GameInfo->getSinglePlayer()) {
         if (m_round->didRoundEnd()) {
@@ -108,7 +108,7 @@ void PlanesGSView::receivedPlayerGuess(const GuessPoint& gp)
 
 void PlanesGSView::opponentMoveGeneratedSlot(const GuessPoint& gp)
 {
-    qDebug() << "opponentMoveGeneratedSlot";
+    //() << "opponentMoveGeneratedSlot";
     m_RightPane->showComputerMove(gp);
 }
 

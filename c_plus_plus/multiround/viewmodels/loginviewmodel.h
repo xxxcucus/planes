@@ -16,11 +16,11 @@ struct LoginViewModel {
     QJsonObject toRegisterJson() {
         QJsonObject retVal;
         retVal.insert("username", m_UserName);
-        qDebug() << "Added username ";
+        //qDebug() << "Added username ";
         std::string hash = BCrypt::generateHash(std::string(m_Password.toUtf8().data()));
-        qDebug() << "Generated hash";
+        //qDebug() << "Generated hash";
         QString passToSend = QString::fromUtf8(hash.c_str());
-        qDebug() << "Pass to send " << passToSend;
+        //qDebug() << "Pass to send " << passToSend;
         retVal.insert("password", passToSend);
         return retVal;
     }

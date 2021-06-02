@@ -11,7 +11,7 @@ QNetworkReply * CommunicationTools::buildPostRequestWithAuth(const QString& rout
     QString requestPath = serverPath;
     if (serverPath.isEmpty())
         requestPath = localTestServerPath;
-    qDebug() << "request to " << requestPath ;
+    //qDebug() << "request to " << requestPath ;
     QUrl loginRequestUrl = QUrl(requestPath + routePath); 
     
     QNetworkRequest request(loginRequestUrl);
@@ -21,9 +21,9 @@ QNetworkReply * CommunicationTools::buildPostRequestWithAuth(const QString& rout
     config.setProtocol(QSsl::TlsV1_3);
     request.setSslConfiguration(config);
     
-    qDebug() << "prepare request" ;
+    //qDebug() << "prepare request" ;
     QByteArray data = QJsonDocument(jsonObject).toJson();
-    qDebug() << "prepare json";
+    //qDebug() << "prepare json";
     return networkManager->post(request, data);     
 }
 
@@ -32,7 +32,7 @@ QNetworkReply * CommunicationTools::buildPostRequest(const QString& routePath, c
     QString requestPath = serverPath;
     if (serverPath.isEmpty())
         requestPath = localTestServerPath;
-    qDebug() << "request to " << requestPath ;
+    //qDebug() << "request to " << requestPath ;
     QUrl loginRequestUrl = QUrl(requestPath + routePath); 
     
     QNetworkRequest request(loginRequestUrl);
@@ -41,9 +41,9 @@ QNetworkReply * CommunicationTools::buildPostRequest(const QString& routePath, c
     config.setProtocol(QSsl::TlsV1_3);
     request.setSslConfiguration(config);
     
-    qDebug() << "prepare request" ;
+    //qDebug() << "prepare request" ;
     QByteArray data = QJsonDocument(jsonObject).toJson();
-    qDebug() << "prepare json";
+    //qDebug() << "prepare json";
     return networkManager->post(request, data);     
 }
 
@@ -58,10 +58,10 @@ QJsonObject CommunicationTools::objectFromString(const QString& in)
         if(doc.isObject()) {
             obj = doc.object();        
         } else {
-            qDebug() << "Document is not an object";
+            //qDebug() << "Document is not an object";
         }
     } else {
-        qDebug() << "Invalid JSON...\n" << in;
+        //qDebug() << "Invalid JSON...\n" << in;
     }
 
     return obj;

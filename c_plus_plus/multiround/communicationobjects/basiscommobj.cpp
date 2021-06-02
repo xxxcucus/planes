@@ -12,7 +12,7 @@
 bool BasisCommObj::makeRequestBasis(bool withToken, bool fromFinishedSlot) 
 {   
     if (m_IsSinglePlayer) {
-        qDebug() << "makeRequestBasis in single player modus";
+        //() << "makeRequestBasis in single player modus";
         return false;
     }
         
@@ -44,9 +44,9 @@ bool BasisCommObj::makeRequestBasis(bool withToken, bool fromFinishedSlot)
 
 void BasisCommObj::errorRequest(QNetworkReply::NetworkError code)
 {
-    qDebug() << "Error 1";
+    //qDebug() << "Error 1";
     if (m_IsSinglePlayer) {
-        qDebug() << "errorRequest in single player modus";
+       // qDebug() << "errorRequest in single player modus";
         return;
     }
 
@@ -56,7 +56,7 @@ void BasisCommObj::errorRequest(QNetworkReply::NetworkError code)
 
 void BasisCommObj::finishedRequest()
 {
-    qDebug() << "Finished Request 1";
+    //() << "Finished Request 1";
     QJsonObject retJson;
     if (!finishRequestHelper(retJson)) 
         return;
@@ -65,7 +65,7 @@ void BasisCommObj::finishedRequest()
 bool BasisCommObj::finishRequestHelper(QJsonObject& retJson)
 {
     if (m_IsSinglePlayer) {
-        qDebug() << "finishRequestHelper in single player modus";
+        //qDebug() << "finishRequestHelper in single player modus";
         return false;
     }
 
@@ -78,7 +78,7 @@ bool BasisCommObj::finishRequestHelper(QJsonObject& retJson)
     
     QByteArray reply = m_ReplyObject->readAll();
     QString replyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
-    qDebug() << replyQString;
+    //qDebug() << replyQString;
     retJson = CommunicationTools::objectFromString(replyQString);
  
     if (!validateReply(retJson)) {

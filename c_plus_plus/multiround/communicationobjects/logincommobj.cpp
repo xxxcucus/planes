@@ -33,7 +33,7 @@ void LoginCommObj::finishedRequest()
         QString hdrQString = QTextCodec::codecForMib(106)->toUnicode(hdr);
         if (hdrQString == "Authorization") {
             m_GlobalData->m_UserData.m_AuthToken = m_ReplyObject->rawHeader(hdr);
-            qDebug() << hdrQString << ":" << m_ReplyObject->rawHeader(hdr);
+            //qDebug() << hdrQString << ":" << m_ReplyObject->rawHeader(hdr);
             successfull = true;
         }
     }
@@ -46,7 +46,7 @@ void LoginCommObj::finishedRequest()
         m_GlobalData->m_UserData.m_UserId = retJson.value("id").toString().toLong();
         m_GlobalData->m_UserData.m_UserPassword.clear();
         m_GlobalData->m_GameData.reset();
-        qDebug() << "Login successfull " << m_GlobalData->m_UserData.m_UserName << " " << m_GlobalData->m_UserData.m_UserId;
+        //qDebug() << "Login successfull " << m_GlobalData->m_UserData.m_UserName << " " << m_GlobalData->m_UserData.m_UserId;
         emit loginCompleted();
     } else {
         QMessageBox msgBox(m_ParentWidget);

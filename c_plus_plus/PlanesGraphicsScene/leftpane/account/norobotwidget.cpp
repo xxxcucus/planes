@@ -40,21 +40,21 @@ NoRobotWidget::NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* s
     
     setLayout(vLayout);
     
-    qDebug() << "Current dir " << QDir::currentPath();
+    //qDebug() << "Current dir " << QDir::currentPath();
     QDir dog_dir = QDir::current();
 #ifdef _WIN32 || _WIN64
     dog_dir.cdUp();
 #endif
     dog_dir.cd("img");
     dog_dir.cd("dog_photos_scaled");
-    qDebug() << "Dogs " << dog_dir.absolutePath();
+    //qDebug() << "Dogs " << dog_dir.absolutePath();
     QDir cat_dir = QDir::current();
 #ifdef _WIN32 || _WIN64
     cat_dir.cdUp();
 #endif
     cat_dir.cd("img");
     cat_dir.cd("cat_photos_scaled");
-    qDebug() << "Cats " << cat_dir.absolutePath();
+    //qDebug() << "Cats " << cat_dir.absolutePath();
     
     QStringList dog_folders = dog_dir.entryList(QDir::Dirs);
     QStringList cat_folders = cat_dir.entryList(QDir::Dirs);
@@ -64,7 +64,7 @@ NoRobotWidget::NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* s
         f_folder.cd(f);
         QFileInfoList files = f_folder.entryInfoList(QDir::Files);
         if (files.size() != 1) {
-            qDebug() << "Error folder " << f <<  " " << files.size();
+            //qDebug() << "Error folder " << f <<  " " << files.size();
             continue;
         }
         m_PhotosMap[QDir(f).dirName()] = files[0].absoluteFilePath();
@@ -75,22 +75,22 @@ NoRobotWidget::NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* s
         f_folder.cd(f);
         QFileInfoList files = f_folder.entryInfoList(QDir::Files);
         if (files.size() != 1) {
-            qDebug() << "Error folder " << f << " " << files.size();
+            //qDebug() << "Error folder " << f << " " << files.size();
             continue;
         }
         m_PhotosMap[QDir(f).dirName()] = files[0].absoluteFilePath();
     }
     
-    for (auto photo : m_PhotosMap) {
+    /*for (auto photo : m_PhotosMap) {
         qDebug() << photo.first << " " << photo.second;
-    }
+    }*/
     
 }
 
 void NoRobotWidget::setImages(const std::vector<QString>& images)
 {
     if (images.size() != m_ImagesCount) {
-        qDebug() << "Images number does not match";
+        //qDebug() << "Images number does not match";
         return;
     }
 
@@ -103,13 +103,13 @@ void NoRobotWidget::setImages(const std::vector<QString>& images)
 
 void NoRobotWidget::displayAndScaleImages()
 {
-    qDebug() << m_Images.size();
+    //qDebug() << m_Images.size();
     if (m_Images.size() != m_ImagesCount)
         return;
     
     for (int i = 0; i < m_ImagesCount; i++) {
         QString path = m_PhotosMap[m_Images[i]];
-        qDebug() << "Working with path " << path;
+        //qDebug() << "Working with path " << path;
         QPixmap pix(m_PhotosMap[m_Images[i]]);
         
         int availWidth = width() / 3;
@@ -145,7 +145,7 @@ void NoRobotWidget::imageClicked(int imageIndex)
         m_Labels[imageIndex]->setSelected(false);
     update();
     
-    qDebug() << "Image clicked " << imageIndex;
+    //qDebug() << "Image clicked " << imageIndex;
 }
 
 void NoRobotWidget::submitAnswer()

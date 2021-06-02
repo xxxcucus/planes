@@ -42,12 +42,12 @@ bool SendMoveCommObj::makeRequest(const std::vector<GuessPoint>& guessList, cons
     newMoveData.m_NotSentMovesIndex = moves;
     m_RequestData = newMoveData.toJson();
     
-    qDebug() << "Not sent moves ";
+    /*qDebug() << "Not sent moves ";
     for (auto idx: notSentMoves)
         qDebug() << idx;
     qDebug() << "Received moves ";
     for (auto idx: receivedMoves)
-        qDebug() << idx;
+        qDebug() << idx;*/
     
     if (makeRequestBasis(true, fromFinishedSlot)) {
         m_LastNotSentMoveIndexSucces = notSentMoves;
@@ -86,7 +86,7 @@ void SendMoveCommObj::finishedRequest()
             GuessPoint gp = GuessPoint(moveObject.value("moveX").toInt(), moveObject.value("moveY").toInt());
             int moveIndex = moveObject.value("moveIndex").toInt();
             if (!m_MultiRound->moveAlreadyReceived(moveIndex)) {
-                qDebug() << "add opponent move to grid ";
+                //qDebug() << "add opponent move to grid ";
                 m_MultiRound->addOpponentMove(gp, moveIndex);
                 emit opponentMoveGenerated(gp); 
             }
@@ -103,7 +103,7 @@ void SendMoveCommObj::finishedRequest()
 
 bool SendMoveCommObj::validateReply(const QJsonObject& reply) {
     if (!(reply.contains("roundId") && reply.contains("opponentUserId") && reply.contains("startIndex") && reply.contains("cancelled") && reply.contains("listMoves"))) {
-        qDebug() << "error 1";
+        //qDebug() << "error 1";
         return false;
     }
 
@@ -115,20 +115,20 @@ bool SendMoveCommObj::validateReply(const QJsonObject& reply) {
     
     QJsonValue movesObject = reply.value("listMoves");
     if (!movesObject.isArray()) {
-        qDebug() << "error 2";
+        //qDebug() << "error 2";
         return false;
     }
     
     QJsonArray movesArray = movesObject.toArray();
     if (movesArray.size() > 100) {
-        qDebug() << "error 3 " << movesArray.size();
+        //qDebug() << "error 3 " << movesArray.size();
         return false;
     }
     
     for (int i = 0; i < movesArray.size(); i++) {
         QJsonValue moveValue = movesArray.at(i);
         if (!moveValue.isObject()) {
-            qDebug() << "error 4 " << i;
+            //qDebug() << "error 4 " << i;
             return false;
         }
             

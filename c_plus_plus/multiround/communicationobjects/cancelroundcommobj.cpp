@@ -8,7 +8,7 @@
 bool CancelRoundCommObj::makeRequest()
 { 
     if (m_IsSinglePlayer) {
-        qDebug() << "makeRequestBasis in single player modus";
+        //qDebug() << "makeRequestBasis in single player modus";
         return false;
     }
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {

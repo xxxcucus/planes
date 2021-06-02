@@ -92,7 +92,7 @@ void MultiplayerRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pg
         m_PlayerMoveIndex++; 
         sendMove(gp, m_PlayerMoveIndex);
     } else {
-        qDebug() << "Player has already found all planes";
+        //qDebug() << "Player has already found all planes";
     }
     
     bool draw = false;
@@ -107,7 +107,7 @@ void MultiplayerRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pg
 }
 
 void MultiplayerRound::sendLastMoves() {
-    qDebug() << "sendLastMoves";
+    //qDebug() << "sendLastMoves";
     if (playerFinished() && !m_NotSentMoves.empty())
         m_SendMoveCommObj->makeRequest(m_playerGuessList, m_NotSentMoves, m_ReceivedMoves);    
 }
@@ -153,7 +153,7 @@ void MultiplayerRound::connectedToGameSlot(const QString& gameName, const QStrin
     bool ok = false;
     long int roundId = currentRoundId.toLong(&ok, 10);
     if (!ok) {
-        qDebug() << "RoundId is not Long !!";
+        //qDebug() << "RoundId is not Long !!";
         return;
     }
     startNewRound(roundId);
@@ -224,7 +224,7 @@ bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPla
 
 
     if (m_gameStats.computerFinished(m_planeNo) && !m_gameStats.playerFinished(m_planeNo)) {
-        qDebug() << "Computer finished and player not finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
+        //qDebug() << "Computer finished and player not finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
         if (m_ComputerMoveIndex < m_PlayerMoveIndex) {
             //computer winner
             m_gameStats.updateWins(true);
@@ -234,7 +234,7 @@ bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPla
     }
 
     if (!m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
-        qDebug() << "Computer not finished and player finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
+        //qDebug() << "Computer not finished and player finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
         if (m_ComputerMoveIndex > m_PlayerMoveIndex) {
             //computer winner
             m_gameStats.updateWins(false);
@@ -258,7 +258,7 @@ void MultiplayerRound::addOpponentMove(GuessPoint& gp, int moveIndex)
         m_PlayerGrid->addGuess(gp);
         m_ComputerMoveIndex++;
     } else {
-        qDebug() << "computer has already found all planes";
+        //qDebug() << "computer has already found all planes";
     }
 
     bool draw = false;
@@ -326,7 +326,7 @@ void MultiplayerRound::testServerVersion()
 
 void MultiplayerRound::allMovesSentSlot()
 {
-    qDebug() << "allMovesSent" ;
+    //qDebug() << "allMovesSent" ;
     if (playerFinished() && !computerFinished())
         emit allMovesSent();
 }

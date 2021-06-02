@@ -53,7 +53,7 @@ void RequestOpponentMovesCommObj::finishedRequest()
         QJsonObject moveObject = moveValue.toObject();
         if (moveObject.contains("moveX") && moveObject.contains("moveY")) {
             GuessPoint gp = GuessPoint(moveObject.value("moveX").toInt(), moveObject.value("moveY").toInt());
-            qDebug() << "add opponent move to grid ";
+            //qDebug() << "add opponent move to grid ";
             m_MultiRound->addOpponentMove(gp, moveObject.value("moveIndex").toInt());
             emit opponentMoveGenerated(gp);
         }
@@ -62,7 +62,7 @@ void RequestOpponentMovesCommObj::finishedRequest()
 
 bool RequestOpponentMovesCommObj::validateReply(const QJsonObject& reply) {
     if (!(reply.contains("roundId") && reply.contains("opponentUserId") && reply.contains("startIndex") && reply.contains("cancelled") && reply.contains("listMoves"))) {
-        qDebug() << "error 1";
+        //qDebug() << "error 1";
         return false;
     }
 
@@ -74,20 +74,20 @@ bool RequestOpponentMovesCommObj::validateReply(const QJsonObject& reply) {
     
     QJsonValue movesObject = reply.value("listMoves");
     if (!movesObject.isArray()) {
-        qDebug() << "error 2";
+        //qDebug() << "error 2";
         return false;
     }
     
     QJsonArray movesArray = movesObject.toArray();
     if (movesArray.size() > 100) {
-        qDebug() << "error 3 " << movesArray.size();
+        //qDebug() << "error 3 " << movesArray.size();
         return false;
     }
     
     for (int i = 0; i < movesArray.size(); i++) {
         QJsonValue moveValue = movesArray.at(i);
         if (!moveValue.isObject()) {
-            qDebug() << "error 4 " << i;
+            //qDebug() << "error 4 " << i;
             return false;
         }
             

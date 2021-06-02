@@ -48,9 +48,9 @@ void RefreshGameStatusCommObj::finishedRequest()
     m_GlobalData->m_GameData.m_UserId = m_GlobalData->m_UserData.m_UserId;
     long int userId1 = retJson.value("firstPlayerId").toString().toLong();
     long int userId2 = retJson.value("secondPlayerId").toString().toLong();
-    qDebug() << "userId1 " << userId1;
-    qDebug() << "userId2 " << userId2;
-    qDebug() << "m_GlobalData.m_UserData.m_UserId " << m_GlobalData->m_UserData.m_UserId;
+    //qDebug() << "userId1 " << userId1;
+    //qDebug() << "userId2 " << userId2;
+    //qDebug() << "m_GlobalData.m_UserData.m_UserId " << m_GlobalData->m_UserData.m_UserId;
     m_GlobalData->m_GameData.m_OtherUserId = (userId1 == m_GlobalData->m_UserData.m_UserId) ? userId2 : userId1; //TODO validation m_UserData.m_UserId should be sent from server
     m_GlobalData->m_GameData.m_OtherUsername = (userId1 == m_GlobalData->m_UserData.m_UserId) ? secondPlayerName : firstPlayerName;
     

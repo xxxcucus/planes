@@ -108,7 +108,7 @@ void LoginRegisterForm::submitRegistration()
 
 void LoginRegisterForm::noRobotRegistrationSlot(const std::vector<QString>& images, const QJsonObject& registrationReplyJson) {
     
-    qDebug() << "noRobotRegistrationSlot";
+    //qDebug() << "noRobotRegistrationSlot";
     QDialog mainDialog;
     m_NoRobotWidget = new NoRobotWidget(m_NetworkManager, m_Settings, m_GlobalData, m_GameInfo, m_MultiRound, &mainDialog);
     mainDialog.setWindowModality(Qt::WindowModal); //you want your dialog modal not your widget.

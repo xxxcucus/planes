@@ -9,7 +9,7 @@ QString knownServerVersion = "0.1.0";
 bool GetServerVersionCommObj::makeRequest()
 { 
     if (m_IsSinglePlayer) {
-        qDebug() << "makeRequestBasis in single player modus";
+        //qDebug() << "makeRequestBasis in single player modus";
         return false;
     }
 

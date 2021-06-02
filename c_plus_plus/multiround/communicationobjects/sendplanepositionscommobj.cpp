@@ -37,9 +37,9 @@ bool SendPlanePositionsCommObj::makeRequest()
     planesPositionsData.m_Plane3Y = pl3.col();
     planesPositionsData.m_Plane3Orient = pl3.orientation();
     
-    qDebug() << "Plane 1 " << pl1.row() << " " << pl1.col() << " " << (int)pl1.orientation();
-    qDebug() << "Plane 2 " << pl2.row() << " " << pl2.col() << " " << (int)pl2.orientation();
-    qDebug() << "Plane 3 " << pl3.row() << " " << pl3.col() << " " << (int)pl3.orientation();
+    //qDebug() << "Plane 1 " << pl1.row() << " " << pl1.col() << " " << (int)pl1.orientation();
+    //qDebug() << "Plane 2 " << pl2.row() << " " << pl2.col() << " " << (int)pl2.orientation();
+    //qDebug() << "Plane 3 " << pl3.row() << " " << pl3.col() << " " << (int)pl3.orientation();
     
     m_RequestData = planesPositionsData.toJson();
     
@@ -73,9 +73,9 @@ void SendPlanePositionsCommObj::finishedRequest()
         int plane3_x = retJson.value("plane3_x").toInt();
         int plane3_y = retJson.value("plane3_y").toInt();
         int plane3_orient = retJson.value("plane3_orient").toInt();
-        qDebug() << "Plane 1 from opponent " << plane1_x << " " << plane1_y << " " << plane1_orient;
-        qDebug() << "Plane 2 from opponent" << plane2_x << " " << plane2_y << " " << plane2_orient;
-        qDebug() << "Plane 3 from opponent" << plane3_x << " " << plane3_y << " " << plane3_orient;
+        //qDebug() << "Plane 1 from opponent " << plane1_x << " " << plane1_y << " " << plane1_orient;
+        //qDebug() << "Plane 2 from opponent" << plane2_x << " " << plane2_y << " " << plane2_orient;
+        //qDebug() << "Plane 3 from opponent" << plane3_x << " " << plane3_y << " " << plane3_orient;
         bool setOk = m_MultiRound->setComputerPlanes(plane1_x, plane1_y, (Plane::Orientation)plane1_orient, plane2_x, plane2_y, (Plane::Orientation)plane2_orient, plane3_x, plane3_y, (Plane::Orientation)plane3_orient);
         if (!setOk) {
             QMessageBox msgBox(m_ParentWidget);
