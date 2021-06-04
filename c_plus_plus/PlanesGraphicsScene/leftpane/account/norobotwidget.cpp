@@ -40,51 +40,7 @@ NoRobotWidget::NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* s
     
     setLayout(vLayout);
     
-    //qDebug() << "Current dir " << QDir::currentPath();
-    QDir dog_dir = QDir::current();
-#ifdef _WIN32 || _WIN64
-    dog_dir.cdUp();
-#endif
-    dog_dir.cd("img");
-    dog_dir.cd("dog_photos_scaled");
-    //qDebug() << "Dogs " << dog_dir.absolutePath();
-    QDir cat_dir = QDir::current();
-#ifdef _WIN32 || _WIN64
-    cat_dir.cdUp();
-#endif
-    cat_dir.cd("img");
-    cat_dir.cd("cat_photos_scaled");
-    //qDebug() << "Cats " << cat_dir.absolutePath();
-    
-    QStringList dog_folders = dog_dir.entryList(QDir::Dirs);
-    QStringList cat_folders = cat_dir.entryList(QDir::Dirs);
-    
-    for (auto f : dog_folders) {
-        QDir f_folder = dog_dir;
-        f_folder.cd(f);
-        QFileInfoList files = f_folder.entryInfoList(QDir::Files);
-        if (files.size() != 1) {
-            //qDebug() << "Error folder " << f <<  " " << files.size();
-            continue;
-        }
-        m_PhotosMap[QDir(f).dirName()] = files[0].absoluteFilePath();
-    }
-
-    for (auto f : cat_folders) {
-        QDir f_folder = cat_dir;
-        f_folder.cd(f);
-        QFileInfoList files = f_folder.entryInfoList(QDir::Files);
-        if (files.size() != 1) {
-            //qDebug() << "Error folder " << f << " " << files.size();
-            continue;
-        }
-        m_PhotosMap[QDir(f).dirName()] = files[0].absoluteFilePath();
-    }
-    
-    /*for (auto photo : m_PhotosMap) {
-        qDebug() << photo.first << " " << photo.second;
-    }*/
-    
+    //qDebug() << "Current dir " << QDir::currentPath();    
 }
 
 void NoRobotWidget::setImages(const std::vector<QString>& images)
@@ -110,7 +66,9 @@ void NoRobotWidget::displayAndScaleImages()
     for (int i = 0; i < m_ImagesCount; i++) {
         QString path = m_PhotosMap[m_Images[i]];
         //qDebug() << "Working with path " << path;
-        QPixmap pix(m_PhotosMap[m_Images[i]]);
+        
+        QString imgPath = ":/" + m_Images[i] + ".png";
+        QPixmap pix(imgPath);
         
         int availWidth = width() / 3;
         int availHeight = height() * 5 / 6 / 3;
@@ -133,7 +91,11 @@ void NoRobotWidget::displayAndScaleImages()
 
 void NoRobotWidget::setQuestion(const QString& category)
 {
-    m_QuestionLabel->setText("Please select images corresponding to category " + category);
+    QString selectImageText = "Please select images corresponding to category " + category;
+    
+    m_QuestionLabel->setText(selectImageText);
+    m_QuestionLabel->setFont(QFont("Timer", 20, QFont::Bold));
+    m_QuestionLabel->setAlignment(Qt::AlignCenter);
 }
 
 void NoRobotWidget::imageClicked(int imageIndex)
