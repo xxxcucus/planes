@@ -220,12 +220,12 @@ bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPla
             m_gameStats.updateDraws();
             return true;
         }            
-    }
-
-
+    } 
+    
+    
     if (m_gameStats.computerFinished(m_planeNo) && !m_gameStats.playerFinished(m_planeNo)) {
         //qDebug() << "Computer finished and player not finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
-        if (m_ComputerMoveIndex < m_PlayerMoveIndex) {
+        if (m_ComputerMoveIndex <= m_PlayerMoveIndex) {
             //computer winner
             m_gameStats.updateWins(true);
             winnerId = m_GlobalData->m_GameData.m_OtherUserId;
@@ -235,7 +235,7 @@ bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPla
 
     if (!m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
         //qDebug() << "Computer not finished and player finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
-        if (m_ComputerMoveIndex > m_PlayerMoveIndex) {
+        if (m_ComputerMoveIndex >= m_PlayerMoveIndex) {
             //computer winner
             m_gameStats.updateWins(false);
             winnerId = m_GlobalData->m_GameData.m_UserId;
