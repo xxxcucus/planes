@@ -40,6 +40,7 @@ private:
     
     int m_PlayerMoveIndex = 0;
     int m_ComputerMoveIndex = 0;
+    bool m_WinnerFound = false;
     QWidget* m_ParentWidget;
     QNetworkAccessManager* m_NetworkManager;
     GlobalData* m_GlobalData;

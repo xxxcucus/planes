@@ -56,6 +56,7 @@ void MultiplayerRound::reset()
     AbstractPlaneRound::reset();
     m_PlayerMoveIndex = 0;
     m_ComputerMoveIndex = 0;
+    m_WinnerFound = false;
     m_GlobalData->m_GameData.reset();
     m_GlobalData->m_UserData.reset();
 }
@@ -63,6 +64,7 @@ void MultiplayerRound::reset()
 void MultiplayerRound::initRound()
 {
     AbstractPlaneRound::initRound();
+    m_WinnerFound = false;
     m_PlayerMoveIndex = 0;
     m_ComputerMoveIndex = 0;
     m_NotSentMoves.clear();
@@ -99,11 +101,13 @@ void MultiplayerRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pg
     long int winnerId = 0;
     bool isPlayerWinner = false;
     
-    if (checkRoundEnd(draw, winnerId, isPlayerWinner)) {
-        emit winnerSent(isPlayerWinner, draw);
-        sendWinner(draw, winnerId);
+    if (!m_WinnerFound) {
+        if (checkRoundEnd(draw, winnerId, isPlayerWinner)) {
+            emit winnerSent(isPlayerWinner, draw);
+            sendWinner(draw, winnerId);
+        }
+        emit gameStatsUpdated(m_gameStats);
     }
-    emit gameStatsUpdated(m_gameStats);
 }
 
 void MultiplayerRound::sendLastMoves() {
@@ -199,7 +203,8 @@ void MultiplayerRound::sendMove(const GuessPoint& gp, int ownMoveIndex) {
 }
 
 bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPlayerWinner) {
- 
+
+
     isPlayerWinner = false;
 
     if (m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
@@ -208,16 +213,19 @@ bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPla
             m_gameStats.updateWins(false);
             winnerId = m_GlobalData->m_GameData.m_UserId;
             isPlayerWinner = true;
+            m_WinnerFound = true;
             return true;
         } else if (m_ComputerMoveIndex < m_PlayerMoveIndex) {
             //computer winner
             m_gameStats.updateWins(true);
             winnerId = m_GlobalData->m_GameData.m_OtherUserId;
+            m_WinnerFound = true;
             return true;
         } else {
             //draw
             draw = true;
             m_gameStats.updateDraws();
+            m_WinnerFound = true;
             return true;
         }            
     } 
@@ -229,6 +237,7 @@ bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPla
             //computer winner
             m_gameStats.updateWins(true);
             winnerId = m_GlobalData->m_GameData.m_OtherUserId;
+            m_WinnerFound = true;
             return true;
         } 
     }
@@ -240,6 +249,7 @@ bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPla
             m_gameStats.updateWins(false);
             winnerId = m_GlobalData->m_GameData.m_UserId;
             isPlayerWinner = true;
+            m_WinnerFound = true;
             return true;
         } 
     }
@@ -265,12 +275,14 @@ void MultiplayerRound::addOpponentMove(GuessPoint& gp, int moveIndex)
     long int winnerId = 0;
     bool isPlayerWinner = false;
     
-    if (checkRoundEnd(draw, winnerId, isPlayerWinner)) {
-        emit winnerSent(isPlayerWinner, draw);
-        sendWinner(draw, winnerId);
+    if (!m_WinnerFound) {
+        if (checkRoundEnd(draw, winnerId, isPlayerWinner)) {
+            emit winnerSent(isPlayerWinner, draw);
+            sendWinner(draw, winnerId);
+        }
+
+        emit gameStatsUpdated(m_gameStats);
     }
-    
-    emit gameStatsUpdated(m_gameStats);
 }
 
 void MultiplayerRound::requestOpponentMoves()
