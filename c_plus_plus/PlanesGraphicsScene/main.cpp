@@ -1,9 +1,14 @@
 #include <QApplication>
 #include "planesgswindow.h"
+#ifdef _WIN32 || _WIN64
+#include "Windows.h"
+#endif
 
  int main(int argc, char *argv[])
  {
-
+#ifdef _WIN32 || _WIN64
+    FreeConsole();
+#endif
     QApplication app(argc, argv);
 
     QMessageBox msgBox;
