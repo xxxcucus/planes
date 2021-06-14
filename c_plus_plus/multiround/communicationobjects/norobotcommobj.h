@@ -3,6 +3,7 @@
 
 
 #include "basiscommobj.h"
+#include <QMessageBox>
 
 class NoRobotCommObj : public BasisCommObj {
     Q_OBJECT
@@ -22,6 +23,9 @@ public slots:
 signals:
     void registrationFailed();
     void registrationComplete();
+    
+private:
+    QMessageBox* m_LoadingMessageBox;
 };
 
 

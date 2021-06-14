@@ -42,7 +42,7 @@ protected:
     QNetworkAccessManager* m_NetworkManager;
     QSettings* m_Settings;
     bool m_IsSinglePlayer = true;
-    GlobalData* m_GlobalData;
+    GlobalData* m_GlobalData;    
 };
 
 

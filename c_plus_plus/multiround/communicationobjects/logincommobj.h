@@ -2,6 +2,7 @@
 #define __LOGIN_COMM_OBJ__
 
 #include "basiscommobj.h"
+#include <QMessageBox>
 
 class LoginCommObj : public BasisCommObj {
     Q_OBJECT
@@ -23,6 +24,7 @@ signals:
         
 private:
     QString m_UserName;
+    QMessageBox* m_LoadingMessageBox; 
 };
 
 

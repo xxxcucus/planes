@@ -67,3 +67,4 @@ but the "Start New Round" button should only be active at the end of one round. 
 65. Play tutorials videos in program window with Qt Multimedia.
 66. Add CMake variable for folder where the OpenSsl libraries are.
 67. Do not display a console window on Windows. - Juni 2021
+68. Show load animation at login and register

@@ -3,6 +3,8 @@
 
 
 #include "basiscommobj.h"
+#include <QMessageBox>
+
 
 class RegisterCommObj : public BasisCommObj {
     Q_OBJECT
@@ -15,13 +17,16 @@ public:
     bool validateReply(const QJsonObject& retJson) override;
     
 public slots:
-    void finishedRequest() override;       
+    void finishedRequest() override;    
+    void errorRequest(QNetworkReply::NetworkError code) override;
+
     
 signals:
     void noRobotRegistration(const std::vector<QString>& images, const QJsonObject& request);
     
 private:
     QString m_UserName;
+    QMessageBox* m_LoadingMessageBox;
 };
 
 

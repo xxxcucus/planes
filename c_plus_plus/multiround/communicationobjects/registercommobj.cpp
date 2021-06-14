@@ -10,12 +10,20 @@ bool RegisterCommObj::makeRequest(const QString& username, const QString& passwo
     m_UserName = username;
     m_RequestData = loginData.toRegisterJson();
     
+    m_LoadingMessageBox = new QMessageBox(m_ParentWidget);
+    m_LoadingMessageBox->setText("Connecting to server ..");
+    m_LoadingMessageBox->setStandardButtons(QMessageBox::NoButton);
+    m_LoadingMessageBox->show();
+    
     makeRequestBasis(false);
     return true;
 }
 
 void RegisterCommObj::finishedRequest()
 {
+    if (m_LoadingMessageBox->isVisible())
+        m_LoadingMessageBox->hide();
+
     QJsonObject retJson;
     if (!finishRequestHelper(retJson)) 
         return;
@@ -44,4 +52,11 @@ bool RegisterCommObj::validateReply(const QJsonObject& reply) {
         reply.contains("image_id_4") && reply.contains("image_id_5") && reply.contains("image_id_6") &&
         reply.contains("image_id_7") && reply.contains("image_id_8") && reply.contains("image_id_9"));
 
+}
+
+void RegisterCommObj::errorRequest(QNetworkReply::NetworkError code)
+{
+    if (m_LoadingMessageBox->isVisible())
+        m_LoadingMessageBox->hide();
+    BasisCommObj::errorRequest(code);
 }

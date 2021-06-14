@@ -16,12 +16,20 @@ bool LoginCommObj::makeRequest(const QString& username, const QString& password)
     m_UserName = username;
     m_RequestData = loginData.toLoginJson();
     
+    m_LoadingMessageBox = new QMessageBox(m_ParentWidget);
+    m_LoadingMessageBox->setText("Connecting to server ..");
+    m_LoadingMessageBox->setStandardButtons(QMessageBox::NoButton);
+    m_LoadingMessageBox->show();
+    
     makeRequestBasis(false);
     return true;
 }
 
 void LoginCommObj::finishedRequest()
 {
+    if (m_LoadingMessageBox->isVisible())
+        m_LoadingMessageBox->hide();
+
     QJsonObject retJson;
     if (!finishRequestHelper(retJson)) 
         return;
@@ -67,6 +75,8 @@ bool LoginCommObj::validateReply(const QJsonObject& reply) {
 
 void LoginCommObj::errorRequest(QNetworkReply::NetworkError code)
 {
+    if (m_LoadingMessageBox->isVisible())
+        m_LoadingMessageBox->hide();
     BasisCommObj::errorRequest(code);
     emit loginFailed();
 }

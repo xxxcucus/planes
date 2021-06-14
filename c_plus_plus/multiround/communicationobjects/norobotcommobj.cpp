@@ -11,18 +11,29 @@ bool NoRobotCommObj::makeRequest(const QString& requestId, const QString& answer
     
     m_RequestData = requestData.toJson();
     
+    m_LoadingMessageBox = new QMessageBox(m_ParentWidget);
+    m_LoadingMessageBox->setText("Connecting to server ..");
+    m_LoadingMessageBox->setStandardButtons(QMessageBox::NoButton);
+    m_LoadingMessageBox->show();
+
     makeRequestBasis(false);
     return true;
 }
 
 void NoRobotCommObj::errorRequest(QNetworkReply::NetworkError code)
 {
+    if (m_LoadingMessageBox->isVisible())
+        m_LoadingMessageBox->hide();
+
     BasisCommObj::errorRequest(code);
     emit registrationFailed();
 }
 
 void NoRobotCommObj::finishedRequest()
 {
+    if (m_LoadingMessageBox->isVisible())
+        m_LoadingMessageBox->hide();
+
     QJsonObject retJson;
     if (!finishRequestHelper(retJson)) 
         return;
