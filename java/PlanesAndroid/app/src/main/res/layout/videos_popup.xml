@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/layout_background_start">
+
+    <TextView
+        android:id="@+id/spacer1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentLeft="true"
+        android:textSize="5dp"
+        android:textStyle="bold"
+        android:text=""/>
+    <TextView
+        android:id="@+id/general_video_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/spacer1"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:text="Single-Player Tutorial"/>
+    <Button
+        android:id="@+id/general_video_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/general_video_title"
+        android:text="See Video"/>
+
+    <TextView
+        android:id="@+id/spacer2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/general_video_button"
+        android:textSize="5dp"
+        android:textStyle="bold"
+        android:text=""/>
+    <TextView
+        android:id="@+id/multiplayer_video_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentLeft="true"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_below="@+id/spacer2"
+        android:text="Multiplayer Tutorial"/>
+    <Button
+        android:id="@+id/multiplayer_video_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/multiplayer_video_title"
+        android:layout_below="@+id/general_video_button"
+        android:text="See Video"/>
+
+</RelativeLayout>

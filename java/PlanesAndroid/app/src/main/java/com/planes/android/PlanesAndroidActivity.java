@@ -43,6 +43,9 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         } else if (id == R.id.menu_options) {
             onShowOptionsClick();
             return true;
+        } else if (id == R.id.menu_videos) {
+            onShowOtherVideosClick();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -344,6 +347,30 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         intent.putExtra("gamedifficulty/computerskill", m_PreferencesService.getComputerSkill());
         intent.putExtra("gamedifficulty/showkilledplane", m_PreferencesService.getShowPlaneAfterKill());
         startActivityForResult(intent, 1);
+    }
+
+    public void onShowOtherVideosClick() {
+        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.videos_popup, null);
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(m_PlanesLayout, Gravity.CENTER, 0, 0);
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
     }
 
     @Override

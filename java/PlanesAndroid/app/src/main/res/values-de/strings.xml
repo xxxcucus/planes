@@ -68,4 +68,5 @@
     <string name="warning_options_text">Einstellung kann nicht während des laufenden Spiels verändert werden.</string>
     <string name="warning_options_title">Warnung</string>
     <string name="warning_options_button_text">OK</string>
+    <string name="othervideos">Andere Videos</string>
 </resources>
