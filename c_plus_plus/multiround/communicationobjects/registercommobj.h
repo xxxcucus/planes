@@ -11,7 +11,12 @@ class RegisterCommObj : public BasisCommObj {
     
 public:
     RegisterCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
-        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {}
+        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {
+            m_LoadingMessageBox = new QMessageBox(m_ParentWidget);
+            m_LoadingMessageBox->setText("Connecting to server ..");
+            m_LoadingMessageBox->setStandardButtons(QMessageBox::NoButton);
+        }
+    virtual ~RegisterCommObj();
     
     bool makeRequest(const QString& username, const QString& password);
     bool validateReply(const QJsonObject& retJson) override;
@@ -26,7 +31,7 @@ signals:
     
 private:
     QString m_UserName;
-    QMessageBox* m_LoadingMessageBox;
+    QMessageBox* m_LoadingMessageBox = nullptr;
 };
 
 

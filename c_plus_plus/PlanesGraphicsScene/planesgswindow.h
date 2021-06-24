@@ -15,6 +15,7 @@ class PlanesGSWindow : public QMainWindow
     Q_OBJECT
 public:
     explicit PlanesGSWindow(bool isMultiplayer, QWidget *parent = 0);
+    ~PlanesGSWindow();
 
 signals:
 

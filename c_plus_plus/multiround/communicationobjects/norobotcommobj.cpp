@@ -3,6 +3,12 @@
 #include <QMessageBox>
 #include "viewmodels/norobotviewmodel.h"
 
+NoRobotCommObj::~NoRobotCommObj()
+{
+    delete m_LoadingMessageBox;
+}
+
+
 bool NoRobotCommObj::makeRequest(const QString& requestId, const QString& answer)
 {
     NoRobotViewModel requestData;
@@ -11,9 +17,6 @@ bool NoRobotCommObj::makeRequest(const QString& requestId, const QString& answer
     
     m_RequestData = requestData.toJson();
     
-    m_LoadingMessageBox = new QMessageBox(m_ParentWidget);
-    m_LoadingMessageBox->setText("Connecting to server ..");
-    m_LoadingMessageBox->setStandardButtons(QMessageBox::NoButton);
     m_LoadingMessageBox->show();
 
     makeRequestBasis(false);

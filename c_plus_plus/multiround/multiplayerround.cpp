@@ -50,6 +50,24 @@ MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QWidget* par
     initRound();
 }
 
+MultiplayerRound::~MultiplayerRound()
+{
+    delete m_CreateGameObj;
+    delete m_ConnectToGameObj;
+    delete m_LoginCommObj;
+    delete m_RegisterCommObj;
+    delete m_NoRobotCommObj;
+    delete m_SendPlanePositionsCommObj;
+    delete m_AcquireOpponentPlanePositions;
+    delete m_SendMoveCommObj;
+    delete m_CancelRoundCommObj;
+    delete m_StartNewRoundCommObj;
+    delete m_SendWinnerCommObj;
+    delete m_GetServerVersionCommObj;
+    delete m_RefreshGameStatusCommObj;
+}
+
+
 //resets the PlaneRound object
 void MultiplayerRound::reset()
 {

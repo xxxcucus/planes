@@ -16,7 +16,8 @@ class GenericBoard : public QObject
 public:
     enum class GameStages { GameNotStarted, BoardEditing, Game };
     GenericBoard(PlaneGrid& grid, int squareWidth = 30);
-
+    virtual ~GenericBoard();
+    
     inline QWidget* getView() { return m_View; }
     ///deletes all the objects in the graphicscene
     ///and creates the board for placing the planes
@@ -94,6 +95,7 @@ protected:
     int m_MaxPlaneBodyColor = 200;
 
     AnimatedTextItem* m_RoundEndsAnimatedText;
+    QPropertyAnimation* m_PropertyAnimation = nullptr;
 };
 
 

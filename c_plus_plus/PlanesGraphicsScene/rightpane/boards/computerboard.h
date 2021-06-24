@@ -8,6 +8,7 @@ class ComputerBoard : public GenericBoard
     Q_OBJECT
 public:
     ComputerBoard(PlaneGrid& grid, int squareWidth = 30);
+    virtual ~ComputerBoard() {}
 
     /**
      * @brief : Actions to be taken when the round ends.

@@ -15,7 +15,6 @@ BoardEditingWidget::BoardEditingWidget(GameInfo* gameInfo, QWidget *parent)
     m_doneButton = new QPushButton("Done editing");
     m_acquireOpponentPositionsButton = new QPushButton("Acquire opponent planes positions");
     m_CancelRoundButton = new QPushButton("Cancel Round");
-    QSpacerItem* spacer = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
     QGridLayout* gridLayout = new QGridLayout();
     gridLayout->addWidget(m_selectPlaneButton, 0, 0, 1, 3);
     gridLayout->addWidget(m_rotatePlaneButton, 1, 0, 1, 3);

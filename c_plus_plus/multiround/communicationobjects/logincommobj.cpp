@@ -6,6 +6,12 @@
 #include "viewmodels/loginviewmodel.h"
 #include "communicationtools.h"
 
+LoginCommObj::~LoginCommObj()
+{
+    delete m_LoadingMessageBox;
+}
+
+
 bool LoginCommObj::makeRequest(const QString& username, const QString& password)
 {
     LoginViewModel loginData;
@@ -16,9 +22,6 @@ bool LoginCommObj::makeRequest(const QString& username, const QString& password)
     m_UserName = username;
     m_RequestData = loginData.toLoginJson();
     
-    m_LoadingMessageBox = new QMessageBox(m_ParentWidget);
-    m_LoadingMessageBox->setText("Connecting to server ..");
-    m_LoadingMessageBox->setStandardButtons(QMessageBox::NoButton);
     m_LoadingMessageBox->show();
     
     makeRequestBasis(false);

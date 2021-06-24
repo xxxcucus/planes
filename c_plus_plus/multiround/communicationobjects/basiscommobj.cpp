@@ -8,6 +8,13 @@
 #include <QJsonValue>
 #include "communicationtools.h"
 
+
+BasisCommObj::~BasisCommObj()
+{
+    if (m_ReplyObject != nullptr)
+        delete m_ReplyObject;
+}
+
 //TODO: add timer to control maximum duration of request
 bool BasisCommObj::makeRequestBasis(bool withToken, bool fromFinishedSlot) 
 {   

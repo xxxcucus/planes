@@ -17,6 +17,7 @@ public:
         m_RequestPath(requestPath), m_ActionName(actionName), m_ParentWidget(parentWidget), m_NetworkManager(networkManager), m_Settings(settings), m_IsSinglePlayer(isSinglePlayer), m_GlobalData(globalData) {
             connect( m_NetworkManager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), this, SLOT(sslErrorOccured(QNetworkReply*,QList<QSslError>)));
         }
+    virtual ~BasisCommObj();
     
     bool makeRequestBasis(bool withToken, bool fromFinishedSlot = false);
     virtual bool validateReply(const QJsonObject& reply) = 0;

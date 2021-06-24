@@ -103,6 +103,7 @@ signals:
     
 public:
     MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo);
+    virtual ~MultiplayerRound();
     void reset() override;
     void initRound() override;
 

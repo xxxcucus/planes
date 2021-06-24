@@ -1,6 +1,12 @@
 #include "registercommobj.h"
 #include "viewmodels/loginviewmodel.h"
 
+RegisterCommObj::~RegisterCommObj()
+{
+    delete m_LoadingMessageBox;
+}
+
+
 bool RegisterCommObj::makeRequest(const QString& username, const QString& password)
 {
     LoginViewModel loginData;
@@ -10,9 +16,6 @@ bool RegisterCommObj::makeRequest(const QString& username, const QString& passwo
     m_UserName = username;
     m_RequestData = loginData.toRegisterJson();
     
-    m_LoadingMessageBox = new QMessageBox(m_ParentWidget);
-    m_LoadingMessageBox->setText("Connecting to server ..");
-    m_LoadingMessageBox->setStandardButtons(QMessageBox::NoButton);
     m_LoadingMessageBox->show();
     
     makeRequestBasis(false);

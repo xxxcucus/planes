@@ -1,6 +1,5 @@
 #include "planesgswindow.h"
 
-//TODO: add destructor
 PlanesGSWindow::PlanesGSWindow(bool isMultiplayer, QWidget *parent) : QMainWindow(parent)
 {
     m_GlobalData = new GlobalData();
@@ -17,6 +16,16 @@ PlanesGSWindow::PlanesGSWindow(bool isMultiplayer, QWidget *parent) : QMainWindo
         m_MultiRound->testServerVersion();
     
     //builds the view object
-    mPlanesView = new PlanesGSView(mRound, m_MultiRound, m_GlobalData, m_NetworkManager, m_GameInfo, m_Settings);
+    mPlanesView = new PlanesGSView(mRound, m_MultiRound, m_GlobalData, m_NetworkManager, m_GameInfo, m_Settings, this);
     setCentralWidget(mPlanesView);
+}
+
+
+PlanesGSWindow::~PlanesGSWindow()
+{
+    delete mRound;
+    delete m_MultiRound;
+    delete m_GameInfo;
+    delete m_Settings;
+    delete m_NetworkManager;
 }

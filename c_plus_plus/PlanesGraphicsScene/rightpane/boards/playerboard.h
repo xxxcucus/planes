@@ -11,6 +11,7 @@ class PlayerBoard : public GenericBoard
     Q_OBJECT
 public:
     PlayerBoard(PlaneGrid& grid, int squareWidth = 30) : GenericBoard(grid, squareWidth) {}
+    virtual ~PlayerBoard() {}
 
     /**
      * functions to edit the player's game board

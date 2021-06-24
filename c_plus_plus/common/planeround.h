@@ -14,7 +14,7 @@ public:
 	enum class GameStages { GameNotStarted = 0, BoardEditing = 1, Game = 2};
 
 	PlaneRound(int rowNo, int colNo, int planeNo);
-	~PlaneRound();
+	virtual ~PlaneRound();
     
     //inits a new round
 	virtual void initRound() override;

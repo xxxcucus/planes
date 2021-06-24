@@ -70,7 +70,6 @@ RightPane::~RightPane()
 {
     delete m_PlayerBoard;
     delete m_ComputerBoard;
-	delete m_Settings;
 }
 
 void RightPane::selectPlaneClicked(bool val)

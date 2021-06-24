@@ -6,7 +6,17 @@
 #include <QPropertyAnimation>
 #include <QDebug>
 
-///@todo: to add destructor
+
+GenericBoard::~GenericBoard()
+{
+    if (m_PropertyAnimation != nullptr)
+        delete m_PropertyAnimation;
+    delete m_RoundEndsAnimatedText;
+    delete m_View;
+    delete m_Scene;
+}
+
+
 GenericBoard::GenericBoard(PlaneGrid& grid, int squareWidth) : m_Grid(grid), m_SquareWidth(squareWidth)
 {
     m_Scene = new CustomGraphicsScene();
@@ -33,11 +43,6 @@ void GenericBoard::clearBoard()
     m_SceneItems.clear();
     m_Scene->clear();
     m_GuessList.clear();
-
-    //animated text is deleted with m_Scene->clear
-    m_RoundEndsAnimatedText = new AnimatedTextItem("Round ends");
-    m_RoundEndsAnimatedText->setFont(QFont("Timer", 20, QFont::Bold));
-    m_RoundEndsAnimatedText->setDefaultTextColor(Qt::red);
 }
 
 void GenericBoard::generateBoardItems()
@@ -178,13 +183,15 @@ void GenericBoard::endRound(bool isPlayerWinner, bool isDraw, bool isSinglePlaye
     m_CurStage = GameStages::GameNotStarted;
     m_Scene->addItem(m_RoundEndsAnimatedText);
     //qDebug() << "end round";
-    QPropertyAnimation* animation = new QPropertyAnimation(m_RoundEndsAnimatedText, "m_ScenePosition");
+    if (m_PropertyAnimation != nullptr)
+        delete m_PropertyAnimation;
+    m_PropertyAnimation = new QPropertyAnimation(m_RoundEndsAnimatedText, "m_ScenePosition");
     QFont f = m_RoundEndsAnimatedText->font();
     QFontMetrics fm(f);
-    animation->setDuration(1000);
-    animation->setStartValue(QPoint((m_Grid.getColNo() + m_PaddingEditingBoard * 2)  * m_SquareWidth / 2 - fm.width(winnerText) / 2, (m_Grid.getRowNo() +  m_PaddingEditingBoard) * m_SquareWidth));
-    animation->setEndValue(QPoint((m_Grid.getColNo() + m_PaddingEditingBoard * 2) * m_SquareWidth / 2 - fm.width(winnerText) / 2,  m_SquareWidth / 2));
-    animation->start();
+    m_PropertyAnimation->setDuration(1000);
+    m_PropertyAnimation->setStartValue(QPoint((m_Grid.getColNo() + m_PaddingEditingBoard * 2)  * m_SquareWidth / 2 - fm.width(winnerText) / 2, (m_Grid.getRowNo() +  m_PaddingEditingBoard) * m_SquareWidth));
+    m_PropertyAnimation->setEndValue(QPoint((m_Grid.getColNo() + m_PaddingEditingBoard * 2) * m_SquareWidth / 2 - fm.width(winnerText) / 2,  m_SquareWidth / 2));
+    m_PropertyAnimation->start();
 }
 
 void GenericBoard::setSelectedPlaneIndex(int idx) {

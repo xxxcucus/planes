@@ -19,7 +19,7 @@ class PlanesGSView : public QWidget
     Q_OBJECT
 public:
     PlanesGSView(PlaneRound* rd, MultiplayerRound* mrd, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QSettings* settings, QWidget *parent = 0);
-
+    
 signals:
 
 public slots:

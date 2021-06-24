@@ -10,7 +10,12 @@ class NoRobotCommObj : public BasisCommObj {
     
 public:
     NoRobotCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
-        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {}
+        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {
+            m_LoadingMessageBox = new QMessageBox(m_ParentWidget);
+            m_LoadingMessageBox->setText("Connecting to server ..");
+            m_LoadingMessageBox->setStandardButtons(QMessageBox::NoButton);
+        }
+    virtual ~NoRobotCommObj();
     
     bool makeRequest(const QString& requestId, const QString& answer);
     bool validateReply(const QJsonObject& retJson) override;
@@ -25,7 +30,7 @@ signals:
     void registrationComplete();
     
 private:
-    QMessageBox* m_LoadingMessageBox;
+    QMessageBox* m_LoadingMessageBox = nullptr;
 };
 
 

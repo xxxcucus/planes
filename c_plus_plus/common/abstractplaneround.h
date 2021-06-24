@@ -13,7 +13,7 @@ public:
 	AbstractPlaneRound(int rowNo, int colNo, int planeNo);
     AbstractPlaneRound() {
     }
-	~AbstractPlaneRound();
+	virtual ~AbstractPlaneRound();
 
 	//inits a new round
 	virtual void initRound();
