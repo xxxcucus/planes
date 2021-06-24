@@ -353,6 +353,26 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.videos_popup, null);
 
+        final String link_general_tutorial = "https://youtu.be/N2Cg8eflCxM";
+        final String link_multiplayer_tutorial = "https://youtu.be/VqYK1T91-YE";
+
+        Button showGeneralVideoButton = (Button)popupView.findViewById(R.id.general_video_button);
+        Button showMultiplayerVideoButton = (Button)popupView.findViewById(R.id.multiplayer_video_button);
+
+        showGeneralVideoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Tools.openLink(view.getContext(), link_general_tutorial);
+            }
+        });
+
+        showMultiplayerVideoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Tools.openLink(view.getContext(), link_multiplayer_tutorial);
+            }
+        });
+
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
