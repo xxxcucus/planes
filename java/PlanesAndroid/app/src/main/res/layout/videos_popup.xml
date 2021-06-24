@@ -29,7 +29,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15dp"
-        android:layout_alignParentRight="true"
         android:layout_toRightOf="@id/general_video_title"
         android:text="See Video"/>
 
@@ -58,9 +57,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15dp"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/multiplayer_video_title"
+        android:layout_toRightOf="@+id/multiplayer_video_title"
+        android:layout_alignEnd="@+id/general_video_button"
         android:layout_below="@+id/general_video_button"
-        android:text="See Video"/>
+        android:text="See Video"
+        android:layout_alignRight="@+id/general_video_button" />
 
 </RelativeLayout>
