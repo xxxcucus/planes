@@ -39,3 +39,10 @@ or get the app directly from Google Play Store: https://play.google.com/store/ap
 # compilation instructions
 
 For the C++ projects PlanesWidget, PlanesGraphicsScene and PlanesQML, you will find the compilation and installation instructions in the Appendix of the pdf documentation - see the Releases page (available after Release 0.3.1)
+
+# tutorials
+
+1. Multi-Player Planes: https://youtu.be/VqYK1T91-YE
+2. Single-Player Planes: https://youtu.be/N2Cg8eflCxM
+3. Positioning of Planes: https://youtu.be/qgL0RdwqBRY
+4. Guessing Planes Postions: https://youtu.be/CAxSPp2h_Vo
