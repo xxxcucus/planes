@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:textSize="15dp"
         android:layout_toRightOf="@id/general_video_title"
-        android:text="@string/seevideo"/>
+        android:text="@string/popup_help_button_text"/>
 
     <TextView
         android:id="@+id/spacer2"
@@ -60,7 +60,7 @@
         android:layout_toRightOf="@+id/multiplayer_video_title"
         android:layout_alignEnd="@+id/general_video_button"
         android:layout_below="@+id/general_video_button"
-        android:text="@string/seevideo"
+        android:text="@string/popup_help_button_text"
         android:layout_alignRight="@+id/general_video_button" />
 
 </RelativeLayout>
