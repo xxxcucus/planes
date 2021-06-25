@@ -23,14 +23,14 @@
         android:layout_below="@+id/spacer1"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:text="Single-Player Tutorial"/>
+        android:text="@string/singleplayertutorial"/>
     <Button
         android:id="@+id/general_video_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15dp"
         android:layout_toRightOf="@id/general_video_title"
-        android:text="See Video"/>
+        android:text="@string/seevideo"/>
 
     <TextView
         android:id="@+id/spacer2"
@@ -51,7 +51,7 @@
         android:textSize="20dp"
         android:textStyle="bold"
         android:layout_below="@+id/spacer2"
-        android:text="Multiplayer Tutorial"/>
+        android:text="@string/multiplayertutorial"/>
     <Button
         android:id="@+id/multiplayer_video_button"
         android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
         android:layout_toRightOf="@+id/multiplayer_video_title"
         android:layout_alignEnd="@+id/general_video_button"
         android:layout_below="@+id/general_video_button"
-        android:text="See Video"
+        android:text="@string/seevideo"
         android:layout_alignRight="@+id/general_video_button" />
 
 </RelativeLayout>
