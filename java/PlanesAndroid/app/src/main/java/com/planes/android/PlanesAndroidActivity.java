@@ -353,8 +353,8 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.videos_popup, null);
 
-        final String link_general_tutorial = "https://youtu.be/N2Cg8eflCxM";
-        final String link_multiplayer_tutorial = "https://youtu.be/VqYK1T91-YE";
+        final String link_general_tutorial = "https://youtube.com/watch?v=N2Cg8eflCxM";
+        final String link_multiplayer_tutorial = "https://youtube.com/watch?v=VqYK1T91-YE";
 
         Button showGeneralVideoButton = (Button)popupView.findViewById(R.id.general_video_button);
         Button showMultiplayerVideoButton = (Button)popupView.findViewById(R.id.multiplayer_video_button);

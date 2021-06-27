@@ -16,7 +16,7 @@ import java.util.List;
 public class Tools {
 
     static void openLink(Context context, String linkString) {
-        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(linkString));
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(linkString));
         Bundle b = new Bundle();
         b.putBoolean("new_window", true);
 
