@@ -21,7 +21,7 @@ Rectangle {
 
     Connections {
         target: PlayerPlaneGrid
-        onPlanePositionNotValid: {
+        function onPlanePositionNotValid(val) {
             if (val == true) {
                 back.state = "Disabled"
                 //console.log("Plane position not valid")
