@@ -266,7 +266,7 @@ Rectangle {
 
         Connections {
             target: PlaneGame
-            onRoundEnds: {
+            function onRoundEnds() {
                 gameEndMessage.text = isPlayerWinner ? "Player wins!" : "Computer wins!"
                 gameEndMessage.text = isDraw ? "Draw !" : gameEndMessage.text
                 playAgainButton.visible = "true"

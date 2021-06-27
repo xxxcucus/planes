@@ -87,7 +87,7 @@ Rectangle {
     }
     Connections {
         target: PlaneGame
-        onRoundEnds: {
+        function onRoundEnds() {
             state = "GameNotStarted"
         }
     }

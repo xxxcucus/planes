@@ -26,7 +26,7 @@ Rectangle {
 
     Connections {
         target: PlaneGame
-        onUpdateStats: {
+        function onUpdateStats() {
             roundTab.playerMoves = PlaneGame.getPlayerMoves()
             roundTab.playerHits = PlaneGame.getPlayerHits()
             roundTab.playerMisses = PlaneGame.getPlayerMisses()
