@@ -94,7 +94,7 @@ protected:
     int m_MinPlaneBodyColor = 0;
     int m_MaxPlaneBodyColor = 200;
 
-    AnimatedTextItem* m_RoundEndsAnimatedText;
+    AnimatedTextItem* m_RoundEndsAnimatedText = nullptr;
     QPropertyAnimation* m_PropertyAnimation = nullptr;
 };
 

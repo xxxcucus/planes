@@ -11,6 +11,8 @@ GenericBoard::~GenericBoard()
 {
     if (m_PropertyAnimation != nullptr)
         delete m_PropertyAnimation;
+    if (m_RoundEndsAnimatedText != nullptr)
+        delete m_RoundEndsAnimatedText;
     delete m_RoundEndsAnimatedText;
     delete m_View;
     delete m_Scene;
@@ -24,9 +26,6 @@ GenericBoard::GenericBoard(PlaneGrid& grid, int squareWidth) : m_Grid(grid), m_S
     m_View->setSceneSize((m_Grid.getColNo() + 2 * m_PaddingEditingBoard) * m_SquareWidth,
                          (m_Grid.getRowNo() + 2 * m_PaddingEditingBoard) * m_SquareWidth);
 
-    m_RoundEndsAnimatedText = new AnimatedTextItem("Round ends");
-    m_RoundEndsAnimatedText->setFont(QFont("Timer", 20, QFont::Bold));
-    m_RoundEndsAnimatedText->setDefaultTextColor(Qt::red);
 }
 
 void GenericBoard::reset()
@@ -35,6 +34,7 @@ void GenericBoard::reset()
     m_CurStage = GameStages::BoardEditing;
     generateBoardItems();
     displayPlanes();
+    m_RoundEndsAnimatedText = nullptr;
 }
 
 ///@todo: deleted the items from m_SceneItems
@@ -179,7 +179,10 @@ void GenericBoard::endRound(bool isPlayerWinner, bool isDraw, bool isSinglePlaye
     QString winnerText = isPlayerWinner ? "Player wins!" : isSinglePlayer ? "Computer wins!" : "Opponent wins!";
 	if (isDraw)
 		winnerText = "Draw!";
-    m_RoundEndsAnimatedText->setPlainText(winnerText);
+
+    m_RoundEndsAnimatedText = new AnimatedTextItem(winnerText);
+    m_RoundEndsAnimatedText->setFont(QFont("Timer", 20, QFont::Bold));
+    m_RoundEndsAnimatedText->setDefaultTextColor(Qt::red);
     m_CurStage = GameStages::GameNotStarted;
     m_Scene->addItem(m_RoundEndsAnimatedText);
     //qDebug() << "end round";
