@@ -48,7 +48,7 @@
     <string name="credits_graphics_button">Vai alla pagina di\' Alex</string>
     <string name="helptext_startnewgame_1">Tocca il pulsante "Inizia nuova partita" per iniziare un nuovo round.</string>
     <string name="helptext_boardediting_1">Fare clic sulla fusoliera per selezionarla.</string>
-    <string name="helptext_boardediting_2">Fare clic sui pulsanti di controllo per posizionare l'aereo."</string>
+    <string name="helptext_boardediting_2">Fare clic sui pulsanti di controllo per posizionare l\'aereo."</string>
     <string name="helptext_game_1">TClicca sui campi di gioco del computer per indovinare dove sono i suoi aerei.</string>
     <string name="helptext_game_2">X significa bersaglio distrutto. Disco significa che non è stato colpito nulla. Rombo significa colpito.</string>
     <string name="popup_help_button_text">Guarda Video</string>
@@ -61,11 +61,11 @@
     </string-array>
     <string name="show_plane_after_kill">Mostra aereo dopo averlo colpito</string>
     <string-array name="yesno_options">
-        <item>Yes</item>
+        <item>Si</item>
         <item>No</item>
     </string-array>
     <string name="options">Preferenze</string>
-    <string name="warning_options_text">Impossibile impostare l'opzione durante il gioco.</string>
+    <string name="warning_options_text">Impossibile impostare l\'opzione durante il gioco.</string>
     <string name="warning_options_title">Avvertenze</string>
     <string name="warning_options_button_text">OK</string>
     <string name="othervideos">Altri Video</string>
