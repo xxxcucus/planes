@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rootView"
+    android:background="@drawable/background"
+    android:tag="phone horizontal">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        />
+
+    <com.planes.android.PlanesVerticalLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/planes_layout">
+        <com.planes.android.GameBoard
+            android:id="@+id/game_boards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <!-- Buttons for board editing stage -->
+        <com.planes.android.MoveUpButton
+            android:id="@+id/up_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_row="1"
+            app:gc_col="2"
+            app:gc_game_stage="0" />
+        <com.planes.android.MoveLeftButton
+            android:id="@+id/left_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_row="2"
+            app:gc_col="1"
+            app:gc_game_stage="0" />
+        <com.planes.android.RotateButton
+            android:id="@+id/rotate_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_row="2"
+            app:gc_col="2"
+            app:gc_game_stage="0"/>
+        <com.planes.android.MoveRightButton
+            android:id="@+id/right_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_row="2"
+            app:gc_col="3"
+            app:gc_game_stage="0" />
+        <com.planes.android.MoveDownButton
+            android:id="@+id/down_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_row="3"
+            app:gc_col="2"
+            app:gc_game_stage="0" />
+        <com.planes.android.TextButton
+            android:id="@+id/done_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_row="4"
+            app:gc_col="2"
+            app:gc_game_stage="0"
+            app:gc_text="@string/done_button" />
+
+        <!-- Buttons for game stage -->
+
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/stats_title_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text="Computer Stats"
+            app:gc_row="1"
+            app:gc_colspan="3"
+            app:gc_col="4"
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
+        <com.planes.android.TwoLineTextButtonWithState
+            android:id="@+id/view_computer_board1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text1="@string/view_computer_board1"
+            app:gc_text2="@string/view_computer_board2"
+            app:gc_row="2"
+            app:gc_colspan="3"
+            app:gc_rowspan="2"
+            app:gc_col="1"
+            app:gc_game_stage="1" />
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/moves_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text="@string/general_moves"
+            app:gc_row="2"
+            app:gc_colspan="2"
+            app:gc_col="4"
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/moves_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text="0"
+            app:gc_row="2"
+            app:gc_col="6"
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/misses_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text="@string/general_misses"
+            app:gc_row="3"
+            app:gc_colspan="2"
+            app:gc_col="4"
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
+
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/misses_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:gc_text="0"
+            app:gc_row="3"
+            app:gc_col="6"
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/hits_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text="@string/general_hits"
+            app:gc_row="4"
+            app:gc_colspan="2"
+            app:gc_col="4"
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/hits_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text="0"
+            app:gc_row="4"
+            app:gc_col="6"
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
+
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/dead_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text="@string/general_dead"
+            app:gc_row="5"
+            app:gc_colspan="2"
+            app:gc_col="4"
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/dead_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text="0"
+            app:gc_row="5"
+            app:gc_col="6"
+            app:gc_game_stage="1"
+            app:gc_background_color="@color/orange"/>
+
+        <!-- Buttons for start new game stage -->
+        <com.planes.android.TwoLineTextButtonWithState
+            android:id="@+id/view_computer_board2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text1="@string/view_computer_board1"
+            app:gc_text2="@string/view_computer_board2"
+            app:gc_row="1"
+            app:gc_col="1"
+            app:gc_rowspan="2"
+            app:gc_colspan="3"
+            app:gc_game_stage="2" />
+        <com.planes.android.TwoLineTextButton
+            android:id="@+id/start_new_game"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text1="@string/start_new_game1"
+            app:gc_text2="@string/start_new_game2"
+            app:gc_row="3"
+            app:gc_col="1"
+            app:gc_rowspan="2"
+            app:gc_colspan="3"
+            app:gc_game_stage="2" />
+
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/winner_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_row="1"
+            app:gc_col="4"
+            app:gc_colspan="5"
+            app:gc_game_stage="2"
+            app:gc_text="@string/computer_winner"/>
+
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/computer_wins_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_row="2"
+            app:gc_col="4"
+            app:gc_colspan="4"
+            app:gc_game_stage="2"
+            app:gc_text="@string/computer_wins" />
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/computer_wins_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_row="2"
+            app:gc_col="8"
+            app:gc_game_stage="2"
+            app:gc_text="0" />
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/player_wins_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_row="3"
+            app:gc_col="4"
+            app:gc_colspan="4"
+            app:gc_game_stage="2"
+            app:gc_text="@string/player_wins" />
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/player_wins_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_row="3"
+            app:gc_col="8"
+            app:gc_game_stage="2"
+            app:gc_text="0" />
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/draws_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_row="4"
+            app:gc_col="4"
+            app:gc_colspan="4"
+            app:gc_game_stage="2"
+            app:gc_text="@string/draws" />
+        <com.planes.android.ColouredSurfaceWithText
+            android:id="@+id/draws_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_row="4"
+            app:gc_col="8"
+            app:gc_game_stage="2"
+            app:gc_text="0" />
+    </com.planes.android.PlanesVerticalLayout>
+</LinearLayout>

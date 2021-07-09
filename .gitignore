@@ -47,3 +47,11 @@ TextsTutorials/
 YoutubeTestAndroid/
 java/PlanesAndroid/app/.cxx/
 java/obsolete/PlanesJavaFx/src/com/planes/javafx/PlaneRoundJavaFx.class
+/kotlin/PlanesAndroid/gradlew
+/kotlin/PlanesAndroid/gradlew.bat
+/kotlin/PlanesAndroid/local.properties
+/kotlin/PlanesAndroid/PlanesAndroid.iml
+lib
+/kotlin/PlanesJavaFx/src/com/planes/javafx/PlaneRoundJavaFx.class
+/kotlin/PlanesAndroid/app/app.iml
+/kotlin/PlanesAndroid/app/.cxx/

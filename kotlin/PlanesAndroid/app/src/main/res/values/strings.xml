@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">Planes</string>
+    <string name="left_button">Left</string>
+    <string name="right_button">Right</string>
+    <string name="up_button">Up</string>
+    <string name="down_button">Down</string>
+    <string name="rotate_button">Rotate</string>
+    <string name="done_button">Done</string>
+    <string name="view_player_board">View Player Board</string>
+    <string name="view_player_board1">View</string>
+    <string name="view_player_board2">Player Board</string>
+    <string name="view_computer_board">View Computer Board</string>
+    <string name="view_computer_board1">View</string>
+    <string name="view_computer_board2">Computer Board</string>
+    <string name="player_stats">Player Stats</string>
+    <string name="computer_stats">Computer Stats</string>
+    <string name="player_hits">Player Hits</string>
+    <string name="player_moves">Player Moves</string>
+    <string name="player_misses">Player Misses</string>
+    <string name="player_dead">Player Dead</string>
+    <string name="computer_hits">Computer Hits</string>
+    <string name="computer_moves">Computer Moves</string>
+    <string name="computer_misses">Computer Misses</string>
+    <string name="computer_dead">Computer Dead</string>
+    <string name="general_hits">Hits</string>
+    <string name="general_moves">Moves</string>
+    <string name="general_misses">Misses</string>
+    <string name="general_dead">Dead</string>
+    <string name="computer_winner">Computer Wins Round!</string>
+    <string name="player_winner">Player Wins Round!</string>
+    <string name="draw_result">Draw !</string>
+    <string name="start_new_game">Start New Game</string>
+    <string name="start_new_game1">Start</string>
+    <string name="start_new_game2">New Game</string>
+    <string name="computer_wins">Computer Wins</string>
+    <string name="player_wins">Player Wins</string>
+    <string name="draws">Draws</string>
+    <string name="help">Help</string>
+    <string name="board_editing_stage">Board Editing</string>
+    <string name="game_stage">Game</string>
+    <string name="game_not_started_stage">Start New Game</string>
+    <string name="credits">Credits</string>
+    <string name="credits_software_title">Software</string>
+    <string name="credits_software_content">This software was developed by Cristian Cucu and the complete source code can be found at www.github.com/xxxcucus/planes.</string>
+    <string name="credits_software_button">Go to Project\'s GitHub Page</string>
+    <string name="credits_graphics_title">Graphics</string>
+    <string name="credits_graphics_content">The logo of the game and the store graphics were created by Alexandru Vintilescu. Other work from Alex can be seen at https://axa951.wixsite.com/portfolio</string>
+    <string name="credits_graphics_button">Go to Alex\' Page</string>
+    <string name="helptext_startnewgame_1">Touch on the "Start New Game" button to start a new round.</string>
+    <string name="helptext_boardediting_1">Touch on the plane\'s body to select it.</string>
+    <string name="helptext_boardediting_2">Touch on the control buttons to position the selected plane."</string>
+    <string name="helptext_game_1">Touch on the computer\'s board to guess where the computer\'s planes are.</string>
+    <string name="helptext_game_2">X means target destroyed. Disc means nothing was hit. Rhombus means a hit.</string>
+    <string name="popup_help_button_text">See Video</string>
+    <string name="game_difficulty_options">Game Difficulty Options</string>
+    <string name="computer_skill">Computer Skill</string>
+    <string-array name="computer_skills">
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Advanced</item>
+    </string-array>
+    <string name="show_plane_after_kill">Show Plane After Kill</string>
+    <string-array name="yesno_options">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+    <string name="options">Preferences</string>
+    <string name="warning_options_text">Cannot set option during the game.</string>
+    <string name="warning_options_title">Warning</string>
+    <string name="warning_options_button_text">OK</string>
+    <string name="othervideos">Other Videos</string>
+    <string name="singleplayertutorial">Single-Player Tutorial</string>
+    <string name="multiplayertutorial">Multi-Player Tutorial</string>
+</resources>
