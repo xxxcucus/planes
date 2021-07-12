@@ -32,7 +32,7 @@ public class PlaneOrientationData {
             return;
 
         //find the guess point in the list of points not tested
-        int idx = m_pointsNotTested.indexOf(new Coordinate2D(gp.m_row, gp.m_col));
+        int idx = m_pointsNotTested.indexOf(new Coordinate2D(gp.row(), gp.col()));
 
         //if point not found return
         if (idx < 0)
@@ -40,18 +40,18 @@ public class PlaneOrientationData {
 
         //if point found
         //if dead and point is the planes head remove the head from the list of untested points
-        if (gp.m_type == Type.Dead && m_plane.isHead(new Coordinate2D(gp.m_row, gp.m_col)))
+        if (gp.type() == Type.Dead && m_plane.isHead(new Coordinate2D(gp.row(), gp.col())))
         {
             m_pointsNotTested.remove(idx);
             return;
         }
 
         //if miss or dead discard plane
-        if (gp.m_type == Type.Miss || gp.m_type == Type.Dead)
+        if (gp.type() == Type.Miss || gp.type() == Type.Dead)
             m_discarded = true;
 
         //if hit take point out of the list of points not tested
-        if (gp.m_type == Type.Hit)
+        if (gp.type() == Type.Hit)
             m_pointsNotTested.remove(idx);
 
     }

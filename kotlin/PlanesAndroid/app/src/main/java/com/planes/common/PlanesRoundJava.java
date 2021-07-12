@@ -125,26 +125,26 @@ public class PlanesRoundJava implements PlanesRoundInterface {
         return global_Round.getPlayerGuessesNo();
     }
     public int getPlayerGuessRow(int idx) {
-        return global_Round.getPlayerGuess(idx).m_row;
+        return global_Round.getPlayerGuess(idx).row();
     }
     public int getPlayerGuessCol(int idx) {
-        return global_Round.getPlayerGuess(idx).m_col;
+        return global_Round.getPlayerGuess(idx).col();
     }
     public int getPlayerGuessType(int idx) {
-        return global_Round.getPlayerGuess(idx).m_type.getValue();
+        return global_Round.getPlayerGuess(idx).type().getValue();
     }
 
     public int getComputerGuessesNo() {
         return global_Round.getComputerGuessesNo();
     }
     public int getComputerGuessRow(int idx) {
-        return global_Round.getComputerGuess(idx).m_row;
+        return global_Round.getComputerGuess(idx).row();
     }
     public int getComputerGuessCol(int idx) {
-        return global_Round.getComputerGuess(idx).m_col;
+        return global_Round.getComputerGuess(idx).col();
     }
     public int getComputerGuessType(int idx) {
-        return global_Round.getComputerGuess(idx).m_type.getValue();
+        return global_Round.getComputerGuess(idx).type().getValue();
     }
 
     public int getGameStage() {

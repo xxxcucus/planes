@@ -95,7 +95,7 @@ public class PlaneRound {
     public int playerGuessAlreadyMade(int row, int col) {
         Coordinate2D qp = new Coordinate2D(col, row);
         for (GuessPoint guess : m_playerGuessList) {
-            if (guess.m_row == col && guess.m_col == row)
+            if (guess.row() == col && guess.col() == row)
                 return 1;
         }
         return 0;
@@ -259,7 +259,7 @@ public class PlaneRound {
 
         for (int i = 0; i < guessList.size(); i++) {
             GuessPoint gp = guessList.get(i);
-            if (gp.m_type == Type.Dead)
+            if (gp.type() == Type.Dead)
                 count++;
         }
 
@@ -320,7 +320,7 @@ public class PlaneRound {
         m_playerGuessList.add((GuessPoint)gp.clone());
         m_ComputerGrid.addGuess(gp);
         if (gp.isDead() && m_RoundOptions.m_ShowPlaneAfterKill) {
-            int pos = m_ComputerGrid.searchPlane(gp.m_row, gp.m_col);
+            int pos = m_ComputerGrid.searchPlane(gp.row(), gp.col());
             if (pos < 0)
                 return;
 

@@ -92,7 +92,7 @@ public class ComputerLogic {
             return test1;
 
         //generates a random number smaller than 10
-        int idx = Plane.generateRandomNumber(10);
+        int idx = Plane.PlaneStatic.generateRandomNumber(10);
 
         //various random strategies for making a choice
         if (test2.first && test3.first) {
@@ -228,7 +228,7 @@ public class ComputerLogic {
             return Pair.create(false, new Coordinate2D(0, 0));
 
         //choses randomly a point with the maximum probability
-        int idx = Plane.generateRandomNumber(maxPos.size());
+        int idx = Plane.PlaneStatic.generateRandomNumber(maxPos.size());
 
         //converts the choice into a plane's head position
         return Pair.create(true, mapIndexToQPoint(maxPos.get(idx)));
@@ -244,7 +244,7 @@ public class ComputerLogic {
             return Pair.create(false, new Coordinate2D(0, 0));
 
         //choses a random plane head from the list of heads
-        int idx = Plane.generateRandomNumber(m_headDataList.size());
+        int idx = Plane.PlaneStatic.generateRandomNumber(m_headDataList.size());
         HeadData hd = m_headDataList.get(idx);
 
         //find the orientation that has the most not tested points
@@ -270,14 +270,14 @@ public class ComputerLogic {
             return Pair.create(false, new Coordinate2D(0, 0));
 
         //choose randomly a point from the points not tested in the chosen orientation
-        idx = Plane.generateRandomNumber(hd.m_options[good_orientation].m_pointsNotTested.size());
+        idx = Plane.PlaneStatic.generateRandomNumber(hd.m_options[good_orientation].m_pointsNotTested.size());
 
         return Pair.create(true, (Coordinate2D)hd.m_options[good_orientation].m_pointsNotTested.get(idx).clone());
     }
     //make a random choice
     private Pair<Boolean, Coordinate2D> makeChoiceRandomMode() {
         //find a random point which has zero score in the choice map
-        int idx = Plane.generateRandomNumber(maxChoiceNo);
+        int idx = Plane.PlaneStatic.generateRandomNumber(maxChoiceNo);
 
         //starting from the point next to the point selected
         int count = (idx + 1) % maxChoiceNo;
@@ -313,7 +313,7 @@ public class ComputerLogic {
         if(gp.isDead())
         {
             //create a new head data structure
-            HeadData hd = new HeadData(m_row, m_col, gp.m_row, gp.m_col);
+            HeadData hd = new HeadData(m_row, m_col, gp.row(), gp.col());
 
             //update the head data with all the history of guesses
             for(int i = 0; i < m_extendedGuessesList.size(); i++)
@@ -328,19 +328,19 @@ public class ComputerLogic {
     private void updateChoiceMap(final GuessPoint gp) {
         //marks all the 4 positions in the choice map as guessed -2
         for(int i = 0; i < 4; i++) {
-            Plane plane = new Plane(gp.m_row, gp.m_col, Orientation.values()[i]);
+            Plane plane = new Plane(gp.row(), gp.col(), Orientation.values()[i]);
             int idx = mapPlaneToIndex(plane);
             m_choices.set(idx, new Integer(-2));
         }
 
-        if(gp.m_type == Type.Dead)
-            updateChoiceMapDeadInfo(gp.m_row, gp.m_col);
+        if(gp.type() == Type.Dead)
+            updateChoiceMapDeadInfo(gp.row(), gp.col());
 
-        if(gp.m_type == Type.Hit)
-            updateChoiceMapHitInfo(gp.m_row, gp.m_col);
+        if(gp.type() == Type.Hit)
+            updateChoiceMapHitInfo(gp.row(), gp.col());
 
-        if(gp.m_type == Type.Miss)
-            updateChoiceMapMissInfo(gp.m_row, gp.m_col);
+        if(gp.type() == Type.Miss)
+            updateChoiceMapMissInfo(gp.row(), gp.col());
     }
     //updates the choices with info about a dead guess
     private void updateChoiceMapDeadInfo(int row, int col) {

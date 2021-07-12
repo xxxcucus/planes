@@ -23,19 +23,19 @@ public class GameStatistics {
     public void updateStats(final GuessPoint gp, boolean isComputer) {
         if (isComputer) {
             m_computerMoves++;
-            if(gp.m_type == Type.Dead)
+            if(gp.type() == Type.Dead)
                 m_computerDead++;
-            if(gp.m_type == Type.Hit)
+            if(gp.type() == Type.Hit)
                 m_computerHits++;
-            if(gp.m_type == Type.Miss)
+            if(gp.type() == Type.Miss)
                 m_computerMisses++;
         } else {
             m_playerMoves++;
-            if(gp.m_type == Type.Dead)
+            if(gp.type() == Type.Dead)
                 m_playerDead++;
-            if(gp.m_type == Type.Hit)
+            if(gp.type() == Type.Hit)
                 m_playerHits++;
-            if(gp.m_type == Type.Miss)
+            if(gp.type() == Type.Miss)
                 m_playerMisses++;
         }
     }

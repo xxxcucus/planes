@@ -148,7 +148,7 @@ public class PlaneGrid {
     }
     //generates a random position on the grid
     public Coordinate2D generateRandomGridPosition() {
-        int idx = Plane.generateRandomNumber(m_rowNo * m_colNo);
+        int idx = Plane.PlaneStatic.generateRandomNumber(m_rowNo * m_colNo);
         return new Coordinate2D(idx % m_rowNo, idx / m_rowNo);
     }
     //finds how good is a guess
@@ -259,7 +259,7 @@ public class PlaneGrid {
 
     //generates a random plane orientation
     protected Orientation generateRandomPlaneOrientation() {
-        int idx = Plane.generateRandomNumber(4);
+        int idx = Plane.PlaneStatic.generateRandomNumber(4);
         switch(idx)
         {
             case 0: return Orientation.NorthSouth;
@@ -326,7 +326,7 @@ public class PlaneGrid {
 
             //from the positions that are left in the list
             //choose a random one
-            int pos = Plane.generateRandomNumber(listPossiblePositions.size());
+            int pos = Plane.PlaneStatic.generateRandomNumber(listPossiblePositions.size());
 
             Plane pl = listPossiblePositions.get(pos);
             //save the selected plane
@@ -372,7 +372,7 @@ public class PlaneGrid {
             return Pair.create(false, new Vector<Coordinate2D>());
 
         Plane pl = m_planeList.get(pos);
-        return Pair.create(true, pl.getPlanePoints());
+        return Pair.create(true, pl.planePoints());
     }
 
     public void addGuess(GuessPoint gp) {
