@@ -77,39 +77,39 @@ public class PlanesRoundJava implements PlanesRoundInterface {
     }
 
     public int playerGuess_StatNoPlayerMoves() {
-        return global_Player_Guess_Reaction.m_GameStats.m_playerMoves;
+        return global_Player_Guess_Reaction.m_GameStats.playerMoves();
     }
 
     public int playerGuess_StatNoPlayerHits() {
-        return global_Player_Guess_Reaction.m_GameStats.m_playerHits;
+        return global_Player_Guess_Reaction.m_GameStats.playerHits();
     }
     public int playerGuess_StatNoPlayerMisses() {
-        return global_Player_Guess_Reaction.m_GameStats.m_playerMisses;
+        return global_Player_Guess_Reaction.m_GameStats.playerMisses();
     }
     public int playerGuess_StatNoPlayerDead() {
-        return global_Player_Guess_Reaction.m_GameStats.m_playerDead;
+        return global_Player_Guess_Reaction.m_GameStats.playerDead();
     }
     public int playerGuess_StatNoPlayerWins() {
-        return global_Player_Guess_Reaction.m_GameStats.m_playerWins;
+        return global_Player_Guess_Reaction.m_GameStats.playerWins();
     }
     public int playerGuess_StatNoComputerMoves() {
-        return global_Player_Guess_Reaction.m_GameStats.m_computerMoves;
+        return global_Player_Guess_Reaction.m_GameStats.computerMoves();
     }
     public int playerGuess_StatNoComputerHits() {
-        return global_Player_Guess_Reaction.m_GameStats.m_computerHits;
+        return global_Player_Guess_Reaction.m_GameStats.computerHits();
     }
     public int playerGuess_StatNoComputerMisses() {
-        return global_Player_Guess_Reaction.m_GameStats.m_computerMisses;
+        return global_Player_Guess_Reaction.m_GameStats.computerMisses();
     }
     public int playerGuess_StatNoComputerDead() {
-        return global_Player_Guess_Reaction.m_GameStats.m_computerDead;
+        return global_Player_Guess_Reaction.m_GameStats.computerDead();
     }
     public int playerGuess_StatNoComputerWins() {
-        return global_Player_Guess_Reaction.m_GameStats.m_computerWins;
+        return global_Player_Guess_Reaction.m_GameStats.computerWins();
     }
 
     public int playerGuess_StatNoDraws() {
-        return global_Player_Guess_Reaction.m_GameStats.m_draws;
+        return global_Player_Guess_Reaction.m_GameStats.draws();
     }
 
     public void roundEnds() {
