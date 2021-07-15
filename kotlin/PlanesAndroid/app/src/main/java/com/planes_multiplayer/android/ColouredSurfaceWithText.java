@@ -41,8 +41,8 @@ public class ColouredSurfaceWithText extends View implements ViewWithText {
             m_Text = lp.getText();
         m_BackgroundColor = lp.getColor();
 
-        int measuredHeight = CanvasPaintUtilities.measureHeightOneLineText(heightMeasureSpec, m_Paint, m_Text);
-        int measuredWidth = CanvasPaintUtilities.measureWidthOneLineText(widthMeasureSpec, m_Paint, m_Text);
+        int measuredHeight = CanvasPaintUtilities.Functions.measureHeightOneLineText(heightMeasureSpec, m_Paint, m_Text);
+        int measuredWidth = CanvasPaintUtilities.Functions.measureWidthOneLineText(widthMeasureSpec, m_Paint, m_Text);
 
         setMeasuredDimension(measuredWidth, measuredHeight);
     }
@@ -54,11 +54,11 @@ public class ColouredSurfaceWithText extends View implements ViewWithText {
         canvas.drawRect(0, 0, getWidth(), getHeight(), m_Paint);
 
         m_Paint.setColor(Color.BLUE);
-        CanvasPaintUtilities.drawTextFitToSizeOneLine(m_Text, m_TextSize, canvas, m_Paint, getWidth(), getHeight());
+        CanvasPaintUtilities.Functions.drawTextFitToSizeOneLine(m_Text, m_TextSize, canvas, m_Paint, getWidth(), getHeight());
     }
 
     public int getOptimalTextSize(int maxTextSize, int viewWidth, int viewHeight) {
-        return CanvasPaintUtilities.computeOptimalTextSizeOneLine(m_Text, m_Paint, viewWidth, viewHeight, maxTextSize);
+        return CanvasPaintUtilities.Functions.computeOptimalTextSizeOneLine(m_Text, m_Paint, viewWidth, viewHeight, maxTextSize);
     }
 
     public void setTextSize(int textSize) {

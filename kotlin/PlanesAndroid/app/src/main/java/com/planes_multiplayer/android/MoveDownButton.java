@@ -39,7 +39,7 @@ public class MoveDownButton extends ButtonWithPictogram {
         int radius = Math.min(width / 3, height / 3);
 
         Path path1 = new Path();
-        CanvasPaintUtilities.createFillRectPath(path1, centerX - radius / 5, centerY - radius / 2 - radius / 3, radius * 2 / 5, radius);
+        CanvasPaintUtilities.Functions.createFillRectPath(path1, centerX - radius / 5, centerY - radius / 2 - radius / 3, radius * 2 / 5, radius);
         canvas.drawPath(path1, m_Paint);
 
         Path path2 = new Path();

@@ -38,8 +38,8 @@ public class TwoLineTextButton extends AppCompatButton implements ViewWithText {
         if (m_Text2 == null)
             m_Text2 = lp.getText2();
 
-        int measuredHeight = CanvasPaintUtilities.measureHeightTwoLinesText(heightMeasureSpec, m_Paint, m_Text1, m_Text2, m_LineSpacing);
-        int measuredWidth = CanvasPaintUtilities.measureWidthTwoLinesText(widthMeasureSpec, m_Paint, m_Text1, m_Text2);
+        int measuredHeight = CanvasPaintUtilities.Functions.measureHeightTwoLinesText(heightMeasureSpec, m_Paint, m_Text1, m_Text2, m_LineSpacing);
+        int measuredWidth = CanvasPaintUtilities.Functions.measureWidthTwoLinesText(widthMeasureSpec, m_Paint, m_Text1, m_Text2);
 
         setMeasuredDimension(measuredWidth, measuredHeight);
     }
@@ -51,14 +51,14 @@ public class TwoLineTextButton extends AppCompatButton implements ViewWithText {
         canvas.drawRect(0, 0, getWidth(), getHeight(), m_Paint);
 
         m_Paint.setColor(Color.BLUE);
-        CanvasPaintUtilities.drawTextFitToSizeTwoLines(m_Text1, m_Text2, m_TextSize, canvas, m_Paint, getWidth(), getHeight(), m_LineSpacing);
+        CanvasPaintUtilities.Functions.drawTextFitToSizeTwoLines(m_Text1, m_Text2, m_TextSize, canvas, m_Paint, getWidth(), getHeight(), m_LineSpacing);
 
         m_Paint.setColor(Color.BLACK);
-        CanvasPaintUtilities.drawButtonShadow(canvas, m_Paint, getWidth(), getHeight());
+        CanvasPaintUtilities.Functions.drawButtonShadow(canvas, m_Paint, getWidth(), getHeight());
     }
 
     public int getOptimalTextSize(int maxTextSize, int viewWidth, int viewHeight) {
-        return CanvasPaintUtilities.computeOptimalTextSizeTwoLines(m_Text1, m_Text2, m_Paint, viewWidth, viewHeight, maxTextSize, m_LineSpacing);
+        return CanvasPaintUtilities.Functions.computeOptimalTextSizeTwoLines(m_Text1, m_Text2, m_Paint, viewWidth, viewHeight, maxTextSize, m_LineSpacing);
     }
 
     public void setTextSize(int textSize) {

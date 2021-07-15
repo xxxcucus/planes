@@ -41,7 +41,7 @@ public class MoveLeftButton extends ButtonWithPictogram {
         int radius = Math.min(width / 3, height / 3);
 
         Path path1 = new Path();
-        CanvasPaintUtilities.createFillRectPath(path1, centerX - radius / 2 + radius / 3, centerY - radius / 5, radius, radius * 2 / 5);
+        CanvasPaintUtilities.Functions.createFillRectPath(path1, centerX - radius / 2 + radius / 3, centerY - radius / 5, radius, radius * 2 / 5);
         canvas.drawPath(path1, m_Paint);
 
         Path path2 = new Path();

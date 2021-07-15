@@ -38,7 +38,7 @@ public class ButtonWithPictogram extends AppCompatButton {
         canvas.drawRect(0, 0, getWidth(), getHeight(), m_Paint);
 
         m_Paint.setColor(Color.BLACK);
-        CanvasPaintUtilities.drawButtonShadow(canvas, m_Paint, getWidth(), getHeight());
+        CanvasPaintUtilities.Functions.drawButtonShadow(canvas, m_Paint, getWidth(), getHeight());
     }
 
     @Override
