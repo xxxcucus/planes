@@ -109,7 +109,6 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
      * Check if a guess was already made at this position.
      */
     fun playerGuessAlreadyMade(row: Int, col: Int): Int {
-        val qp = Coordinate2D(col, row)
         for (guess in m_playerGuessList) {
             if (guess.row() == col && guess.col() == row) return 1
         }
@@ -205,7 +204,7 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
 	i - plane but not head
     */
     fun getPlaneSquareType(row: Int, col: Int, isComputer: Boolean): Int {
-        var isOnPlane = Pair.create(false, 0)
+        var isOnPlane: Pair<Boolean, Int>
         if (isComputer) {
             isOnPlane = m_ComputerGrid.isPointOnPlane(row, col)
             if (!isOnPlane.first) return 0
@@ -354,8 +353,6 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
     //check to see if there is a winner
     private fun roundEnds(): Pair<Boolean, Boolean> {
-        //at equal scores computer wins
-        val isPlayerWinner = false
         val computerFinished = enoughGuesses(m_PlayerGrid, m_computerGuessList)
         val playerFinished = enoughGuesses(m_ComputerGrid, m_playerGuessList)
         return Pair.create(playerFinished, computerFinished)

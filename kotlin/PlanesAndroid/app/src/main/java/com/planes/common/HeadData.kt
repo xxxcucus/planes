@@ -15,7 +15,7 @@ class HeadData(//size of the grid
 
     init {
         m_correctOrient = -1
-        m_options = Array(4) { i -> PlaneOrientationData()  }
+        m_options = Array(4) { _ -> PlaneOrientationData()  }
         for (i in 0..3) {
             val pl = Plane(m_headRow, m_headCol, Orientation.values()[i])
             //create the four planes for each head position
