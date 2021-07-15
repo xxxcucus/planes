@@ -21,11 +21,11 @@ class ComputerLogic(//gets the number of rows
         var colNo: Int, planeno: Int) {
 
     //maximum number of choices
-    protected var maxChoiceNo: Int
+    protected var m_maxChoiceNo: Int
 
     //gets the number of planes
     //number of planes that need to be guessed
-    protected var planeNo: Int
+    protected var m_planeNo: Int
 
 
     //list of already guessed planes
@@ -36,12 +36,12 @@ class ComputerLogic(//gets the number of rows
 
     //gets the list of guesses
     //list of guesses made until this moment
-    protected var listGuesses: Vector<GuessPoint>
+    protected var m_listGuesses: Vector<GuessPoint>
 
 
     //list of extended guesses; when the position of a plane is decided
     //all the points on this plane are considered as misses
-    protected var extendedListGuesses: Vector<GuessPoint>
+    protected var m_extendedListGuesses: Vector<GuessPoint>
 
 
     //gets the choices
@@ -64,22 +64,22 @@ class ComputerLogic(//gets the number of rows
     protected var m_pipi: PlaneIntersectingPointIterator
 
     init {
-        maxChoiceNo = rowNo * colNo * 4
-        planeNo = planeno
+        m_maxChoiceNo = rowNo * colNo * 4
+        m_planeNo = planeno
 
         //creates the tables of choices
-        choicesArray = Vector(maxChoiceNo)
-        for (i in 0 until maxChoiceNo) {
+        choicesArray = Vector(m_maxChoiceNo)
+        for (i in 0 until m_maxChoiceNo) {
             choicesArray.add(-1)
         }
-        m_zero_choices = Vector(maxChoiceNo / 4)
-        for (i in 0 until maxChoiceNo / 4) {
+        m_zero_choices = Vector(m_maxChoiceNo / 4)
+        for (i in 0 until m_maxChoiceNo / 4) {
             m_zero_choices.add(-1)
         }
         m_guessedPlaneList = Vector()
         m_headDataList = Vector()
-        listGuesses = Vector()
-        extendedListGuesses = Vector()
+        m_listGuesses = Vector()
+        m_extendedListGuesses = Vector()
         m_pipi = PlaneIntersectingPointIterator(Coordinate2D(0, 0))
 
         //initializes the table of choices and the head data
@@ -93,7 +93,7 @@ class ComputerLogic(//gets the number of rows
     fun reset() {
         //initializes -1 for impossible choice (invalid plane position)
         //with 0 for possible choice
-        for (i in 0 until maxChoiceNo) {
+        for (i in 0 until m_maxChoiceNo) {
             val pl = mapIndexToPlane(i)
             if (pl.isPositionValid(rowNo, colNo)) choicesArray[i] = 0 else choicesArray[i] = -1
         }
@@ -101,8 +101,8 @@ class ComputerLogic(//gets the number of rows
         //clears various lists in the computerlogic object
         m_guessedPlaneList.clear()
         //m_guessedHeadList.clear();
-        listGuesses.clear()
-        extendedListGuesses.clear()
+        m_listGuesses.clear()
+        m_extendedListGuesses.clear()
         m_headDataList.clear()
     }
 
@@ -150,8 +150,8 @@ class ComputerLogic(//gets the number of rows
     //new info is added the choices are updated
     fun addData(gp: GuessPoint) {
         //add to list of guesses
-        listGuesses.add(gp.clone() as GuessPoint)
-        extendedListGuesses.add(gp.clone() as GuessPoint)
+        m_listGuesses.add(gp.clone() as GuessPoint)
+        m_extendedListGuesses.add(gp.clone() as GuessPoint)
 
         //updates the info in the array of choices
         updateChoiceMap(gp)
@@ -178,7 +178,7 @@ class ComputerLogic(//gets the number of rows
 
     //tests whether all plane positions are guessed
     fun areAllGuessed(): Boolean {
-        return m_guessedPlaneList.size >= planeNo
+        return m_guessedPlaneList.size >= m_planeNo
     }
 
     //computes the position in the m_choices array of a given plane
@@ -212,7 +212,7 @@ class ComputerLogic(//gets the number of rows
         //which has the highest value
         var maxidx = 0
         maxPos.clear()
-        for (i in 1 until maxChoiceNo) {
+        for (i in 1 until m_maxChoiceNo) {
             if (choicesArray[i] == choicesArray[maxidx]) maxPos.add(i)
             if (choicesArray[i] > choicesArray[maxidx]) {
                 maxidx = i
@@ -270,10 +270,10 @@ class ComputerLogic(//gets the number of rows
     //make a random choice
     private fun makeChoiceRandomMode(): Pair<Boolean, Coordinate2D> {
         //find a random point which has zero score in the choice map
-        val idx = generateRandomNumber(maxChoiceNo)
+        val idx = generateRandomNumber(m_maxChoiceNo)
 
         //starting from the point next to the point selected
-        var count = (idx + 1) % maxChoiceNo
+        var count = (idx + 1) % m_maxChoiceNo
 
         //if it corresponds to a point with a choice of 0
         //choose this point
@@ -283,7 +283,7 @@ class ComputerLogic(//gets the number of rows
             }
             //if the point does not correspond to a zero choice
             //move to the next point
-            count = (count + 1) % maxChoiceNo
+            count = (count + 1) % m_maxChoiceNo
         }
         //loop until all the points in the m_choices table have been tested
         return Pair.create(false, Coordinate2D(0, 0))
@@ -306,7 +306,7 @@ class ComputerLogic(//gets the number of rows
             val hd = HeadData(rowNo, colNo, gp.row(), gp.col())
 
             //update the head data with all the history of guesses
-            for (i in extendedListGuesses.indices) hd.update(extendedListGuesses[i])
+            for (i in m_extendedListGuesses.indices) hd.update(m_extendedListGuesses[i])
 
             //append the head data in the list of heads
             m_headDataList.add(hd)
@@ -390,9 +390,9 @@ class ComputerLogic(//gets the number of rows
             val qp = ppi.next()
             val gp = GuessPoint(qp.x(), qp.y(), Type.Miss)
             updateChoiceMap(gp)
-            val idx = extendedListGuesses.indexOf(gp)
-            if (idx >= 0) extendedListGuesses.removeAt(idx)
-            extendedListGuesses.add(gp)
+            val idx = m_extendedListGuesses.indexOf(gp)
+            if (idx >= 0) m_extendedListGuesses.removeAt(idx)
+            m_extendedListGuesses.add(gp)
         }
     }
 }
