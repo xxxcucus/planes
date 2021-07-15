@@ -1,5 +1,5 @@
 import com.google.common.truth.Truth
-import com.planes.common.PlaneOrientationData
+import com.planes_multiplayer.single_player_engine.PlaneOrientationData
 import org.junit.Test
 
 class PlaneOrientationDataTest {

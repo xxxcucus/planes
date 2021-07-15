@@ -1,5 +1,5 @@
 import com.google.common.truth.Truth
-import com.planes.common.GameStages
+import com.planes_multiplayer.single_player_engine.GameStages
 import org.junit.Test
 
 class GameStagesTest {

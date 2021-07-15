@@ -1,5 +1,5 @@
 import com.google.common.truth.Truth
-import com.planes.common.*
+import com.planes_multiplayer.single_player_engine.*
 import org.junit.Test
 import java.util.*
 

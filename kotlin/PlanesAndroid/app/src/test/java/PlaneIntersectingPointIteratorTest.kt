@@ -1,6 +1,6 @@
 import com.google.common.truth.Truth
-import com.planes.common.Coordinate2D
-import com.planes.common.PlaneIntersectingPointIterator
+import com.planes_multiplayer.single_player_engine.Coordinate2D
+import com.planes_multiplayer.single_player_engine.PlaneIntersectingPointIterator
 import org.junit.Test
 
 class PlaneIntersectingPointIteratorTest {

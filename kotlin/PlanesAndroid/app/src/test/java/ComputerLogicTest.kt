@@ -1,5 +1,5 @@
 import com.google.common.truth.Truth
-import com.planes.common.ComputerLogic
+import com.planes_multiplayer.single_player_engine.ComputerLogic
 import org.junit.Test
 
 class ComputerLogicTest {

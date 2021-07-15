@@ -1,5 +1,5 @@
 import com.google.common.truth.Truth
-import com.planes.common.Type
+import com.planes_multiplayer.single_player_engine.Type
 import org.junit.Test
 
 class TypeTest {
