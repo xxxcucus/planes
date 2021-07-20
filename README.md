@@ -21,7 +21,7 @@ For Windows:
 
 For Linux
 
-The easiest way is to use the Planes.x.y.z-x86_64.AppImage directly on your Linux machine.
+The easiest way is to use the Planes.x.y.z-x86_64.AppImage or Planes_Multiplayer.x.y.z-x86_64.AppImage directly on your Linux machine.
 Alternatively you could:
 
 1. Download Planes.x.y.z_linux.tar.gz to a folder on your computer.
