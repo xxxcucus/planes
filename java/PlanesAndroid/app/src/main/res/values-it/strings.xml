@@ -4,11 +4,11 @@
     <string name="right_button">Destra</string>
     <string name="up_button">Su</string>
     <string name="down_button">Giù</string>
-    <string name="rotate_button">Ruota</string>
-    <string name="done_button">Fatto</string>
+    <string name="rotate_button">Gira</string>
+    <string name="done_button">Pronto</string>
     <string name="view_player_board">Visualizza la scheda giocatore</string>
     <string name="view_player_board1">Visualizza</string>
-    <string name="view_player_board2">Tabellone giocatore</string>
+    <string name="view_player_board2">Scheda giocatore</string>
     <string name="view_computer_board">Visualizza la scheda del computer</string>
     <string name="view_computer_board1">Visualizza</string>
     <string name="view_computer_board2">Scheda Computer</string>
@@ -16,25 +16,25 @@
     <string name="computer_stats">Statistiche del computer</string>
     <string name="player_hits">Colpi del giocatore</string>
     <string name="player_moves">Mosse del giocatore</string>
-    <string name="player_misses">Perse del giocatore</string>
+    <string name="player_misses">Colpi mancati giocatore</string>
     <string name="player_dead">Morte del giocatore</string>
-    <string name="computer_hits">Colpi del Computer</string>
-    <string name="computer_moves">Mosse del Computer</string>
-    <string name="computer_misses">Sbagli del Computer</string>
+    <string name="computer_hits">Colpi del computer</string>
+    <string name="computer_moves">Mosse del computer</string>
+    <string name="computer_misses">Colpi mancati del computer</string>
     <string name="computer_dead">Perse dal Computer</string>
     <string name="general_hits">Colpi</string>
     <string name="general_moves">Mosse</string>
     <string name="general_misses">Perse</string>
     <string name="general_dead">Morto</string>
-    <string name="computer_winner">Il computer vince il round!</string>
-    <string name="player_winner">Il giocatore vince il round!</string>
-    <string name="draw_result">Disegna !</string>
+    <string name="computer_winner">Il computer ha vinto!</string>
+    <string name="player_winner">Il giocatore ha vinto!</string>
+    <string name="draw_result">Parità !</string>
     <string name="start_new_game">Inizia una nuova partita</string>
     <string name="start_new_game1">Inizia</string>
-    <string name="start_new_game2">Nuovo gioco</string>
+    <string name="start_new_game2">Nuova partita</string>
     <string name="computer_wins">Vittorie Computer</string>
     <string name="player_wins">Vittorie giocatore</string>
-    <string name="draws">Disegni</string>
+    <string name="draws">Parità</string>
     <string name="help">Aiuto</string>
     <string name="board_editing_stage">Modifica della scheda</string>
     <string name="game_stage">Gioco</string>
@@ -44,28 +44,28 @@
     <string name="credits_software_content">Questo software è stato sviluppato da Cristian Cucu e il codice sorgente completo può essere trovato su www.github.com/xxxcucus/planes.</string>
     <string name="credits_software_button">Visita la pagina GitHub del progetto</string>
     <string name="credits_graphics_title">Grafiche</string>
-    <string name="credits_graphics_content">Il logo del gioco e la grafica del negozio sono stati creati da Alexandru Vintilescu. Altri lavori di Alex possono essere visti su https://axa951.wixsite.com/portfolio</string>
+    <string name="credits_graphics_content">Il logo e la grafica del gioco sono stati creati da Alexandru Vintilescu. Altri lavori di Alex possono essere visti su https://axa951.wixsite.com/portfolio</string>
     <string name="credits_graphics_button">Vai alla pagina di\' Alex</string>
-    <string name="helptext_startnewgame_1">Tocca il pulsante "Inizia nuova partita" per iniziare un nuovo round.</string>
-    <string name="helptext_boardediting_1">Fare clic sulla fusoliera per selezionarla.</string>
-    <string name="helptext_boardediting_2">Fare clic sui pulsanti di controllo per posizionare l\'aereo."</string>
-    <string name="helptext_game_1">TClicca sui campi di gioco del computer per indovinare dove sono i suoi aerei.</string>
-    <string name="helptext_game_2">X significa bersaglio distrutto. Disco significa che non è stato colpito nulla. Rombo significa colpito.</string>
+    <string name="helptext_startnewgame_1">Clicca sul pulsante \'Inizia nuova partita\' per iniziare una nuova partita.</string>
+    <string name="helptext_boardediting_1">Clicca sulla fusoliera dell\'aereo per selezionarlo.</string>
+    <string name="helptext_boardediting_2">Fare clic sui pulsanti di controllo per posizionare l\'aereo.</string>
+    <string name="helptext_game_1">Clicca sui campi della scheda del computer per indovinare la posizione dei suoi aerei.</string>
+    <string name="helptext_game_2">X significa bersaglio distrutto.  Il cerchio indica un colpo mancato. Rombo significa colpito.</string>
     <string name="popup_help_button_text">Guarda Video</string>
-    <string name="game_difficulty_options">Opzioni difficoltà di gioco</string>
+    <string name="game_difficulty_options">Livelli di difficoltà</string>
     <string name="computer_skill">Abilità Computer</string>
     <string-array name="computer_skills">
         <item>Facile</item>
         <item>Medio</item>
         <item>Avanzato</item>
     </string-array>
-    <string name="show_plane_after_kill">Mostra aereo dopo averlo colpito</string>
+    <string name="show_plane_after_kill">Mostra aerei distrutti</string>
     <string-array name="yesno_options">
         <item>Si</item>
         <item>No</item>
     </string-array>
     <string name="options">Preferenze</string>
-    <string name="warning_options_text">Impossibile impostare l\'opzione durante il gioco.</string>
+    <string name="warning_options_text">Impossibile modificare le preferenze durante la partita</string>
     <string name="warning_options_title">Avvertenze</string>
     <string name="warning_options_button_text">OK</string>
     <string name="othervideos">Altri Video</string>
