@@ -271,7 +271,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
                     helpButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Tools.openLink(view.getContext(), link_tutorial_board_editing);
+                            Tools.Links.openLink(view.getContext(), link_tutorial_board_editing);
                         }
                     });
                     helpButton.setEnabled(true);
@@ -283,7 +283,7 @@ public class PlanesAndroidActivity extends AppCompatActivity {
                     helpButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Tools.openLink(view.getContext(), link_tutorial_game);
+                            Tools.Links.openLink(view.getContext(), link_tutorial_game);
                         }
                     });
                     helpButton.setEnabled(true);
@@ -311,14 +311,14 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         showGithubPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Tools.openLink(view.getContext(), "https://www.github.com/xxxcucus/planes");
+                Tools.Links.openLink(view.getContext(), "https://www.github.com/xxxcucus/planes");
             }
         });
 
         showAlexPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Tools.openLink(view.getContext(), "https://axa951.wixsite.com/portfolio");
+                Tools.Links.openLink(view.getContext(), "https://axa951.wixsite.com/portfolio");
             }
         });
 
@@ -362,14 +362,14 @@ public class PlanesAndroidActivity extends AppCompatActivity {
         showGeneralVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Tools.openLink(view.getContext(), link_general_tutorial);
+                Tools.Links.openLink(view.getContext(), link_general_tutorial);
             }
         });
 
         showMultiplayerVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Tools.openLink(view.getContext(), link_multiplayer_tutorial);
+                Tools.Links.openLink(view.getContext(), link_multiplayer_tutorial);
             }
         });
 
