@@ -15,11 +15,11 @@ import com.planes_multiplayer.single_player_engine.PlanesRoundJava
 
 class PlanesAndroidActivity : AppCompatActivity() {
 
-    private var m_PlaneRound: PlanesRoundInterface? = null
-    private var m_GameBoards: GameBoardsAdapter? = null
-    private var m_GameControls: GameControlsAdapter? = null
-    private var m_PlanesLayout: PlanesVerticalLayout? = null
-    private var m_PreferencesService: PreferencesService? = null
+    private lateinit var m_PlaneRound: PlanesRoundInterface
+    private lateinit var m_GameBoards: GameBoardsAdapter
+    private lateinit var m_GameControls: GameControlsAdapter
+    private lateinit var m_PlanesLayout: PlanesVerticalLayout
+    private lateinit var m_PreferencesService: PreferencesService
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -110,40 +110,40 @@ class PlanesAndroidActivity : AppCompatActivity() {
         val drawsLabel = findViewById<View>(R.id.draws_label) as ColouredSurfaceWithText
         val drawsCount = findViewById<View>(R.id.draws_count) as ColouredSurfaceWithText
         m_GameControls = GameControlsAdapter(this)
-        m_GameControls!!.setBoardEditingControls(upButton, downButton, leftButton, rightButton, doneButton, rotateButton)
-        if (!isTablet) m_GameControls!!.setGameControls(statsTitle, viewComputerBoardButton1, movesLabel, movesCount, missesLabel, missesCount, hitsLabel, hitsCount, deadsLabel, deadCount)
-        m_GameControls!!.setStartNewGameControls(viewComputerBoardButton2, startNewGameButton, computerWinsLabel, computerWinsCount, playerWinsLabel, playerWinsCount, drawsLabel, drawsCount, winnerText)
-        m_GameControls!!.setGameSettings(m_PlaneRound, isTablet)
-        m_GameControls!!.setGameBoards(m_GameBoards)
-        m_GameControls!!.setPlanesLayout(m_PlanesLayout)
-        m_GameBoards!!.setGameControls(m_GameControls)
+        m_GameControls.setBoardEditingControls(upButton, downButton, leftButton, rightButton, doneButton, rotateButton)
+        if (!isTablet) m_GameControls.setGameControls(statsTitle, viewComputerBoardButton1, movesLabel, movesCount, missesLabel, missesCount, hitsLabel, hitsCount, deadsLabel, deadCount)
+        m_GameControls.setStartNewGameControls(viewComputerBoardButton2, startNewGameButton, computerWinsLabel, computerWinsCount, playerWinsLabel, playerWinsCount, drawsLabel, drawsCount, winnerText)
+        m_GameControls.setGameSettings(m_PlaneRound, isTablet)
+        m_GameControls.setGameBoards(m_GameBoards)
+        m_GameControls.setPlanesLayout(m_PlanesLayout)
+        m_GameBoards.setGameControls(m_GameControls)
         when ((m_PlaneRound as PlanesRoundJava).getGameStage()) {
             0 -> {
-                m_GameBoards!!.setNewRoundStage()
-                m_GameControls!!.setNewRoundStage()
-                m_PlanesLayout!!.setComputerBoard()
-                m_PlanesLayout!!.setNewRoundStage()
+                m_GameBoards.setNewRoundStage()
+                m_GameControls.setNewRoundStage()
+                m_PlanesLayout.setComputerBoard()
+                m_PlanesLayout.setNewRoundStage()
             }
             1 -> {
-                m_GameBoards!!.setBoardEditingStage()
-                m_GameControls!!.setBoardEditingStage()
-                m_PlanesLayout!!.setBoardEditingStage()
+                m_GameBoards.setBoardEditingStage()
+                m_GameControls.setBoardEditingStage()
+                m_PlanesLayout.setBoardEditingStage()
             }
             2 -> {
-                m_GameBoards!!.setGameStage()
-                m_GameControls!!.setGameStage()
-                m_PlanesLayout!!.setGameStage()
+                m_GameBoards.setGameStage()
+                m_GameControls.setGameStage()
+                m_PlanesLayout.setGameStage()
             }
         }
         m_PreferencesService = PreferencesService(this)
 
         // recovering the instance state
-        m_PreferencesService!!.readPreferences()
-        if (!(m_PlaneRound as PlanesRoundJava).setComputerSkill(m_PreferencesService!!.computerSkill)) {
-            m_PreferencesService!!.computerSkill = (m_PlaneRound as PlanesRoundJava).getComputerSkill()
+        m_PreferencesService.readPreferences()
+        if (!(m_PlaneRound as PlanesRoundJava).setComputerSkill(m_PreferencesService.computerSkill)) {
+            m_PreferencesService.computerSkill = (m_PlaneRound as PlanesRoundJava).getComputerSkill()
         }
-        if (!(m_PlaneRound as PlanesRoundJava).setShowPlaneAfterKill(m_PreferencesService!!.showPlaneAfterKill)) {
-            m_PreferencesService!!.showPlaneAfterKill = (m_PlaneRound as PlanesRoundJava).getShowPlaneAfterKill()
+        if (!(m_PlaneRound as PlanesRoundJava).setShowPlaneAfterKill(m_PreferencesService.showPlaneAfterKill)) {
+            m_PreferencesService.showPlaneAfterKill = (m_PlaneRound as PlanesRoundJava).getShowPlaneAfterKill()
         }
         Log.d("Planes", "onCreate")
     }
@@ -164,20 +164,20 @@ class PlanesAndroidActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        m_PreferencesService!!.writePreferences()
+        m_PreferencesService.writePreferences()
         super.onStop()
         Log.d("Planes", "onStop")
     }
 
     public override fun onDestroy() {
-        m_PreferencesService!!.writePreferences()
+        m_PreferencesService.writePreferences()
         super.onDestroy()
         Log.d("Planes", "onDestroy")
     }
 
     public override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt("gamedifficulty/computerskill", m_PreferencesService!!.computerSkill)
-        outState.putBoolean("gamedifficulty/showkilledplane", m_PreferencesService!!.showPlaneAfterKill)
+        outState.putInt("gamedifficulty/computerskill", m_PreferencesService.computerSkill)
+        outState.putBoolean("gamedifficulty/showkilledplane", m_PreferencesService.showPlaneAfterKill)
 
         // call superclass to save any view hierarchy
         super.onSaveInstanceState(outState)
@@ -185,13 +185,13 @@ class PlanesAndroidActivity : AppCompatActivity() {
     }
 
     public override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        m_PreferencesService!!.computerSkill = savedInstanceState.getInt("gamedifficulty/computerskill")
-        m_PreferencesService!!.showPlaneAfterKill = savedInstanceState.getBoolean("gamedifficulty/showkilledplane")
-        if (!m_PlaneRound!!.setComputerSkill(m_PreferencesService!!.computerSkill)) {
-            m_PreferencesService!!.computerSkill = m_PlaneRound!!.getComputerSkill()
+        m_PreferencesService.computerSkill = savedInstanceState.getInt("gamedifficulty/computerskill")
+        m_PreferencesService.showPlaneAfterKill = savedInstanceState.getBoolean("gamedifficulty/showkilledplane")
+        if (!m_PlaneRound.setComputerSkill(m_PreferencesService.computerSkill)) {
+            m_PreferencesService.computerSkill = m_PlaneRound.getComputerSkill()
         }
-        if (!m_PlaneRound!!.setShowPlaneAfterKill(m_PreferencesService!!.showPlaneAfterKill)) {
-            m_PreferencesService!!.showPlaneAfterKill = m_PlaneRound!!.getShowPlaneAfterKill()
+        if (!m_PlaneRound.setShowPlaneAfterKill(m_PreferencesService.showPlaneAfterKill)) {
+            m_PreferencesService.showPlaneAfterKill = m_PlaneRound.getShowPlaneAfterKill()
         }
         Log.d("Planes", "onRestoreInstanceState")
     }
@@ -217,7 +217,7 @@ class PlanesAndroidActivity : AppCompatActivity() {
         val link_tutorial_board_editing = "https://www.youtube.com/watch?v=qgL0RdwqBRY"
         val helpButton = popupView.findViewById<View>(R.id.popup_help_button) as Button
         if (helpTextView != null && helpTitleTextView != null) {
-            when (m_GameBoards!!.gameStage) {
+            when (m_GameBoards.gameStage) {
                 GameStages.GameNotStarted -> {
                     helpTitleTextView.text = resources.getString(R.string.game_not_started_stage)
                     helpTextView.text = resources.getString(R.string.helptext_startnewgame_1)
@@ -278,8 +278,8 @@ class PlanesAndroidActivity : AppCompatActivity() {
 
     fun onShowOptionsClick() {
         val intent = Intent(this, OptionsActivity::class.java)
-        intent.putExtra("gamedifficulty/computerskill", m_PreferencesService!!.computerSkill)
-        intent.putExtra("gamedifficulty/showkilledplane", m_PreferencesService!!.showPlaneAfterKill)
+        intent.putExtra("gamedifficulty/computerskill", m_PreferencesService.computerSkill)
+        intent.putExtra("gamedifficulty/showkilledplane", m_PreferencesService.showPlaneAfterKill)
         startActivityForResult(intent, 1)
     }
 
@@ -317,8 +317,8 @@ class PlanesAndroidActivity : AppCompatActivity() {
             if (extras != null) {
                 val skill = extras.getInt("gamedifficulty/computerskill")
                 val show = extras.getBoolean("gamedifficulty/showkilledplane")
-                m_PreferencesService!!.computerSkill = skill
-                m_PreferencesService!!.showPlaneAfterKill = show
+                m_PreferencesService.computerSkill = skill
+                m_PreferencesService.showPlaneAfterKill = show
             }
         }
         super.onActivityResult(requestCode, resultCode, returnIntent)

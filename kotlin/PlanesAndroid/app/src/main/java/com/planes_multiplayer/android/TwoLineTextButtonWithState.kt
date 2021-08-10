@@ -16,7 +16,7 @@ class TwoLineTextButtonWithState : TwoLineTextButton, ObjectWithStringState, Vie
         init()
     }
 
-    override fun setState(stateName: String, text: String?) {
+    override fun setState(stateName: String, text: String) {
         //TODO: read texts from resources
         currentStateName = stateName
         if (currentStateName === "player") {
@@ -28,5 +28,5 @@ class TwoLineTextButtonWithState : TwoLineTextButton, ObjectWithStringState, Vie
         invalidate()
     }
 
-    override var currentStateName: String? = null
+    override lateinit var currentStateName: String
 }

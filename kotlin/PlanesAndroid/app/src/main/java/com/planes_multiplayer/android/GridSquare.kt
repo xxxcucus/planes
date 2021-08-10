@@ -14,11 +14,11 @@ class GridSquare : View {
     private var m_ColCount = 10
     private var m_RowNo = -1
     private var m_ColNo = -1
-    private var m_Paint: Paint? = null
-    private var m_MissCircle: RectF? = null
-    private var m_HitPath: Path? = null
+    private lateinit var m_Paint: Paint
+    private lateinit var m_MissCircle: RectF
+    private lateinit var m_HitPath: Path
     private var m_Width = 0
-    private var m_Parent: GameBoard? = null
+    private lateinit var m_Parent: GameBoard
     private var m_XTouched = -1
     private var m_YTouched = -1
 
@@ -78,31 +78,31 @@ class GridSquare : View {
     }
 
     override fun onDraw(canvas: Canvas) {
-        m_Paint!!.style = Paint.Style.FILL
-        m_Paint!!.color = m_BackgroundColor
-        canvas.drawRect((width / 20).toFloat(), (height / 20).toFloat(), (width * 19 / 20).toFloat(), (height * 19 / 20).toFloat(), m_Paint!!)
+        m_Paint.style = Paint.Style.FILL
+        m_Paint.color = m_BackgroundColor
+        canvas.drawRect((width / 20).toFloat(), (height / 20).toFloat(), (width * 19 / 20).toFloat(), (height * 19 / 20).toFloat(), m_Paint)
         if (m_GuessType >= 0) {
             println("Draw " + m_GuessType + " " + m_RowNo + " " + m_ColNo)
             when (m_GuessType) {
                 0 -> {
                     //draw red circle
-                    m_Paint!!.style = Paint.Style.FILL
-                    m_Paint!!.color = m_GuessColor
-                    canvas.drawOval(m_MissCircle!!, m_Paint!!)
+                    m_Paint.style = Paint.Style.FILL
+                    m_Paint.color = m_GuessColor
+                    canvas.drawOval(m_MissCircle, m_Paint)
                 }
                 1 -> {
                     //draw triangle
-                    m_Paint!!.style = Paint.Style.FILL
-                    m_Paint!!.color = m_GuessColor
-                    canvas.drawPath(m_HitPath!!, m_Paint!!)
+                    m_Paint.style = Paint.Style.FILL
+                    m_Paint.color = m_GuessColor
+                    canvas.drawPath(m_HitPath, m_Paint)
                 }
                 2 -> {
                     //draw X
-                    m_Paint!!.style = Paint.Style.STROKE
-                    m_Paint!!.strokeWidth = 10f
-                    m_Paint!!.color = m_GuessColor
-                    canvas.drawLine(0f, 0f, width.toFloat(), height.toFloat(), m_Paint!!)
-                    canvas.drawLine(0f, height.toFloat(), width.toFloat(), 0f, m_Paint!!)
+                    m_Paint.style = Paint.Style.STROKE
+                    m_Paint.strokeWidth = 10f
+                    m_Paint.color = m_GuessColor
+                    canvas.drawLine(0f, 0f, width.toFloat(), height.toFloat(), m_Paint)
+                    canvas.drawLine(0f, height.toFloat(), width.toFloat(), 0f, m_Paint)
                 }
             }
         }
@@ -121,15 +121,15 @@ class GridSquare : View {
         //System.out.println("Allocate " + m_Width);
         m_MissCircle = RectF((m_Width / 4).toFloat(), (m_Width / 4).toFloat(), (m_Width * 3 / 4).toFloat(), (m_Width * 3 / 4).toFloat())
         m_HitPath = Path()
-        m_HitPath!!.moveTo(0f, (m_Width / 2).toFloat())
-        m_HitPath!!.lineTo((m_Width / 2).toFloat(), 0f)
-        m_HitPath!!.lineTo(m_Width.toFloat(), (m_Width / 2).toFloat())
-        m_HitPath!!.lineTo((m_Width / 2).toFloat(), m_Width.toFloat())
-        m_HitPath!!.lineTo(0f, (m_Width / 2).toFloat())
-        m_HitPath!!.close()
+        m_HitPath.moveTo(0f, (m_Width / 2).toFloat())
+        m_HitPath.lineTo((m_Width / 2).toFloat(), 0f)
+        m_HitPath.lineTo(m_Width.toFloat(), (m_Width / 2).toFloat())
+        m_HitPath.lineTo((m_Width / 2).toFloat(), m_Width.toFloat())
+        m_HitPath.lineTo(0f, (m_Width / 2).toFloat())
+        m_HitPath.close()
     }
 
-    fun setParent(top: GameBoard?) {
+    fun setParent(top: GameBoard) {
         m_Parent = top
     }
 
@@ -144,7 +144,7 @@ class GridSquare : View {
             MotionEvent.ACTION_BUTTON_RELEASE, MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
                 val xtouched = event.rawX.toInt()
                 val ytouched = event.rawY.toInt()
-                m_Parent!!.touchEventUp(m_RowNo, m_ColNo, (ytouched - m_YTouched) / m_Width, (xtouched - m_XTouched) / m_Width)
+                m_Parent.touchEventUp(m_RowNo, m_ColNo, (ytouched - m_YTouched) / m_Width, (xtouched - m_XTouched) / m_Width)
             }
         }
         return true

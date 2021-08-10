@@ -13,8 +13,8 @@ import com.planes_multiplayer.android.CanvasPaintUtilities.Functions.measureWidt
 import com.planes_multiplayer.android.PlanesVerticalLayout.PlanesVerticalLayoutParams
 
 class ColouredSurfaceWithText : View, ViewWithText {
-    private var m_Paint: Paint? = null
-    private var m_Text: String? = null
+    private lateinit var m_Paint: Paint
+    private lateinit var m_Text: String
     private var m_TextSize = 10
     private var m_BackgroundColor = 0
 
@@ -34,30 +34,30 @@ class ColouredSurfaceWithText : View, ViewWithText {
         m_Paint = Paint()
     }
 
-    fun setText(text: String?) {
+    fun setText(text: String) {
         m_Text = text
         invalidate()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val lp = layoutParams as PlanesVerticalLayoutParams
-        if (m_Text == null) m_Text = lp.text
-        m_BackgroundColor = lp.color
-        val measuredHeight = measureHeightOneLineText(heightMeasureSpec, m_Paint!!, m_Text!!)
-        val measuredWidth = measureWidthOneLineText(widthMeasureSpec, m_Paint!!, m_Text!!)
+        if (m_Text == null) m_Text = lp.getText()
+        m_BackgroundColor = lp.getColor()
+        val measuredHeight = measureHeightOneLineText(heightMeasureSpec, m_Paint, m_Text)
+        val measuredWidth = measureWidthOneLineText(widthMeasureSpec, m_Paint, m_Text)
         setMeasuredDimension(measuredWidth, measuredHeight)
     }
 
     public override fun onDraw(canvas: Canvas) {
         //TODO: draw the surface in the colour specified
-        m_Paint!!.color = m_BackgroundColor
-        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), m_Paint!!)
-        m_Paint!!.color = Color.BLUE
-        drawTextFitToSizeOneLine(m_Text!!, m_TextSize, canvas, m_Paint!!, width, height)
+        m_Paint.color = m_BackgroundColor
+        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), m_Paint)
+        m_Paint.color = Color.BLUE
+        drawTextFitToSizeOneLine(m_Text, m_TextSize, canvas, m_Paint, width, height)
     }
 
     override fun getOptimalTextSize(maxTextSize: Int, viewWidth: Int, viewHeight: Int): Int {
-        return computeOptimalTextSizeOneLine(m_Text!!, m_Paint!!, viewWidth, viewHeight, maxTextSize)
+        return computeOptimalTextSizeOneLine(m_Text, m_Paint, viewWidth, viewHeight, maxTextSize)
     }
 
     override fun setTextSize(textSize: Int) {

@@ -19,15 +19,32 @@ class PlanesVerticalLayout : ViewGroup {
             m_RowSpan = a.getInt(R.styleable.PlanesVerticalLayout_gc_rowspan, 0)
             m_ColSpan = a.getInt(R.styleable.PlanesVerticalLayout_gc_colspan, 0)
             m_GameStage = a.getInt(R.styleable.PlanesVerticalLayout_gc_game_stage, 0)
-            text = a.getString(R.styleable.PlanesVerticalLayout_gc_text)
-            text1 = a.getString(R.styleable.PlanesVerticalLayout_gc_text1)
-            text2 = a.getString(R.styleable.PlanesVerticalLayout_gc_text2)
-            color = a.getColor(R.styleable.PlanesVerticalLayout_gc_background_color, resources.getColor(R.color.grey))
+            m_Text = a.getString(R.styleable.PlanesVerticalLayout_gc_text).toString()
+            m_Text1 = a.getString(R.styleable.PlanesVerticalLayout_gc_text1).toString()
+            m_Text2 = a.getString(R.styleable.PlanesVerticalLayout_gc_text2).toString()
+            m_BackgroundColor = a.getColor(R.styleable.PlanesVerticalLayout_gc_background_color, resources.getColor(R.color.grey))
             a.recycle()
         }
 
+        //TODO: for these 2 constructors there is no initialization of member variables !!!
         constructor(width: Int, height: Int) : super(width, height) {}
         constructor(source: LayoutParams?) : super(source) {}
+
+        fun getText(): String {
+            return m_Text
+        }
+
+        fun getText1(): String {
+            return m_Text1
+        }
+
+        fun getText2(): String {
+            return m_Text2
+        }
+
+        fun getColor(): Int {
+            return m_BackgroundColor
+        }
 
         //TODO: to add text formatting options
         //word wrap, no word wrap
@@ -37,14 +54,10 @@ class PlanesVerticalLayout : ViewGroup {
         var m_ColSpan = 0
         var m_GameStage = -1
         private val m_Player = false
-        var text: String? = null
-            private set
-        var text1: String? = null
-            private set
-        var text2: String? = null
-            private set
-        var color = 0
-            private set
+        lateinit var m_Text: String
+        lateinit var m_Text1: String
+        lateinit var m_Text2: String
+        var m_BackgroundColor = 0
     }
 
     constructor(context: Context) : super(context) {
@@ -71,35 +84,35 @@ class PlanesVerticalLayout : ViewGroup {
         for (i in 0 until count) {
             val child = getChildAt(i)
             if (child is GameBoard) {
-                m_GameBoards!!.add(child)
+                m_GameBoards.add(child)
             } else {
                 val lp = child.layoutParams as PlanesVerticalLayoutParams
                 if (!(lp.m_Row == 0 || lp.m_Col == 0 || lp.m_GameStage == -1)) {
-                    if (!m_GameControls!!.containsKey(lp.m_GameStage)) {
-                        m_GameControls!![lp.m_GameStage] = ArrayList()
-                        m_GameControlsMaxRow!![lp.m_GameStage] = 0
-                        m_GameControlsMaxCol!![lp.m_GameStage] = 0
+                    if (!m_GameControls.containsKey(lp.m_GameStage)) {
+                        m_GameControls[lp.m_GameStage] = ArrayList()
+                        m_GameControlsMaxRow[lp.m_GameStage] = 0
+                        m_GameControlsMaxCol[lp.m_GameStage] = 0
                     }
-                    val viewsForGameStage = m_GameControls!![lp.m_GameStage]!!
+                    val viewsForGameStage = m_GameControls[lp.m_GameStage]!!
                     if (lp.m_GameStage != m_GameStage.value) {
                         child.visibility = GONE
                     } else {
                         child.visibility = VISIBLE
                     }
                     viewsForGameStage.add(child)
-                    val maxRow = m_GameControlsMaxRow!![lp.m_GameStage]!!
+                    val maxRow = m_GameControlsMaxRow[lp.m_GameStage]!!
                     val rowspan = if (lp.m_RowSpan != 0) lp.m_RowSpan - 1 else 0
                     val colspan = if (lp.m_ColSpan != 0) lp.m_ColSpan - 1 else 0
-                    if (lp.m_Row + rowspan > maxRow) m_GameControlsMaxRow!![lp.m_GameStage] = lp.m_Row + rowspan
-                    val maxCol = m_GameControlsMaxCol!![lp.m_GameStage]!!
-                    if (lp.m_Col + colspan > maxCol) m_GameControlsMaxCol!![lp.m_GameStage] = lp.m_Col + colspan
+                    if (lp.m_Row + rowspan > maxRow) m_GameControlsMaxRow[lp.m_GameStage] = lp.m_Row + rowspan
+                    val maxCol = m_GameControlsMaxCol[lp.m_GameStage]!!
+                    if (lp.m_Col + colspan > maxCol) m_GameControlsMaxCol[lp.m_GameStage] = lp.m_Col + colspan
                 }
             }
         }
-        if (m_GameBoards!!.size == 0 || m_GameBoards!!.size > 2) {
+        if (m_GameBoards.size == 0 || m_GameBoards.size > 2) {
             return
         }
-        if (m_GameBoards!!.size == 2) {
+        if (m_GameBoards.size == 2) {
             m_Tablet = true
         }
         if (right - left < bottom - top) { //vertical layout
@@ -194,7 +207,7 @@ class PlanesVerticalLayout : ViewGroup {
     }
 
     private fun setPlayerBoardPosition(left: Int, top: Int, right: Int, bottom: Int, hideOthers: Boolean) {
-        for (board in m_GameBoards!!) {
+        for (board in m_GameBoards) {
             if (board.isPlayer()) {
                 board.layout(left, top, right, bottom)
                 board.visibility = VISIBLE
@@ -205,7 +218,7 @@ class PlanesVerticalLayout : ViewGroup {
     }
 
     private fun setComputerBoardPosition(left: Int, top: Int, right: Int, bottom: Int, hideOthers: Boolean) {
-        for (board in m_GameBoards!!) {
+        for (board in m_GameBoards) {
             if (!board.isPlayer()) {
                 board.layout(left, top, right, bottom)
                 board.visibility = VISIBLE
@@ -216,18 +229,18 @@ class PlanesVerticalLayout : ViewGroup {
     }
 
     private fun setFirstBoardPosition(left: Int, top: Int, right: Int, bottom: Int) {
-        m_GameBoards!![0].layout(left, top, right, bottom)
+        m_GameBoards[0]!!.layout(left, top, right, bottom)
     }
 
     private fun setGameControlsPositions(left: Int, top: Int, right: Int, bottom: Int) {
-        val maxRow = m_GameControlsMaxRow!![m_GameStage.value]!!
-        val maxCol = m_GameControlsMaxCol!![m_GameStage.value]!!
+        val maxRow = m_GameControlsMaxRow[m_GameStage.value]!!
+        val maxCol = m_GameControlsMaxCol[m_GameStage.value]!!
         val stepX = (right - left) / (maxCol + 2)
         val stepY = (bottom - top) / (maxRow + 2)
         var currentOptimalTextSize = 100
 
         //compute text size
-        for (view in m_GameControls!![m_GameStage.value]!!) {
+        for (view in m_GameControls[m_GameStage.value]!!) {
             if (view !is ViewWithText) continue
             val lp = view.layoutParams as PlanesVerticalLayoutParams
             val rowspan = if (lp.m_RowSpan != 0) lp.m_RowSpan else 1
@@ -241,7 +254,7 @@ class PlanesVerticalLayout : ViewGroup {
         }
 
         //layout
-        for (view in m_GameControls!![m_GameStage.value]!!) {
+        for (view in m_GameControls[m_GameStage.value]!!) {
             val lp = view.layoutParams as PlanesVerticalLayoutParams
             val rowspan = if (lp.m_RowSpan != 0) lp.m_RowSpan else 1
             val colspan = if (lp.m_ColSpan != 0) lp.m_ColSpan else 1
@@ -289,10 +302,10 @@ class PlanesVerticalLayout : ViewGroup {
         requestLayout()
     }
 
-    private var m_GameBoards: ArrayList<GameBoard>? = null
-    private var m_GameControls: HashMap<Int, ArrayList<View>>? = null
-    private var m_GameControlsMaxRow: HashMap<Int, Int>? = null
-    private var m_GameControlsMaxCol: HashMap<Int, Int>? = null
+    private lateinit var m_GameBoards: ArrayList<GameBoard>
+    private lateinit var m_GameControls: HashMap<Int, ArrayList<View>>
+    private lateinit var m_GameControlsMaxRow: HashMap<Int, Int>
+    private lateinit var m_GameControlsMaxCol: HashMap<Int, Int>
     private var m_Context: Context
     private var m_GameStage = GameStages.BoardEditing
     private val m_CorrectChildren = false

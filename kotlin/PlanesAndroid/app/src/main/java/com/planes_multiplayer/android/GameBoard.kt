@@ -37,8 +37,8 @@ class GameBoard : GridLayout {
         }
     }
 
-    private var m_GridSquares: HashMap<PositionBoardPane, GridSquare>? = null
-    private var m_PlaneRound: PlanesRoundInterface? = null
+    private lateinit var m_GridSquares: HashMap<PositionBoardPane, GridSquare>
+    private lateinit var m_PlaneRound: PlanesRoundInterface
     private val m_Padding = 0
     private var m_IsComputer = false
     private val m_MinPlaneBodyColor = 0
@@ -51,9 +51,9 @@ class GameBoard : GridLayout {
     private var m_ColorStep = 50
     private var m_Context: Context
     private var m_Selected = 0
-    private var m_GameControls: GameControlsAdapter? = null
+    private lateinit var m_GameControls: GameControlsAdapter
     private var m_Tablet = false
-    private var m_SiblingBoard: GameBoard? = null
+    private lateinit var m_SiblingBoard: GameBoard
     private var m_GridSquareSize = 0
 
     constructor(context: Context) : super(context) {
@@ -71,11 +71,11 @@ class GameBoard : GridLayout {
         init(m_Context)
     }
 
-    fun setGameSettings(planeRound: PlanesRoundInterface?, isTablet: Boolean) {
+    fun setGameSettings(planeRound: PlanesRoundInterface, isTablet: Boolean) {
         m_PlaneRound = planeRound
-        m_GRows = m_PlaneRound!!.getRowNo()
-        m_GCols = m_PlaneRound!!.getColNo()
-        m_PlaneNo = m_PlaneRound!!.getPlaneNo()
+        m_GRows = m_PlaneRound.getRowNo()
+        m_GCols = m_PlaneRound.getColNo()
+        m_PlaneNo = m_PlaneRound.getPlaneNo()
         m_ColorStep = (m_MaxPlaneBodyColor - m_MinPlaneBodyColor) / m_PlaneNo
         m_Tablet = isTablet
         //init(m_Context);
@@ -146,7 +146,7 @@ class GameBoard : GridLayout {
                 val params = LayoutParams(spec(j, 1), spec(i, 1))
                 addView(gs, params)
                 val position = PositionBoardPane(i, j)
-                m_GridSquares!![position] = gs
+                m_GridSquares[position] = gs
             }
         }
     }
@@ -155,29 +155,29 @@ class GameBoard : GridLayout {
         //draw the squares background
         for (i in 0 until m_GRows + 2 * m_Padding) {
             for (j in 0 until m_GCols + 2 * m_Padding) {
-                val c = m_GridSquares!![PositionBoardPane(i, j)]
+                val c = m_GridSquares[PositionBoardPane(i, j)]
                 c!!.setGuess(-1)
                 c.setBackgroundColor(computeSquareBackgroundColor(i, j))
                 c.invalidate()
             }
         } //display background of square; double for loop
 
-        var count = if (m_IsComputer) m_PlaneRound!!.getPlayerGuessesNo() else m_PlaneRound!!.getComputerGuessesNo()
+        var count = if (m_IsComputer) m_PlaneRound.getPlayerGuessesNo() else m_PlaneRound.getComputerGuessesNo()
         println("$count guesses")
         for (i in 0 until count) {
             var row = 0
             var col = 0
             var type = 0
             if (m_IsComputer) {
-                row = m_PlaneRound!!.getPlayerGuessRow(i)
-                col = m_PlaneRound!!.getPlayerGuessCol(i)
-                type = m_PlaneRound!!.getPlayerGuessType(i)
+                row = m_PlaneRound.getPlayerGuessRow(i)
+                col = m_PlaneRound.getPlayerGuessCol(i)
+                type = m_PlaneRound.getPlayerGuessType(i)
             } else {
-                row = m_PlaneRound!!.getComputerGuessRow(i)
-                col = m_PlaneRound!!.getComputerGuessCol(i)
-                type = m_PlaneRound!!.getComputerGuessType(i)
+                row = m_PlaneRound.getComputerGuessRow(i)
+                col = m_PlaneRound.getComputerGuessCol(i)
+                type = m_PlaneRound.getComputerGuessType(i)
             }
-            val c = m_GridSquares!![PositionBoardPane(row + m_Padding, col + m_Padding)]
+            val c = m_GridSquares[PositionBoardPane(row + m_Padding, col + m_Padding)]
             //System.out.println("Guess type " + type);
             c!!.setGuess(type)
             c.invalidate()
@@ -192,7 +192,7 @@ class GameBoard : GridLayout {
         }
         if (!m_IsComputer || m_IsComputer && m_GameStage === GameStages.GameNotStarted) {
             //if (true) {
-            val type = m_PlaneRound!!.getPlaneSquareType(i - m_Padding, j - m_Padding, if (m_IsComputer) 1 else 0)
+            val type = m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, if (m_IsComputer) 1 else 0)
             when (type) {
                 -1 -> squareColor = Color.RED
                 -2 -> squareColor = Color.GREEN
@@ -220,34 +220,34 @@ class GameBoard : GridLayout {
     //simple touch
     private fun touchInASingleSquare(row: Int, col: Int) {
         if (!m_IsComputer && m_GameStage === GameStages.BoardEditing) {
-            val type = m_PlaneRound!!.getPlaneSquareType(row - m_Padding, col - m_Padding, if (m_IsComputer) 1 else 0)
+            val type = m_PlaneRound.getPlaneSquareType(row - m_Padding, col - m_Padding, if (m_IsComputer) 1 else 0)
             if (type > 0) m_Selected = type - 1
             updateBoards()
         }
         if (m_IsComputer && m_GameStage === GameStages.Game) {
             if (m_IsComputer) {
                 println("Player guess")
-                if (m_PlaneRound!!.playerGuessAlreadyMade(col - m_Padding, row - m_Padding) != 0) {
+                if (m_PlaneRound.playerGuessAlreadyMade(col - m_Padding, row - m_Padding) != 0) {
                     println("Player guess already made")
                     return
                 }
-                m_PlaneRound!!.playerGuess(col - m_Padding, row - m_Padding)
+                m_PlaneRound.playerGuess(col - m_Padding, row - m_Padding)
 
                 //check if the round ended
-                if (m_PlaneRound!!.playerGuess_RoundEnds()) {
+                if (m_PlaneRound.playerGuess_RoundEnds()) {
                     if (m_Tablet) {
-                        m_SiblingBoard!!.setNewRoundStage(false)
+                        m_SiblingBoard.setNewRoundStage(false)
                         setNewRoundStage(false)
                     } else {
                         setNewRoundStage(true)
                     }
-                    m_PlaneRound!!.roundEnds()
-                    m_GameControls!!.roundEnds(!m_PlaneRound!!.playerGuess_IsPlayerWinner(), m_PlaneRound!!.playerGuess_IsDraw())
+                    m_PlaneRound.roundEnds()
+                    m_GameControls.roundEnds(!m_PlaneRound.playerGuess_IsPlayerWinner(), m_PlaneRound.playerGuess_IsDraw())
                 } else {
-                    if (!m_Tablet) m_GameControls!!.updateStats(m_IsComputer)
+                    if (!m_Tablet) m_GameControls.updateStats(m_IsComputer)
                 }
                 updateBoards()
-                if (m_SiblingBoard != null) m_SiblingBoard!!.updateBoards()
+                if (this::m_SiblingBoard.isInitialized) m_SiblingBoard.updateBoards()
             }
         }
     }
@@ -267,33 +267,33 @@ class GameBoard : GridLayout {
     }
 
     fun movePlaneLeft() {
-        val valid = if (m_PlaneRound!!.movePlaneLeft(m_Selected) == 1) true else false
+        val valid = if (m_PlaneRound.movePlaneLeft(m_Selected) == 1) true else false
         updateBoards()
-        m_GameControls!!.setDoneEnabled(valid)
+        m_GameControls.setDoneEnabled(valid)
     }
 
     fun movePlaneRight() {
-        val valid = if (m_PlaneRound!!.movePlaneRight(m_Selected) == 1) true else false
+        val valid = if (m_PlaneRound.movePlaneRight(m_Selected) == 1) true else false
         updateBoards()
-        m_GameControls!!.setDoneEnabled(valid)
+        m_GameControls.setDoneEnabled(valid)
     }
 
     fun movePlaneUp() {
-        val valid = if (m_PlaneRound!!.movePlaneUpwards(m_Selected) == 1) true else false
+        val valid = if (m_PlaneRound.movePlaneUpwards(m_Selected) == 1) true else false
         updateBoards()
-        m_GameControls!!.setDoneEnabled(valid)
+        m_GameControls.setDoneEnabled(valid)
     }
 
     fun movePlaneDown() {
-        val valid = if (m_PlaneRound!!.movePlaneDownwards(m_Selected) == 1) true else false
+        val valid = if (m_PlaneRound.movePlaneDownwards(m_Selected) == 1) true else false
         updateBoards()
-        m_GameControls!!.setDoneEnabled(valid)
+        m_GameControls.setDoneEnabled(valid)
     }
 
     fun rotatePlane() {
-        val valid = if (m_PlaneRound!!.rotatePlane(m_Selected) == 1) true else false
+        val valid = if (m_PlaneRound.rotatePlane(m_Selected) == 1) true else false
         updateBoards()
-        m_GameControls!!.setDoneEnabled(valid)
+        m_GameControls.setDoneEnabled(valid)
     }
 
     fun setPlayerBoard() {
@@ -343,11 +343,11 @@ class GameBoard : GridLayout {
         updateBoards()
     }
 
-    fun setGameControls(gameControls: GameControlsAdapter?) {
+    fun setGameControls(gameControls: GameControlsAdapter) {
         m_GameControls = gameControls
     }
 
-    fun setSiblingBoard(siblingBoard: GameBoard?) {
+    fun setSiblingBoard(siblingBoard: GameBoard) {
         m_SiblingBoard = siblingBoard
     }
 

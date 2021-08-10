@@ -23,8 +23,8 @@ class MoveRightButton : ButtonWithPictogram {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        m_Paint!!.style = Paint.Style.FILL
-        m_Paint!!.color = Color.BLUE
+        m_Paint.style = Paint.Style.FILL
+        m_Paint.color = Color.BLUE
         val width = width
         val height = height
         val centerX = width / 2
@@ -32,13 +32,13 @@ class MoveRightButton : ButtonWithPictogram {
         val radius = Math.min(width / 3, height / 3)
         val path1 = Path()
         createFillRectPath(path1, centerX - radius / 2 - radius / 3, centerY - radius / 5, radius, radius * 2 / 5)
-        canvas.drawPath(path1, m_Paint!!)
+        canvas.drawPath(path1, m_Paint)
         val path2 = Path()
         path2.moveTo((centerX + radius / 2 - radius / 3).toFloat(), centerY.toFloat())
         path2.lineTo((centerX + radius / 2 - radius / 3).toFloat(), (centerY + radius / 3).toFloat())
         path2.lineTo((centerX + radius / 2 + radius / 3).toFloat(), centerY.toFloat())
         path2.lineTo((centerX + radius / 2 - radius / 3).toFloat(), (centerY - radius / 3).toFloat())
         path2.close()
-        canvas.drawPath(path2, m_Paint!!)
+        canvas.drawPath(path2, m_Paint)
     }
 }

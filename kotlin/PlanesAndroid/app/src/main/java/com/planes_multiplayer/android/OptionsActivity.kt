@@ -12,11 +12,11 @@ import com.planes_multiplayer.single_player_engine.PlanesRoundJava
 class OptionsActivity : AppCompatActivity() {
     private var m_ComputerSkill = 2
     private var m_ShowPlaneAfterKill = false
-    private var m_PlaneRound: PlanesRoundInterface? = null
-    var m_Listener_skill: OnItemSelectedListener? = null
-    var m_Listener_show: OnItemSelectedListener? = null
-    var m_Spinner_Skill: Spinner? = null
-    var m_Spinner_Show: Spinner? = null
+    private lateinit var m_PlaneRound: PlanesRoundInterface
+    lateinit var m_Listener_skill: OnItemSelectedListener
+    lateinit var m_Listener_show: OnItemSelectedListener
+    lateinit var  m_Spinner_Skill: Spinner
+    lateinit var  m_Spinner_Show: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,20 +25,20 @@ class OptionsActivity : AppCompatActivity() {
         val adapter_skill = ArrayAdapter.createFromResource(this,
                 R.array.computer_skills, R.layout.spinner_item)
         adapter_skill.setDropDownViewResource(R.layout.spinner_item)
-        m_Spinner_Skill!!.adapter = adapter_skill
-        m_Spinner_Skill!!.onItemSelectedListener = null
+        m_Spinner_Skill.adapter = adapter_skill
+        m_Spinner_Skill.onItemSelectedListener = null
         m_Spinner_Show = findViewById<View>(R.id.show_plane_after_kill) as Spinner
         val adapter_show = ArrayAdapter.createFromResource(this,
                 R.array.yesno_options, R.layout.spinner_item)
         adapter_show.setDropDownViewResource(R.layout.spinner_item)
-        m_Spinner_Show!!.adapter = adapter_show
-        m_Spinner_Show!!.onItemSelectedListener = null
+        m_Spinner_Show.adapter = adapter_show
+        m_Spinner_Show.onItemSelectedListener = null
         val extras = intent.extras
         if (extras != null) {
             m_ComputerSkill = extras.getInt("gamedifficulty/computerskill")
-            m_Spinner_Skill!!.setSelection(m_ComputerSkill)
+            m_Spinner_Skill.setSelection(m_ComputerSkill)
             m_ShowPlaneAfterKill = extras.getBoolean("gamedifficulty/showkilledplane")
-            m_Spinner_Show!!.setSelection(if (m_ShowPlaneAfterKill) 0 else 1)
+            m_Spinner_Show.setSelection(if (m_ShowPlaneAfterKill) 0 else 1)
         }
         m_Listener_show = object : OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
@@ -46,7 +46,7 @@ class OptionsActivity : AppCompatActivity() {
                 println(item.toString())
                 val shouldbepos = if (m_ShowPlaneAfterKill) 0 else 1
                 if (pos == shouldbepos) return
-                if (!m_PlaneRound!!.setShowPlaneAfterKill(pos == 0)) {
+                if (!m_PlaneRound.setShowPlaneAfterKill(pos == 0)) {
                     onWarning()
                     parent.setSelection(if (m_ShowPlaneAfterKill) 0 else 1)
                 } else {
@@ -56,13 +56,13 @@ class OptionsActivity : AppCompatActivity() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
-        m_Spinner_Show!!.onItemSelectedListener = m_Listener_show
+        m_Spinner_Show.onItemSelectedListener = m_Listener_show
         m_Listener_skill = object : OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
                 val item = parent.getItemAtPosition(pos)
                 println(item.toString())
                 if (pos == m_ComputerSkill) return
-                if (!m_PlaneRound!!.setComputerSkill(pos)) {
+                if (!m_PlaneRound.setComputerSkill(pos)) {
                     onWarning()
                     parent.setSelection(m_ComputerSkill)
                 } else {
@@ -72,7 +72,7 @@ class OptionsActivity : AppCompatActivity() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
-        m_Spinner_Skill!!.onItemSelectedListener = m_Listener_skill
+        m_Spinner_Skill.onItemSelectedListener = m_Listener_skill
         m_PlaneRound = PlanesRoundJava()
         (m_PlaneRound as PlanesRoundJava).createPlanesRound()
     }

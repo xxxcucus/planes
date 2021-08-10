@@ -16,7 +16,7 @@ import android.view.View.MeasureSpec
 open class ButtonWithPictogram : AppCompatButton {
     val m_MinWidth = 30
     val m_MinHeight = 30
-    protected var m_Paint: Paint? = null
+    protected lateinit var m_Paint: Paint
 
     constructor(context: Context?) : super(context) {
         init()
@@ -35,9 +35,9 @@ open class ButtonWithPictogram : AppCompatButton {
     }
 
     public override fun onDraw(canvas: Canvas) {
-        m_Paint!!.color = Color.GRAY
-        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), m_Paint!!)
-        m_Paint!!.color = Color.BLACK
+        m_Paint.color = Color.GRAY
+        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), m_Paint)
+        m_Paint.color = Color.BLACK
         drawButtonShadow(canvas, m_Paint, width, height)
     }
 

@@ -15,9 +15,9 @@ import com.planes_multiplayer.android.PlanesVerticalLayout.PlanesVerticalLayoutP
 
 open class TwoLineTextButton : AppCompatButton, ViewWithText {
 
-    protected var m_Paint: Paint? = null
-    protected var m_Text1: String? = null
-    protected var m_Text2: String? = null
+    protected lateinit var m_Paint: Paint
+    protected lateinit var m_Text1: String
+    protected lateinit var m_Text2: String
     protected var m_TextSize = 10
     protected var m_LineSpacing = 10
 
@@ -39,24 +39,24 @@ open class TwoLineTextButton : AppCompatButton, ViewWithText {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val lp = layoutParams as PlanesVerticalLayoutParams
-        if (m_Text1 == null) m_Text1 = lp.text1
-        if (m_Text2 == null) m_Text2 = lp.text2
-        val measuredHeight = measureHeightTwoLinesText(heightMeasureSpec, m_Paint!!, m_Text1!!, m_Text2!!, m_LineSpacing)
-        val measuredWidth = measureWidthTwoLinesText(widthMeasureSpec, m_Paint!!, m_Text1!!, m_Text2!!)
+        if (!this::m_Text1.isInitialized) m_Text1 = lp.getText1()
+        if (!this::m_Text2.isInitialized) m_Text2 = lp.getText2()
+        val measuredHeight = measureHeightTwoLinesText(heightMeasureSpec, m_Paint, m_Text1, m_Text2, m_LineSpacing)
+        val measuredWidth = measureWidthTwoLinesText(widthMeasureSpec, m_Paint, m_Text1, m_Text2)
         setMeasuredDimension(measuredWidth, measuredHeight)
     }
 
     public override fun onDraw(canvas: Canvas) {
-        m_Paint!!.color = Color.GRAY
-        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), m_Paint!!)
-        m_Paint!!.color = Color.BLUE
-        drawTextFitToSizeTwoLines(m_Text1!!, m_Text2!!, m_TextSize, canvas, m_Paint!!, width, height, m_LineSpacing)
-        m_Paint!!.color = Color.BLACK
+        m_Paint.color = Color.GRAY
+        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), m_Paint)
+        m_Paint.color = Color.BLUE
+        drawTextFitToSizeTwoLines(m_Text1, m_Text2, m_TextSize, canvas, m_Paint, width, height, m_LineSpacing)
+        m_Paint.color = Color.BLACK
         drawButtonShadow(canvas, m_Paint, width, height)
     }
 
     override fun getOptimalTextSize(maxTextSize: Int, viewWidth: Int, viewHeight: Int): Int {
-        return computeOptimalTextSizeTwoLines(m_Text1!!, m_Text2!!, m_Paint!!, viewWidth, viewHeight, maxTextSize, m_LineSpacing)
+        return computeOptimalTextSizeTwoLines(m_Text1, m_Text2, m_Paint, viewWidth, viewHeight, maxTextSize, m_LineSpacing)
     }
 
     override fun setTextSize(textSize: Int) {
