@@ -4,15 +4,15 @@ import android.content.Context
 import android.util.AttributeSet
 
 class TwoLineTextButtonWithState : TwoLineTextButton, ObjectWithStringState, ViewWithText {
-    constructor(context: Context?) : super(context) {
+    constructor(context: Context) : super(context) {
         init()
     }
 
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         init()
     }
 
-    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) {
+    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) {
         init()
     }
 

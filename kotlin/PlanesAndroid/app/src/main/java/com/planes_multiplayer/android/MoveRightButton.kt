@@ -9,15 +9,15 @@ import android.util.AttributeSet
 import com.planes_multiplayer.android.CanvasPaintUtilities.Functions.createFillRectPath
 
 class MoveRightButton : ButtonWithPictogram {
-    constructor(context: Context?) : super(context) {
+    constructor(context: Context) : super(context) {
         init()
     }
 
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         init()
     }
 
-    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) {
+    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) {
         init()
     }
 
