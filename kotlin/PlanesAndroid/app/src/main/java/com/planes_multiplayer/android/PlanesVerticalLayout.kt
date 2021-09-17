@@ -12,7 +12,7 @@ import java.util.*
 //dimension of the screen and toolbars should be saved inside the layout
 class PlanesVerticalLayout : ViewGroup {
     internal inner class PlanesVerticalLayoutParams : LayoutParams {
-        constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
             val a = context.obtainStyledAttributes(attrs, R.styleable.PlanesVerticalLayout)
             m_Row = a.getInt(R.styleable.PlanesVerticalLayout_gc_row, 0)
             m_Col = a.getInt(R.styleable.PlanesVerticalLayout_gc_col, 0)

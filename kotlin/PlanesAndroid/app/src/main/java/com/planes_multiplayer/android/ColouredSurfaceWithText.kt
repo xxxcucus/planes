@@ -18,15 +18,15 @@ class ColouredSurfaceWithText : View, ViewWithText {
     private var m_TextSize = 10
     private var m_BackgroundColor = 0
 
-    constructor(context: Context?) : super(context) {
+    constructor(context: Context) : super(context) {
         init()
     }
 
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         init()
     }
 
-    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) {
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         init()
     }
 
@@ -41,7 +41,7 @@ class ColouredSurfaceWithText : View, ViewWithText {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val lp = layoutParams as PlanesVerticalLayoutParams
-        if (m_Text == null) m_Text = lp.getText()
+        if (!this::m_Text.isInitialized) m_Text = lp.getText()
         m_BackgroundColor = lp.getColor()
         val measuredHeight = measureHeightOneLineText(heightMeasureSpec, m_Paint, m_Text)
         val measuredWidth = measureWidthOneLineText(widthMeasureSpec, m_Paint, m_Text)
