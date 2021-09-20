@@ -29,6 +29,7 @@
         </activity>
 
         <activity
+            android:theme="@style/MyAppTheme"
             android:name=".OptionsActivity">
         </activity>
     </application>
