@@ -156,7 +156,6 @@ public class PlaneGrid {
         if(isPointHead(qp.x(), qp.y()))
             return Type.Dead;
 
-        int idx = 0;
         if(isPointOnPlane(qp.x(), qp.y()).first)
             return Type.Hit;
 

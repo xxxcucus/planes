@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/layout_background_end">
+
+    <TextView
+        android:id="@+id/warning_options_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:text="@string/warning_options_title"/>
+    <TextView
+        android:id="@+id/warning_options_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/warning_options_title"
+        android:text="@string/warning_options_text"
+        android:textSize="15dp"/>
+
+</RelativeLayout>

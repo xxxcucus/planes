@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.planes_multiplayer.android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="https" android:host="youtube.com"/>
+        </intent>
+    </queries>
+
+    <application>
+        <activity
+        android:icon="@mipmap/ic_launcher"
+        android:label="Multi-Planes Android"
+        android:testOnly="false"
+        android:exported="true"
+        android:theme="@style/MyAppTheme"
+        android:allowBackup="true"
+        android:name=".PlanesAndroidActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:theme="@style/MyAppTheme"
+            android:name=".OptionsActivity">
+        </activity>
+    </application>
+
+</manifest>
