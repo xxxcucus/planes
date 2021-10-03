@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">Aviones</string>
+    <string name="left_button">Izquierda</string>
+    <string name="right_button">Derecha</string>
+    <string name="up_button">Arriba</string>
+    <string name="down_button">Abajo</string>
+    <string name="rotate_button">Girar</string>
+    <string name="done_button">Listo</string>
+    <string name="view_player_board">Ver Tablero de jugador</string>
+    <string name="view_player_board1">Ver</string>
+    <string name="view_player_board2">Tablero de Jugador</string>
+    <string name="view_computer_board">Vista del tablero del Computador</string>
+    <string name="view_computer_board1">Ver</string>
+    <string name="view_computer_board2">Tablero del computador</string>
+    <string name="player_stats">Estadisticas del Jugador</string>
+    <string name="computer_stats">Estadisticas del Computador</string>
+    <string name="player_hits">Puntos del Jugador</string>
+    <string name="player_moves">Movimientos del Jugador</string>
+    <string name="player_misses">Pérdidas del Jugador</string>
+    <string name="player_dead">Muertes del Jugador</string>
+    <string name="computer_hits">Puntos del Computador</string>
+    <string name="computer_moves">Movimientos del Computador</string>
+    <string name="computer_misses">Pérdidas del Computador</string>
+    <string name="computer_dead">Muertes del Computador</string>
+    <string name="general_hits">Puntos</string>
+    <string name="general_moves">Movimientos</string>
+    <string name="general_misses">Pérdidas</string>
+    <string name="general_dead">Muertes</string>
+    <string name="computer_winner">¡La Computadora gana la Ronda!</string>
+    <string name="player_winner">¡El Jugador gana la Ronda!</string>
+    <string name="draw_result">¡Empate!</string>
+    <string name="start_new_game">Empezar juego nuevo</string>
+    <string name="start_new_game1">Empezar</string>
+    <string name="start_new_game2">Nuevo juego</string>
+    <string name="computer_wins">¡Ha ganado el Computador!</string>
+    <string name="player_wins">¡Ha ganado el Jugador!</string>
+    <string name="draws">Empate</string>
+    <string name="help">Ayuda</string>
+    <string name="board_editing_stage">Editar Tablero</string>
+    <string name="game_stage">Juego</string>
+    <string name="game_not_started_stage">Empezar un juego nuevo</string>
+    <string name="credits">Créditos</string>
+    <string name="credits_software_title">Software</string>
+    <string name="credits_software_content">Este programa ha sido desarrollado por Cristian Cucu y el código fuente se puede encontrar en www.github.com/xxxcucus/planes.</string>
+    <string name="credits_software_button">Ir a la página del Proyecto en GitHub</string>
+    <string name="credits_graphics_title">Gráfico</string>
+    <string name="credits_graphics_content">El logo del juego y de la tienda fue creado por by Alexandru Vintilescu. Otros trabajos de Alex se pueden ver en  https://axa951.wixsite.com/portfolio</string>
+    <string name="credits_graphics_button">Ir a la página de Alex</string>
+    <string name="helptext_startnewgame_1">Presionar el botón "Empezar juego nuevo" para empezar una nueva ronda.</string>
+    <string name="helptext_boardediting_1">Presionar el cuerpo del avión para seleccionarlo.</string>
+    <string name="helptext_boardediting_2">Presionar en el botón de control para ubicar el avión."</string>
+    <string name="helptext_game_1">Presionar en el tablero de la computadora para adivinar donde el avión de la computadora esta.</string>
+    <string name="helptext_game_2">X significa el obetivo destruido. Disc significa que nada fue disparado. El Rombo significa que fue acertado..</string>
+    <string name="popup_help_button_text">Ver Video</string>
+    <string name="game_difficulty_options">Opciones de dificultad del Juego</string>
+    <string name="computer_skill">Habilidades del computador</string>
+    <string-array name="computer_skills">
+        <item>Fácil</item>
+        <item>Medio</item>
+        <item>Dificil</item>
+    </string-array>
+    <string name="show_plane_after_kill">Mostrar el avión después de destruirlo</string>
+    <string-array name="yesno_options">
+        <item>Si</item>
+        <item>No</item>
+    </string-array>
+    <string name="options">Preferencias</string>
+    <string name="warning_options_text">No se puede determinar opciones durante el juego.</string>
+    <string name="warning_options_title">Advertencia</string>
+    <string name="warning_options_button_text">OK</string>
+    <string name="othervideos">Otros videos</string>
+    <string name="singleplayertutorial">Tutorial para un solo Jugador</string>
+    <string name="multiplayertutorial">Tutorial para Multijugador</string>
+</resources>
