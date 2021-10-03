@@ -20,7 +20,7 @@ class OptionsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_options)
+        setContentView(R.layout.fragment_options)
         m_Spinner_Skill = findViewById<View>(R.id.computer_skill_spinner) as Spinner
         val adapter_skill = ArrayAdapter.createFromResource(this,
                 R.array.computer_skills, R.layout.spinner_item)
