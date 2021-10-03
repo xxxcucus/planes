@@ -18,8 +18,9 @@
         android:label="Planes Android"
         android:testOnly="false"
         android:theme="@style/MyAppTheme">
-        <activity android:name=".OptionsActivity"/>
-        <activity android:name=".PlanesAndroidActivity">
+        <activity android:name=".OptionsActivity" />
+        <activity android:name=".PlanesAndroidActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER"/>
