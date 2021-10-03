@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Aviones</string>
+    <string name="app_name">Planes</string>
     <string name="left_button">Izquierda</string>
     <string name="right_button">Derecha</string>
     <string name="up_button">Arriba</string>
@@ -26,14 +26,14 @@
     <string name="general_moves">Movimientos</string>
     <string name="general_misses">Pérdidas</string>
     <string name="general_dead">Muertes</string>
-    <string name="computer_winner">¡La Computadora gana la Ronda!</string>
-    <string name="player_winner">¡El Jugador gana la Ronda!</string>
-    <string name="draw_result">¡Empate!</string>
+    <string name="computer_winner">La Computadora gana la Ronda!</string>
+    <string name="player_winner">El Jugador gana la Ronda!</string>
+    <string name="draw_result">Empate!</string>
     <string name="start_new_game">Empezar juego nuevo</string>
     <string name="start_new_game1">Empezar</string>
     <string name="start_new_game2">Nuevo juego</string>
-    <string name="computer_wins">¡Ha ganado el Computador!</string>
-    <string name="player_wins">¡Ha ganado el Jugador!</string>
+    <string name="computer_wins">Ha ganado el Computador!</string>
+    <string name="player_wins">Ha ganado el Jugador!</string>
     <string name="draws">Empate</string>
     <string name="help">Ayuda</string>
     <string name="board_editing_stage">Editar Tablero</string>
