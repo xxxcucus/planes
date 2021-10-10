@@ -9,12 +9,6 @@
     android:background="@drawable/background"
     android:tag="tablet horizontal">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        />
     <com.planes_multiplayer.android.PlanesVerticalLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

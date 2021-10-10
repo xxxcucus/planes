@@ -35,9 +35,6 @@ class GameFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
     }
 
     override fun onAttach(context: Context) {
@@ -66,10 +63,17 @@ class GameFragment : Fragment() {
         // Inflate the layout for this fragment
         var rootView = inflater.inflate(R.layout.fragment_game, container, false)
 
-        val toolbar = rootView.findViewById<View>(R.id.toolbar) as Toolbar
+        //val toolbar = rootView.findViewById<View>(R.id.toolbar) as Toolbar
         //setSupportActionBar(toolbar)
 
+
         m_PlanesLayout = rootView.findViewById<View>(R.id.planes_layout) as PlanesVerticalLayout
+
+        /*if (container != null) {
+            var toolbar = container.findViewById<Toolbar>(R.id.toolbar)
+            m_PlanesLayout.setToolbarHeight(toolbar.height)
+        }*/
+
         var isTablet = false
         var isHorizontal = false
         val linearLayout = rootView.findViewById<View>(R.id.rootView) as LinearLayout
@@ -102,16 +106,16 @@ class GameFragment : Fragment() {
         val rotateButton = rootView.findViewById<View>(R.id.rotate_button) as Button
 
         //Game Stage
-        val statsTitle = rootView.findViewById<View>(R.id.stats_title_label) as ColouredSurfaceWithText
-        val viewComputerBoardButton1 = rootView.findViewById<View>(R.id.view_computer_board1) as TwoLineTextButtonWithState
-        val movesLabel = rootView.findViewById<View>(R.id.moves_label) as ColouredSurfaceWithText
-        val movesCount = rootView.findViewById<View>(R.id.moves_count) as ColouredSurfaceWithText
-        val missesLabel = rootView.findViewById<View>(R.id.misses_label) as ColouredSurfaceWithText
-        val missesCount = rootView.findViewById<View>(R.id.misses_count) as ColouredSurfaceWithText
-        val hitsLabel = rootView.findViewById<View>(R.id.hits_label) as ColouredSurfaceWithText
-        val hitsCount = rootView.findViewById<View>(R.id.hits_count) as ColouredSurfaceWithText
-        val deadsLabel = rootView.findViewById<View>(R.id.dead_label) as ColouredSurfaceWithText
-        val deadCount = rootView.findViewById<View>(R.id.dead_count) as ColouredSurfaceWithText
+        val statsTitle = rootView.findViewById<View>(R.id.stats_title_label) as ColouredSurfaceWithText?
+        val viewComputerBoardButton1 = rootView.findViewById<View>(R.id.view_computer_board1) as TwoLineTextButtonWithState?
+        val movesLabel = rootView.findViewById<View>(R.id.moves_label) as ColouredSurfaceWithText?
+        val movesCount = rootView.findViewById<View>(R.id.moves_count) as ColouredSurfaceWithText?
+        val missesLabel = rootView.findViewById<View>(R.id.misses_label) as ColouredSurfaceWithText?
+        val missesCount = rootView.findViewById<View>(R.id.misses_count) as ColouredSurfaceWithText?
+        val hitsLabel = rootView.findViewById<View>(R.id.hits_label) as ColouredSurfaceWithText?
+        val hitsCount = rootView.findViewById<View>(R.id.hits_count) as ColouredSurfaceWithText?
+        val deadsLabel = rootView.findViewById<View>(R.id.dead_label) as ColouredSurfaceWithText?
+        val deadCount = rootView.findViewById<View>(R.id.dead_count) as ColouredSurfaceWithText?
 
         //Start New Game Stage
         val viewComputerBoardButton2 = rootView.findViewById<View>(R.id.view_computer_board2) as TwoLineTextButtonWithState
@@ -125,7 +129,7 @@ class GameFragment : Fragment() {
         val drawsCount = rootView.findViewById<View>(R.id.draws_count) as ColouredSurfaceWithText
 
         m_GameControls.setBoardEditingControls(upButton, downButton, leftButton, rightButton, doneButton, rotateButton)
-        if (!isTablet) m_GameControls.setGameControls(statsTitle, viewComputerBoardButton1, movesLabel, movesCount, missesLabel, missesCount, hitsLabel, hitsCount, deadsLabel, deadCount)
+        if (!isTablet) m_GameControls.setGameControls(statsTitle!!, viewComputerBoardButton1!!, movesLabel!!, movesCount!!, missesLabel!!, missesCount!!, hitsLabel!!, hitsCount!!, deadsLabel!!, deadCount!!)
         m_GameControls.setStartNewGameControls(viewComputerBoardButton2, startNewGameButton, computerWinsLabel, computerWinsCount, playerWinsLabel, playerWinsCount, drawsLabel, drawsCount, winnerText)
         m_GameControls.setGameSettings(m_PlaneRound, isTablet)
         m_GameControls.setGameBoards(m_GameBoards)
