@@ -25,10 +25,16 @@ android {
             // but continue the build even when errors are found:
             abortOnError false
         }
+
+        buildFeatures {
+            dataBinding true
+        }
     }
     sourceSets {
         main { java.srcDirs = ['src/main/java', 'src/test/java'] }
     }
+
+    apply plugin: 'kotlin-kapt'
 }
 
 dependencies {

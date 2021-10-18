@@ -1,23 +1,26 @@
 package com.planes_multiplayer.android
 
-import com.planes_multiplayer.android.R
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
+import com.planes_multiplayer.single_player_engine.PlanesRoundJava
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
+    private lateinit var m_PlaneRound: PlanesRoundInterface
+    private lateinit var m_PreferencesService: PreferencesService
     private var mSelectedItem = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +30,19 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        //actionBar?.setDisplayHomeAsUpEnabled(true)
+        m_PlaneRound = PlanesRoundJava()
+        (m_PlaneRound as PlanesRoundJava).createPlanesRound()
+
+        m_PreferencesService = PreferencesService(this)
+        // recovering the instance state
+        m_PreferencesService.readPreferences()
+        if (!(m_PlaneRound as PlanesRoundJava).setComputerSkill(m_PreferencesService.computerSkill)) {
+            m_PreferencesService.computerSkill = (m_PlaneRound as PlanesRoundJava).getComputerSkill()
+        }
+        if (!(m_PlaneRound as PlanesRoundJava).setShowPlaneAfterKill(m_PreferencesService.showPlaneAfterKill)) {
+            m_PreferencesService.showPlaneAfterKill = (m_PlaneRound as PlanesRoundJava).getShowPlaneAfterKill()
+        }
+
         supportActionBar!!.displayOptions =
             ActionBar.DISPLAY_SHOW_CUSTOM or ActionBar.DISPLAY_SHOW_HOME or ActionBar.DISPLAY_HOME_AS_UP
         var drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
@@ -37,7 +52,11 @@ class MainActivity : AppCompatActivity() {
 
                 when(mSelectedItem) {
                     R.id.nav_settings -> {
+                        val bundle = Bundle()
+                        bundle.putInt("gamedifficulty/computerskill", m_PreferencesService.computerSkill)
+                        bundle.putBoolean("gamedifficulty/showkilledplane", m_PreferencesService.showPlaneAfterKill)
                         newFragment = SettingsFragment()
+                        newFragment.setArguments(bundle)
                         supportActionBar?.setTitle("Preferences")
                     }
                     R.id.nav_game -> {
@@ -84,5 +103,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    fun setOptions(currentSkill: Int, showPlaneAfterKill: Boolean) {
+        m_PreferencesService.computerSkill = currentSkill
+        m_PreferencesService.showPlaneAfterKill = showPlaneAfterKill
     }
 }

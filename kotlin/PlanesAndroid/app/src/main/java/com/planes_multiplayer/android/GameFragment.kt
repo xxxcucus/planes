@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.planes_multiplayer.single_player_engine.PlanesRoundJava
 
@@ -28,7 +27,6 @@ class GameFragment : Fragment() {
     private var param2: String? = null
 
     private lateinit var m_PlaneRound: PlanesRoundInterface
-    private lateinit var m_PreferencesService: PreferencesService
     private lateinit var m_GameBoards: GameBoardsAdapter
     private lateinit var m_GameControls: GameControlsAdapter
     private lateinit var m_PlanesLayout: PlanesVerticalLayout
@@ -42,16 +40,6 @@ class GameFragment : Fragment() {
 
         m_PlaneRound = PlanesRoundJava()
         (m_PlaneRound as PlanesRoundJava).createPlanesRound()
-        
-        m_PreferencesService = PreferencesService(context)
-        // recovering the instance state
-        m_PreferencesService.readPreferences()
-        if (!(m_PlaneRound as PlanesRoundJava).setComputerSkill(m_PreferencesService.computerSkill)) {
-            m_PreferencesService.computerSkill = (m_PlaneRound as PlanesRoundJava).getComputerSkill()
-        }
-        if (!(m_PlaneRound as PlanesRoundJava).setShowPlaneAfterKill(m_PreferencesService.showPlaneAfterKill)) {
-            m_PreferencesService.showPlaneAfterKill = (m_PlaneRound as PlanesRoundJava).getShowPlaneAfterKill()
-        }
 
         m_GameControls = GameControlsAdapter(context)
     }
@@ -63,16 +51,7 @@ class GameFragment : Fragment() {
         // Inflate the layout for this fragment
         var rootView = inflater.inflate(R.layout.fragment_game, container, false)
 
-        //val toolbar = rootView.findViewById<View>(R.id.toolbar) as Toolbar
-        //setSupportActionBar(toolbar)
-
-
         m_PlanesLayout = rootView.findViewById<View>(R.id.planes_layout) as PlanesVerticalLayout
-
-        /*if (container != null) {
-            var toolbar = container.findViewById<Toolbar>(R.id.toolbar)
-            m_PlanesLayout.setToolbarHeight(toolbar.height)
-        }*/
 
         var isTablet = false
         var isHorizontal = false
@@ -157,21 +136,3 @@ class GameFragment : Fragment() {
         return rootView
     }
 }
-
-/*class GameFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dummy, container, false)
-    }
-}*/
