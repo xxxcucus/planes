@@ -7,5 +7,8 @@
         <item
             android:id="@+id/nav_game"
             android:title="Game"/>
+        <item
+            android:id="@+id/nav_videos"
+            android:title="Videos"/>
     </group>
 </menu>
