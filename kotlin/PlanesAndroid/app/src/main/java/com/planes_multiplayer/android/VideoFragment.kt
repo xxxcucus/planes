@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemClickListener
 import android.widget.ListView
 import androidx.fragment.app.Fragment
-
 
 
 class VideoFragment : Fragment() {
@@ -33,11 +33,18 @@ class VideoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         var rootview = inflater.inflate(R.layout.fragment_videos1, container, false)
-
         m_VideosListView = rootview.findViewById(R.id.list_view)
         m_VideosListView.adapter = m_VideosAdapter
 
+        m_VideosListView.setOnItemClickListener(OnItemClickListener { parent, view, position, id ->
+            playVideo(position)
+        })
+
         return  rootview
+    }
+
+    private fun playVideo(position: Int) {
+        (activity as MainActivity).playVideo(position, m_VideoTitlesList[position])
     }
 
 }

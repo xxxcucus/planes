@@ -67,13 +67,13 @@ class MainActivity : AppCompatActivity() {
                         newFragment = VideoFragment()
                         supportActionBar?.setTitle("Videos")
                     }
-
                 }
 
                 if (mSelectedItem != 0) {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_content, newFragment)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .addToBackStack("FromMainMenu")
                         .commit();
                 }
 
@@ -113,5 +113,19 @@ class MainActivity : AppCompatActivity() {
     fun setOptions(currentSkill: Int, showPlaneAfterKill: Boolean) {
         m_PreferencesService.computerSkill = currentSkill
         m_PreferencesService.showPlaneAfterKill = showPlaneAfterKill
+    }
+
+    fun playVideo(position: Int, title: String) {
+        var newFragment = ExoplayerFragment()
+
+        val bundle = Bundle()
+        bundle.putInt("position", position)
+        newFragment.setArguments(bundle)
+        supportActionBar?.setTitle(title)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_content, newFragment)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .addToBackStack("PlayVideoAtPosition")
+            .commit();
     }
 }

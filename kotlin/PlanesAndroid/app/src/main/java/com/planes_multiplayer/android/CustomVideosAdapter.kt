@@ -30,8 +30,8 @@ class CustomVideosAdapter(private var c: Context, private var quotes: Array<Stri
         nameTxt.text = quotes[i]
 
         //handle itemclicks for the ListView
-        view.setOnClickListener { Toast.makeText(c, "Track title clicked!", Toast.LENGTH_SHORT).show() }
+        //view?.setOnClickListener { Toast.makeText(c, "Track title clicked!", Toast.LENGTH_SHORT).show() }
 
-        return view
+        return view!!
     }
 }

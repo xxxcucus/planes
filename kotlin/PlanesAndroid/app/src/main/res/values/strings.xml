@@ -79,4 +79,5 @@
         com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
     <string name="drawer_open_content_description" translatable="false">Open Menu</string>
     <string name="drawer_closed_content_description" translatable="false">Close Menu</string>
+    <string name="media_url_mp3">https://storage.googleapis.com/exoplayer-test-media-0/BigBuckBunny_320x180.mp4</string>
 </resources>
