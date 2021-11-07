@@ -67,6 +67,10 @@ class MainActivity : AppCompatActivity() {
                         newFragment = VideoFragment()
                         supportActionBar?.setTitle("Videos")
                     }
+                    R.id.nav_about -> {
+                        newFragment = AboutFragment()
+                        supportActionBar?.setTitle("About")
+                    }
                 }
 
                 if (mSelectedItem != 0) {
