@@ -1,8 +1,9 @@
 package com.planes_multiplayer.android
 
-import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBar
@@ -27,8 +28,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        var toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        supportActionBar!!.displayOptions = ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_SHOW_TITLE
+
 
         m_PlaneRound = PlanesRoundJava()
         (m_PlaneRound as PlanesRoundJava).createPlanesRound()
@@ -43,45 +46,11 @@ class MainActivity : AppCompatActivity() {
             m_PreferencesService.showPlaneAfterKill = (m_PlaneRound as PlanesRoundJava).getShowPlaneAfterKill()
         }
 
-        supportActionBar!!.displayOptions =
-            ActionBar.DISPLAY_SHOW_CUSTOM or ActionBar.DISPLAY_SHOW_HOME or ActionBar.DISPLAY_HOME_AS_UP
+
         var drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         mDrawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open_content_description, R.string.drawer_closed_content_description) {
             override fun onDrawerClosed(view: View) {
-                lateinit var newFragment:Fragment
-
-                when(mSelectedItem) {
-                    R.id.nav_settings -> {
-                        val bundle = Bundle()
-                        bundle.putInt("gamedifficulty/computerskill", m_PreferencesService.computerSkill)
-                        bundle.putBoolean("gamedifficulty/showkilledplane", m_PreferencesService.showPlaneAfterKill)
-                        newFragment = SettingsFragment()
-                        newFragment.setArguments(bundle)
-                        supportActionBar?.setTitle("Preferences")
-                    }
-                    R.id.nav_game -> {
-                        newFragment = GameFragment()
-                        supportActionBar?.setTitle("Game")
-                    }
-                    R.id.nav_videos -> {
-                        newFragment = VideoFragment()
-                        supportActionBar?.setTitle("Videos")
-                    }
-                    R.id.nav_about -> {
-                        newFragment = AboutFragment()
-                        supportActionBar?.setTitle("About")
-                    }
-                }
-
-                if (mSelectedItem != 0) {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_content, newFragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .addToBackStack("FromMainMenu")
-                        .commit();
-                }
-
-                mSelectedItem = 0
+                setFragment(true)
             }
         }
         drawerLayout.addDrawerListener(mDrawerToggle)
@@ -93,6 +62,14 @@ class MainActivity : AppCompatActivity() {
             drawerLayout.closeDrawer(navigationView)
             true
         }
+
+        if (mSelectedItem == 0) {
+            mSelectedItem = R.id.nav_game
+            setFragment(false)
+        } else {
+            setFragment(true)
+        }
+
 
     }
 
@@ -132,4 +109,92 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack("PlayVideoAtPosition")
             .commit();
     }
+
+    fun setFragment(addToBackStack: Boolean) {
+        lateinit var newFragment:Fragment
+
+        when(mSelectedItem) {
+            R.id.nav_settings -> {
+                val bundle = Bundle()
+                bundle.putInt("gamedifficulty/computerskill", m_PreferencesService.computerSkill)
+                bundle.putBoolean("gamedifficulty/showkilledplane", m_PreferencesService.showPlaneAfterKill)
+                newFragment = SettingsFragment()
+                newFragment.setArguments(bundle)
+                supportActionBar?.setTitle("Preferences")
+            }
+            R.id.nav_game -> {
+                newFragment = GameFragment()
+                supportActionBar?.setTitle("Game")
+            }
+            R.id.nav_videos -> {
+                newFragment = VideoFragment()
+                supportActionBar?.setTitle("Videos")
+            }
+            R.id.nav_about -> {
+                newFragment = AboutFragment()
+                supportActionBar?.setTitle("About")
+            }
+        }
+
+        if (mSelectedItem != 0) {
+
+            if (addToBackStack)
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_content, newFragment)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .addToBackStack("FromMainMenu")
+                    .commit();
+            else
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_content, newFragment)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .commit();
+        }
+
+        //mSelectedItem = 0
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("gamedifficulty/computerskill", m_PreferencesService.computerSkill)
+        outState.putBoolean("gamedifficulty/showkilledplane", m_PreferencesService.showPlaneAfterKill)
+        outState.putInt("currentFragment", mSelectedItem)
+        Log.d("Planes", "onSaveInstanceState")
+
+        // call superclass to save any view hierarchy
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        m_PreferencesService.computerSkill =
+            savedInstanceState.getInt("gamedifficulty/computerskill")
+        m_PreferencesService.showPlaneAfterKill =
+            savedInstanceState.getBoolean("gamedifficulty/showkilledplane")
+        if (!m_PlaneRound.setComputerSkill(m_PreferencesService.computerSkill)) {
+            m_PreferencesService.computerSkill = m_PlaneRound.getComputerSkill()
+        }
+        if (!m_PlaneRound.setShowPlaneAfterKill(m_PreferencesService.showPlaneAfterKill)) {
+            m_PreferencesService.showPlaneAfterKill = m_PlaneRound.getShowPlaneAfterKill()
+        }
+
+        mSelectedItem = savedInstanceState.getInt("currentFragment")
+        Log.d("Planes", "onRestoreInstanceState")
+        super.onRestoreInstanceState(savedInstanceState)
+
+        if (mSelectedItem != 0) {
+            setFragment(true)
+        }
+    }
+
+    override fun onStop() {
+        m_PreferencesService.writePreferences()
+        super.onStop()
+        Log.d("Planes", "onStop")
+    }
+
+    public override fun onDestroy() {
+        m_PreferencesService.writePreferences()
+        super.onDestroy()
+        Log.d("Planes", "onDestroy")
+    }
+
 }
