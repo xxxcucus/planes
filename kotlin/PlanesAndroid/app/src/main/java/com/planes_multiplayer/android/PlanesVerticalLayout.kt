@@ -302,10 +302,15 @@ class PlanesVerticalLayout : ViewGroup {
         requestLayout()
     }
 
+    fun setToolbarHeight(toolbarHeight: Int) {
+        m_ToolbarHeight = toolbarHeight
+    }
+
     private lateinit var m_GameBoards: ArrayList<GameBoard>
     private lateinit var m_GameControls: HashMap<Int, ArrayList<View>>
     private lateinit var m_GameControlsMaxRow: HashMap<Int, Int>
     private lateinit var m_GameControlsMaxCol: HashMap<Int, Int>
+    private var m_ToolbarHeight: Int = 0
     private var m_Context: Context
     private var m_GameStage = GameStages.BoardEditing
     private val m_CorrectChildren = false
