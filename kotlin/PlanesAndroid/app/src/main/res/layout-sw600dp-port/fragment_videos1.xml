@@ -16,11 +16,15 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/list_view"
         android:background="@drawable/background">
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
         <com.google.android.exoplayer2.ui.PlayerView
             android:id="@+id/video_view"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:background="@color/layout_background_end"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </RelativeLayout>

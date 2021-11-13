@@ -63,13 +63,27 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        if (savedInstanceState != null) {
+            m_PreferencesService.computerSkill =
+                savedInstanceState.getInt("gamedifficulty/computerskill")
+            m_PreferencesService.showPlaneAfterKill =
+                savedInstanceState.getBoolean("gamedifficulty/showkilledplane")
+            if (!m_PlaneRound.setComputerSkill(m_PreferencesService.computerSkill)) {
+                m_PreferencesService.computerSkill = m_PlaneRound.getComputerSkill()
+            }
+            if (!m_PlaneRound.setShowPlaneAfterKill(m_PreferencesService.showPlaneAfterKill)) {
+                m_PreferencesService.showPlaneAfterKill = m_PlaneRound.getShowPlaneAfterKill()
+            }
+
+            mSelectedItem = savedInstanceState.getInt("currentFragment")
+        }
+
         if (mSelectedItem == 0) {
             mSelectedItem = R.id.nav_game
             setFragment(false)
         } else {
             setFragment(true)
         }
-
 
     }
 
@@ -162,27 +176,6 @@ class MainActivity : AppCompatActivity() {
 
         // call superclass to save any view hierarchy
         super.onSaveInstanceState(outState)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        m_PreferencesService.computerSkill =
-            savedInstanceState.getInt("gamedifficulty/computerskill")
-        m_PreferencesService.showPlaneAfterKill =
-            savedInstanceState.getBoolean("gamedifficulty/showkilledplane")
-        if (!m_PlaneRound.setComputerSkill(m_PreferencesService.computerSkill)) {
-            m_PreferencesService.computerSkill = m_PlaneRound.getComputerSkill()
-        }
-        if (!m_PlaneRound.setShowPlaneAfterKill(m_PreferencesService.showPlaneAfterKill)) {
-            m_PreferencesService.showPlaneAfterKill = m_PlaneRound.getShowPlaneAfterKill()
-        }
-
-        mSelectedItem = savedInstanceState.getInt("currentFragment")
-        Log.d("Planes", "onRestoreInstanceState")
-        super.onRestoreInstanceState(savedInstanceState)
-
-        if (mSelectedItem != 0) {
-            setFragment(true)
-        }
     }
 
     override fun onStop() {
