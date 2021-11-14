@@ -3,7 +3,6 @@ package com.planes_multiplayer.android
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBar
@@ -141,7 +140,7 @@ class MainActivity : AppCompatActivity() {
                 supportActionBar?.setTitle("Game")
             }
             R.id.nav_videos -> {
-                newFragment = VideoFragment()
+                newFragment = VideoFragment1()
                 supportActionBar?.setTitle("Videos")
             }
             R.id.nav_about -> {
@@ -190,4 +189,12 @@ class MainActivity : AppCompatActivity() {
         Log.d("Planes", "onDestroy")
     }
 
+    public fun isHorizontal(): Boolean {
+        val orientation = resources.configuration.orientation
+        return if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            true
+        } else {
+            false
+        }
+    }
 }
