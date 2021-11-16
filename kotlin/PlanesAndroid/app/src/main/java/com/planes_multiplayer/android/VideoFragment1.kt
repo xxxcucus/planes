@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.VideoView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -38,12 +39,7 @@ class VideoFragment1 : Fragment() {
         var rootview = inflater.inflate(R.layout.fragment_videos1, container, false)
         val recyclerView: RecyclerView = rootview.findViewById(R.id.recyclerView)
 
-        val mLayoutManager = LinearLayoutManager(activity)
-        if (isHorizontal()) {
-            mLayoutManager.orientation = LinearLayoutManager.VERTICAL
-        } else {
-            mLayoutManager.orientation = LinearLayoutManager.VERTICAL
-        }
+        var mLayoutManager = if (isHorizontal()) LinearLayoutManager(activity) else GridLayoutManager(activity,2)
         recyclerView.layoutManager = mLayoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = m_VideosAdapter
@@ -70,6 +66,10 @@ class VideoFragment1 : Fragment() {
         return (activity as MainActivity).isHorizontal()
     }
 
+    private fun isTablet(): Boolean {
+        return (activity as MainActivity).isTablet()
+    }
+
     private fun setDimension(isHorizontal: Boolean, videoRatio: Float) {
         val videoProportion: Float = videoRatio
         val screenWidth = if (!isHorizontal)  resources.displayMetrics.widthPixels else resources.displayMetrics.widthPixels * 6 / 10
@@ -87,6 +87,7 @@ class VideoFragment1 : Fragment() {
             lp.width = screenWidth
             lp.height = (screenWidth.toFloat() * videoProportion).toInt()
         }
+
         m_VideoView!!.setLayoutParams(lp)
     }
 

@@ -197,4 +197,13 @@ class MainActivity : AppCompatActivity() {
             false
         }
     }
+
+    public fun isTablet(): Boolean {
+        val tabletSize = resources.getBoolean(R.bool.isTablet)
+        return if (tabletSize) {
+            true
+        } else {
+           false
+        }
+    }
 }
