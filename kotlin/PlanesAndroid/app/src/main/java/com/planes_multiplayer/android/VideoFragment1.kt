@@ -87,6 +87,7 @@ class VideoFragment1 : Fragment() {
             lp.width = screenWidth
             lp.height = (screenWidth.toFloat() * videoProportion).toInt()
         }
+
         m_VideoView!!.setLayoutParams(lp)
     }
 
