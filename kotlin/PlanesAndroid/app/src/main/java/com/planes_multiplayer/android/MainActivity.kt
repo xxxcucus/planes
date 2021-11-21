@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
     private lateinit var m_PlaneRound: PlanesRoundInterface
     private lateinit var m_PreferencesService: PreferencesService
+    private lateinit var m_VideoSettingsService: VideoSettingsService
     private var mSelectedItem = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         (m_PlaneRound as PlanesRoundJava).createPlanesRound()
 
         m_PreferencesService = PreferencesService(this)
-        // recovering the instance state
         m_PreferencesService.readPreferences()
         if (!(m_PlaneRound as PlanesRoundJava).setComputerSkill(m_PreferencesService.computerSkill)) {
             m_PreferencesService.computerSkill = (m_PlaneRound as PlanesRoundJava).getComputerSkill()
@@ -45,6 +45,8 @@ class MainActivity : AppCompatActivity() {
             m_PreferencesService.showPlaneAfterKill = (m_PlaneRound as PlanesRoundJava).getShowPlaneAfterKill()
         }
 
+        m_VideoSettingsService = VideoSettingsService(this)
+        m_VideoSettingsService.readPreferences()
 
         var drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         mDrawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open_content_description, R.string.drawer_closed_content_description) {
@@ -63,16 +65,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState != null) {
-            m_PreferencesService.computerSkill =
-                savedInstanceState.getInt("gamedifficulty/computerskill")
-            m_PreferencesService.showPlaneAfterKill =
-                savedInstanceState.getBoolean("gamedifficulty/showkilledplane")
-            if (!m_PlaneRound.setComputerSkill(m_PreferencesService.computerSkill)) {
-                m_PreferencesService.computerSkill = m_PlaneRound.getComputerSkill()
-            }
-            if (!m_PlaneRound.setShowPlaneAfterKill(m_PreferencesService.showPlaneAfterKill)) {
-                m_PreferencesService.showPlaneAfterKill = m_PlaneRound.getShowPlaneAfterKill()
-            }
+            m_PreferencesService.readFromSavedInstanceState(savedInstanceState)
+            m_VideoSettingsService.readFromSavedInstanceState(savedInstanceState)
+            setPreferencesForPlaneRound()
 
             mSelectedItem = savedInstanceState.getInt("currentFragment")
         }
@@ -84,6 +79,15 @@ class MainActivity : AppCompatActivity() {
             setFragment(true)
         }
 
+    }
+
+    private fun setPreferencesForPlaneRound() {
+        if (!m_PlaneRound.setComputerSkill(m_PreferencesService.computerSkill)) {
+            m_PreferencesService.computerSkill = m_PlaneRound.getComputerSkill()
+        }
+        if (!m_PlaneRound.setShowPlaneAfterKill(m_PreferencesService.showPlaneAfterKill)) {
+            m_PreferencesService.showPlaneAfterKill = m_PlaneRound.getShowPlaneAfterKill()
+        }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -109,20 +113,6 @@ class MainActivity : AppCompatActivity() {
         m_PreferencesService.showPlaneAfterKill = showPlaneAfterKill
     }
 
-    fun playVideo(position: Int, title: String) {
-        var newFragment = ExoplayerFragment()
-
-        val bundle = Bundle()
-        bundle.putInt("position", position)
-        newFragment.setArguments(bundle)
-        supportActionBar?.setTitle(title)
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.main_content, newFragment)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .addToBackStack("PlayVideoAtPosition")
-            .commit();
-    }
-
     fun setFragment(addToBackStack: Boolean) {
         lateinit var newFragment:Fragment
 
@@ -140,7 +130,11 @@ class MainActivity : AppCompatActivity() {
                 supportActionBar?.setTitle("Game")
             }
             R.id.nav_videos -> {
+                val bundle = Bundle()
+                bundle.putInt("videosettings/currentVideo", m_VideoSettingsService.currentVideo)
+                bundle.putSerializable("videosettings/videoPlaybackPositions", m_VideoSettingsService.videoPlaybackPositions)
                 newFragment = VideoFragment1()
+                newFragment.setArguments(bundle)
                 supportActionBar?.setTitle("Videos")
             }
             R.id.nav_about -> {
@@ -168,8 +162,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt("gamedifficulty/computerskill", m_PreferencesService.computerSkill)
-        outState.putBoolean("gamedifficulty/showkilledplane", m_PreferencesService.showPlaneAfterKill)
+        m_PreferencesService.writeToSavedInstanceState(outState)
+        m_VideoSettingsService.writeToSavedInstanceState(outState)
         outState.putInt("currentFragment", mSelectedItem)
         Log.d("Planes", "onSaveInstanceState")
 
@@ -206,4 +200,10 @@ class MainActivity : AppCompatActivity() {
            false
         }
     }
+
+    public fun setVideoSettings(currentVideo: Int, playbackPositions: IntArray) {
+        m_VideoSettingsService.currentVideo = currentVideo
+        m_VideoSettingsService.videoPlaybackPositions = playbackPositions
+    }
+
 }

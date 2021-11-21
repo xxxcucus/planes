@@ -57,4 +57,5 @@ interface PlanesRoundInterface {
     fun setShowPlaneAfterKill(show: Boolean): Boolean
     fun getComputerSkill(): Int
     fun getShowPlaneAfterKill(): Boolean
+
 }

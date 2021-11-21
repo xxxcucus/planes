@@ -1,6 +1,7 @@
 package com.planes_multiplayer.android
 
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 
 class PreferencesService internal constructor(private val m_Context: Context) {
@@ -22,6 +23,11 @@ class PreferencesService internal constructor(private val m_Context: Context) {
         Log.d("Planes", "readPreferences " + computerSkill + " " + showPlaneAfterKill)
     }
 
+    fun readFromSavedInstanceState(savedInstanceState: Bundle) {
+        computerSkill = savedInstanceState.getInt("gamedifficulty/computerskill")
+        showPlaneAfterKill = savedInstanceState.getBoolean("gamedifficulty/showkilledplane")
+    }
+
     fun writePreferences() {
         val sp = m_Context.getSharedPreferences("gamedifficulty",
                 Context.MODE_PRIVATE).edit()
@@ -31,6 +37,8 @@ class PreferencesService internal constructor(private val m_Context: Context) {
         Log.d("Planes", "writePreferences " + m_ComputerSkill + " " + showPlaneAfterKill)
     }
 
-
-
+    fun writeToSavedInstanceState(savedInstanceState: Bundle) {
+        savedInstanceState.putInt("gamedifficulty/computerskill", computerSkill)
+        savedInstanceState.putBoolean("gamedifficulty/showkilledplane", showPlaneAfterKill)
+    }
 }

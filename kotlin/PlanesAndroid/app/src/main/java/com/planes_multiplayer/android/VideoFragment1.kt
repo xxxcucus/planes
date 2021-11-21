@@ -44,18 +44,21 @@ class VideoFragment1 : Fragment() {
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = m_VideosAdapter
 
+        m_CurrentVideo = requireArguments().getInt("videosettings/currentVideo")
+        val videoPlaybackPositions = requireArguments().getSerializable("videosettings/videoPlaybackPositions") as IntArray
+        m_MovieList.mapIndexed{ idx, value -> value.setCurrentPosition(videoPlaybackPositions[idx]) }
 
         m_VideoView = rootview.findViewById(R.id.video_view)
-        onVideoItemClick(0)
+        onVideoItemClick(m_CurrentVideo)
 
         return  rootview
     }
 
     private fun prepareVideoList() {
-        var videoModel_guessing = VideoModel("Guessing Planes Positions", R.raw.guessing, "00:01:49", 1.42f)
-        var videoModel_positioning = VideoModel("Positioning of Planes", R.raw.positioning, "00:01:22", 1.42f)
-        var videoModel_single = VideoModel("Single Player Tutorial", R.raw.singleplayer, "00:02:00", 1.36f)
-        var videoModel_multi = VideoModel("Multi-Player Tutorial", R.raw.multiplayer, "00:05:44", 1.77f)
+        var videoModel_guessing = VideoModel("Guessing Planes Positions", R.raw.guessing, "00:01:49", 0,1.42f)
+        var videoModel_positioning = VideoModel("Positioning of Planes", R.raw.positioning, "00:01:22", 0,1.42f)
+        var videoModel_single = VideoModel("Single Player Tutorial", R.raw.singleplayer, "00:02:00",0, 1.36f)
+        var videoModel_multi = VideoModel("Multi-Player Tutorial", R.raw.multiplayer, "00:05:44", 0,1.77f)
 
         m_MovieList = arrayListOf(videoModel_guessing, videoModel_positioning, videoModel_single, videoModel_multi)
         m_VideosAdapter = VideoAdapter( { position -> onVideoItemClick(position)}, m_MovieList)
@@ -73,10 +76,7 @@ class VideoFragment1 : Fragment() {
     private fun setDimension(isHorizontal: Boolean, videoRatio: Float) {
         val videoProportion: Float = videoRatio
         val screenWidth = if (!isHorizontal)  resources.displayMetrics.widthPixels else resources.displayMetrics.widthPixels * 6 / 10
-        val screenHeight = if (!isHorizontal) resources.displayMetrics.heightPixels else resources.displayMetrics.heightPixels
-
-        //val screenWidth = resources.displayMetrics.widthPixels
-        //val screenHeight = resources.displayMetrics.heightPixels
+        val screenHeight = resources.displayMetrics.heightPixels
 
         val screenProportion = screenWidth.toFloat() / screenHeight.toFloat()
         val lp: ViewGroup.LayoutParams = m_VideoView!!.getLayoutParams()
@@ -121,15 +121,22 @@ class VideoFragment1 : Fragment() {
         super.onStop()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt("position", m_CurrentPositionInVideo)
-        super.onSaveInstanceState(outState)
-    }
-
     private fun onVideoItemClick(position: Int) {
+        m_VideoView!!.pause()
+        m_MovieList[m_CurrentVideo].setCurrentPosition(m_VideoView!!.currentPosition)
+        m_CurrentVideo = position
+        m_CurrentPositionInVideo = m_MovieList[m_CurrentVideo].getCurentPosition()
+
         setDimension(isHorizontal(), m_MovieList[position].getVideoRatio())
         var uri = Uri.parse("android.resource://"
                 + (activity as MainActivity).packageName + "/" + m_MovieList[position].getVideoId())
         m_VideoView!!.setVideoURI(uri)
+        m_VideoView!!.seekTo(m_CurrentPositionInVideo)
+        m_VideoView!!.start()
+    }
+
+    override fun onDetach () {
+        (activity as MainActivity).setVideoSettings(m_CurrentVideo, m_MovieList.map  { it.getCurentPosition()}.toIntArray())
+        super.onDetach()
     }
 }
