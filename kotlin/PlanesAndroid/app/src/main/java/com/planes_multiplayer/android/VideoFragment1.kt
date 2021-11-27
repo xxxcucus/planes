@@ -44,12 +44,8 @@ class VideoFragment1 : Fragment() {
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = m_VideosAdapter
 
-        m_CurrentVideo = requireArguments().getInt("videosettings/currentVideo")
-        val videoPlaybackPositions = requireArguments().getSerializable("videosettings/videoPlaybackPositions") as IntArray
-        m_MovieList.mapIndexed{ idx, value -> value.setCurrentPosition(videoPlaybackPositions[idx]) }
-
         m_VideoView = rootview.findViewById(R.id.video_view)
-        onVideoItemClick(m_CurrentVideo)
+        initializeVideo()
 
         return  rootview
     }
@@ -97,7 +93,6 @@ class VideoFragment1 : Fragment() {
             m_VideoView!!.seekTo(m_CurrentPositionInVideo)
 
         m_VideoView!!.start()
-
     }
 
     override fun onResume() {
@@ -114,11 +109,27 @@ class VideoFragment1 : Fragment() {
         super.onPause()
         m_VideoView!!.pause()
         m_CurrentPositionInVideo = m_VideoView!!.currentPosition
+        m_MovieList[m_CurrentVideo].setCurrentPosition(m_CurrentPositionInVideo)
+        writeToVideoSettingsService()
     }
 
     override fun onStop() {
         m_VideoView!!.pause()
         super.onStop()
+    }
+
+    private fun initializeVideo() {
+        m_CurrentVideo = requireArguments().getInt("videosettings/currentVideo")
+        val videoPlaybackPositions = requireArguments().getSerializable("videosettings/videoPlaybackPositions") as IntArray
+        m_MovieList.mapIndexed{ idx, value -> value.setCurrentPosition(videoPlaybackPositions[idx]) }
+        m_CurrentPositionInVideo = m_MovieList[m_CurrentVideo].getCurentPosition()
+
+        setDimension(isHorizontal(), m_MovieList[m_CurrentVideo].getVideoRatio())
+        var uri = Uri.parse("android.resource://"
+                + (activity as MainActivity).packageName + "/" + m_MovieList[m_CurrentVideo].getVideoId())
+        m_VideoView!!.setVideoURI(uri)
+        m_VideoView!!.seekTo(m_CurrentPositionInVideo)
+        m_VideoView!!.start()
     }
 
     private fun onVideoItemClick(position: Int) {
@@ -136,7 +147,11 @@ class VideoFragment1 : Fragment() {
     }
 
     override fun onDetach () {
-        (activity as MainActivity).setVideoSettings(m_CurrentVideo, m_MovieList.map  { it.getCurentPosition()}.toIntArray())
+        writeToVideoSettingsService()
         super.onDetach()
+    }
+
+    fun writeToVideoSettingsService() {
+        (activity as MainActivity).setVideoSettings(m_CurrentVideo, m_MovieList.map  { it.getCurentPosition()}.toIntArray())
     }
 }

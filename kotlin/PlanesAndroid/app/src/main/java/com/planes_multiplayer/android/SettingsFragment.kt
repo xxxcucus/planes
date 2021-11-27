@@ -34,7 +34,17 @@ class SettingsFragment : Fragment() {
     }
 
     override fun onDetach () {
-        (activity as MainActivity).setOptions(binding.settingsData!!.m_ComputerSkill, binding.settingsData!!.m_ShowPlaneAfterKill)
+        writeToPreferencesService()
         super.onDetach()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        writeToPreferencesService()
+    }
+
+    fun writeToPreferencesService() {
+        if (this::binding.isInitialized)
+            (activity as MainActivity).setOptions(binding.settingsData!!.m_ComputerSkill, binding.settingsData!!.m_ShowPlaneAfterKill)
     }
 }
