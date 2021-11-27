@@ -173,12 +173,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         m_PreferencesService.writePreferences()
+        m_VideoSettingsService.writePreferences()
         super.onStop()
         Log.d("Planes", "onStop")
     }
 
     public override fun onDestroy() {
         m_PreferencesService.writePreferences()
+        m_VideoSettingsService.writePreferences()
         super.onDestroy()
         Log.d("Planes", "onDestroy")
     }
