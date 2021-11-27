@@ -1,4 +1,5 @@
 package com.planes_multiplayer.android
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class VideoAdapter(private val onItemClicked: (position: Int) -> Unit, moviesList: List<VideoModel>) : RecyclerView.Adapter<VideoAdapter.MyViewHolder>() {
     private val m_VideosList: List<VideoModel>
+    private var m_SelectedPosition = 0
 
     init {
         this.m_VideosList = moviesList
@@ -24,8 +26,15 @@ class VideoAdapter(private val onItemClicked: (position: Int) -> Unit, moviesLis
         }
 
         override fun onClick(v: View) {
-            val position = adapterPosition
-            onItemClicked(position)
+            // Below line is just like a safety check, because sometimes holder could be null,
+            // in that case, getAdapterPosition() will return RecyclerView.NO_POSITION
+            if (getAdapterPosition() == RecyclerView.NO_POSITION) return;
+
+            // Updating old as well as new positions
+            notifyItemChanged(m_SelectedPosition);
+            m_SelectedPosition = adapterPosition
+            notifyItemChanged(m_SelectedPosition);
+            onItemClicked(m_SelectedPosition)
         }
     }
 
@@ -36,6 +45,8 @@ class VideoAdapter(private val onItemClicked: (position: Int) -> Unit, moviesLis
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        holder.itemView.setBackgroundColor(if (m_SelectedPosition === position) Color.GREEN else Color.TRANSPARENT)
+
         val movie: VideoModel = m_VideosList[position]
         holder.title.setText(movie.getVideoName())
         holder.duration.setText("Duration: " + movie.getVideoDuration())

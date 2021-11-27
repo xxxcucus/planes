@@ -111,6 +111,8 @@ class MainActivity : AppCompatActivity() {
     fun setOptions(currentSkill: Int, showPlaneAfterKill: Boolean) {
         m_PreferencesService.computerSkill = currentSkill
         m_PreferencesService.showPlaneAfterKill = showPlaneAfterKill
+
+        //TODO: save preferences in PlaneRound if possible when not display warning popup
     }
 
     fun setFragment(addToBackStack: Boolean) {
