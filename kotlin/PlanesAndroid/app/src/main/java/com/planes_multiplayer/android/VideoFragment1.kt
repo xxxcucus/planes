@@ -123,6 +123,7 @@ class VideoFragment1 : Fragment() {
         val videoPlaybackPositions = requireArguments().getSerializable("videosettings/videoPlaybackPositions") as IntArray
         m_MovieList.mapIndexed{ idx, value -> value.setCurrentPosition(videoPlaybackPositions[idx]) }
         m_CurrentPositionInVideo = m_MovieList[m_CurrentVideo].getCurentPosition()
+        m_VideosAdapter.setCurrentVideo(m_CurrentVideo)
 
         setDimension(isHorizontal(), m_MovieList[m_CurrentVideo].getVideoRatio())
         var uri = Uri.parse("android.resource://"

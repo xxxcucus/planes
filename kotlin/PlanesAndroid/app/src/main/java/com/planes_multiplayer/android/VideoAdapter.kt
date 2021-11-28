@@ -56,5 +56,9 @@ class VideoAdapter(private val onItemClicked: (position: Int) -> Unit, moviesLis
         return m_VideosList.size
     }
 
+    fun setCurrentVideo(currentVideo: Int) {
+        m_SelectedPosition = currentVideo
+    }
+
 
 }
