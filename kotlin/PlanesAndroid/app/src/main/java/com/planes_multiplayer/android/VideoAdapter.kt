@@ -45,7 +45,7 @@ class VideoAdapter(private val onItemClicked: (position: Int) -> Unit, moviesLis
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.itemView.setBackgroundColor(if (m_SelectedPosition === position) Color.GREEN else Color.TRANSPARENT)
+        holder.itemView.setSelected(m_SelectedPosition == position)
 
         val movie: VideoModel = m_VideosList[position]
         holder.title.setText(movie.getVideoName())

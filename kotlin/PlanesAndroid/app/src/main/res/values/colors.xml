@@ -5,6 +5,7 @@
     <color name="menu_background">#f0f</color>
     <color name="layout_background_start">#b2ce49</color>
     <color name="layout_background_end">#186dff</color>
+    <color name="video_pressed">#3DDC84</color>
     <color name="orange">#ff8d33</color>
     <color name="grey">#e5e6e2</color>
 </resources>
