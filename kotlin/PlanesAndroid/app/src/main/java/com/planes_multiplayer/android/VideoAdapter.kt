@@ -1,5 +1,5 @@
 package com.planes_multiplayer.android
-import android.graphics.Color
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,14 +15,19 @@ class VideoAdapter(private val onItemClicked: (position: Int) -> Unit, moviesLis
         this.m_VideosList = moviesList
     }
 
-    inner class MyViewHolder(view: View, private val onItemClicked: (position: Int) -> Unit) : RecyclerView.ViewHolder(view), View.OnClickListener {
-        var title: TextView
-        var duration: TextView
+    inner class MyViewHolder(view: View, private val onItemClicked: (position: Int) -> Unit, context: Context) :
+            RecyclerView.ViewHolder(view), View.OnClickListener, View.OnLongClickListener {
+        var m_Title: TextView
+        var m_Duration: TextView
+        var m_Context: Context
+        var m_Position: Int = 0
 
         init {
-            title = view.findViewById(R.id.title)
-            duration = view.findViewById(R.id.duration)
+            m_Title = view.findViewById(R.id.title)
+            m_Duration = view.findViewById(R.id.duration)
+            m_Context = context
             view.setOnClickListener(this)
+            view.setOnLongClickListener(this)
         }
 
         override fun onClick(v: View) {
@@ -36,20 +41,28 @@ class VideoAdapter(private val onItemClicked: (position: Int) -> Unit, moviesLis
             notifyItemChanged(m_SelectedPosition);
             onItemClicked(m_SelectedPosition)
         }
+
+        override fun onLongClick(v: View): Boolean {
+            var youtubeLink = m_VideosList[m_Position].getYoutubeLink()
+            Tools.openLink(m_Context, youtubeLink)
+            return true
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.videolayout, parent, false)
-        return MyViewHolder(itemView, onItemClicked)
+        return MyViewHolder(itemView, onItemClicked, parent.context)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.itemView.setSelected(m_SelectedPosition == position)
 
         val movie: VideoModel = m_VideosList[position]
-        holder.title.setText(movie.getVideoName())
-        holder.duration.setText("Duration: " + movie.getVideoDuration())
+        holder.m_Title.setText(movie.getVideoName())
+        holder.m_Duration.setText("Duration: " + movie.getVideoDuration())
+        holder.m_Position = position
     }
 
     override fun getItemCount(): Int {

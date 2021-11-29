@@ -1,12 +1,14 @@
 package com.planes_multiplayer.android
 
-class VideoModel(videoname: String, videoId: Int, videoDuration: String, currentPosition: Int, videoRatio: Float) {
+class VideoModel(videoname: String, videoId: Int, videoDuration: String, currentPosition: Int,
+                 videoRatio: Float, youtubeLink: String) {
 
     private var m_VideoName: String
     private var m_VideoId: Int
     private var m_VideoRatio: Float
     private var m_VideoDuration: String
     private var m_CurrentPosition: Int
+    private var m_YoutubeLink: String
 
     init {
         m_VideoName = videoname
@@ -14,6 +16,7 @@ class VideoModel(videoname: String, videoId: Int, videoDuration: String, current
         m_VideoRatio = videoRatio
         m_VideoDuration = videoDuration
         m_CurrentPosition = currentPosition
+        m_YoutubeLink = youtubeLink
     }
 
     fun getVideoName(): String {
@@ -34,6 +37,10 @@ class VideoModel(videoname: String, videoId: Int, videoDuration: String, current
 
     fun getCurentPosition(): Int {
         return m_CurrentPosition
+    }
+
+    fun getYoutubeLink(): String {
+        return m_YoutubeLink;
     }
 
     fun setCurrentPosition(position: Int) {
