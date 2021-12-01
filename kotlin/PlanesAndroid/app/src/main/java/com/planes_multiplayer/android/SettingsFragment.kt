@@ -15,6 +15,8 @@ import com.planes_multiplayer.android.databinding.FragmentOptionsBinding
 
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentOptionsBinding
+    private var m_InitialComputerSkill = 0
+    private var m_InitialShowPlaneAfterKill = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,9 +28,9 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentOptionsBinding.inflate(layoutInflater, container, false)
-        val computerSkill = requireArguments().getInt("gamedifficulty/computerskill")
-        val showPlaneAfterKill = requireArguments().getBoolean("gamedifficulty/showkilledplane")
-        binding.settingsData = SettingsViewModel(computerSkill, showPlaneAfterKill)
+        m_InitialComputerSkill = requireArguments().getInt("gamedifficulty/computerskill")
+        m_InitialShowPlaneAfterKill = requireArguments().getBoolean("gamedifficulty/showkilledplane")
+        binding.settingsData = SettingsViewModel(m_InitialComputerSkill, m_InitialShowPlaneAfterKill)
 
         return binding.root
     }
@@ -44,7 +46,15 @@ class SettingsFragment : Fragment() {
     }
 
     fun writeToPreferencesService() {
-        if (this::binding.isInitialized)
-            (activity as MainActivity).setOptions(binding.settingsData!!.m_ComputerSkill, binding.settingsData!!.m_ShowPlaneAfterKill)
+        if (this::binding.isInitialized) {
+            if (!(activity as MainActivity).setOptions(
+                    binding.settingsData!!.m_ComputerSkill,
+                    binding.settingsData!!.m_ShowPlaneAfterKill
+                )
+            ) {
+                binding.settingsData!!.m_ComputerSkill = m_InitialComputerSkill
+                binding.settingsData!!.m_ShowPlaneAfterKill = m_InitialShowPlaneAfterKill
+            }
+        }
     }
 }

@@ -33,13 +33,13 @@ object BindingAdapters {
             R.array.yesno_options, R.layout.spinner_item
         )
         spinner.adapter = adapter_showPlane
-        setCurrentSelection(spinner, if (showPlaneAfterKill)  1 else 0)
+        setCurrentSelection(spinner, if (showPlaneAfterKill)  0 else 1)
         setSpinnerListener(spinner, listener)
     }
 
     @InverseBindingAdapter(attribute = "showPlaneAfterKill")
     @JvmStatic fun getShowPlaneAfterKill(spinner: Spinner): Boolean {
-        return if (spinner.selectedItemPosition == 0) false else true
+        return if (spinner.selectedItemPosition == 0) true else false
     }
 
     @JvmStatic private fun setCurrentSelection(spinner: Spinner, selectedPosition: Int): Boolean {

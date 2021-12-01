@@ -3,8 +3,12 @@ package com.planes_multiplayer.android
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -38,12 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         m_PreferencesService = PreferencesService(this)
         m_PreferencesService.readPreferences()
-        if (!(m_PlaneRound as PlanesRoundJava).setComputerSkill(m_PreferencesService.computerSkill)) {
-            m_PreferencesService.computerSkill = (m_PlaneRound as PlanesRoundJava).getComputerSkill()
-        }
-        if (!(m_PlaneRound as PlanesRoundJava).setShowPlaneAfterKill(m_PreferencesService.showPlaneAfterKill)) {
-            m_PreferencesService.showPlaneAfterKill = (m_PlaneRound as PlanesRoundJava).getShowPlaneAfterKill()
-        }
+        setPreferencesForPlaneRound(true)
 
         m_VideoSettingsService = VideoSettingsService(this)
         m_VideoSettingsService.readPreferences()
@@ -67,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState != null) {
             m_PreferencesService.readFromSavedInstanceState(savedInstanceState)
             m_VideoSettingsService.readFromSavedInstanceState(savedInstanceState)
-            setPreferencesForPlaneRound()
+            setPreferencesForPlaneRound(true)
 
             mSelectedItem = savedInstanceState.getInt("currentFragment")
         }
@@ -81,13 +80,30 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setPreferencesForPlaneRound() {
-        if (!m_PlaneRound.setComputerSkill(m_PreferencesService.computerSkill)) {
-            m_PreferencesService.computerSkill = m_PlaneRound.getComputerSkill()
+    private fun setPreferencesForPlaneRound(initial: Boolean): Boolean {
+        var retVal = true
+
+        if (m_PlaneRound.getComputerSkill() != m_PreferencesService.computerSkill) {
+            if (!m_PlaneRound.setComputerSkill(m_PreferencesService.computerSkill)) {
+                if (initial)
+                    m_PreferencesService.computerSkill = m_PlaneRound.getComputerSkill()
+                retVal = false
+            }
         }
-        if (!m_PlaneRound.setShowPlaneAfterKill(m_PreferencesService.showPlaneAfterKill)) {
-            m_PreferencesService.showPlaneAfterKill = m_PlaneRound.getShowPlaneAfterKill()
+
+        if (m_PlaneRound.getShowPlaneAfterKill() != m_PreferencesService.showPlaneAfterKill) {
+            if (!m_PlaneRound.setShowPlaneAfterKill(m_PreferencesService.showPlaneAfterKill)) {
+                if (initial)
+                    m_PreferencesService.showPlaneAfterKill = m_PlaneRound.getShowPlaneAfterKill()
+                retVal = false
+            }
         }
+
+        if (!retVal) {
+            onWarning();
+        }
+
+        return retVal
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -108,11 +124,11 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun setOptions(currentSkill: Int, showPlaneAfterKill: Boolean) {
+    fun setOptions(currentSkill: Int, showPlaneAfterKill: Boolean): Boolean {
         m_PreferencesService.computerSkill = currentSkill
         m_PreferencesService.showPlaneAfterKill = showPlaneAfterKill
 
-        //TODO: save preferences in PlaneRound if possible when not display warning popup
+        return setPreferencesForPlaneRound(false)
     }
 
     fun setFragment(addToBackStack: Boolean) {
@@ -209,5 +225,32 @@ class MainActivity : AppCompatActivity() {
         m_VideoSettingsService.currentVideo = currentVideo
         m_VideoSettingsService.videoPlaybackPositions = playbackPositions
     }
+
+    fun onWarning() {
+        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView: View = inflater.inflate(R.layout.warning_options, null)
+
+        // create the popup window
+        val width = LinearLayout.LayoutParams.WRAP_CONTENT
+        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+        val focusable = true // lets taps outside the popup also dismiss it
+        val popupWindow = PopupWindow(popupView, width, height, focusable)
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(
+            findViewById<View>(R.id.options_layout) as LinearLayout,
+            Gravity.CENTER,
+            0,
+            0
+        )
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener { v, event ->
+            popupWindow.dismiss()
+            true
+        }
+    }
+
 
 }
