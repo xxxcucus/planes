@@ -141,11 +141,9 @@ class MainActivity : AppCompatActivity() {
                 bundle.putBoolean("gamedifficulty/showkilledplane", m_PreferencesService.showPlaneAfterKill)
                 newFragment = SettingsFragment()
                 newFragment.setArguments(bundle)
-                supportActionBar?.setTitle("Preferences")
             }
             R.id.nav_game -> {
                 newFragment = GameFragment()
-                supportActionBar?.setTitle("Game")
             }
             R.id.nav_videos -> {
                 val bundle = Bundle()
@@ -153,11 +151,9 @@ class MainActivity : AppCompatActivity() {
                 bundle.putSerializable("videosettings/videoPlaybackPositions", m_VideoSettingsService.videoPlaybackPositions)
                 newFragment = VideoFragment1()
                 newFragment.setArguments(bundle)
-                supportActionBar?.setTitle("Videos")
             }
             R.id.nav_about -> {
                 newFragment = AboutFragment()
-                supportActionBar?.setTitle("About")
             }
         }
 
@@ -250,6 +246,10 @@ class MainActivity : AppCompatActivity() {
             popupWindow.dismiss()
             true
         }
+    }
+
+    fun setActionBarTitle(title: String) {
+        supportActionBar?.setTitle(title)
     }
 
 

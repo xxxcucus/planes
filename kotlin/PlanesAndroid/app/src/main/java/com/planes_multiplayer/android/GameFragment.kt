@@ -125,6 +125,8 @@ class GameFragment : Fragment() {
             }
         }
 
+        //TODO: string from strings
+        (activity as MainActivity).setActionBarTitle("Game")
         return rootView
     }
 }

@@ -32,6 +32,8 @@ class SettingsFragment : Fragment() {
         m_InitialShowPlaneAfterKill = requireArguments().getBoolean("gamedifficulty/showkilledplane")
         binding.settingsData = SettingsViewModel(m_InitialComputerSkill, m_InitialShowPlaneAfterKill)
 
+        (activity as MainActivity).setActionBarTitle("Preferences")
+
         return binding.root
     }
 
