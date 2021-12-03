@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         m_PreferencesService = PreferencesService(this)
         m_PreferencesService.readPreferences()
-        setPreferencesForPlaneRound(true)
+        setPreferencesForPlaneRound()
 
         m_VideoSettingsService = VideoSettingsService(this)
         m_VideoSettingsService.readPreferences()
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState != null) {
             m_PreferencesService.readFromSavedInstanceState(savedInstanceState)
             m_VideoSettingsService.readFromSavedInstanceState(savedInstanceState)
-            setPreferencesForPlaneRound(true)
+            setPreferencesForPlaneRound()
 
             mSelectedItem = savedInstanceState.getInt("currentFragment")
         }
@@ -80,21 +80,41 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setPreferencesForPlaneRound(initial: Boolean): Boolean {
+    private fun setPreferencesForPlaneRound(): Boolean {
         var retVal = true
 
         if (m_PlaneRound.getComputerSkill() != m_PreferencesService.computerSkill) {
             if (!m_PlaneRound.setComputerSkill(m_PreferencesService.computerSkill)) {
-                if (initial)
-                    m_PreferencesService.computerSkill = m_PlaneRound.getComputerSkill()
+                m_PreferencesService.computerSkill = m_PlaneRound.getComputerSkill()
                 retVal = false
             }
         }
 
         if (m_PlaneRound.getShowPlaneAfterKill() != m_PreferencesService.showPlaneAfterKill) {
             if (!m_PlaneRound.setShowPlaneAfterKill(m_PreferencesService.showPlaneAfterKill)) {
-                if (initial)
-                    m_PreferencesService.showPlaneAfterKill = m_PlaneRound.getShowPlaneAfterKill()
+                m_PreferencesService.showPlaneAfterKill = m_PlaneRound.getShowPlaneAfterKill()
+                retVal = false
+            }
+        }
+
+        if (!retVal) {
+            onWarning();
+        }
+
+        return retVal
+    }
+
+    private fun setPreferencesForPlaneRound(computerSkill: Int, showPlaneAfterKill: Boolean): Boolean {
+        var retVal = true
+
+        if (m_PlaneRound.getComputerSkill() != computerSkill) {
+            if (!m_PlaneRound.setComputerSkill(computerSkill)) {
+                retVal = false
+            }
+        }
+
+        if (m_PlaneRound.getShowPlaneAfterKill() != showPlaneAfterKill) {
+            if (!m_PlaneRound.setShowPlaneAfterKill(showPlaneAfterKill)) {
                 retVal = false
             }
         }
@@ -125,10 +145,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setOptions(currentSkill: Int, showPlaneAfterKill: Boolean): Boolean {
+        if (!setPreferencesForPlaneRound(currentSkill, showPlaneAfterKill))
+            return false
         m_PreferencesService.computerSkill = currentSkill
         m_PreferencesService.showPlaneAfterKill = showPlaneAfterKill
-
-        return setPreferencesForPlaneRound(false)
+        return true
     }
 
     fun setFragment(addToBackStack: Boolean) {

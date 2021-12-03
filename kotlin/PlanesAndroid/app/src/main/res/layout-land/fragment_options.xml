@@ -11,23 +11,29 @@
         android:background="@color/layout_background_start"
         android:id="@+id/options_layout">
 
-        <LinearLayout
+        <RelativeLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:background="@color/layout_background_start"
             android:layout_margin="10dip">
             <TextView
+                android:id="@+id/options_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dip"
                 android:textSize="20dp"
                 android:textStyle="bold"
-                android:text="@string/game_difficulty_options"/>
+                android:text="@string/game_difficulty_options"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentLeft="true"/>
             <LinearLayout
+                android:id="@+id/options_computerskill"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/options_title"
+                android:layout_alignParentLeft="true">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -42,9 +48,12 @@
                     app:currentSkill="@={settingsData.m_ComputerSkill}"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/options_showplaneafterkill"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/options_computerskill"
+                android:layout_alignParentLeft="true">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -58,6 +67,14 @@
                     android:layout_margin="10dip"
                     app:showPlaneAfterKill="@={settingsData.m_ShowPlaneAfterKill}"/>
             </LinearLayout>
-        </LinearLayout>
+            <Button
+                android:id="@+id/options_savesettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:text="@string/savesettings"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/options_showplaneafterkill"/>
+        </RelativeLayout>
     </LinearLayout>
 </layout>

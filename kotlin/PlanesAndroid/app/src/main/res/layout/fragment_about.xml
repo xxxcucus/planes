@@ -12,6 +12,7 @@
         android:layout_marginTop="10dip"
         android:textSize="20dp"
         android:textStyle="bold"
+        android:layout_margin="10dip"
         android:text="@string/credits_software_title"/>
     <TextView
         android:id="@+id/credits_software_content"
@@ -19,7 +20,8 @@
         android:layout_height="wrap_content"
         android:textSize="15dp"
         android:layout_below="@+id/credits_software_title"
-        android:text="@string/credits_software_content"/>
+        android:text="@string/credits_software_content"
+        android:layout_margin="10dip"/>
     <Button
         android:id="@+id/credits_software_button"
         android:layout_width="wrap_content"
@@ -37,6 +39,7 @@
         android:textSize="20dp"
         android:textStyle="bold"
         android:layout_below="@+id/credits_software_button"
+        android:layout_margin="10dip"
         android:text="@string/credits_graphics_title"/>
     <TextView
         android:id="@+id/credits_graphics_content"
@@ -44,7 +47,8 @@
         android:layout_height="wrap_content"
         android:textSize="15dp"
         android:layout_below="@+id/credits_graphics_title"
-        android:text="@string/credits_graphics_content"/>
+        android:text="@string/credits_graphics_content"
+        android:layout_margin="10dip"/>
     <Button
         android:id="@+id/credits_graphics_button"
         android:layout_width="wrap_content"

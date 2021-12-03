@@ -74,6 +74,8 @@
     <string name="positioningplanestutorial">Positioning of Planes Tutorial</string>
     <string name="guessingplanestutorial">Guessing of Planes Tutorial</string>
 
+    <string name="savesettings">Save Preferences</string>
+
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">
         com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>

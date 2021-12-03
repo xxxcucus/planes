@@ -59,6 +59,13 @@
                     android:layout_margin="10dip"
                     app:showPlaneAfterKill="@={settingsData.m_ShowPlaneAfterKill}"/>
             </LinearLayout>
+            <Button
+                android:id="@+id/options_savesettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:text="@string/savesettings"
+                android:layout_gravity="right"/>
         </LinearLayout>
     </LinearLayout>
 </layout>
