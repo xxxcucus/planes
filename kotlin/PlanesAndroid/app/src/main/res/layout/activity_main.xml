@@ -32,9 +32,11 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        app:menu="@menu/main_menu"/>
+        android:background="@drawable/background"
+        app:menu="@menu/main_menu"
+        app:theme="@style/NavigationDrawerStyle"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

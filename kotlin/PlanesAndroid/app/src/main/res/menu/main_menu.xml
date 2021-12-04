@@ -3,15 +3,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_baseline_app_settings_alt_24"
             android:title="Options"/>
         <item
             android:id="@+id/nav_game"
+            android:icon="@drawable/ic_baseline_sports_basketball_24"
             android:title="Game"/>
         <item
             android:id="@+id/nav_videos"
+            android:icon="@drawable/ic_baseline_video_library_24"
             android:title="Videos"/>
         <item
             android:id="@+id/nav_about"
+            android:icon="@drawable/ic_baseline_toc_24"
             android:title="About"/>
     </group>
 </menu>
