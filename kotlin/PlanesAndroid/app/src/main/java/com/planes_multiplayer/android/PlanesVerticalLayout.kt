@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import com.planes_multiplayer.single_player_engine.GameStages
 import java.util.*
 
 //vertical layout works with 2 GameBoard objects and 2 GameControl objects

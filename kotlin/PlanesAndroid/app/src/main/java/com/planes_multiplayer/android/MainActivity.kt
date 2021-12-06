@@ -3,12 +3,11 @@ package com.planes_multiplayer.android
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
+import com.planes_multiplayer.single_player_engine.GameStages
 import com.planes_multiplayer.single_player_engine.PlanesRoundJava
 
 
@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var m_PreferencesService: PreferencesService
     private lateinit var m_VideoSettingsService: VideoSettingsService
     private var mSelectedItem = 0
+    private lateinit var m_DrawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,19 +48,19 @@ class MainActivity : AppCompatActivity() {
         m_VideoSettingsService = VideoSettingsService(this)
         m_VideoSettingsService.readPreferences()
 
-        var drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
-        mDrawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open_content_description, R.string.drawer_closed_content_description) {
+        m_DrawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
+        mDrawerToggle = object : ActionBarDrawerToggle(this, m_DrawerLayout, R.string.drawer_open_content_description, R.string.drawer_closed_content_description) {
             override fun onDrawerClosed(view: View) {
                 setFragment(true)
             }
         }
-        drawerLayout.addDrawerListener(mDrawerToggle)
+        m_DrawerLayout.addDrawerListener(mDrawerToggle)
 
         var navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener { menuItem ->
             mSelectedItem = menuItem.itemId
             menuItem.setChecked(true)
-            drawerLayout.closeDrawer(navigationView)
+            m_DrawerLayout.closeDrawer(navigationView)
             true
         }
 
@@ -138,6 +139,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true
+        }
+
+        val id = item.itemId
+        if (id == R.id.menu_help) {
+            onButtonShowHelpWindowClick()
             return true
         }
 
@@ -273,5 +280,101 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setTitle(title)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_planes, menu)
+        return true
+    }
+
+    fun onButtonShowHelpWindowClick() {
+
+        // inflate the layout of the popup window
+        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView = inflater.inflate(R.layout.help_popup, null)
+
+        // create the popup window
+        val width = LinearLayout.LayoutParams.WRAP_CONTENT
+        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+        val focusable = true // lets taps outside the popup also dismiss it
+        val popupWindow = PopupWindow(popupView, width, height, focusable)
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(m_DrawerLayout, Gravity.CENTER, 0, 0)
+        val helpTextView = popupView.findViewById(R.id.popup_help_text) as TextView
+        val helpTitleTextView = popupView.findViewById(R.id.popup_help_title) as TextView
+        val helpButton = popupView.findViewById(R.id.popup_help_button) as Button
+        if (helpTextView != null && helpTitleTextView != null) {
+            when(mSelectedItem) {
+                R.id.nav_settings -> {
+                    showHelpSettingsFragment(helpTextView, helpTitleTextView, helpButton)
+                }
+                R.id.nav_game -> {
+                    showHelpGameFragment(helpTextView, helpTitleTextView, helpButton)
+                }
+                R.id.nav_videos -> {
+                    showHelpVideoFragment(helpTextView, helpTitleTextView, helpButton)
+                }
+                R.id.nav_about -> {
+                    showHelpAboutFragment(helpTextView, helpTitleTextView, helpButton)
+                }
+            }
+        }
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener { v, event ->
+            popupWindow.dismiss()
+            true
+        }
+    }
+
+    fun showHelpGameFragment(helpTextView: TextView, helpTitleTextView: TextView, helpButton: Button) {
+        var gameStage = m_PlaneRound.getGameStage()
+        when (gameStage) {
+            GameStages.GameNotStarted.value -> {
+                helpTitleTextView.text = resources.getString(R.string.game_not_started_stage)
+                helpTextView.text = resources.getString(R.string.helptext_startnewgame_1)
+                helpButton.setEnabled(false)
+            }
+            GameStages.BoardEditing.value -> {
+                helpTitleTextView.text = resources.getString(R.string.board_editing_stage)
+                helpTextView.text = """
+                    ${resources.getString(R.string.helptext_boardediting_1)}
+                    ${resources.getString(R.string.helptext_boardediting_2)}
+                    """.trimIndent()
+                /*helpButton.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(view: View) {
+                        Tools.openLink(view.context, link_tutorial_board_editing)
+                    }
+                })*/
+                helpButton.setEnabled(true)
+            }
+            GameStages.Game.value -> {
+                helpTitleTextView.text = resources.getString(R.string.game_stage)
+                helpTextView.text = """
+                    ${resources.getString(R.string.helptext_game_1)}
+                    ${resources.getString(R.string.helptext_game_2)}
+                    """.trimIndent()
+                /*helpButton.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(view: View) {
+                        Tools.openLink(view.context, link_tutorial_game)
+                    }
+                })*/
+                helpButton.setEnabled(true)
+            }
+        }
+    }
+
+    fun showHelpVideoFragment(helpTextView: TextView, helpTitleTextView: TextView, helpButton: Button) {
+
+    }
+
+    fun showHelpSettingsFragment(helpTextView: TextView, helpTitleTextView: TextView, helpButton: Button) {
+
+    }
+
+    fun showHelpAboutFragment(helpTextView: TextView, helpTitleTextView: TextView, helpButton: Button) {
+
+    }
 
 }

@@ -1,5 +1,7 @@
 package com.planes_multiplayer.android
 
+import com.planes_multiplayer.single_player_engine.GameStages
+
 class GameBoardsAdapter {
     //used when playing on a phone
     private lateinit var m_GameBoard: GameBoard
