@@ -203,6 +203,20 @@ class MainActivity : AppCompatActivity() {
         //mSelectedItem = 0
     }
 
+    fun startTutorialFragment(index: Int) {
+        val bundle = Bundle()
+        bundle.putInt("videosettings/currentVideo", index)
+        bundle.putSerializable("videosettings/videoPlaybackPositions", m_VideoSettingsService.videoPlaybackPositions)
+        var newFragment = VideoFragment1()
+        newFragment.setArguments(bundle)
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_content, newFragment)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .addToBackStack("FromHelp")
+            .commit();
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         m_PreferencesService.writeToSavedInstanceState(outState)
         m_VideoSettingsService.writeToSavedInstanceState(outState)
@@ -342,11 +356,11 @@ class MainActivity : AppCompatActivity() {
                     ${resources.getString(R.string.helptext_boardediting_1)}
                     ${resources.getString(R.string.helptext_boardediting_2)}
                     """.trimIndent()
-                /*helpButton.setOnClickListener(object : View.OnClickListener {
+                helpButton.setOnClickListener(object : View.OnClickListener {
                     override fun onClick(view: View) {
-                        Tools.openLink(view.context, link_tutorial_board_editing)
+                        startTutorialFragment(1)
                     }
-                })*/
+                })
                 helpButton.setEnabled(true)
             }
             GameStages.Game.value -> {
@@ -355,11 +369,11 @@ class MainActivity : AppCompatActivity() {
                     ${resources.getString(R.string.helptext_game_1)}
                     ${resources.getString(R.string.helptext_game_2)}
                     """.trimIndent()
-                /*helpButton.setOnClickListener(object : View.OnClickListener {
+                helpButton.setOnClickListener(object : View.OnClickListener {
                     override fun onClick(view: View) {
-                        Tools.openLink(view.context, link_tutorial_game)
+                        startTutorialFragment(0)
                     }
-                })*/
+                })
                 helpButton.setEnabled(true)
             }
         }
