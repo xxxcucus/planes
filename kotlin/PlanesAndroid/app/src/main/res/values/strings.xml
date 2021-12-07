@@ -75,6 +75,9 @@
     <string name="guessingplanestutorial">Guessing of Planes Tutorial</string>
 
     <string name="savesettings">Save Preferences</string>
+    <string name="game">Game</string>
+    <string name="videos">Videos</string>
+    <string name="about">About</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">

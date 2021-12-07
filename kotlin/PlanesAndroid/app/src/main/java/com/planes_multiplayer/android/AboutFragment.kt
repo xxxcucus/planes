@@ -18,7 +18,7 @@ class AboutFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         var rootView = inflater.inflate(R.layout.fragment_about, container, false)
-        (activity as MainActivity).setActionBarTitle("About")
+        (activity as MainActivity).setActionBarTitle(getString(R.string.about))
         return rootView
     }
 

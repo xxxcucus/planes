@@ -26,7 +26,7 @@ class SettingsFragment : Fragment() {
         m_InitialComputerSkill = requireArguments().getInt("gamedifficulty/computerskill")
         m_InitialShowPlaneAfterKill = requireArguments().getBoolean("gamedifficulty/showkilledplane")
         binding.settingsData = SettingsViewModel(m_InitialComputerSkill, m_InitialShowPlaneAfterKill)
-        (activity as MainActivity).setActionBarTitle("Preferences")
+        (activity as MainActivity).setActionBarTitle(getString(R.string.options))
         var saveSettingsButton = binding.root.findViewById(R.id.options_savesettings) as Button
         if (saveSettingsButton != null) {
             saveSettingsButton.setOnClickListener(View.OnClickListener { writeToPreferencesService() })
