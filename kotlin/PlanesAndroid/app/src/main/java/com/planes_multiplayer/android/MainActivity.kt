@@ -204,6 +204,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun startTutorialFragment(index: Int) {
+        mSelectedItem = R.id.nav_videos
+
         val bundle = Bundle()
         bundle.putInt("videosettings/currentVideo", index)
         bundle.putSerializable("videosettings/videoPlaybackPositions", m_VideoSettingsService.videoPlaybackPositions)
@@ -302,6 +304,9 @@ class MainActivity : AppCompatActivity() {
 
     fun onButtonShowHelpWindowClick() {
 
+        if (mSelectedItem in arrayOf(R.id.nav_about, R.id.nav_settings))
+            return
+
         // inflate the layout of the popup window
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView = inflater.inflate(R.layout.help_popup, null)
@@ -320,17 +325,11 @@ class MainActivity : AppCompatActivity() {
         val helpButton = popupView.findViewById(R.id.popup_help_button) as Button
         if (helpTextView != null && helpTitleTextView != null) {
             when(mSelectedItem) {
-                R.id.nav_settings -> {
-                    showHelpSettingsFragment(helpTextView, helpTitleTextView, helpButton)
-                }
                 R.id.nav_game -> {
                     showHelpGameFragment(helpTextView, helpTitleTextView, helpButton)
                 }
                 R.id.nav_videos -> {
                     showHelpVideoFragment(helpTextView, helpTitleTextView, helpButton)
-                }
-                R.id.nav_about -> {
-                    showHelpAboutFragment(helpTextView, helpTitleTextView, helpButton)
                 }
             }
         }
@@ -380,15 +379,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showHelpVideoFragment(helpTextView: TextView, helpTitleTextView: TextView, helpButton: Button) {
-
+        helpTitleTextView.text = resources.getString(R.string.videos)
+        helpTextView.text = """
+                    ${resources.getString(R.string.helptext_videos1)}
+                    ${resources.getString(R.string.helptext_videos2)}
+                    ${resources.getString(R.string.helptext_videos3)}
+                    """.trimIndent()
+        helpButton.setEnabled(false)
     }
 
-    fun showHelpSettingsFragment(helpTextView: TextView, helpTitleTextView: TextView, helpButton: Button) {
 
-    }
-
-    fun showHelpAboutFragment(helpTextView: TextView, helpTitleTextView: TextView, helpButton: Button) {
-
-    }
 
 }

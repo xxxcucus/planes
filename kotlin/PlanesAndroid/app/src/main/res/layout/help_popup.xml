@@ -9,7 +9,7 @@
         android:id="@+id/popup_help_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
+        android:layout_margin="10dip"
         android:textSize="20dp"
         android:textStyle="bold"
         android:text="@string/help"/>
@@ -17,6 +17,7 @@
         android:id="@+id/popup_help_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dip"
         android:layout_below="@+id/popup_help_title"
         android:textSize="15dp"/>
 
@@ -26,6 +27,7 @@
         android:layout_height="wrap_content"
         android:textSize="15dp"
         android:layout_alignParentRight="true"
+        android:layout_margin="10dip"
         android:text="@string/popup_help_button_text"
         android:layout_below="@+id/popup_help_text"
         android:gravity="right"/>
