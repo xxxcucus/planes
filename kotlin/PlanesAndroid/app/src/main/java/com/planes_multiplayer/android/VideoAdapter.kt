@@ -72,6 +72,4 @@ class VideoAdapter(private val onItemClicked: (position: Int) -> Unit, moviesLis
     fun setCurrentVideo(currentVideo: Int) {
         m_SelectedPosition = currentVideo
     }
-
-
 }

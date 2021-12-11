@@ -63,7 +63,7 @@ class VideoFragment1 : Fragment() {
 
         m_MovieList = arrayListOf(videoModel_guessing, videoModel_positioning, videoModel_single, videoModel_multi)
         m_VideosAdapter = VideoAdapter( { position -> onVideoItemClick(position)}, m_MovieList)
-        m_VideosAdapter.notifyDataSetChanged();
+        m_VideosAdapter.notifyDataSetChanged()
     }
 
     private fun isHorizontal(): Boolean {
