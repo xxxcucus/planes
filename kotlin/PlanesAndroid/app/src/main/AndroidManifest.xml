@@ -16,7 +16,7 @@
     <application>
         <activity
         android:icon="@mipmap/ic_launcher"
-        android:label="Multi-Planes Android"
+        android:label="Planes Android"
         android:testOnly="false"
         android:exported="true"
         android:theme="@style/MyAppTheme"
