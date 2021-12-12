@@ -1,4 +1,4 @@
-package com.planes_multiplayer.android
+package com.planes.android
 
 import android.content.res.Configuration
 import android.os.Bundle

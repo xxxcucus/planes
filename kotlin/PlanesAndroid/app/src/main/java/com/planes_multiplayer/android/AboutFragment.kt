@@ -1,4 +1,4 @@
-package com.planes_multiplayer.android
+package com.planes.android
 
 import android.content.Context
 import android.content.pm.PackageManager
@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.planes_multiplayer.android.databinding.FragmentOptionsBinding
+import com.planes.android.databinding.FragmentOptionsBinding
 
 class AboutFragment : Fragment() {
 

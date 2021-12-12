@@ -1,13 +1,13 @@
-package com.planes_multiplayer.android
+package com.planes.android
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import com.planes_multiplayer.android.CanvasPaintUtilities.Functions.drawButtonShadow
+import com.planes.android.CanvasPaintUtilities.Functions.drawButtonShadow
 import androidx.appcompat.widget.AppCompatButton
-import com.planes_multiplayer.android.CanvasPaintUtilities
+import com.planes.android.CanvasPaintUtilities
 import android.view.View.MeasureSpec
 
 /**

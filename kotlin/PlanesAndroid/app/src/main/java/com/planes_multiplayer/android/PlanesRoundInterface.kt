@@ -1,4 +1,4 @@
-package com.planes_multiplayer.android
+package com.planes.android
 
 //TODO: to move in common
 interface PlanesRoundInterface {

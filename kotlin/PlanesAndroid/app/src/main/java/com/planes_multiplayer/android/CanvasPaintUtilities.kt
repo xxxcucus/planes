@@ -1,4 +1,4 @@
-package com.planes_multiplayer.android
+package com.planes.android
 
 import android.graphics.Canvas
 import android.graphics.Paint

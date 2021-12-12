@@ -1,4 +1,4 @@
-package com.planes_multiplayer.android
+package com.planes.android
 
 import android.content.Context
 import android.graphics.Canvas
@@ -6,7 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
-import com.planes_multiplayer.android.CanvasPaintUtilities.Functions.createFillRectPath
+import com.planes.android.CanvasPaintUtilities.Functions.createFillRectPath
 
 class MoveRightButton : ButtonWithPictogram {
     constructor(context: Context) : super(context) {

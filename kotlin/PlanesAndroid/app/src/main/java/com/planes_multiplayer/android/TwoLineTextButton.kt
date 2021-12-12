@@ -1,4 +1,4 @@
-package com.planes_multiplayer.android
+package com.planes.android
 
 import android.content.Context
 import android.graphics.Canvas
@@ -6,12 +6,12 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatButton
-import com.planes_multiplayer.android.CanvasPaintUtilities.Functions.computeOptimalTextSizeTwoLines
-import com.planes_multiplayer.android.CanvasPaintUtilities.Functions.drawButtonShadow
-import com.planes_multiplayer.android.CanvasPaintUtilities.Functions.drawTextFitToSizeTwoLines
-import com.planes_multiplayer.android.CanvasPaintUtilities.Functions.measureHeightTwoLinesText
-import com.planes_multiplayer.android.CanvasPaintUtilities.Functions.measureWidthTwoLinesText
-import com.planes_multiplayer.android.PlanesVerticalLayout.PlanesVerticalLayoutParams
+import com.planes.android.CanvasPaintUtilities.Functions.computeOptimalTextSizeTwoLines
+import com.planes.android.CanvasPaintUtilities.Functions.drawButtonShadow
+import com.planes.android.CanvasPaintUtilities.Functions.drawTextFitToSizeTwoLines
+import com.planes.android.CanvasPaintUtilities.Functions.measureHeightTwoLinesText
+import com.planes.android.CanvasPaintUtilities.Functions.measureWidthTwoLinesText
+import com.planes.android.PlanesVerticalLayout.PlanesVerticalLayoutParams
 
 open class TwoLineTextButton : AppCompatButton, ViewWithText {
 

@@ -1,4 +1,4 @@
-package com.planes_multiplayer.android
+package com.planes.android
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import com.planes_multiplayer.android.databinding.FragmentOptionsBinding
+import com.planes.android.databinding.FragmentOptionsBinding
 
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentOptionsBinding

@@ -1,6 +1,6 @@
 package com.planes_multiplayer.single_player_engine
 
-import com.planes_multiplayer.android.PlanesRoundInterface
+import com.planes.android.PlanesRoundInterface
 
 class PlanesRoundJava : PlanesRoundInterface {
     //creates the PlaneRound object in the game engine

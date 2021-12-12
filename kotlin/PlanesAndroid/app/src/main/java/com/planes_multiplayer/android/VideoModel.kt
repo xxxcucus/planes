@@ -1,4 +1,4 @@
-package com.planes_multiplayer.android
+package com.planes.android
 
 class VideoModel(videoname: String, videoId: Int, videoDuration: String, currentPosition: Int,
                  videoRatio: Float, youtubeLink: String) {

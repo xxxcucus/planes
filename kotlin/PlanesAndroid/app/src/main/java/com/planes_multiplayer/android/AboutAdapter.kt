@@ -1,4 +1,4 @@
-package com.planes_multiplayer.android
+package com.planes.android
 import android.R.attr.button
 import android.content.Context
 import android.view.LayoutInflater

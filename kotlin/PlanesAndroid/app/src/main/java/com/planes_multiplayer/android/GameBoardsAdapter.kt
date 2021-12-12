@@ -1,4 +1,4 @@
-package com.planes_multiplayer.android
+package com.planes.android
 
 import com.planes_multiplayer.single_player_engine.GameStages
 

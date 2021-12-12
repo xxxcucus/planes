@@ -1,4 +1,4 @@
-package com.planes_multiplayer.android
+package com.planes.android
 
 import android.content.Context
 import android.graphics.Canvas
@@ -6,11 +6,11 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import com.planes_multiplayer.android.CanvasPaintUtilities.Functions.computeOptimalTextSizeOneLine
-import com.planes_multiplayer.android.CanvasPaintUtilities.Functions.drawTextFitToSizeOneLine
-import com.planes_multiplayer.android.CanvasPaintUtilities.Functions.measureHeightOneLineText
-import com.planes_multiplayer.android.CanvasPaintUtilities.Functions.measureWidthOneLineText
-import com.planes_multiplayer.android.PlanesVerticalLayout.PlanesVerticalLayoutParams
+import com.planes.android.CanvasPaintUtilities.Functions.computeOptimalTextSizeOneLine
+import com.planes.android.CanvasPaintUtilities.Functions.drawTextFitToSizeOneLine
+import com.planes.android.CanvasPaintUtilities.Functions.measureHeightOneLineText
+import com.planes.android.CanvasPaintUtilities.Functions.measureWidthOneLineText
+import com.planes.android.PlanesVerticalLayout.PlanesVerticalLayoutParams
 
 class ColouredSurfaceWithText : View, ViewWithText {
     private lateinit var m_Paint: Paint

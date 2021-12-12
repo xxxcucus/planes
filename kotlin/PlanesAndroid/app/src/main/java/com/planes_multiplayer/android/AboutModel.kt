@@ -1,4 +1,4 @@
-package com.planes_multiplayer.android
+package com.planes.android
 
 class AboutModel(title: String, text: String, buttonPresent: Boolean, textButton: String, linkButton: String) {
 
