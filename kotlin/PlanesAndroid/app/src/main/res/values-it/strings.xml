@@ -71,4 +71,19 @@
     <string name="othervideos">Altri Video</string>
     <string name="singleplayertutorial">Tutorial per giocatore singolo</string>
     <string name="multiplayertutorial">Tutorial multigiocatore</string>
+    <string name="positioningplanestutorial">Tutorial Posizionamento aerei</string>
+    <string name="guessingplanestutorial">Tutorial Indovinare la posizione degli aerei</string>
+    <string name="savesettings">Salva le Preferenze</string>
+    <string name="game">Gioco</string>
+    <string name="videos">Video</string>
+    <string name="about">Informazioni</string>
+    <string name="helptext_videos1">Tocca il titolo della playlist per riprodurre il video.</string>
+    <string name="helptext_videos2">Tocca il titolo della playlist del video in riproduzione per avviare il video dall\'inizio.</string>
+    <string name="helptext_videos3">Tocca a lungo il titolo della playlist per riprodurre il video nell\'app Youtube.</string>
+    <string name="credits_othercontributions_title">Altri contributi</string>
+    <string name="credits_othercontributions">Altri contributi al progetto provengono da: Mihai Birau, Stefan Luchian, Dan Ilies, Stefan Cucu, Christian von der Ehe, Pascal Seeger and Mario Eduardo Zarate Caceres.</string>
+    <string name="credits_tools_title">Strumenti</string>
+    <string name="credits_tools">Ringraziamo l’azienda JetBrains per aver messo a disposizione le licenze software gratuite e gli strumenti per la programmazione del progetto.</string>
+    <string name="software_version_title">Versione</string>
+    <string name="software_version">La versione attuale del software e</string>
 </resources>
