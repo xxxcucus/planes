@@ -326,7 +326,7 @@ class MainActivity : AppCompatActivity() {
         if (helpTextView != null && helpTitleTextView != null) {
             when(mSelectedItem) {
                 R.id.nav_game -> {
-                    showHelpGameFragment(helpTextView, helpTitleTextView, helpButton)
+                    showHelpGameFragment(popupWindow, helpTextView, helpTitleTextView, helpButton)
                 }
                 R.id.nav_videos -> {
                     showHelpVideoFragment(helpTextView, helpTitleTextView, helpButton)
@@ -341,7 +341,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun showHelpGameFragment(helpTextView: TextView, helpTitleTextView: TextView, helpButton: Button) {
+    fun showHelpGameFragment(popupWindow: PopupWindow, helpTextView: TextView, helpTitleTextView: TextView, helpButton: Button) {
         var gameStage = m_PlaneRound.getGameStage()
         when (gameStage) {
             GameStages.GameNotStarted.value -> {
@@ -358,6 +358,7 @@ class MainActivity : AppCompatActivity() {
                 helpButton.setOnClickListener(object : View.OnClickListener {
                     override fun onClick(view: View) {
                         startTutorialFragment(1)
+                        popupWindow.dismiss()
                     }
                 })
                 helpButton.setEnabled(true)
@@ -371,6 +372,7 @@ class MainActivity : AppCompatActivity() {
                 helpButton.setOnClickListener(object : View.OnClickListener {
                     override fun onClick(view: View) {
                         startTutorialFragment(0)
+                        popupWindow.dismiss()
                     }
                 })
                 helpButton.setEnabled(true)
