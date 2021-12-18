@@ -130,7 +130,7 @@ class VideoFragment1 : Fragment() {
         m_CurrentPositionInVideo = m_MovieList[m_CurrentVideo].getCurentPosition()
         m_VideosAdapter.setCurrentVideo(m_CurrentVideo)
 
-        setDimension(isHorizontal(), m_MovieList[m_CurrentVideo].getVideoRatio())
+        //setDimension(isHorizontal(), /*m_MovieList[m_CurrentVideo].getVideoRatio()*/ 1.77f)
         var uri = Uri.parse("android.resource://"
                 + (activity as MainActivity).packageName + "/" + m_MovieList[m_CurrentVideo].getVideoId())
         m_VideoView!!.setVideoURI(uri)
@@ -146,7 +146,7 @@ class VideoFragment1 : Fragment() {
         m_CurrentVideo = position
         m_CurrentPositionInVideo = if (restartVideo) 0 else m_MovieList[m_CurrentVideo].getCurentPosition()
 
-        setDimension(isHorizontal(), m_MovieList[position].getVideoRatio())
+        //setDimension(isHorizontal(), m_MovieList[position].getVideoRatio())
         var uri = Uri.parse("android.resource://"
                 + (activity as MainActivity).packageName + "/" + m_MovieList[position].getVideoId())
         m_VideoView!!.setVideoURI(uri)

@@ -63,6 +63,7 @@ class VideoAdapter(private val onItemClicked: (position: Int) -> Unit, moviesLis
         holder.m_Title.setText(movie.getVideoName())
         holder.m_Duration.setText("Duration: " + movie.getVideoDuration())
         holder.m_Position = position
+
     }
 
     override fun getItemCount(): Int {
