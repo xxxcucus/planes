@@ -52,13 +52,13 @@ class VideoFragment1 : Fragment() {
     }
 
     private fun prepareVideoList() {
-        var videoModel_guessing = VideoModel("Guessing Planes Positions", R.raw.guessing, "00:01:49",
+        var videoModel_guessing = VideoModel(getString(R.string.guessingplanestutorial), R.raw.guessing, "00:01:49",
             0,1.42f, "https://youtu.be/CAxSPp2h_Vo")
-        var videoModel_positioning = VideoModel("Positioning of Planes", R.raw.positioning, "00:01:22",
+        var videoModel_positioning = VideoModel(getString(R.string.positioningplanestutorial), R.raw.positioning, "00:01:22",
             0,1.42f, "https://youtu.be/qgL0RdwqBRY")
-        var videoModel_single = VideoModel("Single Player Tutorial", R.raw.singleplayer, "00:02:00",
+        var videoModel_single = VideoModel(getString(R.string.singleplayertutorial), R.raw.singleplayer, "00:02:00",
             0, 1.36f, "https://youtu.be/N2Cg8eflCxM")
-        var videoModel_multi = VideoModel("Multi-Player Tutorial", R.raw.multiplayer, "00:05:44",
+        var videoModel_multi = VideoModel(getString(R.string.multiplayertutorial), R.raw.multiplayer, "00:05:44",
             0,1.77f, "https://youtu.be/VqYK1T91-YE")
 
         m_MovieList = arrayListOf(videoModel_guessing, videoModel_positioning, videoModel_single, videoModel_multi)
@@ -130,7 +130,7 @@ class VideoFragment1 : Fragment() {
         m_CurrentPositionInVideo = m_MovieList[m_CurrentVideo].getCurentPosition()
         m_VideosAdapter.setCurrentVideo(m_CurrentVideo)
 
-        setDimension(isHorizontal(), m_MovieList[m_CurrentVideo].getVideoRatio())
+        //setDimension(isHorizontal(), /*m_MovieList[m_CurrentVideo].getVideoRatio()*/ 1.77f)
         var uri = Uri.parse("android.resource://"
                 + (activity as MainActivity).packageName + "/" + m_MovieList[m_CurrentVideo].getVideoId())
         m_VideoView!!.setVideoURI(uri)
@@ -146,7 +146,7 @@ class VideoFragment1 : Fragment() {
         m_CurrentVideo = position
         m_CurrentPositionInVideo = if (restartVideo) 0 else m_MovieList[m_CurrentVideo].getCurentPosition()
 
-        setDimension(isHorizontal(), m_MovieList[position].getVideoRatio())
+        //setDimension(isHorizontal(), m_MovieList[position].getVideoRatio())
         var uri = Uri.parse("android.resource://"
                 + (activity as MainActivity).packageName + "/" + m_MovieList[position].getVideoId())
         m_VideoView!!.setVideoURI(uri)
