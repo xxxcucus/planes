@@ -59,7 +59,7 @@
         <item>Medio</item>
         <item>Dificil</item>
     </string-array>
-    <string name="show_plane_after_kill">Mostrar el avión después de destruirlo</string>
+    <string name="show_plane_after_kill">Mostrar el avión\ndespués de destruirlo</string>
     <string-array name="yesno_options">
         <item>Si</item>
         <item>No</item>
