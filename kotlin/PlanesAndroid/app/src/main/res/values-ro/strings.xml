@@ -86,4 +86,8 @@
     <string name="credits_tools">Multumim companiei JetBrains pentru licentele acordate.</string>
     <string name="software_version_title">Versiune</string>
     <string name="software_version">Versiune curenta a softului este</string>
+    <string name="player_stats1">Scorul</string>
+    <string name="player_stats2">Jucatorului</string>
+    <string name="computer_stats1">Scorul</string>
+    <string name="computer_stats2">Computerului</string>
 </resources>

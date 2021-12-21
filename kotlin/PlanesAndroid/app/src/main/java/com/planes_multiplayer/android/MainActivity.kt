@@ -16,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
+import com.planes_multiplayer.android.PreferencesServiceGlobal
 import com.planes_multiplayer.single_player_engine.GameStages
 import com.planes_multiplayer.single_player_engine.PlanesRoundJava
 
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
     private lateinit var m_PlaneRound: PlanesRoundInterface
-    private lateinit var m_PreferencesService: PreferencesService
+    private var m_PreferencesService = PreferencesServiceGlobal()
     private lateinit var m_VideoSettingsService: VideoSettingsService
     private var mSelectedItem = 0
     private lateinit var m_DrawerLayout: DrawerLayout
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         m_PlaneRound = PlanesRoundJava()
         (m_PlaneRound as PlanesRoundJava).createPlanesRound()
 
-        m_PreferencesService = PreferencesService(this)
+        m_PreferencesService.createPreferencesService(this)
         m_PreferencesService.readPreferences()
         setPreferencesForPlaneRound()
 
@@ -165,8 +166,6 @@ class MainActivity : AppCompatActivity() {
         when(mSelectedItem) {
             R.id.nav_settings -> {
                 val bundle = Bundle()
-                bundle.putInt("gamedifficulty/computerskill", m_PreferencesService.computerSkill)
-                bundle.putBoolean("gamedifficulty/showkilledplane", m_PreferencesService.showPlaneAfterKill)
                 newFragment = SettingsFragment()
                 newFragment.setArguments(bundle)
             }

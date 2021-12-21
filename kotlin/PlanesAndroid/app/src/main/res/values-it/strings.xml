@@ -86,4 +86,8 @@
     <string name="credits_tools">Ringraziamo l’azienda JetBrains per aver messo a disposizione le licenze software gratuite e gli strumenti per la programmazione del progetto.</string>
     <string name="software_version_title">Versione</string>
     <string name="software_version">La versione attuale del software e</string>
+    <string name="player_stats1">Statistische</string>
+    <string name="player_stats2">Giocatore</string>
+    <string name="computer_stats1">Statistiche</string>
+    <string name="computer_stats2">del Computer</string>
 </resources>

@@ -20,7 +20,7 @@ class GameControlsAdapter(private val m_Context: Context) {
     private lateinit var m_DoneButton: Button
 
     //Game
-    private lateinit var m_StatsTitle: ColouredSurfaceWithText
+    private lateinit var m_StatsTitle: ColouredSurfaceWithTwoLineText
     private lateinit var m_HitsTextView: ColouredSurfaceWithText
     private lateinit var m_MissesTextView: ColouredSurfaceWithText
     private lateinit var m_DeadTextView: ColouredSurfaceWithText
@@ -74,7 +74,7 @@ class GameControlsAdapter(private val m_Context: Context) {
         }
     }
 
-    fun setGameControls(statsTitle: ColouredSurfaceWithText, viewComputerBoardButton1: TwoLineTextButtonWithState, movesLabel: ColouredSurfaceWithText, movesCount: ColouredSurfaceWithText, missesLabel: ColouredSurfaceWithText, missesCount: ColouredSurfaceWithText,
+    fun setGameControls(statsTitle: ColouredSurfaceWithTwoLineText, viewComputerBoardButton1: TwoLineTextButtonWithState, movesLabel: ColouredSurfaceWithText, movesCount: ColouredSurfaceWithText, missesLabel: ColouredSurfaceWithText, missesCount: ColouredSurfaceWithText,
                         hitsLabel: ColouredSurfaceWithText, hitsCount: ColouredSurfaceWithText, deadsLabel: ColouredSurfaceWithText, deadCount: ColouredSurfaceWithText) {
         m_StatsTitle = statsTitle
         m_ViewComputerBoardButton1 = viewComputerBoardButton1
@@ -100,7 +100,7 @@ class GameControlsAdapter(private val m_Context: Context) {
                     m_HitsTextView.setText(Integer.toString(hits))
                     m_DeadTextView.setText(Integer.toString(dead))
                     m_MovesTextView.setText(Integer.toString(moves))
-                    m_StatsTitle.setText(m_Context.resources.getString(R.string.computer_stats))
+                    m_StatsTitle.setText(m_Context.resources.getString(R.string.computer_stats1), m_Context.resources.getString(R.string.computer_stats2))
                     m_PlanesLayout.setComputerBoard()
                 } else if (m_ViewComputerBoardButton1.currentStateName === "player") {
                     m_GameBoards.setPlayerBoard()
@@ -113,7 +113,7 @@ class GameControlsAdapter(private val m_Context: Context) {
                     m_HitsTextView.setText(Integer.toString(hits))
                     m_DeadTextView.setText(Integer.toString(dead))
                     m_MovesTextView.setText(Integer.toString(moves))
-                    m_StatsTitle.setText(m_Context.resources.getString(R.string.player_stats))
+                    m_StatsTitle.setText(m_Context.resources.getString(R.string.player_stats1), m_Context.resources.getString(R.string.player_stats2))
                     m_PlanesLayout.setPlayerBoard()
                 }
             }
@@ -172,7 +172,7 @@ class GameControlsAdapter(private val m_Context: Context) {
         if (!m_Tablet) {
             m_GameBoards.setComputerBoard()
             m_ViewComputerBoardButton1.setState("player", m_Context.resources.getString(R.string.view_player_board2))
-            m_StatsTitle.setText(m_Context.resources.getString(R.string.computer_stats))
+            m_StatsTitle.setText(m_Context.resources.getString(R.string.computer_stats1), m_Context.resources.getString(R.string.computer_stats2))
             updateStats(true)
         } else {
         }

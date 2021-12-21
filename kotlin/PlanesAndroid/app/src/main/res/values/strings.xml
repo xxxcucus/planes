@@ -13,7 +13,11 @@
     <string name="view_computer_board1">View</string>
     <string name="view_computer_board2">Computer Board</string>
     <string name="player_stats">Player Stats</string>
+    <string name="player_stats1">Player</string>
+    <string name="player_stats2">Stats</string>
     <string name="computer_stats">Computer Stats</string>
+    <string name="computer_stats1">Computer</string>
+    <string name="computer_stats2">Stats</string>
     <string name="player_hits">Player Hits</string>
     <string name="player_moves">Player Moves</string>
     <string name="player_misses">Player Misses</string>

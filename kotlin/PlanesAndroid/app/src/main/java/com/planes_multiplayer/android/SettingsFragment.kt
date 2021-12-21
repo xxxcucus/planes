@@ -1,5 +1,6 @@
 package com.planes.android
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,12 +8,18 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.planes.android.databinding.FragmentOptionsBinding
+import com.planes_multiplayer.android.PreferencesServiceGlobal
 
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentOptionsBinding
     private var m_InitialComputerSkill = 0
     private var m_InitialShowPlaneAfterKill = false
+    private var m_PreferencesService = PreferencesServiceGlobal()
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        m_PreferencesService.createPreferencesService(context)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +30,8 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentOptionsBinding.inflate(layoutInflater, container, false)
-        m_InitialComputerSkill = requireArguments().getInt("gamedifficulty/computerskill")
-        m_InitialShowPlaneAfterKill = requireArguments().getBoolean("gamedifficulty/showkilledplane")
+        m_InitialComputerSkill = m_PreferencesService.computerSkill
+        m_InitialShowPlaneAfterKill = m_PreferencesService.showPlaneAfterKill
         binding.settingsData = SettingsViewModel(m_InitialComputerSkill, m_InitialShowPlaneAfterKill)
         (activity as MainActivity).setActionBarTitle(getString(R.string.options))
         var saveSettingsButton = binding.root.findViewById(R.id.options_savesettings) as Button
