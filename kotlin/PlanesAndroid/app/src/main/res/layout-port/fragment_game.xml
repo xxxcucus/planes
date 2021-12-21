@@ -66,11 +66,12 @@
 
         <!-- Buttons for game stage -->
 
-        <com.planes.android.ColouredSurfaceWithText
+        <com.planes.android.ColouredSurfaceWithTwoLineText
             android:id="@+id/stats_title_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:gc_text="@string/computer_stats"
+            app:gc_text1="@string/computer_stats1"
+            app:gc_text2="@string/computer_stats2"
             app:gc_row="1"
             app:gc_colspan="3"
             app:gc_rowspan="2"

@@ -77,4 +77,8 @@
     <string name="about">Info</string>
     <string name="software_version_title">Version</string>
     <string name="software_version">Die aktuelle Version der Software ist</string>
+    <string name="player_stats1">Spieler</string>
+    <string name="player_stats2">Statistik</string>
+    <string name="computer_stats1">Computer</string>
+    <string name="computer_stats2">Statistik</string>
 </resources>

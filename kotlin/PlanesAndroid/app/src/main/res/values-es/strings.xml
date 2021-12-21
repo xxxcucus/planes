@@ -86,4 +86,8 @@
     <string name="credits_tools">Agradecemos a la empresa JetBrains por las licencias de software libre por el uso de las herramientas utilizadas en la programación del proyecto.</string>
     <string name="software_version_title">Versión</string>
     <string name="software_version">La versión actual del software es</string>
+    <string name="player_stats1">"Estadisticas "</string>
+    <string name="computer_stats1">"Estadisticas "</string>
+    <string name="player_stats2">del Jugador</string>
+    <string name="computer_stats2">del Computador</string>
 </resources>

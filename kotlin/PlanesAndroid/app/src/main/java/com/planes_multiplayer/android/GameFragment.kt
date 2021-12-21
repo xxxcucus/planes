@@ -77,7 +77,7 @@ class GameFragment : Fragment() {
         val rotateButton = rootView.findViewById<View>(R.id.rotate_button) as Button
 
         //Game Stage
-        val statsTitle = rootView.findViewById<View>(R.id.stats_title_label) as ColouredSurfaceWithText?
+        val statsTitle = rootView.findViewById<View>(R.id.stats_title_label) as ColouredSurfaceWithTwoLineText?
         val viewComputerBoardButton1 = rootView.findViewById<View>(R.id.view_computer_board1) as TwoLineTextButtonWithState?
         val movesLabel = rootView.findViewById<View>(R.id.moves_label) as ColouredSurfaceWithText?
         val movesCount = rootView.findViewById<View>(R.id.moves_count) as ColouredSurfaceWithText?
