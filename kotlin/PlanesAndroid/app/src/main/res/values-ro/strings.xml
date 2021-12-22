@@ -7,11 +7,11 @@
     <string name="rotate_button">Roteste</string>
     <string name="done_button">Gata</string>
     <string name="view_player_board">Vezi tabla jucatorului</string>
-    <string name="view_player_board1">Vezi</string>
-    <string name="view_player_board2">Tabla jucatorului</string>
+    <string name="view_player_board1">Vezi Tabla</string>
+    <string name="view_player_board2">" Jucatorului"</string>
     <string name="view_computer_board">Vezi tabla computerului</string>
-    <string name="view_computer_board1">Vezi</string>
-    <string name="view_computer_board2">Tabla computerului</string>
+    <string name="view_computer_board1">Vezi Tabla</string>
+    <string name="view_computer_board2">Computerului</string>
     <string name="player_stats">Scorul jucatorului</string>
     <string name="computer_stats">Scorul computerului</string>
     <string name="player_hits">Jucator Atinse</string>

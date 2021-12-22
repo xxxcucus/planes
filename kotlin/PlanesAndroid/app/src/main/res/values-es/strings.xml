@@ -7,11 +7,11 @@
     <string name="rotate_button">Girar</string>
     <string name="done_button">Listo</string>
     <string name="view_player_board">Ver Tablero de jugador</string>
-    <string name="view_player_board1">Ver</string>
-    <string name="view_player_board2">Tablero de Jugador</string>
+    <string name="view_player_board1">Ver Tablero</string>
+    <string name="view_player_board2">" del Jugador"</string>
     <string name="view_computer_board">Vista del tablero del Computador</string>
-    <string name="view_computer_board1">Ver</string>
-    <string name="view_computer_board2">Tablero del computador</string>
+    <string name="view_computer_board1">Ver Tablero</string>
+    <string name="view_computer_board2">del computador</string>
     <string name="player_stats">Estadisticas del Jugador</string>
     <string name="computer_stats">Estadisticas del Computador</string>
     <string name="player_hits">Puntos del Jugador</string>
