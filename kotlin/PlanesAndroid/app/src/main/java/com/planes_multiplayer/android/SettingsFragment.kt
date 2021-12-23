@@ -34,6 +34,7 @@ class SettingsFragment : Fragment() {
         m_InitialShowPlaneAfterKill = m_PreferencesService.showPlaneAfterKill
         binding.settingsData = SettingsViewModel(m_InitialComputerSkill, m_InitialShowPlaneAfterKill)
         (activity as MainActivity).setActionBarTitle(getString(R.string.options))
+        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Preferences)
         var saveSettingsButton = binding.root.findViewById(R.id.options_savesettings) as Button
         if (saveSettingsButton != null) {
             saveSettingsButton.setOnClickListener(View.OnClickListener { writeToPreferencesService() })
