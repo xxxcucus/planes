@@ -43,6 +43,7 @@ class AboutFragment : Fragment() {
         recyclerView.adapter = m_AboutAdapter
 
         (activity as MainActivity).setActionBarTitle(getString(R.string.about))
+        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.About)
         return rootView
     }
 

@@ -389,6 +389,12 @@ class MainActivity : AppCompatActivity() {
         helpButton.setEnabled(false)
     }
 
-
-
+    fun setCurrentFragmentId(curFragment: ApplicationScreens) {
+        when(curFragment.value) {
+            0 -> mSelectedItem = R.id.nav_settings
+            1 -> mSelectedItem = R.id.nav_game
+            2 -> mSelectedItem = R.id.nav_videos
+            else -> mSelectedItem = R.id.nav_about
+        }
+    }
 }
