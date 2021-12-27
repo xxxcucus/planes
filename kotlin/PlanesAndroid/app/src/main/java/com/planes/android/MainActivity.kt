@@ -16,6 +16,12 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
+import com.planes.android.about.AboutFragment
+import com.planes.android.game.GameFragment
+import com.planes.android.preferences.PreferencesServiceGlobal
+import com.planes.android.preferences.SettingsFragment
+import com.planes.android.videos.VideoFragment1
+import com.planes.android.videos.VideoSettingsService
 import com.planes.single_player_engine.GameStages
 import com.planes.single_player_engine.PlanesRoundJava
 

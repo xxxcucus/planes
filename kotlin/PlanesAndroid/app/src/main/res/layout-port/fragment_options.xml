@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="settingsData" type="com.planes.android.SettingsViewModel"/>
+        <variable name="settingsData" type="com.planes.android.preferences.SettingsViewModel"/>
     </data>
     <LinearLayout
         android:orientation="vertical"
