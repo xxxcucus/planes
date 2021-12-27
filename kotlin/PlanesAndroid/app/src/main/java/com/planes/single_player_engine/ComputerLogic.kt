@@ -1,7 +1,7 @@
-package com.planes_multiplayer.single_player_engine
+package com.planes.single_player_engine
 
 import androidx.core.util.Pair
-import com.planes_multiplayer.single_player_engine.Plane.PlaneStatic.generateRandomNumber
+import com.planes.single_player_engine.Plane.PlaneStatic.generateRandomNumber
 import java.util.*
 
 //The computer is trying to guess where the player's planes are

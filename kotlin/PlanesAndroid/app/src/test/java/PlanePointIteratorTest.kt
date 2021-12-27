@@ -1,8 +1,8 @@
 import com.google.common.truth.Truth
-import com.planes_multiplayer.single_player_engine.Coordinate2D
-import com.planes_multiplayer.single_player_engine.Orientation
-import com.planes_multiplayer.single_player_engine.Plane
-import com.planes_multiplayer.single_player_engine.PlanePointIterator
+import com.planes.single_player_engine.Coordinate2D
+import com.planes.single_player_engine.Orientation
+import com.planes.single_player_engine.Plane
+import com.planes.single_player_engine.PlanePointIterator
 import org.junit.Test
 import java.util.*
 

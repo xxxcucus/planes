@@ -2,7 +2,7 @@ package com.planes.android
 
 import android.content.Context
 import android.widget.Button
-import com.planes_multiplayer.single_player_engine.GameStages
+import com.planes.single_player_engine.GameStages
 
 class GameControlsAdapter(private val m_Context: Context) {
     private val m_CurStage = GameStages.BoardEditing

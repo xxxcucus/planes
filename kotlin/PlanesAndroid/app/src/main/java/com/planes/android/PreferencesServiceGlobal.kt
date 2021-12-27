@@ -1,9 +1,7 @@
-package com.planes_multiplayer.android
+package com.planes.android
 
 import android.content.Context
 import android.os.Bundle
-import com.planes.android.IPreferencesService
-import com.planes.android.PreferencesService
 
 class PreferencesServiceGlobal : IPreferencesService {
 

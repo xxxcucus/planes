@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.planes.android.databinding.FragmentOptionsBinding
-import com.planes_multiplayer.android.PreferencesServiceGlobal
 
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentOptionsBinding

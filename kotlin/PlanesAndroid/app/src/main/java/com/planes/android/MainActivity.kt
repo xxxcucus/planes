@@ -16,9 +16,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
-import com.planes_multiplayer.android.PreferencesServiceGlobal
-import com.planes_multiplayer.single_player_engine.GameStages
-import com.planes_multiplayer.single_player_engine.PlanesRoundJava
+import com.planes.single_player_engine.GameStages
+import com.planes.single_player_engine.PlanesRoundJava
 
 
 class MainActivity : AppCompatActivity() {

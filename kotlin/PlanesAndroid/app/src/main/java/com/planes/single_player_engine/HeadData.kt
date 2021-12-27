@@ -1,4 +1,4 @@
-package com.planes_multiplayer.single_player_engine
+package com.planes.single_player_engine
 
 class HeadData(//size of the grid
         var m_row: Int, var m_col: Int, //position of the head

@@ -1,5 +1,5 @@
 import com.google.common.truth.Truth
-import com.planes_multiplayer.single_player_engine.PlaneRound
+import com.planes.single_player_engine.PlaneRound
 import org.junit.Test
 
 class PlaneRoundTest {

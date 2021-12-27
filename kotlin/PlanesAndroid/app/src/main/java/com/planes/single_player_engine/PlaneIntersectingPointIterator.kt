@@ -1,4 +1,4 @@
-package com.planes_multiplayer.single_player_engine
+package com.planes.single_player_engine
 
 class PlaneIntersectingPointIterator(point: Coordinate2D) : VectorIterator<Plane>() {
 

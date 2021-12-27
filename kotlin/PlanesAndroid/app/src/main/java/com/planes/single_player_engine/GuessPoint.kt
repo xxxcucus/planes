@@ -1,4 +1,4 @@
-package com.planes_multiplayer.single_player_engine
+package com.planes.single_player_engine
 
 class GuessPoint(val row: Int, val col: Int, val tp: Type) : Cloneable {
 

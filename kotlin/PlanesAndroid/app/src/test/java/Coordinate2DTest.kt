@@ -1,5 +1,5 @@
 import com.google.common.truth.Truth
-import com.planes_multiplayer.single_player_engine.Coordinate2D
+import com.planes.single_player_engine.Coordinate2D
 import org.junit.Test
 
 class Coordinate2DTest {

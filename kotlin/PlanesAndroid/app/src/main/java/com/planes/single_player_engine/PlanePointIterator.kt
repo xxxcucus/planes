@@ -1,4 +1,4 @@
-package com.planes_multiplayer.single_player_engine
+package com.planes.single_player_engine
 
 class PlanePointIterator(pl: Plane) : VectorIterator<Coordinate2D>() {
     private val m_plane: Plane
