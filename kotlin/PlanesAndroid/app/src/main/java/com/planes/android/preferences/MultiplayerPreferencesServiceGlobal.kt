@@ -3,18 +3,18 @@ package com.planes.android.preferences
 import android.content.Context
 import android.os.Bundle
 
-class PreferencesServiceGlobal : IPreferencesService {
+class MultiplayerPreferencesServiceGlobal: IMultiplayerPreferencesService {
 
-    override var computerSkill: Int
-        get() = global_Service!!.computerSkill
-        set(skill) {
-            global_Service!!.computerSkill = skill
+    override var username: String
+        get() = global_Service!!.username
+        set(username) {
+            global_Service!!.username = username
         }
 
-    override var showPlaneAfterKill: Boolean
-        get() = global_Service!!.showPlaneAfterKill
-        set(show) {
-            global_Service!!.showPlaneAfterKill = show
+    override var password: String
+        get() = global_Service!!.password
+        set(password) {
+            global_Service!!.password = password
         }
 
     override fun readPreferences() {
@@ -31,12 +31,12 @@ class PreferencesServiceGlobal : IPreferencesService {
     }
 
     companion object {
-        private var global_Service: PreferencesService? = null
+        private var global_Service: MultiplayerPreferencesService? = null
     }
 
     fun createPreferencesService(context: Context) {
         if (global_Service != null) return
-        global_Service = PreferencesService(context)
+        global_Service = MultiplayerPreferencesService(context)
     }
 
 }

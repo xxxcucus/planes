@@ -18,8 +18,8 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.planes.android.about.AboutFragment
 import com.planes.android.game.GameFragment
-import com.planes.android.preferences.PreferencesServiceGlobal
-import com.planes.android.preferences.SettingsFragment
+import com.planes.android.preferences.SinglePlayerPreferencesServiceGlobal
+import com.planes.android.preferences.SinglePlayerSettingsFragment
 import com.planes.android.videos.VideoFragment1
 import com.planes.android.videos.VideoSettingsService
 import com.planes.single_player_engine.GameStages
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
     private lateinit var m_PlaneRound: PlanesRoundInterface
-    private var m_PreferencesService = PreferencesServiceGlobal()
+    private var m_PreferencesService = SinglePlayerPreferencesServiceGlobal()
     private lateinit var m_VideoSettingsService: VideoSettingsService
     private var mSelectedItem = 0
     private lateinit var m_DrawerLayout: DrawerLayout
@@ -171,7 +171,7 @@ class MainActivity : AppCompatActivity() {
         when(mSelectedItem) {
             R.id.nav_settings -> {
                 val bundle = Bundle()
-                newFragment = SettingsFragment()
+                newFragment = SinglePlayerSettingsFragment()
                 newFragment.setArguments(bundle)
             }
             R.id.nav_game -> {
