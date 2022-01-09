@@ -18,6 +18,8 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.planes.android.about.AboutFragment
 import com.planes.android.game.GameFragment
+import com.planes.android.preferences.MainPreferencesServiceGlobal
+import com.planes.android.preferences.MultiplayerPreferencesServiceGlobal
 import com.planes.android.preferences.SinglePlayerPreferencesServiceGlobal
 import com.planes.android.preferences.SinglePlayerSettingsFragment
 import com.planes.android.videos.VideoFragment1
@@ -30,7 +32,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
     private lateinit var m_PlaneRound: PlanesRoundInterface
-    private var m_PreferencesService = SinglePlayerPreferencesServiceGlobal()
+    private var m_SinglePlayerPreferencesService = SinglePlayerPreferencesServiceGlobal()
+    private var m_MultiplayerPreferencesService = MultiplayerPreferencesServiceGlobal()
+    private var m_MainPreferencesService = MainPreferencesServiceGlobal()
     private lateinit var m_VideoSettingsService: VideoSettingsService
     private var mSelectedItem = 0
     private lateinit var m_DrawerLayout: DrawerLayout
@@ -47,9 +51,16 @@ class MainActivity : AppCompatActivity() {
         m_PlaneRound = PlanesRoundJava()
         (m_PlaneRound as PlanesRoundJava).createPlanesRound()
 
-        m_PreferencesService.createPreferencesService(this)
-        m_PreferencesService.readPreferences()
+        //TODO: create multiplayer round
+
+        m_SinglePlayerPreferencesService.createPreferencesService(this)
+        m_SinglePlayerPreferencesService.readPreferences()
         setPreferencesForPlaneRound()
+
+        m_MultiplayerPreferencesService.createPreferencesService(this)
+        m_MultiplayerPreferencesService.readPreferences()
+        //TODO: set maybe preferences for multiplayer round
+
 
         m_VideoSettingsService = VideoSettingsService(this)
         m_VideoSettingsService.readPreferences()
@@ -71,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState != null) {
-            m_PreferencesService.readFromSavedInstanceState(savedInstanceState)
+            m_SinglePlayerPreferencesService.readFromSavedInstanceState(savedInstanceState)
             m_VideoSettingsService.readFromSavedInstanceState(savedInstanceState)
             setPreferencesForPlaneRound()
 
@@ -90,16 +101,16 @@ class MainActivity : AppCompatActivity() {
     private fun setPreferencesForPlaneRound(): Boolean {
         var retVal = true
 
-        if (m_PlaneRound.getComputerSkill() != m_PreferencesService.computerSkill) {
-            if (!m_PlaneRound.setComputerSkill(m_PreferencesService.computerSkill)) {
-                m_PreferencesService.computerSkill = m_PlaneRound.getComputerSkill()
+        if (m_PlaneRound.getComputerSkill() != m_SinglePlayerPreferencesService.computerSkill) {
+            if (!m_PlaneRound.setComputerSkill(m_SinglePlayerPreferencesService.computerSkill)) {
+                m_SinglePlayerPreferencesService.computerSkill = m_PlaneRound.getComputerSkill()
                 retVal = false
             }
         }
 
-        if (m_PlaneRound.getShowPlaneAfterKill() != m_PreferencesService.showPlaneAfterKill) {
-            if (!m_PlaneRound.setShowPlaneAfterKill(m_PreferencesService.showPlaneAfterKill)) {
-                m_PreferencesService.showPlaneAfterKill = m_PlaneRound.getShowPlaneAfterKill()
+        if (m_PlaneRound.getShowPlaneAfterKill() != m_SinglePlayerPreferencesService.showPlaneAfterKill) {
+            if (!m_PlaneRound.setShowPlaneAfterKill(m_SinglePlayerPreferencesService.showPlaneAfterKill)) {
+                m_SinglePlayerPreferencesService.showPlaneAfterKill = m_PlaneRound.getShowPlaneAfterKill()
                 retVal = false
             }
         }
@@ -160,8 +171,8 @@ class MainActivity : AppCompatActivity() {
     fun setOptions(currentSkill: Int, showPlaneAfterKill: Boolean): Boolean {
         if (!setPreferencesForPlaneRound(currentSkill, showPlaneAfterKill))
             return false
-        m_PreferencesService.computerSkill = currentSkill
-        m_PreferencesService.showPlaneAfterKill = showPlaneAfterKill
+        m_SinglePlayerPreferencesService.computerSkill = currentSkill
+        m_SinglePlayerPreferencesService.showPlaneAfterKill = showPlaneAfterKill
         return true
     }
 
@@ -170,9 +181,8 @@ class MainActivity : AppCompatActivity() {
 
         when(mSelectedItem) {
             R.id.nav_settings -> {
-                val bundle = Bundle()
+                //TODO: check MainPreferencesService to see which Fragment to call
                 newFragment = SinglePlayerSettingsFragment()
-                newFragment.setArguments(bundle)
             }
             R.id.nav_game -> {
                 newFragment = GameFragment()
@@ -224,7 +234,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        m_PreferencesService.writeToSavedInstanceState(outState)
+        m_SinglePlayerPreferencesService.writeToSavedInstanceState(outState)
         m_VideoSettingsService.writeToSavedInstanceState(outState)
         outState.putInt("currentFragment", mSelectedItem)
         Log.d("Planes", "onSaveInstanceState")
@@ -234,14 +244,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        m_PreferencesService.writePreferences()
+        m_SinglePlayerPreferencesService.writePreferences()
         m_VideoSettingsService.writePreferences()
         super.onStop()
         Log.d("Planes", "onStop")
     }
 
     public override fun onDestroy() {
-        m_PreferencesService.writePreferences()
+        m_SinglePlayerPreferencesService.writePreferences()
         m_VideoSettingsService.writePreferences()
         super.onDestroy()
         Log.d("Planes", "onDestroy")

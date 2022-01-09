@@ -2,79 +2,111 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="settingsData" type="com.planes.android.preferences.SettingsViewModel"/>
+        <variable name="settingsData" type="com.planes.android.preferences.SinglePlayerSettingsViewModel"/>
     </data>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/layout_background_start"
-        android:id="@+id/options_layout">
-
-        <RelativeLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@color/layout_background_start"
-            android:layout_margin="10dip">
-            <TextView
-                android:id="@+id/options_title"
+            android:id="@+id/options_layout">
+
+            <RelativeLayout
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dip"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:text="@string/game_difficulty_options"
-                android:layout_marginTop="10dp"
-                android:layout_alignParentLeft="true"/>
-            <LinearLayout
-                android:id="@+id/options_computerskill"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/options_title"
-                android:layout_alignParentLeft="true">
+                android:layout_height="fill_parent"
+                android:background="@color/layout_background_start"
+                android:layout_margin="10dip">
                 <TextView
+                    android:id="@+id/options_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
                     android:textSize="20dp"
-                    android:text="@string/computer_skill"/>
-                <Spinner
-                    android:id="@+id/computer_skill_spinner"
-                    android:layout_width="match_parent"
+                    android:textStyle="bold"
+                    android:text="@string/game_difficulty_options"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignParentLeft="true"/>
+                <LinearLayout
+                    android:id="@+id/options_computerskill"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dip"
-                    app:currentSkill="@={settingsData.m_ComputerSkill}"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/options_showplaneafterkill"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/options_computerskill"
-                android:layout_alignParentLeft="true">
+                    android:layout_below="@+id/options_title"
+                    android:layout_alignParentLeft="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dip"
+                        android:textSize="20dp"
+                        android:text="@string/computer_skill"/>
+                    <Spinner
+                        android:id="@+id/computer_skill_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dip"
+                        app:currentSkill="@={settingsData.m_ComputerSkill}"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/options_showplaneafterkill"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/options_computerskill"
+                    android:layout_alignParentLeft="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dip"
+                        android:textSize="20dp"
+                        android:text="@string/show_plane_after_kill"/>
+                    <Spinner
+                        android:id="@+id/show_plane_after_kill"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dip"
+                        app:showPlaneAfterKill="@={settingsData.m_ShowPlaneAfterKill}"/>
+                </LinearLayout>
                 <TextView
+                    android:id="@+id/multiplayer_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
                     android:textSize="20dp"
-                    android:text="@string/show_plane_after_kill"/>
-                <Spinner
-                    android:id="@+id/show_plane_after_kill"
-                    android:layout_width="match_parent"
+                    android:textStyle="bold"
+                    android:layout_below="@id/options_showplaneafterkill"
+                    android:text="@string/multiplayer_options"/>
+                <LinearLayout
+                    android:id="@+id/options_multiplayer"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dip"
-                    app:showPlaneAfterKill="@={settingsData.m_ShowPlaneAfterKill}"/>
-            </LinearLayout>
-            <Button
-                android:id="@+id/options_savesettings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:text="@string/savesettings"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/options_showplaneafterkill"/>
-        </RelativeLayout>
-    </LinearLayout>
+                    android:layout_below="@+id/multiplayer_title">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dip"
+                        android:textSize="20dp"
+                        android:text="@string/multiplayer_version"/>
+                    <Spinner
+                        android:id="@+id/multiplayer_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dip"
+                        app:multiplayerVersion="@={settingsData.m_MultiplayerVersion}"/>
+                </LinearLayout>
+                <Button
+                    android:id="@+id/options_savesettings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:text="@string/savesettings"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/options_multiplayer"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 </layout>
