@@ -1,0 +1,96 @@
+<resources>
+    <string name="app_name">Samoloty</string>
+    <string name="left_button">W lewo</string>
+    <string name="right_button">W prawo</string>
+    <string name="up_button">Do góry</string>
+    <string name="down_button">Do dołu</string>
+    <string name="rotate_button">Obróć</string>
+    <string name="done_button">Gotowe</string>
+    <string name="view_player_board">Pokaż planszę gracza</string>
+    <string name="view_player_board1">Pokaż</string>
+    <string name="view_player_board2">Plansza gracza</string>
+    <string name="view_computer_board">Pokaż planszę komputera</string>
+    <string name="view_computer_board1">Pokaż</string>
+    <string name="view_computer_board2">Plansza komputera</string>
+    <string name="player_stats">Statystyki gracza</string>
+    <string name="computer_stats">Statystyki komputera</string>
+    <string name="player_hits">Trafień gracza</string>
+    <string name="player_moves">Ruchów gracza</string>
+    <string name="player_misses">Pudła gracza</string>
+    <string name="player_dead">Zatopionych gracza</string>
+    <string name="computer_hits">Trafień komputera</string>
+    <string name="computer_moves">Ruchów komputera</string>
+    <string name="computer_misses">Pudła komputera</string>
+    <string name="computer_dead">Zatopionych komputeraz</string>
+    <string name="general_hits">Trafień</string>
+    <string name="general_moves">Ruchów</string>
+    <string name="general_misses">Pudła</string>
+    <string name="general_dead">Zatopionych</string>
+    <string name="computer_winner">Komputer wygrywa!</string>
+    <string name="player_winner">Gracz wygrywa!</string>
+    <string name="draw_result">Remis!</string>
+    <string name="start_new_game">Nowa rozgrywka</string>
+    <string name="start_new_game1">Nowa</string>
+    <string name="start_new_game2">rozgrywka</string>
+    <string name="computer_wins">Wygranych komputera</string>
+    <string name="player_wins">Wygranych gracza</string>
+    <string name="draws">Remisów</string>
+    <string name="help">Pomoc</string>
+    <string name="board_editing_stage">Edytowanie planszy</string>
+    <string name="game_stage">Rozgrywka</string>
+    <string name="game_not_started_stage">Nowa rozgrywka</string>
+    <string name="credits">Twórcy</string>
+    <string name="credits_software_title">Oprogramowanie</string>
+    <string name="credits_software_content">To oprogramowanie zostało stworzone przez Cristiana Cucu, a cały jego kod źródłowy jest dostępny na www.github.com/xxxcucus/planes.</string>
+    <string name="credits_software_button">Przejdź do strony projektu na GitHub</string>
+    <string name="credits_graphics_title">Grafiki</string>
+    <string name="credits_graphics_content">Logo gry oraz grafiki sklepowe są autorstwa Alexandru Vintilescu. Inne prace Alexa można znaleźć na https://axa951.wixsite.com/portfolio</string>
+    <string name="credits_graphics_button">Przejdź do strony Alexa</string>
+    <string name="helptext_startnewgame_1">Naciśnij przycisk "Nowa rozgrywka", aby rozpocząć nową rozgrywkę.</string>
+    <string name="helptext_boardediting_1">Naciśnij na część samolotu, aby go wybrać.</string>
+    <string name="helptext_boardediting_2">Dostosuj pozycję samolotu naciskając na przyciski sterowania."</string>
+    <string name="helptext_game_1">Naciśnij pole na planszy komputera, aby zgadywać, gdzie znajdują się samolty komputera.</string>
+    <string name="helptext_game_2">Znak X oznacza zniszczenie całego samolotu. Znak kółka oznacza pudło. Znak rombu oznacza trafienie.</string>
+    <string name="popup_help_button_text">Zobacz film</string>
+    <string name="game_difficulty_options">Ustawienia poziomu trudności</string>
+    <string name="computer_skill">Umiejętności komputera</string>
+    <string-array name="computer_skills">
+        <item>Łatwy</item>
+        <item>Doświadczony</item>
+        <item>Niezwyciężony</item>
+    </string-array>
+    <string name="show_plane_after_kill">Pokaż samolot po zatopieniu</string>
+    <string-array name="yesno_options">
+        <item>Tak</item>
+        <item>Nie</item>
+    </string-array>
+    <string name="options">Ustawienia</string>
+    <string name="warning_options_text">Nie można tego ustawić podczas rozgrywki.</string>
+    <string name="warning_options_title">Ostrzeżenie</string>
+    <string name="warning_options_button_text">OK</string>
+    <string name="othervideos">Pozostałe filmy</string>
+    <string name="singleplayertutorial">Samouczek gry jednoosobowej</string>
+    <string name="multiplayertutorial">Samouczek gry wieloosobowej</string>
+    <string name="positioningplanestutorial">Samouczek umieszczania samolotów</string>
+    <string name="guessingplanestutorial">Samouczek zgadywania pozycji samolotów</string>
+
+    <string name="savesettings">Zapisz ustawienia</string>
+    <string name="game">Gra</string>
+    <string name="videos">Filmy</string>
+    <string name="about">Informacje</string>
+    <string name="helptext_videos1">Naciśnij na tytuł listy odtwarzania, aby odtworzyć film.</string>
+    <string name="helptext_videos2">Naciśnij na tytuł listy odtwarzania bieżącego filmu, aby odtwarzać film od początku.</string>
+    <string name="helptext_videos3">Naciśnij i przytrzymaj tytuł listy odtwarzania, aby odtworzyć film w aplikacji YouTube. </string>
+    <string name="credits_othercontributions_title">Pozostały wkład</string>
+    <string name="credits_othercontributions">Do powstania projektu przyczynili się również: Mihai Birau, Stefan Luchian, Dan Ilies, Stefan Cucu, Christian von der Ehe, Pascal Seeger oraz Mario Eduardo Zarate Caceres.</string>
+    <string name="credits_tools_title">Narzędzia</string>
+    <string name="credits_tools">Podziękowania dla firmy JetBrains za bezpłatne licencje na oprogramowanie użyte w procesie tworzenia tego projektu.</string>
+    <string name="software_version_title">Wersja</string>
+    <string name="software_version">Bieżącą wersją aplikacji jest </string>
+
+    <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
+    <string name="appbar_scrolling_view_behavior" translatable="false">
+        com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="drawer_open_content_description" translatable="false">Open Menu</string>
+    <string name="drawer_closed_content_description" translatable="false">Close Menu</string>
+</resources>
