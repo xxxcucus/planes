@@ -93,4 +93,8 @@
         com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
     <string name="drawer_open_content_description" translatable="false">Open Menu</string>
     <string name="drawer_closed_content_description" translatable="false">Close Menu</string>
+    <string name="player_stats1">Statystyki</string>
+    <string name="player_stats2">Gracza</string>
+    <string name="computer_stats1">Statystyki</string>
+    <string name="computer_stats2">Komputera</string>
 </resources>
