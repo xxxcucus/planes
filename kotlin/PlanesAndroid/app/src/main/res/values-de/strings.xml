@@ -87,7 +87,7 @@
     <string name="helptext_videos2">Playlisttitel anklicken während es abspielt um das Video von Anfang abzuspielen</string>
     <string name="helptext_videos3">Playlisttitel lang anklicken um das Video in Youtube abzuspielen</string>
     <string name="credits_othercontributions_title">Andere Beiträge</string>
-    <string name="credits_othercontributions">"Andere Beiträge zu dem Projekt sind von: Mihai Birau, Stefan Luchian, Dan Ilies, Stefan Cucu, Christian von der Ehe, Pascal Seeger and Mario Eduardo Zarate Caceres. "</string>
+    <string name="credits_othercontributions">"Andere Beiträge zu dem Projekt sind von: Mihai Birau, Stefan Luchian, Dan Ilies, Stefan Cucu, Christian von der Ehe, Pascal Seeger, Mario Eduardo Zarate Caceres, Sebastian Jasiński, Albano Battistella. "</string>
     <string name="credits_tools_title">Tools</string>
     <string name="credits_tools">Wir danken der Firma JetBrains für die Lizenzen für Tools die für das Programmierung des Projekts benutzt worden sind.</string>
 </resources>
