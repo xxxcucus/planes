@@ -81,7 +81,7 @@
     <string name="helptext_videos2">Toque el título de la lista de reproducción del video en reproducción para comenzar el video desde el principio.</string>
     <string name="helptext_videos3">Toque prolongadamente el título de la lista de reproducción para reproducir el video en la aplicación de Youtube.</string>
     <string name="credits_othercontributions_title">Otras contribuciones</string>
-    <string name="credits_othercontributions">Otras contribuciones al proyecto son de: Mihai Birau, Stefan Luchian, Dan Ilies, Stefan Cucu, Christian von der Ehe, Pascal Seeger y Mario Eduardo Zarate Caceres.</string>
+    <string name="credits_othercontributions">Otras contribuciones al proyecto son de: Mihai Birau, Stefan Luchian, Dan Ilies, Stefan Cucu, Christian von der Ehe, Pascal Seeger, Mario Eduardo Zarate Caceres, Sebastian Jasiński, Albano Battistella.</string>
     <string name="credits_tools_title">Herramientas</string>
     <string name="credits_tools">Agradecemos a la empresa JetBrains por las licencias de software libre por el uso de las herramientas utilizadas en la programación del proyecto.</string>
     <string name="software_version_title">Versión</string>
