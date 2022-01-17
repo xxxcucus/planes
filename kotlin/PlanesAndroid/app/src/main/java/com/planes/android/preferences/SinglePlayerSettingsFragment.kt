@@ -2,6 +2,7 @@ package com.planes.android.preferences
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,9 @@ import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.databinding.FragmentOptionsBinding
 import com.planes.android.R
+import com.planes.multiplayer_engine.MultiplayerRoundJava
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class SinglePlayerSettingsFragment : Fragment() {
     private lateinit var binding: FragmentOptionsBinding
@@ -19,11 +23,13 @@ class SinglePlayerSettingsFragment : Fragment() {
     private var m_InitialMultiplayerVersion = false
     private var m_PreferencesService = SinglePlayerPreferencesServiceGlobal()
     private var m_MainPreferencesService = MainPreferencesServiceGlobal()
+    private var m_MultiplayerRound = MultiplayerRoundJava()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         m_PreferencesService.createPreferencesService(context)
         m_MainPreferencesService.createPreferencesService(context)
+        m_MultiplayerRound.createPlanesRound()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,22 +63,50 @@ class SinglePlayerSettingsFragment : Fragment() {
         super.onPause()
     }
 
+    fun showLoading() {
+        Log.d("Planes", "Waiting for server response")
+    }
+
+    fun hideLoading() {
+
+    }
+
     fun writeToPreferencesService() {
 
         /*
             if multiplayerVersion check connection to server, then set multiplayerVersion in MainPreferencesService
-        */
 
-        if (this::binding.isInitialized) {
-            if (!(activity as MainActivity).setOptions(
-                    binding.settingsData!!.m_ComputerSkill,
-                    binding.settingsData!!.m_ShowPlaneAfterKill
-                )
-            ) {
-                binding.settingsData!!.m_ComputerSkill = m_InitialComputerSkill
-                binding.settingsData!!.m_ShowPlaneAfterKill = m_InitialShowPlaneAfterKill
-                binding.invalidateAll()
-            }
+            m_MultiRound.getVersion - subscribe
+            show wait animation until the request finishes
+            when it finishes anounce the result
+        */
+        if (!this::binding.isInitialized)
+            return
+
+        if (binding.settingsData!!.m_MultiplayerVersion) {
+            var verifyVersion = m_MultiplayerRound.testServerVersion()
+            verifyVersion
+                .subscribeOn(Schedulers.io()) //run request in the background and deliver response to the main thread aka UI thread
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe({_ -> showLoading()})
+                .doOnTerminate({ hideLoading()})
+            .subscribe({data ->
+                Log.d("Planes","Version received: " + data.body().toString())
+            }, {error ->
+                Log.d("Planes","Connection error: " + error.toString())
+            });
         }
+
+
+        if (!(activity as MainActivity).setOptions(
+                binding.settingsData!!.m_ComputerSkill,
+                binding.settingsData!!.m_ShowPlaneAfterKill
+            )
+        ) {
+            binding.settingsData!!.m_ComputerSkill = m_InitialComputerSkill
+            binding.settingsData!!.m_ShowPlaneAfterKill = m_InitialShowPlaneAfterKill
+            binding.invalidateAll()
+        }
+
     }
 }

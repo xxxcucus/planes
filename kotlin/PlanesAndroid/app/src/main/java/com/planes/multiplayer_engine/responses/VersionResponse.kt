@@ -1,9 +1,9 @@
 package com.planes.multiplayer_engine.responses
 
-class VersionResponse(versionString: String) {
-    private var m_VersionString: String
+class VersionResponse(VersionString: String) {
+    private var versionString: String
 
     init {
-        m_VersionString = versionString
+        versionString = VersionString
     }
 }
