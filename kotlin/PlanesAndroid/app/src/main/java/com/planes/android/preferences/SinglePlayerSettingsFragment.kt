@@ -15,6 +15,7 @@ import com.planes.android.R
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
 class SinglePlayerSettingsFragment : Fragment() {
     private lateinit var binding: FragmentOptionsBinding
@@ -64,11 +65,11 @@ class SinglePlayerSettingsFragment : Fragment() {
     }
 
     fun showLoading() {
-        Log.d("Planes", "Waiting for server response")
+        (activity as MainActivity).startProgressDialog()
     }
 
     fun hideLoading() {
-
+        (activity as MainActivity).stopProgressDialog()
     }
 
     fun writeToPreferencesService() {
@@ -78,7 +79,16 @@ class SinglePlayerSettingsFragment : Fragment() {
 
             m_MultiRound.getVersion - subscribe
             show wait animation until the request finishes
-            when it finishes anounce the result
+
+            if succesfull must
+                mark changedVersion = true
+                mark multiplayerVersion in m_MainPreferencesService
+
+            then save the remaining options with the saveOptions function
+            from the MainActivity
+
+            if changedVersion load the Preferences fragment again from
+            the MainActivity
         */
         if (!this::binding.isInitialized)
             return
@@ -86,6 +96,7 @@ class SinglePlayerSettingsFragment : Fragment() {
         if (binding.settingsData!!.m_MultiplayerVersion) {
             var verifyVersion = m_MultiplayerRound.testServerVersion()
             verifyVersion
+                .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
                 .subscribeOn(Schedulers.io()) //run request in the background and deliver response to the main thread aka UI thread
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe({_ -> showLoading()})

@@ -4,14 +4,13 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.PopupWindow
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -38,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var m_VideoSettingsService: VideoSettingsService
     private var mSelectedItem = 0
     private lateinit var m_DrawerLayout: DrawerLayout
+    private lateinit var m_ProgressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.displayOptions = ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_SHOW_TITLE
 
+        m_ProgressBar = findViewById(R.id.ProgressBarBottom)
+        m_ProgressBar.isIndeterminate = true
 
         m_PlaneRound = PlanesRoundJava()
         (m_PlaneRound as PlanesRoundJava).createPlanesRound()
@@ -293,7 +295,7 @@ class MainActivity : AppCompatActivity() {
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(
-            findViewById<View>(R.id.options_layout) as LinearLayout,
+            findViewById<View>(R.id.coordinator_id) as LinearLayoutCompat,
             Gravity.CENTER,
             0,
             0
@@ -411,5 +413,13 @@ class MainActivity : AppCompatActivity() {
             2 -> mSelectedItem = R.id.nav_videos
             else -> mSelectedItem = R.id.nav_about
         }
+    }
+
+    fun startProgressDialog() {
+        m_ProgressBar.isVisible = true
+    }
+
+    fun stopProgressDialog() {
+        m_ProgressBar.isVisible = false
     }
 }
