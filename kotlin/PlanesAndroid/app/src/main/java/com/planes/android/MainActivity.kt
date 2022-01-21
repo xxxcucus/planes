@@ -17,10 +17,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.planes.android.about.AboutFragment
 import com.planes.android.game.GameFragment
-import com.planes.android.preferences.MainPreferencesServiceGlobal
-import com.planes.android.preferences.MultiplayerPreferencesServiceGlobal
-import com.planes.android.preferences.SinglePlayerPreferencesServiceGlobal
-import com.planes.android.preferences.SinglePlayerSettingsFragment
+import com.planes.android.preferences.*
 import com.planes.android.videos.VideoFragment1
 import com.planes.android.videos.VideoSettingsService
 import com.planes.single_player_engine.GameStages
@@ -118,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (!retVal) {
-            onWarning();
+            onWarning(getString(R.string.warning_options_text))
         }
 
         return retVal
@@ -140,7 +137,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (!retVal) {
-            onWarning();
+            onWarning(getString(R.string.warning_options_text))
         }
 
         return retVal
@@ -170,7 +167,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun setOptions(currentSkill: Int, showPlaneAfterKill: Boolean): Boolean {
+    fun setSinglePlayerOptions(currentSkill: Int, showPlaneAfterKill: Boolean): Boolean {
         if (!setPreferencesForPlaneRound(currentSkill, showPlaneAfterKill))
             return false
         m_SinglePlayerPreferencesService.computerSkill = currentSkill
@@ -178,13 +175,26 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    fun setMultiplayerOptions(username: String, password: String): Boolean {
+        /*TODOif (!setPreferencesForPlaneRound(currentSkill, showPlaneAfterKill))
+            return false*/
+        m_MultiplayerPreferencesService.username = username
+        m_MultiplayerPreferencesService.password = password
+        return true
+    }
+
+
     fun setFragment(addToBackStack: Boolean) {
         lateinit var newFragment:Fragment
 
         when(mSelectedItem) {
             R.id.nav_settings -> {
                 //TODO: check MainPreferencesService to see which Fragment to call
-                newFragment = SinglePlayerSettingsFragment()
+                if (!m_MainPreferencesService.multiplayerVersion)
+                    newFragment = SinglePlayerSettingsFragment()
+                else
+                    newFragment = MultiplayerSettingsFragment()
+
             }
             R.id.nav_game -> {
                 newFragment = GameFragment()
@@ -208,12 +218,12 @@ class MainActivity : AppCompatActivity() {
                     .replace(R.id.main_content, newFragment)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .addToBackStack("FromMainMenu")
-                    .commit();
+                    .commit()
             else
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.main_content, newFragment)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .commit();
+                    .commit()
         }
 
         //mSelectedItem = 0
@@ -232,7 +242,12 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.main_content, newFragment)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .addToBackStack("FromHelp")
-            .commit();
+            .commit()
+    }
+
+    fun restartPreferencesFragment() {
+        mSelectedItem = R.id.nav_settings
+        setFragment(true)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -282,9 +297,12 @@ class MainActivity : AppCompatActivity() {
         m_VideoSettingsService.videoPlaybackPositions = playbackPositions
     }
 
-    fun onWarning() {
+    fun onWarning(errorString: String) {
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView: View = inflater.inflate(R.layout.warning_options, null)
+
+        val textView = popupView.findViewById(R.id.warning_options_text)
+        textView.setText(errorString)
 
         // create the popup window
         val width = LinearLayout.LayoutParams.WRAP_CONTENT

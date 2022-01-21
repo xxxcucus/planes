@@ -7,6 +7,7 @@ class MainPreferencesService internal constructor(private val m_Context: Context
 
     override var multiplayerVersion: Boolean = false
 
+
     override fun readPreferences() {
         val sp_multiplayer = m_Context.getSharedPreferences("multiplayer", Context.MODE_PRIVATE)
         multiplayerVersion = sp_multiplayer.getBoolean("multiplayerversion", false)

@@ -25,6 +25,8 @@ class SinglePlayerSettingsFragment : Fragment() {
     private var m_PreferencesService = SinglePlayerPreferencesServiceGlobal()
     private var m_MainPreferencesService = MainPreferencesServiceGlobal()
     private var m_MultiplayerRound = MultiplayerRoundJava()
+    private var m_VersionError = false
+    private var m_VersionErrorString = ""
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -72,6 +74,16 @@ class SinglePlayerSettingsFragment : Fragment() {
         (activity as MainActivity).stopProgressDialog()
     }
 
+    fun checkServerVersion(versionString: String) {
+        //if (versionString != m_MainPreferencesService.serverVersion)
+        m_VersionError = true
+        m_VersionErrorString = getString(R.string.server_version_error)
+    }
+
+    fun setVersionError() {
+        m_VersionError = true
+    }
+
     fun writeToPreferencesService() {
 
         /*
@@ -93,6 +105,9 @@ class SinglePlayerSettingsFragment : Fragment() {
         if (!this::binding.isInitialized)
             return
 
+        m_VersionError = false
+        m_VersionErrorString = ""
+
         if (binding.settingsData!!.m_MultiplayerVersion) {
             var verifyVersion = m_MultiplayerRound.testServerVersion()
             verifyVersion
@@ -101,15 +116,12 @@ class SinglePlayerSettingsFragment : Fragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe({_ -> showLoading()})
                 .doOnTerminate({ hideLoading()})
-            .subscribe({data ->
-                Log.d("Planes","Version received: " + data.body().toString())
-            }, {error ->
-                Log.d("Planes","Connection error: " + error.toString())
-            });
+            .subscribe({data -> checkServerVersion(data.body().toString())}
+                , {error -> setVersionError()});
         }
 
 
-        if (!(activity as MainActivity).setOptions(
+        if (!(activity as MainActivity).setSinglePlayerOptions(
                 binding.settingsData!!.m_ComputerSkill,
                 binding.settingsData!!.m_ShowPlaneAfterKill
             )
@@ -117,6 +129,12 @@ class SinglePlayerSettingsFragment : Fragment() {
             binding.settingsData!!.m_ComputerSkill = m_InitialComputerSkill
             binding.settingsData!!.m_ShowPlaneAfterKill = m_InitialShowPlaneAfterKill
             binding.invalidateAll()
+        }
+
+        if (!m_VersionError) {
+            (activity as MainActivity).restartPreferencesFragment()
+        } else {
+            (activity as MainActivity).onWarning(m_VersionErrorString)
         }
 
     }
