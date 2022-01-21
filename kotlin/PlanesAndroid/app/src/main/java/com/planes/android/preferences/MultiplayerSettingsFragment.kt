@@ -10,11 +10,12 @@ import androidx.fragment.app.Fragment
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
-import com.planes.android.databinding.FragmentOptions1Binding
+import com.planes.android.databinding.FragmentOptionsMultiBinding
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 
+//TODO to update accordint to google and udemy
 class MultiplayerSettingsFragment : Fragment() {
-    private lateinit var binding: FragmentOptions1Binding
+    private lateinit var binding: FragmentOptionsMultiBinding
     private var m_InitialUsername = ""
     private var m_InitialPassword = ""
     private var m_InitialMultiplayerVersion = true
@@ -37,7 +38,7 @@ class MultiplayerSettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentOptions1Binding.inflate(layoutInflater, container, false)
+        binding = FragmentOptionsMultiBinding.inflate(layoutInflater, container, false)
         m_InitialUsername = m_PreferencesService.username
         m_InitialPassword = m_PreferencesService.password
         m_InitialMultiplayerVersion = m_MainPreferencesService.multiplayerVersion

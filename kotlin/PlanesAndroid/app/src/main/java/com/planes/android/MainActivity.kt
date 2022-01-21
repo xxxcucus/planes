@@ -301,7 +301,7 @@ class MainActivity : AppCompatActivity() {
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView: View = inflater.inflate(R.layout.warning_options, null)
 
-        val textView = popupView.findViewById(R.id.warning_options_text)
+        val textView = popupView.findViewById<TextView>(R.id.warning_options_text)
         textView.setText(errorString)
 
         // create the popup window

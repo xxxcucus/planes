@@ -3,6 +3,7 @@ package com.planes.android.preferences
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Spinner
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
@@ -45,6 +46,26 @@ object BindingAdapters {
     @InverseBindingAdapter(attribute = "multiplayerVersion")
     @JvmStatic fun getMultiplayerVersion(spinner: Spinner): Boolean {
         return getYesNoSpinnerForBoolean(spinner)
+    }
+
+    @BindingAdapter(value = ["username", "usernameAttrChanged"], requireAll = false)
+    @JvmStatic fun setUsername(edittext: EditText, username: String, listener: InverseBindingListener) {
+        edittext.setText(username)
+    }
+
+    @InverseBindingAdapter(attribute = "username")
+    @JvmStatic fun getUsername(edittext: EditText): String {
+        return edittext.getText().toString()
+    }
+
+    @BindingAdapter(value = ["password", "passwordAttrChanged"], requireAll = false)
+    @JvmStatic fun setPassword(edittext: EditText, password: String, listener: InverseBindingListener) {
+        edittext.setText(password)
+    }
+
+    @InverseBindingAdapter(attribute = "password")
+    @JvmStatic fun getPassword(edittext: EditText): String {
+        return edittext.getText().toString()
     }
 
     private fun getYesNoSpinnerForBoolean(spinner: Spinner): Boolean {

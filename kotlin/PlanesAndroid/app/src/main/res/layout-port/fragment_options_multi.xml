@@ -42,7 +42,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        app:currentSkill="@={settingsData.m_Username}"/>
+                        app:username="@={settingsData.m_Username}"/>
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
@@ -59,7 +59,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        app:showPlaneAfterKill="@={settingsData.m_Password}"/>
+                        app:password="@={settingsData.m_Password}"/>
                 </LinearLayout>
                 <TextView
                     android:layout_width="wrap_content"

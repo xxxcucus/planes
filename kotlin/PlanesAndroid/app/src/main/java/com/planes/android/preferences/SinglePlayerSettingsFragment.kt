@@ -10,15 +10,15 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
-import com.planes.android.databinding.FragmentOptionsBinding
 import com.planes.android.R
+import com.planes.android.databinding.FragmentOptionsSingleBinding
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 class SinglePlayerSettingsFragment : Fragment() {
-    private lateinit var binding: FragmentOptionsBinding
+    private lateinit var binding: FragmentOptionsSingleBinding
     private var m_InitialComputerSkill = 0
     private var m_InitialShowPlaneAfterKill = false
     private var m_InitialMultiplayerVersion = false
@@ -43,7 +43,7 @@ class SinglePlayerSettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentOptionsBinding.inflate(layoutInflater, container, false)
+        binding = FragmentOptionsSingleBinding.inflate(layoutInflater, container, false)
         m_InitialComputerSkill = m_PreferencesService.computerSkill
         m_InitialShowPlaneAfterKill = m_PreferencesService.showPlaneAfterKill
         m_InitialMultiplayerVersion = m_MainPreferencesService.multiplayerVersion
