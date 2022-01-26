@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.planes.android.about.AboutFragment
@@ -58,7 +59,9 @@ class MainActivity : AppCompatActivity() {
 
         m_MultiplayerPreferencesService.createPreferencesService(this)
         m_MultiplayerPreferencesService.readPreferences()
-        //TODO: set maybe preferences for multiplayer round
+
+        m_MainPreferencesService.createPreferencesService(this)
+        m_MainPreferencesService.readPreferences()
 
 
         m_VideoSettingsService = VideoSettingsService(this)
@@ -82,6 +85,8 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState != null) {
             m_SinglePlayerPreferencesService.readFromSavedInstanceState(savedInstanceState)
+            m_MultiplayerPreferencesService.readFromSavedInstanceState(savedInstanceState)
+            m_MainPreferencesService.readFromSavedInstanceState(savedInstanceState)
             m_VideoSettingsService.readFromSavedInstanceState(savedInstanceState)
             setPreferencesForPlaneRound()
 
@@ -245,13 +250,20 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+    /**
+     * Enter multiplayer modus
+     */
     fun restartPreferencesFragment() {
+        //TODO: this pops only one entry from the back stack
+        supportFragmentManager.popBackStack("FromMainMenu", FragmentManager.POP_BACK_STACK_INCLUSIVE)
         mSelectedItem = R.id.nav_settings
         setFragment(true)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         m_SinglePlayerPreferencesService.writeToSavedInstanceState(outState)
+        m_MultiplayerPreferencesService.writeToSavedInstanceState(outState)
+        m_MainPreferencesService.writeToSavedInstanceState(outState)
         m_VideoSettingsService.writeToSavedInstanceState(outState)
         outState.putInt("currentFragment", mSelectedItem)
         Log.d("Planes", "onSaveInstanceState")
@@ -262,6 +274,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         m_SinglePlayerPreferencesService.writePreferences()
+        m_MultiplayerPreferencesService.writePreferences()
+        m_MainPreferencesService.writePreferences()
         m_VideoSettingsService.writePreferences()
         super.onStop()
         Log.d("Planes", "onStop")
@@ -269,6 +283,8 @@ class MainActivity : AppCompatActivity() {
 
     public override fun onDestroy() {
         m_SinglePlayerPreferencesService.writePreferences()
+        m_MultiplayerPreferencesService.writePreferences()
+        m_MainPreferencesService.writePreferences()
         m_VideoSettingsService.writePreferences()
         super.onDestroy()
         Log.d("Planes", "onDestroy")

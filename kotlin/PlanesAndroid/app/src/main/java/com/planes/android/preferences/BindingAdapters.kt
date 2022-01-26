@@ -48,26 +48,6 @@ object BindingAdapters {
         return getYesNoSpinnerForBoolean(spinner)
     }
 
-    @BindingAdapter(value = ["username", "usernameAttrChanged"], requireAll = false)
-    @JvmStatic fun setUsername(edittext: EditText, username: String, listener: InverseBindingListener) {
-        edittext.setText(username)
-    }
-
-    @InverseBindingAdapter(attribute = "username")
-    @JvmStatic fun getUsername(edittext: EditText): String {
-        return edittext.getText().toString()
-    }
-
-    @BindingAdapter(value = ["password", "passwordAttrChanged"], requireAll = false)
-    @JvmStatic fun setPassword(edittext: EditText, password: String, listener: InverseBindingListener) {
-        edittext.setText(password)
-    }
-
-    @InverseBindingAdapter(attribute = "password")
-    @JvmStatic fun getPassword(edittext: EditText): String {
-        return edittext.getText().toString()
-    }
-
     private fun getYesNoSpinnerForBoolean(spinner: Spinner): Boolean {
         return if (spinner.selectedItemPosition == 0) true else false
     }

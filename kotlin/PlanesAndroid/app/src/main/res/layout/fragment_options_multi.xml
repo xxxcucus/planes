@@ -40,7 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
-                    app:username="@={settingsData.m_Username}"/>
+                    android:text="@={settingsData.m_Username}"/>
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
-                    app:password="@={settingsData.m_Password}"/>
+                    android:text="@={settingsData.m_Password}"/>
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
