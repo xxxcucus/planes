@@ -5,7 +5,7 @@ android {
     compileSdkVersion 31
     defaultConfig {
         applicationId "com.planes.android"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 31
         multiDexEnabled true
         versionCode 21
@@ -57,6 +57,10 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation "com.squareup.retrofit2:converter-scalars:2.9.0"
+    implementation "com.squareup.retrofit2:converter-jackson:2.9.0"
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
 
 
     testImplementation 'androidx.annotation:annotation:1.0.0'

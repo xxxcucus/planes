@@ -65,8 +65,9 @@ class SinglePlayerSettingsFragment : Fragment() {
 
     override fun onDetach () {
         super.onDetach()
+        //TODO: move this in OnDestroy?
         if (this::m_VerifyVersionSubscription.isInitialized)
-        m_VerifyVersionSubscription.dispose()
+            m_VerifyVersionSubscription.dispose()
     }
 
     override fun onPause() {
