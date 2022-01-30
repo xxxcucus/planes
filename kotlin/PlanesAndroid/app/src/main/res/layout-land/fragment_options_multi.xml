@@ -70,6 +70,14 @@
                         android:layout_margin="10dip"
                         android:text="@={settingsData.m_Password}"/>
                 </LinearLayout>
+                <CheckBox
+                    android:id="@+id/secure_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/hide_password"
+                    android:layout_below="@id/options_password"
+                    android:layout_marginLeft="30dp"/>
                 <TextView
                     android:id="@+id/multiplayer_title"
                     android:layout_width="wrap_content"
@@ -77,7 +85,7 @@
                     android:layout_margin="10dip"
                     android:textSize="20dp"
                     android:textStyle="bold"
-                    android:layout_below="@id/options_password"
+                    android:layout_below="@id/secure_check"
                     android:text="@string/multiplayer_options"/>
                 <LinearLayout
                     android:id="@+id/options_multiplayer"

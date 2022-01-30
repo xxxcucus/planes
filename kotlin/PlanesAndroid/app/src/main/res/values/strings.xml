@@ -98,6 +98,7 @@
     <string name="username">User Name</string>
     <string name="password">Password</string>
     <string name="server_version_error">The server was updated. Please update the app in order to remain compatible.</string>
+    <string name="hide_password">Hide Password</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">
