@@ -57,13 +57,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
+                    android:inputType="textPassword"
                     android:text="@={settingsData.m_Password}"/>
             </LinearLayout>
             <CheckBox
                 android:id="@+id/secure_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
+                android:checked="true"
                 android:text="@string/hide_password"
                 android:layout_gravity="left"
                 android:layout_marginLeft="30dp"/>
