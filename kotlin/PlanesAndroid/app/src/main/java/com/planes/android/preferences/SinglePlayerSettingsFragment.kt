@@ -55,11 +55,9 @@ class SinglePlayerSettingsFragment : Fragment() {
         binding.settingsData = SinglePlayerSettingsViewModel(m_InitialComputerSkill, m_InitialShowPlaneAfterKill, m_InitialMultiplayerVersion)
         (activity as MainActivity).setActionBarTitle(getString(R.string.options))
         (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Preferences)
-        var saveSettingsButton = binding.root.findViewById(R.id.options_savesettings) as Button
-        if (saveSettingsButton != null) {
-            saveSettingsButton.setOnClickListener(View.OnClickListener { writeToPreferencesService() })
-        }
-
+        var saveSettingsButton = binding.optionsSavesettings as Button
+        saveSettingsButton.setOnClickListener(View.OnClickListener { writeToPreferencesService() })
+        
         return binding.root
     }
 
