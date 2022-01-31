@@ -6,6 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/coordinator_id"
         android:layout_width="match_parent"
@@ -30,6 +33,13 @@
 
         </com.google.android.material.appbar.AppBarLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
+    <ProgressBar
+        android:id="@+id/ProgressBarBottom"
+        android:layout_width="350dp"
+        android:layout_centerInParent="true"
+        android:layout_height="350dp"
+        android:visibility="invisible" />
+    </RelativeLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

@@ -92,6 +92,14 @@
     <string name="software_version_title">Version</string>
     <string name="software_version">The current version of the software is </string>
 
+    <string name="multiplayer_options">Multiplayer Options </string>
+    <string name="multiplayer_version">Multiplayer Version</string>
+    <string name="security_options">Security Options</string>
+    <string name="username">User Name</string>
+    <string name="password">Password</string>
+    <string name="server_version_error">The server was updated. Please update the app in order to remain compatible.</string>
+    <string name="hide_password">Hide Password</string>
+
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">
         com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>

@@ -3,10 +3,9 @@ package com.planes.android.preferences
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import com.planes.android.preferences.IPreferencesService
 
 
-class PreferencesService internal constructor(private val m_Context: Context): IPreferencesService {
+class SinglePlayerPreferencesService internal constructor(private val m_Context: Context): ISinglePlayerPreferencesService {
     private var m_ComputerSkill = 2
     override var showPlaneAfterKill = false
 
@@ -18,11 +17,12 @@ class PreferencesService internal constructor(private val m_Context: Context): I
         }
 
     override fun readPreferences() {
-        val sp = m_Context.getSharedPreferences("gamedifficulty",
+        val sp_gamedifficulty = m_Context.getSharedPreferences("gamedifficulty",
                 Context.MODE_PRIVATE)
-        computerSkill = sp.getInt("computerskill", 2)
-        showPlaneAfterKill = sp.getBoolean("showkilledplane", false)
-        Log.d("Planes", "readPreferences " + computerSkill + " " + showPlaneAfterKill)
+        computerSkill = sp_gamedifficulty.getInt("computerskill", 2)
+        showPlaneAfterKill = sp_gamedifficulty.getBoolean("showkilledplane", false)
+
+        val sp_multiplayer = m_Context.getSharedPreferences("multiplayer", Context.MODE_PRIVATE)
     }
 
     override fun readFromSavedInstanceState(savedInstanceState: Bundle) {
@@ -31,12 +31,11 @@ class PreferencesService internal constructor(private val m_Context: Context): I
     }
 
     override fun writePreferences() {
-        val sp = m_Context.getSharedPreferences("gamedifficulty",
+        val sp_gamedifficulty = m_Context.getSharedPreferences("gamedifficulty",
                 Context.MODE_PRIVATE).edit()
-        sp.putInt("computerskill", computerSkill)
-        sp.putBoolean("showkilledplane", showPlaneAfterKill)
-        sp.commit()
-        Log.d("Planes", "writePreferences " + m_ComputerSkill + " " + showPlaneAfterKill)
+        sp_gamedifficulty.putInt("computerskill", computerSkill)
+        sp_gamedifficulty.putBoolean("showkilledplane", showPlaneAfterKill)
+        sp_gamedifficulty.commit()
     }
 
     override fun writeToSavedInstanceState(savedInstanceState: Bundle) {

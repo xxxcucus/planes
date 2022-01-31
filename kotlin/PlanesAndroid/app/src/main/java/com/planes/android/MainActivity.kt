@@ -4,22 +4,21 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.PopupWindow
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.planes.android.about.AboutFragment
 import com.planes.android.game.GameFragment
-import com.planes.android.preferences.PreferencesServiceGlobal
-import com.planes.android.preferences.SettingsFragment
+import com.planes.android.preferences.*
 import com.planes.android.videos.VideoFragment1
 import com.planes.android.videos.VideoSettingsService
 import com.planes.single_player_engine.GameStages
@@ -30,10 +29,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
     private lateinit var m_PlaneRound: PlanesRoundInterface
-    private var m_PreferencesService = PreferencesServiceGlobal()
+    private var m_SinglePlayerPreferencesService = SinglePlayerPreferencesServiceGlobal()
+    private var m_MultiplayerPreferencesService = MultiplayerPreferencesServiceGlobal()
+    private var m_MainPreferencesService = MainPreferencesServiceGlobal()
     private lateinit var m_VideoSettingsService: VideoSettingsService
     private var mSelectedItem = 0
     private lateinit var m_DrawerLayout: DrawerLayout
+    private lateinit var m_ProgressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,13 +45,24 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.displayOptions = ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_SHOW_TITLE
 
+        m_ProgressBar = findViewById(R.id.ProgressBarBottom)
+        m_ProgressBar.isIndeterminate = true
 
         m_PlaneRound = PlanesRoundJava()
         (m_PlaneRound as PlanesRoundJava).createPlanesRound()
 
-        m_PreferencesService.createPreferencesService(this)
-        m_PreferencesService.readPreferences()
+        //TODO: create multiplayer round
+
+        m_SinglePlayerPreferencesService.createPreferencesService(this)
+        m_SinglePlayerPreferencesService.readPreferences()
         setPreferencesForPlaneRound()
+
+        m_MultiplayerPreferencesService.createPreferencesService(this)
+        m_MultiplayerPreferencesService.readPreferences()
+
+        m_MainPreferencesService.createPreferencesService(this)
+        m_MainPreferencesService.readPreferences()
+
 
         m_VideoSettingsService = VideoSettingsService(this)
         m_VideoSettingsService.readPreferences()
@@ -71,7 +84,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState != null) {
-            m_PreferencesService.readFromSavedInstanceState(savedInstanceState)
+            m_SinglePlayerPreferencesService.readFromSavedInstanceState(savedInstanceState)
+            m_MultiplayerPreferencesService.readFromSavedInstanceState(savedInstanceState)
+            m_MainPreferencesService.readFromSavedInstanceState(savedInstanceState)
             m_VideoSettingsService.readFromSavedInstanceState(savedInstanceState)
             setPreferencesForPlaneRound()
 
@@ -90,22 +105,22 @@ class MainActivity : AppCompatActivity() {
     private fun setPreferencesForPlaneRound(): Boolean {
         var retVal = true
 
-        if (m_PlaneRound.getComputerSkill() != m_PreferencesService.computerSkill) {
-            if (!m_PlaneRound.setComputerSkill(m_PreferencesService.computerSkill)) {
-                m_PreferencesService.computerSkill = m_PlaneRound.getComputerSkill()
+        if (m_PlaneRound.getComputerSkill() != m_SinglePlayerPreferencesService.computerSkill) {
+            if (!m_PlaneRound.setComputerSkill(m_SinglePlayerPreferencesService.computerSkill)) {
+                m_SinglePlayerPreferencesService.computerSkill = m_PlaneRound.getComputerSkill()
                 retVal = false
             }
         }
 
-        if (m_PlaneRound.getShowPlaneAfterKill() != m_PreferencesService.showPlaneAfterKill) {
-            if (!m_PlaneRound.setShowPlaneAfterKill(m_PreferencesService.showPlaneAfterKill)) {
-                m_PreferencesService.showPlaneAfterKill = m_PlaneRound.getShowPlaneAfterKill()
+        if (m_PlaneRound.getShowPlaneAfterKill() != m_SinglePlayerPreferencesService.showPlaneAfterKill) {
+            if (!m_PlaneRound.setShowPlaneAfterKill(m_SinglePlayerPreferencesService.showPlaneAfterKill)) {
+                m_SinglePlayerPreferencesService.showPlaneAfterKill = m_PlaneRound.getShowPlaneAfterKill()
                 retVal = false
             }
         }
 
         if (!retVal) {
-            onWarning();
+            onWarning(getString(R.string.warning_options_text))
         }
 
         return retVal
@@ -127,7 +142,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (!retVal) {
-            onWarning();
+            onWarning(getString(R.string.warning_options_text))
         }
 
         return retVal
@@ -157,22 +172,34 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun setOptions(currentSkill: Int, showPlaneAfterKill: Boolean): Boolean {
+    fun setSinglePlayerOptions(currentSkill: Int, showPlaneAfterKill: Boolean): Boolean {
         if (!setPreferencesForPlaneRound(currentSkill, showPlaneAfterKill))
             return false
-        m_PreferencesService.computerSkill = currentSkill
-        m_PreferencesService.showPlaneAfterKill = showPlaneAfterKill
+        m_SinglePlayerPreferencesService.computerSkill = currentSkill
+        m_SinglePlayerPreferencesService.showPlaneAfterKill = showPlaneAfterKill
         return true
     }
+
+    fun setMultiplayerOptions(username: String, password: String): Boolean {
+        /*TODOif (!setPreferencesForPlaneRound(currentSkill, showPlaneAfterKill))
+            return false*/
+        m_MultiplayerPreferencesService.username = username
+        m_MultiplayerPreferencesService.password = password
+        return true
+    }
+
 
     fun setFragment(addToBackStack: Boolean) {
         lateinit var newFragment:Fragment
 
         when(mSelectedItem) {
             R.id.nav_settings -> {
-                val bundle = Bundle()
-                newFragment = SettingsFragment()
-                newFragment.setArguments(bundle)
+                //TODO: check MainPreferencesService to see which Fragment to call
+                if (!m_MainPreferencesService.multiplayerVersion)
+                    newFragment = SinglePlayerSettingsFragment()
+                else
+                    newFragment = MultiplayerSettingsFragment()
+
             }
             R.id.nav_game -> {
                 newFragment = GameFragment()
@@ -196,12 +223,12 @@ class MainActivity : AppCompatActivity() {
                     .replace(R.id.main_content, newFragment)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .addToBackStack("FromMainMenu")
-                    .commit();
+                    .commit()
             else
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.main_content, newFragment)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .commit();
+                    .commit()
         }
 
         //mSelectedItem = 0
@@ -220,11 +247,23 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.main_content, newFragment)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .addToBackStack("FromHelp")
-            .commit();
+            .commit()
+    }
+
+    /**
+     * Enter multiplayer modus
+     */
+    fun restartPreferencesFragment() {
+        //TODO: this pops only one entry from the back stack
+        supportFragmentManager.popBackStack("FromMainMenu", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        mSelectedItem = R.id.nav_settings
+        setFragment(true)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        m_PreferencesService.writeToSavedInstanceState(outState)
+        m_SinglePlayerPreferencesService.writeToSavedInstanceState(outState)
+        m_MultiplayerPreferencesService.writeToSavedInstanceState(outState)
+        m_MainPreferencesService.writeToSavedInstanceState(outState)
         m_VideoSettingsService.writeToSavedInstanceState(outState)
         outState.putInt("currentFragment", mSelectedItem)
         Log.d("Planes", "onSaveInstanceState")
@@ -234,14 +273,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        m_PreferencesService.writePreferences()
+        m_SinglePlayerPreferencesService.writePreferences()
+        m_MultiplayerPreferencesService.writePreferences()
+        m_MainPreferencesService.writePreferences()
         m_VideoSettingsService.writePreferences()
         super.onStop()
         Log.d("Planes", "onStop")
     }
 
     public override fun onDestroy() {
-        m_PreferencesService.writePreferences()
+        m_SinglePlayerPreferencesService.writePreferences()
+        m_MultiplayerPreferencesService.writePreferences()
+        m_MainPreferencesService.writePreferences()
         m_VideoSettingsService.writePreferences()
         super.onDestroy()
         Log.d("Planes", "onDestroy")
@@ -270,9 +313,12 @@ class MainActivity : AppCompatActivity() {
         m_VideoSettingsService.videoPlaybackPositions = playbackPositions
     }
 
-    fun onWarning() {
+    fun onWarning(errorString: String) {
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView: View = inflater.inflate(R.layout.warning_options, null)
+
+        val textView = popupView.findViewById<TextView>(R.id.warning_options_text)
+        textView.setText(errorString)
 
         // create the popup window
         val width = LinearLayout.LayoutParams.WRAP_CONTENT
@@ -283,7 +329,7 @@ class MainActivity : AppCompatActivity() {
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(
-            findViewById<View>(R.id.options_layout) as LinearLayout,
+            findViewById<View>(R.id.coordinator_id) as LinearLayoutCompat,
             Gravity.CENTER,
             0,
             0
@@ -401,5 +447,13 @@ class MainActivity : AppCompatActivity() {
             2 -> mSelectedItem = R.id.nav_videos
             else -> mSelectedItem = R.id.nav_about
         }
+    }
+
+    fun startProgressDialog() {
+        m_ProgressBar.isVisible = true
+    }
+
+    fun stopProgressDialog() {
+        m_ProgressBar.isVisible = false
     }
 }
