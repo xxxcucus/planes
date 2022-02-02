@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,46 +12,53 @@
         android:layout_centerInParent="true">
 
         <TextView
+            android:id="@+id/login_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dip"
             android:textSize="20dp"
-            android:text="@string/username"/>
+            android:text="@string/username"
+            android:layout_centerHorizontal="true"/>
         <EditText
             android:id="@+id/username_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dip"
+            android:layout_alignLeft="@id/login_username"
+            android:layout_below="@id/login_username"
             android:text="@={settingsData.m_Username}"/>
         <TextView
+            android:id="@+id/login_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:layout_margin="10dip"
+            android:layout_alignLeft="@id/username_edittext"
+            android:layout_below="@id/username_edittext"
             android:text="@string/password"/>
         <EditText
             android:id="@+id/password_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dip"
+            android:layout_alignLeft="@id/login_password"
+            android:layout_below="@id/login_password"
             android:inputType="textPassword"
             android:text="@={settingsData.m_Password}"/>
         <CheckBox
+            android:id="@+id/secure_check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="@string/hide_password"
             android:textSize="10dp"
-            android:layout_gravity="left"
-            android:layout_marginLeft="30dp"/>
+            android:layout_alignLeft="@id/password_edittext"
+            android:layout_below="@id/password_edittext"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="@string/credentials_preferences"
             android:textSize="10dp"
-            android:layout_gravity="left"
-            android:layout_marginLeft="30dp"/>
-    </LinearLayout>
+            android:layout_alignLeft="@id/secure_check"
+            android:layout_below="@id/secure_check"/>
+    </RelativeLayout>
 
 </RelativeLayout>

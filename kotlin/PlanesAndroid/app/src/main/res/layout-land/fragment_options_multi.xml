@@ -114,7 +114,7 @@
                     android:textSize="15dp"
                     android:text="@string/savesettings"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@+id/options_multiplayer"/>
+                    android:layout_below="@id/options_multiplayer"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
