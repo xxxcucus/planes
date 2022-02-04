@@ -1,82 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="settingsData" type="com.planes.android.login.LoginViewModel"/>
+    </data>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="10dip"
-        android:layout_marginTop="10dip"
-        android:layout_marginEnd="10dip"
-        android:layout_marginBottom="10dip"
-        android:background="@color/layout_background_start"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/login_username"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal">
+            android:layout_centerInParent="true"
+            android:layout_marginStart="10dip"
+            android:layout_marginTop="10dip"
+            android:layout_marginEnd="10dip"
+            android:layout_marginBottom="10dip"
+            android:background="@color/layout_background_start"
+            android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/login_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dip"
-                android:text="@string/username"
-                android:textSize="20dp" />
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/username_edittext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dip"
-                android:text="@={settingsData.m_Username}" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dip"
+                    android:text="@string/username"
+                    android:textSize="20dp" />
 
-        <LinearLayout
-            android:id="@+id/login_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/login_username"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/username_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dip"
+                    android:text="@={settingsData.m_Username}" />
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/login_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dip"
-                android:text="@string/password"
-                android:textSize="20dp" />
+                android:layout_below="@+id/login_username"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/password_edittext"
-                android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dip"
+                    android:text="@string/password"
+                    android:textSize="20dp" />
+
+                <EditText
+                    android:id="@+id/password_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dip"
+                    android:inputType="textPassword"
+                    android:text="@={settingsData.m_Password}" />
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/secure_check"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dip"
-                android:inputType="textPassword"
-                android:text="@={settingsData.m_Password}" />
-        </LinearLayout>
+                android:layout_below="@id/login_password"
+                android:layout_alignLeft="@id/login_password"
+                android:checked="true"
+                android:text="@string/hide_password"
+                android:textSize="10dp" />
 
-        <CheckBox
-            android:id="@+id/secure_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/login_password"
-            android:layout_alignLeft="@id/login_password"
-            android:checked="true"
-            android:text="@string/hide_password"
-            android:textSize="10dp" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/secure_check"
+                android:layout_alignLeft="@id/secure_check"
+                android:text="@string/credentials_preferences"
+                android:textSize="10dp" />
+        </RelativeLayout>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/secure_check"
-            android:layout_alignLeft="@id/secure_check"
-            android:text="@string/credentials_preferences"
-            android:textSize="10dp" />
     </RelativeLayout>
-
-</RelativeLayout>
+</layout>
