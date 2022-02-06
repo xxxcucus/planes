@@ -139,7 +139,7 @@ class SinglePlayerSettingsFragment : Fragment() {
                 .doOnSubscribe { _ -> showLoading() }
                 .doOnTerminate { hideLoading() }
                 .doOnComplete { hideLoading() }
-                .subscribe({data -> checkServerVersion(data.body()!!.versionString)}
+                .subscribe({data -> checkServerVersion(data.body()!!.m_VersionString)}
                 , {error -> setVersionError(error.localizedMessage.toString())});
 
         }

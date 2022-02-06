@@ -5,15 +5,17 @@
         <variable name="settingsData" type="com.planes.android.login.LoginViewModel"/>
     </data>
     <RelativeLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/layout_background_start">
 
         <RelativeLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/layout_background_start"
+            android:layout_marginStart="10dip"
+            android:layout_marginTop="10dip"
+            android:layout_marginEnd="10dip"
+            android:layout_marginBottom="10dip"
             android:layout_centerInParent="true">
 
             <TextView
@@ -22,11 +24,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dip"
                 android:textSize="20dp"
-                android:text="@string/username"
-                android:layout_centerHorizontal="true"/>
+                android:text="@string/username" />
             <EditText
                 android:id="@+id/username_edittext"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@id/login_username"
                 android:layout_below="@id/login_username"
@@ -41,7 +42,7 @@
                 android:text="@string/password"/>
             <EditText
                 android:id="@+id/password_edittext"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@id/login_password"
                 android:layout_below="@id/login_password"
@@ -57,13 +58,20 @@
                 android:layout_alignLeft="@id/password_edittext"
                 android:layout_below="@id/password_edittext"/>
             <Button
+                android:id="@+id/credentials_preferences"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
                 android:text="@string/credentials_preferences"
                 android:textSize="10dp"
                 android:layout_alignLeft="@id/secure_check"
                 android:layout_below="@id/secure_check"/>
+            <Button
+                android:id="@+id/login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login"
+                android:layout_alignRight="@id/credentials_preferences"
+                android:layout_below="@id/credentials_preferences"/>
         </RelativeLayout>
 
     </RelativeLayout>

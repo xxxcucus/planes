@@ -1,9 +1,8 @@
 package com.planes.multiplayer_engine.responses
 
-class VersionResponse(VersionString: String) {
-    var versionString: String
+import com.google.gson.annotations.SerializedName
 
-    init {
-        versionString = VersionString
-    }
-}
+data class VersionResponse (
+    @SerializedName("versionString")
+    var m_VersionString: String
+)

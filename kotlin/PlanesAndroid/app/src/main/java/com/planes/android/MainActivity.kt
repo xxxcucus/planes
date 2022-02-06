@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.planes.android.about.AboutFragment
 import com.planes.android.game.GameFragment
+import com.planes.android.login.LoginFragment
 import com.planes.android.preferences.*
 import com.planes.android.videos.VideoFragment1
 import com.planes.android.videos.VideoSettingsService
@@ -213,6 +214,9 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.nav_about -> {
                 newFragment = AboutFragment()
+            }
+            R.id.nav_login -> {
+                newFragment = LoginFragment()
             }
         }
 

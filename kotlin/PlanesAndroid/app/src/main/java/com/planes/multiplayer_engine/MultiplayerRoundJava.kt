@@ -1,5 +1,6 @@
 package com.planes.multiplayer_engine
 
+import com.planes.multiplayer_engine.responses.LoginResponse
 import com.planes.multiplayer_engine.responses.VersionResponse
 import com.planes.single_player_engine.PlaneRound
 import com.planes.single_player_engine.PlanesRoundJava
@@ -16,6 +17,10 @@ class MultiplayerRoundJava {
 
     fun testServerVersion(): Observable<Response<VersionResponse>> {
         return global_Round!!.testServerVersion()
+    }
+
+    fun login(username: String, password: String): Observable<Response<LoginResponse>> {
+        return global_Round!!.login(username, password)
     }
 
     companion object {

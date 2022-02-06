@@ -1,5 +1,7 @@
 package com.planes.multiplayer_engine
 
+import com.planes.multiplayer_engine.requests.LoginRequest
+import com.planes.multiplayer_engine.responses.LoginResponse
 import com.planes.multiplayer_engine.responses.VersionResponse
 import io.reactivex.Observable
 import okhttp3.*
@@ -56,8 +58,8 @@ class MultiplayerRound {
             .followSslRedirects(true)
             .retryOnConnectionFailure(true)
             .followRedirects(true)
-            .addInterceptor(HTTP_HEADERS)
-            .addInterceptor(HTTP_LOGGING_INTERCEPTOR)
+            //.addInterceptor(HTTP_HEADERS)
+            //.addInterceptor(HTTP_LOGGING_INTERCEPTOR)
             .connectionSpecs(Collections.singletonList(spec))
             .build()
 
@@ -76,6 +78,10 @@ class MultiplayerRound {
 
     fun testServerVersion(): Observable<Response<VersionResponse>> {
         return m_Service.getVersion()
+    }
+
+    fun login(username: String, password: String): Observable<Response<LoginResponse>> {
+        return m_Service.login(LoginRequest(username, password))
     }
 }
 
