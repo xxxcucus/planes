@@ -12,6 +12,13 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import java.util.concurrent.TimeUnit
+import org.mindrot.jbcrypt.BCrypt
+import okhttp3.Interceptor
+
+import okhttp3.OkHttpClient
+
+
+
 
 class MultiplayerRound {
     private lateinit var m_Service: MultiplayerCommApi
@@ -31,9 +38,14 @@ class MultiplayerRound {
 
         private fun constructHeaderInterceptor(): Interceptor {
             return Interceptor {
-                val request = it.request()
+                /*val request = it.request()
                 val newRequest = request.newBuilder().addHeader(HTTP_ORIGIN_HEADER, HTTP_ORIGIN_VALUE).build()
-                it.proceed(newRequest)
+                it.proceed(newRequest)*/
+
+                val requestBuilder = it.request().newBuilder()
+                //requestBuilder.header("Content-Type", "application/json")
+                //requestBuilder.header("Accept", "application/json")
+                it.proceed(requestBuilder.build())
             }
         }
 
@@ -58,7 +70,7 @@ class MultiplayerRound {
             .followSslRedirects(true)
             .retryOnConnectionFailure(true)
             .followRedirects(true)
-            //.addInterceptor(HTTP_HEADERS)
+            .addInterceptor(HTTP_HEADERS)
             //.addInterceptor(HTTP_LOGGING_INTERCEPTOR)
             .connectionSpecs(Collections.singletonList(spec))
             .build()
@@ -81,6 +93,9 @@ class MultiplayerRound {
     }
 
     fun login(username: String, password: String): Observable<Response<LoginResponse>> {
+
+        //val bchash = BCrypt.hashpw(password, BCrypt.gensalt())
+        //return m_Service.login(LoginRequest(username, bchash))
         return m_Service.login(LoginRequest(username, password))
     }
 }

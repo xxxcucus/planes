@@ -13,7 +13,7 @@ interface MultiplayerCommApi {
     @Headers("Content-Type: application/json")
     fun getVersion(): Observable<retrofit2.Response<VersionResponse>>
 
-    @POST("login")
+    @POST("login/")
     @Headers("Content-Type: application/json")
     fun login(@Body user: LoginRequest): Observable<retrofit2.Response<LoginResponse>>
 }

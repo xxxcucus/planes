@@ -20,7 +20,6 @@ import com.planes.multiplayer_engine.responses.LoginResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Headers
-import retrofit2.http.Body
 import java.util.concurrent.TimeUnit
 
 //TODO to update accordint to google and udemy
@@ -69,8 +68,8 @@ class LoginFragment: Fragment() {
         super.onPause()
     }
 
-    fun checkAuthorization(headrs: Headers, body: LoginResponse?) {
-        var authorizationHeader = headrs["Authorization"]
+    fun checkAuthorization(code: Int, headrs: Headers, body: LoginResponse?) {
+        var authorizationHeader = headrs["Authorization"] as String
     }
 
     fun setLoginError(errorMsg: String) {
@@ -89,7 +88,7 @@ class LoginFragment: Fragment() {
                 .doOnSubscribe { _ -> showLoading() }
                 .doOnTerminate { hideLoading() }
                 .doOnComplete { hideLoading() }
-                .subscribe({data -> checkAuthorization(data.headers(), data.body())}
+                .subscribe({data -> checkAuthorization(data.code(), data.headers(), data.body())}
                     , {error -> setLoginError(error.localizedMessage.toString())});
 
     }
