@@ -18,6 +18,7 @@ import com.planes.android.preferences.MultiplayerPreferencesServiceGlobal
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.LoginResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Headers
 import java.util.concurrent.TimeUnit
@@ -31,6 +32,7 @@ class LoginFragment: Fragment() {
     private var m_LoginErrorString = ""
     private var m_PreferencesService = MultiplayerPreferencesServiceGlobal()
     private var m_MultiplayerRound = MultiplayerRoundJava()
+    private lateinit var m_LoginSubscription: Disposable
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -49,7 +51,7 @@ class LoginFragment: Fragment() {
         binding = FragmentLoginBinding.inflate(layoutInflater, container, false)  //TODO first parameter maybe inflater
         binding.settingsData = LoginViewModel(m_Username, m_Password)
         (activity as MainActivity).setActionBarTitle(getString(R.string.login))
-        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Preferences)
+        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Login)
 
         var saveSettingsButton = binding.login as Button
         saveSettingsButton.setOnClickListener(View.OnClickListener { performLogin() })
@@ -62,6 +64,9 @@ class LoginFragment: Fragment() {
 
     override fun onDetach () {
         super.onDetach()
+        hideLoading()
+        if (this::m_LoginSubscription.isInitialized)
+            m_LoginSubscription.dispose()
     }
 
     override fun onPause() {
@@ -81,7 +86,7 @@ class LoginFragment: Fragment() {
     fun performLogin() {
 
             var login = m_MultiplayerRound.login(binding.settingsData!!.m_Username, binding.settingsData!!.m_Password)
-            var m_LoginSubscription = login
+            m_LoginSubscription = login
                 .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

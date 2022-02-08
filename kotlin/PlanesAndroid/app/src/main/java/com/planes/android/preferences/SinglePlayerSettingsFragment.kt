@@ -96,6 +96,7 @@ class SinglePlayerSettingsFragment : Fragment() {
     }
 
     fun finalizeSaving() {
+        hideLoading()
         if (!m_VersionError) {
             m_MainPreferencesService.multiplayerVersion = true
             (activity as MainActivity).restartPreferencesFragment()

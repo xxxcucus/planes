@@ -22,39 +22,29 @@ import okhttp3.OkHttpClient
 
 class MultiplayerRound {
     private lateinit var m_Service: MultiplayerCommApi
+    private val OK_HTTP_CLIENT_TIMEOUT: Long = 60
+    private val HTTP_LOGGING_INTERCEPTOR = HttpLoggingInterceptor()
+    //TODO to adapt this to login requirements
+    private val HTTP_HEADERS = constructHeaderInterceptor()
+    private val HTTP_ORIGIN_HEADER = "Origin"
+    private val HTTP_ORIGIN_VALUE = "Android"
 
+    private fun constructHeaderInterceptor(): Interceptor {
+        return Interceptor {
+            /*val request = it.request()
+            val newRequest = request.newBuilder().addHeader(HTTP_ORIGIN_HEADER, HTTP_ORIGIN_VALUE).build()
+            it.proceed(newRequest)*/
 
-
-    companion object {
-
-        private const val OK_HTTP_CLIENT_TIMEOUT: Long = 60
-
-        private val HTTP_LOGGING_INTERCEPTOR = HttpLoggingInterceptor()
-        //TODO to adapt this to login requirements
-        private val HTTP_HEADERS = constructHeaderInterceptor()
-
-        private const val HTTP_ORIGIN_HEADER = "Origin"
-        private const val HTTP_ORIGIN_VALUE = "Android"
-
-        private fun constructHeaderInterceptor(): Interceptor {
-            return Interceptor {
-                /*val request = it.request()
-                val newRequest = request.newBuilder().addHeader(HTTP_ORIGIN_HEADER, HTTP_ORIGIN_VALUE).build()
-                it.proceed(newRequest)*/
-
-                val requestBuilder = it.request().newBuilder()
-                //requestBuilder.header("Content-Type", "application/json")
-                //requestBuilder.header("Accept", "application/json")
-                it.proceed(requestBuilder.build())
-            }
-        }
-
-        init {
-            HTTP_LOGGING_INTERCEPTOR.level = HttpLoggingInterceptor.Level.NONE
+            val requestBuilder = it.request().newBuilder()
+            //requestBuilder.header("Content-Type", "application/json")
+            //requestBuilder.header("Accept", "application/json")
+            it.proceed(requestBuilder.build())
         }
     }
 
     init {
+        HTTP_LOGGING_INTERCEPTOR.level = HttpLoggingInterceptor.Level.NONE
+
         var spec = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
             .tlsVersions(TlsVersion.TLS_1_2)
             .cipherSuites(
@@ -70,11 +60,10 @@ class MultiplayerRound {
             .followSslRedirects(true)
             .retryOnConnectionFailure(true)
             .followRedirects(true)
-            .addInterceptor(HTTP_HEADERS)
+            //.addInterceptor(HTTP_HEADERS)
             //.addInterceptor(HTTP_LOGGING_INTERCEPTOR)
             .connectionSpecs(Collections.singletonList(spec))
             .build()
-
 
         val retrofit = Retrofit.Builder()
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -84,9 +73,6 @@ class MultiplayerRound {
             .build()
         m_Service = retrofit.create((MultiplayerCommApi::class.java))
     }
-
-    //TODO: have to wait one second for server reply and when it does not come
-    //give error
 
     fun testServerVersion(): Observable<Response<VersionResponse>> {
         return m_Service.getVersion()
