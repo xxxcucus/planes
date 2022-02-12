@@ -59,6 +59,7 @@ class LoginFragment: Fragment() {
         var hidePasswordCheckbox = binding.secureCheck as CheckBox
         hidePasswordCheckbox.setOnCheckedChangeListener(
             CompoundButton.OnCheckedChangeListener { buttonView, isChecked -> hideShowPassword(buttonView, isChecked) })
+        //TODO: add taking taking over of username and password from preferences
         return binding.root
     }
 
@@ -74,27 +75,52 @@ class LoginFragment: Fragment() {
     }
 
     fun checkAuthorization(code: Int, headrs: Headers, body: LoginResponse?) {
-        var authorizationHeader = headrs["Authorization"] as String
+        if (headrs.get("Authorization") != null) {
+            var authorizationHeader = headrs.get("Authorization")
+            m_MultiplayerRound.setUserData(
+                binding.settingsData!!.m_Username,
+                binding.settingsData!!.m_Password,
+                authorizationHeader!!
+            )
+        } else {
+            m_LoginErrorString = getString(R.string.loginerror)
+            m_LoginError = true
+        }
+        finalizeLogin()
     }
 
     fun setLoginError(errorMsg: String) {
         m_LoginError = true
         m_LoginErrorString = errorMsg
-        //finalizeSaving()
+        finalizeLogin()
+    }
+
+    fun finalizeLogin() {
+        if (m_LoginError) {
+            (activity as MainActivity).onWarning(m_LoginErrorString)
+        } else {
+            //TODO: ask if user wants to save username and password in preferences
+        }
     }
 
     fun performLogin() {
 
-            var login = m_MultiplayerRound.login(binding.settingsData!!.m_Username, binding.settingsData!!.m_Password)
-            m_LoginSubscription = login
-                .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _ -> showLoading() }
-                .doOnTerminate { hideLoading() }
-                .doOnComplete { hideLoading() }
-                .subscribe({data -> checkAuthorization(data.code(), data.headers(), data.body())}
-                    , {error -> setLoginError(error.localizedMessage.toString())});
+        if (!this::binding.isInitialized)
+            return
+
+        m_LoginError = false
+        m_LoginErrorString = ""
+
+        var login = m_MultiplayerRound.login(binding.settingsData!!.m_Username, binding.settingsData!!.m_Password)
+        m_LoginSubscription = login
+            .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { _ -> showLoading() }
+            .doOnTerminate { hideLoading() }
+            .doOnComplete { hideLoading() }
+            .subscribe({data -> checkAuthorization(data.code(), data.headers(), data.body())}
+                , {error -> setLoginError(error.localizedMessage.toString())});
 
     }
 

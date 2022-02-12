@@ -23,6 +23,10 @@ class MultiplayerRoundJava {
         return global_Round!!.login(username, password)
     }
 
+    fun setUserData(username: String, password: String, authToken: String) {
+        global_Round!!.setUserData(username, password, authToken)
+    }
+
     companion object {
         private var global_Round: MultiplayerRound? = null
         private var global_Guess_Result = Type.Miss

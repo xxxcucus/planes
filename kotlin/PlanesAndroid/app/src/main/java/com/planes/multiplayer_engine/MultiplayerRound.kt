@@ -22,6 +22,8 @@ import okhttp3.OkHttpClient
 
 class MultiplayerRound {
     private lateinit var m_Service: MultiplayerCommApi
+    private var m_GameData: GameData = GameData()
+    private var m_UserData: UserData = UserData()
     private val OK_HTTP_CLIENT_TIMEOUT: Long = 60
     private val HTTP_LOGGING_INTERCEPTOR = HttpLoggingInterceptor()
     //TODO to adapt this to login requirements
@@ -83,6 +85,12 @@ class MultiplayerRound {
         //val bchash = BCrypt.hashpw(password, BCrypt.gensalt())
         //return m_Service.login(LoginRequest(username, bchash))
         return m_Service.login(LoginRequest(username, password))
+    }
+
+    fun setUserData(username: String, password: String, authToken: String) {
+        m_UserData.userName = username
+        m_UserData.password = password
+        m_UserData.authToken = authToken
     }
 }
 
