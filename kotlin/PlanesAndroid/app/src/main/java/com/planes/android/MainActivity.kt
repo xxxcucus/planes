@@ -64,7 +64,6 @@ class MainActivity : AppCompatActivity() {
         m_MainPreferencesService.createPreferencesService(this)
         m_MainPreferencesService.readPreferences()
 
-
         m_VideoSettingsService = VideoSettingsService(this)
         m_VideoSettingsService.readPreferences()
 
@@ -93,6 +92,11 @@ class MainActivity : AppCompatActivity() {
 
             mSelectedItem = savedInstanceState.getInt("currentFragment")
         }
+
+        if (m_MainPreferencesService.multiplayerVersion)
+            setDraweMenuMultiplayer()
+        else
+            setDraweMenuSinglePlayer()
 
         if (mSelectedItem == 0) {
             mSelectedItem = R.id.nav_game
@@ -189,6 +193,25 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    fun setDraweMenuMultiplayer() {
+        var navigationView = findViewById<NavigationView>(R.id.nav_view)
+        if (navigationView != null) {
+            var menu = navigationView.menu
+            menu.findItem(R.id.nav_login).setVisible(true)
+            menu.findItem(R.id.nav_logout).setVisible(true)
+            menu.findItem(R.id.nav_register).setVisible(true)
+        }
+    }
+
+    fun setDraweMenuSinglePlayer() {
+        var navigationView = findViewById<NavigationView>(R.id.nav_view)
+        if (navigationView != null) {
+            var menu = navigationView.menu
+            menu.findItem(R.id.nav_login).setVisible(false)
+            menu.findItem(R.id.nav_logout).setVisible(false)
+            menu.findItem(R.id.nav_register).setVisible(false)
+        }
+    }
 
     fun setFragment(addToBackStack: Boolean) {
         lateinit var newFragment:Fragment
@@ -258,7 +281,11 @@ class MainActivity : AppCompatActivity() {
      * Enter multiplayer modus
      */
     fun restartPreferencesFragment() {
-        //TODO: this pops only one entry from the back stack
+        if (m_MainPreferencesService.multiplayerVersion)
+            setDraweMenuMultiplayer()
+        else
+            setDraweMenuSinglePlayer()
+
         supportFragmentManager.popBackStack("FromMainMenu", FragmentManager.POP_BACK_STACK_INCLUSIVE)
         mSelectedItem = R.id.nav_settings
         setFragment(true)
