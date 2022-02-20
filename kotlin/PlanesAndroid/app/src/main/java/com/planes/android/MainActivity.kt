@@ -476,7 +476,9 @@ class MainActivity : AppCompatActivity() {
             0 -> mSelectedItem = R.id.nav_settings
             1 -> mSelectedItem = R.id.nav_game
             2 -> mSelectedItem = R.id.nav_videos
-            else -> mSelectedItem = R.id.nav_about
+            3 -> mSelectedItem = R.id.nav_about
+            4 -> mSelectedItem = R.id.nav_login
+            else -> mSelectedItem = R.id.nav_game
         }
     }
 
