@@ -4,41 +4,38 @@
     <data>
         <variable name="settingsData" type="com.planes.android.login.LoginViewModel"/>
     </data>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/layout_background_start">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
             android:background="@color/layout_background_start">
 
             <TextView
                 android:id="@+id/login_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dip"
-                android:layout_centerHorizontal="true"
                 android:textSize="20dp"
                 android:text="@string/username" />
             <EditText
                 android:id="@+id/username_edittext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/login_username"
-                android:layout_below="@id/login_username"
                 android:text="@={settingsData.m_Username}"/>
             <TextView
                 android:id="@+id/login_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
-                android:layout_alignLeft="@id/username_edittext"
-                android:layout_below="@id/username_edittext"
                 android:text="@string/password"/>
             <EditText
                 android:id="@+id/password_edittext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/login_password"
-                android:layout_below="@id/login_password"
                 android:inputType="textPassword"
                 android:text="@={settingsData.m_Password}"/>
             <CheckBox
@@ -46,26 +43,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
+                android:layout_margin="10dip"
                 android:text="@string/hide_password"
-                android:textSize="10dp"
-                android:layout_alignLeft="@id/password_edittext"
-                android:layout_below="@id/password_edittext"/>
+                android:textSize="10dp"/>
             <Button
                 android:id="@+id/credentials_preferences"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/credentials_preferences"
-                android:textSize="10dp"
-                android:layout_alignLeft="@id/secure_check"
-                android:layout_below="@id/secure_check"/>
+                android:textSize="10dp"/>
             <Button
                 android:id="@+id/login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/login"
-                android:layout_alignRight="@id/credentials_preferences"
-                android:layout_below="@id/credentials_preferences"/>
-        </RelativeLayout>
-
-
+                android:text="@string/submit"/>
+        </LinearLayout>
+    </RelativeLayout>
 </layout>
