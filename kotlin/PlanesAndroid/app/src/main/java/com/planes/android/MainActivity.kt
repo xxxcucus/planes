@@ -1,6 +1,7 @@
 package com.planes.android
 
 import android.content.res.Configuration
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -201,6 +202,12 @@ class MainActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_logout).setVisible(true)
             menu.findItem(R.id.nav_register).setVisible(true)
         }
+        val header = navigationView.getHeaderView(0)
+        var versionTextView = header.findViewById<TextView>(R.id.version_header)
+        var userTextView = header.findViewById<TextView>(R.id.user_header)
+        versionTextView.setText(getString(R.string.multiplayergame))
+        userTextView.visibility = View.VISIBLE
+        userTextView.setText(getString(R.string.nouser))
     }
 
     fun setDraweMenuSinglePlayer() {
@@ -211,6 +218,11 @@ class MainActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_logout).setVisible(false)
             menu.findItem(R.id.nav_register).setVisible(false)
         }
+        val header = navigationView.getHeaderView(0)
+        var versionTextView = header.findViewById<TextView>(R.id.version_header)
+        var userTextView = header.findViewById<TextView>(R.id.user_header)
+        versionTextView.setText(getString(R.string.singleplayergame))
+        userTextView.visibility = View.GONE
     }
 
     fun setFragment(addToBackStack: Boolean) {
