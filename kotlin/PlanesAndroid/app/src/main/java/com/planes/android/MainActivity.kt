@@ -23,6 +23,7 @@ import com.planes.android.login.LoginFragment
 import com.planes.android.preferences.*
 import com.planes.android.videos.VideoFragment1
 import com.planes.android.videos.VideoSettingsService
+import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.single_player_engine.GameStages
 import com.planes.single_player_engine.PlanesRoundJava
 
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
     private lateinit var m_PlaneRound: PlanesRoundInterface
+    private lateinit var m_MultiplayerRound: MultiplayerRoundInterface
     private var m_SinglePlayerPreferencesService = SinglePlayerPreferencesServiceGlobal()
     private var m_MultiplayerPreferencesService = MultiplayerPreferencesServiceGlobal()
     private var m_MainPreferencesService = MainPreferencesServiceGlobal()
@@ -53,7 +55,8 @@ class MainActivity : AppCompatActivity() {
         m_PlaneRound = PlanesRoundJava()
         (m_PlaneRound as PlanesRoundJava).createPlanesRound()
 
-        //TODO: create multiplayer round
+        m_MultiplayerRound = MultiplayerRoundJava()
+        (m_MultiplayerRound as MultiplayerRoundJava).createPlanesRound()
 
         m_SinglePlayerPreferencesService.createPreferencesService(this)
         m_SinglePlayerPreferencesService.readPreferences()
@@ -202,12 +205,22 @@ class MainActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_logout).setVisible(true)
             menu.findItem(R.id.nav_register).setVisible(true)
         }
+
+        setUsernameDrawerMenuMultiplayer()
+    }
+
+    fun setUsernameDrawerMenuMultiplayer() {
+        var navigationView = findViewById<NavigationView>(R.id.nav_view)
         val header = navigationView.getHeaderView(0)
         var versionTextView = header.findViewById<TextView>(R.id.version_header)
         var userTextView = header.findViewById<TextView>(R.id.user_header)
         versionTextView.setText(getString(R.string.multiplayergame))
         userTextView.visibility = View.VISIBLE
-        userTextView.setText(getString(R.string.nouser))
+        var username = m_MultiplayerRound.getUsername()
+        if (username.isNullOrEmpty())
+            userTextView.setText(getString(R.string.nouser))
+        else
+            userTextView.setText(username)
     }
 
     fun setDraweMenuSinglePlayer() {

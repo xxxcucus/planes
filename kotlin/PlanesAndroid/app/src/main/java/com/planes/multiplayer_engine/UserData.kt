@@ -9,7 +9,7 @@ class UserData {
 
     var userName: String
         get() = m_UserName
-        set(value) { m_UserName = userName }
+        set(value) { m_UserName = value }
 
     var password: String
         get() = m_UserPassword

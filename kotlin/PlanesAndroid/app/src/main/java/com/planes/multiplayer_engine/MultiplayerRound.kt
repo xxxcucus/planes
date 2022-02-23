@@ -92,5 +92,9 @@ class MultiplayerRound {
         m_UserData.password = password
         m_UserData.authToken = authToken
     }
+
+    fun getUsername() : String {
+        return m_UserData.userName
+    }
 }
 

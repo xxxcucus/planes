@@ -77,8 +77,9 @@ class LoginFragment: Fragment() {
     fun checkAuthorization(code: Int, headrs: Headers, body: LoginResponse?) {
         if (headrs.get("Authorization") != null) {
             var authorizationHeader = headrs.get("Authorization")
+            //TODO: should Bearer be removed from token?
             m_MultiplayerRound.setUserData(
-                binding.settingsData!!.m_Username,
+                binding.settingsData!!.m_Username.trim(),
                 binding.settingsData!!.m_Password,
                 authorizationHeader!!
             )
@@ -99,6 +100,7 @@ class LoginFragment: Fragment() {
         if (m_LoginError) {
             (activity as MainActivity).onWarning(m_LoginErrorString)
         } else {
+            (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
             //TODO: ask if user wants to save username and password in preferences
         }
     }
@@ -111,7 +113,9 @@ class LoginFragment: Fragment() {
         m_LoginError = false
         m_LoginErrorString = ""
 
-        var login = m_MultiplayerRound.login(binding.settingsData!!.m_Username, binding.settingsData!!.m_Password)
+        //TODO: validation of username and password
+
+        var login = m_MultiplayerRound.login(binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password)
         m_LoginSubscription = login
             .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
             .subscribeOn(Schedulers.io())
