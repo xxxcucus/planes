@@ -18,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/warning_options_title"
+        android:layout_margin="10dp"
         android:text="@string/warning_options_text"
         android:textSize="15dp"/>
 

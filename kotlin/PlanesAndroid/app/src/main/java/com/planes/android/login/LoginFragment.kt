@@ -10,12 +10,15 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import androidx.fragment.app.Fragment
+import com.google.gson.Gson
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
+import com.planes.android.Tools
 import com.planes.android.databinding.FragmentLoginBinding
 import com.planes.android.preferences.MultiplayerPreferencesServiceGlobal
 import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.responses.ErrorResponse
 import com.planes.multiplayer_engine.responses.LoginResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -59,7 +62,14 @@ class LoginFragment: Fragment() {
         var hidePasswordCheckbox = binding.secureCheck as CheckBox
         hidePasswordCheckbox.setOnCheckedChangeListener(
             CompoundButton.OnCheckedChangeListener { buttonView, isChecked -> hideShowPassword(buttonView, isChecked) })
-        //TODO: add taking taking over of username and password from preferences
+
+        var useCredentialFromPrefsButton = binding.credentialsPreferences
+        useCredentialFromPrefsButton.setOnClickListener {
+            binding.settingsData!!.m_Password = m_PreferencesService.password
+            binding.settingsData!!.m_Username = m_PreferencesService.username
+            binding.invalidateAll()
+        }
+
         return binding.root
     }
 
@@ -74,7 +84,7 @@ class LoginFragment: Fragment() {
         super.onPause()
     }
 
-    fun checkAuthorization(code: Int, headrs: Headers, body: LoginResponse?) {
+    fun checkAuthorization(code: Int, jsonErrorString: String?, headrs: Headers, body: LoginResponse?) {
         if (headrs.get("Authorization") != null) {
             var authorizationHeader = headrs.get("Authorization")
             //TODO: should Bearer be removed from token?
@@ -84,7 +94,17 @@ class LoginFragment: Fragment() {
                 authorizationHeader!!
             )
         } else {
-            m_LoginErrorString = getString(R.string.loginerror)
+            if (jsonErrorString != null) {
+                var gson = Gson()
+                var errorResponse = gson?.fromJson(jsonErrorString, ErrorResponse::class.java)
+
+                if (errorResponse != null)
+                    m_LoginErrorString = getString(R.string.loginerror) + ":" + errorResponse.m_Message + "(" + errorResponse.m_Status + ")"
+                else
+                    m_LoginErrorString = getString(R.string.loginerror) + ":" + getString(R.string.unknownerror)
+            } else {
+                m_LoginErrorString = getString(R.string.loginerror) + ":" + getString(R.string.unknownerror)
+            }
             m_LoginError = true
         }
         finalizeLogin()
@@ -123,9 +143,8 @@ class LoginFragment: Fragment() {
             .doOnSubscribe { _ -> showLoading() }
             .doOnTerminate { hideLoading() }
             .doOnComplete { hideLoading() }
-            .subscribe({data -> checkAuthorization(data.code(), data.headers(), data.body())}
+            .subscribe({data -> checkAuthorization(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
                 , {error -> setLoginError(error.localizedMessage.toString())});
-
     }
 
     fun hideShowPassword(buttonView: CompoundButton, isChecked: Boolean) {

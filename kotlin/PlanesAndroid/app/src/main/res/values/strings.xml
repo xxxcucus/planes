@@ -108,6 +108,7 @@
     <string name="nouser">No user logged in</string>
     <string name="singleplayergame">Single Player Game</string>
     <string name="multiplayergame">Multiplayer Game</string>
+    <string name="unknownerror"> Unknown Error</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">
