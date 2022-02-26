@@ -109,6 +109,10 @@
     <string name="singleplayergame">Single Player Game</string>
     <string name="multiplayergame">Multiplayer Game</string>
     <string name="unknownerror"> Unknown Error</string>
+    <string name="loginsuccess"> Login Successful</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="savecredentials_question">Do you want to save the username and password in your Preferences ? You can reuse them with a simple touch next time when you login.</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">

@@ -447,6 +447,55 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun showSaveCredentialsPopup(username: String, password: String) {
+
+        if (m_MultiplayerPreferencesService.username == username && m_MultiplayerPreferencesService.password == password) {
+            val text = getString(R.string.loginsuccess)
+            val duration = Toast.LENGTH_SHORT
+
+            val toast = Toast.makeText(applicationContext, text, duration)
+            toast.show()
+
+            return
+        }
+
+        // inflate the layout of the popup window
+        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView = inflater.inflate(R.layout.savecredentials_popup, null)
+
+        // create the popup window
+        val width = LinearLayout.LayoutParams.WRAP_CONTENT
+        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+        val focusable = true // lets taps outside the popup also dismiss it
+        val popupWindow = PopupWindow(popupView, width, height, focusable)
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(m_DrawerLayout, Gravity.CENTER, 0, 0)
+        val helpTextView = popupView.findViewById(R.id.savecredentials_text) as TextView
+        val helpTitleTextView = popupView.findViewById(R.id.savecredentials_title) as TextView
+
+        val yesButton = popupView.findViewById(R.id.savecredentials_yes_button) as Button
+        val noButton = popupView.findViewById(R.id.savecredentials_no_button) as Button
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener { v, event ->
+            popupWindow.dismiss()
+            true
+        }
+
+        noButton.setOnClickListener {
+            popupWindow.dismiss()
+        }
+
+        yesButton.setOnClickListener {
+            m_MultiplayerPreferencesService.username = username
+            m_MultiplayerPreferencesService.password = password
+            popupWindow.dismiss()
+        }
+
+    }
+
     fun showHelpGameFragment(popupWindow: PopupWindow, helpTextView: TextView, helpTitleTextView: TextView, helpButton: Button) {
         var gameStage = m_PlaneRound.getGameStage()
         when (gameStage) {

@@ -93,6 +93,10 @@ class LoginFragment: Fragment() {
                 binding.settingsData!!.m_Password,
                 authorizationHeader!!
             )
+            (activity as MainActivity).showSaveCredentialsPopup(binding.settingsData!!.m_Username.trim(),
+                binding.settingsData!!.m_Password,
+            )
+
         } else {
             if (jsonErrorString != null) {
                 var gson = Gson()
