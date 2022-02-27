@@ -88,6 +88,7 @@ class LoginFragment: Fragment() {
         if (headrs.get("Authorization") != null) {
             var authorizationHeader = headrs.get("Authorization")
             //TODO: should Bearer be removed from token?
+
             m_MultiplayerRound.setUserData(
                 binding.settingsData!!.m_Username.trim(),
                 binding.settingsData!!.m_Password,
@@ -125,7 +126,6 @@ class LoginFragment: Fragment() {
             (activity as MainActivity).onWarning(m_LoginErrorString)
         } else {
             (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
-            //TODO: ask if user wants to save username and password in preferences
         }
     }
 
@@ -137,7 +137,10 @@ class LoginFragment: Fragment() {
         m_LoginError = false
         m_LoginErrorString = ""
 
-        //TODO: validation of username and password
+        if (!validationUsernamePasswordLogin(binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password)) {
+            finalizeLogin()
+            return
+        }
 
         var login = m_MultiplayerRound.login(binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password)
         m_LoginSubscription = login
@@ -168,5 +171,32 @@ class LoginFragment: Fragment() {
 
     fun hideLoading() {
         (activity as MainActivity).stopProgressDialog()
+    }
+
+    fun validationUsernamePasswordLogin(username: String, password: String) : Boolean {
+        var retString = ""
+
+        if (username.length > 30) {
+            retString += " " + getString(R.string.validation_toolong_login_username)
+        }
+
+        if (username.isNullOrEmpty()) {
+            retString += " " + getString(R.string.validation_empty_login_username)
+        }
+
+        if (password.length > 30) {
+            retString += " " + getString(R.string.validation_toolong_login_password)
+        }
+
+        if (password.isNullOrEmpty()) {
+            retString += " " + getString(R.string.validation_empty_login_password)
+        }
+
+        if (!retString.isNullOrEmpty()) {
+            m_LoginError = true
+            m_LoginErrorString = retString
+            return false
+        }
+        return true
     }
 }

@@ -113,6 +113,10 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="savecredentials_question">Do you want to save the username and password in your Preferences ? You can reuse them with a simple touch next time when you login.</string>
+    <string name="validation_toolong_login_username"> User name longer as 30 characters.</string>
+    <string name="validation_toolong_login_password"> Password longer as 30 characters.</string>
+    <string name="validation_empty_login_username"> User name is empty.</string>
+    <string name="validation_empty_login_password"> Password is empty.</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">
