@@ -2,6 +2,7 @@ package com.planes.multiplayer_engine
 
 import com.planes.android.MultiplayerRoundInterface
 import com.planes.multiplayer_engine.responses.LoginResponse
+import com.planes.multiplayer_engine.responses.RegistrationResponse
 import com.planes.multiplayer_engine.responses.VersionResponse
 import com.planes.single_player_engine.PlaneRound
 import com.planes.single_player_engine.PlanesRoundJava
@@ -30,6 +31,14 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
 
     override fun getUsername(): String {
         return global_Round!!.getUsername()
+    }
+
+    override fun register(username: String, password: String): Observable<Response<RegistrationResponse>> {
+        return global_Round!!.register(username, password)
+    }
+
+    override fun setRegistrationResponse(regResp: RegistrationResponse) {
+
     }
 
     companion object {

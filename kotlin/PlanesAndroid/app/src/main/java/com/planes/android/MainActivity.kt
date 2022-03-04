@@ -20,6 +20,7 @@ import com.google.android.material.navigation.NavigationView
 import com.planes.android.about.AboutFragment
 import com.planes.android.game.GameFragment
 import com.planes.android.login.LoginFragment
+import com.planes.android.register.RegisterFragment
 import com.planes.android.preferences.*
 import com.planes.android.videos.VideoFragment1
 import com.planes.android.videos.VideoSettingsService
@@ -265,6 +266,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.nav_login -> {
                 newFragment = LoginFragment()
+            }
+
+            R.id.nav_register -> {
+                newFragment = RegisterFragment()
             }
         }
 
@@ -547,11 +552,12 @@ class MainActivity : AppCompatActivity() {
 
     fun setCurrentFragmentId(curFragment: ApplicationScreens) {
         when(curFragment.value) {
-            0 -> mSelectedItem = R.id.nav_settings
-            1 -> mSelectedItem = R.id.nav_game
-            2 -> mSelectedItem = R.id.nav_videos
-            3 -> mSelectedItem = R.id.nav_about
-            4 -> mSelectedItem = R.id.nav_login
+            ApplicationScreens.Preferences.value -> mSelectedItem = R.id.nav_settings
+            ApplicationScreens.Game.value -> mSelectedItem = R.id.nav_game
+            ApplicationScreens.Videos.value -> mSelectedItem = R.id.nav_videos
+            ApplicationScreens.About.value -> mSelectedItem = R.id.nav_about
+            ApplicationScreens.Login.value -> mSelectedItem = R.id.nav_login
+            ApplicationScreens.Register.value -> mSelectedItem = R.id.nav_register
             else -> mSelectedItem = R.id.nav_game
         }
     }

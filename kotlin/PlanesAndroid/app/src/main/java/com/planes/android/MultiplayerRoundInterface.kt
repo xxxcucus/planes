@@ -1,6 +1,8 @@
 package com.planes.android
 
+import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.LoginResponse
+import com.planes.multiplayer_engine.responses.RegistrationResponse
 import com.planes.multiplayer_engine.responses.VersionResponse
 import io.reactivex.Observable
 import retrofit2.Response
@@ -15,5 +17,9 @@ interface MultiplayerRoundInterface {
     fun setUserData(username: String, password: String, authToken: String)
 
     fun getUsername(): String
+
+    fun register(username: String, password: String): Observable<Response<RegistrationResponse>>
+
+    fun setRegistrationResponse(regResp: RegistrationResponse)
 
 }

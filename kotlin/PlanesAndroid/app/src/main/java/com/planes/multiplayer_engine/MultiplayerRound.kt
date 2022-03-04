@@ -1,7 +1,9 @@
 package com.planes.multiplayer_engine
 
 import com.planes.multiplayer_engine.requests.LoginRequest
+import com.planes.multiplayer_engine.requests.RegistrationRequest
 import com.planes.multiplayer_engine.responses.LoginResponse
+import com.planes.multiplayer_engine.responses.RegistrationResponse
 import com.planes.multiplayer_engine.responses.VersionResponse
 import io.reactivex.Observable
 import okhttp3.*
@@ -24,6 +26,7 @@ class MultiplayerRound {
     private lateinit var m_Service: MultiplayerCommApi
     private var m_GameData: GameData = GameData()
     private var m_UserData: UserData = UserData()
+    private lateinit var m_RegistrationData: RegistrationResponse
     private val OK_HTTP_CLIENT_TIMEOUT: Long = 60
     private val HTTP_LOGGING_INTERCEPTOR = HttpLoggingInterceptor()
     //TODO to adapt this to login requirements
@@ -95,6 +98,15 @@ class MultiplayerRound {
 
     fun getUsername() : String {
         return m_UserData.userName
+    }
+
+    fun register(username: String, password: String): Observable<Response<RegistrationResponse>> {
+        val bchash = BCrypt.hashpw(password, BCrypt.gensalt())
+        return m_Service.register(RegistrationRequest(username, bchash))
+    }
+
+    fun setRegistrationResponse(regResp: RegistrationResponse) {
+        m_RegistrationData = regResp
     }
 }
 

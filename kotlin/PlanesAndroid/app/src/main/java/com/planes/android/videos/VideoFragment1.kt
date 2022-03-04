@@ -78,6 +78,7 @@ class VideoFragment1 : Fragment() {
         return (activity as MainActivity).isTablet()
     }
 
+    //TODO: currently not used ?
     private fun setDimension(isHorizontal: Boolean, videoRatio: Float) {
         val videoProportion: Float = videoRatio
         val screenWidth = if (!isHorizontal)  resources.displayMetrics.widthPixels else resources.displayMetrics.widthPixels * 6 / 10

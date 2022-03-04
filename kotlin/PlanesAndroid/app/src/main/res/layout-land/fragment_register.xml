@@ -70,7 +70,7 @@
                 android:text="@string/hide_password"
                 android:textSize="10dp" />
             <Button
-                android:id="@+id/login"
+                android:id="@+id/register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/submit"
