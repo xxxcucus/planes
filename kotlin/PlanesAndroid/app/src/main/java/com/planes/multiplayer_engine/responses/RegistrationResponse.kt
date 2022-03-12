@@ -13,21 +13,21 @@ data class RegistrationResponse (
     @SerializedName("question")
     var m_Question: String,
     @SerializedName("image_id_1")
-    val m_Image_id_1: String,
+    val m_ImageId_1: String,
     @SerializedName("image_id_2")
-    val m_Image_id_2: String,
+    val m_ImageId_2: String,
     @SerializedName("image_id_3")
-    val m_Image_id_3: String,
+    val m_ImageId_3: String,
     @SerializedName("image_id_4")
-    val m_Image_id_4: String,
+    val m_ImageId_4: String,
     @SerializedName("image_id_5")
-    val m_Image_id_5: String,
+    val m_ImageId_5: String,
     @SerializedName("image_id_6")
-    val m_Image_id_6: String,
+    val m_ImageId_6: String,
     @SerializedName("image_id_7")
-    val image_id_7: String,
+    val m_ImageId_7: String,
     @SerializedName("image_id_8")
-    val image_id_8: String,
+    val m_ImageId_8: String,
     @SerializedName("image_id_9")
-    val image_id_9: String
+    val m_ImageId_9: String
 )

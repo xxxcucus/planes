@@ -108,5 +108,9 @@ class MultiplayerRound {
     fun setRegistrationResponse(regResp: RegistrationResponse) {
         m_RegistrationData = regResp
     }
+
+    fun getRegistrationResponse(): RegistrationResponse {
+        return m_RegistrationData
+    }
 }
 

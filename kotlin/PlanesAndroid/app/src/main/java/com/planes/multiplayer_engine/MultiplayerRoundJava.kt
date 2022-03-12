@@ -38,8 +38,13 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
     }
 
     override fun setRegistrationResponse(regResp: RegistrationResponse) {
-
+        global_Round!!.setRegistrationResponse(regResp)
     }
+
+    override fun getRegistrationResponse(): RegistrationResponse {
+        return global_Round!!.getRegistrationResponse()
+    }
+
 
     companion object {
         private var global_Round: MultiplayerRound? = null

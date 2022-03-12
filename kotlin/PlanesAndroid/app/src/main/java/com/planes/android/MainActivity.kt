@@ -22,9 +22,11 @@ import com.planes.android.game.GameFragment
 import com.planes.android.login.LoginFragment
 import com.planes.android.register.RegisterFragment
 import com.planes.android.preferences.*
+import com.planes.android.register.NoRobotFragment
 import com.planes.android.videos.VideoFragment1
 import com.planes.android.videos.VideoSettingsService
 import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.responses.RegistrationResponse
 import com.planes.single_player_engine.GameStages
 import com.planes.single_player_engine.PlanesRoundJava
 
@@ -568,5 +570,28 @@ class MainActivity : AppCompatActivity() {
 
     fun stopProgressDialog() {
         m_ProgressBar.isVisible = false
+    }
+
+    fun startNoRobotFragment(regResp : RegistrationResponse) {
+
+        mSelectedItem = R.id.nav_register   //TODO: do I need this here ?
+
+        var newFragment = NoRobotFragment()
+        val bundle = Bundle()
+        bundle.putString("norobot/requestid", regResp.m_Id)
+        bundle.putString("norobot/question", regResp.m_Question)
+
+        var images =  arrayOf(regResp.m_ImageId_1, regResp.m_ImageId_2, regResp.m_ImageId_3, regResp.m_ImageId_4, regResp.m_ImageId_5,
+            regResp.m_ImageId_6, regResp.m_ImageId_7, regResp.m_ImageId_8, regResp.m_ImageId_9)
+
+        bundle.putSerializable("norobot/images", images)
+
+        newFragment.setArguments(bundle)
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_content, newFragment)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .commit()
+
     }
 }

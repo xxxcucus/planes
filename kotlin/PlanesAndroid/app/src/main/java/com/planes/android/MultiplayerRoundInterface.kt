@@ -22,4 +22,5 @@ interface MultiplayerRoundInterface {
 
     fun setRegistrationResponse(regResp: RegistrationResponse)
 
+    fun getRegistrationResponse(): RegistrationResponse
 }

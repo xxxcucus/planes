@@ -122,6 +122,9 @@
     <string name="validation_tooshort_register_username"> User name shorter as 5 characters </string>
     <string name="validation_tooshort_register_password"> Password shorter as 5 characters </string>
     <string name="unknown_registration_error"> Error when registering </string>
+    <string name="norobot_question"> Mark all images corresponding to category: </string>
+    <string name="norobot_cat"> Cat </string>
+    <string name="norobot_dog"> Dog </string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">

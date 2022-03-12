@@ -108,8 +108,7 @@ class RegisterFragment: Fragment() {
         if (m_RegisterError) {
             (activity as MainActivity).onWarning(m_RegisterErrorString)
         } else {
-            //(activity as MainActivity).setUsernameDrawerMenuMultiplayer()
-            //TODO: call norobot fragment
+            (activity as MainActivity).startNoRobotFragment(m_MultiplayerRound.getRegistrationResponse())
         }
     }
 
