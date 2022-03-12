@@ -51,7 +51,7 @@ class LoginFragment: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentLoginBinding.inflate(layoutInflater, container, false)  //TODO first parameter maybe inflater
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
         binding.settingsData = LoginViewModel(m_Username, m_Password)
         (activity as MainActivity).setActionBarTitle(getString(R.string.login))
         (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Login)

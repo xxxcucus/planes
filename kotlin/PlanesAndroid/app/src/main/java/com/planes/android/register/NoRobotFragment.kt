@@ -76,7 +76,7 @@ class NoRobotFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        initializePhotos()
+        initializePhotos()  //TODO: should it be here ?
         preparePhotosList()
     }
 

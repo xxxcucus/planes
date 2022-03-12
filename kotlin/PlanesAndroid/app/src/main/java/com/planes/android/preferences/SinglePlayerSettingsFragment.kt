@@ -48,7 +48,7 @@ class SinglePlayerSettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentOptionsSingleBinding.inflate(layoutInflater, container, false)
+        binding = FragmentOptionsSingleBinding.inflate(inflater, container, false)
         m_InitialComputerSkill = m_PreferencesService.computerSkill
         m_InitialShowPlaneAfterKill = m_PreferencesService.showPlaneAfterKill
         m_InitialMultiplayerVersion = m_MainPreferencesService.multiplayerVersion

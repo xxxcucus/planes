@@ -42,7 +42,7 @@ class MultiplayerSettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentOptionsMultiBinding.inflate(layoutInflater, container, false)  //TODO first parameter maybe inflater
+        binding = FragmentOptionsMultiBinding.inflate(inflater, container, false)  //TODO first parameter maybe inflater
         m_InitialUsername = m_PreferencesService.username
         m_InitialPassword = m_PreferencesService.password
         m_InitialMultiplayerVersion = m_MainPreferencesService.multiplayerVersion

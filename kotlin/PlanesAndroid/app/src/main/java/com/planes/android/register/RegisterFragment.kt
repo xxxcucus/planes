@@ -46,7 +46,7 @@ class RegisterFragment: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentRegisterBinding.inflate(layoutInflater, container, false)  //TODO first parameter maybe inflater
+        binding = FragmentRegisterBinding.inflate(inflater, container, false)  //TODO first parameter maybe inflater
         binding.settingsData = RegisterViewModel(m_Username, m_Password)
         (activity as MainActivity).setActionBarTitle(getString(R.string.register))
         (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Register)
