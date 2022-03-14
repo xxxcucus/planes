@@ -98,13 +98,10 @@ class NoRobotFragment : Fragment() {
         return  rootview
     }
 
-    fun onPhotoItemClick(position: Int) {
-
-    }
 
     private fun preparePhotosList() {
         m_PhotosList = m_Images.map { imageid -> PhotoModel(m_ImagesMapping[imageid]!!, false)}
-        m_PhotosAdapter = PhotoAdapter({position -> onPhotoItemClick(position)}, m_PhotosList)
+        m_PhotosAdapter = PhotoAdapter(m_PhotosList)
         m_PhotosAdapter.notifyDataSetChanged()
     }
 
