@@ -6,12 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.VideoView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
@@ -87,7 +85,16 @@ class NoRobotFragment : Fragment() {
         var rootview = inflater.inflate(R.layout.fragment_norobot, container, false)
         val recyclerView: RecyclerView = rootview.findViewById(R.id.recyclerView)
 
-        var mLayoutManager = if (isHorizontal()) GridLayoutManager(activity,3) else GridLayoutManager(activity,2)
+        var questionTextView = rootview.findViewById(R.id.question_text) as TextView
+
+        var questionDogText = getString(R.string.norobot_dog)
+        var questionCatText = getString(R.string.norobot_cat)
+        var question = if (m_Question == questionDogText) questionDogText
+                        else if (m_Question == questionCatText) questionCatText
+                          else m_Question
+            questionTextView.setText(getString(R.string.norobot_question) + " " + question)
+
+        var mLayoutManager = if (isHorizontal()) StaggeredGridLayoutManager(3, 1) else StaggeredGridLayoutManager(2, 1)
         recyclerView.layoutManager = mLayoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = m_PhotosAdapter
@@ -144,5 +151,6 @@ class NoRobotFragment : Fragment() {
         m_RequestId = requireArguments().getString("norobot/requestid")!!.toLong()
         m_Images = requireArguments().getSerializable("norobot/images") as Array<String>
         m_Question = requireArguments().getString("norobot/question")!!
+
     }
 }

@@ -3,12 +3,14 @@
     android:id="@+id/norobot_root"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:gravity="center">
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:background="@drawable/norobot_background">
+        android:background="@drawable/norobot_background"
+        android:gravity="center">
         <ImageView
             android:id="@+id/image"
             android:layout_width="match_parent"
