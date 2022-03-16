@@ -19,6 +19,9 @@
             android:icon="@drawable/ic_baseline_recent_actors_24"
             android:title="@string/register"/>
         <item
+            android:id="@+id/nav_norobot"
+            android:visible="false"/>
+        <item
             android:id="@+id/nav_videos"
             android:icon="@drawable/ic_baseline_video_library_24"
             android:title="@string/videos"/>

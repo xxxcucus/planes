@@ -3,12 +3,13 @@ package com.planes.android.videos
 import android.content.Context
 import android.os.Bundle
 import com.google.gson.Gson
+import com.planes.android.preferences.IPreferencesService
 
-class VideoSettingsService internal constructor(private val m_Context: Context) {
-    var currentVideo: Int = 0
-    lateinit var videoPlaybackPositions: IntArray
+class VideoSettingsService internal constructor(private val m_Context: Context) : IVideoSettingsService {
+    override var currentVideo: Int = 0
+    override lateinit var videoPlaybackPositions: IntArray
 
-    fun readPreferences() {
+    override fun readPreferences() {
         val gson = Gson()
         val sp = m_Context.getSharedPreferences("videosettings", Context.MODE_PRIVATE)
         currentVideo = sp.getInt("currentVideo", 0)
@@ -20,12 +21,12 @@ class VideoSettingsService internal constructor(private val m_Context: Context) 
             videoPlaybackPositions = IntArray(4){ 0 }
     }
 
-    fun readFromSavedInstanceState(savedInstanceState: Bundle) {
+    override fun readFromSavedInstanceState(savedInstanceState: Bundle) {
         currentVideo = savedInstanceState.getInt("videosettings/currentVideo")
         videoPlaybackPositions = savedInstanceState.getSerializable("videosettings/videoPlaybackPositions") as IntArray
     }
 
-    fun writePreferences() {
+    override fun writePreferences() {
         val gson = Gson()
         val sp = m_Context.getSharedPreferences("videosettings", Context.MODE_PRIVATE).edit()
         sp.putInt("currentVideo", currentVideo)
@@ -33,7 +34,7 @@ class VideoSettingsService internal constructor(private val m_Context: Context) 
         sp.commit()
     }
 
-    fun writeToSavedInstanceState(savedInstanceState: Bundle) {
+    override fun writeToSavedInstanceState(savedInstanceState: Bundle) {
         savedInstanceState.putInt("videosettings/currentVideo", currentVideo)
         savedInstanceState.putSerializable("videosettings/videoPlaybackPositions", videoPlaybackPositions)
     }

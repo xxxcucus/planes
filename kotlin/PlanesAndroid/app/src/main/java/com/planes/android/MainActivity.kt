@@ -23,6 +23,7 @@ import com.planes.android.login.LoginFragment
 import com.planes.android.register.RegisterFragment
 import com.planes.android.preferences.*
 import com.planes.android.register.NoRobotFragment
+import com.planes.android.register.NoRobotSettingsService
 import com.planes.android.videos.VideoFragment1
 import com.planes.android.videos.VideoSettingsService
 import com.planes.multiplayer_engine.MultiplayerRoundJava
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private var m_MultiplayerPreferencesService = MultiplayerPreferencesServiceGlobal()
     private var m_MainPreferencesService = MainPreferencesServiceGlobal()
     private lateinit var m_VideoSettingsService: VideoSettingsService
+    private lateinit var m_NoRobotSettingsService: NoRobotSettingsService
     private var mSelectedItem = 0
     private lateinit var m_DrawerLayout: DrawerLayout
     private lateinit var m_ProgressBar: ProgressBar
@@ -73,6 +75,8 @@ class MainActivity : AppCompatActivity() {
 
         m_VideoSettingsService = VideoSettingsService(this)
         m_VideoSettingsService.readPreferences()
+
+        m_NoRobotSettingsService = NoRobotSettingsService()
 
         m_DrawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         mDrawerToggle = object : ActionBarDrawerToggle(this, m_DrawerLayout, R.string.drawer_open_content_description, R.string.drawer_closed_content_description) {
@@ -273,6 +277,15 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_register -> {
                 newFragment = RegisterFragment()
             }
+
+            R.id.nav_norobot -> {
+                val bundle = Bundle()
+                bundle.putString("norobot/requestid", m_NoRobotSettingsService.requestId)
+                bundle.putSerializable("norobot/images", m_NoRobotSettingsService.images)
+                bundle.putString("norobot/question", m_NoRobotSettingsService.question)
+                newFragment = NoRobotFragment()
+                newFragment.setArguments(bundle)
+            }
         }
 
         if (mSelectedItem != 0) {
@@ -328,6 +341,7 @@ class MainActivity : AppCompatActivity() {
         m_MultiplayerPreferencesService.writeToSavedInstanceState(outState)
         m_MainPreferencesService.writeToSavedInstanceState(outState)
         m_VideoSettingsService.writeToSavedInstanceState(outState)
+        m_NoRobotSettingsService.writeToSavedInstanceState(outState)
         outState.putInt("currentFragment", mSelectedItem)
         Log.d("Planes", "onSaveInstanceState")
 
@@ -374,6 +388,12 @@ class MainActivity : AppCompatActivity() {
     public fun setVideoSettings(currentVideo: Int, playbackPositions: IntArray) {
         m_VideoSettingsService.currentVideo = currentVideo
         m_VideoSettingsService.videoPlaybackPositions = playbackPositions
+    }
+
+    public fun setNorobotSettings(requestId: Long, images: Array<String>, question: String) {
+        m_NoRobotSettingsService.requestId = requestId.toString()
+        m_NoRobotSettingsService.question = question
+        m_NoRobotSettingsService.images = images
     }
 
     fun onWarning(errorString: String) {
@@ -560,6 +580,7 @@ class MainActivity : AppCompatActivity() {
             ApplicationScreens.About.value -> mSelectedItem = R.id.nav_about
             ApplicationScreens.Login.value -> mSelectedItem = R.id.nav_login
             ApplicationScreens.Register.value -> mSelectedItem = R.id.nav_register
+            ApplicationScreens.NoRobot.value -> mSelectedItem = R.id.nav_norobot
             else -> mSelectedItem = R.id.nav_game
         }
     }
@@ -574,7 +595,7 @@ class MainActivity : AppCompatActivity() {
 
     fun startNoRobotFragment(regResp : RegistrationResponse) {
 
-        mSelectedItem = R.id.nav_register   //TODO: do I need this here ?
+        mSelectedItem = R.id.nav_norobot  //TODO theoretically not necessary because each fragment sets this variable when it starts
 
         var newFragment = NoRobotFragment()
         val bundle = Bundle()

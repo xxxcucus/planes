@@ -100,7 +100,7 @@ class NoRobotFragment : Fragment() {
         recyclerView.adapter = m_PhotosAdapter
 
         (activity as MainActivity).setActionBarTitle(getString(R.string.register))
-        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Register)
+        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.NoRobot)
 
         return  rootview
     }
@@ -130,7 +130,7 @@ class NoRobotFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        //writeToVideoSettingsService()
+        writeToNoRobotSettingsService()
     }
 
     override fun onStop() {
@@ -139,18 +139,19 @@ class NoRobotFragment : Fragment() {
 
 
     override fun onDetach () {
-        //writeToVideoSettingsService()
+        writeToNoRobotSettingsService()
         super.onDetach()
     }
 
-    /*fun writeToVideoSettingsService() {
-        (activity as MainActivity).setVideoSettings(m_CurrentVideo, m_MovieList.map  { it.getCurentPosition()}.toIntArray())
-    }*/
 
     private fun initializePhotos() {
         m_RequestId = requireArguments().getString("norobot/requestid")!!.toLong()
         m_Images = requireArguments().getSerializable("norobot/images") as Array<String>
         m_Question = requireArguments().getString("norobot/question")!!
-
     }
+
+    private fun writeToNoRobotSettingsService() {
+        (activity as MainActivity).setNorobotSettings(m_RequestId, m_Images, m_Question)
+    }
+
 }
