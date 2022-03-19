@@ -99,6 +99,7 @@ class MainActivity : AppCompatActivity() {
             m_MultiplayerPreferencesService.readFromSavedInstanceState(savedInstanceState)
             m_MainPreferencesService.readFromSavedInstanceState(savedInstanceState)
             m_VideoSettingsService.readFromSavedInstanceState(savedInstanceState)
+            m_NoRobotSettingsService.readFromSavedInstanceState(savedInstanceState)
             setPreferencesForPlaneRound()
 
             mSelectedItem = savedInstanceState.getInt("currentFragment")
@@ -283,6 +284,7 @@ class MainActivity : AppCompatActivity() {
                 bundle.putString("norobot/requestid", m_NoRobotSettingsService.requestId)
                 bundle.putSerializable("norobot/images", m_NoRobotSettingsService.images)
                 bundle.putString("norobot/question", m_NoRobotSettingsService.question)
+                bundle.putSerializable("norobot/selection", m_NoRobotSettingsService.selection)
                 newFragment = NoRobotFragment()
                 newFragment.setArguments(bundle)
             }
@@ -390,10 +392,11 @@ class MainActivity : AppCompatActivity() {
         m_VideoSettingsService.videoPlaybackPositions = playbackPositions
     }
 
-    public fun setNorobotSettings(requestId: Long, images: Array<String>, question: String) {
+    public fun setNorobotSettings(requestId: Long, images: Array<String>, question: String, selection: Array<Boolean>) {
         m_NoRobotSettingsService.requestId = requestId.toString()
         m_NoRobotSettingsService.question = question
         m_NoRobotSettingsService.images = images
+        m_NoRobotSettingsService.selection = selection
     }
 
     fun onWarning(errorString: String) {
@@ -601,11 +604,11 @@ class MainActivity : AppCompatActivity() {
         val bundle = Bundle()
         bundle.putString("norobot/requestid", regResp.m_Id)
         bundle.putString("norobot/question", regResp.m_Question)
-
         var images =  arrayOf(regResp.m_ImageId_1, regResp.m_ImageId_2, regResp.m_ImageId_3, regResp.m_ImageId_4, regResp.m_ImageId_5,
             regResp.m_ImageId_6, regResp.m_ImageId_7, regResp.m_ImageId_8, regResp.m_ImageId_9)
-
         bundle.putSerializable("norobot/images", images)
+        var selection = arrayOf(false, false, false, false, false, false, false, false, false);
+        bundle.putSerializable("norobot/selection", selection)
 
         newFragment.setArguments(bundle)
 

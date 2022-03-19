@@ -4,4 +4,5 @@ interface INoRobotSettingsService : INotPersistingPreferencesService {
     var requestId: String
     var images: Array<String>
     var question: String
+    var selection: Array<Boolean>
 }

@@ -24,6 +24,7 @@ class NoRobotFragment : Fragment() {
     private var m_RequestId: Long = 0
     private lateinit var m_Question: String
     private lateinit var m_Images: Array<String>
+    private lateinit var m_Selection: Array<Boolean>
 
     private var m_ImagesMapping = mapOf("2b36ea33-9c99-46dd-9f80-3bc648881c9b" to R.raw.image1,
         "2e2379c7-cfcf-49a2-b47b-ed8d1a0c353a" to R.raw.image2,
@@ -65,8 +66,6 @@ class NoRobotFragment : Fragment() {
         "fa093da7-546a-4627-ac80-6adcfd1431e9" to R.raw.image38
         )
 
-    //TODO: NoRobotSettingsService
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,7 +106,10 @@ class NoRobotFragment : Fragment() {
 
 
     private fun preparePhotosList() {
-        m_PhotosList = m_Images.map { imageid -> PhotoModel(m_ImagesMapping[imageid]!!, false)}
+        m_PhotosList = m_Images.map { imageid ->
+            val idx = m_Images.indexOf(imageid)
+            PhotoModel(m_ImagesMapping[imageid]!!, m_Selection[idx])
+        }
         m_PhotosAdapter = PhotoAdapter(m_PhotosList)
         m_PhotosAdapter.notifyDataSetChanged()
     }
@@ -148,10 +150,14 @@ class NoRobotFragment : Fragment() {
         m_RequestId = requireArguments().getString("norobot/requestid")!!.toLong()
         m_Images = requireArguments().getSerializable("norobot/images") as Array<String>
         m_Question = requireArguments().getString("norobot/question")!!
+        m_Selection = requireArguments().getSerializable(("norobot/selection")) as Array<Boolean>
     }
 
     private fun writeToNoRobotSettingsService() {
-        (activity as MainActivity).setNorobotSettings(m_RequestId, m_Images, m_Question)
+        m_Selection = m_PhotosList.map {
+            photo -> photo.m_Selected
+        }.toTypedArray()
+        (activity as MainActivity).setNorobotSettings(m_RequestId, m_Images, m_Question, m_Selection)
     }
 
 }

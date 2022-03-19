@@ -11,12 +11,16 @@ import androidx.cardview.widget.CardView
 import com.planes.android.R
 
 
-class PhotoAdapter(photosList: List<PhotoModel>) : RecyclerView.Adapter<PhotoAdapter.MyViewHolder>() {
+class PhotoAdapter(photosList: List<PhotoModel>,) : RecyclerView.Adapter<PhotoAdapter.MyViewHolder>() {
     private val m_PhotosList: List<PhotoModel>
     private var m_SelectedPositions = mutableListOf<Int>()
 
     init {
         this.m_PhotosList = photosList
+        for(i in 0..(m_PhotosList.size - 1)) {
+            if (m_PhotosList.get(i).m_Selected)
+                m_SelectedPositions.add(i)
+        }
     }
 
     inner class MyViewHolder(view: View, context: Context) :
@@ -40,10 +44,14 @@ class PhotoAdapter(photosList: List<PhotoModel>) : RecyclerView.Adapter<PhotoAda
             var clickedPosition = adapterPosition
             notifyItemChanged(clickedPosition)
 
-            if (m_SelectedPositions.contains(clickedPosition))
+            if (m_SelectedPositions.contains(clickedPosition)) {
                 m_SelectedPositions.remove(clickedPosition)
-            else
+                m_PhotosList[clickedPosition].m_Selected = false
+            }
+            else {
                 m_SelectedPositions.add(clickedPosition)
+                m_PhotosList[clickedPosition].m_Selected = true
+            }
         }
 
         override fun onLongClick(v: View): Boolean {
