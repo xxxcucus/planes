@@ -1,7 +1,9 @@
 package com.planes.multiplayer_engine
 
 import com.planes.android.MultiplayerRoundInterface
+import com.planes.multiplayer_engine.requests.NoRobotRequest
 import com.planes.multiplayer_engine.responses.LoginResponse
+import com.planes.multiplayer_engine.responses.NoRobotResponse
 import com.planes.multiplayer_engine.responses.RegistrationResponse
 import com.planes.multiplayer_engine.responses.VersionResponse
 import com.planes.single_player_engine.PlaneRound
@@ -43,6 +45,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
 
     override fun getRegistrationResponse(): RegistrationResponse {
         return global_Round!!.getRegistrationResponse()
+    }
+
+    override fun norobot(requestId: Long, answer: String): Observable<Response<NoRobotResponse>> {
+        return global_Round!!.norobot(requestId, answer);
     }
 
 

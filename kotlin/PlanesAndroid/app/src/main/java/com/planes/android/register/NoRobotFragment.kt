@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.VideoView
 import androidx.fragment.app.Fragment
@@ -15,6 +16,7 @@ import com.planes.android.MainActivity
 import com.planes.android.R
 import com.planes.android.videos.VideoAdapter
 import com.planes.android.videos.VideoModel
+import io.reactivex.disposables.Disposable
 
 class NoRobotFragment : Fragment() {
 
@@ -25,6 +27,8 @@ class NoRobotFragment : Fragment() {
     private lateinit var m_Question: String
     private lateinit var m_Images: Array<String>
     private lateinit var m_Selection: Array<Boolean>
+
+    private lateinit var m_NoRobotSubscription: Disposable
 
     private var m_ImagesMapping = mapOf("2b36ea33-9c99-46dd-9f80-3bc648881c9b" to R.raw.image1,
         "2e2379c7-cfcf-49a2-b47b-ed8d1a0c353a" to R.raw.image2,
@@ -93,6 +97,9 @@ class NoRobotFragment : Fragment() {
                           else m_Question
             questionTextView.setText(getString(R.string.norobot_question) + " " + question)
 
+        var allmarkedButton = rootview.findViewById(R.id.allmarked_button) as Button
+        allmarkedButton.setOnClickListener(View.OnClickListener { sendNoRobotData() })
+
         var mLayoutManager = if (isHorizontal()) StaggeredGridLayoutManager(3, 1) else StaggeredGridLayoutManager(2, 1)
         recyclerView.layoutManager = mLayoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
@@ -158,6 +165,21 @@ class NoRobotFragment : Fragment() {
             photo -> photo.m_Selected
         }.toTypedArray()
         (activity as MainActivity).setNorobotSettings(m_RequestId, m_Images, m_Question, m_Selection)
+    }
+
+    private fun sendNoRobotData() {
+        /*
+                var register = m_MultiplayerRound.register(binding.settingsData!!.m_Username, binding.settingsData!!.m_Password)
+        m_RegisterSubscription = register
+            .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { _ -> showLoading() }
+            .doOnTerminate { hideLoading() }
+            .doOnComplete { hideLoading() }
+            .subscribe({data -> prepareNorobotTest(data.code(), data.errorBody()?.string(), data.body())}
+                , {error -> setRegisterError(error.localizedMessage.toString())});
+         */
     }
 
 }

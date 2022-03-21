@@ -1,8 +1,10 @@
 package com.planes.multiplayer_engine
 
 import com.planes.multiplayer_engine.requests.LoginRequest
+import com.planes.multiplayer_engine.requests.NoRobotRequest
 import com.planes.multiplayer_engine.requests.RegistrationRequest
 import com.planes.multiplayer_engine.responses.LoginResponse
+import com.planes.multiplayer_engine.responses.NoRobotResponse
 import com.planes.multiplayer_engine.responses.RegistrationResponse
 import com.planes.multiplayer_engine.responses.VersionResponse
 import io.reactivex.Observable
@@ -85,8 +87,6 @@ class MultiplayerRound {
 
     fun login(username: String, password: String): Observable<Response<LoginResponse>> {
 
-        //val bchash = BCrypt.hashpw(password, BCrypt.gensalt())
-        //return m_Service.login(LoginRequest(username, bchash))
         return m_Service.login(LoginRequest(username, password))
     }
 
@@ -111,6 +111,10 @@ class MultiplayerRound {
 
     fun getRegistrationResponse(): RegistrationResponse {
         return m_RegistrationData
+    }
+
+    fun norobot(requestId: Long, answer: String): Observable<Response<NoRobotResponse>> {
+        return m_Service.norobot(NoRobotRequest(requestId.toString(), answer));
     }
 }
 

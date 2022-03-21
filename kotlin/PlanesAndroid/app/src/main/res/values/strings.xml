@@ -125,6 +125,7 @@
     <string name="norobot_question"> Mark all images corresponding to category: </string>
     <string name="norobot_cat"> Cat </string>
     <string name="norobot_dog"> Dog </string>
+    <string name="norobot_allmarked">All Marked!</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">
