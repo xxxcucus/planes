@@ -156,8 +156,10 @@ class NoRobotFragment : Fragment() {
 
 
     override fun onDetach () {
-        writeToNoRobotSettingsService()
         super.onDetach()
+        writeToNoRobotSettingsService()
+        if (this::m_NoRobotSubscription.isInitialized)
+            m_NoRobotSubscription.dispose()
     }
 
 

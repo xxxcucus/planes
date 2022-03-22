@@ -20,7 +20,8 @@
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:text="@string/norobot_allmarked"
-        android:gravity="right"
+        android:layout_gravity="right"
+        android:layout_margin="10dp"
         />
 
     <androidx.recyclerview.widget.RecyclerView
