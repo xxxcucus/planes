@@ -1,22 +1,25 @@
 package com.planes.android.register
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.VideoView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
+import com.google.gson.Gson
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
-import com.planes.android.videos.VideoAdapter
-import com.planes.android.videos.VideoModel
+import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.responses.ErrorResponse
+import com.planes.multiplayer_engine.responses.NoRobotResponse
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
 class NoRobotFragment : Fragment() {
 
@@ -28,7 +31,11 @@ class NoRobotFragment : Fragment() {
     private lateinit var m_Images: Array<String>
     private lateinit var m_Selection: Array<Boolean>
 
+    private var m_MultiplayerRound = MultiplayerRoundJava()
     private lateinit var m_NoRobotSubscription: Disposable
+
+    private var m_NoRobotError = false
+    private var m_NoRobotErrorString = ""
 
     private var m_ImagesMapping = mapOf("2b36ea33-9c99-46dd-9f80-3bc648881c9b" to R.raw.image1,
         "2e2379c7-cfcf-49a2-b47b-ed8d1a0c353a" to R.raw.image2,
@@ -100,7 +107,8 @@ class NoRobotFragment : Fragment() {
         var allmarkedButton = rootview.findViewById(R.id.allmarked_button) as Button
         allmarkedButton.setOnClickListener(View.OnClickListener { sendNoRobotData() })
 
-        var mLayoutManager = if (isHorizontal()) StaggeredGridLayoutManager(3, 1) else StaggeredGridLayoutManager(2, 1)
+        var mLayoutManager = if (isHorizontal()) StaggeredGridLayoutManager(3, 1)
+            else StaggeredGridLayoutManager(2, 1) //TODO to check tablets
         recyclerView.layoutManager = mLayoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = m_PhotosAdapter
@@ -168,18 +176,70 @@ class NoRobotFragment : Fragment() {
     }
 
     private fun sendNoRobotData() {
-        /*
-                var register = m_MultiplayerRound.register(binding.settingsData!!.m_Username, binding.settingsData!!.m_Password)
-        m_RegisterSubscription = register
+
+        m_Selection = m_PhotosList.map {
+                photo -> photo.m_Selected
+        }.toTypedArray()
+
+        var answer = ""
+        for (i in 0 until m_Selection.size) {
+            answer += if (m_Selection.get(i)) "1" else "0"
+        }
+        var norobot = m_MultiplayerRound.norobot(m_RequestId, answer)
+        m_NoRobotSubscription = norobot
             .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { _ -> showLoading() }
             .doOnTerminate { hideLoading() }
             .doOnComplete { hideLoading() }
-            .subscribe({data -> prepareNorobotTest(data.code(), data.errorBody()?.string(), data.body())}
-                , {error -> setRegisterError(error.localizedMessage.toString())});
-         */
+            .subscribe({data -> treatNoRobotResult(data.code(), data.errorBody()?.string(), data.body())}
+                , {error -> setNoRobotError(error.localizedMessage.toString())});
+
+    }
+
+
+    fun showLoading() {
+        (activity as MainActivity).startProgressDialog()
+    }
+
+    fun hideLoading() {
+        (activity as MainActivity).stopProgressDialog()
+    }
+
+    fun treatNoRobotResult(code: Int, jsonErrorString: String?, body: NoRobotResponse?) {
+
+        if (body == null)  {
+            if (jsonErrorString != null) {
+                var gson = Gson()
+                var errorResponse = gson?.fromJson(jsonErrorString, ErrorResponse::class.java)
+
+                if (errorResponse != null)
+                    m_NoRobotErrorString =
+                        getString(R.string.registererror) + ":" + errorResponse.m_Message + "(" + errorResponse.m_Status + ")"
+                else
+                    m_NoRobotErrorString =
+                        getString(R.string.registererror) + ":" + getString(R.string.unknownerror)
+            } else {
+                m_NoRobotErrorString =
+                    getString(R.string.registererror) + ":" + getString(R.string.unknownerror)
+            }
+            m_NoRobotError = true
+        }
+
+
+        finalizeRegister()
+    }
+
+    fun setNoRobotError(errorMsg: String) {
+        m_NoRobotError = true
+        m_NoRobotErrorString = errorMsg
+        finalizeRegister()
+    }
+
+    fun finalizeRegister() {
+        (activity as MainActivity).startRegistrationFragment(m_NoRobotError,
+            if (m_NoRobotError) m_NoRobotErrorString else getString(R.string.norobot_success))
     }
 
 }

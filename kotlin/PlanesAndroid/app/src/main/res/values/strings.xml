@@ -126,6 +126,7 @@
     <string name="norobot_cat"> Cat </string>
     <string name="norobot_dog"> Dog </string>
     <string name="norobot_allmarked">All Marked!</string>
+    <string name="norobot_success"> User was created successfully! </string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">

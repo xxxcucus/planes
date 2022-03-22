@@ -618,4 +618,20 @@ class MainActivity : AppCompatActivity() {
             .commit()
 
     }
+
+    fun startRegistrationFragment(norobotError: Boolean, message: String) {
+        mSelectedItem = R.id.nav_register
+        setFragment(true)
+
+        if (norobotError) {
+            onWarning(message)
+        } else {
+            val text = getString(R.string.norobot_success)
+            val duration = Toast.LENGTH_SHORT
+
+            val toast = Toast.makeText(applicationContext, text, duration)
+            toast.show()
+        }
+
+    }
 }

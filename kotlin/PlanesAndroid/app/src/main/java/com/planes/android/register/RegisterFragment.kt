@@ -86,10 +86,10 @@ class RegisterFragment: Fragment() {
                         getString(R.string.registererror) + ":" + errorResponse.m_Message + "(" + errorResponse.m_Status + ")"
                 else
                     m_RegisterErrorString =
-                        getString(R.string.loginerror) + ":" + getString(R.string.unknownerror)
+                        getString(R.string.registererror) + ":" + getString(R.string.unknownerror)
             } else {
                 m_RegisterErrorString =
-                    getString(R.string.loginerror) + ":" + getString(R.string.unknownerror)
+                    getString(R.string.registererror) + ":" + getString(R.string.unknownerror)
             }
             m_RegisterError = true
         }

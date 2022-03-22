@@ -41,8 +41,8 @@ class PhotoAdapter(photosList: List<PhotoModel>,) : RecyclerView.Adapter<PhotoAd
             // in that case, getAdapterPosition() will return RecyclerView.NO_POSITION
             if (getAdapterPosition() == RecyclerView.NO_POSITION) return;
 
-            var clickedPosition = adapterPosition
-            notifyItemChanged(clickedPosition)
+            var clickedPosition = m_Position
+            notifyItemChanged(adapterPosition)
 
             if (m_SelectedPositions.contains(clickedPosition)) {
                 m_SelectedPositions.remove(clickedPosition)
