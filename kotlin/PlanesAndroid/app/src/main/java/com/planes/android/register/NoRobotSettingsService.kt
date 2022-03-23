@@ -4,10 +4,10 @@ import android.os.Bundle
 
 class NoRobotSettingsService: INoRobotSettingsService {
 
-    override lateinit var requestId: String
-    override lateinit var images: Array<String>
-    override lateinit var question: String
-    override lateinit var selection: Array<Boolean>
+    override var requestId: String = "0"
+    override  var images: Array<String> = arrayOf("", "", "", "", "", "", "", "", "")
+    override  var question: String = ""
+    override  var selection: Array<Boolean> = arrayOf(false, false, false, false, false, false, false, false, false)
 
     override fun readFromSavedInstanceState(savedInstanceState: Bundle) {
         requestId = savedInstanceState.getString("norobot/requestid")!!
