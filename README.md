@@ -1,11 +1,12 @@
 # planes
-Variant of battleships game implemented with Qt, C++ and with Java for Android.
+Variant of battleships game implemented with Qt, C++ and with Java and Kotlin for Android.
 
 3 versions of the game of Planes are implemented with Qt: PlanesWidget, first naive version,
 PlanesGraphicsScene an implementation using QGraphicsScene,
 PlanesQML an implementation using QML. These use a game engine programmed in C++.
 
-There exists one version of the project developed completely in Java (game engine included) for Android.
+The Android application is currently developed in Kotlin.
+The older version of the Android application in Java still exists in the repository for reference.
 
 In the releases section you will find a detailed documentation of the C++ part of the project. (TheGameOfPlanes.pdf)
 
