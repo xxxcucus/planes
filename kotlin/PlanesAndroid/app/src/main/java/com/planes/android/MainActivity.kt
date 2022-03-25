@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.planes.android.about.AboutFragment
+import com.planes.android.creategame.CreateGameFragment
 import com.planes.android.game.GameFragment
 import com.planes.android.login.LoginFragment
 import com.planes.android.register.RegisterFragment
@@ -287,6 +288,10 @@ class MainActivity : AppCompatActivity() {
                 bundle.putSerializable("norobot/selection", m_NoRobotSettingsService.selection)
                 newFragment = NoRobotFragment()
                 newFragment.setArguments(bundle)
+            }
+
+            R.id.nav_creategame -> {
+                newFragment = CreateGameFragment()
             }
         }
 
@@ -584,6 +589,7 @@ class MainActivity : AppCompatActivity() {
             ApplicationScreens.Login.value -> mSelectedItem = R.id.nav_login
             ApplicationScreens.Register.value -> mSelectedItem = R.id.nav_register
             ApplicationScreens.NoRobot.value -> mSelectedItem = R.id.nav_norobot
+            ApplicationScreens.CreateGame.value -> mSelectedItem = R.id.nav_creategame
             else -> mSelectedItem = R.id.nav_game
         }
     }

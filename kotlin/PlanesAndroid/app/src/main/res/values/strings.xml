@@ -127,6 +127,10 @@
     <string name="norobot_dog"> Dog </string>
     <string name="norobot_allmarked">All Marked!</string>
     <string name="norobot_success"> User was created successfully! </string>
+    <string name="game_name"> Game Name </string>
+    <string name="random_game_name"> Generate random game name</string>
+    <string name="create_connectto_game">Create or Connect to Game</string>
+    <string name="connectto_game">Connect to Game</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">

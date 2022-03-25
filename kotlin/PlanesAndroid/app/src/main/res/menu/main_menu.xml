@@ -22,6 +22,10 @@
             android:id="@+id/nav_norobot"
             android:visible="false"/>
         <item
+            android:id="@+id/nav_creategame"
+            android:icon="@drawable/ic_baseline_add_circle_24"
+            android:title="@string/connectto_game"/>
+        <item
             android:id="@+id/nav_videos"
             android:icon="@drawable/ic_baseline_video_library_24"
             android:title="@string/videos"/>
