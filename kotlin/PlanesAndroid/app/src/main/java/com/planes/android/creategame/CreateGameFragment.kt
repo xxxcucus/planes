@@ -29,6 +29,8 @@ class CreateGameFragment: Fragment() {
     private var m_CreateGameErrorString = ""
     private var m_MultiplayerRound = MultiplayerRoundJava()
     private lateinit var m_CreateGameSubscription: Disposable
+    private lateinit var m_ConnectToGameSubscription: Disposable
+    private lateinit var m_RefreshGameStatusSubscription: Disposable
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -49,7 +51,7 @@ class CreateGameFragment: Fragment() {
         (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.CreateGame)
 
         var createGameButton = binding.creategame as Button
-        //saveSettingsButton.setOnClickListener(View.OnClickListener { performLogin() })
+        createGameButton.setOnClickListener(View.OnClickListener { checkGameStatus() })
 
 
         var generateGameNameButton = binding.generateGamename
@@ -64,8 +66,12 @@ class CreateGameFragment: Fragment() {
     override fun onDetach () {
         super.onDetach()
         hideLoading()
-        /*if (this::m_LoginSubscription.isInitialized)
-            m_LoginSubscription.dispose()*/
+        if (this::m_RefreshGameStatusSubscription.isInitialized)
+            m_RefreshGameStatusSubscription.dispose()
+        if (this::m_CreateGameSubscription.isInitialized)
+            m_CreateGameSubscription.dispose()
+        if (this::m_ConnectToGameSubscription.isInitialized)
+            m_ConnectToGameSubscription.dispose()
     }
 
     override fun onPause() {
@@ -106,18 +112,18 @@ class CreateGameFragment: Fragment() {
     fun setCreateGameError(errorMsg: String) {
         m_CreateGameError = true
         m_CreateGameErrorString = errorMsg
-        //finalizeLogin()
+        finalizeCreateGame()
     }
 
-    /*fun finalizeLogin() {
+    fun finalizeCreateGame() {
         if (m_CreateGameError) {
             (activity as MainActivity).onWarning(m_CreateGameErrorString)
         } else {
-            (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
+            //(activity as MainActivity).setUsernameDrawerMenuMultiplayer()
         }
-    }*/
+    }
 
-    fun performLogin() {
+    fun checkGameStatus() {
 
         if (!this::binding.isInitialized)
             return
@@ -126,7 +132,7 @@ class CreateGameFragment: Fragment() {
         m_CreateGameErrorString = ""
 
         if (!validationGameName(binding.settingsData!!.m_GameName.trim())) {
-            //finalizeLogin()
+            finalizeCreateGame()
             return
         }
 
@@ -153,27 +159,20 @@ class CreateGameFragment: Fragment() {
     fun validationGameName(gameName: String) : Boolean {
         var retString = ""
 
-        /*if (username.length > 30) {
-            retString += " " + getString(R.string.validation_toolong_login_username)
+        if (gameName.length > 30) {
+            retString += " " + getString(R.string.validation_toolong_gamename)
         }
 
-        if (username.isNullOrEmpty()) {
-            retString += " " + getString(R.string.validation_empty_login_username)
-        }
-
-        if (password.length > 30) {
-            retString += " " + getString(R.string.validation_toolong_login_password)
-        }
-
-        if (password.isNullOrEmpty()) {
-            retString += " " + getString(R.string.validation_empty_login_password)
+        if (gameName.length < 5) {
+            retString += " " + getString(R.string.validation_tooshort_gamename)
         }
 
         if (!retString.isNullOrEmpty()) {
-            m_LoginError = true
-            m_LoginErrorString = retString
+            m_CreateGameError = true
+            m_CreateGameErrorString = retString
             return false
-        }*/
+        }
+
         return true
     }
 

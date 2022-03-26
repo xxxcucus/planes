@@ -179,6 +179,9 @@ class NoRobotFragment : Fragment() {
 
     private fun sendNoRobotData() {
 
+        m_NoRobotError = false;
+        m_NoRobotErrorString = "";
+
         m_Selection = m_PhotosList.map {
                 photo -> photo.m_Selected
         }.toTypedArray()
