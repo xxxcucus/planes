@@ -53,11 +53,10 @@ class CreateGameFragment: Fragment() {
 
 
         var generateGameNameButton = binding.generateGamename
-        /*useCredentialFromPrefsButton.setOnClickListener {
-            binding.settingsData!!.m_Password = m_PreferencesService.password
-            binding.settingsData!!.m_Username = m_PreferencesService.username
+        generateGameNameButton.setOnClickListener {
+            binding.settingsData!!.m_GameName = generateRandonGameName()
             binding.invalidateAll()
-        }*/
+        }
 
         return binding.root
     }
@@ -176,5 +175,17 @@ class CreateGameFragment: Fragment() {
             return false
         }*/
         return true
+    }
+
+    fun generateRandonGameName(): String {
+        val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+        val STRING_LENGTH = 10;
+
+        val randomString = (1..STRING_LENGTH)
+            .map { i -> kotlin.random.Random.nextInt(0, charPool.size) }
+            .map(charPool::get)
+            .joinToString("");
+
+        return randomString
     }
 }
