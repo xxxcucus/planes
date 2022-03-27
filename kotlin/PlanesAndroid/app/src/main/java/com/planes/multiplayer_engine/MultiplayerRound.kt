@@ -116,5 +116,9 @@ class MultiplayerRound {
     fun norobot(requestId: Long, answer: String): Observable<Response<NoRobotResponse>> {
         return m_Service.norobot(NoRobotRequest(requestId.toString(), answer));
     }
+
+    fun isUserLoggedIn(): Boolean {
+        return !m_UserData.userName.isNullOrEmpty() && !m_UserData.authToken.isNullOrEmpty()
+    }
 }
 

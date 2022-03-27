@@ -27,4 +27,6 @@ interface MultiplayerRoundInterface {
     fun getRegistrationResponse(): RegistrationResponse
 
     fun norobot(requestId: Long, answer: String): Observable<Response<NoRobotResponse>>
+
+    fun isUserLoggedIn(): Boolean
 }

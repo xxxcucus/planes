@@ -51,6 +51,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Round!!.norobot(requestId, answer);
     }
 
+    override fun isUserLoggedIn(): Boolean {
+        return global_Round!!.isUserLoggedIn()
+    }
+
 
     companion object {
         private var global_Round: MultiplayerRound? = null

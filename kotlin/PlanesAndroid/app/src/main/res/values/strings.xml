@@ -133,6 +133,7 @@
     <string name="connectto_game">Connect to Game</string>
     <string name="validation_tooshort_gamename"> Game name shorter as 5 charachters </string>
     <string name="validation_toolong_gamename"> Game name longer as 30 charachters </string>
+    <string name="validation_user_not_loggedin"> You have not yet logged in</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">

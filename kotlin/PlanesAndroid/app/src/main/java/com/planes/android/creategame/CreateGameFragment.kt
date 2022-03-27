@@ -131,6 +131,11 @@ class CreateGameFragment: Fragment() {
         m_CreateGameError = false
         m_CreateGameErrorString = ""
 
+        if (!userLoggedIn()) {
+            finalizeCreateGame()
+            return
+        }
+
         if (!validationGameName(binding.settingsData!!.m_GameName.trim())) {
             finalizeCreateGame()
             return
@@ -186,5 +191,14 @@ class CreateGameFragment: Fragment() {
             .joinToString("");
 
         return randomString
+    }
+
+    fun userLoggedIn(): Boolean {
+        if (!m_MultiplayerRound.isUserLoggedIn()) {
+            m_CreateGameError = true
+            m_CreateGameErrorString = getString(R.string.validation_user_not_loggedin)
+            return false
+        }
+        return true
     }
 }
