@@ -1,12 +1,10 @@
 package com.planes.multiplayer_engine
 
+import com.planes.multiplayer_engine.requests.GameStatusRequest
 import com.planes.multiplayer_engine.requests.LoginRequest
 import com.planes.multiplayer_engine.requests.NoRobotRequest
 import com.planes.multiplayer_engine.requests.RegistrationRequest
-import com.planes.multiplayer_engine.responses.LoginResponse
-import com.planes.multiplayer_engine.responses.NoRobotResponse
-import com.planes.multiplayer_engine.responses.RegistrationResponse
-import com.planes.multiplayer_engine.responses.VersionResponse
+import com.planes.multiplayer_engine.responses.*
 import io.reactivex.Observable
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,8 +18,7 @@ import org.mindrot.jbcrypt.BCrypt
 import okhttp3.Interceptor
 
 import okhttp3.OkHttpClient
-
-
+import retrofit2.http.Body
 
 
 class MultiplayerRound {
@@ -119,6 +116,12 @@ class MultiplayerRound {
 
     fun isUserLoggedIn(): Boolean {
         return !m_UserData.userName.isNullOrEmpty() && !m_UserData.authToken.isNullOrEmpty()
+    }
+
+    fun refreshGameStatus(gameName: String/*, gameId: String, userName: String, userId: String*/):
+            Observable<retrofit2.Response<GameStatusResponse>> {
+        return m_Service.refreshGameStatus(m_UserData.authToken,
+            GameStatusRequest(gameName, m_UserData.userName, m_UserData.userId.toString() , m_GameData.gameId.toString()))
     }
 }
 

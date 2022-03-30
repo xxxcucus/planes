@@ -19,6 +19,7 @@ class UserData {
         get() = m_AuthToken
         set(value)  { m_AuthToken = value }
 
+    //TODO set to zero when logging in
     var userId: Long
         get() = m_UserId
         set(value) { m_UserId = value }

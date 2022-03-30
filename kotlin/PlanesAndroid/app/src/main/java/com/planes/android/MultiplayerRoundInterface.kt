@@ -2,10 +2,7 @@ package com.planes.android
 
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.requests.NoRobotRequest
-import com.planes.multiplayer_engine.responses.LoginResponse
-import com.planes.multiplayer_engine.responses.NoRobotResponse
-import com.planes.multiplayer_engine.responses.RegistrationResponse
-import com.planes.multiplayer_engine.responses.VersionResponse
+import com.planes.multiplayer_engine.responses.*
 import io.reactivex.Observable
 import retrofit2.Response
 
@@ -29,4 +26,6 @@ interface MultiplayerRoundInterface {
     fun norobot(requestId: Long, answer: String): Observable<Response<NoRobotResponse>>
 
     fun isUserLoggedIn(): Boolean
+
+    fun refreshGameStatus(gameName: String): Observable<retrofit2.Response<GameStatusResponse>>
 }

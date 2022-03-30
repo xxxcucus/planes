@@ -1,16 +1,15 @@
 package com.planes.multiplayer_engine
 
+import com.planes.multiplayer_engine.requests.GameStatusRequest
 import com.planes.multiplayer_engine.requests.LoginRequest
 import com.planes.multiplayer_engine.requests.NoRobotRequest
 import com.planes.multiplayer_engine.requests.RegistrationRequest
-import com.planes.multiplayer_engine.responses.LoginResponse
-import com.planes.multiplayer_engine.responses.NoRobotResponse
-import com.planes.multiplayer_engine.responses.RegistrationResponse
-import com.planes.multiplayer_engine.responses.VersionResponse
+import com.planes.multiplayer_engine.responses.*
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import io.reactivex.Observable
 import retrofit2.http.Body
+import retrofit2.http.Header
 
 interface MultiplayerCommApi {
     @POST("status/getversion")
@@ -28,4 +27,8 @@ interface MultiplayerCommApi {
     @POST("users/registration_confirm")
     @Headers("Content-Type: application/json")
     fun norobot(@Body user: NoRobotRequest): Observable<retrofit2.Response<NoRobotResponse>>
+
+    @POST("game/status")
+    @Headers("Content-Type: application/json")
+    fun refreshGameStatus(@Header("Authorization") authorization: String, @Body game: GameStatusRequest): Observable<retrofit2.Response<GameStatusResponse>>
 }

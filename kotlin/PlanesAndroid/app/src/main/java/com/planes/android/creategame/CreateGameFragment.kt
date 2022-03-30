@@ -13,8 +13,11 @@ import com.google.gson.Gson
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
+import com.planes.android.Tools
 import com.planes.android.databinding.FragmentCreateGameBinding
 import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.responses.ErrorResponse
+import com.planes.multiplayer_engine.responses.GameStatusResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -78,36 +81,16 @@ class CreateGameFragment: Fragment() {
         super.onPause()
     }
 
-    /*fun checkAuthorization(code: Int, jsonErrorString: String?, headrs: Headers, body: LoginResponse?) {
-        if (headrs.get("Authorization") != null) {
-            var authorizationHeader = headrs.get("Authorization")
-            //TODO: should Bearer be removed from token?
-
-            m_MultiplayerRound.setUserData(
-                binding.settingsData!!.m_Username.trim(),
-                binding.settingsData!!.m_Password,
-                authorizationHeader!!
-            )
-            (activity as MainActivity).showSaveCredentialsPopup(binding.settingsData!!.m_Username.trim(),
-                binding.settingsData!!.m_Password,
-            )
-
+    fun reactToGameStatus(code: Int, jsonErrorString: String?, headrs: Headers, body: GameStatusResponse?) {
+        if (body != null)  {
+           
         } else {
-            if (jsonErrorString != null) {
-                var gson = Gson()
-                var errorResponse = gson?.fromJson(jsonErrorString, ErrorResponse::class.java)
-
-                if (errorResponse != null)
-                    m_CreateGameErrorString = getString(R.string.loginerror) + ":" + errorResponse.m_Message + "(" + errorResponse.m_Status + ")"
-                else
-                    m_CreateGameErrorString = getString(R.string.loginerror) + ":" + getString(R.string.unknownerror)
-            } else {
-                m_CreateGameErrorString = getString(R.string.loginerror) + ":" + getString(R.string.unknownerror)
-            }
+            m_CreateGameErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.creategame_error),
+                getString(R.string.unknownerror))
             m_CreateGameError = true
         }
-        //finalizeLogin()
-    }*/
+        finalizeCreateGame()
+    }
 
     fun setCreateGameError(errorMsg: String) {
         m_CreateGameError = true
@@ -141,16 +124,16 @@ class CreateGameFragment: Fragment() {
             return
         }
 
-        /*var login = m_MultiplayerRound.login(binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password)
-        m_LoginSubscription = login
+        var gameStatus = m_MultiplayerRound.refreshGameStatus(binding.settingsData!!.m_GameName.trim())
+        m_RefreshGameStatusSubscription = gameStatus
             .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { _ -> showLoading() }
             .doOnTerminate { hideLoading() }
             .doOnComplete { hideLoading() }
-            .subscribe({data -> checkAuthorization(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
-                , {error -> setLoginError(error.localizedMessage.toString())});*/
+            .subscribe({data -> reactToGameStatus(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
+                , {error -> setCreateGameError(error.localizedMessage.toString())});
     }
 
     fun showLoading() {

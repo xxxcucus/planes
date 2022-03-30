@@ -13,6 +13,7 @@ import com.google.gson.Gson
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
+import com.planes.android.Tools
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.ErrorResponse
 import com.planes.multiplayer_engine.responses.NoRobotResponse
@@ -215,20 +216,8 @@ class NoRobotFragment : Fragment() {
     fun treatNoRobotResult(code: Int, jsonErrorString: String?, body: NoRobotResponse?) {
 
         if (body == null)  {
-            if (jsonErrorString != null) {
-                var gson = Gson()
-                var errorResponse = gson?.fromJson(jsonErrorString, ErrorResponse::class.java)
-
-                if (errorResponse != null)
-                    m_NoRobotErrorString =
-                        getString(R.string.registererror) + ":" + errorResponse.m_Message + "(" + errorResponse.m_Status + ")"
-                else
-                    m_NoRobotErrorString =
-                        getString(R.string.registererror) + ":" + getString(R.string.unknownerror)
-            } else {
-                m_NoRobotErrorString =
-                    getString(R.string.registererror) + ":" + getString(R.string.unknownerror)
-            }
+            m_NoRobotErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.registererror),
+                getString(R.string.unknownerror))
             m_NoRobotError = true
         }
 

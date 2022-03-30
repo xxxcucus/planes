@@ -99,17 +99,8 @@ class LoginFragment: Fragment() {
             )
 
         } else {
-            if (jsonErrorString != null) {
-                var gson = Gson()
-                var errorResponse = gson?.fromJson(jsonErrorString, ErrorResponse::class.java)
-
-                if (errorResponse != null)
-                    m_LoginErrorString = getString(R.string.loginerror) + ":" + errorResponse.m_Message + "(" + errorResponse.m_Status + ")"
-                else
-                    m_LoginErrorString = getString(R.string.loginerror) + ":" + getString(R.string.unknownerror)
-            } else {
-                m_LoginErrorString = getString(R.string.loginerror) + ":" + getString(R.string.unknownerror)
-            }
+            m_LoginErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.loginerror),
+                getString(R.string.unknownerror))
             m_LoginError = true
         }
         finalizeLogin()

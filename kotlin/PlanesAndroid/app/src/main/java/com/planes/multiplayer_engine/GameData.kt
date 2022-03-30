@@ -11,6 +11,7 @@ class GameData {
     private var m_GameName: String = ""
     private var m_OtherUsername: String = ""
 
+    //TODO: set to zero when logging in
     var gameId: Long
         get() = m_GameId
         set(value) { m_GameId = value }

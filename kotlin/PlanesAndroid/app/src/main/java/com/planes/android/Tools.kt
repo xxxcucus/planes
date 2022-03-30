@@ -7,6 +7,8 @@ import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.widget.Toast
+import com.google.gson.Gson
+import com.planes.multiplayer_engine.responses.ErrorResponse
 
 public class Tools {
     companion object Links
@@ -22,5 +24,24 @@ public class Tools {
             val isIntentSafe = activities.size > 0
             if (isIntentSafe) context.startActivity(intent) else Toast.makeText(context, "No app to display page!", Toast.LENGTH_SHORT).show()
         }
+
+        fun parseJsonError(jsonErrorString: String?, generalError: String, unknownError: String): String {
+            var errorString = "";
+
+            if (jsonErrorString != null) {
+                var gson = Gson()
+                var errorResponse = gson.fromJson(jsonErrorString, ErrorResponse::class.java)
+
+                if (errorResponse != null)
+                    errorString =
+                        generalError + ":" + errorResponse.m_Message + "(" + errorResponse.m_Status + ")"
+                else
+                    errorString = generalError + ":" + unknownError
+            } else {
+                errorString = generalError + ":" + unknownError
+            }
+            return errorString
+        }
+
     }
 }

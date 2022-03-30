@@ -2,10 +2,7 @@ package com.planes.multiplayer_engine
 
 import com.planes.android.MultiplayerRoundInterface
 import com.planes.multiplayer_engine.requests.NoRobotRequest
-import com.planes.multiplayer_engine.responses.LoginResponse
-import com.planes.multiplayer_engine.responses.NoRobotResponse
-import com.planes.multiplayer_engine.responses.RegistrationResponse
-import com.planes.multiplayer_engine.responses.VersionResponse
+import com.planes.multiplayer_engine.responses.*
 import com.planes.single_player_engine.PlaneRound
 import com.planes.single_player_engine.PlanesRoundJava
 import com.planes.single_player_engine.PlayerGuessReaction
@@ -53,6 +50,11 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
 
     override fun isUserLoggedIn(): Boolean {
         return global_Round!!.isUserLoggedIn()
+    }
+
+    override fun refreshGameStatus(gameName: String):
+            Observable<retrofit2.Response<GameStatusResponse>> {
+        return global_Round!!.refreshGameStatus(gameName)
     }
 
 

@@ -14,6 +14,7 @@ import com.google.gson.Gson
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
+import com.planes.android.Tools
 import com.planes.android.databinding.FragmentRegisterBinding
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.ErrorResponse
@@ -77,23 +78,10 @@ class RegisterFragment: Fragment() {
         if (body != null) {
             m_MultiplayerRound.setRegistrationResponse(body!!)
         } else {
-            if (jsonErrorString != null) {
-                var gson = Gson()
-                var errorResponse = gson?.fromJson(jsonErrorString, ErrorResponse::class.java)
-
-                if (errorResponse != null)
-                    m_RegisterErrorString =
-                        getString(R.string.registererror) + ":" + errorResponse.m_Message + "(" + errorResponse.m_Status + ")"
-                else
-                    m_RegisterErrorString =
-                        getString(R.string.registererror) + ":" + getString(R.string.unknownerror)
-            } else {
-                m_RegisterErrorString =
-                    getString(R.string.registererror) + ":" + getString(R.string.unknownerror)
-            }
+            m_RegisterErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.registererror),
+                getString(R.string.unknownerror))
             m_RegisterError = true
         }
-
 
         finalizeRegister()
     }
