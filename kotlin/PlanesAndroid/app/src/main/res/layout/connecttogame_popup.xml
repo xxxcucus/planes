@@ -6,40 +6,40 @@
     android:background="@color/layout_background_start">
 
     <TextView
-        android:id="@+id/creategame_title"
+        android:id="@+id/connecttogame_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:text="@string/create_game"/>
+        android:text="@string/connectto_game"/>
     <TextView
-        android:id="@+id/creategame_text"
+        android:id="@+id/connecttogame_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
-        android:text = "@string/creategame_possible"
-        android:layout_below="@+id/creategame_title"
+        android:text = "@string/connecttogame_possible"
+        android:layout_below="@+id/connecttogame_title"
         android:textSize="15dp"/>
 
     <Button
-        android:id="@+id/createnewgame_button"
+        android:id="@+id/connecttogame_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15dp"
         android:layout_alignParentRight="true"
         android:layout_margin="10dip"
-        android:text="@string/create_new_game"
-        android:layout_below="@+id/creategame_text" />
+        android:text="@string/connectto_game"
+        android:layout_below="@+id/connecttogame_text" />
 
     <Button
-        android:id="@+id/creategame_cancel_button"
+        android:id="@+id/connecttogame_cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15dp"
         android:layout_margin="10dip"
         android:text="@string/cancel"
-        android:layout_below="@+id/creategame_text"
-        android:layout_toLeftOf="@+id/createnewgame_button" />
+        android:layout_below="@+id/connecttogame_text"
+        android:layout_toLeftOf="@+id/connecttogame_button" />
 
 </RelativeLayout>

@@ -11,6 +11,7 @@ import androidx.appcompat.widget.LinearLayoutCompat
 
 public class Popups {
     companion object Popups {
+
         fun onWarning(context: Context, mainLayout: LinearLayoutCompat, errorString: String) {
             val inflater = context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val popupView: View = inflater.inflate(R.layout.warning_options, null)
@@ -74,6 +75,82 @@ public class Popups {
 
             yesButton.setOnClickListener {
                 yeslambda(username, password)
+                popupWindow.dismiss()
+            }
+        }
+
+        fun showCreateNewGamePopup(context: Context, mainLayout: LinearLayoutCompat, createGameLambda: () -> Unit) {
+            val inflater = context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val popupView: View = inflater.inflate(R.layout.creategame_popup, null)
+
+            // create the popup window
+            val width = LinearLayout.LayoutParams.WRAP_CONTENT
+            val height = LinearLayout.LayoutParams.WRAP_CONTENT
+            val focusable = true // lets taps outside the popup also dismiss it
+            val popupWindow = PopupWindow(popupView, width, height, focusable)
+
+            // show the popup window
+            // which view you pass in doesn't matter, it is only used for the window tolken
+            popupWindow.showAtLocation(
+                mainLayout,
+                Gravity.CENTER,
+                0,
+                0
+            )
+
+            // dismiss the popup window when touched
+            popupView.setOnTouchListener { v, event ->
+                popupWindow.dismiss()
+                true
+            }
+
+            val createGameButton = popupView.findViewById(R.id.createnewgame_button) as Button
+            val cancelButton  = popupView.findViewById(R.id.creategame_cancel_button) as Button
+
+            cancelButton.setOnClickListener {
+                popupWindow.dismiss()
+            }
+
+            createGameButton.setOnClickListener {
+                createGameLambda()
+                popupWindow.dismiss()
+            }
+        }
+
+        fun showConnectToGamePopup(context: Context, mainLayout: LinearLayoutCompat, connectToGameLambda: () -> Unit) {
+            val inflater = context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val popupView: View = inflater.inflate(R.layout.connecttogame_popup, null)
+
+            // create the popup window
+            val width = LinearLayout.LayoutParams.WRAP_CONTENT
+            val height = LinearLayout.LayoutParams.WRAP_CONTENT
+            val focusable = true // lets taps outside the popup also dismiss it
+            val popupWindow = PopupWindow(popupView, width, height, focusable)
+
+            // show the popup window
+            // which view you pass in doesn't matter, it is only used for the window tolken
+            popupWindow.showAtLocation(
+                mainLayout,
+                Gravity.CENTER,
+                0,
+                0
+            )
+
+            // dismiss the popup window when touched
+            popupView.setOnTouchListener { v, event ->
+                popupWindow.dismiss()
+                true
+            }
+
+            val connectToGameButton = popupView.findViewById(R.id.connecttogame_button) as Button
+            val cancelButton  = popupView.findViewById(R.id.connecttogame_cancel_button) as Button
+
+            cancelButton.setOnClickListener {
+                popupWindow.dismiss()
+            }
+
+            connectToGameButton.setOnClickListener {
+                connectToGameLambda()
                 popupWindow.dismiss()
             }
         }

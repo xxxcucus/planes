@@ -131,11 +131,16 @@
     <string name="random_game_name"> Generate random game name</string>
     <string name="create_connectto_game">Create or Connect to Game</string>
     <string name="connectto_game">Connect to Game</string>
+    <string name="create_game">Create Game</string>
     <string name="validation_tooshort_gamename"> Game name shorter as 5 charachters </string>
     <string name="validation_toolong_gamename"> Game name longer as 30 charachters </string>
     <string name="validation_user_not_loggedin"> You have not yet logged in</string>
     <string name="creategame_error"> Error when creating game </string>
     <string name="gamename_impossible"> It is not possible to create a game with this name</string>
+    <string name="creategame_possible"> You may create a new game with this name</string>
+    <string name="create_new_game"> Create New Gamef</string>
+    <string name="cancel"> Cancel</string>
+    <string name="connecttogame_possible"> You may connect to the game created by</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">
