@@ -1,5 +1,6 @@
 package com.planes.android
 
+import android.content.Context
 import android.content.res.Configuration
 import android.opengl.Visibility
 import android.os.Bundle
@@ -46,6 +47,9 @@ class MainActivity : AppCompatActivity() {
     private var mSelectedItem = 0
     private lateinit var m_DrawerLayout: DrawerLayout
     private lateinit var m_ProgressBar: ProgressBar
+    private lateinit var m_MainLayout: LinearLayoutCompat
+
+    //region life cycle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +58,8 @@ class MainActivity : AppCompatActivity() {
         var toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar!!.displayOptions = ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_SHOW_TITLE
+
+        m_MainLayout = findViewById<View>(R.id.coordinator_id) as LinearLayoutCompat
 
         m_ProgressBar = findViewById(R.id.ProgressBarBottom)
         m_ProgressBar.isIndeterminate = true
@@ -120,6 +126,184 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        mDrawerToggle.syncState()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        mDrawerToggle.syncState()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true
+        }
+
+        val id = item.itemId
+        if (id == R.id.menu_help) {
+            onButtonShowHelpWindowClick()
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        m_SinglePlayerPreferencesService.writeToSavedInstanceState(outState)
+        m_MultiplayerPreferencesService.writeToSavedInstanceState(outState)
+        m_MainPreferencesService.writeToSavedInstanceState(outState)
+        m_VideoSettingsService.writeToSavedInstanceState(outState)
+        m_NoRobotSettingsService.writeToSavedInstanceState(outState)
+        outState.putInt("currentFragment", mSelectedItem)
+        Log.d("Planes", "onSaveInstanceState")
+
+        // call superclass to save any view hierarchy
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onStop() {
+        m_SinglePlayerPreferencesService.writePreferences()
+        m_MultiplayerPreferencesService.writePreferences()
+        m_MainPreferencesService.writePreferences()
+        m_VideoSettingsService.writePreferences()
+        super.onStop()
+        Log.d("Planes", "onStop")
+    }
+
+    public override fun onDestroy() {
+        m_SinglePlayerPreferencesService.writePreferences()
+        m_MultiplayerPreferencesService.writePreferences()
+        m_MainPreferencesService.writePreferences()
+        m_VideoSettingsService.writePreferences()
+        super.onDestroy()
+        Log.d("Planes", "onDestroy")
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_planes, menu)
+        return true
+    }
+
+    //endregion
+
+    //region various
+
+    fun setCurrentFragmentId(curFragment: ApplicationScreens) {
+        when(curFragment.value) {
+            ApplicationScreens.Preferences.value -> mSelectedItem = R.id.nav_settings
+            ApplicationScreens.Game.value -> mSelectedItem = R.id.nav_game
+            ApplicationScreens.Videos.value -> mSelectedItem = R.id.nav_videos
+            ApplicationScreens.About.value -> mSelectedItem = R.id.nav_about
+            ApplicationScreens.Login.value -> mSelectedItem = R.id.nav_login
+            ApplicationScreens.Register.value -> mSelectedItem = R.id.nav_register
+            ApplicationScreens.NoRobot.value -> mSelectedItem = R.id.nav_norobot
+            ApplicationScreens.CreateGame.value -> mSelectedItem = R.id.nav_creategame
+            else -> mSelectedItem = R.id.nav_game
+        }
+    }
+
+    public fun isHorizontal(): Boolean {
+        val orientation = resources.configuration.orientation
+        return if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            true
+        } else {
+            false
+        }
+    }
+
+    public fun isTablet(): Boolean {
+        val tabletSize = resources.getBoolean(R.bool.isTablet)
+        return if (tabletSize) {
+            true
+        } else {
+            false
+        }
+    }
+
+    fun setActionBarTitle(title: String) {
+        supportActionBar?.setTitle(title)
+    }
+
+    //endregion
+
+
+    //region drawer
+    fun setDraweMenuMultiplayer() {
+        var navigationView = findViewById<NavigationView>(R.id.nav_view)
+        if (navigationView != null) {
+            var menu = navigationView.menu
+            menu.findItem(R.id.nav_login).setVisible(true)
+            menu.findItem(R.id.nav_logout).setVisible(true)
+            menu.findItem(R.id.nav_register).setVisible(true)
+        }
+
+        setUsernameDrawerMenuMultiplayer()
+    }
+
+    fun setUsernameDrawerMenuMultiplayer() {
+        var navigationView = findViewById<NavigationView>(R.id.nav_view)
+        val header = navigationView.getHeaderView(0)
+        var versionTextView = header.findViewById<TextView>(R.id.version_header)
+        var userTextView = header.findViewById<TextView>(R.id.user_header)
+        versionTextView.setText(getString(R.string.multiplayergame))
+        userTextView.visibility = View.VISIBLE
+        var username = m_MultiplayerRound.getUsername()
+        if (username.isNullOrEmpty())
+            userTextView.setText(getString(R.string.nouser))
+        else
+            userTextView.setText(username)
+    }
+
+    fun setDraweMenuSinglePlayer() {
+        var navigationView = findViewById<NavigationView>(R.id.nav_view)
+        if (navigationView != null) {
+            var menu = navigationView.menu
+            menu.findItem(R.id.nav_login).setVisible(false)
+            menu.findItem(R.id.nav_logout).setVisible(false)
+            menu.findItem(R.id.nav_register).setVisible(false)
+        }
+        val header = navigationView.getHeaderView(0)
+        var versionTextView = header.findViewById<TextView>(R.id.version_header)
+        var userTextView = header.findViewById<TextView>(R.id.user_header)
+        versionTextView.setText(getString(R.string.singleplayergame))
+        userTextView.visibility = View.GONE
+    }
+
+    //endregion
+
+    //region settings
+    public fun setVideoSettings(currentVideo: Int, playbackPositions: IntArray) {
+        m_VideoSettingsService.currentVideo = currentVideo
+        m_VideoSettingsService.videoPlaybackPositions = playbackPositions
+    }
+
+    public fun setNorobotSettings(requestId: Long, images: Array<String>, question: String, selection: Array<Boolean>) {
+        m_NoRobotSettingsService.requestId = requestId.toString()
+        m_NoRobotSettingsService.question = question
+        m_NoRobotSettingsService.images = images
+        m_NoRobotSettingsService.selection = selection
+    }
+
+    fun setSinglePlayerOptions(currentSkill: Int, showPlaneAfterKill: Boolean): Boolean {
+        if (!setPreferencesForPlaneRound(currentSkill, showPlaneAfterKill))
+            return false
+        m_SinglePlayerPreferencesService.computerSkill = currentSkill
+        m_SinglePlayerPreferencesService.showPlaneAfterKill = showPlaneAfterKill
+        return true
+    }
+
+    fun setMultiplayerOptions(username: String, password: String): Boolean {
+        /*TODOif (!setPreferencesForPlaneRound(currentSkill, showPlaneAfterKill))
+            return false*/
+        m_MultiplayerPreferencesService.username = username
+        m_MultiplayerPreferencesService.password = password
+        return true
+    }
+
     private fun setPreferencesForPlaneRound(): Boolean {
         var retVal = true
 
@@ -166,87 +350,21 @@ class MainActivity : AppCompatActivity() {
         return retVal
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        mDrawerToggle.syncState()
+    //endregion
+
+    //region progress bar
+
+    fun startProgressDialog() {
+        m_ProgressBar.isVisible = true
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        mDrawerToggle.syncState()
+    fun stopProgressDialog() {
+        m_ProgressBar.isVisible = false
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true
-        }
+    //endregion
 
-        val id = item.itemId
-        if (id == R.id.menu_help) {
-            onButtonShowHelpWindowClick()
-            return true
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
-
-    fun setSinglePlayerOptions(currentSkill: Int, showPlaneAfterKill: Boolean): Boolean {
-        if (!setPreferencesForPlaneRound(currentSkill, showPlaneAfterKill))
-            return false
-        m_SinglePlayerPreferencesService.computerSkill = currentSkill
-        m_SinglePlayerPreferencesService.showPlaneAfterKill = showPlaneAfterKill
-        return true
-    }
-
-    fun setMultiplayerOptions(username: String, password: String): Boolean {
-        /*TODOif (!setPreferencesForPlaneRound(currentSkill, showPlaneAfterKill))
-            return false*/
-        m_MultiplayerPreferencesService.username = username
-        m_MultiplayerPreferencesService.password = password
-        return true
-    }
-
-    fun setDraweMenuMultiplayer() {
-        var navigationView = findViewById<NavigationView>(R.id.nav_view)
-        if (navigationView != null) {
-            var menu = navigationView.menu
-            menu.findItem(R.id.nav_login).setVisible(true)
-            menu.findItem(R.id.nav_logout).setVisible(true)
-            menu.findItem(R.id.nav_register).setVisible(true)
-        }
-
-        setUsernameDrawerMenuMultiplayer()
-    }
-
-    fun setUsernameDrawerMenuMultiplayer() {
-        var navigationView = findViewById<NavigationView>(R.id.nav_view)
-        val header = navigationView.getHeaderView(0)
-        var versionTextView = header.findViewById<TextView>(R.id.version_header)
-        var userTextView = header.findViewById<TextView>(R.id.user_header)
-        versionTextView.setText(getString(R.string.multiplayergame))
-        userTextView.visibility = View.VISIBLE
-        var username = m_MultiplayerRound.getUsername()
-        if (username.isNullOrEmpty())
-            userTextView.setText(getString(R.string.nouser))
-        else
-            userTextView.setText(username)
-    }
-
-    fun setDraweMenuSinglePlayer() {
-        var navigationView = findViewById<NavigationView>(R.id.nav_view)
-        if (navigationView != null) {
-            var menu = navigationView.menu
-            menu.findItem(R.id.nav_login).setVisible(false)
-            menu.findItem(R.id.nav_logout).setVisible(false)
-            menu.findItem(R.id.nav_register).setVisible(false)
-        }
-        val header = navigationView.getHeaderView(0)
-        var versionTextView = header.findViewById<TextView>(R.id.version_header)
-        var userTextView = header.findViewById<TextView>(R.id.user_header)
-        versionTextView.setText(getString(R.string.singleplayergame))
-        userTextView.visibility = View.GONE
-    }
-
+    //region start fragments
     fun setFragment(addToBackStack: Boolean) {
         lateinit var newFragment:Fragment
 
@@ -313,295 +431,6 @@ class MainActivity : AppCompatActivity() {
         //mSelectedItem = 0
     }
 
-    fun startTutorialFragment(index: Int) {
-        mSelectedItem = R.id.nav_videos
-
-        val bundle = Bundle()
-        bundle.putInt("videosettings/currentVideo", index)
-        bundle.putSerializable("videosettings/videoPlaybackPositions", m_VideoSettingsService.videoPlaybackPositions)
-        var newFragment = VideoFragment1()
-        newFragment.setArguments(bundle)
-
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.main_content, newFragment)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .addToBackStack("FromHelp")
-            .commit()
-    }
-
-    /**
-     * Enter multiplayer modus
-     */
-    fun restartPreferencesFragment() {
-        if (m_MainPreferencesService.multiplayerVersion)
-            setDraweMenuMultiplayer()
-        else
-            setDraweMenuSinglePlayer()
-
-        supportFragmentManager.popBackStack("FromMainMenu", FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        mSelectedItem = R.id.nav_settings
-        setFragment(true)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        m_SinglePlayerPreferencesService.writeToSavedInstanceState(outState)
-        m_MultiplayerPreferencesService.writeToSavedInstanceState(outState)
-        m_MainPreferencesService.writeToSavedInstanceState(outState)
-        m_VideoSettingsService.writeToSavedInstanceState(outState)
-        m_NoRobotSettingsService.writeToSavedInstanceState(outState)
-        outState.putInt("currentFragment", mSelectedItem)
-        Log.d("Planes", "onSaveInstanceState")
-
-        // call superclass to save any view hierarchy
-        super.onSaveInstanceState(outState)
-    }
-
-    override fun onStop() {
-        m_SinglePlayerPreferencesService.writePreferences()
-        m_MultiplayerPreferencesService.writePreferences()
-        m_MainPreferencesService.writePreferences()
-        m_VideoSettingsService.writePreferences()
-        super.onStop()
-        Log.d("Planes", "onStop")
-    }
-
-    public override fun onDestroy() {
-        m_SinglePlayerPreferencesService.writePreferences()
-        m_MultiplayerPreferencesService.writePreferences()
-        m_MainPreferencesService.writePreferences()
-        m_VideoSettingsService.writePreferences()
-        super.onDestroy()
-        Log.d("Planes", "onDestroy")
-    }
-
-    public fun isHorizontal(): Boolean {
-        val orientation = resources.configuration.orientation
-        return if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            true
-        } else {
-            false
-        }
-    }
-
-    public fun isTablet(): Boolean {
-        val tabletSize = resources.getBoolean(R.bool.isTablet)
-        return if (tabletSize) {
-            true
-        } else {
-           false
-        }
-    }
-
-    public fun setVideoSettings(currentVideo: Int, playbackPositions: IntArray) {
-        m_VideoSettingsService.currentVideo = currentVideo
-        m_VideoSettingsService.videoPlaybackPositions = playbackPositions
-    }
-
-    public fun setNorobotSettings(requestId: Long, images: Array<String>, question: String, selection: Array<Boolean>) {
-        m_NoRobotSettingsService.requestId = requestId.toString()
-        m_NoRobotSettingsService.question = question
-        m_NoRobotSettingsService.images = images
-        m_NoRobotSettingsService.selection = selection
-    }
-
-    fun onWarning(errorString: String) {
-        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val popupView: View = inflater.inflate(R.layout.warning_options, null)
-
-        val textView = popupView.findViewById<TextView>(R.id.warning_options_text)
-        textView.setText(errorString)
-
-        // create the popup window
-        val width = LinearLayout.LayoutParams.WRAP_CONTENT
-        val height = LinearLayout.LayoutParams.WRAP_CONTENT
-        val focusable = true // lets taps outside the popup also dismiss it
-        val popupWindow = PopupWindow(popupView, width, height, focusable)
-
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
-        popupWindow.showAtLocation(
-            findViewById<View>(R.id.coordinator_id) as LinearLayoutCompat,
-            Gravity.CENTER,
-            0,
-            0
-        )
-
-        // dismiss the popup window when touched
-        popupView.setOnTouchListener { v, event ->
-            popupWindow.dismiss()
-            true
-        }
-    }
-
-    fun setActionBarTitle(title: String) {
-        supportActionBar?.setTitle(title)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_planes, menu)
-        return true
-    }
-
-    fun onButtonShowHelpWindowClick() {
-
-        if (mSelectedItem in arrayOf(R.id.nav_about, R.id.nav_settings))
-            return
-
-        // inflate the layout of the popup window
-        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val popupView = inflater.inflate(R.layout.help_popup, null)
-
-        // create the popup window
-        val width = LinearLayout.LayoutParams.WRAP_CONTENT
-        val height = LinearLayout.LayoutParams.WRAP_CONTENT
-        val focusable = true // lets taps outside the popup also dismiss it
-        val popupWindow = PopupWindow(popupView, width, height, focusable)
-
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
-        popupWindow.showAtLocation(m_DrawerLayout, Gravity.CENTER, 0, 0)
-        val helpTextView = popupView.findViewById(R.id.popup_help_text) as TextView
-        val helpTitleTextView = popupView.findViewById(R.id.popup_help_title) as TextView
-        val helpButton = popupView.findViewById(R.id.popup_help_button) as Button
-        if (helpTextView != null && helpTitleTextView != null) {
-            when(mSelectedItem) {
-                R.id.nav_game -> {
-                    showHelpGameFragment(popupWindow, helpTextView, helpTitleTextView, helpButton)
-                }
-                R.id.nav_videos -> {
-                    showHelpVideoFragment(helpTextView, helpTitleTextView, helpButton)
-                }
-            }
-        }
-
-        // dismiss the popup window when touched
-        popupView.setOnTouchListener { v, event ->
-            popupWindow.dismiss()
-            true
-        }
-    }
-
-    fun showSaveCredentialsPopup(username: String, password: String) {
-
-        if (m_MultiplayerPreferencesService.username == username && m_MultiplayerPreferencesService.password == password) {
-            val text = getString(R.string.loginsuccess)
-            val duration = Toast.LENGTH_SHORT
-
-            val toast = Toast.makeText(applicationContext, text, duration)
-            toast.show()
-
-            return
-        }
-
-        // inflate the layout of the popup window
-        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val popupView = inflater.inflate(R.layout.savecredentials_popup, null)
-
-        // create the popup window
-        val width = LinearLayout.LayoutParams.WRAP_CONTENT
-        val height = LinearLayout.LayoutParams.WRAP_CONTENT
-        val focusable = true // lets taps outside the popup also dismiss it
-        val popupWindow = PopupWindow(popupView, width, height, focusable)
-
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
-        popupWindow.showAtLocation(m_DrawerLayout, Gravity.CENTER, 0, 0)
-        val helpTextView = popupView.findViewById(R.id.savecredentials_text) as TextView
-        val helpTitleTextView = popupView.findViewById(R.id.savecredentials_title) as TextView
-
-        val yesButton = popupView.findViewById(R.id.savecredentials_yes_button) as Button
-        val noButton = popupView.findViewById(R.id.savecredentials_no_button) as Button
-
-        // dismiss the popup window when touched
-        popupView.setOnTouchListener { v, event ->
-            popupWindow.dismiss()
-            true
-        }
-
-        noButton.setOnClickListener {
-            popupWindow.dismiss()
-        }
-
-        yesButton.setOnClickListener {
-            m_MultiplayerPreferencesService.username = username
-            m_MultiplayerPreferencesService.password = password
-            popupWindow.dismiss()
-        }
-
-    }
-
-    fun showHelpGameFragment(popupWindow: PopupWindow, helpTextView: TextView, helpTitleTextView: TextView, helpButton: Button) {
-        var gameStage = m_PlaneRound.getGameStage()
-        when (gameStage) {
-            GameStages.GameNotStarted.value -> {
-                helpTitleTextView.text = resources.getString(R.string.game_not_started_stage)
-                helpTextView.text = resources.getString(R.string.helptext_startnewgame_1)
-                helpButton.setEnabled(false)
-            }
-            GameStages.BoardEditing.value -> {
-                helpTitleTextView.text = resources.getString(R.string.board_editing_stage)
-                helpTextView.text = """
-                    ${resources.getString(R.string.helptext_boardediting_1)}
-                    ${resources.getString(R.string.helptext_boardediting_2)}
-                    """.trimIndent()
-                helpButton.setOnClickListener(object : View.OnClickListener {
-                    override fun onClick(view: View) {
-                        startTutorialFragment(1)
-                        popupWindow.dismiss()
-                    }
-                })
-                helpButton.setEnabled(true)
-            }
-            GameStages.Game.value -> {
-                helpTitleTextView.text = resources.getString(R.string.game_stage)
-                helpTextView.text = """
-                    ${resources.getString(R.string.helptext_game_1)}
-                    ${resources.getString(R.string.helptext_game_2)}
-                    """.trimIndent()
-                helpButton.setOnClickListener(object : View.OnClickListener {
-                    override fun onClick(view: View) {
-                        startTutorialFragment(0)
-                        popupWindow.dismiss()
-                    }
-                })
-                helpButton.setEnabled(true)
-            }
-        }
-    }
-
-    fun showHelpVideoFragment(helpTextView: TextView, helpTitleTextView: TextView, helpButton: Button) {
-        helpTitleTextView.text = resources.getString(R.string.videos)
-        helpTextView.text = """
-                    ${resources.getString(R.string.helptext_videos1)}
-                    ${resources.getString(R.string.helptext_videos2)}
-                    ${resources.getString(R.string.helptext_videos3)}
-                    """.trimIndent()
-        helpButton.setEnabled(false)
-    }
-
-    fun setCurrentFragmentId(curFragment: ApplicationScreens) {
-        when(curFragment.value) {
-            ApplicationScreens.Preferences.value -> mSelectedItem = R.id.nav_settings
-            ApplicationScreens.Game.value -> mSelectedItem = R.id.nav_game
-            ApplicationScreens.Videos.value -> mSelectedItem = R.id.nav_videos
-            ApplicationScreens.About.value -> mSelectedItem = R.id.nav_about
-            ApplicationScreens.Login.value -> mSelectedItem = R.id.nav_login
-            ApplicationScreens.Register.value -> mSelectedItem = R.id.nav_register
-            ApplicationScreens.NoRobot.value -> mSelectedItem = R.id.nav_norobot
-            ApplicationScreens.CreateGame.value -> mSelectedItem = R.id.nav_creategame
-            else -> mSelectedItem = R.id.nav_game
-        }
-    }
-
-    fun startProgressDialog() {
-        m_ProgressBar.isVisible = true
-    }
-
-    fun stopProgressDialog() {
-        m_ProgressBar.isVisible = false
-    }
-
     fun startNoRobotFragment(regResp : RegistrationResponse) {
 
         mSelectedItem = R.id.nav_norobot  //TODO theoretically not necessary because each fragment sets this variable when it starts
@@ -625,6 +454,24 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+    fun startTutorialFragment(index: Int) {
+        mSelectedItem = R.id.nav_videos
+
+        val bundle = Bundle()
+        bundle.putInt("videosettings/currentVideo", index)
+        bundle.putSerializable("videosettings/videoPlaybackPositions", m_VideoSettingsService.videoPlaybackPositions)
+        var newFragment = VideoFragment1()
+        newFragment.setArguments(bundle)
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_content, newFragment)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .addToBackStack("FromHelp")
+            .commit()
+    }
+
+
     fun startRegistrationFragment(norobotError: Boolean, message: String) {
         mSelectedItem = R.id.nav_register
         setFragment(true)
@@ -638,6 +485,51 @@ class MainActivity : AppCompatActivity() {
             val toast = Toast.makeText(applicationContext, text, duration)
             toast.show()
         }
-
     }
+
+    /**
+     * Enter multiplayer modus
+     */
+    fun restartPreferencesFragment() {
+        if (m_MainPreferencesService.multiplayerVersion)
+            setDraweMenuMultiplayer()
+        else
+            setDraweMenuSinglePlayer()
+
+        supportFragmentManager.popBackStack("FromMainMenu", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        mSelectedItem = R.id.nav_settings
+        setFragment(true)
+    }
+
+    //endregion
+
+    //region popups
+    fun onWarning(errorString: String) {
+        Popups.onWarning(applicationContext, m_MainLayout, errorString)
+    }
+
+    fun showSaveCredentialsPopup(username: String, password: String) {
+        if (m_MultiplayerPreferencesService.username == username && m_MultiplayerPreferencesService.password == password) {
+            val text = getString(R.string.loginsuccess)
+            val duration = Toast.LENGTH_SHORT
+
+            val toast = Toast.makeText(applicationContext, text, duration)
+            toast.show()
+
+            return
+        }
+
+        Popups.showSaveCredentialsPopup(applicationContext, m_MainLayout, username, password,
+            { username: String, password: String ->
+                m_MultiplayerPreferencesService.username = username
+                m_MultiplayerPreferencesService.password = password
+            })
+    }
+
+    fun onButtonShowHelpWindowClick() {
+        var helpPopup = HelpPopup(applicationContext, m_MainLayout, mSelectedItem, ::startTutorialFragment)
+        helpPopup.onButtonShowHelpWindowClick()
+    }
+
+    //endregion
 }

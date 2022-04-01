@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/layout_background_start">
+
+    <TextView
+        android:id="@+id/savecredentials_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:text="@string/loginsuccess"/>
+    <TextView
+        android:id="@+id/savecredentials_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:text = "@string/savecredentials_question"
+        android:layout_below="@+id/savecredentials_title"
+        android:textSize="15dp"/>
+
+    <Button
+        android:id="@+id/savecredentials_yes_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dip"
+        android:text="@string/yes"
+        android:layout_below="@+id/savecredentials_text" />
+
+    <Button
+        android:id="@+id/savecredentials_no_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:layout_margin="10dip"
+        android:text="@string/no"
+        android:layout_below="@+id/savecredentials_text"
+        android:layout_toLeftOf="@+id/savecredentials_yes_button" />
+
+</RelativeLayout>

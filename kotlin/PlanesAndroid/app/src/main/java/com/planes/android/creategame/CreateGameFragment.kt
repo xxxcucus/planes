@@ -83,7 +83,14 @@ class CreateGameFragment: Fragment() {
 
     fun reactToGameStatus(code: Int, jsonErrorString: String?, headrs: Headers, body: GameStatusResponse?) {
         if (body != null)  {
-           
+           if (!body!!.m_Exists) {
+               //create game
+           } else if (body!!.m_FirstPlayerName == body!!.m_SecondPlayerName) {
+               //connect to game
+           } else {
+                m_CreateGameErrorString = getString(R.string.gamename_impossible)
+                m_CreateGameError = true
+           }
         } else {
             m_CreateGameErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.creategame_error),
                 getString(R.string.unknownerror))
@@ -91,6 +98,31 @@ class CreateGameFragment: Fragment() {
         }
         finalizeCreateGame()
     }
+
+    /*
+    if (!exists) {
+        QMessageBox msgBox(this);
+        msgBox.setText("You may create a new game with this name");
+        QPushButton* createButton = msgBox.addButton("Create New Game", QMessageBox::YesRole);
+        QPushButton* cancelButton = msgBox.addButton("Cancel", QMessageBox::NoRole);
+        msgBox.exec();
+        if (msgBox.clickedButton() == createButton)
+            createGameSlot();
+    } else if (firstPlayerName == secondPlayerName) {
+        QMessageBox msgBox(this);
+        msgBox.setText("You may connect to the game created by " + firstPlayerName);
+        QPushButton* connectButton = msgBox.addButton("Connect to Game", QMessageBox::YesRole);
+        QPushButton* cancelButton = msgBox.addButton("Cancel", QMessageBox::NoRole);
+        msgBox.exec();
+        if (msgBox.clickedButton() == connectButton)
+            connectToGameSlot();
+    } else {
+        QMessageBox msgBox(this);
+        msgBox.setText("It is not possible to create or connect to a a game with this name");
+        msgBox.exec();
+    }
+
+     */
 
     fun setCreateGameError(errorMsg: String) {
         m_CreateGameError = true

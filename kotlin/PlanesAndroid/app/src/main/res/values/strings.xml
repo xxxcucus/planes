@@ -135,6 +135,7 @@
     <string name="validation_toolong_gamename"> Game name longer as 30 charachters </string>
     <string name="validation_user_not_loggedin"> You have not yet logged in</string>
     <string name="creategame_error"> Error when creating game </string>
+    <string name="gamename_impossible"> It is not possible to create a game with this name</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">

@@ -11,7 +11,7 @@ import com.google.gson.Gson
 import com.planes.multiplayer_engine.responses.ErrorResponse
 
 public class Tools {
-    companion object Links
+    companion object Tools
     {
         fun openLink(context: Context, linkString: String?) {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(linkString))
