@@ -34,7 +34,7 @@ void CreateGameCommObj::finishedRequest()
         return;
 
     QMessageBox msgBox(m_ParentWidget);
-    msgBox.setText("Game creation successfull!"); 
+    msgBox.setText("Game creation successful!"); 
     msgBox.exec();               
     m_GlobalData->m_GameData.m_GameId = retJson.value("id").toString().toLong();
     m_GlobalData->m_GameData.m_GameName = retJson.value("gameName").toString();

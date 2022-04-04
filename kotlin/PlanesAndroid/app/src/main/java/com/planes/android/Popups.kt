@@ -79,7 +79,7 @@ public class Popups {
             }
         }
 
-        fun showCreateNewGamePopup(context: Context, mainLayout: LinearLayoutCompat, createGameLambda: () -> Unit) {
+        fun showCreateNewGamePopup(context: Context, mainLayout: RelativeLayout, createGameLambda: () -> Unit) {
             val inflater = context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val popupView: View = inflater.inflate(R.layout.creategame_popup, null)
 
@@ -117,7 +117,7 @@ public class Popups {
             }
         }
 
-        fun showConnectToGamePopup(context: Context, mainLayout: LinearLayoutCompat, connectToGameLambda: () -> Unit) {
+        fun showConnectToGamePopup(context: Context, mainLayout: RelativeLayout, connectToGameLambda: () -> Unit) {
             val inflater = context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val popupView: View = inflater.inflate(R.layout.connecttogame_popup, null)
 

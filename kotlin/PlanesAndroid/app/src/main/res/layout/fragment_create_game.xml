@@ -5,6 +5,7 @@
         <variable name="settingsData" type="com.planes.android.creategame.CreateGameViewModel"/>
     </data>
     <RelativeLayout
+        android:id="@+id/root_creategame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background">

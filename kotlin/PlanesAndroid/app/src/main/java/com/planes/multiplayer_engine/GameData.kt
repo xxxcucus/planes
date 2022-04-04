@@ -1,5 +1,8 @@
 package com.planes.multiplayer_engine
 
+import com.planes.multiplayer_engine.responses.ConnectToGameResponse
+import com.planes.multiplayer_engine.responses.CreateGameResponse
+
 /*it could actually be defined outside the MultiplayerRound like in PlaneGraphicsScene
 for future use in the single player game*/
 
@@ -10,6 +13,7 @@ class GameData {
     private var m_OtherUserId: Long = 0
     private var m_GameName: String = ""
     private var m_OtherUsername: String = ""
+    private var m_UserName: String = ""
 
     //TODO: set to zero when logging in
     var gameId: Long
@@ -36,6 +40,9 @@ class GameData {
         get() = m_OtherUsername
         set(value) { m_OtherUsername = value }
 
+    var username: String
+        get() = m_UserName
+        set(value) { m_UserName = value }
 
     fun reset() {
             m_GameId = 0;
@@ -45,4 +52,24 @@ class GameData {
             m_GameName = "";
             m_OtherUsername = "";
         }
+
+    fun setFromCreateGameResponse(gameCreationResponse: CreateGameResponse) {
+        m_GameId = gameCreationResponse.m_GameId.toLong()
+        m_RoundId = gameCreationResponse.m_CurrentRoundId.toLong()
+        m_UserId = gameCreationResponse.m_SecondPlayerId.toLong()
+        m_OtherUserId = gameCreationResponse.m_FirstPlayerId.toLong()
+        m_GameName = gameCreationResponse.m_GameName
+        m_OtherUsername = gameCreationResponse.m_FirstPlayerName
+        m_UserName = gameCreationResponse.m_SecondPlayerName
+    }
+
+    fun setFromConnectToGameResponse(gameCreationResponse: ConnectToGameResponse) {
+        m_GameId = gameCreationResponse.m_GameId.toLong()
+        m_RoundId = gameCreationResponse.m_CurrentRoundId.toLong()
+        m_UserId = gameCreationResponse.m_SecondPlayerId.toLong()
+        m_OtherUserId = gameCreationResponse.m_FirstPlayerId.toLong()
+        m_GameName = gameCreationResponse.m_GameName
+        m_OtherUsername = gameCreationResponse.m_FirstPlayerName
+        m_UserName = gameCreationResponse.m_SecondPlayerName
+    }
 }

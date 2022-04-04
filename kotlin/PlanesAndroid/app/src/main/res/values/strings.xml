@@ -138,7 +138,7 @@
     <string name="creategame_error"> Error when creating game </string>
     <string name="gamename_impossible"> It is not possible to create a game with this name</string>
     <string name="creategame_possible"> You may create a new game with this name</string>
-    <string name="create_new_game"> Create New Gamef</string>
+    <string name="create_new_game"> Create New Game</string>
     <string name="cancel"> Cancel</string>
     <string name="connecttogame_possible"> You may connect to the game created by</string>
 

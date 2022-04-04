@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.CompoundButton
+import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
-import com.planes.android.ApplicationScreens
-import com.planes.android.MainActivity
-import com.planes.android.R
-import com.planes.android.Tools
+import com.planes.android.*
 import com.planes.android.databinding.FragmentCreateGameBinding
 import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.responses.ConnectToGameResponse
+import com.planes.multiplayer_engine.responses.CreateGameResponse
 import com.planes.multiplayer_engine.responses.ErrorResponse
 import com.planes.multiplayer_engine.responses.GameStatusResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -34,10 +34,13 @@ class CreateGameFragment: Fragment() {
     private lateinit var m_CreateGameSubscription: Disposable
     private lateinit var m_ConnectToGameSubscription: Disposable
     private lateinit var m_RefreshGameStatusSubscription: Disposable
+    private lateinit var m_Context: Context
+    private lateinit var m_MainLayout: RelativeLayout
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         m_MultiplayerRound.createPlanesRound()
+        m_Context = context
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +66,8 @@ class CreateGameFragment: Fragment() {
             binding.invalidateAll()
         }
 
+        m_MainLayout = binding.rootCreategame as RelativeLayout
+
         return binding.root
     }
 
@@ -84,9 +89,9 @@ class CreateGameFragment: Fragment() {
     fun reactToGameStatus(code: Int, jsonErrorString: String?, headrs: Headers, body: GameStatusResponse?) {
         if (body != null)  {
            if (!body!!.m_Exists) {
-               //create game
+               showCreateGamePopup()
            } else if (body!!.m_FirstPlayerName == body!!.m_SecondPlayerName) {
-               //connect to game
+               showConnectToGamePopup()
            } else {
                 m_CreateGameErrorString = getString(R.string.gamename_impossible)
                 m_CreateGameError = true
@@ -215,5 +220,61 @@ class CreateGameFragment: Fragment() {
             return false
         }
         return true
+    }
+
+    fun showCreateGamePopup() {
+        Popups.showCreateNewGamePopup(m_Context, m_MainLayout, ::createGame);
+    }
+
+    fun showConnectToGamePopup() {
+        Popups.showConnectToGamePopup(m_Context, m_MainLayout, ::connectToGame);
+    }
+
+    fun createGame() {
+        var createGame = m_MultiplayerRound.createGame(binding.settingsData!!.m_GameName.trim())
+        m_CreateGameSubscription = createGame
+            .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { _ -> showLoading() }
+            .doOnTerminate { hideLoading() }
+            .doOnComplete { hideLoading() }
+            .subscribe({data -> reactToGameCreation(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
+                , {error -> setCreateGameError(error.localizedMessage.toString())});
+    }
+
+    fun reactToGameCreation(code: Int, jsonErrorString: String?, headrs: Headers, body: CreateGameResponse?) {
+        if (body != null)  {
+            m_MultiplayerRound.setGameData(body!!)
+            m_MultiplayerRound.setUserId(body!!.m_SecondPlayerId.toLong())
+        } else {
+            m_CreateGameErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.creategame_error),
+                getString(R.string.unknownerror))
+            m_CreateGameError = true
+        }
+    }
+
+    fun connectToGame() {
+        var connectToGame = m_MultiplayerRound.connectToGame(binding.settingsData!!.m_GameName.trim())
+        m_ConnectToGameSubscription = connectToGame
+            .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { _ -> showLoading() }
+            .doOnTerminate { hideLoading() }
+            .doOnComplete { hideLoading() }
+            .subscribe({data -> reactToConnectToGame(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
+                , {error -> setCreateGameError(error.localizedMessage.toString())});
+    }
+
+    fun reactToConnectToGame(code: Int, jsonErrorString: String?, headrs: Headers, body: ConnectToGameResponse?) {
+        if (body != null)  {
+            m_MultiplayerRound.setGameData(body!!)
+            m_MultiplayerRound.setUserId(body!!.m_SecondPlayerId.toLong())
+        } else {
+            m_CreateGameErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.creategame_error),
+                getString(R.string.unknownerror))
+            m_CreateGameError = true
+        }
     }
 }

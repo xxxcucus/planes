@@ -1,9 +1,6 @@
 package com.planes.multiplayer_engine
 
-import com.planes.multiplayer_engine.requests.GameStatusRequest
-import com.planes.multiplayer_engine.requests.LoginRequest
-import com.planes.multiplayer_engine.requests.NoRobotRequest
-import com.planes.multiplayer_engine.requests.RegistrationRequest
+import com.planes.multiplayer_engine.requests.*
 import com.planes.multiplayer_engine.responses.*
 import io.reactivex.Observable
 import okhttp3.*
@@ -122,6 +119,30 @@ class MultiplayerRound {
             Observable<retrofit2.Response<GameStatusResponse>> {
         return m_Service.refreshGameStatus(m_UserData.authToken,
             GameStatusRequest(gameName, m_UserData.userName, m_UserData.userId.toString() , m_GameData.gameId.toString()))
+    }
+
+    fun createGame(gameName: String): Observable<retrofit2.Response<CreateGameResponse>> {
+        return m_Service.createGame(m_UserData.authToken,
+            CreateGameRequest(gameName, m_UserData.userName, m_UserData.userId.toString() , m_GameData.gameId.toString())
+        )
+    }
+
+    fun setGameData(gameCreationResponse: CreateGameResponse) {
+        m_GameData.setFromCreateGameResponse(gameCreationResponse)
+    }
+
+    fun setGameData(connectToGameResponse: ConnectToGameResponse) {
+        m_GameData.setFromConnectToGameResponse(connectToGameResponse)
+    }
+
+    fun setUserId(userid: Long) {
+        m_UserData.userId = userid
+    }
+
+    fun connectToGame(gameName: String): Observable<retrofit2.Response<ConnectToGameResponse>> {
+        return m_Service.connectToGame(m_UserData.authToken,
+            ConnectToGameRequest(gameName, m_UserData.userName, m_UserData.userId.toString() , m_GameData.gameId.toString())
+        )
     }
 }
 

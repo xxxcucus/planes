@@ -1,6 +1,7 @@
 package com.planes.multiplayer_engine
 
 import com.planes.android.MultiplayerRoundInterface
+import com.planes.multiplayer_engine.requests.CreateGameRequest
 import com.planes.multiplayer_engine.requests.NoRobotRequest
 import com.planes.multiplayer_engine.responses.*
 import com.planes.single_player_engine.PlaneRound
@@ -57,6 +58,25 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Round!!.refreshGameStatus(gameName)
     }
 
+    override fun createGame(gameName: String): Observable<retrofit2.Response<CreateGameResponse>> {
+        return global_Round!!.createGame(gameName)
+    }
+
+    override fun setGameData(gameCreationResponse: CreateGameResponse) {
+        return global_Round!!.setGameData(gameCreationResponse)
+    }
+
+    override fun setGameData(connectToGameResponse: ConnectToGameResponse) {
+        return global_Round!!.setGameData(connectToGameResponse)
+    }
+
+    override fun setUserId(userid: Long) {
+        return global_Round!!.setUserId(userid)
+    }
+
+    override fun connectToGame(gameName: String): Observable<retrofit2.Response<ConnectToGameResponse>> {
+        return global_Round!!.connectToGame(gameName)
+    }
 
     companion object {
         private var global_Round: MultiplayerRound? = null

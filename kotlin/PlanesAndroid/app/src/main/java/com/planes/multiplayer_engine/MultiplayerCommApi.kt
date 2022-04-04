@@ -1,9 +1,6 @@
 package com.planes.multiplayer_engine
 
-import com.planes.multiplayer_engine.requests.GameStatusRequest
-import com.planes.multiplayer_engine.requests.LoginRequest
-import com.planes.multiplayer_engine.requests.NoRobotRequest
-import com.planes.multiplayer_engine.requests.RegistrationRequest
+import com.planes.multiplayer_engine.requests.*
 import com.planes.multiplayer_engine.responses.*
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -31,4 +28,12 @@ interface MultiplayerCommApi {
     @POST("game/status")
     @Headers("Content-Type: application/json")
     fun refreshGameStatus(@Header("Authorization") authorization: String, @Body game: GameStatusRequest): Observable<retrofit2.Response<GameStatusResponse>>
+
+    @POST("game/create")
+    @Headers("Content-Type: application/json")
+    fun createGame(@Header("Authorization") authorization: String, @Body game: CreateGameRequest): Observable<retrofit2.Response<CreateGameResponse>>
+
+    @POST("game/connect")
+    @Headers("Content-Type: application/json")
+    fun connectToGame(@Header("Authorization") authorization: String, @Body game: ConnectToGameRequest): Observable<retrofit2.Response<ConnectToGameResponse>>
 }
