@@ -78,6 +78,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Round!!.connectToGame(gameName)
     }
 
+    override fun resetGameData() {
+        global_Round!!.resetGameData()
+    }
+
     companion object {
         private var global_Round: MultiplayerRound? = null
         private var global_Guess_Result = Type.Miss

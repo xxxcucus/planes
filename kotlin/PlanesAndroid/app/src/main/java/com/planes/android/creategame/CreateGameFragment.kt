@@ -1,14 +1,15 @@
 package com.planes.android.creategame
 
 import android.content.Context
+import android.opengl.Visibility
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.CompoundButton
-import android.widget.RelativeLayout
+import android.widget.*
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.planes.android.*
@@ -34,12 +35,14 @@ class CreateGameFragment: Fragment() {
     private lateinit var m_CreateGameSubscription: Disposable
     private lateinit var m_ConnectToGameSubscription: Disposable
     private lateinit var m_RefreshGameStatusSubscription: Disposable
+    private var m_CreateGameSettingsService = CreateGameSettingsGlobal()
     private lateinit var m_Context: Context
     private lateinit var m_MainLayout: RelativeLayout
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         m_MultiplayerRound.createPlanesRound()
+        m_CreateGameSettingsService.createPreferencesService(context)
         m_Context = context
     }
 
@@ -52,21 +55,57 @@ class CreateGameFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCreateGameBinding.inflate(inflater, container, false)
-        binding.settingsData = CreateGameViewModel(m_GameName)
+        binding.settingsData = CreateGameViewModel(m_CreateGameSettingsService.gameName)
         (activity as MainActivity).setActionBarTitle(getString(R.string.create_connectto_game))
         (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.CreateGame)
 
         var createGameButton = binding.creategame as Button
-        createGameButton.setOnClickListener(View.OnClickListener { checkGameStatus() })
-
+        createGameButton.setOnClickListener(View.OnClickListener {
+            m_MultiplayerRound.resetGameData()
+            setCreateGameSettings(CreateGameStates.Submitted)
+            checkGameStatus()
+        })
 
         var generateGameNameButton = binding.generateGamename
         generateGameNameButton.setOnClickListener {
             binding.settingsData!!.m_GameName = generateRandonGameName()
+            setCreateGameSettings(CreateGameStates.NotSubmitted)
+            binding.ProgressBarCreateGame.isVisible = false
+            binding.startPlaying.isEnabled = false
             binding.invalidateAll()
         }
 
+        var gameNameEdit = binding.gamenameEdittext as EditText
+
+        gameNameEdit.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                setCreateGameSettings(CreateGameStates.NotSubmitted)
+                binding.ProgressBarCreateGame.isVisible = false
+                binding.startPlaying.isEnabled = false
+            }
+        })
+
         m_MainLayout = binding.rootCreategame as RelativeLayout
+
+        //TODO: load animation visible or not depending on state
+
+        when(m_CreateGameSettingsService.createGameState) {
+            CreateGameStates.NotSubmitted -> {
+                binding.ProgressBarCreateGame.isVisible = false
+                binding.startPlaying.isEnabled = false
+            }
+            CreateGameStates.Submitted -> {
+                binding.ProgressBarCreateGame.isVisible = false
+                binding.startPlaying.isEnabled = false
+                checkGameStatus()
+            }
+            CreateGameStates.GameCreated -> { pollForGameConnection() }
+            CreateGameStates.ConnectedToGame -> { connectedToGame() }
+        }
 
         return binding.root
     }
@@ -247,10 +286,13 @@ class CreateGameFragment: Fragment() {
         if (body != null)  {
             m_MultiplayerRound.setGameData(body!!)
             m_MultiplayerRound.setUserId(body!!.m_SecondPlayerId.toLong())
+            setCreateGameSettings(CreateGameStates.GameCreated)
+            pollForGameConnection()
         } else {
             m_CreateGameErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.creategame_error),
                 getString(R.string.unknownerror))
             m_CreateGameError = true
+            finalizeCreateGame()
         }
     }
 
@@ -271,10 +313,43 @@ class CreateGameFragment: Fragment() {
         if (body != null)  {
             m_MultiplayerRound.setGameData(body!!)
             m_MultiplayerRound.setUserId(body!!.m_SecondPlayerId.toLong())
+            setCreateGameSettings(CreateGameStates.ConnectedToGame)
+            connectedToGame()
         } else {
             m_CreateGameErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.creategame_error),
                 getString(R.string.unknownerror))
             m_CreateGameError = true
+            finalizeCreateGame()
         }
+    }
+
+    fun setCreateGameSettings(state: CreateGameStates) {
+        m_CreateGameSettingsService.createGameState = state
+        m_CreateGameSettingsService.gameName = binding.settingsData!!.m_GameName.trim()
+    }
+
+    fun pollForGameConnection() {
+        val text = getString(R.string.game_created)
+        val duration = Toast.LENGTH_SHORT
+        val toast = Toast.makeText(m_Context, text, duration)
+        toast.show()
+
+        binding.ProgressBarCreateGame.isVisible = true
+        binding.startPlaying.isEnabled = false
+
+        //TODO: here polling code
+
+    }
+
+    fun connectedToGame() {
+        val text = getString(R.string.connected_togame)
+        val duration = Toast.LENGTH_SHORT
+        val toast = Toast.makeText(m_Context, text, duration)
+        toast.show()
+
+        binding.ProgressBarCreateGame.isVisible = false
+        binding.startPlaying.isEnabled = true
+
+
     }
 }

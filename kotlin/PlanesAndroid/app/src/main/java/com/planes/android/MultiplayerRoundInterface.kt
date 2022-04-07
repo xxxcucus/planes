@@ -39,4 +39,6 @@ interface MultiplayerRoundInterface {
     fun setUserId(userid: Long)
 
     fun connectToGame(gameName: String): Observable<retrofit2.Response<ConnectToGameResponse>>
+
+    fun resetGameData()
 }

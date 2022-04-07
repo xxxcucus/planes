@@ -20,6 +20,9 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.planes.android.about.AboutFragment
 import com.planes.android.creategame.CreateGameFragment
+import com.planes.android.creategame.CreateGameSettings
+import com.planes.android.creategame.CreateGameSettingsGlobal
+import com.planes.android.creategame.CreateGameStates
 import com.planes.android.game.GameFragment
 import com.planes.android.login.LoginFragment
 import com.planes.android.register.RegisterFragment
@@ -44,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     private var m_MainPreferencesService = MainPreferencesServiceGlobal()
     private lateinit var m_VideoSettingsService: VideoSettingsService
     private lateinit var m_NoRobotSettingsService: NoRobotSettingsService
+    private var m_CreateGameSettingsService = CreateGameSettingsGlobal()
     private var mSelectedItem = 0
     private lateinit var m_DrawerLayout: DrawerLayout
     private lateinit var m_ProgressBar: ProgressBar
@@ -83,6 +87,8 @@ class MainActivity : AppCompatActivity() {
         m_VideoSettingsService = VideoSettingsService(this)
         m_VideoSettingsService.readPreferences()
 
+        m_CreateGameSettingsService.createPreferencesService(this)
+
         m_NoRobotSettingsService = NoRobotSettingsService()
 
         m_DrawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
@@ -107,6 +113,7 @@ class MainActivity : AppCompatActivity() {
             m_MainPreferencesService.readFromSavedInstanceState(savedInstanceState)
             m_VideoSettingsService.readFromSavedInstanceState(savedInstanceState)
             m_NoRobotSettingsService.readFromSavedInstanceState(savedInstanceState)
+            m_CreateGameSettingsService.readFromSavedInstanceState(savedInstanceState)
             setPreferencesForPlaneRound()
 
             mSelectedItem = savedInstanceState.getInt("currentFragment")
@@ -156,6 +163,7 @@ class MainActivity : AppCompatActivity() {
         m_MainPreferencesService.writeToSavedInstanceState(outState)
         m_VideoSettingsService.writeToSavedInstanceState(outState)
         m_NoRobotSettingsService.writeToSavedInstanceState(outState)
+        m_CreateGameSettingsService.writeToSavedInstanceState(outState)
         outState.putInt("currentFragment", mSelectedItem)
         Log.d("Planes", "onSaveInstanceState")
 
@@ -349,6 +357,7 @@ class MainActivity : AppCompatActivity() {
 
         return retVal
     }
+
 
     //endregion
 

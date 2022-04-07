@@ -144,5 +144,9 @@ class MultiplayerRound {
             ConnectToGameRequest(gameName, m_UserData.userName, m_UserData.userId.toString() , m_GameData.gameId.toString())
         )
     }
+
+    fun resetGameData() {
+        m_GameData.reset()
+    }
 }
 

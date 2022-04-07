@@ -142,6 +142,8 @@
     <string name="cancel"> Cancel</string>
     <string name="connecttogame_possible"> You may connect to the game created by</string>
     <string name="start_playing"> Start Playing</string>
+    <string name="game_created"> Game created. Waiting for opponent to connect.</string>
+    <string name="connected_togame"> Connected to game.</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">
