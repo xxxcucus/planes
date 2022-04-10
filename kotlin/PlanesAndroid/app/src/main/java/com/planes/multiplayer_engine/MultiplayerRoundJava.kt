@@ -29,6 +29,22 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         global_Round!!.setUserData(username, password, authToken)
     }
 
+    override fun getGameId() : Long {
+        return global_Round!!.getGameId()
+    }
+
+    override fun getRoundId() : Long {
+        return global_Round!!.getRoundId()
+    }
+
+    override fun getUserId(): Long {
+        return global_Round!!.getUserId()
+    }
+
+    override fun getOpponentId(): Long {
+        return global_Round!!.getOpponentId()
+    }
+
     override fun getUsername(): String {
         return global_Round!!.getUsername()
     }
@@ -72,6 +88,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
 
     override fun setGameData(connectToGameResponse: ConnectToGameResponse) {
         return global_Round!!.setGameData(connectToGameResponse)
+    }
+
+    override fun setGameData(gameStatusResponse: GameStatusResponse) {
+        return global_Round!!.setGameData(gameStatusResponse)
     }
 
     override fun setUserId(userid: Long) {

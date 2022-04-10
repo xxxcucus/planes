@@ -24,6 +24,8 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Headers
 import java.util.concurrent.TimeUnit
+import io.reactivex.Observable
+
 
 //TODO to update accordint to google and udemy
 class CreateGameFragment: Fragment() {
@@ -35,6 +37,7 @@ class CreateGameFragment: Fragment() {
     private lateinit var m_CreateGameSubscription: Disposable
     private lateinit var m_ConnectToGameSubscription: Disposable
     private lateinit var m_RefreshGameStatusSubscription: Disposable
+    private lateinit var m_PollForOpponentSubscription: Disposable
     private var m_CreateGameSettingsService = CreateGameSettingsGlobal()
     private lateinit var m_Context: Context
     private lateinit var m_MainLayout: RelativeLayout
@@ -123,6 +126,8 @@ class CreateGameFragment: Fragment() {
             m_CreateGameSubscription.dispose()
         if (this::m_ConnectToGameSubscription.isInitialized)
             m_ConnectToGameSubscription.dispose()
+        if (this::m_PollForOpponentSubscription.isInitialized)
+            m_PollForOpponentSubscription.dispose()
     }
 
     override fun onPause() {
@@ -147,30 +152,22 @@ class CreateGameFragment: Fragment() {
         finalizeCreateGame()
     }
 
-    /*
-    if (!exists) {
-        QMessageBox msgBox(this);
-        msgBox.setText("You may create a new game with this name");
-        QPushButton* createButton = msgBox.addButton("Create New Game", QMessageBox::YesRole);
-        QPushButton* cancelButton = msgBox.addButton("Cancel", QMessageBox::NoRole);
-        msgBox.exec();
-        if (msgBox.clickedButton() == createButton)
-            createGameSlot();
-    } else if (firstPlayerName == secondPlayerName) {
-        QMessageBox msgBox(this);
-        msgBox.setText("You may connect to the game created by " + firstPlayerName);
-        QPushButton* connectButton = msgBox.addButton("Connect to Game", QMessageBox::YesRole);
-        QPushButton* cancelButton = msgBox.addButton("Cancel", QMessageBox::NoRole);
-        msgBox.exec();
-        if (msgBox.clickedButton() == connectButton)
-            connectToGameSlot();
-    } else {
-        QMessageBox msgBox(this);
-        msgBox.setText("It is not possible to create or connect to a a game with this name");
-        msgBox.exec();
-    }
+    fun reactToGameStatusInPolling(body: GameStatusResponse?) {
+        m_MultiplayerRound.setGameData(body!!)
+        if (m_MultiplayerRound.getGameId() != 0L && m_MultiplayerRound.getOpponentId() != 0L && m_MultiplayerRound.getUserId() != 0L
+            && m_MultiplayerRound.getRoundId()  != 0L) {
+            setCreateGameSettings(CreateGameStates.ConnectedToGame, body!!.m_GameName)
 
-     */
+            val text = getString(R.string.opponent_connected_togame)
+            val duration = Toast.LENGTH_SHORT
+            val toast = Toast.makeText(m_Context, text, duration)
+            toast.show()
+
+            binding.ProgressBarCreateGame.isVisible = false
+            binding.startPlaying.isEnabled = true
+        }
+
+    }
 
     fun setCreateGameError(errorMsg: String) {
         m_CreateGameError = true
@@ -332,6 +329,10 @@ class CreateGameFragment: Fragment() {
     fun setCreateGameSettings(state: CreateGameStates, gameName: String) {
         m_CreateGameSettingsService.createGameState = state
         m_CreateGameSettingsService.gameName = gameName
+        if (state != CreateGameStates.GameCreated) {
+            if (this::m_PollForOpponentSubscription.isInitialized)
+                m_PollForOpponentSubscription.dispose()
+        }
     }
 
     fun pollForGameConnection() {
@@ -344,6 +345,14 @@ class CreateGameFragment: Fragment() {
         binding.startPlaying.isEnabled = false
 
         //TODO: here polling code
+
+        m_PollForOpponentSubscription = Observable.interval(5, TimeUnit.SECONDS, Schedulers.io())
+            .flatMap { _ -> m_MultiplayerRound.refreshGameStatus(binding.settingsData!!.m_GameName.trim()) }
+            .doOnError { setCreateGameError("Error when polling") }
+            .retry()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({data -> reactToGameStatusInPolling(data.body())}
+                , {error -> setCreateGameError(error.localizedMessage.toString())})
 
     }
 

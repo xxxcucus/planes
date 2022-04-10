@@ -2,6 +2,7 @@ package com.planes.multiplayer_engine
 
 import com.planes.multiplayer_engine.responses.ConnectToGameResponse
 import com.planes.multiplayer_engine.responses.CreateGameResponse
+import com.planes.multiplayer_engine.responses.GameStatusResponse
 
 /*it could actually be defined outside the MultiplayerRound like in PlaneGraphicsScene
 for future use in the single player game*/
@@ -71,5 +72,15 @@ class GameData {
         m_GameName = gameCreationResponse.m_GameName
         m_OtherUsername = gameCreationResponse.m_FirstPlayerName
         m_UserName = gameCreationResponse.m_SecondPlayerName
+    }
+
+    fun setFromGameStatusResponse(gameStatusResponse: GameStatusResponse) {
+        m_GameId = gameStatusResponse.m_GameId.toLong()
+        m_RoundId = gameStatusResponse.m_CurrentRoundId.toLong()
+        m_UserId = gameStatusResponse.m_SecondPlayerId.toLong()
+        m_OtherUserId = gameStatusResponse.m_FirstPlayerId.toLong()
+        m_GameName = gameStatusResponse.m_GameName
+        m_OtherUsername = gameStatusResponse.m_FirstPlayerName
+        m_UserName = gameStatusResponse.m_SecondPlayerName
     }
 }

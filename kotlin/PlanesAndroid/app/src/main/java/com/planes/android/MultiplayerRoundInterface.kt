@@ -16,6 +16,14 @@ interface MultiplayerRoundInterface {
 
     fun setUserData(username: String, password: String, authToken: String)
 
+    fun getGameId() : Long
+
+    fun getRoundId() : Long
+
+    fun getUserId(): Long
+
+    fun getOpponentId(): Long
+
     fun getUsername(): String
 
     fun getOpponentName(): String
@@ -37,6 +45,8 @@ interface MultiplayerRoundInterface {
     fun setGameData(gameCreationResponse: CreateGameResponse)
 
     fun setGameData(connectToGameResponse: ConnectToGameResponse)
+
+    fun setGameData(gameStatusResponse: GameStatusResponse)
 
     fun setUserId(userid: Long)
 

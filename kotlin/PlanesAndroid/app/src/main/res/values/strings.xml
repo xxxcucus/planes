@@ -144,6 +144,7 @@
     <string name="start_playing"> Start Playing</string>
     <string name="game_created"> Game created. Waiting for opponent to connect.</string>
     <string name="connected_togame"> Connected to game.</string>
+    <string name="opponent_connected_togame"> Opponent is connected to game</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">

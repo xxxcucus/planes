@@ -98,6 +98,22 @@ class MultiplayerRound {
         return m_GameData.otherUsername
     }
 
+    fun getGameId() : Long {
+        return m_GameData.gameId
+    }
+
+    fun getRoundId() : Long {
+        return m_GameData.roundId
+    }
+
+    fun getUserId(): Long {
+        return m_GameData.userId
+    }
+
+    fun getOpponentId(): Long {
+        return m_GameData.otherUserId
+    }
+
     fun register(username: String, password: String): Observable<Response<RegistrationResponse>> {
         val bchash = BCrypt.hashpw(password, BCrypt.gensalt())
         return m_Service.register(RegistrationRequest(username, bchash))
@@ -137,6 +153,10 @@ class MultiplayerRound {
 
     fun setGameData(connectToGameResponse: ConnectToGameResponse) {
         m_GameData.setFromConnectToGameResponse(connectToGameResponse)
+    }
+
+    fun setGameData(gameStatusResponse: GameStatusResponse) {
+        m_GameData.setFromGameStatusResponse(gameStatusResponse)
     }
 
     fun setUserId(userid: Long) {
