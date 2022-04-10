@@ -18,6 +18,8 @@ interface MultiplayerRoundInterface {
 
     fun getUsername(): String
 
+    fun getOpponentName(): String
+
     fun register(username: String, password: String): Observable<Response<RegistrationResponse>>
 
     fun setRegistrationResponse(regResp: RegistrationResponse)

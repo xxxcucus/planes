@@ -117,7 +117,7 @@ public class Popups {
             }
         }
 
-        fun showConnectToGamePopup(context: Context, mainLayout: RelativeLayout, connectToGameLambda: () -> Unit) {
+        fun showConnectToGamePopup(context: Context, mainLayout: RelativeLayout, connectToGameLambda: () -> Unit, opponentName: String) {
             val inflater = context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val popupView: View = inflater.inflate(R.layout.connecttogame_popup, null)
 
@@ -144,6 +144,9 @@ public class Popups {
 
             val connectToGameButton = popupView.findViewById(R.id.connecttogame_button) as Button
             val cancelButton  = popupView.findViewById(R.id.connecttogame_cancel_button) as Button
+
+            var connectToGameText = popupView.findViewById(R.id.connecttogame_text) as TextView
+            connectToGameText.text = context.getString(R.string.connecttogame_possible) + " " + opponentName
 
             cancelButton.setOnClickListener {
                 popupWindow.dismiss()

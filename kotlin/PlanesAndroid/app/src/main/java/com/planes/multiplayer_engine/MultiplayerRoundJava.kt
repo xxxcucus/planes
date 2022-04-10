@@ -33,6 +33,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Round!!.getUsername()
     }
 
+    override  fun getOpponentName(): String {
+        return global_Round!!.getOpponentName()
+    }
+
     override fun register(username: String, password: String): Observable<Response<RegistrationResponse>> {
         return global_Round!!.register(username, password)
     }

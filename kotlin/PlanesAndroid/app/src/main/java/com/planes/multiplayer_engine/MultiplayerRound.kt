@@ -94,6 +94,10 @@ class MultiplayerRound {
         return m_UserData.userName
     }
 
+    fun getOpponentName() : String {
+        return m_GameData.otherUsername
+    }
+
     fun register(username: String, password: String): Observable<Response<RegistrationResponse>> {
         val bchash = BCrypt.hashpw(password, BCrypt.gensalt())
         return m_Service.register(RegistrationRequest(username, bchash))

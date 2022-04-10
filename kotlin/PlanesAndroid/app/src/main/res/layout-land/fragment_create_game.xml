@@ -67,6 +67,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="10dp"
+                android:indeterminate="true"
                 android:visibility="invisible" />
             <Button
                 android:id="@+id/start_playing"

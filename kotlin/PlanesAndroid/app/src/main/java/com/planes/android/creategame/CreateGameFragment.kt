@@ -59,17 +59,19 @@ class CreateGameFragment: Fragment() {
         (activity as MainActivity).setActionBarTitle(getString(R.string.create_connectto_game))
         (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.CreateGame)
 
+        m_GameName = m_CreateGameSettingsService.gameName
+
         var createGameButton = binding.creategame as Button
         createGameButton.setOnClickListener(View.OnClickListener {
             m_MultiplayerRound.resetGameData()
-            setCreateGameSettings(CreateGameStates.Submitted)
+            setCreateGameSettings(CreateGameStates.Submitted, binding.settingsData!!.m_GameName)
             checkGameStatus()
         })
 
         var generateGameNameButton = binding.generateGamename
         generateGameNameButton.setOnClickListener {
             binding.settingsData!!.m_GameName = generateRandonGameName()
-            setCreateGameSettings(CreateGameStates.NotSubmitted)
+            setCreateGameSettings(CreateGameStates.NotSubmitted, binding.settingsData!!.m_GameName)
             binding.ProgressBarCreateGame.isVisible = false
             binding.startPlaying.isEnabled = false
             binding.invalidateAll()
@@ -83,9 +85,11 @@ class CreateGameFragment: Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                setCreateGameSettings(CreateGameStates.NotSubmitted)
-                binding.ProgressBarCreateGame.isVisible = false
-                binding.startPlaying.isEnabled = false
+                if (s.toString() != m_GameName) {
+                    setCreateGameSettings(CreateGameStates.NotSubmitted, s.toString().trim())
+                    binding.ProgressBarCreateGame.isVisible = false
+                    binding.startPlaying.isEnabled = false
+                }
             }
         })
 
@@ -130,7 +134,7 @@ class CreateGameFragment: Fragment() {
            if (!body!!.m_Exists) {
                showCreateGamePopup()
            } else if (body!!.m_FirstPlayerName == body!!.m_SecondPlayerName) {
-               showConnectToGamePopup()
+               showConnectToGamePopup(body!!.m_FirstPlayerName)
            } else {
                 m_CreateGameErrorString = getString(R.string.gamename_impossible)
                 m_CreateGameError = true
@@ -265,8 +269,8 @@ class CreateGameFragment: Fragment() {
         Popups.showCreateNewGamePopup(m_Context, m_MainLayout, ::createGame);
     }
 
-    fun showConnectToGamePopup() {
-        Popups.showConnectToGamePopup(m_Context, m_MainLayout, ::connectToGame);
+    fun showConnectToGamePopup(opponentName: String) {
+        Popups.showConnectToGamePopup(m_Context, m_MainLayout, ::connectToGame, opponentName);
     }
 
     fun createGame() {
@@ -286,7 +290,8 @@ class CreateGameFragment: Fragment() {
         if (body != null)  {
             m_MultiplayerRound.setGameData(body!!)
             m_MultiplayerRound.setUserId(body!!.m_SecondPlayerId.toLong())
-            setCreateGameSettings(CreateGameStates.GameCreated)
+            setCreateGameSettings(CreateGameStates.GameCreated, body!!.m_GameName)
+            m_GameName = body!!.m_GameName
             pollForGameConnection()
         } else {
             m_CreateGameErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.creategame_error),
@@ -313,7 +318,8 @@ class CreateGameFragment: Fragment() {
         if (body != null)  {
             m_MultiplayerRound.setGameData(body!!)
             m_MultiplayerRound.setUserId(body!!.m_SecondPlayerId.toLong())
-            setCreateGameSettings(CreateGameStates.ConnectedToGame)
+            setCreateGameSettings(CreateGameStates.ConnectedToGame, body!!.m_GameName)
+            m_GameName = body!!.m_GameName
             connectedToGame()
         } else {
             m_CreateGameErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.creategame_error),
@@ -323,9 +329,9 @@ class CreateGameFragment: Fragment() {
         }
     }
 
-    fun setCreateGameSettings(state: CreateGameStates) {
+    fun setCreateGameSettings(state: CreateGameStates, gameName: String) {
         m_CreateGameSettingsService.createGameState = state
-        m_CreateGameSettingsService.gameName = binding.settingsData!!.m_GameName.trim()
+        m_CreateGameSettingsService.gameName = gameName
     }
 
     fun pollForGameConnection() {
