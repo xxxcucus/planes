@@ -98,8 +98,12 @@ class CreateGameFragment: Fragment() {
 
         m_MainLayout = binding.rootCreategame as RelativeLayout
 
-        //TODO: load animation visible or not depending on state
+        reinitializeFromState()
 
+        return binding.root
+    }
+
+    fun reinitializeFromState() {
         when(m_CreateGameSettingsService.createGameState) {
             CreateGameStates.NotSubmitted -> {
                 binding.ProgressBarCreateGame.isVisible = false
@@ -113,8 +117,6 @@ class CreateGameFragment: Fragment() {
             CreateGameStates.GameCreated -> { pollForGameConnection() }
             CreateGameStates.ConnectedToGame -> { connectedToGame() }
         }
-
-        return binding.root
     }
 
     override fun onDetach () {
@@ -132,6 +134,13 @@ class CreateGameFragment: Fragment() {
 
     override fun onPause() {
         super.onPause()
+        if (this::m_PollForOpponentSubscription.isInitialized)
+            m_PollForOpponentSubscription.dispose()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        reinitializeFromState()
     }
 
     fun reactToGameStatus(code: Int, jsonErrorString: String?, headrs: Headers, body: GameStatusResponse?) {
@@ -344,15 +353,16 @@ class CreateGameFragment: Fragment() {
         binding.ProgressBarCreateGame.isVisible = true
         binding.startPlaying.isEnabled = false
 
-        //TODO: here polling code
-
-        m_PollForOpponentSubscription = Observable.interval(5, TimeUnit.SECONDS, Schedulers.io())
-            .flatMap { _ -> m_MultiplayerRound.refreshGameStatus(binding.settingsData!!.m_GameName.trim()) }
-            .doOnError { setCreateGameError("Error when polling") }
-            .retry()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({data -> reactToGameStatusInPolling(data.body())}
-                , {error -> setCreateGameError(error.localizedMessage.toString())})
+        if (!this::m_PollForOpponentSubscription.isInitialized) {
+            m_PollForOpponentSubscription =
+                Observable.interval(5, TimeUnit.SECONDS, Schedulers.io())
+                    .flatMap { _ -> m_MultiplayerRound.refreshGameStatus(binding.settingsData!!.m_GameName.trim()) }
+                    .doOnError { setCreateGameError("Error when polling") }
+                    .retry()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ data -> reactToGameStatusInPolling(data.body()) },
+                        { error -> setCreateGameError(error.localizedMessage.toString()) })
+        }
 
     }
 
