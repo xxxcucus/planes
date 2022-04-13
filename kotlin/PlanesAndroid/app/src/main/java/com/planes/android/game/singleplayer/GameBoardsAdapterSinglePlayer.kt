@@ -1,15 +1,16 @@
-package com.planes.android.game
+package com.planes.android.game.singleplayer
 
+import com.planes.android.game.common.GameBoard
 import com.planes.single_player_engine.GameStages
 
-class GameBoardsAdapter {
+class GameBoardsAdapterSinglePlayer {
     //used when playing on a phone
     private lateinit var m_GameBoard: GameBoard
 
     //used when playing on a tablet
     private lateinit var m_PlayerBoard: GameBoard
     private lateinit var m_ComputerBoard: GameBoard
-    private lateinit var m_GameControls: GameControlsAdapter
+    private lateinit var m_GameControls: GameControlsAdapterSinglePlayer
     private var m_Tablet = false
 
     constructor(gameBoard: GameBoard) {
@@ -24,7 +25,7 @@ class GameBoardsAdapter {
         m_ComputerBoard.setSiblingBoard(m_PlayerBoard)
     }
 
-    fun setGameControls(controls: GameControlsAdapter) {
+    fun setGameControls(controls: GameControlsAdapterSinglePlayer) {
         if (m_Tablet) {
             m_PlayerBoard.setGameControls(controls)
             m_ComputerBoard.setGameControls(controls)

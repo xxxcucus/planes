@@ -1,4 +1,4 @@
-package com.planes.android.game
+package com.planes.android.game.singleplayer
 
 import android.content.Context
 import android.widget.Button
@@ -9,12 +9,12 @@ import com.planes.android.customviews.TwoLineTextButton
 import com.planes.android.customviews.TwoLineTextButtonWithState
 import com.planes.single_player_engine.GameStages
 
-class GameControlsAdapter(private val m_Context: Context) {
+class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
     private val m_CurStage = GameStages.BoardEditing
     private lateinit var m_PlaneRound: PlanesRoundInterface
-    private lateinit var m_GameBoards: GameBoardsAdapter
+    private lateinit var m_GameBoards: GameBoardsAdapterSinglePlayer
     private var m_Tablet = false
-    private lateinit var m_PlanesLayout: PlanesVerticalLayout
+    private lateinit var m_PlanesLayout: PlanesVerticalLayoutSinglePlayer
 
     //Board Editing
     private lateinit var m_RotateButton: Button
@@ -242,11 +242,11 @@ class GameControlsAdapter(private val m_Context: Context) {
         m_Tablet = isTablet
     }
 
-    fun setGameBoards(gameBoards: GameBoardsAdapter) {
+    fun setGameBoards(gameBoards: GameBoardsAdapterSinglePlayer) {
         m_GameBoards = gameBoards
     }
 
-    fun setPlanesLayout(planesLayout: PlanesVerticalLayout) {
+    fun setPlanesLayout(planesLayout: PlanesVerticalLayoutSinglePlayer) {
         m_PlanesLayout = planesLayout
     }
 }

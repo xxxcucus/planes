@@ -1,58 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/rootView"
     android:background="@drawable/background"
-    android:tag="tablet horizontal">
+    android:tag="phone vertical">
 
-    <com.planes.android.game.PlanesVerticalLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    <com.planes.android.game.singleplayer.PlanesVerticalLayoutSinglePlayer
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/planes_layout">
-        <com.planes.android.game.GameBoard
-            android:id="@+id/player_board"
+        <com.planes.android.game.common.GameBoard
+            android:id="@+id/game_boards"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            />
-        <com.planes.android.game.GameBoard
-            android:id="@+id/computer_board"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             />
         <!-- Buttons for board editing stage -->
-        <com.planes.android.game.MoveUpButton
+        <com.planes.android.game.common.MoveUpButton
             android:id="@+id/up_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="1"
             app:gc_col="2"
             app:gc_game_stage="1" />
-        <com.planes.android.game.MoveLeftButton
+        <com.planes.android.game.common.MoveLeftButton
             android:id="@+id/left_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="2"
             app:gc_col="1"
             app:gc_game_stage="1" />
-        <com.planes.android.game.RotateButton
+        <com.planes.android.game.common.RotateButton
             android:id="@+id/rotate_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="2"
             app:gc_col="2"
             app:gc_game_stage="1" />
-        <com.planes.android.game.MoveRightButton
+        <com.planes.android.game.common.MoveRightButton
             android:id="@+id/right_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="2"
             app:gc_col="3"
             app:gc_game_stage="1" />
-        <com.planes.android.game.MoveDownButton
+        <com.planes.android.game.common.MoveDownButton
             android:id="@+id/down_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,6 +63,111 @@
             app:gc_col="4"
             app:gc_game_stage="1"
             app:gc_text="@string/done_button" />
+
+        <!-- Buttons for game stage -->
+
+        <com.planes.android.customviews.ColouredSurfaceWithTwoLineText
+            android:id="@+id/stats_title_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text1="@string/computer_stats1"
+            app:gc_text2="@string/computer_stats2"
+            app:gc_row="1"
+            app:gc_colspan="3"
+            app:gc_rowspan="2"
+            app:gc_col="1"
+            app:gc_game_stage="2"
+            app:gc_background_color="@color/orange"/>
+        <com.planes.android.customviews.TwoLineTextButtonWithState
+            android:id="@+id/view_computer_board1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text1="@string/view_computer_board1"
+            app:gc_text2="@string/view_computer_board2"
+            app:gc_row="3"
+            app:gc_colspan="3"
+            app:gc_rowspan="2"
+            app:gc_col="1"
+            app:gc_game_stage="2" />
+        <com.planes.android.customviews.ColouredSurfaceWithText
+            android:id="@+id/moves_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text="@string/general_moves"
+            app:gc_row="1"
+            app:gc_colspan="2"
+            app:gc_col="4"
+            app:gc_game_stage="2"
+            app:gc_background_color="@color/orange"/>
+        <com.planes.android.customviews.ColouredSurfaceWithText
+            android:id="@+id/moves_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text="0"
+            app:gc_row="1"
+            app:gc_col="6"
+            app:gc_game_stage="2"
+            app:gc_background_color="@color/orange"/>
+        <com.planes.android.customviews.ColouredSurfaceWithText
+            android:id="@+id/misses_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text="@string/general_misses"
+            app:gc_row="2"
+            app:gc_colspan="2"
+            app:gc_col="4"
+            app:gc_game_stage="2"
+            app:gc_background_color="@color/orange"/>
+
+        <com.planes.android.customviews.ColouredSurfaceWithText
+            android:id="@+id/misses_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:gc_text="0"
+            app:gc_row="2"
+            app:gc_col="6"
+            app:gc_game_stage="2"
+            app:gc_background_color="@color/orange"/>
+        <com.planes.android.customviews.ColouredSurfaceWithText
+            android:id="@+id/hits_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text="@string/general_hits"
+            app:gc_row="3"
+            app:gc_colspan="2"
+            app:gc_col="4"
+            app:gc_game_stage="2"
+            app:gc_background_color="@color/orange"/>
+        <com.planes.android.customviews.ColouredSurfaceWithText
+            android:id="@+id/hits_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text="0"
+            app:gc_row="3"
+            app:gc_col="6"
+            app:gc_game_stage="2"
+            app:gc_background_color="@color/orange"/>
+
+        <com.planes.android.customviews.ColouredSurfaceWithText
+            android:id="@+id/dead_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text="@string/general_dead"
+            app:gc_row="4"
+            app:gc_colspan="2"
+            app:gc_col="4"
+            app:gc_game_stage="2"
+            app:gc_background_color="@color/orange"/>
+        <com.planes.android.customviews.ColouredSurfaceWithText
+            android:id="@+id/dead_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text="0"
+            app:gc_row="4"
+            app:gc_col="6"
+            app:gc_game_stage="2"
+            app:gc_background_color="@color/orange"/>
 
         <!-- Buttons for start new game stage -->
         <com.planes.android.customviews.TwoLineTextButtonWithState
@@ -153,5 +254,5 @@
             app:gc_col="8"
             app:gc_game_stage="0"
             app:gc_text="0" />
-    </com.planes.android.game.PlanesVerticalLayout>
+    </com.planes.android.game.singleplayer.PlanesVerticalLayoutSinglePlayer>
 </LinearLayout>

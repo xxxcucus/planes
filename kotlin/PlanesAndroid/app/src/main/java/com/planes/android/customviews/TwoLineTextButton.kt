@@ -11,7 +11,7 @@ import com.planes.android.customviews.CanvasPaintUtilities.Functions.drawButtonS
 import com.planes.android.customviews.CanvasPaintUtilities.Functions.drawTextFitToSizeTwoLines
 import com.planes.android.customviews.CanvasPaintUtilities.Functions.measureHeightTwoLinesText
 import com.planes.android.customviews.CanvasPaintUtilities.Functions.measureWidthTwoLinesText
-import com.planes.android.game.PlanesVerticalLayout.PlanesVerticalLayoutParams
+import com.planes.android.game.singleplayer.PlanesVerticalLayoutSinglePlayer.PlanesVerticalLayoutParams
 
 open class TwoLineTextButton : AppCompatButton, ViewWithText {
 

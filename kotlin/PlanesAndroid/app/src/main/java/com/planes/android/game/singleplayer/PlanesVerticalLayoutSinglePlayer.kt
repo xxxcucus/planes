@@ -1,4 +1,4 @@
-package com.planes.android.game
+package com.planes.android.game.singleplayer
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.planes.android.R
 import com.planes.android.customviews.ViewWithText
+import com.planes.android.game.common.GameBoard
 import com.planes.single_player_engine.GameStages
 import java.util.*
 
@@ -13,7 +14,7 @@ import java.util.*
 //the game control object should change depending on the game stage
 //the size of the game controls depends on the size of the visible game board
 //dimension of the screen and toolbars should be saved inside the layout
-class PlanesVerticalLayout : ViewGroup {
+class PlanesVerticalLayoutSinglePlayer : ViewGroup {
     internal inner class PlanesVerticalLayoutParams : LayoutParams {
         constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
             val a = context.obtainStyledAttributes(attrs, R.styleable.PlanesVerticalLayout)

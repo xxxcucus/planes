@@ -1,4 +1,4 @@
-package com.planes.android.game
+package com.planes.android.game.singleplayer
 
 import android.content.Context
 import android.os.Bundle
@@ -13,6 +13,7 @@ import com.planes.android.customviews.ColouredSurfaceWithText
 import com.planes.android.customviews.ColouredSurfaceWithTwoLineText
 import com.planes.android.customviews.TwoLineTextButton
 import com.planes.android.customviews.TwoLineTextButtonWithState
+import com.planes.android.game.common.GameBoard
 import com.planes.single_player_engine.PlanesRoundJava
 
 
@@ -21,12 +22,12 @@ import com.planes.single_player_engine.PlanesRoundJava
  * Use the [SettingsFragment.newInstance] factory method to
  * create an instance of this fragment.*/
 
-class GameFragment : Fragment() {
+class GameFragmentSinglePlayer : Fragment() {
 
     private lateinit var m_PlaneRound: PlanesRoundInterface
-    private lateinit var m_GameBoards: GameBoardsAdapter
-    private lateinit var m_GameControls: GameControlsAdapter
-    private lateinit var m_PlanesLayout: PlanesVerticalLayout
+    private lateinit var m_GameBoards: GameBoardsAdapterSinglePlayer
+    private lateinit var m_GameControls: GameControlsAdapterSinglePlayer
+    private lateinit var m_PlanesLayout: PlanesVerticalLayoutSinglePlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +39,7 @@ class GameFragment : Fragment() {
         m_PlaneRound = PlanesRoundJava()
         (m_PlaneRound as PlanesRoundJava).createPlanesRound()
 
-        m_GameControls = GameControlsAdapter(context)
+        m_GameControls = GameControlsAdapterSinglePlayer(context)
     }
 
     override fun onCreateView(
@@ -46,9 +47,9 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        var rootView = inflater.inflate(R.layout.fragment_game, container, false)
+        var rootView = inflater.inflate(R.layout.fragment_game_singleplayer, container, false)
 
-        m_PlanesLayout = rootView.findViewById<View>(R.id.planes_layout) as PlanesVerticalLayout
+        m_PlanesLayout = rootView.findViewById<View>(R.id.planes_layout) as PlanesVerticalLayoutSinglePlayer
 
         var isTablet = false
         var isHorizontal = false
@@ -66,11 +67,11 @@ class GameFragment : Fragment() {
             val computerBoard = rootView.findViewById<View>(R.id.computer_board) as GameBoard
             computerBoard.setGameSettings(m_PlaneRound, true)
             computerBoard.setComputerBoard()
-            GameBoardsAdapter(playerBoard, computerBoard)
+            GameBoardsAdapterSinglePlayer(playerBoard, computerBoard)
         } else {
             val gameBoard = rootView.findViewById<View>(R.id.game_boards) as GameBoard
             gameBoard.setGameSettings(m_PlaneRound, false)
-            GameBoardsAdapter(gameBoard)
+            GameBoardsAdapterSinglePlayer(gameBoard)
         }
 
         //Board Editing Buttons

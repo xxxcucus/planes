@@ -1,11 +1,10 @@
-package com.planes.android.game
+package com.planes.android.game.common
 
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.planes.android.game.GameBoard
 
 class GridSquare : View {
     private var m_BackgroundColor = 0

@@ -1,4 +1,4 @@
-package com.planes.android.game
+package com.planes.android.game.common
 
 import android.content.Context
 import android.graphics.Color
@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.widget.GridLayout
 import com.planes.android.PlanesRoundInterface
 import com.planes.android.R
+import com.planes.android.game.singleplayer.GameControlsAdapterSinglePlayer
 import com.planes.single_player_engine.GameStages
 import java.util.*
 
@@ -54,7 +55,7 @@ class GameBoard : GridLayout {
     private var m_ColorStep = 50
     private var m_Context: Context
     private var m_Selected = 0
-    private lateinit var m_GameControls: GameControlsAdapter
+    private lateinit var m_GameControls: GameControlsAdapterSinglePlayer
     private var m_Tablet = false
     private lateinit var m_SiblingBoard: GameBoard
     private var m_GridSquareSize = 0
@@ -348,7 +349,7 @@ class GameBoard : GridLayout {
         updateBoards()
     }
 
-    fun setGameControls(gameControls: GameControlsAdapter) {
+    fun setGameControls(gameControls: GameControlsAdapterSinglePlayer) {
         m_GameControls = gameControls
     }
 

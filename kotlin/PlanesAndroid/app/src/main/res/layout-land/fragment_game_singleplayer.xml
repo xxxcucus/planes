@@ -7,46 +7,46 @@
     android:background="@drawable/background"
     android:tag="phone horizontal">
 
-    <com.planes.android.game.PlanesVerticalLayout
+    <com.planes.android.game.singleplayer.PlanesVerticalLayoutSinglePlayer
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/planes_layout">
-        <com.planes.android.game.GameBoard
+        <com.planes.android.game.common.GameBoard
             android:id="@+id/game_boards"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
         <!-- Buttons for board editing stage -->
-        <com.planes.android.game.MoveUpButton
+        <com.planes.android.game.common.MoveUpButton
             android:id="@+id/up_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="1"
             app:gc_col="2"
             app:gc_game_stage="1" />
-        <com.planes.android.game.MoveLeftButton
+        <com.planes.android.game.common.MoveLeftButton
             android:id="@+id/left_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="2"
             app:gc_col="1"
             app:gc_game_stage="1" />
-        <com.planes.android.game.RotateButton
+        <com.planes.android.game.common.RotateButton
             android:id="@+id/rotate_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="2"
             app:gc_col="2"
             app:gc_game_stage="1"/>
-        <com.planes.android.game.MoveRightButton
+        <com.planes.android.game.common.MoveRightButton
             android:id="@+id/right_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="2"
             app:gc_col="3"
             app:gc_game_stage="1" />
-        <com.planes.android.game.MoveDownButton
+        <com.planes.android.game.common.MoveDownButton
             android:id="@+id/down_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -251,5 +251,5 @@
             app:gc_col="8"
             app:gc_game_stage="0"
             app:gc_text="0" />
-    </com.planes.android.game.PlanesVerticalLayout>
+    </com.planes.android.game.singleplayer.PlanesVerticalLayoutSinglePlayer>
 </LinearLayout>

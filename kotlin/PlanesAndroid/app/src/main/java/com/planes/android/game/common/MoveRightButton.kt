@@ -1,4 +1,4 @@
-package com.planes.android.game
+package com.planes.android.game.common
 
 import android.content.Context
 import android.graphics.Canvas

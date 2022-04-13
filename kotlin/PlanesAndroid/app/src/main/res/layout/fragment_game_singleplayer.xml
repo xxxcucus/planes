@@ -1,54 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/rootView"
     android:background="@drawable/background"
-    android:tag="phone vertical">
+    android:tag="phone horizontal">
 
-    <com.planes.android.game.PlanesVerticalLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.planes.android.game.singleplayer.PlanesVerticalLayoutSinglePlayer
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/planes_layout">
-        <com.planes.android.game.GameBoard
+        <com.planes.android.game.common.GameBoard
             android:id="@+id/game_boards"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
         <!-- Buttons for board editing stage -->
-        <com.planes.android.game.MoveUpButton
+        <com.planes.android.game.common.MoveUpButton
             android:id="@+id/up_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="1"
             app:gc_col="2"
             app:gc_game_stage="1" />
-        <com.planes.android.game.MoveLeftButton
+        <com.planes.android.game.common.MoveLeftButton
             android:id="@+id/left_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="2"
             app:gc_col="1"
             app:gc_game_stage="1" />
-        <com.planes.android.game.RotateButton
+        <com.planes.android.game.common.RotateButton
             android:id="@+id/rotate_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="2"
             app:gc_col="2"
-            app:gc_game_stage="1" />
-        <com.planes.android.game.MoveRightButton
+            app:gc_game_stage="1"/>
+        <com.planes.android.game.common.MoveRightButton
             android:id="@+id/right_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_row="2"
             app:gc_col="3"
             app:gc_game_stage="1" />
-        <com.planes.android.game.MoveDownButton
+        <com.planes.android.game.common.MoveDownButton
             android:id="@+id/down_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,8 +57,8 @@
             android:id="@+id/done_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:gc_row="2"
-            app:gc_col="4"
+            app:gc_row="4"
+            app:gc_col="2"
             app:gc_game_stage="1"
             app:gc_text="@string/done_button" />
 
@@ -70,12 +68,11 @@
             android:id="@+id/stats_title_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:gc_text1="@string/computer_stats1"
+            app:gc_text1 = "@string/computer_stats1"
             app:gc_text2="@string/computer_stats2"
             app:gc_row="1"
             app:gc_colspan="3"
-            app:gc_rowspan="2"
-            app:gc_col="1"
+            app:gc_col="4"
             app:gc_game_stage="2"
             app:gc_background_color="@color/orange"/>
         <com.planes.android.customviews.TwoLineTextButtonWithState
@@ -84,7 +81,7 @@
             android:layout_height="wrap_content"
             app:gc_text1="@string/view_computer_board1"
             app:gc_text2="@string/view_computer_board2"
-            app:gc_row="3"
+            app:gc_row="2"
             app:gc_colspan="3"
             app:gc_rowspan="2"
             app:gc_col="1"
@@ -94,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_text="@string/general_moves"
-            app:gc_row="1"
+            app:gc_row="2"
             app:gc_colspan="2"
             app:gc_col="4"
             app:gc_game_stage="2"
@@ -104,7 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_text="0"
-            app:gc_row="1"
+            app:gc_row="2"
             app:gc_col="6"
             app:gc_game_stage="2"
             app:gc_background_color="@color/orange"/>
@@ -113,7 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_text="@string/general_misses"
-            app:gc_row="2"
+            app:gc_row="3"
             app:gc_colspan="2"
             app:gc_col="4"
             app:gc_game_stage="2"
@@ -125,7 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             app:gc_text="0"
-            app:gc_row="2"
+            app:gc_row="3"
             app:gc_col="6"
             app:gc_game_stage="2"
             app:gc_background_color="@color/orange"/>
@@ -134,7 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_text="@string/general_hits"
-            app:gc_row="3"
+            app:gc_row="4"
             app:gc_colspan="2"
             app:gc_col="4"
             app:gc_game_stage="2"
@@ -144,7 +141,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_text="0"
-            app:gc_row="3"
+            app:gc_row="4"
             app:gc_col="6"
             app:gc_game_stage="2"
             app:gc_background_color="@color/orange"/>
@@ -154,7 +151,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_text="@string/general_dead"
-            app:gc_row="4"
+            app:gc_row="5"
             app:gc_colspan="2"
             app:gc_col="4"
             app:gc_game_stage="2"
@@ -164,7 +161,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:gc_text="0"
-            app:gc_row="4"
+            app:gc_row="5"
             app:gc_col="6"
             app:gc_game_stage="2"
             app:gc_background_color="@color/orange"/>
@@ -254,5 +251,5 @@
             app:gc_col="8"
             app:gc_game_stage="0"
             app:gc_text="0" />
-    </com.planes.android.game.PlanesVerticalLayout>
+    </com.planes.android.game.singleplayer.PlanesVerticalLayoutSinglePlayer>
 </LinearLayout>

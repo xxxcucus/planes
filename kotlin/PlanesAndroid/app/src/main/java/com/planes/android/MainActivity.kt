@@ -1,8 +1,6 @@
 package com.planes.android
 
-import android.content.Context
 import android.content.res.Configuration
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -20,10 +18,8 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.planes.android.about.AboutFragment
 import com.planes.android.creategame.CreateGameFragment
-import com.planes.android.creategame.CreateGameSettings
 import com.planes.android.creategame.CreateGameSettingsGlobal
-import com.planes.android.creategame.CreateGameStates
-import com.planes.android.game.GameFragment
+import com.planes.android.game.singleplayer.GameFragmentSinglePlayer
 import com.planes.android.login.LoginFragment
 import com.planes.android.register.RegisterFragment
 import com.planes.android.preferences.*
@@ -33,7 +29,6 @@ import com.planes.android.videos.VideoFragment1
 import com.planes.android.videos.VideoSettingsService
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.RegistrationResponse
-import com.planes.single_player_engine.GameStages
 import com.planes.single_player_engine.PlanesRoundJava
 
 
@@ -387,7 +382,7 @@ class MainActivity : AppCompatActivity() {
 
             }
             R.id.nav_game -> {
-                newFragment = GameFragment()
+                newFragment = GameFragmentSinglePlayer()
             }
             R.id.nav_videos -> {
                 val bundle = Bundle()
