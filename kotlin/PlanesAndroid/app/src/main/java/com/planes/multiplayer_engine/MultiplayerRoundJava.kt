@@ -1,20 +1,19 @@
 package com.planes.multiplayer_engine
 
+import androidx.core.util.Pair
 import com.planes.android.MultiplayerRoundInterface
+import com.planes.android.PlanesRoundInterface
 import com.planes.multiplayer_engine.requests.CreateGameRequest
 import com.planes.multiplayer_engine.requests.NoRobotRequest
 import com.planes.multiplayer_engine.responses.*
-import com.planes.single_player_engine.PlaneRound
-import com.planes.single_player_engine.PlanesRoundJava
-import com.planes.single_player_engine.PlayerGuessReaction
-import com.planes.single_player_engine.Type
+import com.planes.single_player_engine.*
 import io.reactivex.Observable
 import retrofit2.Response
 
 class MultiplayerRoundJava : MultiplayerRoundInterface {
     override fun createPlanesRound() {
         if (MultiplayerRoundJava.global_Round != null) return
-        MultiplayerRoundJava.global_Round = MultiplayerRound()
+        MultiplayerRoundJava.global_Round = MultiplayerRound(10,10, 3)
     }
 
     override fun testServerVersion(): Observable<Response<VersionResponse>> {
@@ -104,6 +103,183 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
 
     override fun resetGameData() {
         global_Round!!.resetGameData()
+    }
+
+    override fun getRowNo(): Int {
+        return global_Round!!.getRowNo()
+    }
+
+    override fun getColNo(): Int {
+        return global_Round!!.getColNo()
+    }
+
+    override fun getPlaneNo(): Int {
+        return global_Round!!.getPlaneNo()
+    }
+
+    override fun getPlaneSquareType(i: Int, j: Int, isComputer: Int): Int {
+        return global_Round!!.getPlaneSquareType(i, j, if (isComputer > 0) true else false)
+    }
+
+    //edit the board
+    override fun movePlaneLeft(idx: Int): Int {
+        return if (global_Round!!.movePlaneLeft(idx)) 1 else 0
+    }
+
+    override fun movePlaneRight(idx: Int): Int {
+        return if (global_Round!!.movePlaneRight(idx)) 1 else 0
+    }
+
+    override fun movePlaneUpwards(idx: Int): Int {
+        return if (global_Round!!.movePlaneUpwards(idx)) 1 else 0
+    }
+
+    override fun movePlaneDownwards(idx: Int): Int {
+        return if (global_Round!!.movePlaneDownwards(idx)) 1 else 0
+    }
+
+    override fun rotatePlane(idx: Int): Int {
+        return if (global_Round!!.rotatePlane(idx)) 1 else 0
+    }
+
+    override fun doneClicked() {
+        global_Round!!.doneEditing()
+    }
+
+    override fun playerGuessAlreadyMade(row: Int, col: Int): Int {
+        return global_Round!!.playerGuessAlreadyMade(row, col)
+    }
+
+    override fun playerGuess(row: Int, col: Int) {
+
+    }
+
+    override fun playerGuess(gp: GuessPoint): PlayerGuessReaction {
+        return global_Round!!.playerGuess(gp)
+    }
+
+    fun playerGuessIncomplete(row: Int, col: Int): Pair<Type, PlayerGuessReaction> {
+        return Pair(Type.Miss, PlayerGuessReaction())
+    }
+
+    override fun playerGuess_RoundEnds(): Boolean {
+        return global_Player_Guess_Reaction.m_RoundEnds
+    }
+
+    override fun playerGuess_IsDraw(): Boolean {
+        return global_Player_Guess_Reaction.m_IsDraw
+    }
+
+    override fun playerGuess_IsPlayerWinner(): Boolean {
+        return global_Player_Guess_Reaction.m_isPlayerWinner
+    }
+
+    override fun playerGuess_ComputerMoveGenerated(): Boolean {
+        return global_Player_Guess_Reaction.m_ComputerMoveGenerated
+    }
+
+    override fun playerGuess_StatNoPlayerMoves(): Int {
+        return global_Player_Guess_Reaction.m_GameStats.playerMoves()
+    }
+
+    override fun playerGuess_StatNoPlayerHits(): Int {
+        return global_Player_Guess_Reaction.m_GameStats.playerHits()
+    }
+
+    override fun playerGuess_StatNoPlayerMisses(): Int {
+        return global_Player_Guess_Reaction.m_GameStats.playerMisses()
+    }
+
+    override fun playerGuess_StatNoPlayerDead(): Int {
+        return global_Player_Guess_Reaction.m_GameStats.playerDead()
+    }
+
+    override fun playerGuess_StatNoPlayerWins(): Int {
+        return global_Player_Guess_Reaction.m_GameStats.playerWins()
+    }
+
+    override fun playerGuess_StatNoComputerMoves(): Int {
+        return global_Player_Guess_Reaction.m_GameStats.computerMoves()
+    }
+
+    override fun playerGuess_StatNoComputerHits(): Int {
+        return global_Player_Guess_Reaction.m_GameStats.computerHits()
+    }
+
+    override fun playerGuess_StatNoComputerMisses(): Int {
+        return global_Player_Guess_Reaction.m_GameStats.computerMisses()
+    }
+
+    override fun playerGuess_StatNoComputerDead(): Int {
+        return global_Player_Guess_Reaction.m_GameStats.computerDead()
+    }
+
+    override fun playerGuess_StatNoComputerWins(): Int {
+        return global_Player_Guess_Reaction.m_GameStats.computerWins()
+    }
+
+    override fun playerGuess_StatNoDraws(): Int {
+        return global_Player_Guess_Reaction.m_GameStats.draws()
+    }
+
+    override fun roundEnds() {
+        global_Round!!.setRoundEnd()
+    }
+
+    override fun initRound() {
+        global_Round!!.initRound()
+    }
+
+    override fun getPlayerGuessesNo(): Int {
+        return global_Round!!.getPlayerGuessesNo()
+    }
+
+    override fun getPlayerGuessRow(idx: Int): Int {
+        return global_Round!!.getPlayerGuess(idx).row()
+    }
+
+    override fun getPlayerGuessCol(idx: Int): Int {
+        return global_Round!!.getPlayerGuess(idx).col()
+    }
+
+    override fun getPlayerGuessType(idx: Int): Int {
+        return global_Round!!.getPlayerGuess(idx).type().value
+    }
+
+    override fun getComputerGuessesNo(): Int {
+        return global_Round!!.getComputerGuessesNo()
+    }
+
+    override fun getComputerGuessRow(idx: Int): Int {
+        return global_Round!!.getComputerGuess(idx).row()
+    }
+
+    override fun getComputerGuessCol(idx: Int): Int {
+        return global_Round!!.getComputerGuess(idx).col()
+    }
+
+    override fun getComputerGuessType(idx: Int): Int {
+        return global_Round!!.getComputerGuess(idx).type().value
+    }
+
+    override fun getGameStage(): Int {
+        return global_Round!!.getCurrentStage()
+    }
+
+    override fun setComputerSkill(skill: Int): Boolean {
+        return true
+    }
+
+    override fun setShowPlaneAfterKill(show: Boolean): Boolean {
+        return true
+    }
+
+    override fun getComputerSkill(): Int {
+        return 0
+    }
+
+    override fun getShowPlaneAfterKill(): Boolean {
+        return true
     }
 
     companion object {

@@ -13,7 +13,6 @@ import com.planes.android.customviews.ColouredSurfaceWithText
 import com.planes.android.customviews.ColouredSurfaceWithTwoLineText
 import com.planes.android.customviews.TwoLineTextButton
 import com.planes.android.customviews.TwoLineTextButtonWithState
-import com.planes.android.game.common.GameBoard
 import com.planes.single_player_engine.PlanesRoundJava
 
 
@@ -61,15 +60,15 @@ class GameFragmentSinglePlayer : Fragment() {
             isHorizontal = true
         }
         m_GameBoards = if (isTablet) {
-            val playerBoard = rootView.findViewById<View>(R.id.player_board) as GameBoard
+            val playerBoard = rootView.findViewById<View>(R.id.player_board) as GameBoardSinglePlayer
             playerBoard.setGameSettings(m_PlaneRound, true)
             playerBoard.setPlayerBoard()
-            val computerBoard = rootView.findViewById<View>(R.id.computer_board) as GameBoard
+            val computerBoard = rootView.findViewById<View>(R.id.computer_board) as GameBoardSinglePlayer
             computerBoard.setGameSettings(m_PlaneRound, true)
             computerBoard.setComputerBoard()
             GameBoardsAdapterSinglePlayer(playerBoard, computerBoard)
         } else {
-            val gameBoard = rootView.findViewById<View>(R.id.game_boards) as GameBoard
+            val gameBoard = rootView.findViewById<View>(R.id.game_boards) as GameBoardSinglePlayer
             gameBoard.setGameSettings(m_PlaneRound, false)
             GameBoardsAdapterSinglePlayer(gameBoard)
         }

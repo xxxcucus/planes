@@ -1,23 +1,26 @@
-package com.planes.android.game.singleplayer
+package com.planes.android.game.multiplayer
 
+import com.planes.android.game.singleplayer.GameBoardSinglePlayer
+import com.planes.android.game.singleplayer.GameControlsAdapterMultiplayer
 import com.planes.single_player_engine.GameStages
 
-class GameBoardsAdapterSinglePlayer {
+//TODO: derive from basis class the same as GameBoardsAdapterSinglePlayer
+class GameBoardsAdapterMultiplayer {
     //used when playing on a phone
-    private lateinit var m_GameBoard: GameBoardSinglePlayer
+    private lateinit var m_GameBoard: GameBoardMultiplayer
 
     //used when playing on a tablet
-    private lateinit var m_PlayerBoard: GameBoardSinglePlayer
-    private lateinit var m_ComputerBoard: GameBoardSinglePlayer
-    private lateinit var m_GameControls: GameControlsAdapterSinglePlayer
+    private lateinit var m_PlayerBoard: GameBoardMultiplayer
+    private lateinit var m_ComputerBoard: GameBoardMultiplayer
+    private lateinit var m_GameControls: GameControlsAdapterMultiplayer
     private var m_Tablet = false
 
-    constructor(gameBoard: GameBoardSinglePlayer) {
+    constructor(gameBoard: GameBoardMultiplayer) {
         m_Tablet = false
         m_GameBoard = gameBoard
     }
 
-    constructor(playerBoard: GameBoardSinglePlayer, computerBoard: GameBoardSinglePlayer) {
+    constructor(playerBoard: GameBoardMultiplayer, computerBoard: GameBoardMultiplayer) {
         m_Tablet = true
         m_PlayerBoard = playerBoard
         m_ComputerBoard = computerBoard
@@ -25,10 +28,10 @@ class GameBoardsAdapterSinglePlayer {
     }
 
     fun showTwoBoards(): Boolean {
-        return m_Tablet
+        return false
     }
 
-    fun setGameControls(controls: GameControlsAdapterSinglePlayer) {
+    fun setGameControls(controls: GameControlsAdapterMultiplayer) {
         if (showTwoBoards()) {
             m_PlayerBoard.setGameControls(controls)
             m_ComputerBoard.setGameControls(controls)

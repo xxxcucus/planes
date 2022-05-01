@@ -64,6 +64,10 @@ class PlanesRoundJava : PlanesRoundInterface {
         global_Player_Guess_Reaction = result.second
     }
 
+    override fun playerGuess(gp: GuessPoint): PlayerGuessReaction {
+        TODO("Not yet implemented")
+    }
+
     override fun playerGuess_RoundEnds(): Boolean {
         return global_Player_Guess_Reaction.m_RoundEnds
     }

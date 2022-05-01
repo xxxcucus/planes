@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.planes.android.R
 import com.planes.android.customviews.ViewWithText
-import com.planes.android.game.common.GameBoard
 import com.planes.single_player_engine.GameStages
 import java.util.*
 
@@ -90,7 +89,7 @@ class PlanesVerticalLayoutSinglePlayer : ViewGroup {
         //TODO: to read only the children corresponding to the current stage
         for (i in 0 until count) {
             val child = getChildAt(i)
-            if (child is GameBoard) {
+            if (child is GameBoardSinglePlayer) {
                 m_GameBoards.add(child)
             } else {
                 val lp = child.layoutParams as PlanesVerticalLayoutParams
@@ -313,7 +312,7 @@ class PlanesVerticalLayoutSinglePlayer : ViewGroup {
         m_ToolbarHeight = toolbarHeight
     }
 
-    private lateinit var m_GameBoards: ArrayList<GameBoard>
+    private lateinit var m_GameBoards: ArrayList<GameBoardSinglePlayer>
     private lateinit var m_GameControls: HashMap<Int, ArrayList<View>>
     private lateinit var m_GameControlsMaxRow: HashMap<Int, Int>
     private lateinit var m_GameControlsMaxCol: HashMap<Int, Int>

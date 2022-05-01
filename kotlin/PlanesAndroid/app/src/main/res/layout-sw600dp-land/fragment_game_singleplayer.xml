@@ -13,12 +13,12 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/planes_layout">
-        <com.planes.android.game.common.GameBoard
+        <com.planes.android.game.singleplayer.GameBoardSinglePlayer
             android:id="@+id/player_board"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             />
-        <com.planes.android.game.common.GameBoard
+        <com.planes.android.game.singleplayer.GameBoardSinglePlayer
             android:id="@+id/computer_board"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"

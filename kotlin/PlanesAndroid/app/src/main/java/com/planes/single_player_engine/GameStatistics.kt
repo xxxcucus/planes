@@ -1,5 +1,10 @@
 package com.planes.single_player_engine
 
+import android.R.bool
+
+
+
+
 class GameStatistics {
     //keeps the number of moves and various guesses in the current round
 
@@ -102,5 +107,13 @@ class GameStatistics {
 
     fun addDrawResult() {
         m_draws++
+    }
+
+    fun playerFinished(noPlanes: Int): Boolean {
+        return m_playerDead >= noPlanes
+    }
+
+    fun computerFinished(noPlanes: Int): Boolean {
+        return m_computerDead >= noPlanes
     }
 }

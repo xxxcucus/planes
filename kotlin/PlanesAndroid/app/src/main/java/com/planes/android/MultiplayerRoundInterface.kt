@@ -7,8 +7,8 @@ import com.planes.multiplayer_engine.responses.*
 import io.reactivex.Observable
 import retrofit2.Response
 
-interface MultiplayerRoundInterface {
-    fun createPlanesRound()
+interface MultiplayerRoundInterface: PlanesRoundInterface {
+    override fun createPlanesRound()
 
     fun testServerVersion(): Observable<Response<VersionResponse>>
 

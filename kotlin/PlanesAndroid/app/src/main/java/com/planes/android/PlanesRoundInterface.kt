@@ -1,5 +1,8 @@
 package com.planes.android
 
+import com.planes.single_player_engine.GuessPoint
+import com.planes.single_player_engine.PlayerGuessReaction
+
 //TODO: to move in common
 interface PlanesRoundInterface {
     //creates the PlaneRound object in the game engine
@@ -23,6 +26,7 @@ interface PlanesRoundInterface {
     //play the game
     fun playerGuessAlreadyMade(row: Int, col: Int): Int
     fun playerGuess(row: Int, col: Int)
+    fun playerGuess(gp: GuessPoint): PlayerGuessReaction
     fun playerGuess_RoundEnds(): Boolean
     fun playerGuess_IsPlayerWinner(): Boolean
     fun playerGuess_IsDraw(): Boolean

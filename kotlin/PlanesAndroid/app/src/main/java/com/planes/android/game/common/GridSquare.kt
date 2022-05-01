@@ -5,6 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import com.planes.android.game.singleplayer.GameBoardSinglePlayer
 
 class GridSquare : View {
     private var m_BackgroundColor = 0
@@ -18,7 +19,7 @@ class GridSquare : View {
     private lateinit var m_MissCircle: RectF
     private lateinit var m_HitPath: Path
     private var m_Width = 0
-    private lateinit var m_Parent: GameBoard
+    private lateinit var m_Parent: GameBoardInterface
     private var m_XTouched = -1
     private var m_YTouched = -1
 
@@ -129,7 +130,7 @@ class GridSquare : View {
         m_HitPath.close()
     }
 
-    fun setParent(top: GameBoard) {
+    fun setParent(top: GameBoardInterface) {
         m_Parent = top
     }
 
