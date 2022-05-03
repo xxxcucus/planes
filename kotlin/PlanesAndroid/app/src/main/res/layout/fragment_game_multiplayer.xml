@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/planes_layout">
-        <com.planes.android.game.singleplayer.GameBoardSinglePlayer
+        <com.planes.android.game.multiplayer.GameBoardMultiplayer
             android:id="@+id/game_boards"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
