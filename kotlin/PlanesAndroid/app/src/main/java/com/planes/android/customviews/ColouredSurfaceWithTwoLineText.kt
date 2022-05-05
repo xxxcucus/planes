@@ -6,7 +6,8 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import com.planes.android.game.singleplayer.PlanesVerticalLayoutSinglePlayer
+import com.planes.android.game.common.PlanesVerticalLayoutParams
+
 
 class ColouredSurfaceWithTwoLineText : View, ViewWithText {
     private lateinit var m_Paint: Paint
@@ -39,7 +40,7 @@ class ColouredSurfaceWithTwoLineText : View, ViewWithText {
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val lp = layoutParams as PlanesVerticalLayoutSinglePlayer.PlanesVerticalLayoutParams
+        val lp = layoutParams as PlanesVerticalLayoutParams
         if (!this::m_Text1.isInitialized) m_Text1 = lp.getText1()
         if (!this::m_Text2.isInitialized) m_Text2 = lp.getText2()
         m_BackgroundColor = lp.getColor()

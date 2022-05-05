@@ -11,7 +11,7 @@ import com.planes.android.customviews.CanvasPaintUtilities.Functions.drawButtonS
 import com.planes.android.customviews.CanvasPaintUtilities.Functions.drawTextFitToSizeOneLine
 import com.planes.android.customviews.CanvasPaintUtilities.Functions.measureHeightOneLineText
 import com.planes.android.customviews.CanvasPaintUtilities.Functions.measureWidthOneLineText
-import com.planes.android.game.singleplayer.PlanesVerticalLayoutSinglePlayer.PlanesVerticalLayoutParams
+import com.planes.android.game.common.PlanesVerticalLayoutParams
 
 class TextButton : AppCompatButton, ViewWithText {
     private lateinit var m_Paint: Paint

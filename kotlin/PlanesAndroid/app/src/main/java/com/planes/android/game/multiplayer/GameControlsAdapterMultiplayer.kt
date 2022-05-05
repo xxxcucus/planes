@@ -9,6 +9,7 @@ import com.planes.android.customviews.ColouredSurfaceWithTwoLineText
 import com.planes.android.customviews.TwoLineTextButton
 import com.planes.android.customviews.TwoLineTextButtonWithState
 import com.planes.android.game.multiplayer.GameBoardsAdapterMultiplayer
+import com.planes.android.game.multiplayer.PlanesVerticalLayoutMultiplayer
 import com.planes.single_player_engine.GameStages
 
 class GameControlsAdapterMultiplayer(private val m_Context: Context) {
@@ -16,7 +17,7 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
     private lateinit var m_MultiplayerRound: MultiplayerRoundInterface
     private lateinit var m_GameBoards: GameBoardsAdapterMultiplayer
     private var m_Tablet = false
-    private lateinit var m_PlanesLayout: PlanesVerticalLayoutSinglePlayer
+    private lateinit var m_PlanesLayout: PlanesVerticalLayoutMultiplayer
 
     //Board Editing
     private lateinit var m_RotateButton: Button
@@ -197,7 +198,7 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         m_GameBoards = gameBoards
     }
 
-    fun setPlanesLayout(planesLayout: PlanesVerticalLayoutSinglePlayer) {
+    fun setPlanesLayout(planesLayout: PlanesVerticalLayoutMultiplayer) {
         m_PlanesLayout = planesLayout
     }
 }

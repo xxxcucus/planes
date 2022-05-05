@@ -59,8 +59,8 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     var m_ComputerMoveIndex = 0
     var m_WinnerFound: Boolean = false
 
-    private lateinit var m_NotSentMoves: Vector<Int>
-    private lateinit var m_ReceivedMoves: Vector<Int>
+    private var m_NotSentMoves: Vector<Int> = Vector<Int>()
+    private var m_ReceivedMoves: Vector<Int> = Vector<Int>()
 
 
     private fun constructHeaderInterceptor(): Interceptor {

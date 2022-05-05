@@ -1,4 +1,4 @@
-package com.planes.android.game.singleplayer
+package com.planes.android.game.multiplayer
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,14 +7,12 @@ import android.view.ViewGroup
 import com.planes.android.R
 import com.planes.android.customviews.ViewWithText
 import com.planes.android.game.common.PlanesVerticalLayoutParams
+import com.planes.android.game.singleplayer.GameBoardSinglePlayer
 import com.planes.single_player_engine.GameStages
-import java.util.*
+import java.util.ArrayList
+import java.util.HashMap
 
-//vertical layout works with 2 GameBoard objects and 2 GameControl objects
-//the game control object should change depending on the game stage
-//the size of the game controls depends on the size of the visible game board
-//dimension of the screen and toolbars should be saved inside the layout
-class PlanesVerticalLayoutSinglePlayer : ViewGroup {
+class PlanesVerticalLayoutMultiplayer : ViewGroup {
 
     constructor(context: Context) : super(context) {
         m_Context = context
@@ -39,7 +37,7 @@ class PlanesVerticalLayoutSinglePlayer : ViewGroup {
         //TODO: to read only the children corresponding to the current stage
         for (i in 0 until count) {
             val child = getChildAt(i)
-            if (child is GameBoardSinglePlayer) {
+            if (child is GameBoardMultiplayer) {
                 m_GameBoards.add(child)
             } else {
                 val lp = child.layoutParams as PlanesVerticalLayoutParams
@@ -99,11 +97,11 @@ class PlanesVerticalLayoutSinglePlayer : ViewGroup {
         if (m_GameStage === GameStages.Game) {
             if (m_Tablet) {
                 if (m_Vertical) {
-                    setPlayerBoardPosition(0, 0, layoutWidth, layoutHeight / 2 - boardSpacing, false)
-                    setComputerBoardPosition(0, layoutHeight / 2 + boardSpacing, layoutWidth, layoutHeight, false)
+                    setPlayerBoardPosition(0, 0, layoutWidth, layoutHeight / 2, true)
+                    setGameControlsPositions(0, layoutHeight / 2, layoutWidth, layoutHeight)
                 } else {
-                    setPlayerBoardPosition(0, 0, layoutWidth / 2 - boardSpacing, layoutHeight, false)
-                    setComputerBoardPosition(layoutWidth / 2 + boardSpacing, 0, layoutWidth, layoutHeight, false)
+                    setPlayerBoardPosition(0, 0, layoutWidth / 2, layoutHeight, true)
+                    setGameControlsPositions(layoutWidth / 2, 0, layoutWidth, layoutHeight)
                 }
             } else {
                 if (m_Vertical) {
@@ -118,7 +116,7 @@ class PlanesVerticalLayoutSinglePlayer : ViewGroup {
         if (m_GameStage === GameStages.GameNotStarted) {
             if (m_Tablet) {
                 if (m_Vertical) {
-                    if (!m_ShowPlayerBoard) {
+                    if (!m_ShowPlayerBoard) { //TODO: do I really need m_ShowPlayerBoard
                         setGameControlsPositions(0, 0, layoutWidth, layoutHeight / 2)
                         setComputerBoardPosition(0, layoutHeight / 2, layoutWidth, layoutHeight, true)
                     } else {
@@ -262,7 +260,7 @@ class PlanesVerticalLayoutSinglePlayer : ViewGroup {
         m_ToolbarHeight = toolbarHeight
     }
 
-    private lateinit var m_GameBoards: ArrayList<GameBoardSinglePlayer>
+    private lateinit var m_GameBoards: ArrayList<GameBoardMultiplayer>
     private lateinit var m_GameControls: HashMap<Int, ArrayList<View>>
     private lateinit var m_GameControlsMaxRow: HashMap<Int, Int>
     private lateinit var m_GameControlsMaxCol: HashMap<Int, Int>

@@ -10,7 +10,7 @@ import com.planes.android.customviews.CanvasPaintUtilities.Functions.computeOpti
 import com.planes.android.customviews.CanvasPaintUtilities.Functions.drawTextFitToSizeOneLine
 import com.planes.android.customviews.CanvasPaintUtilities.Functions.measureHeightOneLineText
 import com.planes.android.customviews.CanvasPaintUtilities.Functions.measureWidthOneLineText
-import com.planes.android.game.singleplayer.PlanesVerticalLayoutSinglePlayer.PlanesVerticalLayoutParams
+import com.planes.android.game.common.PlanesVerticalLayoutParams
 
 class ColouredSurfaceWithText : View, ViewWithText {
     private lateinit var m_Paint: Paint

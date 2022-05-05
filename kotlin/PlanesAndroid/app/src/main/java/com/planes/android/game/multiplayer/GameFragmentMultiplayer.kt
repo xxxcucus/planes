@@ -20,7 +20,7 @@ class GameFragmentMultiplayer : Fragment() {
     private lateinit var m_PlaneRound: MultiplayerRoundInterface
     private lateinit var m_GameBoards: GameBoardsAdapterMultiplayer
     private lateinit var m_GameControls: GameControlsAdapterMultiplayer
-    private lateinit var m_PlanesLayout: PlanesVerticalLayoutSinglePlayer
+    private lateinit var m_PlanesLayout: PlanesVerticalLayoutMultiplayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +42,7 @@ class GameFragmentMultiplayer : Fragment() {
         // Inflate the layout for this fragment
         var rootView = inflater.inflate(R.layout.fragment_game_multiplayer, container, false)
 
-        m_PlanesLayout = rootView.findViewById<View>(R.id.planes_layout) as PlanesVerticalLayoutSinglePlayer
+        m_PlanesLayout = rootView.findViewById<View>(R.id.planes_layout) as PlanesVerticalLayoutMultiplayer
 
         var isTablet = false
         var isHorizontal = false
@@ -80,10 +80,10 @@ class GameFragmentMultiplayer : Fragment() {
         val progressBarGameButton = rootView.findViewById<View>(R.id.ProgressBarGame) as ProgressBar
 
         //Start New Game Stage
-        val viewComputerBoardButton2 = rootView.findViewById<View>(R.id.view_computer_board2) as TwoLineTextButtonWithState
+        val viewComputerBoardButton2 = rootView.findViewById<View>(R.id.view_opponent_board2) as TwoLineTextButtonWithState
         val startNewGameButton = rootView.findViewById<View>(R.id.start_new_game) as TwoLineTextButton
-        val computerWinsLabel = rootView.findViewById<View>(R.id.computer_wins_label) as ColouredSurfaceWithText
-        val computerWinsCount = rootView.findViewById<View>(R.id.computer_wins_count) as ColouredSurfaceWithText
+        val computerWinsLabel = rootView.findViewById<View>(R.id.opponent_wins_label) as ColouredSurfaceWithText
+        val computerWinsCount = rootView.findViewById<View>(R.id.opponent_wins_count) as ColouredSurfaceWithText
         val playerWinsLabel = rootView.findViewById<View>(R.id.player_wins_label) as ColouredSurfaceWithText
         val playerWinsCount = rootView.findViewById<View>(R.id.player_wins_count) as ColouredSurfaceWithText
         val winnerText = rootView.findViewById<View>(R.id.winner_textview) as ColouredSurfaceWithText
