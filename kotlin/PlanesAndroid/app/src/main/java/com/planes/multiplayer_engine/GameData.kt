@@ -74,13 +74,13 @@ class GameData {
         m_UserName = gameCreationResponse.m_SecondPlayerName
     }
 
-    fun setFromGameStatusResponse(gameStatusResponse: GameStatusResponse) {
+    fun setFromGameStatusResponse(gameStatusResponse: GameStatusResponse, userId: Long, userName: String) {
         m_GameId = gameStatusResponse.m_GameId.toLong()
         m_RoundId = gameStatusResponse.m_CurrentRoundId.toLong()
-        m_UserId = gameStatusResponse.m_SecondPlayerId.toLong()
-        m_OtherUserId = gameStatusResponse.m_FirstPlayerId.toLong()
+        m_UserId = userId
+        m_UserName = userName
+        m_OtherUserId = if (gameStatusResponse.m_FirstPlayerId.toLong() == userId) gameStatusResponse.m_SecondPlayerId.toLong() else gameStatusResponse.m_FirstPlayerId.toLong()
         m_GameName = gameStatusResponse.m_GameName
-        m_OtherUsername = gameStatusResponse.m_FirstPlayerName
-        m_UserName = gameStatusResponse.m_SecondPlayerName
+        m_OtherUsername = if (gameStatusResponse.m_FirstPlayerId.toLong() == userId) gameStatusResponse.m_SecondPlayerName else gameStatusResponse.m_FirstPlayerName
     }
 }

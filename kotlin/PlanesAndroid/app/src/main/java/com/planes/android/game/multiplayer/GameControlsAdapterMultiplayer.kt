@@ -42,7 +42,8 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
     private lateinit var m_DrawsLabel: ColouredSurfaceWithText
     private lateinit var m_ViewComputerBoardButton2: TwoLineTextButtonWithState
 
-    fun setBoardEditingControls(doneButton: Button, rotateButton: Button, cancelButton: Button, progressBar: ProgressBar) {
+    fun setBoardEditingControls(doneButton: Button, rotateButton: Button, cancelButton: Button, progressBar: ProgressBar,
+                            doneLambda: () -> Unit) {
         m_DoneButton = doneButton
         m_RotateButton = rotateButton
         m_CancelBoardEditingButton = cancelButton
@@ -52,15 +53,18 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
             m_RotateButton.setOnClickListener { m_GameBoards.rotatePlane() }
         }
         if (this::m_DoneButton.isInitialized) {
-            m_DoneButton.setOnClickListener {
-                setGameStage()
-                m_PlanesLayout.setGameStage()
-                m_GameBoards.setGameStage()
-                m_MultiplayerRound.doneClicked()
-            }
+            m_DoneButton.setOnClickListener { doneLambda() }
         }
 
+
         //TODO: cancel method
+    }
+
+    fun planePositionsSentSuccesfully() {
+        setGameStage()
+        m_PlanesLayout.setGameStage()
+        m_GameBoards.setGameStage()
+        m_MultiplayerRound.doneClicked()
     }
 
     fun setGameControls(gameStats: TwoLineTextButton, viewOpponentBoard: TwoLineTextButtonWithState, cancelButton: Button, progressBar: ProgressBar) {

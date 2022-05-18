@@ -3,7 +3,11 @@ package com.planes.android
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.requests.CreateGameRequest
 import com.planes.multiplayer_engine.requests.NoRobotRequest
+import com.planes.multiplayer_engine.requests.SendPlanePositionsRequest
 import com.planes.multiplayer_engine.responses.*
+import com.planes.single_player_engine.GameStages
+import com.planes.single_player_engine.Orientation
+import com.planes.single_player_engine.Plane
 import io.reactivex.Observable
 import retrofit2.Response
 
@@ -38,6 +42,8 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
 
     fun isUserLoggedIn(): Boolean
 
+    fun isUserConnectedToGame(): Boolean
+
     fun refreshGameStatus(gameName: String): Observable<retrofit2.Response<GameStatusResponse>>
 
     fun createGame(gameName: String): Observable<retrofit2.Response<CreateGameResponse>>
@@ -53,4 +59,14 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
     fun connectToGame(gameName: String): Observable<retrofit2.Response<ConnectToGameResponse>>
 
     fun resetGameData()
+
+    fun getPlayerPlaneNo(pos: Int): Plane
+
+    fun sendPlanePositions(request: SendPlanePositionsRequest): Observable<retrofit2.Response<SendPlanePositionsResponse>>
+
+    fun setComputerPlanes(plane1_x: Int, plane1_y: Int, plane1_orient: Orientation,
+                          plane2_x: Int, plane2_y: Int, plane2_orient: Orientation,
+                          plane3_x: Int, plane3_y: Int, plane3_orient: Orientation): Boolean
+
+    fun setGameStage(stage: GameStages)
 }

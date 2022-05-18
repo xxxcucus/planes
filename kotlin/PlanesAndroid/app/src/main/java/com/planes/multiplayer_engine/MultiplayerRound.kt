@@ -187,6 +187,10 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return !m_UserData.userName.isNullOrEmpty() && !m_UserData.authToken.isNullOrEmpty()
     }
 
+    fun isUserConnectedToGame(): Boolean {
+        return m_GameData.gameId != 0L && m_GameData.userId != 0L && m_GameData.otherUserId != 0L
+    }
+
     fun refreshGameStatus(gameName: String/*, gameId: String, userName: String, userId: String*/):
             Observable<retrofit2.Response<GameStatusResponse>> {
         return m_Service.refreshGameStatus(m_UserData.authToken,
@@ -208,7 +212,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     fun setGameData(gameStatusResponse: GameStatusResponse) {
-        m_GameData.setFromGameStatusResponse(gameStatusResponse)
+        m_GameData.setFromGameStatusResponse(gameStatusResponse, m_UserData.userId, m_UserData.userName)
     }
 
     fun setUserId(userid: Long) {
@@ -518,5 +522,24 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return m_State.value
     }
 
+    fun setGameStage(stage: GameStages) {
+        m_State = stage
+    }
+
+    fun getPlayerPlaneNo(pos: Int): Plane {
+        return m_PlayerGrid.getPlane(pos).second
+    }
+
+    fun sendPlanePositions(request: SendPlanePositionsRequest): Observable<retrofit2.Response<SendPlanePositionsResponse>> {
+        return m_Service.sendPlanePositions(m_UserData.authToken, request)
+    }
+
+    fun setComputerPlanes(plane1_x: Int, plane1_y: Int, plane1_orient: Orientation,
+                          plane2_x: Int, plane2_y: Int, plane2_orient: Orientation,
+                          plane3_x: Int, plane3_y: Int, plane3_orient: Orientation): Boolean {
+        m_State = GameStages.Game;
+        return m_ComputerGrid.initGridByUser(plane1_x, plane1_y, plane1_orient,
+            plane2_x, plane2_y, plane2_orient, plane3_x, plane3_y, plane3_orient);
+    }
 }
 

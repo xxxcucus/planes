@@ -13,7 +13,18 @@ import com.planes.android.*
 import com.planes.android.customviews.*
 import com.planes.android.game.singleplayer.*
 import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.requests.SendPlanePositionsRequest
+import com.planes.multiplayer_engine.responses.GameStatusResponse
+import com.planes.multiplayer_engine.responses.SendPlanePositionsResponse
+import com.planes.single_player_engine.GameStages
+import com.planes.single_player_engine.Orientation
+import com.planes.single_player_engine.Plane
 import com.planes.single_player_engine.PlanesRoundJava
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import okhttp3.Headers
+import java.util.concurrent.TimeUnit
 
 class GameFragmentMultiplayer : Fragment() {
 
@@ -21,6 +32,10 @@ class GameFragmentMultiplayer : Fragment() {
     private lateinit var m_GameBoards: GameBoardsAdapterMultiplayer
     private lateinit var m_GameControls: GameControlsAdapterMultiplayer
     private lateinit var m_PlanesLayout: PlanesVerticalLayoutMultiplayer
+    private lateinit var m_DonePositioningSubscription: Disposable
+
+    private var m_SendPlanePositionsError: Boolean = false
+    private var m_SendPlanePositionsErrorString: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,7 +105,7 @@ class GameFragmentMultiplayer : Fragment() {
         val drawsLabel = rootView.findViewById<View>(R.id.draws_label) as ColouredSurfaceWithText
         val drawsCount = rootView.findViewById<View>(R.id.draws_count) as ColouredSurfaceWithText
 
-        m_GameControls.setBoardEditingControls(doneButton, rotateButton, cancelBoardEditingButton, progressBarBoardEditing)
+        m_GameControls.setBoardEditingControls(doneButton, rotateButton, cancelBoardEditingButton, progressBarBoardEditing, ::doneClicked)
         if (!showTwoBoards(isTablet)) m_GameControls.setGameControls(statsTitle, viewOpponentBoardButton1, cancelBoardEditingButton, progressBarGameButton)
         m_GameControls.setStartNewGameControls(viewComputerBoardButton2, startNewGameButton, computerWinsLabel, computerWinsCount, playerWinsLabel, playerWinsCount, drawsLabel, drawsCount, winnerText)
         m_GameControls.setGameSettings(m_PlaneRound, isTablet)
@@ -114,6 +129,12 @@ class GameFragmentMultiplayer : Fragment() {
                 m_GameControls.setGameStage()
                 m_PlanesLayout.setGameStage()
             }
+            3 -> {
+                m_GameBoards.setBoardEditingStage()
+                m_GameControls.setBoardEditingStage()
+                m_PlanesLayout.setBoardEditingStage()
+            }
+
         }
 
         (activity as MainActivity).setActionBarTitle(getString(R.string.game))
@@ -123,5 +144,136 @@ class GameFragmentMultiplayer : Fragment() {
 
     fun showTwoBoards(isTablet: Boolean): Boolean {
         return false
+    }
+
+    fun doneClicked() {
+        m_SendPlanePositionsError = false
+        m_SendPlanePositionsErrorString = ""
+
+        if (!userLoggedIn()) {
+            finalizeSendPlanePositions()
+            return
+        }
+
+        if (!connectedToGame()) {
+            finalizeSendPlanePositions()
+            return
+        }
+
+        var plane1 = m_PlaneRound.getPlayerPlaneNo(0)
+        var plane2 = m_PlaneRound.getPlayerPlaneNo(1)
+        var plane3 = m_PlaneRound.getPlayerPlaneNo(2)
+
+        var sendPlanePositionsRequest = buildPlanePositionsRequest(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId(), m_PlaneRound.getUserId(),
+                    m_PlaneRound.getOpponentId(), plane1, plane2, plane3)
+
+        var sendPlanePositions = m_PlaneRound.sendPlanePositions(sendPlanePositionsRequest)
+        m_DonePositioningSubscription = sendPlanePositions
+            .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { _ -> showLoading() }
+            .doOnTerminate { hideLoading() }
+            .doOnComplete { hideLoading() }
+            .subscribe({data -> receivedOpponentPlanePositions(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
+                , {error -> setSendPlanePositionsError(error.localizedMessage.toString())});
+
+    }
+
+    private fun buildPlanePositionsRequest(
+        gameId: Long, roundId: Long, userId: Long, opponentId: Long, plane1: Plane, plane2: Plane, plane3: Plane): SendPlanePositionsRequest {
+
+        return SendPlanePositionsRequest(gameId.toString(), roundId.toString(), userId.toString(), opponentId.toString(),
+            plane1.row, plane1.col, plane1.orient.value, plane2.row, plane2.col, plane2.orient.value,
+            plane3.row, plane3.col, plane3.orient.value)
+
+    }
+
+    //TODO: to make work for all error variables and move to MultiplayerRound
+    fun userLoggedIn(): Boolean {
+        if (!m_PlaneRound.isUserLoggedIn()) {
+            m_SendPlanePositionsError = true
+            m_SendPlanePositionsErrorString = getString(R.string.validation_user_not_loggedin)
+            return false
+        }
+        return true
+    }
+
+    fun connectedToGame(): Boolean {
+        if (!m_PlaneRound.isUserConnectedToGame()) {
+            m_SendPlanePositionsError = true
+            m_SendPlanePositionsErrorString = getString(R.string.validation_not_connected_to_game)
+            return false
+        }
+        return true
+    }
+
+    fun finalizeSendPlanePositions() {
+        if (m_SendPlanePositionsError) {
+            (activity as MainActivity).onWarning(m_SendPlanePositionsErrorString)
+        } else {
+            if (m_PlaneRound.getGameStage() == GameStages.Game.value) {  //plane positions where received
+                m_GameBoards.setGameStage()
+                m_GameControls.setGameStage()
+                m_PlanesLayout.setGameStage()
+            }
+        }
+    }
+
+    fun setSendPlanePositionsError(errorMsg: String) {
+        m_SendPlanePositionsError = true
+        m_SendPlanePositionsErrorString = errorMsg
+        finalizeSendPlanePositions()
+    }
+
+    fun receivedOpponentPlanePositions(code: Int, jsonErrorString: String?, headrs: Headers, body: SendPlanePositionsResponse?) {
+        if (body != null)  {
+            var otherPositionsExist = body!!.m_OtherExist
+
+            if (otherPositionsExist) {
+
+                var plane1_x = body!!.m_Plane1X
+                var plane1_y = body!!.m_Plane1Y
+                var plane2_x = body!!.m_Plane2X
+                var plane2_y = body!!.m_Plane2Y
+                var plane3_x = body!!.m_Plane3X
+                var plane3_y = body!!.m_Plane3Y
+                var plane1_orient = Orientation.EastWest
+                var plane2_orient = Orientation.NorthSouth
+                var plane3_orient = Orientation.NorthSouth
+
+                try {
+                    plane1_orient = Orientation.fromInt(body!!.m_Plane1Orient)
+                    plane2_orient = Orientation.fromInt(body!!.m_Plane2Orient)
+                    plane3_orient = Orientation.fromInt(body!!.m_Plane3Orient)
+                } catch(e: NoSuchElementException) {
+                    m_SendPlanePositionsError = true
+                    m_SendPlanePositionsErrorString = getString(R.string.invalid_plane_orientation)
+                }
+
+                var setOk = m_PlaneRound.setComputerPlanes(plane1_x, plane1_y, plane1_orient, plane2_x, plane2_y, plane2_orient,
+                        plane3_x, plane3_y, plane3_orient)
+
+                if (!setOk) {
+                    m_SendPlanePositionsError = true
+                    m_SendPlanePositionsErrorString = getString(R.string.error_init_opponent_board)
+                }
+            } else {
+                m_PlaneRound.setGameStage(GameStages.WaitForOpponentPlanesPositions)
+            }
+        } else {
+            m_SendPlanePositionsErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.sendplanepositions_error),
+                getString(R.string.unknownerror))
+            m_SendPlanePositionsError = true
+        }
+        finalizeSendPlanePositions()
+    }
+
+    fun showLoading() {
+        (activity as MainActivity).startProgressDialog()
+    }
+
+    fun hideLoading() {
+        (activity as MainActivity).stopProgressDialog()
     }
 }

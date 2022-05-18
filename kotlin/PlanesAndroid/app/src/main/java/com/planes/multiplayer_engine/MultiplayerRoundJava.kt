@@ -5,6 +5,7 @@ import com.planes.android.MultiplayerRoundInterface
 import com.planes.android.PlanesRoundInterface
 import com.planes.multiplayer_engine.requests.CreateGameRequest
 import com.planes.multiplayer_engine.requests.NoRobotRequest
+import com.planes.multiplayer_engine.requests.SendPlanePositionsRequest
 import com.planes.multiplayer_engine.responses.*
 import com.planes.single_player_engine.*
 import io.reactivex.Observable
@@ -70,6 +71,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
 
     override fun isUserLoggedIn(): Boolean {
         return global_Round!!.isUserLoggedIn()
+    }
+
+    override fun isUserConnectedToGame(): Boolean {
+        return global_Round!!.isUserConnectedToGame()
     }
 
     override fun refreshGameStatus(gameName: String):
@@ -266,6 +271,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Round!!.getCurrentStage()
     }
 
+    override fun setGameStage(stage: GameStages) {
+        global_Round!!.setGameStage(stage)
+    }
+
     override fun setComputerSkill(skill: Int): Boolean {
         return true
     }
@@ -280,6 +289,20 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
 
     override fun getShowPlaneAfterKill(): Boolean {
         return true
+    }
+
+    override fun getPlayerPlaneNo(pos: Int): Plane {
+        return global_Round!!.getPlayerPlaneNo(pos)
+    }
+
+    override fun sendPlanePositions(request: SendPlanePositionsRequest): Observable<retrofit2.Response<SendPlanePositionsResponse>> {
+        return global_Round!!.sendPlanePositions(request)
+    }
+
+    override fun setComputerPlanes(plane1_x: Int, plane1_y: Int, plane1_orient: Orientation,
+                          plane2_x: Int, plane2_y: Int, plane2_orient: Orientation,
+                          plane3_x: Int, plane3_y: Int, plane3_orient: Orientation): Boolean {
+        return global_Round!!.setComputerPlanes(plane1_x, plane1_y, plane1_orient, plane2_x, plane2_y, plane2_orient, plane3_x, plane3_y, plane3_orient)
     }
 
     companion object {

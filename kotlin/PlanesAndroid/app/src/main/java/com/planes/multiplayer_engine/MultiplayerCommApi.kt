@@ -36,4 +36,15 @@ interface MultiplayerCommApi {
     @POST("game/connect")
     @Headers("Content-Type: application/json")
     fun connectToGame(@Header("Authorization") authorization: String, @Body game: ConnectToGameRequest): Observable<retrofit2.Response<ConnectToGameResponse>>
+
+
+    @POST("round/myplanespositions")
+    @Headers("Content-Type: application/json")
+    fun sendPlanePositions(@Header("Authorization") authorization: String, @Body positions: SendPlanePositionsRequest): Observable<retrofit2.Response<SendPlanePositionsResponse>>
+
+    @POST("round/otherplanespositions")
+    @Headers("Content-Type: application/json")
+    fun acquireOpponentPlanePositions(@Header("Authorization") authorization: String, @Body request: AcquireOpponentPositionsRequest): Observable<retrofit2.Response<AcquireOpponentPositionsResponse>>
+
+
 }

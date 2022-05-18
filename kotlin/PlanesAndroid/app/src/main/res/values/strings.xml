@@ -135,6 +135,7 @@
     <string name="validation_tooshort_gamename"> Game name shorter as 5 charachters </string>
     <string name="validation_toolong_gamename"> Game name longer as 30 charachters </string>
     <string name="validation_user_not_loggedin"> You have not yet logged in</string>
+    <string name="validation_not_connected_to_game"> You are not connected to a game</string>
     <string name="creategame_error"> Error when creating game </string>
     <string name="gamename_impossible"> It is not possible to create a game with this name</string>
     <string name="creategame_possible"> You may create a new game with this name</string>
@@ -153,6 +154,9 @@
     <string name="game_stats2">Stats</string>
     <string name="opponent_winner">Opponent Wins Round!</string>
     <string name="opponent_wins">Opponent Wins</string>
+    <string name="sendplanepositions_error"> Error when sending plane positions </string>
+    <string name="invalid_plane_orientation"> Invalid plane orientation</string>
+    <string name="error_init_opponent_board"> Error when initializing computer board</string>
 
 
 

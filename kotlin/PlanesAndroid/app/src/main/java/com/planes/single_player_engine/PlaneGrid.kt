@@ -25,6 +25,8 @@ open class PlaneGrid(//gets the size of the grid
     //whether planes overlap. is computed every time the plane points are computed again.
     protected var m_PlanesOverlap = false
 
+    protected var m_PlaneNo = 0
+
     //whether a plane is outside of the grid
     var isPlaneOutsideGrid = false
 
@@ -44,6 +46,7 @@ open class PlaneGrid(//gets the size of the grid
     init {
         m_planeList = Vector()
         m_listPlanePoints = Vector()
+        m_PlaneNo = planeNo
         m_listPlanePointsAnnotations = Vector()
         guesses = Vector()
         initGrid()
@@ -309,6 +312,61 @@ open class PlaneGrid(//gets the size of the grid
         return true
     }
 
+    fun initGridByUser(plane1_x: Int, plane1_y: Int, plane1_orient: Orientation,
+                       plane2_x: Int, plane2_y: Int, plane2_orient: Orientation,
+                       plane3_x: Int, plane3_y: Int, plane3_orient: Orientation): Boolean {
+        if (m_PlaneNo != 3)
+            return false
+
+        var pl1 = Plane(plane1_x, plane1_y, plane1_orient)
+        var pl2 = Plane(plane2_x, plane2_y, plane2_orient)
+        var pl3 = Plane(plane3_x, plane3_y, plane3_orient)
+
+        resetGrid()
+
+        if (!savePlane(pl1))
+            return false
+        if (!savePlane(pl2))
+            return false
+        if (!savePlane(pl3))
+            return false
+
+        return true
+    }
+
+    /*
+        if (m_planeNo != 3)
+            return false;
+
+        Plane pl1(plane1_x, plane1_y, plane1_orient);
+        Plane pl2(plane2_x, plane2_y, plane2_orient);
+        Plane pl3(plane3_x, plane3_y, plane3_orient);
+
+        resetGrid();
+
+        if (!savePlane(pl1)) {
+            printf("Fail 1");
+            return false;
+        }
+        if (!savePlane(pl2)) {
+            printf("Fail 2");
+            return false;
+        }
+        if (!savePlane(pl3)) {
+            printf("Fail 3");
+            return false;
+        }
+
+        bool retval = computePlanePointsList(false);
+
+        if (!retval) {
+            printf("Fail 4");
+        }
+
+        return retval;
+
+     */
+
     //removes a given plane from the list of planes
     fun removePlane(pl: Plane) {
         m_planeList.remove(pl)
@@ -351,4 +409,15 @@ open class PlaneGrid(//gets the size of the grid
     fun setPlanePoints(list: Vector<Coordinate2D>) {
         m_listPlanePoints = list
     }
+
+    //gets the plane at a given position in the list of planes
+    fun getPlane(pos: Int): Pair<Boolean, Plane> {
+        if (pos < 0 || pos >= m_planeList.size)
+            return Pair.create(false, Plane())
+
+        return Pair.create(true, m_planeList[pos])
+    }
+
+
+
 }

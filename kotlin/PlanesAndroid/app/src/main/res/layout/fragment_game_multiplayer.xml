@@ -48,7 +48,7 @@
             android:visibility="invisible"
             app:gc_row="2"
             app:gc_col="2"
-            app:gc_game_stage="1"/>
+            app:gc_game_stage="1" />
 
         <!-- Buttons for game stage -->
 
@@ -82,12 +82,12 @@
             app:gc_background_color="@color/orange"/>
         <ProgressBar
             android:id="@+id/ProgressBarGame"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:visibility="invisible"
             app:gc_row="2"
             app:gc_col="2"
-            app:gc_game_stage="1"/>
+            app:gc_game_stage="1" />
 
         <!-- Buttons for start new game stage -->
         <com.planes.android.customviews.TwoLineTextButtonWithState
