@@ -3,6 +3,7 @@ package com.planes.android.game.singleplayer
 import android.content.Context
 import android.widget.Button
 import android.widget.ProgressBar
+import androidx.core.view.isVisible
 import com.planes.android.*
 import com.planes.android.customviews.ColouredSurfaceWithText
 import com.planes.android.customviews.ColouredSurfaceWithTwoLineText
@@ -108,7 +109,7 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
                 m_MultiplayerRound.initRound()
                 m_PlanesLayout.setBoardEditingStage()
                 m_GameBoards.setBoardEditingStage()
-                setBoardEditingStage()
+                setBoardEditingStage(false)
             }
         }
         m_ViewComputerBoardButton2.setState("player", m_Context.resources.getString(R.string.view_player_board2))
@@ -147,7 +148,9 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         }
     }
 
-    fun setBoardEditingStage() {}
+    fun setBoardEditingStage(showProgresBar: Boolean) {
+        m_ProgressBarBoardEditing.isVisible = showProgresBar
+    }
     /*fun updateStats(isComputer: Boolean) {
 
         //on the computer board show the computer stats and

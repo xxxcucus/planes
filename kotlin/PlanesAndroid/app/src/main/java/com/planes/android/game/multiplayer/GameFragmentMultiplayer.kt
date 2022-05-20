@@ -121,7 +121,7 @@ class GameFragmentMultiplayer : Fragment() {
             }
             1 -> {
                 m_GameBoards.setBoardEditingStage()
-                m_GameControls.setBoardEditingStage()
+                m_GameControls.setBoardEditingStage(false)
                 m_PlanesLayout.setBoardEditingStage()
             }
             2 -> {
@@ -131,7 +131,7 @@ class GameFragmentMultiplayer : Fragment() {
             }
             3 -> {
                 m_GameBoards.setBoardEditingStage()
-                m_GameControls.setBoardEditingStage()
+                m_GameControls.setBoardEditingStage(true)
                 m_PlanesLayout.setBoardEditingStage()
             }
 
@@ -260,6 +260,7 @@ class GameFragmentMultiplayer : Fragment() {
                 }
             } else {
                 m_PlaneRound.setGameStage(GameStages.WaitForOpponentPlanesPositions)
+                m_GameControls.setBoardEditingStage(true)
             }
         } else {
             m_SendPlanePositionsErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.sendplanepositions_error),

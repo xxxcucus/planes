@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import androidx.core.view.isVisible
 import com.planes.android.R
 import com.planes.android.customviews.ViewWithText
 import com.planes.android.game.common.PlanesVerticalLayoutParams
@@ -51,7 +53,8 @@ class PlanesVerticalLayoutMultiplayer : ViewGroup {
                     if (lp.m_GameStage != m_GameStage.value) {
                         child.visibility = GONE
                     } else {
-                        child.visibility = VISIBLE
+                        if (child !is ProgressBar)
+                            child.visibility = VISIBLE
                     }
                     viewsForGameStage.add(child)
                     val maxRow = m_GameControlsMaxRow[lp.m_GameStage]!!

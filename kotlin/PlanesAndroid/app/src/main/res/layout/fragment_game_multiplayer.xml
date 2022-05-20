@@ -46,6 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"
+            android:indeterminate="true"
             app:gc_row="2"
             app:gc_col="2"
             app:gc_game_stage="1" />
@@ -85,6 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="invisible"
+            android:indeterminate="true"
             app:gc_row="2"
             app:gc_col="2"
             app:gc_game_stage="1" />
