@@ -167,10 +167,7 @@ class CreateGameFragment: Fragment() {
             && m_MultiplayerRound.getRoundId()  != 0L) {
             setCreateGameSettings(CreateGameStates.ConnectedToGame, body!!.m_GameName)
 
-            val text = getString(R.string.opponent_connected_togame)
-            val duration = Toast.LENGTH_SHORT
-            val toast = Toast.makeText(m_Context, text, duration)
-            toast.show()
+            Tools.displayToast(getString(R.string.opponent_connected_togame), m_Context)
 
             binding.ProgressBarCreateGame.isVisible = false
             binding.startPlaying.isEnabled = true
@@ -345,10 +342,7 @@ class CreateGameFragment: Fragment() {
     }
 
     fun pollForGameConnection() {
-        val text = getString(R.string.game_created)
-        val duration = Toast.LENGTH_SHORT
-        val toast = Toast.makeText(m_Context, text, duration)
-        toast.show()
+        Tools.displayToast(getString(R.string.game_created), m_Context)
 
         binding.ProgressBarCreateGame.isVisible = true
         binding.startPlaying.isEnabled = false
@@ -367,10 +361,7 @@ class CreateGameFragment: Fragment() {
     }
 
     fun connectedToGame() {
-        val text = getString(R.string.connected_togame)
-        val duration = Toast.LENGTH_SHORT
-        val toast = Toast.makeText(m_Context, text, duration)
-        toast.show()
+        Tools.displayToast(getString(R.string.connected_togame), m_Context)
 
         binding.ProgressBarCreateGame.isVisible = false
         binding.startPlaying.isEnabled = true

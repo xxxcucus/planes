@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.planes.android.*
 import com.planes.android.customviews.*
@@ -33,6 +34,7 @@ class GameFragmentMultiplayer : Fragment() {
     private lateinit var m_GameControls: GameControlsAdapterMultiplayer
     private lateinit var m_PlanesLayout: PlanesVerticalLayoutMultiplayer
     private lateinit var m_DonePositioningSubscription: Disposable
+    private lateinit var m_Context: Context
 
     private var m_SendPlanePositionsError: Boolean = false
     private var m_SendPlanePositionsErrorString: String = ""
@@ -48,6 +50,7 @@ class GameFragmentMultiplayer : Fragment() {
         (m_PlaneRound as MultiplayerRoundJava).createPlanesRound()
 
         m_GameControls = GameControlsAdapterMultiplayer(context)
+        m_Context = context
     }
 
     override fun onCreateView(
@@ -261,6 +264,7 @@ class GameFragmentMultiplayer : Fragment() {
             } else {
                 m_PlaneRound.setGameStage(GameStages.WaitForOpponentPlanesPositions)
                 m_GameControls.setBoardEditingStage(true)
+                Tools.displayToast(getString(R.string.waiting_for_planes_positions), m_Context)
             }
         } else {
             m_SendPlanePositionsErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.sendplanepositions_error),

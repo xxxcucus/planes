@@ -153,7 +153,7 @@ class GameBoardMultiplayer : GridLayout, GameBoardInterface {
                 gs.setRow(i)
                 gs.setColumn(j)
                 gs.setParent(this)
-                val params = LayoutParams(spec(j, 1), spec(i, 1))
+                val params = LayoutParams(spec(i, 1), spec(j, 1))
                 addView(gs, params)
                 val position = PositionBoardPane(i, j)
                 m_GridSquares[position] = gs

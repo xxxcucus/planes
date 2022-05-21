@@ -486,11 +486,7 @@ class MainActivity : AppCompatActivity() {
         if (norobotError) {
             onWarning(message)
         } else {
-            val text = getString(R.string.norobot_success)
-            val duration = Toast.LENGTH_SHORT
-
-            val toast = Toast.makeText(applicationContext, text, duration)
-            toast.show()
+            Tools.displayToast(getString(R.string.norobot_success), applicationContext)
         }
     }
 
@@ -517,11 +513,8 @@ class MainActivity : AppCompatActivity() {
 
     fun showSaveCredentialsPopup(username: String, password: String) {
         if (m_MultiplayerPreferencesService.username == username && m_MultiplayerPreferencesService.password == password) {
-            val text = getString(R.string.loginsuccess)
-            val duration = Toast.LENGTH_SHORT
 
-            val toast = Toast.makeText(applicationContext, text, duration)
-            toast.show()
+            Tools.displayToast(getString(R.string.loginsuccess), applicationContext)
 
             return
         }

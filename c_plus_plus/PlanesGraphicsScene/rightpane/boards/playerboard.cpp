@@ -18,28 +18,28 @@ void PlayerBoard::rotatePlaneClicked(bool)
 void PlayerBoard::upPlaneClicked(bool )
 {
     //qDebug() << "up plane";
-    m_Grid.movePlaneUpwards(m_SelectedPlane);
+    m_Grid.movePlaneLeft(m_SelectedPlane);
     updateEditorBoard();
 }
 
 void PlayerBoard::downPlaneClicked(bool )
 {
     //qDebug() << "down plane";
-    m_Grid.movePlaneDownwards(m_SelectedPlane);
+    m_Grid.movePlaneRight(m_SelectedPlane);
     updateEditorBoard();
 }
 
 void PlayerBoard::leftPlaneClicked(bool )
 {
     //qDebug() << "left plane";
-    m_Grid.movePlaneLeft(m_SelectedPlane);
+    m_Grid.movePlaneUpwards(m_SelectedPlane);
     updateEditorBoard();
 }
 
 void PlayerBoard::rightPlaneClicked(bool )
 {
     //qDebug() << "right plane";
-    m_Grid.movePlaneRight(m_SelectedPlane);
+    m_Grid.movePlaneDownwards(m_SelectedPlane);
     updateEditorBoard();
 }
 

@@ -43,5 +43,11 @@ public class Tools {
             return errorString
         }
 
+        fun displayToast(message: String, context: Context) {
+            val duration = Toast.LENGTH_SHORT
+            val toast = Toast.makeText(context, message, duration)
+            toast.show()
+        }
+
     }
 }

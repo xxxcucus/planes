@@ -157,6 +157,7 @@
     <string name="sendplanepositions_error"> Error when sending plane positions </string>
     <string name="invalid_plane_orientation"> Invalid plane orientation</string>
     <string name="error_init_opponent_board"> Error when initializing computer board</string>
+    <string name="waiting_for_planes_positions"> Planes positions were sent. Waiting for opponent planes positions...</string>
 
 
 

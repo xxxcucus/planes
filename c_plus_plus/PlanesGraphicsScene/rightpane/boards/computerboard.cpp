@@ -17,7 +17,7 @@ void ComputerBoard::gridSquareClicked(int row, int col)
     if (col >= m_Grid.getColNo() + m_PaddingEditingBoard)
         return;
 
-    PlanesCommonTools::Coordinate2D qp(col - m_PaddingEditingBoard, row - m_PaddingEditingBoard);
+    PlanesCommonTools::Coordinate2D qp(row - m_PaddingEditingBoard, col - m_PaddingEditingBoard);
     GuessPoint::Type tp = m_Grid.getGuessResult(qp);
 
     //qDebug() << "Guess " << tp;
