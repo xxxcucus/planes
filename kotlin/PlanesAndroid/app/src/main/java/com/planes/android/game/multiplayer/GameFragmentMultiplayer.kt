@@ -34,6 +34,7 @@ class GameFragmentMultiplayer : Fragment() {
     private lateinit var m_GameControls: GameControlsAdapterMultiplayer
     private lateinit var m_PlanesLayout: PlanesVerticalLayoutMultiplayer
     private lateinit var m_DonePositioningSubscription: Disposable
+    private lateinit var m_PollOpponentPositionsSubscription: Disposable
     private lateinit var m_Context: Context
 
     private var m_SendPlanePositionsError: Boolean = false
@@ -115,6 +116,15 @@ class GameFragmentMultiplayer : Fragment() {
         m_GameControls.setGameBoards(m_GameBoards)
         m_GameControls.setPlanesLayout(m_PlanesLayout)
         m_GameBoards.setGameControls(m_GameControls)
+
+        reinitializeFromState()
+
+        (activity as MainActivity).setActionBarTitle(getString(R.string.game))
+        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Game)
+        return rootView
+    }
+
+    fun reinitializeFromState() {
         when ((m_PlaneRound as MultiplayerRoundJava).getGameStage()) {
             0 -> {
                 m_GameBoards.setNewRoundStage()
@@ -136,13 +146,28 @@ class GameFragmentMultiplayer : Fragment() {
                 m_GameBoards.setBoardEditingStage()
                 m_GameControls.setBoardEditingStage(true)
                 m_PlanesLayout.setBoardEditingStage()
+                Tools.displayToast(getString(R.string.waiting_for_planes_positions), m_Context)
+                pollForOpponentPlanesPositions()
             }
-
         }
+    }
 
-        (activity as MainActivity).setActionBarTitle(getString(R.string.game))
-        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Game)
-        return rootView
+    override fun onDetach () {
+        super.onDetach()
+        hideLoading()
+        if (this::m_PollOpponentPositionsSubscription.isInitialized)
+            m_PollOpponentPositionsSubscription.dispose()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (this::m_PollOpponentPositionsSubscription.isInitialized)
+            m_PollOpponentPositionsSubscription.dispose()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        reinitializeFromState()
     }
 
     fun showTwoBoards(isTablet: Boolean): Boolean {
@@ -187,8 +212,8 @@ class GameFragmentMultiplayer : Fragment() {
         gameId: Long, roundId: Long, userId: Long, opponentId: Long, plane1: Plane, plane2: Plane, plane3: Plane): SendPlanePositionsRequest {
 
         return SendPlanePositionsRequest(gameId.toString(), roundId.toString(), userId.toString(), opponentId.toString(),
-            plane1.row, plane1.col, plane1.orient.value, plane2.row, plane2.col, plane2.orient.value,
-            plane3.row, plane3.col, plane3.orient.value)
+            plane1.row(), plane1.col(), plane1.orientation().value, plane2.row(), plane2.col(), plane2.orientation().value,
+            plane3.row(), plane3.col(), plane3.orientation().value)
 
     }
 
@@ -219,6 +244,8 @@ class GameFragmentMultiplayer : Fragment() {
                 m_GameBoards.setGameStage()
                 m_GameControls.setGameStage()
                 m_PlanesLayout.setGameStage()
+            } else {
+                pollForOpponentPlanesPositions()
             }
         }
     }
@@ -273,6 +300,12 @@ class GameFragmentMultiplayer : Fragment() {
         }
         finalizeSendPlanePositions()
     }
+
+    fun pollForOpponentPlanesPositions() {
+
+    }
+
+
 
     fun showLoading() {
         (activity as MainActivity).startProgressDialog()
