@@ -158,6 +158,9 @@
     <string name="invalid_plane_orientation"> Invalid plane orientation</string>
     <string name="error_init_opponent_board"> Error when initializing computer board</string>
     <string name="waiting_for_planes_positions"> Planes positions were sent. Waiting for opponent planes positions...</string>
+    <string name="error_game_connection"> Error when waiting for opponent to connect to the game</string>
+    <string name="error_plane_positions"> Error when waiting for opponent plane positions.</string>
+    <string name="plane_positions_received"> Opponent planes positions were received.</string>
 
 
 

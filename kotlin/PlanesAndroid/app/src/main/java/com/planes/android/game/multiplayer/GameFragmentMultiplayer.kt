@@ -14,13 +14,16 @@ import com.planes.android.*
 import com.planes.android.customviews.*
 import com.planes.android.game.singleplayer.*
 import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.requests.AcquireOpponentPositionsRequest
 import com.planes.multiplayer_engine.requests.SendPlanePositionsRequest
+import com.planes.multiplayer_engine.responses.AcquireOpponentPositionsResponse
 import com.planes.multiplayer_engine.responses.GameStatusResponse
 import com.planes.multiplayer_engine.responses.SendPlanePositionsResponse
 import com.planes.single_player_engine.GameStages
 import com.planes.single_player_engine.Orientation
 import com.planes.single_player_engine.Plane
 import com.planes.single_player_engine.PlanesRoundJava
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -39,6 +42,9 @@ class GameFragmentMultiplayer : Fragment() {
 
     private var m_SendPlanePositionsError: Boolean = false
     private var m_SendPlanePositionsErrorString: String = ""
+
+    private var m_ReceiveOpponentPlanePositionsError: Boolean = false
+    private var m_ReceiveOpponentPlanePositionsErrorString: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -146,7 +152,6 @@ class GameFragmentMultiplayer : Fragment() {
                 m_GameBoards.setBoardEditingStage()
                 m_GameControls.setBoardEditingStage(true)
                 m_PlanesLayout.setBoardEditingStage()
-                Tools.displayToast(getString(R.string.waiting_for_planes_positions), m_Context)
                 pollForOpponentPlanesPositions()
             }
         }
@@ -287,11 +292,13 @@ class GameFragmentMultiplayer : Fragment() {
                 if (!setOk) {
                     m_SendPlanePositionsError = true
                     m_SendPlanePositionsErrorString = getString(R.string.error_init_opponent_board)
+                } else {
+                    Tools.displayToast(getString(R.string.plane_positions_received), m_Context)
                 }
             } else {
                 m_PlaneRound.setGameStage(GameStages.WaitForOpponentPlanesPositions)
                 m_GameControls.setBoardEditingStage(true)
-                Tools.displayToast(getString(R.string.waiting_for_planes_positions), m_Context)
+                pollForOpponentPlanesPositions()
             }
         } else {
             m_SendPlanePositionsErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.sendplanepositions_error),
@@ -302,10 +309,93 @@ class GameFragmentMultiplayer : Fragment() {
     }
 
     fun pollForOpponentPlanesPositions() {
+        m_ReceiveOpponentPlanePositionsError = false
+        m_ReceiveOpponentPlanePositionsErrorString = ""
 
+        Tools.displayToast(getString(R.string.waiting_for_planes_positions), m_Context)
+        var acquireOpponentPlanePositionsRequest = buildAcquireOpponentPlanePositionsRequest(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId(), m_PlaneRound.getUserId(),
+            m_PlaneRound.getOpponentId())
+
+        if (!this::m_PollOpponentPositionsSubscription.isInitialized) {
+            m_PollOpponentPositionsSubscription =
+                Observable.interval(5, TimeUnit.SECONDS, Schedulers.io())
+                    .flatMap { _ -> m_PlaneRound.acquireOpponentPlanePositions(acquireOpponentPlanePositionsRequest) }
+                    .doOnError { setReceiveOpponentPlanePositionsError(getString(R.string.error_plane_positions)) }
+                    .retry()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ data -> reactToOpponentPlanePositionsInPolling(data.body()) },
+                        { error -> setReceiveOpponentPlanePositionsError(error.localizedMessage.toString()) })
+        }
     }
 
+    fun setReceiveOpponentPlanePositionsError(errorMsg: String) {
+        m_ReceiveOpponentPlanePositionsError = true
+        m_ReceiveOpponentPlanePositionsErrorString = errorMsg
+        finalizeReceiveOpponentPlanePositions()
+    }
 
+    fun finalizeReceiveOpponentPlanePositions() {
+        if (m_ReceiveOpponentPlanePositionsError) {
+            (activity as MainActivity).onWarning(m_ReceiveOpponentPlanePositionsErrorString)
+        } else {
+            if (m_PlaneRound.getGameStage() == GameStages.Game.value) {  //plane positions where received
+                m_GameBoards.setGameStage()
+                m_GameControls.setGameStage()
+                m_PlanesLayout.setGameStage()
+                if (this::m_PollOpponentPositionsSubscription.isInitialized)
+                    m_PollOpponentPositionsSubscription.dispose()
+            } else {
+                //when position of planes were not received
+            }
+        }
+    }
+
+    fun buildAcquireOpponentPlanePositionsRequest(gameId: Long, roundId: Long, userId: Long, opponentId: Long): AcquireOpponentPositionsRequest {
+        return AcquireOpponentPositionsRequest(gameId.toString(), roundId.toString(), userId.toString(), opponentId.toString())
+    }
+
+    fun reactToOpponentPlanePositionsInPolling(body: AcquireOpponentPositionsResponse?) {
+        if (body != null) {
+            var otherPositionsExist = body!!.m_OtherExist
+
+            if (otherPositionsExist) {
+
+                var plane1_x = body!!.m_Plane1X
+                var plane1_y = body!!.m_Plane1Y
+                var plane2_x = body!!.m_Plane2X
+                var plane2_y = body!!.m_Plane2Y
+                var plane3_x = body!!.m_Plane3X
+                var plane3_y = body!!.m_Plane3Y
+                var plane1_orient = Orientation.EastWest
+                var plane2_orient = Orientation.NorthSouth
+                var plane3_orient = Orientation.NorthSouth
+
+                try {
+                    plane1_orient = Orientation.fromInt(body!!.m_Plane1Orient)
+                    plane2_orient = Orientation.fromInt(body!!.m_Plane2Orient)
+                    plane3_orient = Orientation.fromInt(body!!.m_Plane3Orient)
+                } catch (e: NoSuchElementException) {
+                    m_ReceiveOpponentPlanePositionsError = true
+                    m_ReceiveOpponentPlanePositionsErrorString =
+                        getString(R.string.invalid_plane_orientation)
+                }
+
+                var setOk = m_PlaneRound.setComputerPlanes(
+                    plane1_x, plane1_y, plane1_orient, plane2_x, plane2_y, plane2_orient,
+                    plane3_x, plane3_y, plane3_orient
+                )
+
+                if (!setOk) {
+                    m_ReceiveOpponentPlanePositionsError = true
+                    m_ReceiveOpponentPlanePositionsErrorString =
+                        getString(R.string.error_init_opponent_board)
+                } else {
+                    Tools.displayToast(getString(R.string.plane_positions_received), m_Context)
+                }
+            }
+        }
+        finalizeReceiveOpponentPlanePositions()
+    }
 
     fun showLoading() {
         (activity as MainActivity).startProgressDialog()

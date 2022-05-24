@@ -541,5 +541,9 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return m_ComputerGrid.initGridByUser(plane1_x, plane1_y, plane1_orient,
             plane2_x, plane2_y, plane2_orient, plane3_x, plane3_y, plane3_orient);
     }
+
+    fun acquireOpponentPlanePositions(request: AcquireOpponentPositionsRequest): Observable<retrofit2.Response<AcquireOpponentPositionsResponse>> {
+        return m_Service.acquireOpponentPlanePositions(m_UserData.authToken, request)
+    }
 }
 

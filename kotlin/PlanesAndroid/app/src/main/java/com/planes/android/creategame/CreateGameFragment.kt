@@ -351,7 +351,7 @@ class CreateGameFragment: Fragment() {
             m_PollForOpponentSubscription =
                 Observable.interval(5, TimeUnit.SECONDS, Schedulers.io())
                     .flatMap { _ -> m_MultiplayerRound.refreshGameStatus(binding.settingsData!!.m_GameName.trim()) }
-                    .doOnError { setCreateGameError("Error when polling") }
+                    .doOnError { setCreateGameError(getString(R.string.error_game_connection)) }
                     .retry()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ data -> reactToGameStatusInPolling(data.body()) },

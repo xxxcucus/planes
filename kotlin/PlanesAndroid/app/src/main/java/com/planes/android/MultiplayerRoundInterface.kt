@@ -1,6 +1,7 @@
 package com.planes.android
 
 import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.requests.AcquireOpponentPositionsRequest
 import com.planes.multiplayer_engine.requests.CreateGameRequest
 import com.planes.multiplayer_engine.requests.NoRobotRequest
 import com.planes.multiplayer_engine.requests.SendPlanePositionsRequest
@@ -69,4 +70,6 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
                           plane3_x: Int, plane3_y: Int, plane3_orient: Orientation): Boolean
 
     fun setGameStage(stage: GameStages)
+
+    fun acquireOpponentPlanePositions(request: AcquireOpponentPositionsRequest): Observable<retrofit2.Response<AcquireOpponentPositionsResponse>>
 }

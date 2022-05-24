@@ -3,6 +3,7 @@ package com.planes.multiplayer_engine
 import androidx.core.util.Pair
 import com.planes.android.MultiplayerRoundInterface
 import com.planes.android.PlanesRoundInterface
+import com.planes.multiplayer_engine.requests.AcquireOpponentPositionsRequest
 import com.planes.multiplayer_engine.requests.CreateGameRequest
 import com.planes.multiplayer_engine.requests.NoRobotRequest
 import com.planes.multiplayer_engine.requests.SendPlanePositionsRequest
@@ -303,6 +304,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
                           plane2_x: Int, plane2_y: Int, plane2_orient: Orientation,
                           plane3_x: Int, plane3_y: Int, plane3_orient: Orientation): Boolean {
         return global_Round!!.setComputerPlanes(plane1_x, plane1_y, plane1_orient, plane2_x, plane2_y, plane2_orient, plane3_x, plane3_y, plane3_orient)
+    }
+
+    override fun acquireOpponentPlanePositions(request: AcquireOpponentPositionsRequest): Observable<retrofit2.Response<AcquireOpponentPositionsResponse>> {
+        return global_Round!!.acquireOpponentPlanePositions(request)
     }
 
     companion object {
