@@ -490,6 +490,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun startGameFragment() {
+        mSelectedItem = R.id.nav_game
+        setFragment(true)
+    }
+
     /**
      * Enter multiplayer modus
      */

@@ -179,6 +179,7 @@ class GameFragmentMultiplayer : Fragment() {
         return false
     }
 
+    //region BoardEditing
     fun doneClicked() {
         m_SendPlanePositionsError = false
         m_SendPlanePositionsErrorString = ""
@@ -396,6 +397,7 @@ class GameFragmentMultiplayer : Fragment() {
         }
         finalizeReceiveOpponentPlanePositions()
     }
+    //endregion BoardEditing
 
     fun showLoading() {
         (activity as MainActivity).startProgressDialog()

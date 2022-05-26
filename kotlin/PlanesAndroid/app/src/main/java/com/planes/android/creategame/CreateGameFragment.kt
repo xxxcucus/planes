@@ -96,6 +96,11 @@ class CreateGameFragment: Fragment() {
             }
         })
 
+        var startPlaying = binding.startPlaying as Button
+        startPlaying.setOnClickListener(View.OnClickListener {
+            switchToGameFragment()
+        })
+
         m_MainLayout = binding.rootCreategame as RelativeLayout
 
         reinitializeFromState()
@@ -217,14 +222,6 @@ class CreateGameFragment: Fragment() {
             .doOnComplete { hideLoading() }
             .subscribe({data -> reactToGameStatus(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
                 , {error -> setCreateGameError(error.localizedMessage.toString())});
-    }
-
-    fun showLoading() {
-        (activity as MainActivity).startProgressDialog()
-    }
-
-    fun hideLoading() {
-        (activity as MainActivity).stopProgressDialog()
     }
 
     fun validationGameName(gameName: String) : Boolean {
@@ -365,7 +362,17 @@ class CreateGameFragment: Fragment() {
 
         binding.ProgressBarCreateGame.isVisible = false
         binding.startPlaying.isEnabled = true
+    }
 
+    fun showLoading() {
+        (activity as MainActivity).startProgressDialog()
+    }
 
+    fun hideLoading() {
+        (activity as MainActivity).stopProgressDialog()
+    }
+
+    fun switchToGameFragment() {
+        (activity as MainActivity).startGameFragment()
     }
 }
