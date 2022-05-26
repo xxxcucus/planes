@@ -241,11 +241,11 @@ class GameBoardMultiplayer : GridLayout, GameBoardInterface {
                     println("Player guess already made")
                     return
                 }
-                m_MultiplayerRound.playerGuess(col - m_Padding, row - m_Padding)
+                m_MultiplayerRound.playerGuessIncomplete(col - m_Padding, row - m_Padding)
 
                 //check if the round ended
                 if (m_MultiplayerRound.playerGuess_RoundEnds()) {
-                    if (m_Tablet) {
+                    if (showTwoBoards(m_Tablet)) {
                         m_SiblingBoard.setNewRoundStage(false)
                         setNewRoundStage(false)
                     } else {
@@ -257,7 +257,7 @@ class GameBoardMultiplayer : GridLayout, GameBoardInterface {
                     if (!m_Tablet) m_GameControls.updateStats(m_IsComputer)
                 }*/
                 updateBoards()
-                if (this::m_SiblingBoard.isInitialized) m_SiblingBoard.updateBoards()
+                if (showTwoBoards(m_Tablet)) m_SiblingBoard.updateBoards()
             }
         }
     }
@@ -363,5 +363,9 @@ class GameBoardMultiplayer : GridLayout, GameBoardInterface {
 
     fun isPlayer(): Boolean {
         return !m_IsComputer
+    }
+
+    fun showTwoBoards(isTablet: Boolean): Boolean {
+        return false
     }
 }

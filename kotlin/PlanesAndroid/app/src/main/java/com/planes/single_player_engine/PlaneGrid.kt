@@ -331,7 +331,7 @@ open class PlaneGrid(//gets the size of the grid
         if (!savePlane(pl3))
             return false
 
-        return true
+        return computePlanePointsList()
     }
 
     /*

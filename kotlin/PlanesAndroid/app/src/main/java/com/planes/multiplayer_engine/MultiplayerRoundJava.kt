@@ -157,15 +157,15 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
     }
 
     override fun playerGuess(row: Int, col: Int) {
-
+        TODO("Not yet implemented")
     }
 
     override fun playerGuess(gp: GuessPoint): PlayerGuessReaction {
         return global_Round!!.playerGuess(gp)
     }
 
-    fun playerGuessIncomplete(row: Int, col: Int): Pair<Type, PlayerGuessReaction> {
-        return Pair(Type.Miss, PlayerGuessReaction())
+    override fun playerGuessIncomplete(row: Int, col: Int): Pair<Type, PlayerGuessReaction> {
+        return global_Round!!.playerGuessIncomplete(row, col)
     }
 
     override fun playerGuess_RoundEnds(): Boolean {

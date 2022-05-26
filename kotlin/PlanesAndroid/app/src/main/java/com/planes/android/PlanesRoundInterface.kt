@@ -1,7 +1,9 @@
 package com.planes.android
 
+import androidx.core.util.Pair
 import com.planes.single_player_engine.GuessPoint
 import com.planes.single_player_engine.PlayerGuessReaction
+import com.planes.single_player_engine.Type
 
 //TODO: to move in common
 interface PlanesRoundInterface {
@@ -27,6 +29,7 @@ interface PlanesRoundInterface {
     fun playerGuessAlreadyMade(row: Int, col: Int): Int
     fun playerGuess(row: Int, col: Int)
     fun playerGuess(gp: GuessPoint): PlayerGuessReaction
+    fun playerGuessIncomplete(row: Int, col: Int): Pair<Type, PlayerGuessReaction>
     fun playerGuess_RoundEnds(): Boolean
     fun playerGuess_IsPlayerWinner(): Boolean
     fun playerGuess_IsDraw(): Boolean

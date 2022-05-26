@@ -422,6 +422,12 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
     //region MultiplayerRound
 
+    fun playerGuessIncomplete(row: Int, col: Int): Pair<Type, PlayerGuessReaction> {
+        var tp = m_ComputerGrid.getGuessResult(Coordinate2D(col, row))
+        var gp = GuessPoint(col, row, tp)
+        return Pair.create(tp, playerGuess(gp))
+    }
+
     fun playerGuess(gp: GuessPoint): PlayerGuessReaction {
 
         val pgr = PlayerGuessReaction()
@@ -500,6 +506,66 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
             emit gameStatsUpdated(m_gameStats);
         }
     }*/
+
+    /*
+    bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPlayerWinner) {
+
+
+    isPlayerWinner = false;
+
+    if (m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
+        if (m_ComputerMoveIndex > m_PlayerMoveIndex) {
+            //player winner
+            m_gameStats.updateWins(false);
+            winnerId = m_GlobalData->m_GameData.m_UserId;
+            isPlayerWinner = true;
+            m_WinnerFound = true;
+            return true;
+        } else if (m_ComputerMoveIndex < m_PlayerMoveIndex) {
+            //computer winner
+            m_gameStats.updateWins(true);
+            winnerId = m_GlobalData->m_GameData.m_OtherUserId;
+            m_WinnerFound = true;
+            return true;
+        } else {
+            //draw
+            draw = true;
+            m_gameStats.updateDraws();
+            m_WinnerFound = true;
+            return true;
+        }
+    }
+
+
+    if (m_gameStats.computerFinished(m_planeNo) && !m_gameStats.playerFinished(m_planeNo)) {
+        //qDebug() << "Computer finished and player not finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
+        if (m_ComputerMoveIndex <= m_PlayerMoveIndex) {
+            //computer winner
+            m_gameStats.updateWins(true);
+            winnerId = m_GlobalData->m_GameData.m_OtherUserId;
+            m_WinnerFound = true;
+            return true;
+        }
+    }
+
+    if (!m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
+        //qDebug() << "Computer not finished and player finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
+        if (m_ComputerMoveIndex >= m_PlayerMoveIndex) {
+            //computer winner
+            m_gameStats.updateWins(false);
+            winnerId = m_GlobalData->m_GameData.m_UserId;
+            isPlayerWinner = true;
+            m_WinnerFound = true;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+
+     */
 
     //endregion
 

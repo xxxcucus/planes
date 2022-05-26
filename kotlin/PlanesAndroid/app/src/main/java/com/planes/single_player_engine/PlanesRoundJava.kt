@@ -1,5 +1,6 @@
 package com.planes.single_player_engine
 
+import androidx.core.util.Pair
 import com.planes.android.PlanesRoundInterface
 
 class PlanesRoundJava : PlanesRoundInterface {
@@ -66,6 +67,10 @@ class PlanesRoundJava : PlanesRoundInterface {
 
     override fun playerGuess(gp: GuessPoint): PlayerGuessReaction {
         TODO("Not yet implemented")
+    }
+
+    override fun playerGuessIncomplete(row: Int, col: Int): Pair<Type, PlayerGuessReaction> {
+        return global_Round!!.playerGuessIncomplete(row, col)
     }
 
     override fun playerGuess_RoundEnds(): Boolean {
