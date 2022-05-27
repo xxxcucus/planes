@@ -46,5 +46,8 @@ interface MultiplayerCommApi {
     @Headers("Content-Type: application/json")
     fun acquireOpponentPlanePositions(@Header("Authorization") authorization: String, @Body request: AcquireOpponentPositionsRequest): Observable<retrofit2.Response<AcquireOpponentPositionsResponse>>
 
+    @POST("round/end")
+    @Headers("Content-Type: application/json")
+    fun sendWinner(@Header("Authorization") authorization: String, @Body request: SendWinnerRequest): Observable<retrofit2.Response<SendWinnerResponse>>
 
 }

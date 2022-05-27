@@ -460,12 +460,10 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         var isPlayerWinner = false;
 
         if (!m_WinnerFound) {
-            /*if (checkRoundEnd(draw, winnerId, isPlayerWinner)) {
-                emit winnerSent(isPlayerWinner, draw);
-                sendWinner(draw, winnerId);
+            var pgr = checkRoundEnd()
+            if (pgr.m_RoundEnds) {
+                sendWinner(pgr.m_IsDraw, if (pgr.m_isPlayerWinner)  m_GameData.userId else m_GameData.otherUserId);
             }
-            emit gameStatsUpdated(m_gameStats);*/
-            //TODO
         }
 
         return pgr
@@ -506,6 +504,71 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
             emit gameStatsUpdated(m_gameStats);
         }
     }*/
+
+
+    fun checkRoundEnd(): PlayerGuessReaction {
+
+        var isPlayerWinner = false;
+        var pgr = PlayerGuessReaction()
+
+        if (m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
+            if (m_ComputerMoveIndex > m_PlayerMoveIndex) {
+                //player winner
+                m_gameStats.updateWins(false);
+                pgr.m_RoundEnds = true;
+                pgr.m_IsDraw = false;
+                pgr.m_isPlayerWinner = true;
+                m_WinnerFound = true;
+                return pgr;
+            } else if (m_ComputerMoveIndex < m_PlayerMoveIndex) {
+                //computer winner
+                m_gameStats.updateWins(true);
+                pgr.m_RoundEnds = true;
+                pgr.m_IsDraw = false;
+                pgr.m_isPlayerWinner = false;
+                m_WinnerFound = true;
+                return pgr;
+            } else {
+                //draw
+                pgr.m_RoundEnds = true;
+                pgr.m_IsDraw = true;
+                m_WinnerFound = true;
+                m_gameStats.addDrawResult();
+                return pgr;
+            }
+        }
+
+
+        if (m_gameStats.computerFinished(m_planeNo) && !m_gameStats.playerFinished(m_planeNo)) {
+            //qDebug() << "Computer finished and player not finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
+            if (m_ComputerMoveIndex <= m_PlayerMoveIndex) {
+                //computer winner
+                m_gameStats.updateWins(true);
+                pgr.m_RoundEnds = true;
+                pgr.m_IsDraw = false;
+                pgr.m_isPlayerWinner = false;
+                m_WinnerFound = true;
+                return pgr;
+            }
+        }
+
+        if (!m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
+            //qDebug() << "Computer not finished and player finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
+            if (m_ComputerMoveIndex >= m_PlayerMoveIndex) {
+                //player winner
+                m_gameStats.updateWins(false);
+                pgr.m_RoundEnds = true;
+                pgr.m_IsDraw = false;
+                pgr.m_isPlayerWinner = true;
+                m_WinnerFound = true;
+                return pgr;
+            }
+        }
+
+        pgr.m_RoundEnds = false;
+        return pgr;
+    }
+
 
     /*
     bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPlayerWinner) {
@@ -610,6 +673,10 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
     fun acquireOpponentPlanePositions(request: AcquireOpponentPositionsRequest): Observable<retrofit2.Response<AcquireOpponentPositionsResponse>> {
         return m_Service.acquireOpponentPlanePositions(m_UserData.authToken, request)
+    }
+
+    fun sendWinner(draw: Boolean, winnerId: Long): Observable<retrofit2.Response<SendWinnerResponse>> {
+        return m_Service.sendWinner(m_UserData.authToken, SendWinnerRequest(m_GameData.gameId.toString(), m_GameData.roundId.toString(), winnerId.toString(), draw))
     }
 }
 

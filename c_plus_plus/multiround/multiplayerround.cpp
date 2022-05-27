@@ -263,7 +263,7 @@ bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPla
     if (!m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
         //qDebug() << "Computer not finished and player finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
         if (m_ComputerMoveIndex >= m_PlayerMoveIndex) {
-            //computer winner
+            //player winner
             m_gameStats.updateWins(false);
             winnerId = m_GlobalData->m_GameData.m_UserId;
             isPlayerWinner = true;
