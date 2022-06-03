@@ -19,6 +19,7 @@ import okhttp3.OkHttpClient
 import retrofit2.http.Body
 import android.R.bool
 import androidx.core.util.Pair
+import com.planes.android.game.multiplayer.IGameFragmentMultiplayer
 
 class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     //communication structures
@@ -60,7 +61,10 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     var m_WinnerFound: Boolean = false
 
     private var m_NotSentMoves: Vector<Int> = Vector<Int>()
+    private var m_LastNotSentMoveIndexSucces: Vector<Int> = Vector<Int>()
     private var m_ReceivedMoves: Vector<Int> = Vector<Int>()
+
+    private lateinit var m_GameFragmentMultiplayer: IGameFragmentMultiplayer;
 
 
     private fun constructHeaderInterceptor(): Interceptor {
@@ -449,20 +453,24 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
             //GuessPoint::Type guessResult =  m_ComputerGrid->getGuessResult(PlanesCommonTools::Coordinate2D(gp.m_row, gp.m_col));
             m_PlayerMoveIndex++;
-            //sendMove(gp, m_PlayerMoveIndex);
+            if (this::m_GameFragmentMultiplayer.isInitialized) {
+                m_GameFragmentMultiplayer.sendMove(gp, m_PlayerMoveIndex);
+            }
         //TODO
         } else {
             //qDebug() << "Player has already found all planes";
         }
 
-        var draw = false;
-        var winnerId_Long = 0L;
-        var isPlayerWinner = false;
-
         if (!m_WinnerFound) {
             var pgr = checkRoundEnd()
+            //TODO: if player found all planes and there are still moves not sent send them
             if (pgr.m_RoundEnds) {
-                sendWinner(pgr.m_IsDraw, if (pgr.m_isPlayerWinner)  m_GameData.userId else m_GameData.otherUserId);
+                if (this::m_GameFragmentMultiplayer.isInitialized) {  //asynchronous call from game fragment
+                    m_GameFragmentMultiplayer.sendWinner(
+                        pgr.m_IsDraw,
+                        if (pgr.m_isPlayerWinner) m_GameData.userId else m_GameData.otherUserId
+                    );
+                }
             }
         }
 
@@ -569,67 +577,6 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return pgr;
     }
 
-
-    /*
-    bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPlayerWinner) {
-
-
-    isPlayerWinner = false;
-
-    if (m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
-        if (m_ComputerMoveIndex > m_PlayerMoveIndex) {
-            //player winner
-            m_gameStats.updateWins(false);
-            winnerId = m_GlobalData->m_GameData.m_UserId;
-            isPlayerWinner = true;
-            m_WinnerFound = true;
-            return true;
-        } else if (m_ComputerMoveIndex < m_PlayerMoveIndex) {
-            //computer winner
-            m_gameStats.updateWins(true);
-            winnerId = m_GlobalData->m_GameData.m_OtherUserId;
-            m_WinnerFound = true;
-            return true;
-        } else {
-            //draw
-            draw = true;
-            m_gameStats.updateDraws();
-            m_WinnerFound = true;
-            return true;
-        }
-    }
-
-
-    if (m_gameStats.computerFinished(m_planeNo) && !m_gameStats.playerFinished(m_planeNo)) {
-        //qDebug() << "Computer finished and player not finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
-        if (m_ComputerMoveIndex <= m_PlayerMoveIndex) {
-            //computer winner
-            m_gameStats.updateWins(true);
-            winnerId = m_GlobalData->m_GameData.m_OtherUserId;
-            m_WinnerFound = true;
-            return true;
-        }
-    }
-
-    if (!m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
-        //qDebug() << "Computer not finished and player finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
-        if (m_ComputerMoveIndex >= m_PlayerMoveIndex) {
-            //computer winner
-            m_gameStats.updateWins(false);
-            winnerId = m_GlobalData->m_GameData.m_UserId;
-            isPlayerWinner = true;
-            m_WinnerFound = true;
-            return true;
-        }
-    }
-
-    return false;
-}
-
-
-
-     */
-
     //endregion
 
     fun getPlayerGuessesNo(): Int {
@@ -678,5 +625,90 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     fun sendWinner(draw: Boolean, winnerId: Long): Observable<retrofit2.Response<SendWinnerResponse>> {
         return m_Service.sendWinner(m_UserData.authToken, SendWinnerRequest(m_GameData.gameId.toString(), m_GameData.roundId.toString(), winnerId.toString(), draw))
     }
+
+    fun setGameFragment(gameFragment: IGameFragmentMultiplayer) {
+        m_GameFragmentMultiplayer = gameFragment
+    }
+
+    fun addToNotSentMoves(moveIndex: Int) {
+        m_NotSentMoves.add(moveIndex)
+    }
+
+    fun saveNotSentMoves() {
+        m_LastNotSentMoveIndexSucces.clear()
+        m_LastNotSentMoveIndexSucces.addAll(m_NotSentMoves)
+    }
+
+    fun computeNotReceivedMoves(): Pair<Vector<Int>, Int> {
+        if (m_ReceivedMoves.isEmpty())
+            return Pair<Vector<Int>, Int>(Vector<Int>(), 0)
+
+        var maxReceivedMoveIndex =
+            m_ReceivedMoves.indices.map { i: Int -> m_ReceivedMoves[i]}.maxOrNull()
+        var notReceivedMoves = Vector<Int>()
+
+        for (i in 0 .. maxReceivedMoveIndex!!) {
+            if (!m_ReceivedMoves.contains(i))
+                notReceivedMoves.add(i)
+        }
+
+        return Pair<Vector<Int>, Int>(notReceivedMoves, maxReceivedMoveIndex)
+    }
+
+    fun sendMove(sendMoveRequest: SendNotSentMovesRequest): Observable<retrofit2.Response<SendNotSentMovesResponse>> {
+        return m_Service.sendOwnMove(m_UserData.authToken, sendMoveRequest)
+    }
+
+    fun prepareNotSentMoves(): Vector<SingleMoveRequest> {
+        var retValue = Vector<SingleMoveRequest>()
+
+        for (moveIdx in m_LastNotSentMoveIndexSucces) {
+            var gp = m_playerGuessList[moveIdx - 1]
+            var move = SingleMoveRequest(moveIdx, gp.m_row, gp.m_col)
+            retValue.add(move)
+        }
+
+        return retValue;
+    }
+
+    fun deleteFromNotSentList() {
+        for (idx in m_LastNotSentMoveIndexSucces) {
+            m_NotSentMoves.remove(idx)
+        }
+    }
+
+    fun moveAlreadyReceived(idx: Int): Boolean {
+        return m_ReceivedMoves.contains(idx)
+    }
+
+    fun addOpponentMove(gp: GuessPoint, idx: Int) {
+        m_ReceivedMoves.add(idx)
+
+        var guessResult = m_PlayerGrid.getGuessResult(Coordinate2D(gp.m_row, gp.m_col))
+        gp.setType(guessResult)
+
+        if (updateGameStats(gp, true)) {
+            m_computerGuessList.add(gp)
+            m_PlayerGrid.addGuess(gp)
+            m_ComputerMoveIndex++
+        } else {
+            //qDebug() << "computer has already found all planes";
+        }
+
+        if (!m_WinnerFound) {
+            var pgr = checkRoundEnd()
+            if (pgr.m_RoundEnds) {
+                if (this::m_GameFragmentMultiplayer.isInitialized) {  //asynchronous call from game fragment
+                    m_GameFragmentMultiplayer.sendWinner(
+                        pgr.m_IsDraw,
+                        if (pgr.m_isPlayerWinner) m_GameData.userId else m_GameData.otherUserId
+                    );
+                }
+            }
+        }
+
+
+    }
+
 }
 

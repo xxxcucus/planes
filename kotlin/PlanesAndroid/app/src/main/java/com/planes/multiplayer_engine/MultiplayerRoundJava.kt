@@ -3,14 +3,13 @@ package com.planes.multiplayer_engine
 import androidx.core.util.Pair
 import com.planes.android.MultiplayerRoundInterface
 import com.planes.android.PlanesRoundInterface
-import com.planes.multiplayer_engine.requests.AcquireOpponentPositionsRequest
-import com.planes.multiplayer_engine.requests.CreateGameRequest
-import com.planes.multiplayer_engine.requests.NoRobotRequest
-import com.planes.multiplayer_engine.requests.SendPlanePositionsRequest
+import com.planes.android.game.multiplayer.IGameFragmentMultiplayer
+import com.planes.multiplayer_engine.requests.*
 import com.planes.multiplayer_engine.responses.*
 import com.planes.single_player_engine.*
 import io.reactivex.Observable
 import retrofit2.Response
+import java.util.*
 
 class MultiplayerRoundJava : MultiplayerRoundInterface {
     override fun createPlanesRound() {
@@ -311,6 +310,46 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
 
     override fun acquireOpponentPlanePositions(request: AcquireOpponentPositionsRequest): Observable<retrofit2.Response<AcquireOpponentPositionsResponse>> {
         return global_Round!!.acquireOpponentPlanePositions(request)
+    }
+
+    override fun setGameFragment(gameFragment: IGameFragmentMultiplayer) {
+        global_Round!!.setGameFragment(gameFragment)
+    }
+
+    override fun sendWinner(draw: Boolean, winnerId: Long): Observable<Response<SendWinnerResponse>> {
+        return global_Round!!.sendWinner(draw, winnerId)
+    }
+
+    override fun addToNotSentMoves(moveIndex: Int) {
+        global_Round!!.addToNotSentMoves(moveIndex)
+    }
+
+    override fun saveNotSentMoves() {
+        global_Round!!.saveNotSentMoves()
+    }
+
+    override fun computeNotReceivedMoves(): Pair<Vector<Int>, Int> {
+        return global_Round!!.computeNotReceivedMoves()
+    }
+
+    override fun prepareNotSentMoves(): Vector<SingleMoveRequest> {
+        return global_Round!!.prepareNotSentMoves()
+    }
+
+    override fun sendMove(sendMoveRequest: SendNotSentMovesRequest): Observable<retrofit2.Response<SendNotSentMovesResponse>> {
+        return global_Round!!.sendMove(sendMoveRequest)
+    }
+
+    override fun deleteFromNotSentList() {
+        global_Round!!.deleteFromNotSentList()
+    }
+
+    override fun moveAlreadyReceived(idx: Int): Boolean {
+        return global_Round!!.moveAlreadyReceived(idx)
+    }
+
+    override fun addOpponentMove(gp: GuessPoint, idx: Int) {
+        global_Round!!.addOpponentMove(gp, idx)
     }
 
     companion object {

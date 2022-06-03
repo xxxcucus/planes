@@ -2,6 +2,7 @@ package com.planes.multiplayer_engine
 
 import com.planes.multiplayer_engine.requests.*
 import com.planes.multiplayer_engine.responses.*
+import com.planes.multiplayer_engine.responses.SendNotSentMovesResponse
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import io.reactivex.Observable
@@ -49,5 +50,9 @@ interface MultiplayerCommApi {
     @POST("round/end")
     @Headers("Content-Type: application/json")
     fun sendWinner(@Header("Authorization") authorization: String, @Body request: SendWinnerRequest): Observable<retrofit2.Response<SendWinnerResponse>>
+
+    @POST("round/mymove")
+    @Headers("Content-Type: application/json")
+    fun sendOwnMove(@Header("Authorization") authorization: String, @Body request: SendNotSentMovesRequest): Observable<retrofit2.Response<SendNotSentMovesResponse>>
 
 }

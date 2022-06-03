@@ -15,14 +15,10 @@ import com.planes.android.customviews.*
 import com.planes.android.game.singleplayer.*
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.requests.AcquireOpponentPositionsRequest
+import com.planes.multiplayer_engine.requests.SendNotSentMovesRequest
 import com.planes.multiplayer_engine.requests.SendPlanePositionsRequest
-import com.planes.multiplayer_engine.responses.AcquireOpponentPositionsResponse
-import com.planes.multiplayer_engine.responses.GameStatusResponse
-import com.planes.multiplayer_engine.responses.SendPlanePositionsResponse
-import com.planes.single_player_engine.GameStages
-import com.planes.single_player_engine.Orientation
-import com.planes.single_player_engine.Plane
-import com.planes.single_player_engine.PlanesRoundJava
+import com.planes.multiplayer_engine.responses.*
+import com.planes.single_player_engine.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -30,7 +26,7 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.Headers
 import java.util.concurrent.TimeUnit
 
-class GameFragmentMultiplayer : Fragment() {
+class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     private lateinit var m_PlaneRound: MultiplayerRoundInterface
     private lateinit var m_GameBoards: GameBoardsAdapterMultiplayer
@@ -38,6 +34,8 @@ class GameFragmentMultiplayer : Fragment() {
     private lateinit var m_PlanesLayout: PlanesVerticalLayoutMultiplayer
     private lateinit var m_DonePositioningSubscription: Disposable
     private lateinit var m_PollOpponentPositionsSubscription: Disposable
+    private lateinit var m_SendMoveSubscription: Disposable
+    private lateinit var m_SendWinnerSubscription: Disposable
     private lateinit var m_Context: Context
 
     private var m_SendPlanePositionsError: Boolean = false
@@ -45,6 +43,13 @@ class GameFragmentMultiplayer : Fragment() {
 
     private var m_ReceiveOpponentPlanePositionsError: Boolean = false
     private var m_ReceiveOpponentPlanePositionsErrorString: String = ""
+
+    private var m_SendWinnerError: Boolean = false
+    private var m_SendWinnerErrorString: String = ""
+
+    private var m_SendMoveError: Boolean = false
+    private var m_SendMoveErrorString: String = ""
+    private var m_SendingMove: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +60,7 @@ class GameFragmentMultiplayer : Fragment() {
 
         m_PlaneRound = MultiplayerRoundJava()
         (m_PlaneRound as MultiplayerRoundJava).createPlanesRound()
+        m_PlaneRound.setGameFragment(this)
 
         m_GameControls = GameControlsAdapterMultiplayer(context)
         m_Context = context
@@ -160,8 +166,14 @@ class GameFragmentMultiplayer : Fragment() {
     override fun onDetach () {
         super.onDetach()
         hideLoading()
+        if (this::m_DonePositioningSubscription.isInitialized)
+            m_DonePositioningSubscription.dispose()
         if (this::m_PollOpponentPositionsSubscription.isInitialized)
             m_PollOpponentPositionsSubscription.dispose()
+        if (this::m_SendWinnerSubscription.isInitialized)
+            m_SendWinnerSubscription.dispose()
+        if (this::m_SendMoveSubscription.isInitialized)
+            m_SendMoveSubscription.dispose()
     }
 
     override fun onPause() {
@@ -398,6 +410,156 @@ class GameFragmentMultiplayer : Fragment() {
         finalizeReceiveOpponentPlanePositions()
     }
     //endregion BoardEditing
+
+    //region Game
+    override fun sendWinner(draw: Boolean, winnerId: Long) {
+
+        m_SendWinnerError = false
+        m_SendWinnerErrorString = ""
+
+        if (!userLoggedIn()) {
+            finalizeSendWinner()
+            return
+        }
+
+        if (!connectedToGame()) {
+            finalizeSendWinner()
+            return
+        }
+
+        var sendWinner = m_PlaneRound.sendWinner(draw, winnerId)
+        m_SendWinnerSubscription = sendWinner
+            .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { _ -> showLoading() }
+            .doOnTerminate { hideLoading() }
+            .doOnComplete { hideLoading() }
+            .subscribe({data -> receivedSendWinnerResponse(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
+                , {error -> setSendWinnerError(error.localizedMessage.toString())});
+
+    }
+
+    fun finalizeSendWinner() {
+        if (m_SendWinnerError) {
+            (activity as MainActivity).onWarning(m_SendPlanePositionsErrorString)
+        } else {
+            m_PlaneRound.setGameStage(GameStages.GameNotStarted)
+            m_GameBoards.setNewRoundStage()
+            m_GameControls.setNewRoundStage()
+            m_PlanesLayout.setComputerBoard()
+            m_PlanesLayout.setNewRoundStage()
+
+            //TODO dispose polling for opponent moves
+        }
+    }
+
+    fun setSendWinnerError(errorMsg: String) {
+        m_SendWinnerError = true
+        m_SendWinnerErrorString = errorMsg
+        finalizeSendWinner()
+    }
+
+    fun receivedSendWinnerResponse(code: Int, jsonErrorString: String?, headrs: Headers, body: SendWinnerResponse?) {
+        if (body != null) {
+            //TODO: check that it is the same round id
+        } else {
+            m_SendWinnerErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.sendwinner_error),
+                getString(R.string.unknownerror))
+            m_SendWinnerError = true
+        }
+    }
+
+
+    override fun sendMove(gp: GuessPoint, playerMoveIndex: Int) {
+
+        m_PlaneRound.addToNotSentMoves(playerMoveIndex)
+        if (this::m_SendMoveSubscription.isInitialized) {
+            if (m_SendingMove) {
+                return  //currently sending another move
+            }
+        }
+
+        m_SendingMove = true;
+        m_SendMoveError = false
+        m_SendMoveErrorString = ""
+
+        if (!userLoggedIn()) {
+            finalizeSendMove()
+            return
+        }
+
+        if (!connectedToGame()) {
+            finalizeSendMove()
+            return
+        }
+
+        m_PlaneRound.saveNotSentMoves()
+
+        var sendMoveRequest = buildSendMoveRequest(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId(), m_PlaneRound.getUserId(),
+            m_PlaneRound.getOpponentId())
+
+        var sendMove = m_PlaneRound.sendMove(sendMoveRequest)
+        m_SendMoveSubscription = sendMove
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({data -> receivedSendMoveResponse(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
+                , {error -> setSendMoveError(error.localizedMessage.toString())});
+
+    }
+
+    fun buildSendMoveRequest(gameId: Long, roundId: Long, userId: Long, opponentId: Long): SendNotSentMovesRequest {
+        var receivedMovesData = m_PlaneRound.computeNotReceivedMoves()
+        var notSentMoves = m_PlaneRound.prepareNotSentMoves()
+
+        return SendNotSentMovesRequest(gameId.toString(), roundId.toString(), userId.toString(), opponentId.toString(), receivedMovesData.second,
+                    notSentMoves, receivedMovesData.first)
+    }
+
+    fun finalizeSendMove() {
+        if (m_SendMoveError) {
+            (activity as MainActivity).onWarning(m_SendMoveErrorString)
+        } else {
+
+        }
+        m_SendingMove = false
+    }
+
+    fun setSendMoveError(errorMsg: String) {
+        m_SendMoveError = true
+        m_SendMoveErrorString = errorMsg
+        finalizeSendMove()
+    }
+
+    fun receivedSendMoveResponse(code: Int, jsonErrorString: String?, headrs: Headers, body: SendNotSentMovesResponse?) {
+        if (body != null)  {
+            if (body!!.m_Cancelled) {
+                m_PlaneRound.setGameStage(GameStages.GameNotStarted)
+            } else {
+                if (m_PlaneRound.getGameStage() == GameStages.GameNotStarted.value) {
+                    reinitializeFromState()
+                } else {
+                    m_PlaneRound.deleteFromNotSentList()
+                    for (move in body!!.m_ListMoves) {
+                        var gp = GuessPoint(move.m_MoveX, move.m_MoveY)
+                        var moveIdx = move.m_MoveIndex
+                        if (!m_PlaneRound.moveAlreadyReceived(moveIdx)) {
+                            m_PlaneRound.addOpponentMove(gp, moveIdx)
+                            //TODO: do I need to update the boards?
+                        }
+                    }
+                }
+            }
+        } else {
+            m_SendMoveErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.sendmove_error),
+                getString(R.string.unknownerror))
+            m_SendMoveError = true
+        }
+        finalizeSendMove()
+
+    }
+
+    //endregion Game
 
     fun showLoading() {
         (activity as MainActivity).startProgressDialog()

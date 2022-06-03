@@ -120,6 +120,7 @@ void MultiplayerRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pg
     bool isPlayerWinner = false;
     
     if (!m_WinnerFound) {
+        //TODO: if player made all its moves and still moves to send send them
         if (checkRoundEnd(draw, winnerId, isPlayerWinner)) {
             emit winnerSent(isPlayerWinner, draw);
             sendWinner(draw, winnerId);

@@ -1,16 +1,17 @@
 package com.planes.android
 
+import com.planes.android.game.multiplayer.IGameFragmentMultiplayer
 import com.planes.multiplayer_engine.MultiplayerRoundJava
-import com.planes.multiplayer_engine.requests.AcquireOpponentPositionsRequest
-import com.planes.multiplayer_engine.requests.CreateGameRequest
-import com.planes.multiplayer_engine.requests.NoRobotRequest
-import com.planes.multiplayer_engine.requests.SendPlanePositionsRequest
 import com.planes.multiplayer_engine.responses.*
 import com.planes.single_player_engine.GameStages
 import com.planes.single_player_engine.Orientation
 import com.planes.single_player_engine.Plane
 import io.reactivex.Observable
 import retrofit2.Response
+import java.util.*
+import androidx.core.util.Pair
+import com.planes.multiplayer_engine.requests.*
+import com.planes.single_player_engine.GuessPoint
 
 interface MultiplayerRoundInterface: PlanesRoundInterface {
     override fun createPlanesRound()
@@ -72,4 +73,24 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
     fun setGameStage(stage: GameStages)
 
     fun acquireOpponentPlanePositions(request: AcquireOpponentPositionsRequest): Observable<retrofit2.Response<AcquireOpponentPositionsResponse>>
+
+    fun sendWinner(draw: Boolean, winnerId: Long): Observable<retrofit2.Response<SendWinnerResponse>>
+
+    fun setGameFragment(gameFragment: IGameFragmentMultiplayer)
+
+    fun addToNotSentMoves(moveIndex: Int)
+
+    fun saveNotSentMoves()
+
+    fun computeNotReceivedMoves(): Pair<Vector<Int>, Int>
+
+    fun prepareNotSentMoves(): Vector<SingleMoveRequest>
+
+    fun sendMove(sendMoveRequest: SendNotSentMovesRequest): Observable<retrofit2.Response<SendNotSentMovesResponse>>
+
+    fun deleteFromNotSentList()
+
+    fun moveAlreadyReceived(idx: Int): Boolean
+
+    fun addOpponentMove(gp: GuessPoint, idx: Int)
 }

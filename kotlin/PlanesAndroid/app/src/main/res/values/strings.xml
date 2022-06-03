@@ -161,6 +161,8 @@
     <string name="error_game_connection"> Error when waiting for opponent to connect to the game</string>
     <string name="error_plane_positions"> Error when waiting for opponent plane positions.</string>
     <string name="plane_positions_received"> Opponent planes positions were received.</string>
+    <string name="sendwinner_error"> Error when sending winner.</string>
+    <string name="sendmove_error"> Error when sending own move</string>
 
 
 

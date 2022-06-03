@@ -243,6 +243,7 @@ class GameBoardMultiplayer : GridLayout, GameBoardInterface {
                 }
                 m_MultiplayerRound.playerGuessIncomplete(col - m_Padding, row - m_Padding)
 
+                //TODO: this should be done after receiving moves from opponent as well
                 //check if the round ended
                 if (m_MultiplayerRound.playerGuess_RoundEnds()) {
                     if (showTwoBoards(m_Tablet)) {
