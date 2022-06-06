@@ -36,6 +36,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     private lateinit var m_PollOpponentPositionsSubscription: Disposable
     private lateinit var m_SendMoveSubscription: Disposable
     private lateinit var m_SendWinnerSubscription: Disposable
+    private lateinit var m_CancelRoundSubscription: Disposable
     private lateinit var m_Context: Context
 
     private var m_SendPlanePositionsError: Boolean = false
@@ -50,6 +51,9 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     private var m_SendMoveError: Boolean = false
     private var m_SendMoveErrorString: String = ""
     private var m_SendingMove: Boolean = false
+
+    private var m_CancelRoundError: Boolean = false
+    private var m_CancelRoundErrorString: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,8 +125,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         val drawsLabel = rootView.findViewById<View>(R.id.draws_label) as ColouredSurfaceWithText
         val drawsCount = rootView.findViewById<View>(R.id.draws_count) as ColouredSurfaceWithText
 
-        m_GameControls.setBoardEditingControls(doneButton, rotateButton, cancelBoardEditingButton, progressBarBoardEditing, ::doneClicked)
-        if (!showTwoBoards(isTablet)) m_GameControls.setGameControls(statsTitle, viewOpponentBoardButton1, cancelBoardEditingButton, progressBarGameButton)
+        m_GameControls.setBoardEditingControls(doneButton, rotateButton, cancelBoardEditingButton, progressBarBoardEditing, ::doneClicked, ::cancelRound)
+        if (!showTwoBoards(isTablet)) m_GameControls.setGameControls(statsTitle, viewOpponentBoardButton1, cancelBoardEditingButton, progressBarGameButton, ::cancelRound)
         m_GameControls.setStartNewGameControls(viewComputerBoardButton2, startNewGameButton, computerWinsLabel, computerWinsCount, playerWinsLabel, playerWinsCount, drawsLabel, drawsCount, winnerText)
         m_GameControls.setGameSettings(m_PlaneRound, isTablet)
         m_GameControls.setGameBoards(m_GameBoards)
@@ -174,6 +178,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
             m_SendWinnerSubscription.dispose()
         if (this::m_SendMoveSubscription.isInitialized)
             m_SendMoveSubscription.dispose()
+        if (this::m_CancelRoundSubscription.isInitialized)
+            m_CancelRoundSubscription.dispose()
     }
 
     override fun onPause() {
@@ -262,7 +268,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
                 m_GameBoards.setGameStage()
                 m_GameControls.setGameStage()
                 m_PlanesLayout.setGameStage()
-            } else {
+            } else if (m_PlaneRound.getGameStage() != GameStages.GameNotStarted.value){
                 pollForOpponentPlanesPositions()
             }
         }
@@ -276,6 +282,14 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     fun receivedOpponentPlanePositions(code: Int, jsonErrorString: String?, headrs: Headers, body: SendPlanePositionsResponse?) {
         if (body != null)  {
+
+            if (body!!.m_Cancelled) {
+                m_PlaneRound.setGameStage(GameStages.GameNotStarted)
+                Tools.displayToast(getString(R.string.roundcancelled_opponent), m_Context)
+                finalizeSendPlanePositions()
+                return
+            }
+
             var otherPositionsExist = body!!.m_OtherExist
 
             if (otherPositionsExist) {
@@ -357,6 +371,9 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
                 m_PlanesLayout.setGameStage()
                 if (this::m_PollOpponentPositionsSubscription.isInitialized)
                     m_PollOpponentPositionsSubscription.dispose()
+            } else if (m_PlaneRound.getGameStage() == GameStages.GameNotStarted.value) {
+                if (this::m_PollOpponentPositionsSubscription.isInitialized)
+                    m_PollOpponentPositionsSubscription.dispose()
             } else {
                 //when position of planes were not received
             }
@@ -369,6 +386,13 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     fun reactToOpponentPlanePositionsInPolling(body: AcquireOpponentPositionsResponse?) {
         if (body != null) {
+
+            if (body!!.m_Cancelled) {
+                m_PlaneRound.setGameStage(GameStages.GameNotStarted)
+                Tools.displayToast(getString(R.string.roundcancelled_opponent), m_Context)
+                finalizeReceiveOpponentPlanePositions()
+                return
+            }
             var otherPositionsExist = body!!.m_OtherExist
 
             if (otherPositionsExist) {
@@ -410,6 +434,62 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         finalizeReceiveOpponentPlanePositions()
     }
     //endregion BoardEditing
+
+    fun cancelRound() {
+        m_CancelRoundError = false
+        m_CancelRoundErrorString = ""
+
+        if (!userLoggedIn()) {
+            finalizeCancelRound()
+            return
+        }
+
+        if (!connectedToGame()) {
+            finalizeCancelRound()
+            return
+        }
+
+        var cancelRound = m_PlaneRound.cancelRound(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId())
+        m_CancelRoundSubscription = cancelRound
+            .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { _ -> showLoading() }
+            .doOnTerminate { hideLoading() }
+            .doOnComplete { hideLoading() }
+            .subscribe({data -> receivedCancelRoundConfirmation(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
+                , {error -> setCancelRoundError(error.localizedMessage.toString())});
+    }
+
+    fun finalizeCancelRound() {
+        if (m_CancelRoundError) {
+            (activity as MainActivity).onWarning(m_CancelRoundErrorString)
+        } else {
+            m_PlaneRound.setGameStage(GameStages.GameNotStarted)
+            m_GameBoards.setNewRoundStage()
+            m_GameControls.setNewRoundStage()
+            m_PlanesLayout.setNewRoundStage()
+            if (this::m_PollOpponentPositionsSubscription.isInitialized)
+                m_PollOpponentPositionsSubscription.dispose()
+        }
+    }
+
+    fun setCancelRoundError(errorMsg: String) {
+        m_CancelRoundError = true
+        m_CancelRoundErrorString = errorMsg
+        finalizeCancelRound()
+    }
+
+    fun receivedCancelRoundConfirmation(code: Int, jsonErrorString: String?, headrs: Headers, body: CancelRoundResponse?) {
+        if (body != null)  {
+
+        } else {
+            m_CancelRoundErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.error_cancelround),
+                getString(R.string.unknownerror))
+            m_CancelRoundError = true
+        }
+        finalizeCancelRound()
+    }
 
     //region Game
     override fun sendWinner(draw: Boolean, winnerId: Long) {
@@ -535,8 +615,9 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         if (body != null)  {
             if (body!!.m_Cancelled) {
                 m_PlaneRound.setGameStage(GameStages.GameNotStarted)
+                Tools.displayToast(getString(R.string.roundcancelled_opponent), m_Context)
             } else {
-                if (m_PlaneRound.getGameStage() == GameStages.GameNotStarted.value) {
+                if (m_PlaneRound.getGameStage() == GameStages.GameNotStarted.value) { //TODO: what is this for ?
                     reinitializeFromState()
                 } else {
                     m_PlaneRound.deleteFromNotSentList()
@@ -545,7 +626,6 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
                         var moveIdx = move.m_MoveIndex
                         if (!m_PlaneRound.moveAlreadyReceived(moveIdx)) {
                             m_PlaneRound.addOpponentMove(gp, moveIdx)
-                            //TODO: do I need to update the boards?
                         }
                     }
                 }

@@ -352,6 +352,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         global_Round!!.addOpponentMove(gp, idx)
     }
 
+    override fun cancelRound(gameId: Long, roundId: Long): Observable<retrofit2.Response<CancelRoundResponse>> {
+        return global_Round!!.cancelRound(gameId, roundId)
+    }
+
     companion object {
         private var global_Round: MultiplayerRound? = null
         private var global_Guess_Result = Type.Miss

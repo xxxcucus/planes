@@ -55,4 +55,9 @@ interface MultiplayerCommApi {
     @Headers("Content-Type: application/json")
     fun sendOwnMove(@Header("Authorization") authorization: String, @Body request: SendNotSentMovesRequest): Observable<retrofit2.Response<SendNotSentMovesResponse>>
 
+    @POST("round/cancel")
+    @Headers("Content-Type: application/json")
+    fun cancelRound(@Header("Authorization") authorization: String, @Body request: CancelRoundRequest): Observable<retrofit2.Response<CancelRoundResponse>>
+
+
 }

@@ -163,6 +163,8 @@
     <string name="plane_positions_received"> Opponent planes positions were received.</string>
     <string name="sendwinner_error"> Error when sending winner.</string>
     <string name="sendmove_error"> Error when sending own move</string>
+    <string name="roundcancelled_opponent"> Round was cancelled by opponent</string>
+    <string name="error_cancelround"> Error when cancelling round</string>
 
 
 

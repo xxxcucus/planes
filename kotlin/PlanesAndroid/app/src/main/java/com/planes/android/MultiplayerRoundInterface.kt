@@ -93,4 +93,6 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
     fun moveAlreadyReceived(idx: Int): Boolean
 
     fun addOpponentMove(gp: GuessPoint, idx: Int)
+
+    fun cancelRound(gameId: Long, roundId: Long): Observable<retrofit2.Response<CancelRoundResponse>>
 }

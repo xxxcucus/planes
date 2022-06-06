@@ -706,8 +706,10 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
                 }
             }
         }
+    }
 
-
+    fun cancelRound(gameId: Long, roundId: Long): Observable<retrofit2.Response<CancelRoundResponse>> {
+        return m_Service.cancelRound(m_UserData.authToken, CancelRoundRequest(gameId.toString(), roundId.toString()))
     }
 
 }
