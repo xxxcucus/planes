@@ -40,6 +40,7 @@ BoardEditingWidget::BoardEditingWidget(GameInfo* gameInfo, QWidget *parent)
     connect(m_leftPlaneButton, &QPushButton::clicked, this, &BoardEditingWidget::leftPlaneClicked);
     connect(m_rightPlaneButton, &QPushButton::clicked, this, &BoardEditingWidget::rightPlaneClicked);
     connect(m_acquireOpponentPositionsButton, &QPushButton::clicked, this, &BoardEditingWidget::acquireOpponentPositionsClicked);        
+    connect(m_CancelRoundButton, &QPushButton::clicked, this, &BoardEditingWidget::cancelRoundClicked);
 }
 
 

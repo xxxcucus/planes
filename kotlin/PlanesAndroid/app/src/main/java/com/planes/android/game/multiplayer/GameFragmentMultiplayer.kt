@@ -126,7 +126,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         val drawsCount = rootView.findViewById<View>(R.id.draws_count) as ColouredSurfaceWithText
 
         m_GameControls.setBoardEditingControls(doneButton, rotateButton, cancelBoardEditingButton, progressBarBoardEditing, ::doneClicked, ::cancelRound)
-        if (!showTwoBoards(isTablet)) m_GameControls.setGameControls(statsTitle, viewOpponentBoardButton1, cancelBoardEditingButton, progressBarGameButton, ::cancelRound)
+        if (!showTwoBoards(isTablet)) m_GameControls.setGameControls(statsTitle, viewOpponentBoardButton1, cancelGameButton, progressBarGameButton, ::cancelRound)
         m_GameControls.setStartNewGameControls(viewComputerBoardButton2, startNewGameButton, computerWinsLabel, computerWinsCount, playerWinsLabel, playerWinsCount, drawsLabel, drawsCount, winnerText)
         m_GameControls.setGameSettings(m_PlaneRound, isTablet)
         m_GameControls.setGameBoards(m_GameBoards)
@@ -265,11 +265,13 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
             (activity as MainActivity).onWarning(m_SendPlanePositionsErrorString)
         } else {
             if (m_PlaneRound.getGameStage() == GameStages.Game.value) {  //plane positions where received
-                m_GameBoards.setGameStage()
-                m_GameControls.setGameStage()
-                m_PlanesLayout.setGameStage()
+                reinitializeFromState()
             } else if (m_PlaneRound.getGameStage() != GameStages.GameNotStarted.value){
                 pollForOpponentPlanesPositions()
+            } else {
+                if (this::m_PollOpponentPositionsSubscription.isInitialized)
+                    m_PollOpponentPositionsSubscription.dispose()
+                reinitializeFromState()
             }
         }
     }
@@ -366,14 +368,14 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
             (activity as MainActivity).onWarning(m_ReceiveOpponentPlanePositionsErrorString)
         } else {
             if (m_PlaneRound.getGameStage() == GameStages.Game.value) {  //plane positions where received
-                m_GameBoards.setGameStage()
-                m_GameControls.setGameStage()
-                m_PlanesLayout.setGameStage()
+                reinitializeFromState()
                 if (this::m_PollOpponentPositionsSubscription.isInitialized)
                     m_PollOpponentPositionsSubscription.dispose()
             } else if (m_PlaneRound.getGameStage() == GameStages.GameNotStarted.value) {
-                if (this::m_PollOpponentPositionsSubscription.isInitialized)
+                if (this::m_PollOpponentPositionsSubscription.isInitialized) {
                     m_PollOpponentPositionsSubscription.dispose()
+                }
+                reinitializeFromState()
             } else {
                 //when position of planes were not received
             }
@@ -466,11 +468,10 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
             (activity as MainActivity).onWarning(m_CancelRoundErrorString)
         } else {
             m_PlaneRound.setGameStage(GameStages.GameNotStarted)
-            m_GameBoards.setNewRoundStage()
-            m_GameControls.setNewRoundStage()
-            m_PlanesLayout.setNewRoundStage()
             if (this::m_PollOpponentPositionsSubscription.isInitialized)
                 m_PollOpponentPositionsSubscription.dispose()
+            reinitializeFromState()
+            //TODO dispose polling for opponent moves
         }
     }
 
@@ -525,10 +526,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
             (activity as MainActivity).onWarning(m_SendPlanePositionsErrorString)
         } else {
             m_PlaneRound.setGameStage(GameStages.GameNotStarted)
-            m_GameBoards.setNewRoundStage()
-            m_GameControls.setNewRoundStage()
-            m_PlanesLayout.setComputerBoard()
-            m_PlanesLayout.setNewRoundStage()
+            reinitializeFromState()
 
             //TODO dispose polling for opponent moves
         }
@@ -599,8 +597,9 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     fun finalizeSendMove() {
         if (m_SendMoveError) {
             (activity as MainActivity).onWarning(m_SendMoveErrorString)
-        } else {
-
+        } else if (m_PlaneRound.getGameStage() == GameStages.GameNotStarted.value) {
+            //TODO: dispose polling for opponent moves
+            reinitializeFromState()
         }
         m_SendingMove = false
     }
