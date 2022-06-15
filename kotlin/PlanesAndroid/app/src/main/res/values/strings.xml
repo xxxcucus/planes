@@ -165,6 +165,8 @@
     <string name="sendmove_error"> Error when sending own move</string>
     <string name="roundcancelled_opponent"> Round was cancelled by opponent</string>
     <string name="error_cancelround"> Error when cancelling round</string>
+    <string name="waiting_for_moves"> You have guessed all planes. Waiting for opponent moves to see who won...</string>
+    <string name="error_moves"> Error when waiting for opponent moves.</string>
 
 
 

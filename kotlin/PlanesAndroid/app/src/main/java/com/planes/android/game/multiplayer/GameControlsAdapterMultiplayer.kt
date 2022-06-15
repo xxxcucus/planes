@@ -136,13 +136,14 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         m_PlanesLayout.setComputerBoard()
     }
 
-    fun setGameStage() {
-        if (!m_Tablet) {
+    fun setGameStage(showProgresBar: Boolean) {
+        if (!showTwoBoards(m_Tablet)) {
             m_GameBoards.setComputerBoard()
             m_ViewOpponentBoardButton1.setState("player", m_Context.resources.getString(R.string.view_player_board2))
             //updateStats(true) //TODO: do I need this ?
         } else {
         }
+        m_ProgressBarGame.isVisible = showProgresBar
     }
 
     fun setBoardEditingStage(showProgresBar: Boolean) {
@@ -204,5 +205,9 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
 
     fun setPlanesLayout(planesLayout: PlanesVerticalLayoutMultiplayer) {
         m_PlanesLayout = planesLayout
+    }
+
+    fun showTwoBoards(isTablet: Boolean): Boolean {
+        return false;
     }
 }

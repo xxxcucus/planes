@@ -270,7 +270,7 @@ bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPla
             isPlayerWinner = true;
             m_WinnerFound = true;
             return true;
-        } 
+        } //TODO: else start polling for opponent moves
     }
     
     return false;

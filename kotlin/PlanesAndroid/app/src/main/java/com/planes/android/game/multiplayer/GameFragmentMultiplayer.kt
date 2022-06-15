@@ -24,6 +24,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Headers
+import retrofit2.Response
 import java.util.concurrent.TimeUnit
 
 class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
@@ -35,6 +36,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     private lateinit var m_DonePositioningSubscription: Disposable
     private lateinit var m_PollOpponentPositionsSubscription: Disposable
     private lateinit var m_SendMoveSubscription: Disposable
+    private lateinit var m_PollOpponentMovesSubscription: Disposable
     private lateinit var m_SendWinnerSubscription: Disposable
     private lateinit var m_CancelRoundSubscription: Disposable
     private lateinit var m_Context: Context
@@ -44,6 +46,9 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     private var m_ReceiveOpponentPlanePositionsError: Boolean = false
     private var m_ReceiveOpponentPlanePositionsErrorString: String = ""
+
+    private var m_ReceiveOpponentMovesError: Boolean = false
+    private var m_ReceiveOpponentMovesErrorString: String = ""
 
     private var m_SendWinnerError: Boolean = false
     private var m_SendWinnerErrorString: String = ""
@@ -155,7 +160,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
             }
             2 -> {
                 m_GameBoards.setGameStage()
-                m_GameControls.setGameStage()
+                m_GameControls.setGameStage(false)
                 m_PlanesLayout.setGameStage()
             }
             3 -> {
@@ -163,6 +168,12 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
                 m_GameControls.setBoardEditingStage(true)
                 m_PlanesLayout.setBoardEditingStage()
                 pollForOpponentPlanesPositions()
+            }
+            4 -> {
+                m_GameBoards.setGameStage()
+                m_GameControls.setGameStage(true)
+                m_PlanesLayout.setGameStage()
+                pollForOpponentMoves()
             }
         }
     }
@@ -180,6 +191,9 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
             m_SendMoveSubscription.dispose()
         if (this::m_CancelRoundSubscription.isInitialized)
             m_CancelRoundSubscription.dispose()
+        if (this::m_PollOpponentMovesSubscription.isInitialized) {
+            m_PollOpponentMovesSubscription.dispose()
+        }
     }
 
     override fun onPause() {
@@ -470,6 +484,9 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
             m_PlaneRound.setGameStage(GameStages.GameNotStarted)
             if (this::m_PollOpponentPositionsSubscription.isInitialized)
                 m_PollOpponentPositionsSubscription.dispose()
+            if (this::m_PollOpponentMovesSubscription.isInitialized) {
+                m_PollOpponentMovesSubscription.dispose()
+            }
             reinitializeFromState()
             //TODO dispose polling for opponent moves
         }
@@ -494,6 +511,9 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     //region Game
     override fun sendWinner(draw: Boolean, winnerId: Long) {
+        if (this::m_PollOpponentMovesSubscription.isInitialized) {
+            m_PollOpponentMovesSubscription.dispose()
+        }
 
         m_SendWinnerError = false
         m_SendWinnerErrorString = ""
@@ -525,10 +545,9 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         if (m_SendWinnerError) {
             (activity as MainActivity).onWarning(m_SendPlanePositionsErrorString)
         } else {
+
             m_PlaneRound.setGameStage(GameStages.GameNotStarted)
             reinitializeFromState()
-
-            //TODO dispose polling for opponent moves
         }
     }
 
@@ -546,6 +565,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
                 getString(R.string.unknownerror))
             m_SendWinnerError = true
         }
+        finalizeSendWinner()
     }
 
 
@@ -635,8 +655,81 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
             m_SendMoveError = true
         }
         finalizeSendMove()
-
     }
+
+    override fun pollForOpponentMoves() {
+        m_ReceiveOpponentMovesError = false
+        m_ReceiveOpponentMovesErrorString = ""
+
+        Tools.displayToast(getString(R.string.waiting_for_moves), m_Context)
+
+        m_PlaneRound.saveNotSentMoves()
+        //TODO: optimize do not send the remaining moves every time
+        var sendMoveRequest = buildSendMoveRequest(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId(), m_PlaneRound.getUserId(),
+            m_PlaneRound.getOpponentId())
+
+        m_PlaneRound.setGameStage(GameStages.WaitForOpponentMoves)
+        m_GameControls.setGameStage(true)
+
+        if (!this::m_PollOpponentMovesSubscription.isInitialized) {
+            m_PollOpponentMovesSubscription =
+                Observable.interval(5, TimeUnit.SECONDS, Schedulers.io())
+                    .flatMap { _ -> buildSendMoveRequestInPolling() }
+                    .doOnError { setReceiveOpponentMovesError(getString(R.string.error_moves)) }
+                    .retry()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ data -> reactToOpponentMovesInPolling(data.body()) },
+                        { error -> setReceiveOpponentMovesError(error.localizedMessage.toString()) })
+        }
+    }
+
+    fun buildSendMoveRequestInPolling(): Observable<Response<SendNotSentMovesResponse>> {
+        m_PlaneRound.saveNotSentMoves()
+        var sendMoveRequest = buildSendMoveRequest(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId(), m_PlaneRound.getUserId(),
+            m_PlaneRound.getOpponentId())
+        return m_PlaneRound.sendMove(sendMoveRequest)
+    }
+
+    fun setReceiveOpponentMovesError(errorMsg: String) {
+        m_ReceiveOpponentMovesError = true
+        m_ReceiveOpponentMovesErrorString = errorMsg
+        finalizeReceiveOpponentMoves()
+    }
+
+    fun finalizeReceiveOpponentMoves() {
+        if (m_ReceiveOpponentMovesError) {
+            (activity as MainActivity).onWarning(m_ReceiveOpponentPlanePositionsErrorString)
+        } else {
+        }
+    }
+
+    fun reactToOpponentMovesInPolling(body: SendNotSentMovesResponse?) {
+        if (body != null) {
+
+            if (body!!.m_Cancelled) {
+                m_PlaneRound.setGameStage(GameStages.GameNotStarted)
+                //TODO: set cancelled message in not started screen
+                Tools.displayToast(getString(R.string.roundcancelled_opponent), m_Context)
+                finalizeReceiveOpponentMoves()
+                return
+            }
+
+            if (m_PlaneRound.getGameStage() == GameStages.GameNotStarted.value) { //TODO: what is this for ?
+                reinitializeFromState()
+            } else {
+                m_PlaneRound.deleteFromNotSentList()
+                for (move in body!!.m_ListMoves) {
+                    var gp = GuessPoint(move.m_MoveX, move.m_MoveY)
+                    var moveIdx = move.m_MoveIndex
+                    if (!m_PlaneRound.moveAlreadyReceived(moveIdx)) {
+                        m_PlaneRound.addOpponentMove(gp, moveIdx)
+                    }
+                }
+            }
+        }
+        finalizeReceiveOpponentMoves()
+    }
+
 
     //endregion Game
 

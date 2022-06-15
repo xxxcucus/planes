@@ -463,13 +463,18 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
         if (!m_WinnerFound) {
             var pgr = checkRoundEnd()
-            //TODO: if player found all planes and there are still moves not sent send them
             if (pgr.m_RoundEnds) {
                 if (this::m_GameFragmentMultiplayer.isInitialized) {  //asynchronous call from game fragment
                     m_GameFragmentMultiplayer.sendWinner(
                         pgr.m_IsDraw,
                         if (pgr.m_isPlayerWinner) m_GameData.userId else m_GameData.otherUserId
                     );
+                }
+            }
+
+            if (pgr.m_PlayerFinishedStartPolling) {
+                if (this::m_GameFragmentMultiplayer.isInitialized) {  //asynchronous call from game fragment
+                    m_GameFragmentMultiplayer.pollForOpponentMoves();
                 }
             }
         }
@@ -522,27 +527,27 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         if (m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
             if (m_ComputerMoveIndex > m_PlayerMoveIndex) {
                 //player winner
-                m_gameStats.updateWins(false);
-                pgr.m_RoundEnds = true;
-                pgr.m_IsDraw = false;
-                pgr.m_isPlayerWinner = true;
-                m_WinnerFound = true;
-                return pgr;
+                m_gameStats.updateWins(false)
+                pgr.m_RoundEnds = true
+                pgr.m_IsDraw = false
+                pgr.m_isPlayerWinner = true
+                m_WinnerFound = true
+                return pgr
             } else if (m_ComputerMoveIndex < m_PlayerMoveIndex) {
                 //computer winner
-                m_gameStats.updateWins(true);
-                pgr.m_RoundEnds = true;
-                pgr.m_IsDraw = false;
-                pgr.m_isPlayerWinner = false;
-                m_WinnerFound = true;
-                return pgr;
+                m_gameStats.updateWins(true)
+                pgr.m_RoundEnds = true
+                pgr.m_IsDraw = false
+                pgr.m_isPlayerWinner = false
+                m_WinnerFound = true
+                return pgr
             } else {
                 //draw
-                pgr.m_RoundEnds = true;
-                pgr.m_IsDraw = true;
-                m_WinnerFound = true;
-                m_gameStats.addDrawResult();
-                return pgr;
+                pgr.m_RoundEnds = true
+                pgr.m_IsDraw = true
+                m_WinnerFound = true
+                m_gameStats.addDrawResult()
+                return pgr
             }
         }
 
@@ -551,12 +556,12 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
             //qDebug() << "Computer finished and player not finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
             if (m_ComputerMoveIndex <= m_PlayerMoveIndex) {
                 //computer winner
-                m_gameStats.updateWins(true);
-                pgr.m_RoundEnds = true;
-                pgr.m_IsDraw = false;
-                pgr.m_isPlayerWinner = false;
-                m_WinnerFound = true;
-                return pgr;
+                m_gameStats.updateWins(true)
+                pgr.m_RoundEnds = true
+                pgr.m_IsDraw = false
+                pgr.m_isPlayerWinner = false
+                m_WinnerFound = true
+                return pgr
             }
         }
 
@@ -564,17 +569,23 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
             //qDebug() << "Computer not finished and player finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
             if (m_ComputerMoveIndex >= m_PlayerMoveIndex) {
                 //player winner
-                m_gameStats.updateWins(false);
-                pgr.m_RoundEnds = true;
-                pgr.m_IsDraw = false;
-                pgr.m_isPlayerWinner = true;
-                m_WinnerFound = true;
-                return pgr;
+                m_gameStats.updateWins(false)
+                pgr.m_RoundEnds = true
+                pgr.m_IsDraw = false
+                pgr.m_isPlayerWinner = true
+                m_WinnerFound = true
+                return pgr
+            } else {
+                pgr.m_RoundEnds = false
+                pgr.m_IsDraw = false
+                pgr.m_isPlayerWinner = false
+                pgr.m_PlayerFinishedStartPolling = true
+                m_WinnerFound = false
             }
         }
 
-        pgr.m_RoundEnds = false;
-        return pgr;
+        pgr.m_RoundEnds = false
+        return pgr
     }
 
     //endregion

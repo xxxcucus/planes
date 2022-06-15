@@ -12,7 +12,7 @@ data class SendWinnerRequest (
     @SerializedName("winnerId")
     var m_WinnerId: String,
 
-    @SerializedName("roundId")
+    @SerializedName("draw")
     var m_Draw: Boolean
 
 )

@@ -18,6 +18,8 @@ class PlayerGuessReaction {
 
     var m_GameStats: GameStatistics
 
+    var m_PlayerFinishedStartPolling: Boolean = false
+
     init {
         m_ComputerGuess = GuessPoint(0, 0)
         m_GameStats = GameStatistics()

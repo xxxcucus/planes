@@ -89,7 +89,7 @@
             android:indeterminate="true"
             app:gc_row="2"
             app:gc_col="2"
-            app:gc_game_stage="1" />
+            app:gc_game_stage="2" />
 
         <!-- Buttons for start new game stage -->
         <com.planes.android.customviews.TwoLineTextButtonWithState
