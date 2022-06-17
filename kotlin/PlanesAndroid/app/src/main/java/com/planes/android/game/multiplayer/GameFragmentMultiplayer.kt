@@ -39,6 +39,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     private lateinit var m_PollOpponentMovesSubscription: Disposable
     private lateinit var m_SendWinnerSubscription: Disposable
     private lateinit var m_CancelRoundSubscription: Disposable
+    private lateinit var m_StartNewRoundSubscription: Disposable
     private lateinit var m_Context: Context
 
     private var m_SendPlanePositionsError: Boolean = false
@@ -59,6 +60,9 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     private var m_CancelRoundError: Boolean = false
     private var m_CancelRoundErrorString: String = ""
+
+    private var m_StartNewGameError: Boolean = false
+    private var m_StartNewGameErrorString: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -132,7 +136,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
         m_GameControls.setBoardEditingControls(doneButton, rotateButton, cancelBoardEditingButton, progressBarBoardEditing, ::doneClicked, ::cancelRound)
         if (!showTwoBoards(isTablet)) m_GameControls.setGameControls(statsTitle, viewOpponentBoardButton1, cancelGameButton, progressBarGameButton, ::cancelRound)
-        m_GameControls.setStartNewGameControls(viewComputerBoardButton2, startNewGameButton, computerWinsLabel, computerWinsCount, playerWinsLabel, playerWinsCount, drawsLabel, drawsCount, winnerText)
+        m_GameControls.setStartNewGameControls(viewComputerBoardButton2, startNewGameButton, computerWinsLabel, computerWinsCount, playerWinsLabel,
+            playerWinsCount, drawsLabel, drawsCount, winnerText, ::startNewGame)
         m_GameControls.setGameSettings(m_PlaneRound, isTablet)
         m_GameControls.setGameBoards(m_GameBoards)
         m_GameControls.setPlanesLayout(m_PlanesLayout)
@@ -193,6 +198,9 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
             m_CancelRoundSubscription.dispose()
         if (this::m_PollOpponentMovesSubscription.isInitialized) {
             m_PollOpponentMovesSubscription.dispose()
+        }
+        if (this::m_StartNewRoundSubscription.isInitialized) {
+            m_StartNewRoundSubscription.dispose()
         }
     }
 
@@ -451,6 +459,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     }
     //endregion BoardEditing
 
+    //region CancelRound
+
     fun cancelRound() {
         m_CancelRoundError = false
         m_CancelRoundErrorString = ""
@@ -508,6 +518,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         }
         finalizeCancelRound()
     }
+
+    //endregion CancelRound
 
     //region Game
     override fun sendWinner(draw: Boolean, winnerId: Long) {
@@ -730,8 +742,70 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         finalizeReceiveOpponentMoves()
     }
 
-
     //endregion Game
+
+    //region StartNewGame
+
+    fun startNewGame() {
+        m_StartNewGameError = false
+        m_StartNewGameErrorString = ""
+
+        if (!userLoggedIn()) {
+            finalizeStartNewRound()
+            return
+        }
+
+        if (!connectedToGame()) {
+            finalizeStartNewRound()
+            return
+        }
+
+        var startNewRound = m_PlaneRound.startNewRound(m_PlaneRound.getGameId(), m_PlaneRound.getUserId(), m_PlaneRound.getOpponentId())
+        m_StartNewRoundSubscription = startNewRound
+            .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { _ -> showLoading() }
+            .doOnTerminate { hideLoading() }
+            .doOnComplete { hideLoading() }
+            .subscribe({data -> receivedStartNewRoundResponse(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
+                , {error -> setStartNewRoundError(error.localizedMessage.toString())});
+
+    }
+
+    fun finalizeStartNewRound() {
+        if (m_StartNewGameError) {
+            (activity as MainActivity).onWarning(m_StartNewGameErrorString)
+        } else {
+            m_PlaneRound.initRound()
+            reinitializeFromState()
+            //TODO: dispose subscription ?? generally when switching between stages
+        }
+    }
+
+    fun setStartNewRoundError(errorMsg: String) {
+        m_StartNewGameError = true
+        m_StartNewGameErrorString = errorMsg
+        finalizeStartNewRound()
+    }
+
+    fun receivedStartNewRoundResponse(code: Int, jsonErrorString: String?, headrs: Headers, body: StartNewRoundResponse?) {
+        if (body != null)  {
+            if (!body!!.m_NewRoundCreated) {
+                m_StartNewGameError = true
+                m_StartNewGameErrorString = getString(R.string.error_startnewround)
+            } else {
+                m_PlaneRound.setRoundId(body!!.m_RoundId.toLong())
+            }
+        } else {
+            m_StartNewGameErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.error_startnewround),
+                getString(R.string.unknownerror))
+            m_StartNewGameError = true
+        }
+        finalizeStartNewRound()
+    }
+
+    //endregion StartNewGame
 
     fun showLoading() {
         (activity as MainActivity).startProgressDialog()

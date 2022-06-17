@@ -58,6 +58,8 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
 
     fun setUserId(userid: Long)
 
+    fun setRoundId(roundId: Long)
+
     fun connectToGame(gameName: String): Observable<retrofit2.Response<ConnectToGameResponse>>
 
     fun resetGameData()
@@ -95,4 +97,6 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
     fun addOpponentMove(gp: GuessPoint, idx: Int)
 
     fun cancelRound(gameId: Long, roundId: Long): Observable<retrofit2.Response<CancelRoundResponse>>
+
+    fun startNewRound(gameId: Long, userId: Long, opponentId: Long): Observable<retrofit2.Response<StartNewRoundResponse>>
 }

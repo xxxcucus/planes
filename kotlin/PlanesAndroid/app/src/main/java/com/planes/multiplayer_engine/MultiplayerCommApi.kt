@@ -59,5 +59,8 @@ interface MultiplayerCommApi {
     @Headers("Content-Type: application/json")
     fun cancelRound(@Header("Authorization") authorization: String, @Body request: CancelRoundRequest): Observable<retrofit2.Response<CancelRoundResponse>>
 
+    @POST("round/start")
+    @Headers("Content-Type: application/json")
+    fun startRound(@Header("Authorization") authorization: String, @Body request: StartNewRoundRequest): Observable<retrofit2.Response<StartNewRoundResponse>>
 
 }

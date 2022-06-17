@@ -356,6 +356,14 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Round!!.cancelRound(gameId, roundId)
     }
 
+    override fun startNewRound(gameId: Long, userId: Long, opponentId: Long): Observable<retrofit2.Response<StartNewRoundResponse>> {
+        return global_Round!!.startNewRound(gameId, userId, opponentId)
+    }
+
+    override fun setRoundId(roundId: Long) {
+        global_Round!!.setRoundId(roundId)
+    }
+
     companion object {
         private var global_Round: MultiplayerRound? = null
         private var global_Guess_Result = Type.Miss

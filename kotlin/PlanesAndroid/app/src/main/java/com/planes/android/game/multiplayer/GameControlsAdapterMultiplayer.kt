@@ -90,7 +90,8 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
     fun setStartNewGameControls(viewComputerBoardButton2: TwoLineTextButtonWithState, startNewGameButton: TwoLineTextButton,
                                 computerWinsLabel: ColouredSurfaceWithText, computerWinsCount: ColouredSurfaceWithText,
                                 playerWinsLabel: ColouredSurfaceWithText, playerWinsCount: ColouredSurfaceWithText,
-                                drawsLabel: ColouredSurfaceWithText, drawsCount: ColouredSurfaceWithText, winnerText: ColouredSurfaceWithText
+                                drawsLabel: ColouredSurfaceWithText, drawsCount: ColouredSurfaceWithText, winnerText: ColouredSurfaceWithText,
+                                startNewGameLambda: () -> Unit
     ) {
         m_ViewComputerBoardButton2 = viewComputerBoardButton2
         m_StartNewRound = startNewGameButton
@@ -103,10 +104,7 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         m_DrawsLabel = drawsLabel
         if (this::m_StartNewRound.isInitialized != null) {
             m_StartNewRound.setOnClickListener {
-                m_MultiplayerRound.initRound()
-                m_PlanesLayout.setBoardEditingStage()
-                m_GameBoards.setBoardEditingStage()
-                setBoardEditingStage(false)
+                startNewGameLambda()
             }
         }
         m_ViewComputerBoardButton2.setState("player", m_Context.resources.getString(R.string.view_player_board2))

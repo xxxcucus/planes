@@ -20,6 +20,7 @@ import retrofit2.http.Body
 import android.R.bool
 import androidx.core.util.Pair
 import com.planes.android.game.multiplayer.IGameFragmentMultiplayer
+import kotlin.math.round
 
 class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     //communication structures
@@ -221,6 +222,10 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
     fun setUserId(userid: Long) {
         m_UserData.userId = userid
+    }
+
+    fun setRoundId(roundId: Long) {
+        m_GameData.roundId = roundId
     }
 
     fun connectToGame(gameName: String): Observable<retrofit2.Response<ConnectToGameResponse>> {
@@ -721,6 +726,10 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
     fun cancelRound(gameId: Long, roundId: Long): Observable<retrofit2.Response<CancelRoundResponse>> {
         return m_Service.cancelRound(m_UserData.authToken, CancelRoundRequest(gameId.toString(), roundId.toString()))
+    }
+
+    fun startNewRound(gameId: Long, userId: Long, opponentId: Long): Observable<retrofit2.Response<StartNewRoundResponse>> {
+        return m_Service.startRound(m_UserData.authToken, StartNewRoundRequest(gameId.toString(), userId.toString(), opponentId.toString()))
     }
 
 }
