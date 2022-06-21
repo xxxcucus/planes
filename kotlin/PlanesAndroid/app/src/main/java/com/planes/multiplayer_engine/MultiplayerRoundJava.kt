@@ -187,46 +187,57 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
     }
 
     override fun playerGuess_StatNoPlayerMoves(): Int {
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
         return global_Player_Guess_Reaction.m_GameStats.playerMoves()
     }
 
     override fun playerGuess_StatNoPlayerHits(): Int {
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
         return global_Player_Guess_Reaction.m_GameStats.playerHits()
     }
 
     override fun playerGuess_StatNoPlayerMisses(): Int {
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
         return global_Player_Guess_Reaction.m_GameStats.playerMisses()
     }
 
     override fun playerGuess_StatNoPlayerDead(): Int {
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
         return global_Player_Guess_Reaction.m_GameStats.playerDead()
     }
 
     override fun playerGuess_StatNoPlayerWins(): Int {
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
         return global_Player_Guess_Reaction.m_GameStats.playerWins()
     }
 
     override fun playerGuess_StatNoComputerMoves(): Int {
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
         return global_Player_Guess_Reaction.m_GameStats.computerMoves()
     }
 
     override fun playerGuess_StatNoComputerHits(): Int {
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
         return global_Player_Guess_Reaction.m_GameStats.computerHits()
     }
 
     override fun playerGuess_StatNoComputerMisses(): Int {
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
         return global_Player_Guess_Reaction.m_GameStats.computerMisses()
     }
 
     override fun playerGuess_StatNoComputerDead(): Int {
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
         return global_Player_Guess_Reaction.m_GameStats.computerDead()
     }
 
     override fun playerGuess_StatNoComputerWins(): Int {
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
         return global_Player_Guess_Reaction.m_GameStats.computerWins()
     }
 
     override fun playerGuess_StatNoDraws(): Int {
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
         return global_Player_Guess_Reaction.m_GameStats.draws()
     }
 

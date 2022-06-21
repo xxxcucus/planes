@@ -732,5 +732,9 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return m_Service.startRound(m_UserData.authToken, StartNewRoundRequest(gameId.toString(), userId.toString(), opponentId.toString()))
     }
 
+    fun getGameStats() : GameStatistics {
+        return m_gameStats
+    }
+
 }
 

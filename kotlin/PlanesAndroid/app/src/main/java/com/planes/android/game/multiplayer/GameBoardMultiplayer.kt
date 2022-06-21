@@ -245,18 +245,6 @@ class GameBoardMultiplayer : GridLayout, GameBoardInterface {
 
                 //TODO: this should be done after receiving moves from opponent as well
                 //check if the round ended
-                if (m_MultiplayerRound.playerGuess_RoundEnds()) {
-                    if (showTwoBoards(m_Tablet)) {
-                        m_SiblingBoard.setNewRoundStage(false)
-                        setNewRoundStage(false)
-                    } else {
-                        setNewRoundStage(true)
-                    }
-                    m_MultiplayerRound.roundEnds()
-                    m_GameControls.roundEnds(!m_MultiplayerRound.playerGuess_IsPlayerWinner(), m_MultiplayerRound.playerGuess_IsDraw())
-                } /*else {
-                    if (!m_Tablet) m_GameControls.updateStats(m_IsComputer)
-                }*/
                 updateBoards()
                 if (showTwoBoards(m_Tablet)) m_SiblingBoard.updateBoards()
             }
