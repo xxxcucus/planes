@@ -172,12 +172,16 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         }
     }*/
 
-    fun roundEnds(isComputerWinner: Boolean, isDraw: Boolean) {
+    fun roundEnds(isComputerWinner: Boolean, isDraw: Boolean, isCancelled: Boolean = false) {
         m_PlanesLayout.setComputerBoard()
         m_PlanesLayout.setNewRoundStage()
-        if (isComputerWinner) m_WinnerTextView.setText(m_Context.resources.getText(R.string.computer_winner).toString()) else m_WinnerTextView.setText(m_Context.resources.getText(
-            R.string.player_winner
-        ).toString())
+        if (isCancelled) {
+            m_WinnerTextView.setText(m_Context.resources.getText(R.string.round_cancelled).toString())
+        } else {
+            if (isComputerWinner) m_WinnerTextView.setText(m_Context.resources.getText(R.string.computer_winner).toString()) else m_WinnerTextView.setText(m_Context.resources.getText(
+                R.string.player_winner).toString())
+        }
+
         if (isDraw) m_WinnerTextView.setText(m_Context.resources.getText(R.string.draw_result).toString())
         val computer_wins = m_MultiplayerRound.playerGuess_StatNoComputerWins()
         val player_wins = m_MultiplayerRound.playerGuess_StatNoPlayerWins()

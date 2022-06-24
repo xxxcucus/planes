@@ -320,7 +320,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         if (body != null)  {
 
             if (body!!.m_Cancelled) {
-                m_PlaneRound.setGameStage(GameStages.GameNotStarted)
+                m_PlaneRound.cancelRound()
+                m_GameControls.roundEnds(false, false, true)
                 Tools.displayToast(getString(R.string.roundcancelled_opponent), m_Context)
                 finalizeSendPlanePositions()
                 return
@@ -419,7 +420,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         if (body != null) {
 
             if (body!!.m_Cancelled) {
-                m_PlaneRound.setGameStage(GameStages.GameNotStarted)
+                m_PlaneRound.cancelRound()
+                m_GameControls.roundEnds(false, false, true)
                 Tools.displayToast(getString(R.string.roundcancelled_opponent), m_Context)
                 finalizeReceiveOpponentPlanePositions()
                 return
@@ -498,7 +500,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         if (m_CancelRoundError) {
             (activity as MainActivity).onWarning(m_CancelRoundErrorString)
         } else {
-            m_PlaneRound.setGameStage(GameStages.GameNotStarted)
+            m_PlaneRound.cancelRound()
+            m_GameControls.roundEnds(false, false, true)
             disposeAllSubscriptions()
             reinitializeFromState()
             //TODO dispose polling for opponent moves
@@ -647,7 +650,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     fun receivedSendMoveResponse(code: Int, jsonErrorString: String?, headrs: Headers, body: SendNotSentMovesResponse?) {
         if (body != null)  {
             if (body!!.m_Cancelled) {
-                m_PlaneRound.setGameStage(GameStages.GameNotStarted)
+                m_PlaneRound.cancelRound()
+                m_GameControls.roundEnds(false, false, true)
                 Tools.displayToast(getString(R.string.roundcancelled_opponent), m_Context)
             } else {
                 if (m_PlaneRound.getGameStage() == GameStages.GameNotStarted.value) { //TODO: what is this for ?
@@ -723,8 +727,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         if (body != null) {
 
             if (body!!.m_Cancelled) {
-                m_PlaneRound.setGameStage(GameStages.GameNotStarted)
-                //TODO: set cancelled message in not started screen
+                m_PlaneRound.cancelRound()
+                m_GameControls.roundEnds(false, false, true)
                 Tools.displayToast(getString(R.string.roundcancelled_opponent), m_Context)
                 finalizeReceiveOpponentMoves()
                 return

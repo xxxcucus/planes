@@ -99,4 +99,6 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
     fun cancelRound(gameId: Long, roundId: Long): Observable<retrofit2.Response<CancelRoundResponse>>
 
     fun startNewRound(gameId: Long, userId: Long, opponentId: Long): Observable<retrofit2.Response<StartNewRoundResponse>>
+
+    fun cancelRound()
 }

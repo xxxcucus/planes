@@ -434,10 +434,10 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     fun playerGuessIncomplete(row: Int, col: Int): Pair<Type, PlayerGuessReaction> {
         var tp = m_ComputerGrid.getGuessResult(Coordinate2D(col, row))
         var gp = GuessPoint(col, row, tp)
-        return Pair.create(tp, playerGuess(gp))
+        return Pair.create(tp, playerGuess(gp).second)
     }
 
-    fun playerGuess(gp: GuessPoint): PlayerGuessReaction {
+    fun playerGuess(gp: GuessPoint): Pair<Boolean, PlayerGuessReaction> {
 
         val pgr = PlayerGuessReaction()
         if (m_State != GameStages.Game) {
@@ -446,7 +446,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
             msgBox.exec();*/
             //TODO
 
-            return pgr;
+            return Pair<Boolean, PlayerGuessReaction>(true, pgr);
         }
 
         //update the game statistics
@@ -482,9 +482,12 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
                     m_GameFragmentMultiplayer.pollForOpponentMoves();
                 }
             }
+
+            return Pair<Boolean, PlayerGuessReaction> (false, pgr)
+        } else {
+            return Pair<Boolean, PlayerGuessReaction> (true, PlayerGuessReaction())
         }
 
-        return pgr
     }
 
     /*void MultiplayerRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr) {
@@ -697,7 +700,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return m_ReceivedMoves.contains(idx)
     }
 
-    fun addOpponentMove(gp: GuessPoint, idx: Int) {
+    fun addOpponentMove(gp: GuessPoint, idx: Int): Pair<Boolean, PlayerGuessReaction> {
         m_ReceivedMoves.add(idx)
 
         var guessResult = m_PlayerGrid.getGuessResult(Coordinate2D(gp.m_row, gp.m_col))
@@ -721,7 +724,12 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
                     );
                 }
             }
+            return Pair<Boolean, PlayerGuessReaction> (false, pgr)
+        } else {
+            return Pair<Boolean, PlayerGuessReaction> (true, PlayerGuessReaction())
         }
+        
+
     }
 
     fun cancelRound(gameId: Long, roundId: Long): Observable<retrofit2.Response<CancelRoundResponse>> {

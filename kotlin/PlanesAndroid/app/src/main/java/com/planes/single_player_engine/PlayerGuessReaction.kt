@@ -20,6 +20,8 @@ class PlayerGuessReaction {
 
     var m_PlayerFinishedStartPolling: Boolean = false
 
+    var m_Cancelled = false
+
     init {
         m_ComputerGuess = GuessPoint(0, 0)
         m_GameStats = GameStatistics()

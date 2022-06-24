@@ -160,25 +160,29 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
     }
 
     override fun playerGuess(gp: GuessPoint): PlayerGuessReaction {
-        return global_Round!!.playerGuess(gp)
+        var result = global_Round!!.playerGuess(gp)
+        if (!result.first)
+            global_Player_Guess_Reaction = result.second
+        return result.second
     }
 
     override fun playerGuessIncomplete(row: Int, col: Int): Pair<Type, PlayerGuessReaction> {
         var result = global_Round!!.playerGuessIncomplete(row, col)
-        global_Player_Guess_Reaction = result.second
-        global_Guess_Result = result.first
         return result
     }
 
     override fun playerGuess_RoundEnds(): Boolean {
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();  //TODO: this is a hack and should be corrected
         return global_Player_Guess_Reaction.m_RoundEnds
     }
 
     override fun playerGuess_IsDraw(): Boolean {
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
         return global_Player_Guess_Reaction.m_IsDraw
     }
 
     override fun playerGuess_IsPlayerWinner(): Boolean {
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
         return global_Player_Guess_Reaction.m_isPlayerWinner
     }
 
@@ -360,7 +364,9 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
     }
 
     override fun addOpponentMove(gp: GuessPoint, idx: Int) {
-        global_Round!!.addOpponentMove(gp, idx)
+        var result = global_Round!!.addOpponentMove(gp, idx)
+        if (!result.first)
+            global_Player_Guess_Reaction = result.second
     }
 
     override fun cancelRound(gameId: Long, roundId: Long): Observable<retrofit2.Response<CancelRoundResponse>> {
@@ -373,6 +379,11 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
 
     override fun setRoundId(roundId: Long) {
         global_Round!!.setRoundId(roundId)
+    }
+
+    override fun cancelRound() {
+        global_Round!!.setGameStage(GameStages.GameNotStarted)
+        global_Player_Guess_Reaction.m_Cancelled = true
     }
 
     companion object {
