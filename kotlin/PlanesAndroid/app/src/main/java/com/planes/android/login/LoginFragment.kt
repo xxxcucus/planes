@@ -10,32 +10,27 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import androidx.fragment.app.Fragment
-import com.google.gson.Gson
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
-import com.planes.android.Tools
 import com.planes.android.databinding.FragmentLoginBinding
 import com.planes.android.preferences.MultiplayerPreferencesServiceGlobal
 import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.commobj.LoginCommObj
 import com.planes.multiplayer_engine.responses.ErrorResponse
 import com.planes.multiplayer_engine.responses.LoginResponse
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
-import okhttp3.Headers
-import java.util.concurrent.TimeUnit
+import io.reactivex.Observable
+import retrofit2.Response
+
 
 //TODO to update accordint to google and udemy
 class LoginFragment: Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private var m_Username = ""
     private var m_Password = ""
-    private var m_LoginError = false
-    private var m_LoginErrorString = ""
     private var m_PreferencesService = MultiplayerPreferencesServiceGlobal()
     private var m_MultiplayerRound = MultiplayerRoundJava()
-    private lateinit var m_LoginSubscription: Disposable
+    private lateinit var m_LoginCommObj: LoginCommObj
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -76,48 +71,26 @@ class LoginFragment: Fragment() {
     override fun onDetach () {
         super.onDetach()
         hideLoading()
-        if (this::m_LoginSubscription.isInitialized)
-            m_LoginSubscription.dispose()
+        if (this::m_LoginCommObj.isInitialized)
+            m_LoginCommObj.disposeSubscription()
     }
 
     override fun onPause() {
         super.onPause()
     }
 
-    fun checkAuthorization(code: Int, jsonErrorString: String?, headrs: Headers, body: LoginResponse?) {
-        if (headrs.get("Authorization") != null) {
-            var authorizationHeader = headrs.get("Authorization")
-            //TODO: should Bearer be removed from token?
-
-            m_MultiplayerRound.setUserData(
-                binding.settingsData!!.m_Username.trim(),
-                binding.settingsData!!.m_Password,
-                authorizationHeader!!
-            )
-            (activity as MainActivity).showSaveCredentialsPopup(binding.settingsData!!.m_Username.trim(),
-                binding.settingsData!!.m_Password,
-            )
-
-        } else {
-            m_LoginErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.loginerror),
-                getString(R.string.unknownerror))
-            m_LoginError = true
-        }
-        finalizeLogin()
+    fun saveCredentials(username: String, password: String, authorizationHeader: String) {
+        m_MultiplayerRound.setUserData(username, password, authorizationHeader)
+        (activity as MainActivity).showSaveCredentialsPopup(username, password)
     }
 
-    fun setLoginError(errorMsg: String) {
-        m_LoginError = true
-        m_LoginErrorString = errorMsg
-        finalizeLogin()
+
+    fun finalizeLoginSuccessful() {
+        (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
     }
 
-    fun finalizeLogin() {
-        if (m_LoginError) {
-            (activity as MainActivity).onWarning(m_LoginErrorString)
-        } else {
-            (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
-        }
+    fun createObservable() : Observable<Response<LoginResponse>> {
+        return m_MultiplayerRound.login(binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password)
     }
 
     fun performLogin() {
@@ -125,24 +98,11 @@ class LoginFragment: Fragment() {
         if (!this::binding.isInitialized)
             return
 
-        m_LoginError = false
-        m_LoginErrorString = ""
+        m_LoginCommObj = LoginCommObj(::hideLoading, ::showLoading, ::createObservable, getString(R.string.loginerror),
+            getString(R.string.unknownerror), binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password,
+            ::validationUsernamePasswordLogin, ::saveCredentials, ::finalizeLoginSuccessful, requireActivity())
 
-        if (!validationUsernamePasswordLogin(binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password)) {
-            finalizeLogin()
-            return
-        }
-
-        var login = m_MultiplayerRound.login(binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password)
-        m_LoginSubscription = login
-            .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { _ -> showLoading() }
-            .doOnTerminate { hideLoading() }
-            .doOnComplete { hideLoading() }
-            .subscribe({data -> checkAuthorization(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
-                , {error -> setLoginError(error.localizedMessage.toString())});
+        m_LoginCommObj.makeRequest()
     }
 
     fun hideShowPassword(buttonView: CompoundButton, isChecked: Boolean) {
@@ -164,7 +124,7 @@ class LoginFragment: Fragment() {
         (activity as MainActivity).stopProgressDialog()
     }
 
-    fun validationUsernamePasswordLogin(username: String, password: String) : Boolean {
+    fun validationUsernamePasswordLogin(username: String, password: String) : String {
         var retString = ""
 
         if (username.length > 30) {
@@ -183,11 +143,6 @@ class LoginFragment: Fragment() {
             retString += " " + getString(R.string.validation_empty_login_password)
         }
 
-        if (!retString.isNullOrEmpty()) {
-            m_LoginError = true
-            m_LoginErrorString = retString
-            return false
-        }
-        return true
+       return retString
     }
 }
