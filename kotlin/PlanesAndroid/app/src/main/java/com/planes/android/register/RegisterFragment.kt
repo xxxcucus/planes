@@ -17,11 +17,15 @@ import com.planes.android.R
 import com.planes.android.Tools
 import com.planes.android.databinding.FragmentRegisterBinding
 import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.commobj.LoginCommObj
+import com.planes.multiplayer_engine.commobj.RegisterCommObj
 import com.planes.multiplayer_engine.responses.ErrorResponse
 import com.planes.multiplayer_engine.responses.RegistrationResponse
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import retrofit2.Response
 import java.util.concurrent.TimeUnit
 
 //TODO to update accordint to google and udemy
@@ -29,10 +33,9 @@ class RegisterFragment: Fragment() {
     private lateinit var binding: FragmentRegisterBinding
     private var m_Username = ""
     private var m_Password = ""
-    private var m_RegisterError = false
-    private var m_RegisterErrorString = ""
+
     private var m_MultiplayerRound = MultiplayerRoundJava()
-    private lateinit var m_RegisterSubscription: Disposable
+    private lateinit var m_RegisterCommObj: RegisterCommObj
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -65,39 +68,25 @@ class RegisterFragment: Fragment() {
     override fun onDetach () {
         super.onDetach()
         hideLoading()
-        if (this::m_RegisterSubscription.isInitialized)
-            m_RegisterSubscription.dispose()
+        if (this::m_RegisterCommObj.isInitialized)
+            m_RegisterCommObj.disposeSubscription()
     }
 
     override fun onPause() {
         super.onPause()
     }
 
-    fun prepareNorobotTest(code: Int, jsonErrorString: String?, body: RegistrationResponse?) {
-
-        if (body != null) {
-            m_MultiplayerRound.setRegistrationResponse(body!!)
-        } else {
-            m_RegisterErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.registererror),
-                getString(R.string.unknownerror))
-            m_RegisterError = true
-        }
-
-        finalizeRegister()
-    }
-
-    fun setRegisterError(errorMsg: String) {
-        m_RegisterError = true
-        m_RegisterErrorString = errorMsg
-        finalizeRegister()
+    fun prepareNorobotTest(body: RegistrationResponse): String {
+        m_MultiplayerRound.setRegistrationResponse(body)
+        return ""
     }
 
     fun finalizeRegister() {
-        if (m_RegisterError) {
-            (activity as MainActivity).onWarning(m_RegisterErrorString)
-        } else {
-            (activity as MainActivity).startNoRobotFragment(m_MultiplayerRound.getRegistrationResponse())
-        }
+        (activity as MainActivity).startNoRobotFragment(m_MultiplayerRound.getRegistrationResponse())
+    }
+
+    fun createObservableRegister() : Observable<Response<RegistrationResponse>> {
+        return m_MultiplayerRound.register(binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password)
     }
 
     fun performRegister() {
@@ -105,24 +94,11 @@ class RegisterFragment: Fragment() {
         if (!this::binding.isInitialized)
             return
 
-        m_RegisterError = false
-        m_RegisterErrorString = ""
+        m_RegisterCommObj = RegisterCommObj(::hideLoading, ::showLoading, ::createObservableRegister, getString(R.string.loginerror),
+            getString(R.string.unknownerror), binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password,
+            ::validationUsernamePasswordRegister, ::prepareNorobotTest, ::finalizeRegister, requireActivity())
 
-        if (!validationUsernamePasswordRegister(binding.settingsData!!.m_Username, binding.settingsData!!.m_Password)) {
-            finalizeRegister()
-            return
-        }
-
-        var register = m_MultiplayerRound.register(binding.settingsData!!.m_Username, binding.settingsData!!.m_Password)
-        m_RegisterSubscription = register
-            .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { _ -> showLoading() }
-            .doOnTerminate { hideLoading() }
-            .doOnComplete { hideLoading() }
-            .subscribe({data -> prepareNorobotTest(data.code(), data.errorBody()?.string(), data.body())}
-                , {error -> setRegisterError(error.localizedMessage.toString())});
+        m_RegisterCommObj.makeRequest()
     }
 
     fun hideShowPassword(buttonView: CompoundButton, isChecked: Boolean) {
@@ -136,6 +112,7 @@ class RegisterFragment: Fragment() {
         binding.invalidateAll()
     }
 
+    //TODO: to move in BasisCommObj
     fun showLoading() {
         (activity as MainActivity).startProgressDialog()
     }
@@ -144,7 +121,7 @@ class RegisterFragment: Fragment() {
         (activity as MainActivity).stopProgressDialog()
     }
 
-    fun validationUsernamePasswordRegister(username: String, password: String) : Boolean {
+    fun validationUsernamePasswordRegister(username: String, password: String) : String {
         var retString = ""
 
         if (username.length > 30) {
@@ -175,11 +152,6 @@ class RegisterFragment: Fragment() {
             retString += " " + getString(R.string.validation_empty_login_password)
         }
 
-        if (!retString.isNullOrEmpty()) {
-            m_RegisterError = true
-            m_RegisterErrorString = retString
-            return false
-        }
-        return true
+        return retString
     }
 }

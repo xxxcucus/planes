@@ -150,7 +150,7 @@ open class BasisCommObj<A>(hideLoading: () -> Unit, showLoading: () -> Unit, wit
         finalizeRequest()
     }
 
-    fun finalizeRequest() {
+    open fun finalizeRequest() {
         m_IsActive = false
 
         if (m_RequestError) {

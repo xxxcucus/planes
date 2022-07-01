@@ -15,11 +15,16 @@ import com.planes.android.MainActivity
 import com.planes.android.R
 import com.planes.android.Tools
 import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.commobj.SimpleRequestCommObj
+import com.planes.multiplayer_engine.commobj.SimpleRequestWithSimpleFinalizeCommObj
 import com.planes.multiplayer_engine.responses.ErrorResponse
 import com.planes.multiplayer_engine.responses.NoRobotResponse
+import com.planes.multiplayer_engine.responses.StartNewRoundResponse
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import retrofit2.Response
 import java.util.concurrent.TimeUnit
 
 class NoRobotFragment : Fragment() {
@@ -33,10 +38,8 @@ class NoRobotFragment : Fragment() {
     private lateinit var m_Selection: Array<Boolean>
 
     private var m_MultiplayerRound = MultiplayerRoundJava()
-    private lateinit var m_NoRobotSubscription: Disposable
+    private lateinit var m_NoRobotCommObj: SimpleRequestWithSimpleFinalizeCommObj<NoRobotResponse>
 
-    private var m_NoRobotError = false
-    private var m_NoRobotErrorString = ""
 
     private var m_ImagesMapping = mapOf("2b36ea33-9c99-46dd-9f80-3bc648881c9b" to R.raw.image1,
         "2e2379c7-cfcf-49a2-b47b-ed8d1a0c353a" to R.raw.image2,
@@ -159,8 +162,8 @@ class NoRobotFragment : Fragment() {
     override fun onDetach () {
         super.onDetach()
         writeToNoRobotSettingsService()
-        if (this::m_NoRobotSubscription.isInitialized)
-            m_NoRobotSubscription.dispose()
+        if (this::m_NoRobotCommObj.isInitialized)
+            m_NoRobotCommObj.disposeSubscription()
     }
 
 
@@ -178,11 +181,7 @@ class NoRobotFragment : Fragment() {
         (activity as MainActivity).setNorobotSettings(m_RequestId, m_Images, m_Question, m_Selection)
     }
 
-    private fun sendNoRobotData() {
-
-        m_NoRobotError = false;
-        m_NoRobotErrorString = "";
-
+    fun createObservableNoRobot() : Observable<Response<NoRobotResponse>> {
         m_Selection = m_PhotosList.map {
                 photo -> photo.m_Selected
         }.toTypedArray()
@@ -191,49 +190,25 @@ class NoRobotFragment : Fragment() {
         for (i in 0 until m_Selection.size) {
             answer += if (m_Selection.get(i)) "1" else "0"
         }
-        var norobot = m_MultiplayerRound.norobot(m_RequestId, answer)
-        m_NoRobotSubscription = norobot
-            .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { _ -> showLoading() }
-            .doOnTerminate { hideLoading() }
-            .doOnComplete { hideLoading() }
-            .subscribe({data -> treatNoRobotResult(data.code(), data.errorBody()?.string(), data.body())}
-                , {error -> setNoRobotError(error.localizedMessage.toString())});
+        return m_MultiplayerRound.norobot(m_RequestId, answer)
+    }
+
+    private fun sendNoRobotData() {
+
+        m_NoRobotCommObj = SimpleRequestWithSimpleFinalizeCommObj<NoRobotResponse>(::hideLoading, ::showLoading, ::createObservableNoRobot,
+            getString(R.string.registererror), getString(R.string.unknownerror),  getString(R.string.norobot_success), requireActivity())
+
+        m_NoRobotCommObj.makeRequest()
 
     }
 
-
+    //TODO: to add to BasisCommObj
     fun showLoading() {
         (activity as MainActivity).startProgressDialog()
     }
 
     fun hideLoading() {
         (activity as MainActivity).stopProgressDialog()
-    }
-
-    fun treatNoRobotResult(code: Int, jsonErrorString: String?, body: NoRobotResponse?) {
-
-        if (body == null)  {
-            m_NoRobotErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.registererror),
-                getString(R.string.unknownerror))
-            m_NoRobotError = true
-        }
-
-
-        finalizeRegister()
-    }
-
-    fun setNoRobotError(errorMsg: String) {
-        m_NoRobotError = true
-        m_NoRobotErrorString = errorMsg
-        finalizeRegister()
-    }
-
-    fun finalizeRegister() {
-        (activity as MainActivity).startRegistrationFragment(m_NoRobotError,
-            if (m_NoRobotError) m_NoRobotErrorString else getString(R.string.norobot_success))
     }
 
 }
