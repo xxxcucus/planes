@@ -20,7 +20,7 @@ open class BasisCommObj<A>(hideLoading: () -> Unit, showLoading: () -> Unit, wit
         withCredentials: Boolean, username: String, password: String, userPasswordValidation: (String, String) -> String,
         doWhenSuccess: (A) -> String,
         checkAuthorization: Boolean, saveCredentials: (String, String, String) -> Unit,
-        finalizeRequestSuccessful: () -> Unit, activity: FragmentActivity) {
+        finalizeRequestSuccessful: () -> Unit, finalizeRequestError: () -> Unit, activity: FragmentActivity) {
 
     protected lateinit var m_RetrofitSubscription: Disposable
     protected var m_PlaneRound: MultiplayerRoundInterface
@@ -48,6 +48,7 @@ open class BasisCommObj<A>(hideLoading: () -> Unit, showLoading: () -> Unit, wit
     protected var m_SaveCredentials: (String, String, String) -> Unit
 
     protected var m_FinalizeRequestSuccessful: () -> Unit
+    protected var m_FinalizeRequestError: () -> Unit
     protected var m_DoWhenSuccess: (A) -> String
 
     protected var m_MainActivity: FragmentActivity
@@ -74,6 +75,7 @@ open class BasisCommObj<A>(hideLoading: () -> Unit, showLoading: () -> Unit, wit
         m_SaveCredentials = saveCredentials
 
         m_FinalizeRequestSuccessful = finalizeRequestSuccessful
+        m_FinalizeRequestError = finalizeRequestError
         m_DoWhenSuccess = doWhenSuccess
         m_MainActivity = activity
     }
@@ -153,6 +155,7 @@ open class BasisCommObj<A>(hideLoading: () -> Unit, showLoading: () -> Unit, wit
 
         if (m_RequestError) {
             (m_MainActivity as MainActivity).onWarning(m_RequestErrorString)
+            m_FinalizeRequestError()
         } else {
             m_FinalizeRequestSuccessful()
         }

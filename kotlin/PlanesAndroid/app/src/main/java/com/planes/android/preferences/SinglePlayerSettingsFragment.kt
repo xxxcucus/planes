@@ -13,6 +13,9 @@ import com.planes.android.MainActivity
 import com.planes.android.R
 import com.planes.android.databinding.FragmentOptionsSingleBinding
 import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.commobj.SimpleRequestCommObj
+import com.planes.multiplayer_engine.commobj.SimpleRequestWithoutCredentialsCommObj
+import com.planes.multiplayer_engine.responses.StartNewRoundResponse
 import com.planes.multiplayer_engine.responses.VersionResponse
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -29,9 +32,8 @@ class SinglePlayerSettingsFragment : Fragment() {
     private var m_PreferencesService = SinglePlayerPreferencesServiceGlobal()
     private var m_MainPreferencesService = MainPreferencesServiceGlobal()
     private var m_MultiplayerRound = MultiplayerRoundJava()
-    private var m_VersionError = false
-    private var m_VersionErrorString = ""
-    private lateinit var m_VerifyVersionSubscription: Disposable
+
+    private lateinit var m_VerifyVersionCommObj: SimpleRequestWithoutCredentialsCommObj<VersionResponse>
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -64,14 +66,15 @@ class SinglePlayerSettingsFragment : Fragment() {
     override fun onDetach () {
         super.onDetach()
         //TODO: move this in OnDestroy?
-        if (this::m_VerifyVersionSubscription.isInitialized)
-            m_VerifyVersionSubscription.dispose()
+        if (this::m_VerifyVersionCommObj.isInitialized)
+            m_VerifyVersionCommObj.disposeSubscription()
     }
 
     override fun onPause() {
         super.onPause()
     }
 
+    //TODO: to move in BasisCommObj
     fun showLoading() {
         (activity as MainActivity).startProgressDialog()
     }
@@ -80,31 +83,28 @@ class SinglePlayerSettingsFragment : Fragment() {
         (activity as MainActivity).stopProgressDialog()
     }
 
-    fun checkServerVersion(versionString: String) {
-        if (versionString != m_MainPreferencesService.serverVersion) {
-            m_VersionError = true
-            m_VersionErrorString = getString(R.string.server_version_error)
+    fun checkServerVersion(body: VersionResponse): String {
+        var errorString = ""
+        if (body.m_VersionString != m_MainPreferencesService.serverVersion) {
+            errorString = getString(R.string.server_version_error)
         }
 
-        finalizeSaving()
+        return errorString
     }
 
-    fun setVersionError(errorMsg: String) {
-        m_VersionError = true
-        m_VersionErrorString = errorMsg
-        finalizeSaving()
+
+    fun finalizeSavingSuccessful() {
+        m_MainPreferencesService.multiplayerVersion = true
+        (activity as MainActivity).restartPreferencesFragment()
     }
 
-    fun finalizeSaving() {
-        hideLoading()
-        if (!m_VersionError) {
-            m_MainPreferencesService.multiplayerVersion = true
-            (activity as MainActivity).restartPreferencesFragment()
-        } else {
-            (activity as MainActivity).onWarning(m_VersionErrorString)
-            binding.settingsData!!.m_MultiplayerVersion = false
-            binding.invalidateAll()
-        }
+    fun finalizeSavingError() {
+        binding.settingsData!!.m_MultiplayerVersion = false
+        binding.invalidateAll()
+    }
+
+    fun createObservableVerifyVersion() : Observable<Response<VersionResponse>> {
+        return m_MultiplayerRound.testServerVersion()
     }
 
     fun writeToPreferencesService() {
@@ -128,20 +128,13 @@ class SinglePlayerSettingsFragment : Fragment() {
         if (!this::binding.isInitialized)
             return
 
-        m_VersionError = false
-        m_VersionErrorString = ""
 
         if (binding.settingsData!!.m_MultiplayerVersion) {
-            var verifyVersion = m_MultiplayerRound.testServerVersion()
-            m_VerifyVersionSubscription = verifyVersion
-                .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _ -> showLoading() }
-                .doOnTerminate { hideLoading() }
-                .doOnComplete { hideLoading() }
-                .subscribe({data -> checkServerVersion(data.body()!!.m_VersionString)}
-                , {error -> setVersionError(error.localizedMessage.toString())});
+            m_VerifyVersionCommObj = SimpleRequestWithoutCredentialsCommObj<VersionResponse>(::hideLoading, ::showLoading, ::createObservableVerifyVersion,
+                getString(R.string.version_error), getString(R.string.unknownerror), ::checkServerVersion, ::finalizeSavingSuccessful,
+                ::finalizeSavingError, requireActivity())
+
+            m_VerifyVersionCommObj.makeRequest()
         }
 
         if (!(activity as MainActivity).setSinglePlayerOptions(
@@ -153,6 +146,5 @@ class SinglePlayerSettingsFragment : Fragment() {
             binding.settingsData!!.m_ShowPlaneAfterKill = m_InitialShowPlaneAfterKill
             binding.invalidateAll()
         }
-
     }
 }

@@ -10,6 +10,7 @@ class SimpleRequestCommObj<A>(hideLoading: () -> Unit, showLoading: () -> Unit,
                            finalizeRequestSuccessful: () -> Unit, activity: FragmentActivity):
         BasisCommObj<A>(hideLoading, showLoading, true, createObservable, errorStrg, unknownError, true, true,
             errorStrgNotLoggedIn, errorStrgNotConnected, false, "", "",
-            {  a: String, b: String -> a }, doWhenSuccess, false, { a: String, b: String, c: String -> {} }, finalizeRequestSuccessful, activity )
+            {  a: String, b: String -> a }, doWhenSuccess, false, { a: String, b: String, c: String -> {} }, finalizeRequestSuccessful,
+            { -> {} }, activity )
 {
 }
