@@ -18,6 +18,7 @@ open class BasisCommObj<A>(hideLoading: () -> Unit, showLoading: () -> Unit, wit
         createObservable: () -> Observable<Response<A>>, errorStrg: String, unknownError: String, shouldBeLoggedIn: Boolean,
         shouldBeConnectedToGame: Boolean, errorStrgNotLoggedIn: String, errorStrgNotConnected: String,
         withCredentials: Boolean, username: String, password: String, userPasswordValidation: (String, String) -> String,
+        doWhenSuccess: (A) -> String,
         checkAuthorization: Boolean, saveCredentials: (String, String, String) -> Unit,
         finalizeRequestSuccessful: () -> Unit, activity: FragmentActivity) {
 
@@ -47,6 +48,7 @@ open class BasisCommObj<A>(hideLoading: () -> Unit, showLoading: () -> Unit, wit
     protected var m_SaveCredentials: (String, String, String) -> Unit
 
     protected var m_FinalizeRequestSuccessful: () -> Unit
+    protected var m_DoWhenSuccess: (A) -> String
 
     protected var m_MainActivity: FragmentActivity
 
@@ -72,6 +74,7 @@ open class BasisCommObj<A>(hideLoading: () -> Unit, showLoading: () -> Unit, wit
         m_SaveCredentials = saveCredentials
 
         m_FinalizeRequestSuccessful = finalizeRequestSuccessful
+        m_DoWhenSuccess = doWhenSuccess
         m_MainActivity = activity
     }
 
@@ -113,7 +116,11 @@ open class BasisCommObj<A>(hideLoading: () -> Unit, showLoading: () -> Unit, wit
 
     private fun finishedRequestBody(code: Int, jsonErrorString: String?, headrs: Headers, body: A?) {
         if (body != null) {
-            //TODO: check that it is the same round id
+            var errorStrg = m_DoWhenSuccess(body!!)
+            if (!errorStrg.isNullOrEmpty()) {
+                m_RequestError = true
+                m_RequestErrorString = errorStrg
+            }
         } else {
             m_RequestErrorString = Tools.parseJsonError(jsonErrorString, m_GenericErrorString, m_UnknownErrorString)
             m_RequestError = true

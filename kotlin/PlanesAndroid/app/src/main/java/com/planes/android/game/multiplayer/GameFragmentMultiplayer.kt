@@ -14,6 +14,8 @@ import com.planes.android.*
 import com.planes.android.customviews.*
 import com.planes.android.game.singleplayer.*
 import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.commobj.SimpleRequestCommObj
+import com.planes.multiplayer_engine.commobj.SimpleRequestWithoutLoadingCommObj
 import com.planes.multiplayer_engine.requests.AcquireOpponentPositionsRequest
 import com.planes.multiplayer_engine.requests.SendNotSentMovesRequest
 import com.planes.multiplayer_engine.requests.SendPlanePositionsRequest
@@ -33,17 +35,17 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     private lateinit var m_GameBoards: GameBoardsAdapterMultiplayer
     private lateinit var m_GameControls: GameControlsAdapterMultiplayer
     private lateinit var m_PlanesLayout: PlanesVerticalLayoutMultiplayer
-    private lateinit var m_DonePositioningSubscription: Disposable
-    private lateinit var m_PollOpponentPositionsSubscription: Disposable
-    private lateinit var m_SendMoveSubscription: Disposable
-    private lateinit var m_PollOpponentMovesSubscription: Disposable
-    private lateinit var m_SendWinnerSubscription: Disposable
-    private lateinit var m_CancelRoundSubscription: Disposable
-    private lateinit var m_StartNewRoundSubscription: Disposable
-    private lateinit var m_Context: Context
 
-    private var m_SendPlanePositionsError: Boolean = false
-    private var m_SendPlanePositionsErrorString: String = ""
+    private lateinit var m_DonePositioningCommObj: SimpleRequestCommObj<SendPlanePositionsResponse>
+    private lateinit var m_CancelRoundCommObj: SimpleRequestCommObj<CancelRoundResponse>
+    private lateinit var m_SendMoveCommObj: SimpleRequestWithoutLoadingCommObj<SendNotSentMovesResponse>
+    private lateinit var m_SendWinnerCommObj: SimpleRequestCommObj<SendWinnerResponse>
+    private lateinit var m_StartNewRoundCommObj: SimpleRequestCommObj<StartNewRoundResponse>
+
+    private lateinit var m_PollOpponentPositionsSubscription: Disposable
+    private lateinit var m_PollOpponentMovesSubscription: Disposable
+
+    private lateinit var m_Context: Context
 
     private var m_ReceiveOpponentPlanePositionsError: Boolean = false
     private var m_ReceiveOpponentPlanePositionsErrorString: String = ""
@@ -51,18 +53,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     private var m_ReceiveOpponentMovesError: Boolean = false
     private var m_ReceiveOpponentMovesErrorString: String = ""
 
-    private var m_SendWinnerError: Boolean = false
-    private var m_SendWinnerErrorString: String = ""
-
-    private var m_SendMoveError: Boolean = false
-    private var m_SendMoveErrorString: String = ""
-    private var m_SendingMove: Boolean = false
-
-    private var m_CancelRoundError: Boolean = false
-    private var m_CancelRoundErrorString: String = ""
-
-    private var m_StartNewGameError: Boolean = false
-    private var m_StartNewGameErrorString: String = ""
+    private var m_Draw: Boolean = false
+    private var m_WinnerId: Long = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -190,22 +182,19 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     }
 
     fun disposeAllSubscriptions() {
-        if (this::m_DonePositioningSubscription.isInitialized)
-            m_DonePositioningSubscription.dispose()
-        if (this::m_PollOpponentPositionsSubscription.isInitialized)
-            m_PollOpponentPositionsSubscription.dispose()
-        if (this::m_SendWinnerSubscription.isInitialized)
-            m_SendWinnerSubscription.dispose()
-        if (this::m_SendMoveSubscription.isInitialized)
-            m_SendMoveSubscription.dispose()
-        if (this::m_CancelRoundSubscription.isInitialized)
-            m_CancelRoundSubscription.dispose()
-        if (this::m_PollOpponentMovesSubscription.isInitialized) {
-            m_PollOpponentMovesSubscription.dispose()
+        if (this::m_DonePositioningCommObj.isInitialized)
+            m_DonePositioningCommObj.disposeSubscription()
+        if (this::m_SendWinnerCommObj.isInitialized)
+            m_SendWinnerCommObj.disposeSubscription()
+        if (this::m_SendMoveCommObj.isInitialized)
+            m_SendMoveCommObj.disposeSubscription()
+        if (this::m_CancelRoundCommObj.isInitialized)
+            m_CancelRoundCommObj.disposeSubscription()
+        if (this::m_StartNewRoundCommObj.isInitialized) {
+            m_StartNewRoundCommObj.disposeSubscription()
         }
-        if (this::m_StartNewRoundSubscription.isInitialized) {
-            m_StartNewRoundSubscription.dispose()
-        }
+
+        disposeAllPollingSubscriptions()
         hideLoading()
     }
 
@@ -231,38 +220,17 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     }
 
     //region BoardEditing
-    fun doneClicked() {
-        m_SendPlanePositionsError = false
-        m_SendPlanePositionsErrorString = ""
 
-        if (!userLoggedIn()) {
-            finalizeSendPlanePositions()
-            return
-        }
-
-        if (!connectedToGame()) {
-            finalizeSendPlanePositions()
-            return
-        }
-
+    //region DoneClicked
+    fun createObservableDoneClicked(): Observable<Response<SendPlanePositionsResponse>> {
         var plane1 = m_PlaneRound.getPlayerPlaneNo(0)
         var plane2 = m_PlaneRound.getPlayerPlaneNo(1)
         var plane3 = m_PlaneRound.getPlayerPlaneNo(2)
 
         var sendPlanePositionsRequest = buildPlanePositionsRequest(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId(), m_PlaneRound.getUserId(),
-                    m_PlaneRound.getOpponentId(), plane1, plane2, plane3)
+            m_PlaneRound.getOpponentId(), plane1, plane2, plane3)
 
-        var sendPlanePositions = m_PlaneRound.sendPlanePositions(sendPlanePositionsRequest)
-        m_DonePositioningSubscription = sendPlanePositions
-            .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { _ -> showLoading() }
-            .doOnTerminate { hideLoading() }
-            .doOnComplete { hideLoading() }
-            .subscribe({data -> receivedOpponentPlanePositions(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
-                , {error -> setSendPlanePositionsError(error.localizedMessage.toString())});
-
+        return m_PlaneRound.sendPlanePositions(sendPlanePositionsRequest)
     }
 
     private fun buildPlanePositionsRequest(
@@ -274,101 +242,76 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     }
 
-    //TODO: to make work for all error variables and move to MultiplayerRound
-    fun userLoggedIn(): Boolean {
-        if (!m_PlaneRound.isUserLoggedIn()) {
-            m_SendPlanePositionsError = true
-            m_SendPlanePositionsErrorString = getString(R.string.validation_user_not_loggedin)
-            return false
-        }
-        return true
-    }
+    fun doneClicked() {
 
-    fun connectedToGame(): Boolean {
-        if (!m_PlaneRound.isUserConnectedToGame()) {
-            m_SendPlanePositionsError = true
-            m_SendPlanePositionsErrorString = getString(R.string.validation_not_connected_to_game)
-            return false
-        }
-        return true
+        m_DonePositioningCommObj = SimpleRequestCommObj<SendPlanePositionsResponse>(::hideLoading, ::showLoading, ::createObservableDoneClicked,
+            getString(R.string.sendplanepositions_error), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
+                getString(R.string.validation_not_connected_to_game), ::receivedOpponentPlanePositions, ::finalizeSendPlanePositions, requireActivity())
+
+        m_DonePositioningCommObj.makeRequest()
     }
 
     fun finalizeSendPlanePositions() {
-        if (m_SendPlanePositionsError) {
-            (activity as MainActivity).onWarning(m_SendPlanePositionsErrorString)
-        } else {
-            if (m_PlaneRound.getGameStage() == GameStages.Game.value) {  //plane positions where received
-                disposeAllPollingSubscriptions()
-                reinitializeFromState()
-            } else if (m_PlaneRound.getGameStage() == GameStages.WaitForOpponentPlanesPositions.value){
-                m_GameControls.setBoardEditingStage(true)
-                pollForOpponentPlanesPositions()
-            } else if (m_PlaneRound.getGameStage() == GameStages.GameNotStarted.value){
-                disposeAllSubscriptions()
-                reinitializeFromState()
-            }
+        if (m_PlaneRound.getGameStage() == GameStages.Game.value) {  //plane positions where received
+            disposeAllPollingSubscriptions()
+            reinitializeFromState()
+        } else if (m_PlaneRound.getGameStage() == GameStages.WaitForOpponentPlanesPositions.value) {
+            m_GameControls.setBoardEditingStage(true)
+            pollForOpponentPlanesPositions()
+        } else if (m_PlaneRound.getGameStage() == GameStages.GameNotStarted.value) {
+            disposeAllSubscriptions()
+            reinitializeFromState()
         }
     }
 
-    fun setSendPlanePositionsError(errorMsg: String) {
-        m_SendPlanePositionsError = true
-        m_SendPlanePositionsErrorString = errorMsg
-        finalizeSendPlanePositions()
-    }
+    fun receivedOpponentPlanePositions(body: SendPlanePositionsResponse): String {
+        var errorStrg = ""
 
-    fun receivedOpponentPlanePositions(code: Int, jsonErrorString: String?, headrs: Headers, body: SendPlanePositionsResponse?) {
-        if (body != null)  {
+        if (body.m_Cancelled) {
+            m_PlaneRound.cancelRound()
+            m_GameControls.roundEnds(false, false, true)
+            Tools.displayToast(getString(R.string.roundcancelled_opponent), m_Context)
+            finalizeSendPlanePositions()
+            return errorStrg
+        }
 
-            if (body!!.m_Cancelled) {
-                m_PlaneRound.cancelRound()
-                m_GameControls.roundEnds(false, false, true)
-                Tools.displayToast(getString(R.string.roundcancelled_opponent), m_Context)
-                finalizeSendPlanePositions()
-                return
+        var otherPositionsExist = body!!.m_OtherExist
+
+        if (otherPositionsExist) {
+
+            var plane1_x = body.m_Plane1X
+            var plane1_y = body.m_Plane1Y
+            var plane2_x = body.m_Plane2X
+            var plane2_y = body.m_Plane2Y
+            var plane3_x = body.m_Plane3X
+            var plane3_y = body.m_Plane3Y
+            var plane1_orient = Orientation.EastWest
+            var plane2_orient = Orientation.NorthSouth
+            var plane3_orient = Orientation.NorthSouth
+
+            try {
+                plane1_orient = Orientation.fromInt(body.m_Plane1Orient)
+                plane2_orient = Orientation.fromInt(body.m_Plane2Orient)
+                plane3_orient = Orientation.fromInt(body.m_Plane3Orient)
+            } catch(e: NoSuchElementException) {
+                errorStrg = getString(R.string.invalid_plane_orientation)
             }
 
-            var otherPositionsExist = body!!.m_OtherExist
+            var setOk = m_PlaneRound.setComputerPlanes(plane1_x, plane1_y, plane1_orient, plane2_x, plane2_y, plane2_orient,
+                    plane3_x, plane3_y, plane3_orient)
 
-            if (otherPositionsExist) {
-
-                var plane1_x = body!!.m_Plane1X
-                var plane1_y = body!!.m_Plane1Y
-                var plane2_x = body!!.m_Plane2X
-                var plane2_y = body!!.m_Plane2Y
-                var plane3_x = body!!.m_Plane3X
-                var plane3_y = body!!.m_Plane3Y
-                var plane1_orient = Orientation.EastWest
-                var plane2_orient = Orientation.NorthSouth
-                var plane3_orient = Orientation.NorthSouth
-
-                try {
-                    plane1_orient = Orientation.fromInt(body!!.m_Plane1Orient)
-                    plane2_orient = Orientation.fromInt(body!!.m_Plane2Orient)
-                    plane3_orient = Orientation.fromInt(body!!.m_Plane3Orient)
-                } catch(e: NoSuchElementException) {
-                    m_SendPlanePositionsError = true
-                    m_SendPlanePositionsErrorString = getString(R.string.invalid_plane_orientation)
-                }
-
-                var setOk = m_PlaneRound.setComputerPlanes(plane1_x, plane1_y, plane1_orient, plane2_x, plane2_y, plane2_orient,
-                        plane3_x, plane3_y, plane3_orient)
-
-                if (!setOk) {
-                    m_SendPlanePositionsError = true
-                    m_SendPlanePositionsErrorString = getString(R.string.error_init_opponent_board)
-                } else {
-                    Tools.displayToast(getString(R.string.plane_positions_received), m_Context)
-                }
+            if (!setOk) {
+                errorStrg = getString(R.string.error_init_opponent_board)
             } else {
-                m_PlaneRound.setGameStage(GameStages.WaitForOpponentPlanesPositions)
+                Tools.displayToast(getString(R.string.plane_positions_received), m_Context)
             }
         } else {
-            m_SendPlanePositionsErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.sendplanepositions_error),
-                getString(R.string.unknownerror))
-            m_SendPlanePositionsError = true
+            m_PlaneRound.setGameStage(GameStages.WaitForOpponentPlanesPositions)
         }
-        finalizeSendPlanePositions()
+        return errorStrg
     }
+
+    //endregion DoneClicked
 
     fun pollForOpponentPlanesPositions() {
         m_ReceiveOpponentPlanePositionsError = false
@@ -470,157 +413,64 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     //region CancelRound
 
+    fun createObservableCancelRound() : Observable<Response<CancelRoundResponse>> {
+        return m_PlaneRound.cancelRound(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId())
+    }
     fun cancelRound() {
-        m_CancelRoundError = false
-        m_CancelRoundErrorString = ""
+        m_CancelRoundCommObj = SimpleRequestCommObj<CancelRoundResponse>(::hideLoading, ::showLoading, ::createObservableCancelRound,
+            getString(R.string.error_cancelround), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
+            getString(R.string.validation_not_connected_to_game), { a : CancelRoundResponse -> "" }, ::finalizeCancelRound, requireActivity())
 
-        if (!userLoggedIn()) {
-            finalizeCancelRound()
-            return
-        }
-
-        if (!connectedToGame()) {
-            finalizeCancelRound()
-            return
-        }
-
-        var cancelRound = m_PlaneRound.cancelRound(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId())
-        m_CancelRoundSubscription = cancelRound
-            .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { _ -> showLoading() }
-            .doOnTerminate { hideLoading() }
-            .doOnComplete { hideLoading() }
-            .subscribe({data -> receivedCancelRoundConfirmation(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
-                , {error -> setCancelRoundError(error.localizedMessage.toString())});
+        m_CancelRoundCommObj.makeRequest()
     }
 
     fun finalizeCancelRound() {
-        if (m_CancelRoundError) {
-            (activity as MainActivity).onWarning(m_CancelRoundErrorString)
-        } else {
-            m_PlaneRound.cancelRound()
-            m_GameControls.roundEnds(false, false, true)
-            disposeAllSubscriptions()
-            reinitializeFromState()
-            //TODO dispose polling for opponent moves
-        }
+        m_PlaneRound.cancelRound()
+        m_GameControls.roundEnds(false, false, true)
+        disposeAllSubscriptions()
+        reinitializeFromState()
+        //TODO dispose polling for opponent moves
     }
-
-    fun setCancelRoundError(errorMsg: String) {
-        m_CancelRoundError = true
-        m_CancelRoundErrorString = errorMsg
-        finalizeCancelRound()
-    }
-
-    fun receivedCancelRoundConfirmation(code: Int, jsonErrorString: String?, headrs: Headers, body: CancelRoundResponse?) {
-        if (body != null)  {
-
-        } else {
-            m_CancelRoundErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.error_cancelround),
-                getString(R.string.unknownerror))
-            m_CancelRoundError = true
-        }
-        finalizeCancelRound()
-    }
-
     //endregion CancelRound
 
     //region Game
+
+    //region SendWinner
+
+    fun createObservableSendWinner(): Observable<Response<SendWinnerResponse>> {
+        return m_PlaneRound.sendWinner(m_Draw, m_WinnerId)
+    }
+
     override fun sendWinner(draw: Boolean, winnerId: Long) {
         if (this::m_PollOpponentMovesSubscription.isInitialized) {
             m_PollOpponentMovesSubscription.dispose()
         }
 
-        m_SendWinnerError = false
-        m_SendWinnerErrorString = ""
+        m_Draw = draw
+        m_WinnerId = winnerId
 
-        if (!userLoggedIn()) {
-            finalizeSendWinner()
-            return
-        }
+        m_SendWinnerCommObj = SimpleRequestCommObj<SendWinnerResponse>(::hideLoading, ::showLoading, ::createObservableSendWinner,
+            getString(R.string.sendwinner_error), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
+            getString(R.string.validation_not_connected_to_game), { a : SendWinnerResponse -> "" }, ::finalizeSendWinner, requireActivity())
 
-        if (!connectedToGame()) {
-            finalizeSendWinner()
-            return
-        }
-
-        var sendWinner = m_PlaneRound.sendWinner(draw, winnerId)
-        m_SendWinnerSubscription = sendWinner
-            .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { _ -> showLoading() }
-            .doOnTerminate { hideLoading() }
-            .doOnComplete { hideLoading() }
-            .subscribe({data -> receivedSendWinnerResponse(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
-                , {error -> setSendWinnerError(error.localizedMessage.toString())});
+        m_SendWinnerCommObj.makeRequest()
 
     }
 
     fun finalizeSendWinner() {
-        if (m_SendWinnerError) {
-            (activity as MainActivity).onWarning(m_SendPlanePositionsErrorString)
-        } else {
-            m_PlaneRound.setGameStage(GameStages.GameNotStarted)
-            m_GameControls.roundEnds(!m_PlaneRound.playerGuess_IsPlayerWinner(), m_PlaneRound.playerGuess_IsDraw())
-        }
+        m_PlaneRound.setGameStage(GameStages.GameNotStarted)
+        m_GameControls.roundEnds(!m_PlaneRound.playerGuess_IsPlayerWinner(), m_PlaneRound.playerGuess_IsDraw())
     }
 
-    fun setSendWinnerError(errorMsg: String) {
-        m_SendWinnerError = true
-        m_SendWinnerErrorString = errorMsg
-        finalizeSendWinner()
-    }
+    //endregion SendWinner
 
-    fun receivedSendWinnerResponse(code: Int, jsonErrorString: String?, headrs: Headers, body: SendWinnerResponse?) {
-        if (body != null) {
-            //TODO: check that it is the same round id
-        } else {
-            m_SendWinnerErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.sendwinner_error),
-                getString(R.string.unknownerror))
-            m_SendWinnerError = true
-        }
-        finalizeSendWinner()
-    }
+    //region SendMove
 
-
-    override fun sendMove(gp: GuessPoint, playerMoveIndex: Int) {
-
-        m_PlaneRound.addToNotSentMoves(playerMoveIndex)
-        if (this::m_SendMoveSubscription.isInitialized) {
-            if (m_SendingMove) {
-                return  //currently sending another move
-            }
-        }
-
-        m_SendingMove = true;
-        m_SendMoveError = false
-        m_SendMoveErrorString = ""
-
-        if (!userLoggedIn()) {
-            finalizeSendMove()
-            return
-        }
-
-        if (!connectedToGame()) {
-            finalizeSendMove()
-            return
-        }
-
-        m_PlaneRound.saveNotSentMoves()
-
+    fun createObservableSendMove() : Observable<Response<SendNotSentMovesResponse>> {
         var sendMoveRequest = buildSendMoveRequest(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId(), m_PlaneRound.getUserId(),
             m_PlaneRound.getOpponentId())
 
-        var sendMove = m_PlaneRound.sendMove(sendMoveRequest)
-        m_SendMoveSubscription = sendMove
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({data -> receivedSendMoveResponse(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
-                , {error -> setSendMoveError(error.localizedMessage.toString())});
-
+        return m_PlaneRound.sendMove(sendMoveRequest)
     }
 
     fun buildSendMoveRequest(gameId: Long, roundId: Long, userId: Long, opponentId: Long): SendNotSentMovesRequest {
@@ -628,52 +478,56 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         var notSentMoves = m_PlaneRound.prepareNotSentMoves()
 
         return SendNotSentMovesRequest(gameId.toString(), roundId.toString(), userId.toString(), opponentId.toString(), receivedMovesData.second,
-                    notSentMoves, receivedMovesData.first)
+            notSentMoves, receivedMovesData.first)
+    }
+
+    override fun sendMove(gp: GuessPoint, playerMoveIndex: Int) {
+
+        m_PlaneRound.addToNotSentMoves(playerMoveIndex)
+        if (this::m_SendMoveCommObj.isInitialized) {
+            if (m_SendMoveCommObj.isActive()) {
+                return  //currently sending another move
+            }
+        }
+        m_PlaneRound.saveNotSentMoves()
+
+        m_SendMoveCommObj = SimpleRequestWithoutLoadingCommObj<SendNotSentMovesResponse>(::createObservableSendMove,
+            getString(R.string.sendmove_error), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
+            getString(R.string.validation_not_connected_to_game), ::receivedSendMoveResponse, ::finalizeSendMove, requireActivity())
+
+        m_SendMoveCommObj.makeRequest()
     }
 
     fun finalizeSendMove() {
-        if (m_SendMoveError) {
-            (activity as MainActivity).onWarning(m_SendMoveErrorString)
-        } else if (m_PlaneRound.getGameStage() == GameStages.GameNotStarted.value) {
-            disposeAllSubscriptions()
-            reinitializeFromState()
-        }
-        m_SendingMove = false
+         if (m_PlaneRound.getGameStage() == GameStages.GameNotStarted.value) {
+             disposeAllSubscriptions()
+             reinitializeFromState()
+         }
     }
 
-    fun setSendMoveError(errorMsg: String) {
-        m_SendMoveError = true
-        m_SendMoveErrorString = errorMsg
-        finalizeSendMove()
-    }
-
-    fun receivedSendMoveResponse(code: Int, jsonErrorString: String?, headrs: Headers, body: SendNotSentMovesResponse?) {
-        if (body != null)  {
-            if (body!!.m_Cancelled) {
-                m_PlaneRound.cancelRound()
-                m_GameControls.roundEnds(false, false, true)
-                Tools.displayToast(getString(R.string.roundcancelled_opponent), m_Context)
+    fun receivedSendMoveResponse(body: SendNotSentMovesResponse) : String{
+        if (body.m_Cancelled) {
+            m_PlaneRound.cancelRound()
+            m_GameControls.roundEnds(false, false, true)
+            Tools.displayToast(getString(R.string.roundcancelled_opponent), m_Context)
+        } else {
+            if (m_PlaneRound.getGameStage() == GameStages.GameNotStarted.value) { //TODO: what is this for ?
+                reinitializeFromState()
             } else {
-                if (m_PlaneRound.getGameStage() == GameStages.GameNotStarted.value) { //TODO: what is this for ?
-                    reinitializeFromState()
-                } else {
-                    m_PlaneRound.deleteFromNotSentList()
-                    for (move in body!!.m_ListMoves) {
-                        var gp = GuessPoint(move.m_MoveX, move.m_MoveY)
-                        var moveIdx = move.m_MoveIndex
-                        if (!m_PlaneRound.moveAlreadyReceived(moveIdx)) {
-                            m_PlaneRound.addOpponentMove(gp, moveIdx)
-                        }
+                m_PlaneRound.deleteFromNotSentList()
+                for (move in body.m_ListMoves) {
+                    var gp = GuessPoint(move.m_MoveX, move.m_MoveY)
+                    var moveIdx = move.m_MoveIndex
+                    if (!m_PlaneRound.moveAlreadyReceived(moveIdx)) {
+                        m_PlaneRound.addOpponentMove(gp, moveIdx)
                     }
                 }
             }
-        } else {
-            m_SendMoveErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.sendmove_error),
-                getString(R.string.unknownerror))
-            m_SendMoveError = true
         }
-        finalizeSendMove()
+        return ""
     }
+
+    //endregion SendMove
 
     override fun pollForOpponentMoves() {
         m_ReceiveOpponentMovesError = false
@@ -754,62 +608,33 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     //region StartNewGame
 
+    fun createObservableStartNewGame() : Observable<Response<StartNewRoundResponse>> {
+        return m_PlaneRound.startNewRound(m_PlaneRound.getGameId(), m_PlaneRound.getUserId(), m_PlaneRound.getOpponentId())
+    }
+
     fun startNewGame() {
-        m_StartNewGameError = false
-        m_StartNewGameErrorString = ""
+        m_StartNewRoundCommObj = SimpleRequestCommObj<StartNewRoundResponse>(::hideLoading, ::showLoading, ::createObservableStartNewGame,
+            getString(R.string.error_startnewround), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
+            getString(R.string.validation_not_connected_to_game), ::receivedStartNewRoundResponse, ::finalizeStartNewRound, requireActivity())
 
-        if (!userLoggedIn()) {
-            finalizeStartNewRound()
-            return
-        }
-
-        if (!connectedToGame()) {
-            finalizeStartNewRound()
-            return
-        }
-
-        var startNewRound = m_PlaneRound.startNewRound(m_PlaneRound.getGameId(), m_PlaneRound.getUserId(), m_PlaneRound.getOpponentId())
-        m_StartNewRoundSubscription = startNewRound
-            .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { _ -> showLoading() }
-            .doOnTerminate { hideLoading() }
-            .doOnComplete { hideLoading() }
-            .subscribe({data -> receivedStartNewRoundResponse(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
-                , {error -> setStartNewRoundError(error.localizedMessage.toString())});
-
+        m_StartNewRoundCommObj.makeRequest()
     }
 
     fun finalizeStartNewRound() {
-        if (m_StartNewGameError) {
-            (activity as MainActivity).onWarning(m_StartNewGameErrorString)
-        } else {
-            m_PlaneRound.initRound()
-            disposeAllSubscriptions()
-            reinitializeFromState()
-        }
+        m_PlaneRound.initRound()
+        disposeAllSubscriptions()
+        reinitializeFromState()
     }
 
-    fun setStartNewRoundError(errorMsg: String) {
-        m_StartNewGameError = true
-        m_StartNewGameErrorString = errorMsg
-        finalizeStartNewRound()
-    }
 
-    fun receivedStartNewRoundResponse(code: Int, jsonErrorString: String?, headrs: Headers, body: StartNewRoundResponse?) {
-        if (body != null)  {
-            m_PlaneRound.setRoundId(body!!.m_RoundId.toLong())
-        } else {
-            m_StartNewGameErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.error_startnewround),
-                getString(R.string.unknownerror))
-            m_StartNewGameError = true
-        }
-        finalizeStartNewRound()
+    fun receivedStartNewRoundResponse(body: StartNewRoundResponse): String {
+        m_PlaneRound.setRoundId(body.m_RoundId.toLong())
+        return ""
     }
 
     //endregion StartNewGame
 
+    //TODO: to move in BasisCommObj
     fun showLoading() {
         (activity as MainActivity).startProgressDialog()
     }

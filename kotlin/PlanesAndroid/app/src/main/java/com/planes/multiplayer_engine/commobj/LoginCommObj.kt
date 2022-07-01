@@ -15,6 +15,6 @@ class LoginCommObj(hideLoading: () -> Unit, showLoading: () -> Unit,
 
         BasisCommObj<LoginResponse>(hideLoading, showLoading, true, createObservable, errorStrg, unknownError, false,
         false, "", "", true, username, password, userPasswordValidation,
-         true, saveCredentials, finalizeRequestSuccessful, activity)
+            { a: LoginResponse -> "" }, true, saveCredentials, finalizeRequestSuccessful, activity)
 {
 }
