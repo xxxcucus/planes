@@ -7,12 +7,11 @@ import io.reactivex.Observable
 import retrofit2.Response
 
 
-class SimpleRequestWithSimpleFinalizeCommObj<A>(hideLoading: () -> Unit, showLoading: () -> Unit,
-                              createObservable: () -> Observable<Response<A>>, errorStrg: String, unknownError: String,
+class SimpleRequestWithSimpleFinalizeCommObj<A>(createObservable: () -> Observable<Response<A>>, errorStrg: String, unknownError: String,
                               successMsg: String,
                               activity: FragmentActivity
 ):
-    BasisCommObj<A>(hideLoading, showLoading, true, createObservable, errorStrg, unknownError, false, false,
+    BasisCommObj<A>(true, createObservable, errorStrg, unknownError, false, false,
         successMsg, "", false, "", "",
         {  a: String, b: String -> a },
         { a : A -> "" }, false, { a: String, b: String, c: String -> {} },

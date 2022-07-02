@@ -164,6 +164,7 @@ class NoRobotFragment : Fragment() {
         writeToNoRobotSettingsService()
         if (this::m_NoRobotCommObj.isInitialized)
             m_NoRobotCommObj.disposeSubscription()
+        hideLoading()
     }
 
 
@@ -195,16 +196,11 @@ class NoRobotFragment : Fragment() {
 
     private fun sendNoRobotData() {
 
-        m_NoRobotCommObj = SimpleRequestWithSimpleFinalizeCommObj<NoRobotResponse>(::hideLoading, ::showLoading, ::createObservableNoRobot,
+        m_NoRobotCommObj = SimpleRequestWithSimpleFinalizeCommObj<NoRobotResponse>(::createObservableNoRobot,
             getString(R.string.registererror), getString(R.string.unknownerror),  getString(R.string.norobot_success), requireActivity())
 
         m_NoRobotCommObj.makeRequest()
 
-    }
-
-    //TODO: to add to BasisCommObj
-    fun showLoading() {
-        (activity as MainActivity).startProgressDialog()
     }
 
     fun hideLoading() {

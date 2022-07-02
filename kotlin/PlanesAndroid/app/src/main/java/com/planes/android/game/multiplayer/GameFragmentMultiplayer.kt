@@ -244,7 +244,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     fun doneClicked() {
 
-        m_DonePositioningCommObj = SimpleRequestCommObj<SendPlanePositionsResponse>(::hideLoading, ::showLoading, ::createObservableDoneClicked,
+        m_DonePositioningCommObj = SimpleRequestCommObj<SendPlanePositionsResponse>(::createObservableDoneClicked,
             getString(R.string.sendplanepositions_error), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
                 getString(R.string.validation_not_connected_to_game), ::receivedOpponentPlanePositions, ::finalizeSendPlanePositions, requireActivity())
 
@@ -313,6 +313,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     //endregion DoneClicked
 
+    //region PollOpponentPlanes
     fun pollForOpponentPlanesPositions() {
         m_ReceiveOpponentPlanePositionsError = false
         m_ReceiveOpponentPlanePositionsErrorString = ""
@@ -409,6 +410,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         }
         finalizeReceiveOpponentPlanePositions()
     }
+    //region PollOpponentPlanes
+
     //endregion BoardEditing
 
     //region CancelRound
@@ -417,7 +420,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         return m_PlaneRound.cancelRound(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId())
     }
     fun cancelRound() {
-        m_CancelRoundCommObj = SimpleRequestCommObj<CancelRoundResponse>(::hideLoading, ::showLoading, ::createObservableCancelRound,
+        m_CancelRoundCommObj = SimpleRequestCommObj<CancelRoundResponse>(::createObservableCancelRound,
             getString(R.string.error_cancelround), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
             getString(R.string.validation_not_connected_to_game), { a : CancelRoundResponse -> "" }, ::finalizeCancelRound, requireActivity())
 
@@ -449,7 +452,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         m_Draw = draw
         m_WinnerId = winnerId
 
-        m_SendWinnerCommObj = SimpleRequestCommObj<SendWinnerResponse>(::hideLoading, ::showLoading, ::createObservableSendWinner,
+        m_SendWinnerCommObj = SimpleRequestCommObj<SendWinnerResponse>(::createObservableSendWinner,
             getString(R.string.sendwinner_error), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
             getString(R.string.validation_not_connected_to_game), { a : SendWinnerResponse -> "" }, ::finalizeSendWinner, requireActivity())
 
@@ -529,20 +532,15 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     //endregion SendMove
 
+    //region PollOpponentMoves
     override fun pollForOpponentMoves() {
         m_ReceiveOpponentMovesError = false
         m_ReceiveOpponentMovesErrorString = ""
 
         Tools.displayToast(getString(R.string.waiting_for_moves), m_Context)
 
-        m_PlaneRound.saveNotSentMoves()
-        //TODO: optimize do not send the remaining moves every time
-        var sendMoveRequest = buildSendMoveRequest(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId(), m_PlaneRound.getUserId(),
-            m_PlaneRound.getOpponentId())
-
         m_PlaneRound.setGameStage(GameStages.WaitForOpponentMoves)
         m_GameControls.setGameStage(true)
-
 
         m_PollOpponentMovesSubscription =
             Observable.interval(5, TimeUnit.SECONDS, Schedulers.io())
@@ -604,6 +602,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         finalizeReceiveOpponentMoves()
     }
 
+    //endregion PollOpponentMoves
+
     //endregion Game
 
     //region StartNewGame
@@ -613,7 +613,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     }
 
     fun startNewGame() {
-        m_StartNewRoundCommObj = SimpleRequestCommObj<StartNewRoundResponse>(::hideLoading, ::showLoading, ::createObservableStartNewGame,
+        m_StartNewRoundCommObj = SimpleRequestCommObj<StartNewRoundResponse>(::createObservableStartNewGame,
             getString(R.string.error_startnewround), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
             getString(R.string.validation_not_connected_to_game), ::receivedStartNewRoundResponse, ::finalizeStartNewRound, requireActivity())
 
@@ -626,7 +626,6 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         reinitializeFromState()
     }
 
-
     fun receivedStartNewRoundResponse(body: StartNewRoundResponse): String {
         m_PlaneRound.setRoundId(body.m_RoundId.toLong())
         return ""
@@ -634,12 +633,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     //endregion StartNewGame
 
-    //TODO: to move in BasisCommObj
-    fun showLoading() {
-        (activity as MainActivity).startProgressDialog()
-    }
-
     fun hideLoading() {
         (activity as MainActivity).stopProgressDialog()
     }
+
 }

@@ -94,7 +94,7 @@ class RegisterFragment: Fragment() {
         if (!this::binding.isInitialized)
             return
 
-        m_RegisterCommObj = RegisterCommObj(::hideLoading, ::showLoading, ::createObservableRegister, getString(R.string.loginerror),
+        m_RegisterCommObj = RegisterCommObj(::createObservableRegister, getString(R.string.loginerror),
             getString(R.string.unknownerror), binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password,
             ::validationUsernamePasswordRegister, ::prepareNorobotTest, ::finalizeRegister, requireActivity())
 
@@ -110,11 +110,6 @@ class RegisterFragment: Fragment() {
                 InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
         }
         binding.invalidateAll()
-    }
-
-    //TODO: to move in BasisCommObj
-    fun showLoading() {
-        (activity as MainActivity).startProgressDialog()
     }
 
     fun hideLoading() {

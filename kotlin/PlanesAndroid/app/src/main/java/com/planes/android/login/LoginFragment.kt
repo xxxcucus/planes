@@ -98,7 +98,7 @@ class LoginFragment: Fragment() {
         if (!this::binding.isInitialized)
             return
 
-        m_LoginCommObj = LoginCommObj(::hideLoading, ::showLoading, ::createObservable, getString(R.string.loginerror),
+        m_LoginCommObj = LoginCommObj(::createObservable, getString(R.string.loginerror),
             getString(R.string.unknownerror), binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password,
             ::validationUsernamePasswordLogin, ::saveCredentials, ::finalizeLoginSuccessful, requireActivity())
 
@@ -116,13 +116,6 @@ class LoginFragment: Fragment() {
         binding.invalidateAll()
     }
 
-    fun showLoading() {
-        (activity as MainActivity).startProgressDialog()
-    }
-
-    fun hideLoading() {
-        (activity as MainActivity).stopProgressDialog()
-    }
 
     fun validationUsernamePasswordLogin(username: String, password: String) : String {
         var retString = ""
@@ -144,5 +137,9 @@ class LoginFragment: Fragment() {
         }
 
        return retString
+    }
+
+    fun hideLoading() {
+        (activity as MainActivity).stopProgressDialog()
     }
 }

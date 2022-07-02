@@ -68,15 +68,11 @@ class SinglePlayerSettingsFragment : Fragment() {
         //TODO: move this in OnDestroy?
         if (this::m_VerifyVersionCommObj.isInitialized)
             m_VerifyVersionCommObj.disposeSubscription()
+        hideLoading()
     }
 
     override fun onPause() {
         super.onPause()
-    }
-
-    //TODO: to move in BasisCommObj
-    fun showLoading() {
-        (activity as MainActivity).startProgressDialog()
     }
 
     fun hideLoading() {
@@ -130,7 +126,7 @@ class SinglePlayerSettingsFragment : Fragment() {
 
 
         if (binding.settingsData!!.m_MultiplayerVersion) {
-            m_VerifyVersionCommObj = SimpleRequestWithoutCredentialsCommObj<VersionResponse>(::hideLoading, ::showLoading, ::createObservableVerifyVersion,
+            m_VerifyVersionCommObj = SimpleRequestWithoutCredentialsCommObj<VersionResponse>( ::createObservableVerifyVersion,
                 getString(R.string.version_error), getString(R.string.unknownerror), ::checkServerVersion, ::finalizeSavingSuccessful,
                 ::finalizeSavingError, requireActivity())
 

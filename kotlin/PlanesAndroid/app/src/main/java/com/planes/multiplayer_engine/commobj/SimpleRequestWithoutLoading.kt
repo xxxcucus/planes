@@ -8,7 +8,7 @@ class SimpleRequestWithoutLoadingCommObj<A>(createObservable: () -> Observable<R
                               errorStrgNotLoggedIn: String, errorStrgNotConnected: String, doWhenSuccess: (A) -> String,
                               finalizeRequestSuccessful: () -> Unit, activity: FragmentActivity):
     BasisCommObj<A>(
-        {  -> {} }, {  -> {} }, false, createObservable, errorStrg, unknownError, true, true,
+        false, createObservable, errorStrg, unknownError, true, true,
         errorStrgNotLoggedIn, errorStrgNotConnected, false, "", "",
         {  a: String, b: String -> a }, doWhenSuccess, false, { a: String, b: String, c: String -> {} }, finalizeRequestSuccessful,
         { -> {}}, activity )

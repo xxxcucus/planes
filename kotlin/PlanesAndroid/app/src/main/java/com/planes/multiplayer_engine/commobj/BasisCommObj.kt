@@ -14,7 +14,7 @@ import okhttp3.Headers
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
 
-open class BasisCommObj<A>(hideLoading: () -> Unit, showLoading: () -> Unit, withLoadingAnimation: Boolean,
+open class BasisCommObj<A>(withLoadingAnimation: Boolean,
         createObservable: () -> Observable<Response<A>>, errorStrg: String, unknownError: String, shouldBeLoggedIn: Boolean,
         shouldBeConnectedToGame: Boolean, errorStrgNotLoggedIn: String, errorStrgNotConnected: String,
         withCredentials: Boolean, username: String, password: String, userPasswordValidation: (String, String) -> String,
@@ -56,8 +56,8 @@ open class BasisCommObj<A>(hideLoading: () -> Unit, showLoading: () -> Unit, wit
     init {
         m_PlaneRound = MultiplayerRoundJava()
         (m_PlaneRound as MultiplayerRoundJava).createPlanesRound()
-        m_HideLoadingLambda = hideLoading
-        m_ShowLoadingLambda = showLoading
+        m_HideLoadingLambda = ::hideLoading
+        m_ShowLoadingLambda = ::showLoading
         m_WithLoadingAnimation = withLoadingAnimation
         m_GenericErrorString = errorStrg
         m_UnknownErrorString = unknownError
@@ -229,5 +229,13 @@ open class BasisCommObj<A>(hideLoading: () -> Unit, showLoading: () -> Unit, wit
 
     private fun doOnTerminate() {
         m_HideLoadingLambda()
+    }
+
+    fun showLoading() {
+        (m_MainActivity as MainActivity).startProgressDialog()
+    }
+
+    fun hideLoading() {
+        (m_MainActivity as MainActivity).stopProgressDialog()
     }
 }
