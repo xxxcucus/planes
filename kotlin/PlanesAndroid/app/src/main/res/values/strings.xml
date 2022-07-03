@@ -170,6 +170,7 @@
     <string name="error_startnewround"> Error when starting a new round.</string>
     <string name="round_cancelled">The round was cancelled </string>
     <string name="version_error"> Error when receiving server version </string>
+    <string name="multiplayer_not_available"> Multiplayer version ist not available in this Android version.</string>
 
 
 

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
+import com.planes.android.Tools
 import com.planes.android.databinding.FragmentOptionsSingleBinding
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.commobj.SimpleRequestCommObj
@@ -32,6 +33,7 @@ class SinglePlayerSettingsFragment : Fragment() {
     private var m_PreferencesService = SinglePlayerPreferencesServiceGlobal()
     private var m_MainPreferencesService = MainPreferencesServiceGlobal()
     private var m_MultiplayerRound = MultiplayerRoundJava()
+    private lateinit var m_Context: Context
 
     private lateinit var m_VerifyVersionCommObj: SimpleRequestWithoutCredentialsCommObj<VersionResponse>
 
@@ -40,6 +42,7 @@ class SinglePlayerSettingsFragment : Fragment() {
         m_PreferencesService.createPreferencesService(context)
         m_MainPreferencesService.createPreferencesService(context)
         m_MultiplayerRound.createPlanesRound()
+        m_Context = context
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -126,11 +129,22 @@ class SinglePlayerSettingsFragment : Fragment() {
 
 
         if (binding.settingsData!!.m_MultiplayerVersion) {
-            m_VerifyVersionCommObj = SimpleRequestWithoutCredentialsCommObj<VersionResponse>( ::createObservableVerifyVersion,
-                getString(R.string.version_error), getString(R.string.unknownerror), ::checkServerVersion, ::finalizeSavingSuccessful,
-                ::finalizeSavingError, requireActivity())
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
+                Tools.displayToast(getString(R.string.multiplayer_not_available), m_Context)
+                finalizeSavingError()
+            } else {
+                m_VerifyVersionCommObj = SimpleRequestWithoutCredentialsCommObj<VersionResponse>(
+                    ::createObservableVerifyVersion,
+                    getString(R.string.version_error),
+                    getString(R.string.unknownerror),
+                    ::checkServerVersion,
+                    ::finalizeSavingSuccessful,
+                    ::finalizeSavingError,
+                    requireActivity()
+                )
 
-            m_VerifyVersionCommObj.makeRequest()
+                m_VerifyVersionCommObj.makeRequest()
+            }
         }
 
         if (!(activity as MainActivity).setSinglePlayerOptions(

@@ -5,7 +5,7 @@ android {
     compileSdkVersion 31
     defaultConfig {
         applicationId "com.planes.android"
-        minSdkVersion 21
+        minSdkVersion 16
         targetSdkVersion 31
         multiDexEnabled true
         versionCode 23
