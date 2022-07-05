@@ -146,14 +146,9 @@
     <string name="game_created"> Game created. Waiting for opponent to connect.</string>
     <string name="connected_togame"> Connected to game.</string>
     <string name="opponent_connected_togame"> Opponent is connected to game</string>
-    <string name="view_opponent_board">View Opponent Board</string>
-    <string name="view_opponent_board1">View</string>
-    <string name="view_opponent_board2">Opponent Board</string>
     <string name="game_stats">Game Stats</string>
     <string name="game_stats1">Game</string>
     <string name="game_stats2">Stats</string>
-    <string name="opponent_winner">Opponent Wins Round!</string>
-    <string name="opponent_wins">Opponent Wins</string>
     <string name="sendplanepositions_error"> Error when sending plane positions </string>
     <string name="invalid_plane_orientation"> Invalid plane orientation</string>
     <string name="error_init_opponent_board"> Error when initializing computer board</string>
@@ -171,6 +166,24 @@
     <string name="round_cancelled">The round was cancelled </string>
     <string name="version_error"> Error when receiving server version </string>
     <string name="multiplayer_not_available"> Multiplayer version ist not available in this Android version.</string>
+
+    <string name="view_opponent_board">View Opponent Board</string>
+    <string name="view_opponent_board1">View</string>
+    <string name="view_opponent_board2">Opponent Board</string>
+    <string name="opponent_stats">Opponent Stats</string>
+    <string name="opponent_stats1">Opponent</string>
+    <string name="opponent_stats2">Stats</string>
+    <string name="opponent_hits">Opponent Hits</string>
+    <string name="opponent_moves">Opponent Moves</string>
+    <string name="opponent_misses">Opponent Misses</string>
+    <string name="opponent_dead">Opponent Dead</string>
+    <string name="opponent_winner">Opponent Wins Round!</string>
+    <string name="opponent_wins">Opponent Wins</string>
+
+    <string name="game_score">Game Score</string>
+    <string name="round_status">Round Status</string>
+    <string name="current_round">Current Round</string>
+
 
 
 
