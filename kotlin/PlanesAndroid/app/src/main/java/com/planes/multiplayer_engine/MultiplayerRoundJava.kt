@@ -94,6 +94,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Round!!.setGameData(connectToGameResponse)
     }
 
+    override fun getGameData(): GameData {
+        return global_Round!!.getGameData()
+    }
+
     override fun setGameData(gameStatusResponse: GameStatusResponse) {
         return global_Round!!.setGameData(gameStatusResponse)
     }
@@ -335,6 +339,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Round!!.sendWinner(draw, winnerId)
     }
 
+    override fun checkWinnerSent() {
+        global_Round!!.checkWinnerSent()
+    }
+
     override fun addToNotSentMoves(moveIndex: Int) {
         global_Round!!.addToNotSentMoves(moveIndex)
     }
@@ -384,6 +392,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
     override fun cancelRound() {
         global_Round!!.setGameStage(GameStages.GameNotStarted)
         global_Player_Guess_Reaction.m_Cancelled = true
+    }
+
+    override fun getGameStats() : GameStatistics {
+        return global_Round!!.getGameStats()
     }
 
     companion object {

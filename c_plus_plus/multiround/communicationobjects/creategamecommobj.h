@@ -17,7 +17,7 @@ public slots:
     void finishedRequest() override;       
     
 signals:
-    void gameCreated(const QString& gameName, const QString& userName);
+    void gameCreated(const QString& gameName, const QString& userName, bool resetGameScore);
     
 private:
     QString m_GameName;

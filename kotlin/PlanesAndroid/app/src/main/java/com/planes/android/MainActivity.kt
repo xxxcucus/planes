@@ -21,6 +21,7 @@ import com.planes.android.creategame.CreateGameFragment
 import com.planes.android.creategame.CreateGameSettingsGlobal
 import com.planes.android.game.multiplayer.GameFragmentMultiplayer
 import com.planes.android.game.singleplayer.GameFragmentSinglePlayer
+import com.planes.android.gamestats.GameStatsFragment
 import com.planes.android.login.LoginFragment
 import com.planes.android.register.RegisterFragment
 import com.planes.android.preferences.*
@@ -206,6 +207,7 @@ class MainActivity : AppCompatActivity() {
             ApplicationScreens.Register.value -> mSelectedItem = R.id.nav_register
             ApplicationScreens.NoRobot.value -> mSelectedItem = R.id.nav_norobot
             ApplicationScreens.CreateGame.value -> mSelectedItem = R.id.nav_creategame
+            ApplicationScreens.GameStats.value -> mSelectedItem = R.id.nav_game_status
             else -> mSelectedItem = R.id.nav_game
         }
     }
@@ -269,6 +271,7 @@ class MainActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_login).setVisible(false)
             menu.findItem(R.id.nav_logout).setVisible(false)
             menu.findItem(R.id.nav_register).setVisible(false)
+            menu.findItem(R.id.nav_game_status).setVisible(false)
         }
         val header = navigationView.getHeaderView(0)
         var versionTextView = header.findViewById<TextView>(R.id.version_header)
@@ -418,6 +421,10 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_creategame -> {
                 newFragment = CreateGameFragment()
             }
+
+            R.id.nav_game_status -> {
+                newFragment = GameStatsFragment()
+            }
         }
 
         if (mSelectedItem != 0) {
@@ -492,6 +499,21 @@ class MainActivity : AppCompatActivity() {
 
     fun startGameFragment() {
         mSelectedItem = R.id.nav_game
+        setFragment(true)
+    }
+
+    fun startLoginFragment() {
+        mSelectedItem = R.id.nav_login
+        setFragment(true)
+    }
+
+    fun startConnectToGameFragment() {
+        mSelectedItem = R.id.nav_creategame
+        setFragment(true)
+    }
+
+    fun startGameStatsFragment() {
+        mSelectedItem = R.id.nav_game_status
         setFragment(true)
     }
 

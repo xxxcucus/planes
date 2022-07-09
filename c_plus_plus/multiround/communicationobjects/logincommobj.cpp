@@ -49,6 +49,7 @@ void LoginCommObj::finishedRequest()
         }
     }
     
+    //TODO: token refresh
     if (successfull) {
         QMessageBox msgBox(m_ParentWidget);
         msgBox.setText("Login successfull!"); 

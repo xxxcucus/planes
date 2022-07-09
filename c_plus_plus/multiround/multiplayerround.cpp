@@ -172,7 +172,7 @@ void MultiplayerRound::connectToGame(const QString& gameName)
     m_ConnectToGameObj->makeRequest(gameName);
 }
 
-void MultiplayerRound::connectedToGameSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId) {
+void MultiplayerRound::connectedToGameSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId, bool resetGameSc) {
     bool ok = false;
     long int roundId = currentRoundId.toLong(&ok, 10);
     if (!ok) {
@@ -180,11 +180,15 @@ void MultiplayerRound::connectedToGameSlot(const QString& gameName, const QStrin
         return;
     }
     startNewRound(roundId);
+    if (resetGameSc)
+        resetGameScore();
     emit gameConnectedTo(gameName, firstPlayerName, secondPlayerName, currentRoundId);
 }
 
-void MultiplayerRound::gameCreatedSlot(const QString& gameName, const QString& userName) {
+void MultiplayerRound::gameCreatedSlot(const QString& gameName, const QString& userName, bool resetGameSc) {
     initRound();
+    if (resetGameSc)
+        resetGameScore();
     emit gameCreated(gameName, userName);
 }
 

@@ -18,7 +18,7 @@ public slots:
     void finishedRequest() override;       
     
 signals:
-    void gameConnectedTo(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
+    void gameConnectedTo(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId, bool resetGameScore);
     
 private:
     QString m_GameName;

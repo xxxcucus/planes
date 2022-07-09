@@ -36,6 +36,11 @@ void ConnectToGameCommObj::finishedRequest()
     QMessageBox msgBox(m_ParentWidget);
     msgBox.setText("Connection to game successfull!"); 
     msgBox.exec();               
+
+    QString receivedGameName = retJson.value("gameName").toString();
+    bool resetGameScore = false;
+    if (receivedGameName != m_GlobalData->m_GameData.m_GameName)
+        resetGameScore = true;
     
     m_GlobalData->m_GameData.m_GameId = retJson.value("id").toString().toLong(); 
     m_GlobalData->m_GameData.m_GameName = retJson.value("gameName").toString();
@@ -49,7 +54,7 @@ void ConnectToGameCommObj::finishedRequest()
     QString firstPlayerName = retJson.value("firstPlayerName").toString();
     QString currentRoundId = retJson.value("currentRoundId").toString(); 
     
-    emit gameConnectedTo(m_GameName, firstPlayerName, m_GlobalData->m_UserData.m_UserName, currentRoundId);
+    emit gameConnectedTo(m_GameName, firstPlayerName, m_GlobalData->m_UserData.m_UserName, currentRoundId, resetGameScore);
 }
 
 bool ConnectToGameCommObj::validateReply(const QJsonObject& reply) {

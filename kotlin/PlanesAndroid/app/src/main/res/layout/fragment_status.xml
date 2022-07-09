@@ -25,7 +25,7 @@
                     android:layout_margin="10dip"
                     android:textSize="20dp"
                     android:textStyle="bold"
-                    android:text="Logged in as"/>
+                    android:text="@={settingsData.m_LoginStatus}"/>
                  <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                     android:layout_margin="10dip"
                     android:textSize="20dp"
                     android:textStyle="bold"
-                    android:text="Connected to game"/>
+                    android:text="@={settingsData.m_ConnectStatus}"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -69,6 +69,7 @@
                 android:layout_margin="10dip"
                 android:text="@string/connectto_game"/>
             <LinearLayout
+                android:id="@+id/status_opponent"
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -90,6 +91,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/status_current_round"
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -110,6 +112,7 @@
                     android:text="@={settingsData.m_RoundId}"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/status_round_status"
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -130,6 +133,7 @@
                     android:text="@={settingsData.m_GameStage}"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/status_gamestats"
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -308,6 +312,7 @@
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/status_game_score"
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

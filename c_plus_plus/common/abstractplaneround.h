@@ -125,6 +125,9 @@ public:
 
 	//update game statistics
 	bool updateGameStats(const GuessPoint& gp, bool isComputer);
+
+	//resets the game score when connecting to a new game
+	void resetGameScore();
     
     
 protected:

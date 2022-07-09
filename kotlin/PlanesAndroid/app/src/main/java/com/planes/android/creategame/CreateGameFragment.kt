@@ -168,12 +168,11 @@ class CreateGameFragment: Fragment() {
 
     fun reactToGameStatusInPolling(body: GameStatusResponse?) {
         m_MultiplayerRound.setGameData(body!!)
+        m_MultiplayerRound.initRound()
         if (m_MultiplayerRound.getGameId() != 0L && m_MultiplayerRound.getOpponentId() != 0L && m_MultiplayerRound.getUserId() != 0L
             && m_MultiplayerRound.getRoundId()  != 0L) {
             setCreateGameSettings(CreateGameStates.ConnectedToGame, body!!.m_GameName)
-
             Tools.displayToast(getString(R.string.opponent_connected_togame), m_Context)
-
             binding.ProgressBarCreateGame.isVisible = false
             binding.startPlaying.isEnabled = true
         }
@@ -318,6 +317,7 @@ class CreateGameFragment: Fragment() {
         if (body != null)  {
             m_MultiplayerRound.setGameData(body!!)
             m_MultiplayerRound.setUserId(body!!.m_SecondPlayerId.toLong())
+            m_MultiplayerRound.initRound()
             setCreateGameSettings(CreateGameStates.ConnectedToGame, body!!.m_GameName)
             m_GameName = body!!.m_GameName
             connectedToGame()

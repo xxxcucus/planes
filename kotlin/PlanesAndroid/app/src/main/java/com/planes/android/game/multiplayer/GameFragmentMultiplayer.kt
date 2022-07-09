@@ -127,7 +127,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         val drawsCount = rootView.findViewById<View>(R.id.draws_count) as ColouredSurfaceWithText
 
         m_GameControls.setBoardEditingControls(doneButton, rotateButton, cancelBoardEditingButton, progressBarBoardEditing, ::doneClicked, ::cancelRound)
-        if (!showTwoBoards(isTablet)) m_GameControls.setGameControls(statsTitle, viewOpponentBoardButton1, cancelGameButton, progressBarGameButton, ::cancelRound)
+        if (!showTwoBoards(isTablet)) m_GameControls.setGameControls(statsTitle, viewOpponentBoardButton1, cancelGameButton, progressBarGameButton, ::cancelRound, ::showGameStats)
         m_GameControls.setStartNewGameControls(viewComputerBoardButton2, startNewGameButton, computerWinsLabel, computerWinsCount, playerWinsLabel,
             playerWinsCount, drawsLabel, drawsCount, winnerText, ::startNewGame)
         m_GameControls.setGameSettings(m_PlaneRound, isTablet)
@@ -170,8 +170,15 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
                 m_GameBoards.setGameStage()
                 m_GameControls.setGameStage(true)
                 m_PlanesLayout.setGameStage()
-                pollForOpponentMoves()
+                pollForOpponentMoves(true)
             }
+            5 -> {
+                m_GameBoards.setGameStage()
+                m_GameControls.setGameStage(true)
+                m_PlanesLayout.setGameStage()
+                pollForOpponentMoves(false)
+            }
+
         }
     }
 
@@ -533,13 +540,17 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     //endregion SendMove
 
     //region PollOpponentMoves
-    override fun pollForOpponentMoves() {
+    override fun pollForOpponentMoves(playerFinished: Boolean) {
         m_ReceiveOpponentMovesError = false
         m_ReceiveOpponentMovesErrorString = ""
 
-        Tools.displayToast(getString(R.string.waiting_for_moves), m_Context)
-
-        m_PlaneRound.setGameStage(GameStages.WaitForOpponentMoves)
+        if (playerFinished) {
+            Tools.displayToast(getString(R.string.waiting_for_moves), m_Context)
+            m_PlaneRound.setGameStage(GameStages.WaitForOpponentMoves)
+        } else {
+            Tools.displayToast(getString(R.string.sending_remaining_moves), m_Context)
+            m_PlaneRound.setGameStage(GameStages.SendRemainingMoves)
+        }
         m_GameControls.setGameStage(true)
 
         m_PollOpponentMovesSubscription =
@@ -590,6 +601,11 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
                 reinitializeFromState()
             } else {
                 m_PlaneRound.deleteFromNotSentList()
+
+                if (body!!.m_ListMoves.isEmpty() && m_PlaneRound.getGameStage() == GameStages.SendRemainingMoves.value) {
+                    m_PlaneRound.checkWinnerSent()
+                }
+
                 for (move in body!!.m_ListMoves) {
                     var gp = GuessPoint(move.m_MoveX, move.m_MoveY)
                     var moveIdx = move.m_MoveIndex
@@ -635,6 +651,10 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     fun hideLoading() {
         (activity as MainActivity).stopProgressDialog()
+    }
+
+    fun showGameStats() {
+        (activity as MainActivity).startGameStatsFragment()
     }
 
 }

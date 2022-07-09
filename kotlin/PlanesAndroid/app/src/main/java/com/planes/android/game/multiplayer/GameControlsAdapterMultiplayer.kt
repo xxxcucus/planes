@@ -62,7 +62,8 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
 
     }
 
-    fun setGameControls(gameStats: TwoLineTextButton, viewOpponentBoard: TwoLineTextButtonWithState, cancelButton: Button, progressBar: ProgressBar, cancelLambda: () -> Unit) {
+    fun setGameControls(gameStats: TwoLineTextButton, viewOpponentBoard: TwoLineTextButtonWithState, cancelButton: Button,
+                        progressBar: ProgressBar, cancelLambda: () -> Unit, showGameStatsLambda: () -> Unit) {
         m_GameStats = gameStats
         m_ViewOpponentBoardButton1 = viewOpponentBoard
         m_CancelGameButton = cancelButton
@@ -84,6 +85,10 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         }
         if (this::m_CancelGameButton.isInitialized) {
             m_CancelGameButton.setOnClickListener { cancelLambda() }
+        }
+
+        if (this::m_GameStats.isInitialized) {
+            m_GameStats.setOnClickListener { showGameStatsLambda() }
         }
     }
 

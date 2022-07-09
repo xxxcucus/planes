@@ -40,6 +40,12 @@ class GameStatistics {
         m_computerMisses = 0
     }
 
+    fun resetGameScore() {
+        m_playerWins = 0
+        m_computerWins = 0
+        m_draws = 0
+    }
+
     fun playerMoves(): Int {
         return m_playerMoves
     }

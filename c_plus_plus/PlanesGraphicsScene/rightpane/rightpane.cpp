@@ -148,11 +148,11 @@ void RightPane::multiplayerRoundReset(bool exists, const QString& gameName, cons
     bool okConv = true;
     long int desiredRoundId = currentRoundIdQString.toLong(&okConv);
     if (!okConv) {
-        //qDebug() << "Convertion error QString -> long int";
+        qDebug() << "Convertion error QString -> long int";
         return;
     }
 
-    //qDebug() << "Multiround reset!! " << desiredRoundId;
+    qDebug() << "Multiround reset!! " << desiredRoundId;
 
      
     m_PlayerBoard->refreshPlanes();

@@ -24,6 +24,8 @@ struct GameStatistics
     GameStatistics();
     //resets the fields related to one round of the game
     void reset();
+    //resets the game score
+    void resetGameScore();
     //updates the statistics for one round with one guess
     void updateStats(const GuessPoint& gp, bool isComputer);
     //adds to the score

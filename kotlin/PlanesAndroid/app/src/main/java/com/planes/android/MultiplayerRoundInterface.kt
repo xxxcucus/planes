@@ -3,15 +3,13 @@ package com.planes.android
 import com.planes.android.game.multiplayer.IGameFragmentMultiplayer
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.*
-import com.planes.single_player_engine.GameStages
-import com.planes.single_player_engine.Orientation
-import com.planes.single_player_engine.Plane
 import io.reactivex.Observable
 import retrofit2.Response
 import java.util.*
 import androidx.core.util.Pair
+import com.planes.multiplayer_engine.GameData
 import com.planes.multiplayer_engine.requests.*
-import com.planes.single_player_engine.GuessPoint
+import com.planes.single_player_engine.*
 
 interface MultiplayerRoundInterface: PlanesRoundInterface {
     override fun createPlanesRound()
@@ -56,6 +54,8 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
 
     fun setGameData(gameStatusResponse: GameStatusResponse)
 
+    fun getGameData(): GameData
+
     fun setUserId(userid: Long)
 
     fun setRoundId(roundId: Long)
@@ -77,6 +77,8 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
     fun acquireOpponentPlanePositions(request: AcquireOpponentPositionsRequest): Observable<retrofit2.Response<AcquireOpponentPositionsResponse>>
 
     fun sendWinner(draw: Boolean, winnerId: Long): Observable<retrofit2.Response<SendWinnerResponse>>
+
+    fun checkWinnerSent()
 
     fun setGameFragment(gameFragment: IGameFragmentMultiplayer)
 
@@ -101,4 +103,6 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
     fun startNewRound(gameId: Long, userId: Long, opponentId: Long): Observable<retrofit2.Response<StartNewRoundResponse>>
 
     fun cancelRound()
+
+    fun getGameStats() : GameStatistics
 }

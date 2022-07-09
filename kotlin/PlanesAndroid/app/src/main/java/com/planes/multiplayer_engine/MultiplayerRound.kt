@@ -60,6 +60,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     var m_PlayerMoveIndex = 0
     var m_ComputerMoveIndex = 0
     var m_WinnerFound: Boolean = false
+    var m_WinnerSent: Boolean = false
 
     private var m_NotSentMoves: Vector<Int> = Vector<Int>()
     private var m_LastNotSentMoveIndexSucces: Vector<Int> = Vector<Int>()
@@ -145,9 +146,16 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     fun setUserData(username: String, password: String, authToken: String) {
-        m_UserData.userName = username
-        m_UserData.password = password
-        m_UserData.authToken = authToken
+        if (m_UserData.userName != username || m_UserData.password != password) {
+            //login with new credentials
+            m_UserData.userName = username
+            m_UserData.password = password
+            m_UserData.authToken = authToken
+            m_GameData.reset()
+        } else {
+            //token refresh
+            m_UserData.authToken = authToken
+        }
     }
 
     fun getUsername() : String {
@@ -172,6 +180,10 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
     fun getOpponentId(): Long {
         return m_GameData.otherUserId
+    }
+
+    fun getGameData(): GameData {
+        return m_GameData
     }
 
     fun register(username: String, password: String): Observable<Response<RegistrationResponse>> {
@@ -212,15 +224,24 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     fun setGameData(gameCreationResponse: CreateGameResponse) {
+        var resetScore = gameCreationResponse.m_GameName != m_GameData.gameName
         m_GameData.setFromCreateGameResponse(gameCreationResponse)
+        if (resetScore)
+            m_gameStats.resetGameScore()
     }
 
     fun setGameData(connectToGameResponse: ConnectToGameResponse) {
+        var resetScore = connectToGameResponse.m_GameName != m_GameData.gameName
         m_GameData.setFromConnectToGameResponse(connectToGameResponse)
+        if (resetScore)
+            m_gameStats.resetGameScore()
     }
 
     fun setGameData(gameStatusResponse: GameStatusResponse) {
+        var resetScore = gameStatusResponse.m_GameName != m_GameData.gameName
         m_GameData.setFromGameStatusResponse(gameStatusResponse, m_UserData.userId, m_UserData.userName)
+        if (resetScore)
+            m_gameStats.resetGameScore()
     }
 
     fun setUserId(userid: Long) {
@@ -255,6 +276,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         m_PlayerMoveIndex = 0;
         m_ComputerMoveIndex = 0;
         m_WinnerFound = false;
+        m_WinnerSent = false
         m_GameData.reset();
         m_UserData.reset();
     }
@@ -268,11 +290,12 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         m_computerGuessList.clear()
         m_gameStats.reset()
 
-        m_WinnerFound = false;
-        m_PlayerMoveIndex = 0;
-        m_ComputerMoveIndex = 0;
-        m_NotSentMoves.clear();
-        m_ReceivedMoves.clear();
+        m_WinnerFound = false
+        m_WinnerSent = false
+        m_PlayerMoveIndex = 0
+        m_ComputerMoveIndex = 0
+        m_NotSentMoves.clear()
+        m_ReceivedMoves.clear()
 
         //emit gameStatsUpdated(m_gameStats); TODO
         //round id is set through separate function
@@ -469,20 +492,27 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
             //qDebug() << "Player has already found all planes";
         }
 
-        if (!m_WinnerFound) {
+        if (!m_WinnerSent) {
             var pgr = checkRoundEnd()
             if (pgr.m_RoundEnds) {
-                if (this::m_GameFragmentMultiplayer.isInitialized) {  //asynchronous call from game fragment
-                    m_GameFragmentMultiplayer.sendWinner(
-                        pgr.m_IsDraw,
-                        if (pgr.m_isPlayerWinner) m_GameData.userId else m_GameData.otherUserId
-                    );
+                if (m_NotSentMoves.isEmpty()) {
+                    if (this::m_GameFragmentMultiplayer.isInitialized) {  //asynchronous call from game fragment
+                        m_GameFragmentMultiplayer.sendWinner(
+                            pgr.m_IsDraw,
+                            if (pgr.m_isPlayerWinner) m_GameData.userId else m_GameData.otherUserId
+                        );
+                        m_WinnerSent = true
+                    }
+                } else {
+                    if (this::m_GameFragmentMultiplayer.isInitialized  && m_State != GameStages.SendRemainingMoves) {  //asynchronous call from game fragment
+                        m_GameFragmentMultiplayer.pollForOpponentMoves(false);
+                    }
                 }
             }
 
             if (pgr.m_PlayerFinishedStartPolling) {
-                if (this::m_GameFragmentMultiplayer.isInitialized) {  //asynchronous call from game fragment
-                    m_GameFragmentMultiplayer.pollForOpponentMoves();
+                if (this::m_GameFragmentMultiplayer.isInitialized && m_State != GameStages.WaitForOpponentMoves) {  //asynchronous call from game fragment
+                    m_GameFragmentMultiplayer.pollForOpponentMoves(true);
                 }
             }
 
@@ -538,7 +568,8 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         if (m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
             if (m_ComputerMoveIndex > m_PlayerMoveIndex) {
                 //player winner
-                m_gameStats.updateWins(false)
+                if (!m_WinnerFound)
+                    m_gameStats.updateWins(false)
                 pgr.m_RoundEnds = true
                 pgr.m_IsDraw = false
                 pgr.m_isPlayerWinner = true
@@ -546,7 +577,8 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
                 return pgr
             } else if (m_ComputerMoveIndex < m_PlayerMoveIndex) {
                 //computer winner
-                m_gameStats.updateWins(true)
+                if (!m_WinnerFound)
+                    m_gameStats.updateWins(true)
                 pgr.m_RoundEnds = true
                 pgr.m_IsDraw = false
                 pgr.m_isPlayerWinner = false
@@ -554,10 +586,12 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
                 return pgr
             } else {
                 //draw
+                if (!m_WinnerFound)
+                    m_gameStats.addDrawResult()
                 pgr.m_RoundEnds = true
                 pgr.m_IsDraw = true
                 m_WinnerFound = true
-                m_gameStats.addDrawResult()
+
                 return pgr
             }
         }
@@ -567,7 +601,8 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
             //qDebug() << "Computer finished and player not finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
             if (m_ComputerMoveIndex <= m_PlayerMoveIndex) {
                 //computer winner
-                m_gameStats.updateWins(true)
+                if (!m_WinnerFound)
+                    m_gameStats.updateWins(true)
                 pgr.m_RoundEnds = true
                 pgr.m_IsDraw = false
                 pgr.m_isPlayerWinner = false
@@ -580,7 +615,8 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
             //qDebug() << "Computer not finished and player finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
             if (m_ComputerMoveIndex >= m_PlayerMoveIndex) {
                 //player winner
-                m_gameStats.updateWins(false)
+                if (!m_WinnerFound)
+                    m_gameStats.updateWins(false)
                 pgr.m_RoundEnds = true
                 pgr.m_IsDraw = false
                 pgr.m_isPlayerWinner = true
@@ -717,22 +753,49 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
             //qDebug() << "computer has already found all planes";
         }
 
-        if (!m_WinnerFound) {
+        if (!m_WinnerSent) {
             var pgr = checkRoundEnd()
             if (pgr.m_RoundEnds) {
-                if (this::m_GameFragmentMultiplayer.isInitialized) {  //asynchronous call from game fragment
-                    m_GameFragmentMultiplayer.sendWinner(
-                        pgr.m_IsDraw,
-                        if (pgr.m_isPlayerWinner) m_GameData.userId else m_GameData.otherUserId
-                    );
+                if (m_NotSentMoves.isEmpty()) {
+                    if (this::m_GameFragmentMultiplayer.isInitialized) {  //asynchronous call from game fragment
+                        m_GameFragmentMultiplayer.sendWinner(
+                            pgr.m_IsDraw,
+                            if (pgr.m_isPlayerWinner) m_GameData.userId else m_GameData.otherUserId
+                        );
+                        m_WinnerSent = true
+                    }
+                } else {
+                    if (this::m_GameFragmentMultiplayer.isInitialized && m_State != GameStages.SendRemainingMoves) {  //asynchronous call from game fragment
+                        m_GameFragmentMultiplayer.pollForOpponentMoves(false);
+                    }
                 }
             }
+
             return Pair<Boolean, PlayerGuessReaction> (false, pgr)
         } else {
             return Pair<Boolean, PlayerGuessReaction> (true, PlayerGuessReaction())
         }
-        
+    }
 
+    fun checkWinnerSent() {
+        if (!m_WinnerSent) {
+            var pgr = checkRoundEnd()
+            if (pgr.m_RoundEnds) {
+                if (m_NotSentMoves.isEmpty()) {
+                    if (this::m_GameFragmentMultiplayer.isInitialized) {  //asynchronous call from game fragment
+                        m_GameFragmentMultiplayer.sendWinner(
+                            pgr.m_IsDraw,
+                            if (pgr.m_isPlayerWinner) m_GameData.userId else m_GameData.otherUserId
+                        );
+                        m_WinnerSent = true
+                    }
+                } else {
+                    if (this::m_GameFragmentMultiplayer.isInitialized && m_State != GameStages.SendRemainingMoves) {  //asynchronous call from game fragment
+                        m_GameFragmentMultiplayer.pollForOpponentMoves(false);
+                    }
+                }
+            }
+        }
     }
 
     fun cancelRound(gameId: Long, roundId: Long): Observable<retrofit2.Response<CancelRoundResponse>> {

@@ -67,8 +67,8 @@ private:
     std::vector<int> m_ReceivedMoves;
     
 private slots:    
-    void connectedToGameSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
-    void gameCreatedSlot(const QString& gameName, const QString& userName);
+    void connectedToGameSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId, bool resetGameScore);
+    void gameCreatedSlot(const QString& gameName, const QString& userName, bool resetGameScore);
     
     /**
      * When all the planes were discovered but the last moves were not sent to the server (because too fast clicking)

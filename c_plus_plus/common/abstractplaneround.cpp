@@ -78,6 +78,10 @@ bool AbstractPlaneRound::updateGameStats(const GuessPoint& gp, bool isComputer)
     }
 }
 
+void AbstractPlaneRound::resetGameScore() {
+	m_gameStats.resetGameScore();
+}
+
 bool AbstractPlaneRound::playerFinished() {
     return m_gameStats.playerFinished(m_planeNo);
 }

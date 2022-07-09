@@ -6,5 +6,5 @@ interface IGameFragmentMultiplayer {
 
     fun sendWinner(draw: Boolean, winnerId: Long)
     fun sendMove(gp: GuessPoint, playerMoveIndex: Int)
-    fun pollForOpponentMoves()
+    fun pollForOpponentMoves(playerFinished: Boolean)
 }

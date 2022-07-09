@@ -7,6 +7,10 @@
             android:icon="@drawable/ic_baseline_sports_basketball_24"
             android:title="@string/game"/>
         <item
+            android:id="@+id/nav_game_status"
+            android:icon="@drawable/ic_baseline_assessment_24"
+            android:title="@string/game_stats"/>
+        <item
             android:id="@+id/nav_login"
             android:icon="@drawable/ic_baseline_login_24"
             android:title="@string/login"/>

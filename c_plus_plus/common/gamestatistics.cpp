@@ -4,9 +4,7 @@
 GameStatistics::GameStatistics()
 {
     reset();
-    m_computerWins = 0;
-    m_playerWins = 0;
-	m_draws = 0;
+    resetGameScore();
 }
 
 //resets the fields related to one round
@@ -20,6 +18,12 @@ void GameStatistics::reset()
     m_computerHits = 0;
     m_computerDead = 0;
     m_computerMisses = 0;
+}
+
+void GameStatistics::resetGameScore() {
+    m_computerWins = 0;
+    m_playerWins = 0;
+    m_draws = 0;
 }
 
 //updates the statistical data for one round with a new GuessPoint

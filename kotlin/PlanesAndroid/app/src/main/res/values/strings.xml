@@ -107,6 +107,7 @@
     <string name="registererror">Register Error</string>
     <string name="submit">Submit</string>
     <string name="nouser">No user logged in</string>
+    <string name="userloggedin"> Logged in as</string>
     <string name="singleplayergame">Single Player Game</string>
     <string name="multiplayergame">Multiplayer Game</string>
     <string name="unknownerror"> Unknown Error</string>
@@ -145,6 +146,7 @@
     <string name="start_playing"> Start Playing</string>
     <string name="game_created"> Game created. Waiting for opponent to connect.</string>
     <string name="connected_togame"> Connected to game.</string>
+    <string name="not_connected_togame"> Not connected to a game.</string>
     <string name="opponent_connected_togame"> Opponent is connected to game</string>
     <string name="game_stats">Game Stats</string>
     <string name="game_stats1">Game</string>
@@ -161,6 +163,7 @@
     <string name="roundcancelled_opponent"> Round was cancelled by opponent</string>
     <string name="error_cancelround"> Error when cancelling round</string>
     <string name="waiting_for_moves"> You have guessed all planes. Waiting for opponent moves to see who won...</string>
+    <string name="sending_remaining_moves">Round ended. Sending remaining moves to opponent ..</string>
     <string name="error_moves"> Error when waiting for opponent moves.</string>
     <string name="error_startnewround"> Error when starting a new round.</string>
     <string name="round_cancelled">The round was cancelled </string>

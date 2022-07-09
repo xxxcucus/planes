@@ -35,7 +35,12 @@ void CreateGameCommObj::finishedRequest()
 
     QMessageBox msgBox(m_ParentWidget);
     msgBox.setText("Game creation successful!"); 
-    msgBox.exec();               
+    msgBox.exec();
+
+    QString receivedGameName = retJson.value("gameName").toString();
+    bool resetGameScore = false;
+    if (receivedGameName != m_GlobalData->m_GameData.m_GameName)
+        resetGameScore = true;
     m_GlobalData->m_GameData.m_GameId = retJson.value("id").toString().toLong();
     m_GlobalData->m_GameData.m_GameName = retJson.value("gameName").toString();
     m_GlobalData->m_GameData.m_RoundId = 0;
@@ -43,7 +48,7 @@ void CreateGameCommObj::finishedRequest()
     m_GlobalData->m_GameData.m_OtherUserId = 0;
     long int userId2 = retJson.value("secondPlayerId").toString().toLong();
     m_GlobalData->m_UserData.m_UserId = userId2;
-    emit gameCreated(m_GameName, m_GlobalData->m_UserData.m_UserName); 
+    emit gameCreated(m_GameName, m_GlobalData->m_UserData.m_UserName, resetGameScore); 
 }
 
 bool CreateGameCommObj::validateReply(const QJsonObject& reply) {
