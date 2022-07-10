@@ -156,8 +156,8 @@ void MultiplayerRound::setRoundCancelled()
 
 void MultiplayerRound::startNewRound(long int desiredRoundId) {
     //TODO cancel current round
-    if (desiredRoundId == m_GlobalData->m_GameData.m_RoundId)
-        return;
+    //it is called only when connecting to round
+    qDebug() << "Init round " << desiredRoundId;
     initRound();
     m_GlobalData->m_GameData.m_RoundId = desiredRoundId;
 }

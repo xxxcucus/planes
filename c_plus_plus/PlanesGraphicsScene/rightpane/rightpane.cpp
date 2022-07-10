@@ -154,7 +154,6 @@ void RightPane::multiplayerRoundReset(bool exists, const QString& gameName, cons
 
     qDebug() << "Multiround reset!! " << desiredRoundId;
 
-     
     m_PlayerBoard->refreshPlanes();
     m_ComputerBoard->refreshPlanes();
 }

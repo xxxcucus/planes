@@ -42,6 +42,7 @@ void AbstractPlaneRound::initRound()
 	//reset();
 }
 
+
 bool AbstractPlaneRound::roundEnds(bool& isPlayerWinner, bool& isComputerWinner)
 {
 	isPlayerWinner = enoughGuesses(m_PlayerGrid, m_computerGuessList);
