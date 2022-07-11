@@ -245,6 +245,8 @@ class MainActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_login).setVisible(true)
             menu.findItem(R.id.nav_logout).setVisible(true)
             menu.findItem(R.id.nav_register).setVisible(true)
+            menu.findItem(R.id.nav_game_status).setVisible(true)
+            menu.findItem(R.id.nav_creategame).setVisible(true)
         }
 
         setUsernameDrawerMenuMultiplayer()
@@ -272,6 +274,7 @@ class MainActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_logout).setVisible(false)
             menu.findItem(R.id.nav_register).setVisible(false)
             menu.findItem(R.id.nav_game_status).setVisible(false)
+            menu.findItem(R.id.nav_creategame).setVisible(false)
         }
         val header = navigationView.getHeaderView(0)
         var versionTextView = header.findViewById<TextView>(R.id.version_header)
