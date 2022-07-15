@@ -164,6 +164,8 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     fun authTokenExpired(): Boolean {
+        if (m_UserData.userName.isNullOrEmpty())
+            return false
         return m_UserData.lastTokenUpdate != null && m_UserData.lastTokenUpdate!!.until(LocalDateTime.now(), ChronoUnit.MINUTES) > TOKEN_EXPIRATION_TIME_MINUTES
     }
 
