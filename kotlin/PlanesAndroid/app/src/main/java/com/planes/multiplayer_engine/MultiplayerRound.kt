@@ -20,6 +20,8 @@ import retrofit2.http.Body
 import android.R.bool
 import androidx.core.util.Pair
 import com.planes.android.game.multiplayer.IGameFragmentMultiplayer
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 import kotlin.math.round
 
 class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
@@ -32,6 +34,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     //http client options
     private val OK_HTTP_CLIENT_TIMEOUT: Long = 60
     private val HTTP_LOGGING_INTERCEPTOR = HttpLoggingInterceptor()
+    private val TOKEN_EXPIRATION_TIME_MINUTES = 30
     //TODO to adapt this to login requirements
     private val HTTP_HEADERS = constructHeaderInterceptor()
     private val HTTP_ORIGIN_HEADER = "Origin"
@@ -156,10 +159,20 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
             //token refresh
             m_UserData.authToken = authToken
         }
+
+        m_UserData.lastTokenUpdate = LocalDateTime.now()
+    }
+
+    fun authTokenExpired(): Boolean {
+        return m_UserData.lastTokenUpdate != null && m_UserData.lastTokenUpdate!!.until(LocalDateTime.now(), ChronoUnit.MINUTES) > TOKEN_EXPIRATION_TIME_MINUTES
     }
 
     fun getUsername() : String {
         return m_UserData.userName
+    }
+
+    fun getPassword() : String {
+        return m_UserData.password
     }
 
     fun getOpponentName() : String {

@@ -8,12 +8,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.planes.android.*
 import com.planes.android.customviews.*
 import com.planes.android.game.singleplayer.*
 import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.commobj.LoginWithoutLoadingCommObj
 import com.planes.multiplayer_engine.commobj.SimpleRequestCommObj
 import com.planes.multiplayer_engine.commobj.SimpleRequestWithoutLoadingCommObj
 import com.planes.multiplayer_engine.requests.AcquireOpponentPositionsRequest
@@ -25,7 +25,6 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import okhttp3.Headers
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
 
@@ -41,6 +40,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     private lateinit var m_SendMoveCommObj: SimpleRequestWithoutLoadingCommObj<SendNotSentMovesResponse>
     private lateinit var m_SendWinnerCommObj: SimpleRequestCommObj<SendWinnerResponse>
     private lateinit var m_StartNewRoundCommObj: SimpleRequestCommObj<StartNewRoundResponse>
+    private lateinit var m_LoginWhenTokenExpiredCommObj: LoginWithoutLoadingCommObj
 
     private lateinit var m_PollOpponentPositionsSubscription: Disposable
     private lateinit var m_PollOpponentMovesSubscription: Disposable
@@ -135,6 +135,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         m_GameControls.setPlanesLayout(m_PlanesLayout)
         m_GameBoards.setGameControls(m_GameControls)
 
+        performLoginWhenTokenExpired()
         reinitializeFromState()
 
         (activity as MainActivity).setActionBarTitle(getString(R.string.game))
@@ -200,6 +201,9 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         if (this::m_StartNewRoundCommObj.isInitialized) {
             m_StartNewRoundCommObj.disposeSubscription()
         }
+        if (this::m_LoginWhenTokenExpiredCommObj.isInitialized) {
+            m_LoginWhenTokenExpiredCommObj.disposeSubscription()
+        }
 
         disposeAllPollingSubscriptions()
         hideLoading()
@@ -224,6 +228,29 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     fun showTwoBoards(isTablet: Boolean): Boolean {
         return false
+    }
+
+    fun saveCredentialsTokenExpired(username: String, password: String, authorizationHeader: String) {
+        m_PlaneRound.setUserData(username, password, authorizationHeader)
+    }
+    
+    fun createObservableTokenExpired() : Observable<Response<LoginResponse>> {
+        return m_PlaneRound.login(m_PlaneRound.getUsername(), m_PlaneRound.getPassword())
+    }
+
+    fun performLoginWhenTokenExpired() {
+        if (m_PlaneRound.authTokenExpired()) {
+            m_LoginWhenTokenExpiredCommObj = LoginWithoutLoadingCommObj(
+                ::createObservableTokenExpired,
+                getString(R.string.loginerror),
+                getString(R.string.unknownerror),
+                m_PlaneRound.getUsername(),
+                m_PlaneRound.getPassword(),
+                ::saveCredentialsTokenExpired,
+                requireActivity()
+            )
+            m_LoginWhenTokenExpiredCommObj.makeRequest()
+        }
     }
 
     //region BoardEditing

@@ -20,6 +20,8 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
 
     fun setUserData(username: String, password: String, authToken: String)
 
+    fun authTokenExpired(): Boolean
+
     fun getGameId() : Long
 
     fun getRoundId() : Long
@@ -29,6 +31,8 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
     fun getOpponentId(): Long
 
     fun getUsername(): String
+
+    fun getPassword(): String
 
     fun getOpponentName(): String
 

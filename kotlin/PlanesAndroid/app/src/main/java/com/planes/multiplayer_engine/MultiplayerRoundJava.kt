@@ -29,6 +29,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         global_Round!!.setUserData(username, password, authToken)
     }
 
+    override fun authTokenExpired(): Boolean {
+        return global_Round!!.authTokenExpired()
+    }
+
     override fun getGameId() : Long {
         return global_Round!!.getGameId()
     }
@@ -47,6 +51,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
 
     override fun getUsername(): String {
         return global_Round!!.getUsername()
+    }
+
+    override fun getPassword(): String {
+        return global_Round!!.getPassword()
     }
 
     override  fun getOpponentName(): String {
