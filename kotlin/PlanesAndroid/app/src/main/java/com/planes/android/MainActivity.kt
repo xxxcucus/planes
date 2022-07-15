@@ -23,6 +23,7 @@ import com.planes.android.game.multiplayer.GameFragmentMultiplayer
 import com.planes.android.game.singleplayer.GameFragmentSinglePlayer
 import com.planes.android.gamestats.GameStatsFragment
 import com.planes.android.login.LoginFragment
+import com.planes.android.logout.LogoutFragment
 import com.planes.android.register.RegisterFragment
 import com.planes.android.preferences.*
 import com.planes.android.register.NoRobotFragment
@@ -204,6 +205,7 @@ class MainActivity : AppCompatActivity() {
             ApplicationScreens.Videos.value -> mSelectedItem = R.id.nav_videos
             ApplicationScreens.About.value -> mSelectedItem = R.id.nav_about
             ApplicationScreens.Login.value -> mSelectedItem = R.id.nav_login
+            ApplicationScreens.Logout.value -> mSelectedItem = R.id.nav_logout
             ApplicationScreens.Register.value -> mSelectedItem = R.id.nav_register
             ApplicationScreens.NoRobot.value -> mSelectedItem = R.id.nav_norobot
             ApplicationScreens.CreateGame.value -> mSelectedItem = R.id.nav_creategame
@@ -405,6 +407,9 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.nav_login -> {
                 newFragment = LoginFragment()
+            }
+            R.id.nav_logout -> {
+                newFragment = LogoutFragment()
             }
 
             R.id.nav_register -> {
