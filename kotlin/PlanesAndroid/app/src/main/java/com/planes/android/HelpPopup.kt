@@ -38,7 +38,8 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
 
     fun onButtonShowHelpWindowClick() {
 
-        if (m_CurFragment in arrayOf(R.id.nav_about, R.id.nav_settings))
+        if (m_CurFragment in arrayOf(R.id.nav_about, R.id.nav_settings, R.id.nav_game_status, R.id.nav_login,
+                R.id.nav_logout, R.id.register, R.id.nav_creategame))
             return
 
         // inflate the layout of the popup window
