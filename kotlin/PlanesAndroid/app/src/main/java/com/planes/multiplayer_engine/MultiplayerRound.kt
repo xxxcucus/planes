@@ -32,7 +32,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     private lateinit var m_RegistrationData: RegistrationResponse
 
     //http client options
-    private val OK_HTTP_CLIENT_TIMEOUT: Long = 60
+    private val OK_HTTP_CLIENT_TIMEOUT: Long = 300
     private val HTTP_LOGGING_INTERCEPTOR = HttpLoggingInterceptor()
     private val TOKEN_EXPIRATION_TIME_MINUTES = 30
     //TODO to adapt this to login requirements

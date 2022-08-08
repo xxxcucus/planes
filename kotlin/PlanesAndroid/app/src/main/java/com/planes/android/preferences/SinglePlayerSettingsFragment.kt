@@ -121,8 +121,7 @@ class SinglePlayerSettingsFragment : Fragment() {
             then save the remaining options with the saveOptions function
             from the MainActivity
 
-            if changedVersion load the Preferences fragment again from
-            the MainActivity
+            if changedVersion jump to the login Screen of the multiplayer version
         */
         if (!this::binding.isInitialized)
             return
