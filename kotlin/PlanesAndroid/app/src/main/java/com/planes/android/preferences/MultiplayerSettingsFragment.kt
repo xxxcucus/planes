@@ -85,7 +85,10 @@ class MultiplayerSettingsFragment : Fragment() {
 
         if (binding.settingsData!!.m_MultiplayerVersion == false) {
             m_MainPreferencesService.multiplayerVersion = false
-            (activity as MainActivity).restartPreferencesFragment()
+            m_MultiplayerRound.setUserData("", "", "")
+            m_MultiplayerRound.resetGameData()
+            m_MultiplayerRound.initRound()
+            (activity as MainActivity).switchSingleMultiplayerVersion()
         }
 
     }

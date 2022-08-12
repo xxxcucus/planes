@@ -528,14 +528,18 @@ class MainActivity : AppCompatActivity() {
     /**
      * Enter multiplayer modus
      */
-    fun restartPreferencesFragment() {
+    fun switchSingleMultiplayerVersion() {
         if (m_MainPreferencesService.multiplayerVersion)
             setDraweMenuMultiplayer()
         else
             setDraweMenuSinglePlayer()
 
         supportFragmentManager.popBackStack("FromMainMenu", FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        mSelectedItem = R.id.nav_settings
+        if (m_MainPreferencesService.multiplayerVersion) {
+            mSelectedItem = R.id.nav_login
+        } else {
+            mSelectedItem = R.id.nav_game
+        }
         setFragment(true)
     }
 

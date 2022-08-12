@@ -2,28 +2,19 @@ package com.planes.android.preferences
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import com.planes.android.ApplicationScreens
-import com.planes.android.MainActivity
-import com.planes.android.R
-import com.planes.android.Tools
+import com.planes.android.*
 import com.planes.android.databinding.FragmentOptionsSingleBinding
 import com.planes.multiplayer_engine.MultiplayerRoundJava
-import com.planes.multiplayer_engine.commobj.SimpleRequestCommObj
 import com.planes.multiplayer_engine.commobj.SimpleRequestWithoutCredentialsCommObj
-import com.planes.multiplayer_engine.responses.StartNewRoundResponse
 import com.planes.multiplayer_engine.responses.VersionResponse
+import com.planes.single_player_engine.PlanesRoundJava
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
-import java.util.concurrent.TimeUnit
 
 class SinglePlayerSettingsFragment : Fragment() {
     private lateinit var binding: FragmentOptionsSingleBinding
@@ -33,6 +24,7 @@ class SinglePlayerSettingsFragment : Fragment() {
     private var m_PreferencesService = SinglePlayerPreferencesServiceGlobal()
     private var m_MainPreferencesService = MainPreferencesServiceGlobal()
     private var m_MultiplayerRound = MultiplayerRoundJava()
+    private var m_PlaneRound: PlanesRoundInterface = PlanesRoundJava()
     private lateinit var m_Context: Context
 
     private lateinit var m_VerifyVersionCommObj: SimpleRequestWithoutCredentialsCommObj<VersionResponse>
@@ -42,6 +34,7 @@ class SinglePlayerSettingsFragment : Fragment() {
         m_PreferencesService.createPreferencesService(context)
         m_MainPreferencesService.createPreferencesService(context)
         m_MultiplayerRound.createPlanesRound()
+        m_PlaneRound.createPlanesRound()
         m_Context = context
     }
 
@@ -94,7 +87,8 @@ class SinglePlayerSettingsFragment : Fragment() {
 
     fun finalizeSavingSuccessful() {
         m_MainPreferencesService.multiplayerVersion = true
-        (activity as MainActivity).restartPreferencesFragment()
+        m_PlaneRound.initRound()
+        (activity as MainActivity).switchSingleMultiplayerVersion()
     }
 
     fun finalizeSavingError() {
