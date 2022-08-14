@@ -529,10 +529,13 @@ class MainActivity : AppCompatActivity() {
      * Enter multiplayer modus
      */
     fun switchSingleMultiplayerVersion() {
-        if (m_MainPreferencesService.multiplayerVersion)
+        if (m_MainPreferencesService.multiplayerVersion) {
+            Tools.displayToast(getString(R.string.multiplayergame), applicationContext)
             setDraweMenuMultiplayer()
-        else
+        } else {
+            Tools.displayToast(getString(R.string.singleplayergame), applicationContext)
             setDraweMenuSinglePlayer()
+        }
 
         supportFragmentManager.popBackStack("FromMainMenu", FragmentManager.POP_BACK_STACK_INCLUSIVE)
         if (m_MainPreferencesService.multiplayerVersion) {
