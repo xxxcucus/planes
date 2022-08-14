@@ -36,14 +36,18 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
         (m_PlaneRound as PlanesRoundJava).createPlanesRound()
     }
 
-    fun onButtonShowHelpWindowClick() {
+    fun onButtonShowHelpWindowClick(multiplayerVersion: Boolean) {
 
-        if (m_CurFragment in arrayOf(R.id.nav_about, R.id.nav_settings, R.id.nav_game_status, R.id.nav_login,
-                R.id.nav_logout, R.id.register, R.id.nav_creategame))
+        if (m_CurFragment in arrayOf(
+                R.id.nav_about, R.id.nav_settings, R.id.nav_game_status, R.id.nav_login,
+                R.id.nav_logout, R.id.register, R.id.nav_creategame
+            )
+        )
             return
 
         // inflate the layout of the popup window
-        val inflater = m_Context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater =
+            m_Context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView = inflater.inflate(R.layout.help_popup, null)
 
         // create the popup window
@@ -59,9 +63,9 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
         m_HelpTitleTextView = popupView.findViewById(R.id.popup_help_title) as TextView
         m_HelpButton = popupView.findViewById(R.id.popup_help_button) as Button
         if (m_HelpTextView != null && m_HelpTitleTextView != null) {
-            when(m_CurFragment) {
+            when (m_CurFragment) {
                 R.id.nav_game -> {
-                    showHelpGameFragment(popupWindow)
+                    showHelpGameFragment(multiplayerVersion, popupWindow)
                 }
                 R.id.nav_videos -> {
                     showHelpVideoFragment()
@@ -77,7 +81,7 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
     }
 
 
-    fun showHelpGameFragment(popupWindow: PopupWindow) {
+    fun showHelpGameFragment(multiplayerVersion: Boolean, popupWindow: PopupWindow) {
         var gameStage = m_PlaneRound.getGameStage()
         when (gameStage) {
             GameStages.GameNotStarted.value -> {
@@ -87,10 +91,17 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
             }
             GameStages.BoardEditing.value -> {
                 m_HelpTitleTextView.text = m_Context.getString(R.string.board_editing_stage)
-                m_HelpTextView.text = """
+                if (!multiplayerVersion) {
+                    m_HelpTextView.text = """
                     ${m_Context.getString(R.string.helptext_boardediting_1)}
                     ${m_Context.getString(R.string.helptext_boardediting_2)}
                     """.trimIndent()
+                } else {
+                    m_HelpTextView.text = """
+                    ${m_Context.getString(R.string.helptext_boardediting_1)}
+                    ${m_Context.getString(R.string.helptext_boardediting_3)}
+                    """.trimIndent()
+                }
                 m_HelpButton.setOnClickListener(object : View.OnClickListener {
                     override fun onClick(view: View) {
                         m_StartTutorialLambda(1)
@@ -101,29 +112,30 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
             }
             GameStages.Game.value -> {
                 m_HelpTitleTextView.text = m_Context.getString(R.string.game_stage)
-                m_HelpTextView.text = """
+                if (!multiplayerVersion) {
+                    m_HelpTextView.text = """
                     ${m_Context.getString(R.string.helptext_game_1)}
                     ${m_Context.getString(R.string.helptext_game_2)}
                     """.trimIndent()
-                m_HelpButton.setOnClickListener(object : View.OnClickListener {
-                    override fun onClick(view: View) {
-                        m_StartTutorialLambda(0)
-                        popupWindow.dismiss()
-                    }
-                })
-                m_HelpButton.setEnabled(true)
+                    m_HelpButton.setOnClickListener(object : View.OnClickListener {
+                        override fun onClick(view: View) {
+                            m_StartTutorialLambda(0)
+                            popupWindow.dismiss()
+                        }
+                    })
+                    m_HelpButton.setEnabled(true)
+                }
             }
         }
     }
 
-    fun showHelpVideoFragment() {
-        m_HelpTitleTextView.text = m_Context.getString(R.string.videos)
-        m_HelpTextView.text = """
+        fun showHelpVideoFragment() {
+            m_HelpTitleTextView.text = m_Context.getString(R.string.videos)
+            m_HelpTextView.text = """
                     ${m_Context.getString(R.string.helptext_videos1)}
                     ${m_Context.getString(R.string.helptext_videos2)}
                     ${m_Context.getString(R.string.helptext_videos3)}
                     """.trimIndent()
-        m_HelpButton.setEnabled(false)
+            m_HelpButton.setEnabled(false)
+        }
     }
-
-}

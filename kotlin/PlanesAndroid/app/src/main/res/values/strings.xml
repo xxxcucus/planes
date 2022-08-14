@@ -187,7 +187,7 @@
     <string name="round_status">Round Status</string>
     <string name="current_round">Current Round</string>
 
-
+    <string name="helptext_boardediting_3">Swipe on the display to position the planes."</string>
 
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->

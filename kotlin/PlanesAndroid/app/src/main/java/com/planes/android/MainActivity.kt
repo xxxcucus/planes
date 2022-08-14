@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity() {
 
         val id = item.itemId
         if (id == R.id.menu_help) {
-            onButtonShowHelpWindowClick()
+            onButtonShowHelpWindowClick(m_MainPreferencesService.multiplayerVersion)
             return true
         }
 
@@ -565,9 +565,9 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    fun onButtonShowHelpWindowClick() {
+    fun onButtonShowHelpWindowClick(multiplayerVersion: Boolean) {
         var helpPopup = HelpPopup(applicationContext, m_MainLayout, mSelectedItem, ::startTutorialFragment)
-        helpPopup.onButtonShowHelpWindowClick()
+        helpPopup.onButtonShowHelpWindowClick(multiplayerVersion)
     }
 
     //endregion
