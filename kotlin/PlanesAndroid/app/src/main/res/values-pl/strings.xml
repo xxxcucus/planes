@@ -153,7 +153,7 @@
     <string name="game_stats2">Statystyki</string>
     <string name="sendplanepositions_error"> Błąd przesyłania pozycji samolotów </string>
     <string name="invalid_plane_orientation"> Nieprawidłowa orientacja samolotu</string>
-    <string name="error_init_opponent_board"> Błąd inicjalizacji planszy komputera</string>
+    <string name="error_init_opponent_board">Błąd inicjalizacji planszy przeciwnika</string>
     <string name="waiting_for_planes_positions"> Pozycje samolotów zostały przesłane. Oczekiwanie na pozycje samolotów przeciwnika...</string>
     <string name="error_game_connection"> Błąd podczas oczekiwania na dołączenie przeciwnika do gry</string>
     <string name="error_plane_positions"> Błąd podczas oczekiwania na pozycje samolotów przeciwnika.</string>
@@ -187,7 +187,7 @@
     <string name="round_status">Status rozgrywki</string>
     <string name="current_round">Bieżąca rozgrywka</string>
     
-    <string name="helptext_boardediting_3">Przesuń po ekranie, aby pokazać pozycje samolotów."</string>
+    <string name="helptext_boardediting_3">Przesuń po ekranie, aby ustawić samoloty.</string>
     
     
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
