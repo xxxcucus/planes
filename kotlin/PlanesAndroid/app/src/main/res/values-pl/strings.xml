@@ -13,7 +13,11 @@
     <string name="view_computer_board1">Pokaż</string>
     <string name="view_computer_board2">Plansza komputera</string>
     <string name="player_stats">Statystyki gracza</string>
+    <string name="player_stats1">Statystyki</string>
+    <string name="player_stats2">Gracza</string>
     <string name="computer_stats">Statystyki komputera</string>
+    <string name="computer_stats1">Statystyki</string>
+    <string name="computer_stats2">Komputera</string>
     <string name="player_hits">Trafień gracza</string>
     <string name="player_moves">Ruchów gracza</string>
     <string name="player_misses">Pudła gracza</string>
@@ -46,9 +50,9 @@
     <string name="credits_graphics_title">Grafiki</string>
     <string name="credits_graphics_content">Logo gry oraz grafiki sklepowe są autorstwa Alexandru Vintilescu. Inne prace Alexa można znaleźć na https://axa951.wixsite.com/portfolio</string>
     <string name="credits_graphics_button">Przejdź do strony Alexa</string>
-    <string name="helptext_startnewgame_1">Naciśnij przycisk "Nowa rozgrywka", aby rozpocząć nową rozgrywkę.</string>
+    <string name="helptext_startnewgame_1">Naciśnij przycisk \"Nowa rozgrywka\", aby rozpocząć nową rozgrywkę.</string>
     <string name="helptext_boardediting_1">Naciśnij na część samolotu, aby go wybrać.</string>
-    <string name="helptext_boardediting_2">Dostosuj pozycję samolotu naciskając na przyciski sterowania."</string>
+    <string name="helptext_boardediting_2">Dostosuj pozycję samolotu naciskając na przyciski sterowania.\"</string>
     <string name="helptext_game_1">Naciśnij pole na planszy komputera, aby zgadywać, gdzie znajdują się samolty komputera.</string>
     <string name="helptext_game_2">Znak X oznacza zniszczenie całego samolotu. Znak kółka oznacza pudło. Znak rombu oznacza trafienie.</string>
     <string name="popup_help_button_text">Zobacz film</string>
@@ -73,7 +77,7 @@
     <string name="multiplayertutorial">Samouczek gry wieloosobowej</string>
     <string name="positioningplanestutorial">Samouczek umieszczania samolotów</string>
     <string name="guessingplanestutorial">Samouczek zgadywania pozycji samolotów</string>
-
+    
     <string name="savesettings">Zapisz ustawienia</string>
     <string name="game">Gra</string>
     <string name="videos">Filmy</string>
@@ -86,15 +90,109 @@
     <string name="credits_tools_title">Narzędzia</string>
     <string name="credits_tools">Podziękowania dla firmy JetBrains za bezpłatne licencje na oprogramowanie użyte w procesie tworzenia tego projektu.</string>
     <string name="software_version_title">Wersja</string>
-    <string name="software_version">Bieżącą wersją aplikacji jest </string>
-
+    <string name="software_version">Bieżąca wersja aplikacji to </string>
+    
+    <string name="multiplayer_options">Opcje gry wieloosobowej </string>
+    <string name="multiplayer_version">Wersja gry wieloosobowej</string>
+    <string name="security_options">Opcje bezpieczeństwa</string>
+    <string name="username">Nazwa użytkownika</string>
+    <string name="password">Hasło</string>
+    <string name="server_version_error">Serwer został zaktualizowany. Zaktualizuj aplikację, aby zachować zgodność.</string>
+    <string name="hide_password">Ukryj hasło</string>
+    <string name="credentials_preferences">Użyj poświadczeń z preferencji</string>
+    <string name="login">Zaloguj</string>
+    <string name="logout">Wyloguj</string>
+    <string name="register">Zarejestruj</string>
+    <string name="loginerror">Błąd logowania</string>
+    <string name="registererror">Błąd rejestracji</string>
+    <string name="submit">Prześlij</string>
+    <string name="nouser">Nie zalogowano</string>
+    <string name="userloggedin"> Zalogowano jako</string>
+    <string name="singleplayergame">Gra jednoosobowa</string>
+    <string name="multiplayergame">Gra wieloosobowa</string>
+    <string name="unknownerror"> Nieznany błąd</string>
+    <string name="loginsuccess"> Logowanie pomyślne</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="savecredentials_question">Czy chcesz zapisać login i hasło w preferencjach? Będzie ich można użyć ponownie poprzez naciśnięcie na nie przy następnym logowaniu.</string>
+    <string name="validation_toolong_login_username"> Nazwa użytkownika zawiera ponad 30 znaków.</string>
+    <string name="validation_toolong_login_password"> Hasło zawiera ponad 30 znaków.</string>
+    <string name="validation_empty_login_username"> Wpisz nazwę użytkownika.</string>
+    <string name="validation_empty_login_password"> Wpisz hasło.</string>
+    <string name="validation_startsendswithempty_register_username"> Nazwa użytkownika zaczyna się lub kończy odstępem. </string>
+    <string name="validation_tooshort_register_username"> Nazwa użytkownika zawiera mniej niż 5 znaków </string>
+    <string name="validation_tooshort_register_password"> Hasło zawiera mniej niż 5 znaków </string>
+    <string name="unknown_registration_error"> Błąd rejestrowania </string>
+    <string name="norobot_question"> Zaznacz wszystkie obrazy pasujące do kategorii: </string>
+    <string name="norobot_cat"> Kot </string>
+    <string name="norobot_dog"> Pies </string>
+    <string name="norobot_allmarked">Wszystko oznaczone!</string>
+    <string name="norobot_success"> Pomyślnie utworzono użytkownika! </string>
+    <string name="game_name"> Nazwa gry </string>
+    <string name="random_game_name"> Utwórz losową nazwę gry</string>
+    <string name="create_connectto_game">Utwórz lub dołącz do gry</string>
+    <string name="connectto_game">Dołącz do gry</string>
+    <string name="create_game">Utwórz grę</string>
+    <string name="validation_tooshort_gamename"> Nazwa gry zawiera mniej niż 5 znaków </string>
+    <string name="validation_toolong_gamename"> Nazwa gry zawiera więcej niż 30 znaków </string>
+    <string name="validation_user_not_loggedin"> Jeszcze nie zalogowano</string>
+    <string name="validation_not_connected_to_game"> Nie połączono z grą</string>
+    <string name="creategame_error"> Błąd tworzenia gry </string>
+    <string name="gamename_impossible"> Nie można utworzyć gry o tej nazwie</string>
+    <string name="creategame_possible"> Możesz utworzyć nową grę o tej nazwie</string>
+    <string name="create_new_game"> Utwórz nową grę</string>
+    <string name="cancel"> Anuluj</string>
+    <string name="connecttogame_possible"> Możesz dołączyć do gry stworzonej przez</string>
+    <string name="start_playing"> Rozpocznij grę</string>
+    <string name="game_created"> Gra utworzona. Oczekiwanie na dołączenie przeciwnika.</string>
+    <string name="connected_togame"> Dołączono do gry.</string>
+    <string name="not_connected_togame"> Nie dołączono do gry.</string>
+    <string name="opponent_connected_togame"> Przeciwnik dołączył do gry</string>
+    <string name="game_stats">Statystyki gry</string>
+    <string name="game_stats1">Gra</string>
+    <string name="game_stats2">Statystyki</string>
+    <string name="sendplanepositions_error"> Błąd przesyłania pozycji samolotów </string>
+    <string name="invalid_plane_orientation"> Nieprawidłowa orientacja samolotu</string>
+    <string name="error_init_opponent_board"> Błąd inicjalizacji planszy komputera</string>
+    <string name="waiting_for_planes_positions"> Pozycje samolotów zostały przesłane. Oczekiwanie na pozycje samolotów przeciwnika...</string>
+    <string name="error_game_connection"> Błąd podczas oczekiwania na dołączenie przeciwnika do gry</string>
+    <string name="error_plane_positions"> Błąd podczas oczekiwania na pozycje samolotów przeciwnika.</string>
+    <string name="plane_positions_received"> Odebrano pozycje samolotów przeciwnika.</string>
+    <string name="sendwinner_error"> Błąd podczas przesyłania zwycięzcy.</string>
+    <string name="sendmove_error"> Błąd przesyłania własnego ruchu</string>
+    <string name="roundcancelled_opponent"> Rozgrywka anulowana przez przeciwnika</string>
+    <string name="error_cancelround"> Błąd podczas anulowania rozgrywki</string>
+    <string name="waiting_for_moves"> Odnaleziono wszystkie samoloty. Oczekiwanie na ruch przeciwnika, aby zobaczyć, kto zwyciężył...</string>
+    <string name="sending_remaining_moves">Rozgrywka zakończona. Przesyłanie pozostałych ruchów do przeciwnika...</string>
+    <string name="error_moves"> Błąd podczas oczekiwania na ruchy przeciwnika.</string>
+    <string name="error_startnewround"> Błąd podczas rozpoczynania nowej rozgrywki.</string>
+    <string name="round_cancelled">Rozgrywka została anulowana </string>
+    <string name="version_error"> Błąd podczas wczytywania wersji serwera </string>
+    <string name="multiplayer_not_available"> Wersja gry wieloosobowej nie jest dostępna dla tej wersji Androida.</string>
+    
+    <string name="view_opponent_board">Zobacz planszę przeciwnika</string>
+    <string name="view_opponent_board1">Zobacz</string>
+    <string name="view_opponent_board2">Plansza przeciwnika</string>
+    <string name="opponent_stats">Statystyki przeciwnika</string>
+    <string name="opponent_stats1">Przeciwnik</string>
+    <string name="opponent_stats2">Statystyki</string>
+    <string name="opponent_hits">Trafienia przeciwnika</string>
+    <string name="opponent_moves">Ruchy przeciwnika</string>
+    <string name="opponent_misses">Pudła przeciwnika</string>
+    <string name="opponent_dead">Zatopione przeciwnika</string>
+    <string name="opponent_winner">Przeciwnik wygrywa rozgrywkę!</string>
+    <string name="opponent_wins">Przeciwnik zwycięża</string>
+    
+    <string name="game_score">Wynik gry</string>
+    <string name="round_status">Status rozgrywki</string>
+    <string name="current_round">Bieżąca rozgrywka</string>
+    
+    <string name="helptext_boardediting_3">Przesuń po ekranie, aby pokazać pozycje samolotów."</string>
+    
+    
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">
         com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
     <string name="drawer_open_content_description" translatable="false">Open Menu</string>
     <string name="drawer_closed_content_description" translatable="false">Close Menu</string>
-    <string name="player_stats1">Statystyki</string>
-    <string name="player_stats2">Gracza</string>
-    <string name="computer_stats1">Statystyki</string>
-    <string name="computer_stats2">Komputera</string>
 </resources>
