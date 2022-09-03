@@ -141,13 +141,14 @@
     <string name="create_new_game">Erstelle neues Spiel</string>
     <string name="cancel">Abbrechen</string>
     <string name="connecttogame_possible">Du darfst dem Spiel erstellt von beitreten</string>
-    <string name="start_playing">Spiel starten</string>
+    <string name="start_playing">Neues Spiel starten</string>
     <string name="game_created">Spiel erstellt. Warte dass der Gegner dem Spiel beitritt</string>
     <string name="connected_togame">Du bist einem Spiel beigetreten</string>
     <string name="not_connected_togame">Du bist nicht einem Spiel beigetreten</string>
     <string name="opponent_connected_togame">Gegener ist dem Spiel beigetreten</string>
     <string name="game_stats">Spielstatistik</string>
     <string name="game_stats1">Spielstatistik</string>
+    <string name="game_stats2">" "</string>
     <string name="sendplanepositions_error">Fehler beim Senden der Flugzeugepositionen</string>
     <string name="invalid_plane_orientation">Falsche Flugzeugposition</string>
     <string name="error_init_opponent_board">Fehler bei der Initialisierung des Gegnersbrett</string>
