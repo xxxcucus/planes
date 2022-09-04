@@ -122,7 +122,7 @@
     <string name="validation_tooshort_register_username"> El usuario tiene menos de 5 caracteres. </string>
     <string name="validation_tooshort_register_password"> La contraseña tiene menos de 5 caracteres </string>
     <string name="unknown_registration_error"> Error al registrarse </string>
-    <string name="norobot_question"> Marque todas las imágenes correspondientes a la categoría: </string>
+    <string name="norobot_question">Marque todas las imágenes correspondientes a la categoría: %1$s</string>
     <string name="norobot_cat"> Gato </string>
     <string name="norobot_dog"> Perro </string>
     <string name="norobot_allmarked">¡Todo Marcado!</string>
@@ -141,7 +141,7 @@
     <string name="creategame_possible"> Puedes crear un nuevo juego con este nombre</string>
     <string name="create_new_game"> Crear nuevo juego</string>
     <string name="cancel"> Cancelar </string>
-    <string name="connecttogame_possible"> Puedes conectarte al juego creado por</string>
+    <string name="connecttogame_possible"> Puedes conectarte al juego creado por %1$s</string>
     <string name="start_playing"> Empezar a jugar</string>
     <string name="game_created"> ¡Juego creado! Esperando a que el oponente se conecte.</string>
     <string name="connected_togame"> Conectado al juego.</string>

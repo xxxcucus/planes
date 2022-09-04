@@ -24,7 +24,7 @@ class MultiplayerPreferencesService internal constructor(private val m_Context: 
             Context.MODE_PRIVATE).edit()
         sp_credentials.putString("username", username)
         sp_credentials.putString("password", password)
-        sp_credentials.commit()
+        sp_credentials.apply()
     }
 
     override fun writeToSavedInstanceState(savedInstanceState: Bundle) {

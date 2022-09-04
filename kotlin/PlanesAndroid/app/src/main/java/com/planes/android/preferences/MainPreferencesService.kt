@@ -21,7 +21,7 @@ class MainPreferencesService internal constructor(private val m_Context: Context
         val sp_multiplayer = m_Context.getSharedPreferences("multiplayer",
             Context.MODE_PRIVATE).edit()
         sp_multiplayer.putBoolean("multiplayerversion", multiplayerVersion)
-        sp_multiplayer.commit()
+        sp_multiplayer.apply()
     }
 
     override fun writeToSavedInstanceState(savedInstanceState: Bundle) {

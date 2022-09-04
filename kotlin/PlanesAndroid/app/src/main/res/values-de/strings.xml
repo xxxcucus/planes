@@ -121,7 +121,7 @@
     <string name="validation_tooshort_register_username">Benutzername enthält weniger als 5 Zeichen</string>
     <string name="validation_tooshort_register_password">Passwort enthält weniger als 5 Zeichen</string>
     <string name="unknown_registration_error">Registerfehler</string>
-    <string name="norobot_question">Markiere alle Bilder die der Kategorie entsprechen:</string>
+    <string name="norobot_question">Markiere alle Bilder die der Kategorie entsprechen: %1$s</string>
     <string name="norobot_cat">Katze</string>
     <string name="norobot_dog">Hund</string>
     <string name="norobot_allmarked">Alles markiert!</string>
@@ -140,7 +140,7 @@
     <string name="creategame_possible">Du darfst ein neues Spiel mit diesem Name erstellen</string>
     <string name="create_new_game">Erstelle neues Spiel</string>
     <string name="cancel">Abbrechen</string>
-    <string name="connecttogame_possible">Du darfst dem Spiel erstellt von beitreten</string>
+    <string name="connecttogame_possible">Du darfst dem Spiel erstellt von %1$s beitreten</string>
     <string name="start_playing">Neues Spiel starten</string>
     <string name="game_created">Spiel erstellt. Warte dass der Gegner dem Spiel beitritt</string>
     <string name="connected_togame">Du bist einem Spiel beigetreten</string>
@@ -183,4 +183,5 @@
     <string name="round_status">Spielstand</string>
     <string name="current_round">Aktuelles Spiel</string>
     <string name="helptext_boardediting_3">Wisch auf dem Bildschirm um die Flugzeuge zu positionieren.</string>
+    <string name="video_duration">Videolänge: %1$s</string>
 </resources>

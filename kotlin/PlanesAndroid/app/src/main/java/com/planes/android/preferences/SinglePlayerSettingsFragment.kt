@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.planes.android.*
 import com.planes.android.databinding.FragmentOptionsSingleBinding
@@ -38,14 +37,10 @@ class SinglePlayerSettingsFragment : Fragment() {
         m_Context = context
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentOptionsSingleBinding.inflate(inflater, container, false)
         m_InitialComputerSkill = m_PreferencesService.computerSkill
         m_InitialShowPlaneAfterKill = m_PreferencesService.showPlaneAfterKill
@@ -53,9 +48,9 @@ class SinglePlayerSettingsFragment : Fragment() {
         binding.settingsData = SinglePlayerSettingsViewModel(m_InitialComputerSkill, m_InitialShowPlaneAfterKill, m_InitialMultiplayerVersion)
         (activity as MainActivity).setActionBarTitle(getString(R.string.options))
         (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Preferences)
-        var saveSettingsButton = binding.optionsSavesettings as Button
-        saveSettingsButton.setOnClickListener(View.OnClickListener { writeToPreferencesService() })
-        
+        val saveSettingsButton = binding.optionsSavesettings
+        saveSettingsButton.setOnClickListener { writeToPreferencesService() }
+
         return binding.root
     }
 
@@ -67,15 +62,11 @@ class SinglePlayerSettingsFragment : Fragment() {
         hideLoading()
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
-
-    fun hideLoading() {
+    private fun hideLoading() {
         (activity as MainActivity).stopProgressDialog()
     }
 
-    fun checkServerVersion(body: VersionResponse): String {
+    private fun checkServerVersion(body: VersionResponse): String {
         var errorString = ""
         if (body.m_VersionString != m_MainPreferencesService.serverVersion) {
             errorString = getString(R.string.server_version_error)
@@ -85,22 +76,22 @@ class SinglePlayerSettingsFragment : Fragment() {
     }
 
 
-    fun finalizeSavingSuccessful() {
+    private fun finalizeSavingSuccessful() {
         m_MainPreferencesService.multiplayerVersion = true
         m_PlaneRound.initRound()
         (activity as MainActivity).switchSingleMultiplayerVersion()
     }
 
-    fun finalizeSavingError() {
+    private fun finalizeSavingError() {
         binding.settingsData!!.m_MultiplayerVersion = false
         binding.invalidateAll()
     }
 
-    fun createObservableVerifyVersion() : Observable<Response<VersionResponse>> {
+    private fun createObservableVerifyVersion() : Observable<Response<VersionResponse>> {
         return m_MultiplayerRound.testServerVersion()
     }
 
-    fun writeToPreferencesService() {
+    private fun writeToPreferencesService() {
 
         /*
             if multiplayerVersion check connection to server, then set multiplayerVersion in MainPreferencesService
@@ -108,7 +99,7 @@ class SinglePlayerSettingsFragment : Fragment() {
             m_MultiRound.getVersion - subscribe
             show wait animation until the request finishes
 
-            if succesfull must
+            if successful must
                 mark changedVersion = true
                 mark multiplayerVersion in m_MainPreferencesService
 
@@ -126,7 +117,7 @@ class SinglePlayerSettingsFragment : Fragment() {
                 Tools.displayToast(getString(R.string.multiplayer_not_available), m_Context)
                 finalizeSavingError()
             } else {
-                m_VerifyVersionCommObj = SimpleRequestWithoutCredentialsCommObj<VersionResponse>(
+                m_VerifyVersionCommObj = SimpleRequestWithoutCredentialsCommObj(
                     ::createObservableVerifyVersion,
                     getString(R.string.version_error),
                     getString(R.string.unknownerror),

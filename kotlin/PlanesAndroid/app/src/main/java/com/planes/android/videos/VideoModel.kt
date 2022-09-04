@@ -27,20 +27,16 @@ class VideoModel(videoname: String, videoId: Int, videoDuration: String, current
         return m_VideoId
     }
 
-    fun getVideoRatio(): Float {
-        return m_VideoRatio
-    }
-
     fun getVideoDuration(): String {
         return m_VideoDuration
     }
 
-    fun getCurentPosition(): Int {
+    fun getCurrentPosition(): Int {
         return m_CurrentPosition
     }
 
     fun getYoutubeLink(): String {
-        return m_YoutubeLink;
+        return m_YoutubeLink
     }
 
     fun setCurrentPosition(position: Int) {

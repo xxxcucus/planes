@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var toolbar: Toolbar = findViewById(R.id.toolbar)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar!!.displayOptions = ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_SHOW_TITLE
 
@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
 
         m_NoRobotSettingsService = NoRobotSettingsService()
 
-        m_DrawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
+        m_DrawerLayout = findViewById(R.id.drawer_layout)
         mDrawerToggle = object : ActionBarDrawerToggle(this, m_DrawerLayout, R.string.drawer_open_content_description, R.string.drawer_closed_content_description) {
             override fun onDrawerClosed(view: View) {
                 setFragment(true)
@@ -97,10 +97,10 @@ class MainActivity : AppCompatActivity() {
         }
         m_DrawerLayout.addDrawerListener(mDrawerToggle)
 
-        var navigationView = findViewById<NavigationView>(R.id.nav_view)
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener { menuItem ->
             mSelectedItem = menuItem.itemId
-            menuItem.setChecked(true)
+            menuItem.isChecked = true
             m_DrawerLayout.closeDrawer(navigationView)
             true
         }
@@ -118,9 +118,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (m_MainPreferencesService.multiplayerVersion)
-            setDraweMenuMultiplayer()
+            setDrawerMenuMultiplayer()
         else
-            setDraweMenuSinglePlayer()
+            setDrawerMenuSinglePlayer()
 
         if (mSelectedItem == 0) {
             mSelectedItem = R.id.nav_game
@@ -199,101 +199,92 @@ class MainActivity : AppCompatActivity() {
     //region various
 
     fun setCurrentFragmentId(curFragment: ApplicationScreens) {
-        when(curFragment.value) {
-            ApplicationScreens.Preferences.value -> mSelectedItem = R.id.nav_settings
-            ApplicationScreens.Game.value -> mSelectedItem = R.id.nav_game
-            ApplicationScreens.Videos.value -> mSelectedItem = R.id.nav_videos
-            ApplicationScreens.About.value -> mSelectedItem = R.id.nav_about
-            ApplicationScreens.Login.value -> mSelectedItem = R.id.nav_login
-            ApplicationScreens.Logout.value -> mSelectedItem = R.id.nav_logout
-            ApplicationScreens.Register.value -> mSelectedItem = R.id.nav_register
-            ApplicationScreens.NoRobot.value -> mSelectedItem = R.id.nav_norobot
-            ApplicationScreens.CreateGame.value -> mSelectedItem = R.id.nav_creategame
-            ApplicationScreens.GameStats.value -> mSelectedItem = R.id.nav_game_status
-            else -> mSelectedItem = R.id.nav_game
+        mSelectedItem = when(curFragment.value) {
+            ApplicationScreens.Preferences.value -> R.id.nav_settings
+            ApplicationScreens.Game.value -> R.id.nav_game
+            ApplicationScreens.Videos.value -> R.id.nav_videos
+            ApplicationScreens.About.value -> R.id.nav_about
+            ApplicationScreens.Login.value -> R.id.nav_login
+            ApplicationScreens.Logout.value -> R.id.nav_logout
+            ApplicationScreens.Register.value -> R.id.nav_register
+            ApplicationScreens.NoRobot.value -> R.id.nav_norobot
+            ApplicationScreens.CreateGame.value -> R.id.nav_creategame
+            ApplicationScreens.GameStats.value -> R.id.nav_game_status
+            else -> R.id.nav_game
         }
     }
 
-    public fun isHorizontal(): Boolean {
+    fun isHorizontal(): Boolean {
         val orientation = resources.configuration.orientation
-        return if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            true
-        } else {
-            false
-        }
+        return orientation == Configuration.ORIENTATION_LANDSCAPE
     }
 
-    public fun isTablet(): Boolean {
-        val tabletSize = resources.getBoolean(R.bool.isTablet)
-        return if (tabletSize) {
-            true
-        } else {
-            false
-        }
+    fun isTablet(): Boolean {
+        return resources.getBoolean(R.bool.isTablet)
     }
 
     fun setActionBarTitle(title: String) {
-        supportActionBar?.setTitle(title)
+        supportActionBar?.title = title
     }
 
     //endregion
 
 
     //region drawer
-    fun setDraweMenuMultiplayer() {
-        var navigationView = findViewById<NavigationView>(R.id.nav_view)
+    private fun setDrawerMenuMultiplayer() {
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
         if (navigationView != null) {
-            var menu = navigationView.menu
-            menu.findItem(R.id.nav_login).setVisible(true)
-            menu.findItem(R.id.nav_logout).setVisible(true)
-            menu.findItem(R.id.nav_register).setVisible(true)
-            menu.findItem(R.id.nav_game_status).setVisible(true)
-            menu.findItem(R.id.nav_creategame).setVisible(true)
+            val menu = navigationView.menu
+            menu.findItem(R.id.nav_login).isVisible = true
+            menu.findItem(R.id.nav_logout).isVisible = true
+            menu.findItem(R.id.nav_register).isVisible = true
+            menu.findItem(R.id.nav_game_status).isVisible = true
+            menu.findItem(R.id.nav_creategame).isVisible = true
         }
 
         setUsernameDrawerMenuMultiplayer()
     }
 
     fun setUsernameDrawerMenuMultiplayer() {
-        var navigationView = findViewById<NavigationView>(R.id.nav_view)
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
         val header = navigationView.getHeaderView(0)
-        var versionTextView = header.findViewById<TextView>(R.id.version_header)
-        var userTextView = header.findViewById<TextView>(R.id.user_header)
-        versionTextView.setText(getString(R.string.multiplayergame))
+        val versionTextView = header.findViewById<TextView>(R.id.version_header)
+        val userTextView = header.findViewById<TextView>(R.id.user_header)
+        versionTextView.text = getString(R.string.multiplayergame)
         userTextView.visibility = View.VISIBLE
-        var username = m_MultiplayerRound.getUsername()
-        if (username.isNullOrEmpty())
-            userTextView.setText(getString(R.string.nouser))
+        val username = m_MultiplayerRound.getUsername()
+        if (username.isEmpty())
+            userTextView.text = getString(R.string.nouser)
         else
-            userTextView.setText(username)
+            userTextView.text = username
     }
 
-    fun setDraweMenuSinglePlayer() {
-        var navigationView = findViewById<NavigationView>(R.id.nav_view)
+    private fun setDrawerMenuSinglePlayer() {
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
         if (navigationView != null) {
-            var menu = navigationView.menu
-            menu.findItem(R.id.nav_login).setVisible(false)
-            menu.findItem(R.id.nav_logout).setVisible(false)
-            menu.findItem(R.id.nav_register).setVisible(false)
-            menu.findItem(R.id.nav_game_status).setVisible(false)
-            menu.findItem(R.id.nav_creategame).setVisible(false)
+            val menu = navigationView.menu
+            menu.findItem(R.id.nav_login).isVisible = false
+            menu.findItem(R.id.nav_logout).isVisible = false
+            menu.findItem(R.id.nav_register).isVisible = false
+            menu.findItem(R.id.nav_game_status).isVisible = false
+            menu.findItem(R.id.nav_creategame).isVisible = false
         }
         val header = navigationView.getHeaderView(0)
-        var versionTextView = header.findViewById<TextView>(R.id.version_header)
-        var userTextView = header.findViewById<TextView>(R.id.user_header)
-        versionTextView.setText(getString(R.string.singleplayergame))
+        val versionTextView = header.findViewById<TextView>(R.id.version_header)
+        val userTextView = header.findViewById<TextView>(R.id.user_header)
+        versionTextView.text = getString(R.string.singleplayergame)
         userTextView.visibility = View.GONE
     }
 
     //endregion
 
     //region settings
-    public fun setVideoSettings(currentVideo: Int, playbackPositions: IntArray) {
+    fun setVideoSettings(currentVideo: Int, playbackPositions: IntArray) {
         m_VideoSettingsService.currentVideo = currentVideo
         m_VideoSettingsService.videoPlaybackPositions = playbackPositions
     }
 
-    public fun setNorobotSettings(requestId: Long, images: Array<String>, question: String, selection: Array<Boolean>) {
+    fun setNorobotSettings(requestId: Long, images: Array<String>, question: String, selection: Array<Boolean>) {
         m_NoRobotSettingsService.requestId = requestId.toString()
         m_NoRobotSettingsService.question = question
         m_NoRobotSettingsService.images = images
@@ -383,17 +374,17 @@ class MainActivity : AppCompatActivity() {
 
         when(mSelectedItem) {
             R.id.nav_settings -> {
-                if (!m_MainPreferencesService.multiplayerVersion)
-                    newFragment = SinglePlayerSettingsFragment()
+                newFragment = if (!m_MainPreferencesService.multiplayerVersion)
+                    SinglePlayerSettingsFragment()
                 else
-                    newFragment = MultiplayerSettingsFragment()
+                    MultiplayerSettingsFragment()
 
             }
             R.id.nav_game -> {
-                if (!m_MainPreferencesService.multiplayerVersion)
-                    newFragment = GameFragmentSinglePlayer()
+                newFragment = if (!m_MainPreferencesService.multiplayerVersion)
+                    GameFragmentSinglePlayer()
                 else
-                    newFragment = GameFragmentMultiplayer()
+                    GameFragmentMultiplayer()
             }
             R.id.nav_videos -> {
                 val bundle = Bundle()
@@ -457,17 +448,17 @@ class MainActivity : AppCompatActivity() {
 
         mSelectedItem = R.id.nav_norobot  //TODO theoretically not necessary because each fragment sets this variable when it starts
 
-        var newFragment = NoRobotFragment()
+        val newFragment = NoRobotFragment()
         val bundle = Bundle()
         bundle.putString("norobot/requestid", regResp.m_Id)
         bundle.putString("norobot/question", regResp.m_Question)
-        var images =  arrayOf(regResp.m_ImageId_1, regResp.m_ImageId_2, regResp.m_ImageId_3, regResp.m_ImageId_4, regResp.m_ImageId_5,
+        val images =  arrayOf(regResp.m_ImageId_1, regResp.m_ImageId_2, regResp.m_ImageId_3, regResp.m_ImageId_4, regResp.m_ImageId_5,
             regResp.m_ImageId_6, regResp.m_ImageId_7, regResp.m_ImageId_8, regResp.m_ImageId_9)
         bundle.putSerializable("norobot/images", images)
-        var selection = arrayOf(false, false, false, false, false, false, false, false, false);
+        val selection = arrayOf(false, false, false, false, false, false, false, false, false)
         bundle.putSerializable("norobot/selection", selection)
 
-        newFragment.setArguments(bundle)
+        newFragment.arguments = bundle
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_content, newFragment)
@@ -477,14 +468,14 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun startTutorialFragment(index: Int) {
+    private fun startTutorialFragment(index: Int) {
         mSelectedItem = R.id.nav_videos
 
         val bundle = Bundle()
         bundle.putInt("videosettings/currentVideo", index)
         bundle.putSerializable("videosettings/videoPlaybackPositions", m_VideoSettingsService.videoPlaybackPositions)
-        var newFragment = VideoFragment1()
-        newFragment.setArguments(bundle)
+        val newFragment = VideoFragment1()
+        newFragment.arguments = bundle
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_content, newFragment)
@@ -531,17 +522,17 @@ class MainActivity : AppCompatActivity() {
     fun switchSingleMultiplayerVersion() {
         if (m_MainPreferencesService.multiplayerVersion) {
             Tools.displayToast(getString(R.string.multiplayergame), applicationContext)
-            setDraweMenuMultiplayer()
+            setDrawerMenuMultiplayer()
         } else {
             Tools.displayToast(getString(R.string.singleplayergame), applicationContext)
-            setDraweMenuSinglePlayer()
+            setDrawerMenuSinglePlayer()
         }
 
         supportFragmentManager.popBackStack("FromMainMenu", FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        if (m_MainPreferencesService.multiplayerVersion) {
-            mSelectedItem = R.id.nav_login
+        mSelectedItem = if (m_MainPreferencesService.multiplayerVersion) {
+            R.id.nav_login
         } else {
-            mSelectedItem = R.id.nav_game
+            R.id.nav_game
         }
         setFragment(true)
     }
@@ -561,15 +552,15 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        Popups.showSaveCredentialsPopup(applicationContext, m_MainLayout, username, password,
-            { username: String, password: String ->
-                m_MultiplayerPreferencesService.username = username
-                m_MultiplayerPreferencesService.password = password
-            })
+        Popups.showSaveCredentialsPopup(applicationContext, m_MainLayout, username, password
+        ) { username_: String, password_: String ->
+            m_MultiplayerPreferencesService.username = username_
+            m_MultiplayerPreferencesService.password = password_
+        }
     }
 
-    fun onButtonShowHelpWindowClick(multiplayerVersion: Boolean) {
-        var helpPopup = HelpPopup(applicationContext, m_MainLayout, mSelectedItem, ::startTutorialFragment)
+    private fun onButtonShowHelpWindowClick(multiplayerVersion: Boolean) {
+        val helpPopup = HelpPopup(applicationContext, m_MainLayout, mSelectedItem, ::startTutorialFragment)
         helpPopup.onButtonShowHelpWindowClick(multiplayerVersion)
     }
 

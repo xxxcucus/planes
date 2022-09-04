@@ -1,7 +1,6 @@
 package com.planes.android
 
 import com.planes.android.game.multiplayer.IGameFragmentMultiplayer
-import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.*
 import io.reactivex.Observable
 import retrofit2.Response
@@ -48,9 +47,9 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
 
     fun isUserConnectedToGame(): Boolean
 
-    fun refreshGameStatus(gameName: String): Observable<retrofit2.Response<GameStatusResponse>>
+    fun refreshGameStatus(gameName: String): Observable<Response<GameStatusResponse>>
 
-    fun createGame(gameName: String): Observable<retrofit2.Response<CreateGameResponse>>
+    fun createGame(gameName: String): Observable<Response<CreateGameResponse>>
 
     fun setGameData(gameCreationResponse: CreateGameResponse)
 
@@ -64,13 +63,13 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
 
     fun setRoundId(roundId: Long)
 
-    fun connectToGame(gameName: String): Observable<retrofit2.Response<ConnectToGameResponse>>
+    fun connectToGame(gameName: String): Observable<Response<ConnectToGameResponse>>
 
     fun resetGameData()
 
     fun getPlayerPlaneNo(pos: Int): Plane
 
-    fun sendPlanePositions(request: SendPlanePositionsRequest): Observable<retrofit2.Response<SendPlanePositionsResponse>>
+    fun sendPlanePositions(request: SendPlanePositionsRequest): Observable<Response<SendPlanePositionsResponse>>
 
     fun setComputerPlanes(plane1_x: Int, plane1_y: Int, plane1_orient: Orientation,
                           plane2_x: Int, plane2_y: Int, plane2_orient: Orientation,
@@ -78,9 +77,9 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
 
     fun setGameStage(stage: GameStages)
 
-    fun acquireOpponentPlanePositions(request: AcquireOpponentPositionsRequest): Observable<retrofit2.Response<AcquireOpponentPositionsResponse>>
+    fun acquireOpponentPlanePositions(request: AcquireOpponentPositionsRequest): Observable<Response<AcquireOpponentPositionsResponse>>
 
-    fun sendWinner(draw: Boolean, winnerId: Long): Observable<retrofit2.Response<SendWinnerResponse>>
+    fun sendWinner(draw: Boolean, winnerId: Long): Observable<Response<SendWinnerResponse>>
 
     fun checkWinnerSent()
 
@@ -94,7 +93,7 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
 
     fun prepareNotSentMoves(): Vector<SingleMoveRequest>
 
-    fun sendMove(sendMoveRequest: SendNotSentMovesRequest): Observable<retrofit2.Response<SendNotSentMovesResponse>>
+    fun sendMove(sendMoveRequest: SendNotSentMovesRequest): Observable<Response<SendNotSentMovesResponse>>
 
     fun deleteFromNotSentList()
 
@@ -102,9 +101,9 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
 
     fun addOpponentMove(gp: GuessPoint, idx: Int)
 
-    fun cancelRound(gameId: Long, roundId: Long): Observable<retrofit2.Response<CancelRoundResponse>>
+    fun cancelRound(gameId: Long, roundId: Long): Observable<Response<CancelRoundResponse>>
 
-    fun startNewRound(gameId: Long, userId: Long, opponentId: Long): Observable<retrofit2.Response<StartNewRoundResponse>>
+    fun startNewRound(gameId: Long, userId: Long, opponentId: Long): Observable<Response<StartNewRoundResponse>>
 
     fun cancelRound()
 

@@ -9,13 +9,10 @@ import com.planes.android.R
 import com.planes.android.Tools
 
 
-class VideoAdapter(private val onItemClicked: (position: Int) -> Unit, moviesList: List<VideoModel>) : RecyclerView.Adapter<VideoAdapter.MyViewHolder>() {
-    private val m_VideosList: List<VideoModel>
+class VideoAdapter(private val onItemClicked: (position: Int) -> Unit, moviesList: List<VideoModel>, context: Context) : RecyclerView.Adapter<VideoAdapter.MyViewHolder>() {
+    private val m_VideosList: List<VideoModel> = moviesList
     private var m_SelectedPosition = 0
-
-    init {
-        this.m_VideosList = moviesList
-    }
+    private var m_Context = context
 
     inner class MyViewHolder(view: View, private val onItemClicked: (position: Int) -> Unit, context: Context) :
             RecyclerView.ViewHolder(view), View.OnClickListener, View.OnLongClickListener {
@@ -35,17 +32,17 @@ class VideoAdapter(private val onItemClicked: (position: Int) -> Unit, moviesLis
         override fun onClick(v: View) {
             // Below line is just like a safety check, because sometimes holder could be null,
             // in that case, getAdapterPosition() will return RecyclerView.NO_POSITION
-            if (getAdapterPosition() == RecyclerView.NO_POSITION) return;
+            if (adapterPosition == RecyclerView.NO_POSITION) return
 
             // Updating old as well as new positions
-            notifyItemChanged(m_SelectedPosition);
+            notifyItemChanged(m_SelectedPosition)
             m_SelectedPosition = adapterPosition
-            notifyItemChanged(m_SelectedPosition);
+            notifyItemChanged(m_SelectedPosition)
             onItemClicked(m_SelectedPosition)
         }
 
         override fun onLongClick(v: View): Boolean {
-            var youtubeLink = m_VideosList[m_Position].getYoutubeLink()
+            val youtubeLink = m_VideosList[adapterPosition].getYoutubeLink()
             Tools.openLink(m_Context, youtubeLink)
             return true
         }
@@ -59,11 +56,11 @@ class VideoAdapter(private val onItemClicked: (position: Int) -> Unit, moviesLis
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.itemView.setSelected(m_SelectedPosition == position)
+        holder.itemView.isSelected = m_SelectedPosition == position
 
         val movie: VideoModel = m_VideosList[position]
-        holder.m_Title.setText(movie.getVideoName())
-        holder.m_Duration.setText("Duration: " + movie.getVideoDuration())
+        holder.m_Title.text = movie.getVideoName()
+        holder.m_Duration.text = m_Context.getString(R.string.video_duration, movie.getVideoDuration())
         holder.m_Position = position
 
     }

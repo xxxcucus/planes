@@ -121,7 +121,7 @@
     <string name="validation_tooshort_register_username">Numele de utilizator mai scurt de 5 caractere.</string>
     <string name="validation_tooshort_register_password">Parola mai scurta de 5 caractere.</string>
     <string name="unknown_registration_error">Eroare la inregistrare</string>
-    <string name="norobot_question">Marcheaza toate imaginile corespunzand categoriei:</string>
+    <string name="norobot_question">Marcheaza toate imaginile corespunzand categoriei: %1$s</string>
     <string name="norobot_cat">Pisica</string>
     <string name="norobot_dog">Caine</string>
     <string name="norobot_allmarked">Toate marcate!</string>
@@ -140,7 +140,7 @@
     <string name="creategame_possible">Poti sa creezi un joc cu acest nume</string>
     <string name="create_new_game">Creeaza joc nou</string>
     <string name="cancel">Anuleaza</string>
-    <string name="connecttogame_possible">Te poti conecta la jocul creat de</string>
+    <string name="connecttogame_possible">Te poti conecta la jocul creat de %1$s</string>
     <string name="start_playing">Incepe sa joci</string>
     <string name="game_created">Joc creat. Asteapta sa se conecteze jucatorul advers..</string>
     <string name="connected_togame">Esti conectat la joc</string>
@@ -183,4 +183,5 @@
     <string name="round_status">Starea rundei curente</string>
     <string name="current_round">Runda curenta</string>
     <string name="helptext_boardediting_3">Trage avioanul pentru a-l pozitiona.</string>
+    <string name="video_duration">Durata videoclipului: %1$s</string>
 </resources>

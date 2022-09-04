@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.LinearLayoutCompat
 
 
-public class Popups {
+class Popups {
     companion object Popups {
 
         fun onWarning(context: Context, mainLayout: LinearLayoutCompat, errorString: String) {
@@ -17,7 +17,7 @@ public class Popups {
             val popupView: View = inflater.inflate(R.layout.warning_options, null)
 
             val textView = popupView.findViewById<TextView>(R.id.warning_options_text)
-            textView.setText(errorString)
+            textView.text = errorString
 
             // create the popup window
             val width = LinearLayout.LayoutParams.WRAP_CONTENT
@@ -26,7 +26,7 @@ public class Popups {
             val popupWindow = PopupWindow(popupView, width, height, focusable)
 
             // show the popup window
-            // which view you pass in doesn't matter, it is only used for the window tolken
+            // which view you pass in doesn't matter, it is only used for the window token
             popupWindow.showAtLocation(
                 mainLayout,
                 Gravity.CENTER,
@@ -35,7 +35,7 @@ public class Popups {
             )
 
             // dismiss the popup window when touched
-            popupView.setOnTouchListener { v, event ->
+            popupView.setOnTouchListener { _, _ ->
                 popupWindow.dismiss()
                 true
             }
@@ -55,16 +55,16 @@ public class Popups {
             val popupWindow = PopupWindow(popupView, width, height, focusable)
 
             // show the popup window
-            // which view you pass in doesn't matter, it is only used for the window tolken
+            // which view you pass in doesn't matter, it is only used for the window token
             popupWindow.showAtLocation(mainLayout, Gravity.CENTER, 0, 0)
-            val helpTextView = popupView.findViewById(R.id.savecredentials_text) as TextView
-            val helpTitleTextView = popupView.findViewById(R.id.savecredentials_title) as TextView
+            popupView.findViewById(R.id.savecredentials_text) as TextView
+            popupView.findViewById(R.id.savecredentials_title) as TextView
 
             val yesButton = popupView.findViewById(R.id.savecredentials_yes_button) as Button
             val noButton = popupView.findViewById(R.id.savecredentials_no_button) as Button
 
             // dismiss the popup window when touched
-            popupView.setOnTouchListener { v, event ->
+            popupView.setOnTouchListener { _, _ ->
                 popupWindow.dismiss()
                 true
             }
@@ -90,7 +90,7 @@ public class Popups {
             val popupWindow = PopupWindow(popupView, width, height, focusable)
 
             // show the popup window
-            // which view you pass in doesn't matter, it is only used for the window tolken
+            // which view you pass in doesn't matter, it is only used for the window token
             popupWindow.showAtLocation(
                 mainLayout,
                 Gravity.CENTER,
@@ -99,7 +99,7 @@ public class Popups {
             )
 
             // dismiss the popup window when touched
-            popupView.setOnTouchListener { v, event ->
+            popupView.setOnTouchListener { _, _ ->
                 popupWindow.dismiss()
                 true
             }
@@ -128,7 +128,7 @@ public class Popups {
             val popupWindow = PopupWindow(popupView, width, height, focusable)
 
             // show the popup window
-            // which view you pass in doesn't matter, it is only used for the window tolken
+            // which view you pass in doesn't matter, it is only used for the window token
             popupWindow.showAtLocation(
                 mainLayout,
                 Gravity.CENTER,
@@ -137,7 +137,7 @@ public class Popups {
             )
 
             // dismiss the popup window when touched
-            popupView.setOnTouchListener { v, event ->
+            popupView.setOnTouchListener { _, _ ->
                 popupWindow.dismiss()
                 true
             }
@@ -145,8 +145,8 @@ public class Popups {
             val connectToGameButton = popupView.findViewById(R.id.connecttogame_button) as Button
             val cancelButton  = popupView.findViewById(R.id.connecttogame_cancel_button) as Button
 
-            var connectToGameText = popupView.findViewById(R.id.connecttogame_text) as TextView
-            connectToGameText.text = context.getString(R.string.connecttogame_possible) + " " + opponentName
+            val connectToGameText = popupView.findViewById(R.id.connecttogame_text) as TextView
+            connectToGameText.text = context.getString(R.string.connecttogame_possible, opponentName)
 
             cancelButton.setOnClickListener {
                 popupWindow.dismiss()

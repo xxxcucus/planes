@@ -6,29 +6,18 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.CompoundButton
 import androidx.fragment.app.Fragment
-import com.google.gson.Gson
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
-import com.planes.android.Tools
 import com.planes.android.databinding.FragmentRegisterBinding
 import com.planes.multiplayer_engine.MultiplayerRoundJava
-import com.planes.multiplayer_engine.commobj.LoginCommObj
 import com.planes.multiplayer_engine.commobj.RegisterCommObj
-import com.planes.multiplayer_engine.responses.ErrorResponse
 import com.planes.multiplayer_engine.responses.RegistrationResponse
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
-import java.util.concurrent.TimeUnit
 
-//TODO to update accordint to google and udemy
+//TODO to update according to google and udemy
 class RegisterFragment: Fragment() {
     private lateinit var binding: FragmentRegisterBinding
     private var m_Username = ""
@@ -42,25 +31,24 @@ class RegisterFragment: Fragment() {
         m_MultiplayerRound.createPlanesRound()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
         binding.settingsData = RegisterViewModel(m_Username, m_Password)
         (activity as MainActivity).setActionBarTitle(getString(R.string.register))
         (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Register)
 
-        var saveSettingsButton = binding.register as Button
-        saveSettingsButton.setOnClickListener(View.OnClickListener { performRegister() })
+        val saveSettingsButton = binding.register
+        saveSettingsButton.setOnClickListener { performRegister() }
 
-        var hidePasswordCheckbox = binding.secureCheck as CheckBox
-        hidePasswordCheckbox.setOnCheckedChangeListener(
-            CompoundButton.OnCheckedChangeListener { buttonView, isChecked -> hideShowPassword(buttonView, isChecked) })
+        val hidePasswordCheckbox = binding.secureCheck
+        hidePasswordCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            hideShowPassword(
+                isChecked
+            )
+        }
 
         return binding.root
     }
@@ -72,24 +60,20 @@ class RegisterFragment: Fragment() {
             m_RegisterCommObj.disposeSubscription()
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
-
-    fun prepareNorobotTest(body: RegistrationResponse): String {
+    private fun prepareNorobotTest(body: RegistrationResponse): String {
         m_MultiplayerRound.setRegistrationResponse(body)
         return ""
     }
 
-    fun finalizeRegister() {
+    private fun finalizeRegister() {
         (activity as MainActivity).startNoRobotFragment(m_MultiplayerRound.getRegistrationResponse())
     }
 
-    fun createObservableRegister() : Observable<Response<RegistrationResponse>> {
+    private fun createObservableRegister() : Observable<Response<RegistrationResponse>> {
         return m_MultiplayerRound.register(binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password)
     }
 
-    fun performRegister() {
+    private fun performRegister() {
 
         if (!this::binding.isInitialized)
             return
@@ -101,7 +85,7 @@ class RegisterFragment: Fragment() {
         m_RegisterCommObj.makeRequest()
     }
 
-    fun hideShowPassword(buttonView: CompoundButton, isChecked: Boolean) {
+    private fun hideShowPassword(isChecked: Boolean) {
         if (isChecked) {
             binding.passwordEdittext.inputType =
                 InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
@@ -112,11 +96,11 @@ class RegisterFragment: Fragment() {
         binding.invalidateAll()
     }
 
-    fun hideLoading() {
+    private fun hideLoading() {
         (activity as MainActivity).stopProgressDialog()
     }
 
-    fun validationUsernamePasswordRegister(username: String, password: String) : String {
+    private fun validationUsernamePasswordRegister(username: String, password: String) : String {
         var retString = ""
 
         if (username.length > 30) {
@@ -131,7 +115,7 @@ class RegisterFragment: Fragment() {
             retString += " " + getString(R.string.validation_tooshort_register_username)
         }
 
-        if (username.isNullOrEmpty()) {
+        if (username.isEmpty()) {
             retString += " " + getString(R.string.validation_empty_login_username)
         }
 
@@ -143,7 +127,7 @@ class RegisterFragment: Fragment() {
             retString += " " + getString(R.string.validation_tooshort_register_password)
         }
 
-        if (password.isNullOrEmpty()) {
+        if (password.isEmpty()) {
             retString += " " + getString(R.string.validation_empty_login_password)
         }
 

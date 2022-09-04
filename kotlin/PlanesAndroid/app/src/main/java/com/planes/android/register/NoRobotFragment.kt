@@ -9,23 +9,14 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
-import com.google.gson.Gson
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
-import com.planes.android.Tools
 import com.planes.multiplayer_engine.MultiplayerRoundJava
-import com.planes.multiplayer_engine.commobj.SimpleRequestCommObj
 import com.planes.multiplayer_engine.commobj.SimpleRequestWithSimpleFinalizeCommObj
-import com.planes.multiplayer_engine.responses.ErrorResponse
 import com.planes.multiplayer_engine.responses.NoRobotResponse
-import com.planes.multiplayer_engine.responses.StartNewRoundResponse
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
-import java.util.concurrent.TimeUnit
 
 class NoRobotFragment : Fragment() {
 
@@ -82,10 +73,6 @@ class NoRobotFragment : Fragment() {
         )
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         initializePhotos()  //TODO: should it be here ?
@@ -96,22 +83,24 @@ class NoRobotFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var rootview = inflater.inflate(R.layout.fragment_norobot, container, false)
+        val rootview = inflater.inflate(R.layout.fragment_norobot, container, false)
         val recyclerView: RecyclerView = rootview.findViewById(R.id.recyclerView)
 
-        var questionTextView = rootview.findViewById(R.id.question_text) as TextView
+        val questionTextView = rootview.findViewById(R.id.question_text) as TextView
 
-        var questionDogText = getString(R.string.norobot_dog)
-        var questionCatText = getString(R.string.norobot_cat)
-        var question = if (m_Question == questionDogText) questionDogText
-                        else if (m_Question == questionCatText) questionCatText
-                          else m_Question
-            questionTextView.setText(getString(R.string.norobot_question) + " " + question)
+        val questionDogText = getString(R.string.norobot_dog)
+        val questionCatText = getString(R.string.norobot_cat)
+        val question = when (m_Question) {
+            questionDogText -> questionDogText
+            questionCatText -> questionCatText
+            else -> m_Question
+        }
+        questionTextView.text = getString(R.string.norobot_question, question)
 
-        var allmarkedButton = rootview.findViewById(R.id.allmarked_button) as Button
-        allmarkedButton.setOnClickListener(View.OnClickListener { sendNoRobotData() })
+        val allmarkedButton = rootview.findViewById(R.id.allmarked_button) as Button
+        allmarkedButton.setOnClickListener { sendNoRobotData() }
 
-        var mLayoutManager = if (isHorizontal()) StaggeredGridLayoutManager(3, 1)
+        val mLayoutManager = if (isHorizontal()) StaggeredGridLayoutManager(3, 1)
             else StaggeredGridLayoutManager(2, 1) //TODO to check tablets
         recyclerView.layoutManager = mLayoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
@@ -137,25 +126,9 @@ class NoRobotFragment : Fragment() {
         return (activity as MainActivity).isHorizontal()
     }
 
-    private fun isTablet(): Boolean {
-        return (activity as MainActivity).isTablet()
-    }
-
-    override fun onStart() {
-        super.onStart()
-    }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
     override fun onPause() {
         super.onPause()
         writeToNoRobotSettingsService()
-    }
-
-    override fun onStop() {
-        super.onStop()
     }
 
 
@@ -182,28 +155,28 @@ class NoRobotFragment : Fragment() {
         (activity as MainActivity).setNorobotSettings(m_RequestId, m_Images, m_Question, m_Selection)
     }
 
-    fun createObservableNoRobot() : Observable<Response<NoRobotResponse>> {
+    private fun createObservableNoRobot() : Observable<Response<NoRobotResponse>> {
         m_Selection = m_PhotosList.map {
                 photo -> photo.m_Selected
         }.toTypedArray()
 
         var answer = ""
-        for (i in 0 until m_Selection.size) {
-            answer += if (m_Selection.get(i)) "1" else "0"
+        for (i in m_Selection.indices) {
+            answer += if (m_Selection[i]) "1" else "0"
         }
         return m_MultiplayerRound.norobot(m_RequestId, answer)
     }
 
     private fun sendNoRobotData() {
 
-        m_NoRobotCommObj = SimpleRequestWithSimpleFinalizeCommObj<NoRobotResponse>(::createObservableNoRobot,
+        m_NoRobotCommObj = SimpleRequestWithSimpleFinalizeCommObj(::createObservableNoRobot,
             getString(R.string.registererror), getString(R.string.unknownerror),  getString(R.string.norobot_success), requireActivity())
 
         m_NoRobotCommObj.makeRequest()
 
     }
 
-    fun hideLoading() {
+    private fun hideLoading() {
         (activity as MainActivity).stopProgressDialog()
     }
 

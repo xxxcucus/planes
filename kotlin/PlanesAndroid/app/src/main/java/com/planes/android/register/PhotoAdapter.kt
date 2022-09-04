@@ -7,25 +7,24 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import android.graphics.BitmapFactory
-import androidx.cardview.widget.CardView
 import com.planes.android.R
 
 
-class PhotoAdapter(photosList: List<PhotoModel>,) : RecyclerView.Adapter<PhotoAdapter.MyViewHolder>() {
+class PhotoAdapter(photosList: List<PhotoModel>) : RecyclerView.Adapter<PhotoAdapter.MyViewHolder>() {
     private val m_PhotosList: List<PhotoModel>
     private var m_SelectedPositions = mutableListOf<Int>()
 
     init {
         this.m_PhotosList = photosList
-        for(i in 0..(m_PhotosList.size - 1)) {
-            if (m_PhotosList.get(i).m_Selected)
+        for(i in m_PhotosList.indices) {
+            if (m_PhotosList[i].m_Selected)
                 m_SelectedPositions.add(i)
         }
     }
 
     inner class MyViewHolder(view: View, context: Context) :
         RecyclerView.ViewHolder(view), View.OnClickListener, View.OnLongClickListener {
-        var m_Photo: ImageView
+        private var m_Photo: ImageView
         var m_Position: Int = 0
         var m_Context: Context
 
@@ -39,9 +38,9 @@ class PhotoAdapter(photosList: List<PhotoModel>,) : RecyclerView.Adapter<PhotoAd
         override fun onClick(v: View) {
             // Below line is just like a safety check, because sometimes holder could be null,
             // in that case, getAdapterPosition() will return RecyclerView.NO_POSITION
-            if (getAdapterPosition() == RecyclerView.NO_POSITION) return;
+            if (adapterPosition == RecyclerView.NO_POSITION) return
 
-            var clickedPosition = m_Position
+            val clickedPosition = m_Position
             notifyItemChanged(adapterPosition)
 
             if (m_SelectedPositions.contains(clickedPosition)) {
@@ -73,7 +72,7 @@ class PhotoAdapter(photosList: List<PhotoModel>,) : RecyclerView.Adapter<PhotoAd
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.itemView.setSelected(m_SelectedPositions.contains(position))
+        holder.itemView.isSelected = m_SelectedPositions.contains(position)
         val photo: PhotoModel = m_PhotosList[position]
         holder.setPhoto(photo.m_ImageId)
         holder.m_Position = position

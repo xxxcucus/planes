@@ -66,7 +66,7 @@ class VideoFragment1 : Fragment() {
             0,1.77f, "https://youtu.be/VqYK1T91-YE")
 
         m_MovieList = arrayListOf(videoModel_guessing, videoModel_positioning, videoModel_single, videoModel_multi)
-        m_VideosAdapter = VideoAdapter( { position -> onVideoItemClick(position)}, m_MovieList)
+        m_VideosAdapter = VideoAdapter( { position -> onVideoItemClick(position)}, m_MovieList, requireContext())
         m_VideosAdapter.notifyDataSetChanged()
     }
 
@@ -132,7 +132,7 @@ class VideoFragment1 : Fragment() {
         m_CurrentVideo = requireArguments().getInt("videosettings/currentVideo")
         val videoPlaybackPositions = requireArguments().getSerializable("videosettings/videoPlaybackPositions") as IntArray
         m_MovieList.mapIndexed{ idx, value -> value.setCurrentPosition(videoPlaybackPositions[idx]) }
-        m_CurrentPositionInVideo = m_MovieList[m_CurrentVideo].getCurentPosition()
+        m_CurrentPositionInVideo = m_MovieList[m_CurrentVideo].getCurrentPosition()
         m_VideosAdapter.setCurrentVideo(m_CurrentVideo)
 
         //setDimension(isHorizontal(), /*m_MovieList[m_CurrentVideo].getVideoRatio()*/ 1.77f)
@@ -149,7 +149,7 @@ class VideoFragment1 : Fragment() {
         m_VideoView!!.pause()
         m_MovieList[m_CurrentVideo].setCurrentPosition(if (restartVideo) 0 else m_VideoView!!.currentPosition)
         m_CurrentVideo = position
-        m_CurrentPositionInVideo = if (restartVideo) 0 else m_MovieList[m_CurrentVideo].getCurentPosition()
+        m_CurrentPositionInVideo = if (restartVideo) 0 else m_MovieList[m_CurrentVideo].getCurrentPosition()
 
         //setDimension(isHorizontal(), m_MovieList[position].getVideoRatio())
         var uri = Uri.parse("android.resource://"
@@ -165,6 +165,6 @@ class VideoFragment1 : Fragment() {
     }
 
     fun writeToVideoSettingsService() {
-        (activity as MainActivity).setVideoSettings(m_CurrentVideo, m_MovieList.map  { it.getCurentPosition()}.toIntArray())
+        (activity as MainActivity).setVideoSettings(m_CurrentVideo, m_MovieList.map  { it.getCurrentPosition()}.toIntArray())
     }
 }

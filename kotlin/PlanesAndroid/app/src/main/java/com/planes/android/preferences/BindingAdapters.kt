@@ -3,7 +3,6 @@ package com.planes.android.preferences
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.Spinner
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
@@ -49,7 +48,7 @@ object BindingAdapters {
     }
 
     private fun getYesNoSpinnerForBoolean(spinner: Spinner): Boolean {
-        return if (spinner.selectedItemPosition == 0) true else false
+        return spinner.selectedItemPosition == 0
     }
 
     private fun setYesNoSpinnerForBoolean(spinner: Spinner, flag: Boolean, listener: InverseBindingListener) {

@@ -4,13 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.content.pm.PackageManager
-import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.widget.Toast
 import com.google.gson.Gson
 import com.planes.multiplayer_engine.responses.ErrorResponse
 
-public class Tools {
+class Tools {
     companion object Tools
     {
         fun openLink(context: Context, linkString: String?) {
@@ -26,19 +25,17 @@ public class Tools {
         }
 
         fun parseJsonError(jsonErrorString: String?, generalError: String, unknownError: String): String {
-            var errorString = "";
 
-            if (jsonErrorString != null) {
-                var gson = Gson()
-                var errorResponse = gson.fromJson(jsonErrorString, ErrorResponse::class.java)
+            val errorString: String = if (jsonErrorString != null) {
+                val gson = Gson()
+                val errorResponse = gson.fromJson(jsonErrorString, ErrorResponse::class.java)
 
                 if (errorResponse != null)
-                    errorString =
-                        generalError + ":" + errorResponse.m_Message + "(" + errorResponse.m_Status + ")"
+                    generalError + ":" + errorResponse.m_Message + "(" + errorResponse.m_Status + ")"
                 else
-                    errorString = generalError + ":" + unknownError
+                    "$generalError:$unknownError"
             } else {
-                errorString = generalError + ":" + unknownError
+                "$generalError:$unknownError"
             }
             return errorString
         }

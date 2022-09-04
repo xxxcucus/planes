@@ -4,11 +4,7 @@ import androidx.lifecycle.ViewModel
 
 class RegisterViewModel(var username: String, var password: String) : ViewModel() {
 
-    var m_Username: String
-    var m_Password: String
+    var m_Username: String = username
+    var m_Password: String = password
 
-    init {
-        m_Username = username
-        m_Password = password
-    }
 }
