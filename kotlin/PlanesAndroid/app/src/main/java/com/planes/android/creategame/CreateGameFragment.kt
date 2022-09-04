@@ -1,7 +1,6 @@
 package com.planes.android.creategame
 
 import android.content.Context
-import android.opengl.Visibility
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,23 +10,21 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.google.gson.Gson
 import com.planes.android.*
 import com.planes.android.databinding.FragmentCreateGameBinding
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.ConnectToGameResponse
 import com.planes.multiplayer_engine.responses.CreateGameResponse
-import com.planes.multiplayer_engine.responses.ErrorResponse
 import com.planes.multiplayer_engine.responses.GameStatusResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import okhttp3.Headers
 import java.util.concurrent.TimeUnit
 import io.reactivex.Observable
+import kotlin.random.Random
 
 
-//TODO to update accordint to google and udemy
+//TODO to update according to google and udemy
 class CreateGameFragment: Fragment() {
     private lateinit var binding: FragmentCreateGameBinding
     private var m_GameName = ""
@@ -49,14 +46,10 @@ class CreateGameFragment: Fragment() {
         m_Context = context
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCreateGameBinding.inflate(inflater, container, false)
         binding.settingsData = CreateGameViewModel(m_CreateGameSettingsService.gameName)
         (activity as MainActivity).setActionBarTitle(getString(R.string.create_connectto_game))
@@ -64,23 +57,23 @@ class CreateGameFragment: Fragment() {
 
         m_GameName = m_CreateGameSettingsService.gameName
 
-        var createGameButton = binding.creategame as Button
-        createGameButton.setOnClickListener(View.OnClickListener {
+        val createGameButton = binding.creategame
+        createGameButton.setOnClickListener {
             m_MultiplayerRound.resetGameData()
             setCreateGameSettings(CreateGameStates.Submitted, binding.settingsData!!.m_GameName)
             checkGameStatus()
-        })
+        }
 
-        var generateGameNameButton = binding.generateGamename
+        val generateGameNameButton = binding.generateGamename
         generateGameNameButton.setOnClickListener {
-            binding.settingsData!!.m_GameName = generateRandonGameName()
+            binding.settingsData!!.m_GameName = generateRandomGameName()
             setCreateGameSettings(CreateGameStates.NotSubmitted, binding.settingsData!!.m_GameName)
             binding.ProgressBarCreateGame.isVisible = false
             binding.startPlaying.isEnabled = false
             binding.invalidateAll()
         }
 
-        var gameNameEdit = binding.gamenameEdittext as EditText
+        val gameNameEdit = binding.gamenameEdittext
 
         gameNameEdit.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -96,19 +89,19 @@ class CreateGameFragment: Fragment() {
             }
         })
 
-        var startPlaying = binding.startPlaying as Button
-        startPlaying.setOnClickListener(View.OnClickListener {
+        val startPlaying = binding.startPlaying
+        startPlaying.setOnClickListener {
             switchToGameFragment()
-        })
+        }
 
-        m_MainLayout = binding.rootCreategame as RelativeLayout
+        m_MainLayout = binding.rootCreategame
 
         reinitializeFromState()
 
         return binding.root
     }
 
-    fun reinitializeFromState() {
+    private fun reinitializeFromState() {
         when(m_CreateGameSettingsService.createGameState) {
             CreateGameStates.NotSubmitted -> {
                 binding.ProgressBarCreateGame.isVisible = false
@@ -148,12 +141,12 @@ class CreateGameFragment: Fragment() {
         reinitializeFromState()
     }
 
-    fun reactToGameStatus(code: Int, jsonErrorString: String?, headrs: Headers, body: GameStatusResponse?) {
+    private fun reactToGameStatus(jsonErrorString: String?, body: GameStatusResponse?) {
         if (body != null)  {
-           if (!body!!.m_Exists) {
+           if (!body.m_Exists) {
                showCreateGamePopup()
-           } else if (body!!.m_FirstPlayerName == body!!.m_SecondPlayerName) {
-               showConnectToGamePopup(body!!.m_FirstPlayerName)
+           } else if (body.m_FirstPlayerName == body.m_SecondPlayerName) {
+               showConnectToGamePopup(body.m_FirstPlayerName)
            } else {
                 m_CreateGameErrorString = getString(R.string.gamename_impossible)
                 m_CreateGameError = true
@@ -166,12 +159,12 @@ class CreateGameFragment: Fragment() {
         finalizeCreateGame()
     }
 
-    fun reactToGameStatusInPolling(body: GameStatusResponse?) {
+    private fun reactToGameStatusInPolling(body: GameStatusResponse?) {
         m_MultiplayerRound.setGameData(body!!)
         m_MultiplayerRound.initRound()
         if (m_MultiplayerRound.getGameId() != 0L && m_MultiplayerRound.getOpponentId() != 0L && m_MultiplayerRound.getUserId() != 0L
             && m_MultiplayerRound.getRoundId()  != 0L) {
-            setCreateGameSettings(CreateGameStates.ConnectedToGame, body!!.m_GameName)
+            setCreateGameSettings(CreateGameStates.ConnectedToGame, body.m_GameName)
             Tools.displayToast(getString(R.string.opponent_connected_togame), m_Context)
             binding.ProgressBarCreateGame.isVisible = false
             binding.startPlaying.isEnabled = true
@@ -179,13 +172,13 @@ class CreateGameFragment: Fragment() {
 
     }
 
-    fun setCreateGameError(errorMsg: String) {
+    private fun setCreateGameError(errorMsg: String) {
         m_CreateGameError = true
         m_CreateGameErrorString = errorMsg
         finalizeCreateGame()
     }
 
-    fun finalizeCreateGame() {
+    private fun finalizeCreateGame() {
         if (m_CreateGameError) {
             (activity as MainActivity).onWarning(m_CreateGameErrorString)
         } else {
@@ -193,7 +186,7 @@ class CreateGameFragment: Fragment() {
         }
     }
 
-    fun checkGameStatus() {
+    private fun checkGameStatus() {
 
         if (!this::binding.isInitialized)
             return
@@ -211,19 +204,22 @@ class CreateGameFragment: Fragment() {
             return
         }
 
-        var gameStatus = m_MultiplayerRound.refreshGameStatus(binding.settingsData!!.m_GameName.trim())
+        val gameStatus = m_MultiplayerRound.refreshGameStatus(binding.settingsData!!.m_GameName.trim())
         m_RefreshGameStatusSubscription = gameStatus
             .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { _ -> showLoading() }
+            .doOnSubscribe { showLoading() }
             .doOnTerminate { hideLoading() }
             .doOnComplete { hideLoading() }
-            .subscribe({data -> reactToGameStatus(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
-                , {error -> setCreateGameError(error.localizedMessage.toString())});
+            .subscribe({data -> reactToGameStatus(
+                data.errorBody()?.string(),
+                data.body()
+            )}
+            ) { error -> error.localizedMessage?.let { setCreateGameError(it) } }
     }
 
-    fun validationGameName(gameName: String) : Boolean {
+    private fun validationGameName(gameName: String) : Boolean {
         var retString = ""
 
         if (gameName.length > 30) {
@@ -234,7 +230,7 @@ class CreateGameFragment: Fragment() {
             retString += " " + getString(R.string.validation_tooshort_gamename)
         }
 
-        if (!retString.isNullOrEmpty()) {
+        if (retString.isNotEmpty()) {
             m_CreateGameError = true
             m_CreateGameErrorString = retString
             return false
@@ -243,16 +239,14 @@ class CreateGameFragment: Fragment() {
         return true
     }
 
-    fun generateRandonGameName(): String {
-        val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
-        val STRING_LENGTH = 10;
+    private fun generateRandomGameName(): String {
+        val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+        val STRING_LENGTH = 10
 
-        val randomString = (1..STRING_LENGTH)
-            .map { i -> kotlin.random.Random.nextInt(0, charPool.size) }
+        return (1..STRING_LENGTH)
+            .map { Random.nextInt(0, charPool.size) }
             .map(charPool::get)
-            .joinToString("");
-
-        return randomString
+            .joinToString("")
     }
 
     fun userLoggedIn(): Boolean {
@@ -264,33 +258,36 @@ class CreateGameFragment: Fragment() {
         return true
     }
 
-    fun showCreateGamePopup() {
-        Popups.showCreateNewGamePopup(m_Context, m_MainLayout, ::createGame);
+    private fun showCreateGamePopup() {
+        Popups.showCreateNewGamePopup(m_Context, m_MainLayout, ::createGame)
     }
 
-    fun showConnectToGamePopup(opponentName: String) {
-        Popups.showConnectToGamePopup(m_Context, m_MainLayout, ::connectToGame, opponentName);
+    private fun showConnectToGamePopup(opponentName: String) {
+        Popups.showConnectToGamePopup(m_Context, m_MainLayout, ::connectToGame, opponentName)
     }
 
     fun createGame() {
-        var createGame = m_MultiplayerRound.createGame(binding.settingsData!!.m_GameName.trim())
+        val createGame = m_MultiplayerRound.createGame(binding.settingsData!!.m_GameName.trim())
         m_CreateGameSubscription = createGame
             .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { _ -> showLoading() }
+            .doOnSubscribe { showLoading() }
             .doOnTerminate { hideLoading() }
             .doOnComplete { hideLoading() }
-            .subscribe({data -> reactToGameCreation(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
-                , {error -> setCreateGameError(error.localizedMessage.toString())});
+            .subscribe({data -> reactToGameCreation(
+                data.errorBody()?.string(),
+                data.body()
+            )}
+            ) { error -> error.localizedMessage?.let { setCreateGameError(it) } }
     }
 
-    fun reactToGameCreation(code: Int, jsonErrorString: String?, headrs: Headers, body: CreateGameResponse?) {
+    private fun reactToGameCreation(jsonErrorString: String?, body: CreateGameResponse?) {
         if (body != null)  {
-            m_MultiplayerRound.setGameData(body!!)
-            m_MultiplayerRound.setUserId(body!!.m_SecondPlayerId.toLong())
-            setCreateGameSettings(CreateGameStates.GameCreated, body!!.m_GameName)
-            m_GameName = body!!.m_GameName
+            m_MultiplayerRound.setGameData(body)
+            m_MultiplayerRound.setUserId(body.m_SecondPlayerId.toLong())
+            setCreateGameSettings(CreateGameStates.GameCreated, body.m_GameName)
+            m_GameName = body.m_GameName
             pollForGameConnection()
         } else {
             m_CreateGameErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.creategame_error),
@@ -300,26 +297,32 @@ class CreateGameFragment: Fragment() {
         }
     }
 
-    fun connectToGame() {
-        var connectToGame = m_MultiplayerRound.connectToGame(binding.settingsData!!.m_GameName.trim())
+    private fun connectToGame() {
+        val connectToGame = m_MultiplayerRound.connectToGame(binding.settingsData!!.m_GameName.trim())
         m_ConnectToGameSubscription = connectToGame
             .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { _ -> showLoading() }
+            .doOnSubscribe { showLoading() }
             .doOnTerminate { hideLoading() }
             .doOnComplete { hideLoading() }
-            .subscribe({data -> reactToConnectToGame(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
-                , {error -> setCreateGameError(error.localizedMessage.toString())});
+            .subscribe({data -> reactToConnectToGame(
+                data.errorBody()?.string(),
+                data.body()
+            )}
+            ) { error -> error.localizedMessage?.let { setCreateGameError(it) } }
     }
 
-    fun reactToConnectToGame(code: Int, jsonErrorString: String?, headrs: Headers, body: ConnectToGameResponse?) {
+    private fun reactToConnectToGame(
+        jsonErrorString: String?,
+        body: ConnectToGameResponse?
+    ) {
         if (body != null)  {
-            m_MultiplayerRound.setGameData(body!!)
-            m_MultiplayerRound.setUserId(body!!.m_SecondPlayerId.toLong())
+            m_MultiplayerRound.setGameData(body)
+            m_MultiplayerRound.setUserId(body.m_SecondPlayerId.toLong())
             m_MultiplayerRound.initRound()
-            setCreateGameSettings(CreateGameStates.ConnectedToGame, body!!.m_GameName)
-            m_GameName = body!!.m_GameName
+            setCreateGameSettings(CreateGameStates.ConnectedToGame, body.m_GameName)
+            m_GameName = body.m_GameName
             connectedToGame()
         } else {
             m_CreateGameErrorString = Tools.parseJsonError(jsonErrorString, getString(R.string.creategame_error),
@@ -338,7 +341,7 @@ class CreateGameFragment: Fragment() {
         }
     }
 
-    fun pollForGameConnection() {
+    private fun pollForGameConnection() {
         Tools.displayToast(getString(R.string.game_created), m_Context)
 
         binding.ProgressBarCreateGame.isVisible = true
@@ -347,32 +350,32 @@ class CreateGameFragment: Fragment() {
         if (!this::m_PollForOpponentSubscription.isInitialized) {
             m_PollForOpponentSubscription =
                 Observable.interval(5, TimeUnit.SECONDS, Schedulers.io())
-                    .flatMap { _ -> m_MultiplayerRound.refreshGameStatus(binding.settingsData!!.m_GameName.trim()) }
+                    .flatMap { m_MultiplayerRound.refreshGameStatus(binding.settingsData!!.m_GameName.trim()) }
                     .doOnError { setCreateGameError(getString(R.string.error_game_connection)) }
                     .retry()
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ data -> reactToGameStatusInPolling(data.body()) },
-                        { error -> setCreateGameError(error.localizedMessage.toString()) })
+                    .subscribe({ data -> reactToGameStatusInPolling(data.body()) }
+                    ) { error -> error.localizedMessage?.let { setCreateGameError(it) } }
         }
 
     }
 
-    fun connectedToGame() {
+    private fun connectedToGame() {
         Tools.displayToast(getString(R.string.connected_togame), m_Context)
 
         binding.ProgressBarCreateGame.isVisible = false
         binding.startPlaying.isEnabled = true
     }
 
-    fun showLoading() {
+    private fun showLoading() {
         (activity as MainActivity).startProgressDialog()
     }
 
-    fun hideLoading() {
+    private fun hideLoading() {
         (activity as MainActivity).stopProgressDialog()
     }
 
-    fun switchToGameFragment() {
+    private fun switchToGameFragment() {
         (activity as MainActivity).startGameFragment()
     }
 }

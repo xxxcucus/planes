@@ -11,31 +11,18 @@ import com.planes.android.Tools
 
 
 class AboutAdapter(aboutSectionsList: List<AboutModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val m_SectionsList: List<AboutModel>
+    private val m_SectionsList: List<AboutModel> = aboutSectionsList
 
-
-    init {
-        this.m_SectionsList = aboutSectionsList
-    }
 
     inner class MyViewHolderWithButton(view: View, context: Context) : RecyclerView.ViewHolder(view) {
-        var m_Title: TextView
-        var m_Text: TextView
-        var m_Button: Button
-        var m_ButtonLink: String = ""
-        var m_Context: Context
+        var m_Title: TextView = view.findViewById(R.id.about_section_title)
+        var m_Text: TextView = view.findViewById(R.id.about_section_text)
+        var m_Button: Button = view.findViewById(R.id.about_section_button)
+        private var m_ButtonLink: String = ""
+        var m_Context: Context = context
 
         init {
-            m_Title = view.findViewById(R.id.about_section_title)
-            m_Text = view.findViewById(R.id.about_section_text)
-            m_Button = view.findViewById(R.id.about_section_button)
-            m_Context = context
-
-            m_Button.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(v: View?) {
-                    Tools.openLink(m_Context, m_ButtonLink)
-                }
-            })
+            m_Button.setOnClickListener { Tools.openLink(m_Context, m_ButtonLink) }
         }
 
         fun setButtonLink(link: String) {
@@ -44,13 +31,8 @@ class AboutAdapter(aboutSectionsList: List<AboutModel>) : RecyclerView.Adapter<R
     }
 
     inner class MyViewHolderWithoutButton(view: View) : RecyclerView.ViewHolder(view) {
-        var m_Title: TextView
-        var m_Text: TextView
-
-        init {
-            m_Title = view.findViewById(R.id.about_section_title)
-            m_Text = view.findViewById(R.id.about_section_text)
-        }
+        var m_Title: TextView = view.findViewById(R.id.about_section_title)
+        var m_Text: TextView = view.findViewById(R.id.about_section_text)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -66,8 +48,8 @@ class AboutAdapter(aboutSectionsList: List<AboutModel>) : RecyclerView.Adapter<R
             LayoutInflater.from(parent.context).inflate(R.layout.aboutlayout1, parent, false)
 
         return when (viewType) {
-            0 -> return MyViewHolderWithButton(itemView, parent.context)
-            else -> return MyViewHolderWithoutButton(itemView)
+            0 -> MyViewHolderWithButton(itemView, parent.context)
+            else -> MyViewHolderWithoutButton(itemView)
         }
     }
 
@@ -76,16 +58,16 @@ class AboutAdapter(aboutSectionsList: List<AboutModel>) : RecyclerView.Adapter<R
 
         when(holder.itemViewType) {
             0 -> {
-                var holderwithButton = holder as MyViewHolderWithButton
-                holderwithButton.m_Title.setText(section.getTitle())
-                holderwithButton.m_Text. setText (section.getText())
-                holderwithButton.m_Button.setText(section.getTextButton())
+                val holderwithButton = holder as MyViewHolderWithButton
+                holderwithButton.m_Title.text = section.getTitle()
+                holderwithButton.m_Text.text = section.getText()
+                holderwithButton.m_Button.text = section.getTextButton()
                 holderwithButton.setButtonLink(section.getLinkButton())
             }
             else -> {
-                var holderwithoutButton = holder as MyViewHolderWithoutButton
-                holderwithoutButton.m_Title.setText(section.getTitle())
-                holderwithoutButton.m_Text.setText (section.getText())
+                val holderwithoutButton = holder as MyViewHolderWithoutButton
+                holderwithoutButton.m_Title.text = section.getTitle()
+                holderwithoutButton.m_Text.text = section.getText()
             }
         }
     }

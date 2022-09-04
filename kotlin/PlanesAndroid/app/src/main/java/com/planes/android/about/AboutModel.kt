@@ -24,10 +24,6 @@ class AboutModel(title: String, text: String, buttonPresent: Boolean, textButton
         return m_Text
     }
 
-    fun getButtonPresent(): Boolean {
-        return m_ButtonPresent
-    }
-
     fun getTextButton(): String {
         return m_TextButton
     }

@@ -150,7 +150,7 @@
     <string name="game_stats">Statistiche di gioco</string>
     <string name="game_stats1">Statistiche</string>
     <string name="game_stats2">di gioco</string>
-    <string name="sendplanepositions_error"> Errore durante l\'invio delle posizioni dell'aereo </string>
+    <string name="sendplanepositions_error"> Errore durante l\'invio delle posizioni dell\'aereo </string>
     <string name="invalid_plane_orientation"> Orientamento aereo non valido</string>
     <string name="error_init_opponent_board"> Errore durante l\'inizializzazione della scheda del avversario</string>
     <string name="waiting_for_planes_positions"> Sono state inviate le posizioni degli aerei. In attesa delle posizioni degli aerei avversari...</string>
