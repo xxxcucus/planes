@@ -24,7 +24,7 @@ class GameBoardsAdapterSinglePlayer {
         m_ComputerBoard.setSiblingBoard(m_PlayerBoard)
     }
 
-    fun showTwoBoards(): Boolean {
+    private fun showTwoBoards(): Boolean {
         return m_Tablet
     }
 

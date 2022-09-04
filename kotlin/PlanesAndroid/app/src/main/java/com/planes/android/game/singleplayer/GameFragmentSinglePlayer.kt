@@ -24,10 +24,6 @@ class GameFragmentSinglePlayer : Fragment() {
     private lateinit var m_GameControls: GameControlsAdapterSinglePlayer
     private lateinit var m_PlanesLayout: PlanesVerticalLayoutSinglePlayer
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -42,18 +38,14 @@ class GameFragmentSinglePlayer : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        var rootView = inflater.inflate(R.layout.fragment_game_singleplayer, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_game_singleplayer, container, false)
 
         m_PlanesLayout = rootView.findViewById<View>(R.id.planes_layout) as PlanesVerticalLayoutSinglePlayer
 
         var isTablet = false
-        var isHorizontal = false
         val linearLayout = rootView.findViewById<View>(R.id.rootView) as LinearLayout
         if (linearLayout.tag.toString().contains("tablet")) {
             isTablet = true
-        }
-        if (linearLayout.tag.toString().contains("horizontal")) {
-            isHorizontal = true
         }
         m_GameBoards = if (isTablet) {
             val playerBoard = rootView.findViewById<View>(R.id.player_board) as GameBoardSinglePlayer

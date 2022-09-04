@@ -1,8 +1,6 @@
 package com.planes.android.creategame
 
-import android.content.Context
 import android.os.Bundle
-import com.planes.android.preferences.MainPreferencesService
 
 class CreateGameSettingsGlobal: ICreateGameSettings {
 
@@ -29,8 +27,8 @@ class CreateGameSettingsGlobal: ICreateGameSettings {
         private var global_Service: CreateGameSettings? = null
     }
 
-    fun createPreferencesService(context: Context) {
+    fun createPreferencesService() {
         if (global_Service != null) return
-        global_Service = CreateGameSettings(context)
+        global_Service = CreateGameSettings()
     }
 }

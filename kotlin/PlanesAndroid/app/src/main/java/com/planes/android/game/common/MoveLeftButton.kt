@@ -8,6 +8,7 @@ import android.graphics.Path
 import android.util.AttributeSet
 import com.planes.android.customviews.ButtonWithPictogram
 import com.planes.android.customviews.CanvasPaintUtilities.Functions.createFillRectPath
+import kotlin.math.min
 
 class MoveLeftButton : ButtonWithPictogram {
     constructor(context: Context) : super(context) {
@@ -30,7 +31,7 @@ class MoveLeftButton : ButtonWithPictogram {
         val height = height
         val centerX = width / 2
         val centerY = height / 2
-        val radius = Math.min(width / 3, height / 3)
+        val radius = min(width / 3, height / 3)
         val path1 = Path()
         createFillRectPath(path1, centerX - radius / 2 + radius / 3, centerY - radius / 5, radius, radius * 2 / 5)
         canvas.drawPath(path1, m_Paint)

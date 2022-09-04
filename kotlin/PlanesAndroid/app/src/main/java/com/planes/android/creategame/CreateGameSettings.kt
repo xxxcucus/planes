@@ -1,9 +1,8 @@
 package com.planes.android.creategame
 
-import android.content.Context
 import android.os.Bundle
 
-class CreateGameSettings internal constructor(private val m_Context: Context):
+class CreateGameSettings internal constructor() :
     ICreateGameSettings {
 
     override var createGameState = CreateGameStates.NotSubmitted

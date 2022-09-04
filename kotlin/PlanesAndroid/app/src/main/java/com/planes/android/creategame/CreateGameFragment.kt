@@ -42,7 +42,7 @@ class CreateGameFragment: Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         m_MultiplayerRound.createPlanesRound()
-        m_CreateGameSettingsService.createPreferencesService(context)
+        m_CreateGameSettingsService.createPreferencesService()
         m_Context = context
     }
 

@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import com.planes.android.R
 import com.planes.android.customviews.ViewWithText
 import com.planes.android.game.common.PlanesVerticalLayoutParams
 import com.planes.single_player_engine.GameStages
@@ -159,7 +158,7 @@ class PlanesVerticalLayoutSinglePlayer : ViewGroup {
     }
 
     override fun checkLayoutParams(p: LayoutParams): Boolean {
-        return p is LayoutParams
+        return true
     }
 
     private fun setPlayerBoardPosition(left: Int, top: Int, right: Int, bottom: Int, hideOthers: Boolean) {
@@ -185,7 +184,7 @@ class PlanesVerticalLayoutSinglePlayer : ViewGroup {
     }
 
     private fun setFirstBoardPosition(left: Int, top: Int, right: Int, bottom: Int) {
-        m_GameBoards[0]!!.layout(left, top, right, bottom)
+        m_GameBoards[0].layout(left, top, right, bottom)
     }
 
     private fun setGameControlsPositions(left: Int, top: Int, right: Int, bottom: Int) {
@@ -258,18 +257,12 @@ class PlanesVerticalLayoutSinglePlayer : ViewGroup {
         requestLayout()
     }
 
-    fun setToolbarHeight(toolbarHeight: Int) {
-        m_ToolbarHeight = toolbarHeight
-    }
-
     private lateinit var m_GameBoards: ArrayList<GameBoardSinglePlayer>
     private lateinit var m_GameControls: HashMap<Int, ArrayList<View>>
     private lateinit var m_GameControlsMaxRow: HashMap<Int, Int>
     private lateinit var m_GameControlsMaxCol: HashMap<Int, Int>
-    private var m_ToolbarHeight: Int = 0
     private var m_Context: Context
     private var m_GameStage = GameStages.BoardEditing
-    private val m_CorrectChildren = false
     private var m_ShowPlayerBoard = false //in start new game stage which board to show
     private var m_Tablet = false
     private var m_Vertical = false

@@ -5,8 +5,9 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.Rect
 import android.view.View
+import kotlin.math.max
 
-public class CanvasPaintUtilities {
+class CanvasPaintUtilities {
 
     //TODO: Do I need JvmStatic here ?
     companion object Functions {
@@ -59,7 +60,7 @@ public class CanvasPaintUtilities {
             val bounds2 = Rect()
             paint.getTextBounds(text2, 0, text2.length, bounds2)
             val textHeight = bounds1.height() + bounds2.height() + lineSpacing
-            val textWidth = Math.max(bounds1.width(), bounds2.width())
+            max(bounds1.width(), bounds2.width())
             canvas.drawText(text1, (centerX - bounds1.width() / 2).toFloat(), (centerY - textHeight / 2 + bounds1.height()).toFloat(), paint)
             canvas.drawText(text2, (centerX - bounds2.width() / 2).toFloat(), (centerY + textHeight / 2).toFloat(), paint)
         }
@@ -72,7 +73,7 @@ public class CanvasPaintUtilities {
             var textWidth2 = 0
             var textHeight2 = 0
             val searchStep = 1
-            while (Math.max(textWidth1, textWidth2) < 9 * width / 10 && textHeight1 + textHeight2 + lineSpacing < height && curTextSize <= maxSize) {
+            while (max(textWidth1, textWidth2) < 9 * width / 10 && textHeight1 + textHeight2 + lineSpacing < height && curTextSize <= maxSize) {
                 curTextSize += searchStep
                 paint.textSize = curTextSize.toFloat()
                 val bounds1 = Rect()
@@ -89,7 +90,7 @@ public class CanvasPaintUtilities {
 
 
         fun measureHeightOneLineText(measureSpec: Int, paint: Paint, text: String): Int {
-            val specMode = View.MeasureSpec.getMode(measureSpec)
+            View.MeasureSpec.getMode(measureSpec)
             val specSize = View.MeasureSpec.getSize(measureSpec)
             var resultHeight = 10
             paint.textSize = 20f
@@ -102,7 +103,7 @@ public class CanvasPaintUtilities {
 
 
         fun measureWidthOneLineText(measureSpec: Int, paint: Paint, text: String): Int {
-            val specMode = View.MeasureSpec.getMode(measureSpec)
+            View.MeasureSpec.getMode(measureSpec)
             val specSize = View.MeasureSpec.getSize(measureSpec)
             var resultWidth = 10
             paint.textSize = 20f
@@ -115,7 +116,7 @@ public class CanvasPaintUtilities {
 
 
         fun measureHeightTwoLinesText(measureSpec: Int, paint: Paint, text1: String, text2: String, lineSpacing: Int): Int {
-            val specMode = View.MeasureSpec.getMode(measureSpec)
+            View.MeasureSpec.getMode(measureSpec)
             val specSize = View.MeasureSpec.getSize(measureSpec)
             var resultHeight = 10
             paint.textSize = 20f
@@ -130,7 +131,7 @@ public class CanvasPaintUtilities {
 
 
         fun measureWidthTwoLinesText(measureSpec: Int, paint: Paint, text1: String, text2: String): Int {
-            val specMode = View.MeasureSpec.getMode(measureSpec)
+            View.MeasureSpec.getMode(measureSpec)
             val specSize = View.MeasureSpec.getSize(measureSpec)
             var resultWidth = 10
             paint.textSize = 20f
@@ -138,7 +139,7 @@ public class CanvasPaintUtilities {
             paint.getTextBounds(text1, 0, text1.length, bounds1)
             val bounds2 = Rect()
             paint.getTextBounds(text2, 0, text2.length, bounds2)
-            if (Math.max(bounds1.width(), bounds2.width()) > resultWidth) resultWidth = Math.max(bounds1.width(), bounds2.width())
+            if (max(bounds1.width(), bounds2.width()) > resultWidth) resultWidth = max(bounds1.width(), bounds2.width())
             if (specSize > resultWidth) resultWidth = specSize
             return resultWidth
         }

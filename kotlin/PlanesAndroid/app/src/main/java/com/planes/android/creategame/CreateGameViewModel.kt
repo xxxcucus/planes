@@ -4,9 +4,6 @@ import androidx.lifecycle.ViewModel
 
 class CreateGameViewModel(var gameName: String) : ViewModel() {
 
-    var m_GameName: String
+    var m_GameName: String = gameName
 
-    init {
-        m_GameName = gameName
-    }
 }

@@ -15,7 +15,7 @@ class ColouredSurfaceWithTwoLineText : View, ViewWithText {
     private lateinit var m_Text2: String
     private var m_TextSize = 10
     private var m_BackgroundColor = 0
-    protected var m_LineSpacing = 10
+    private var m_LineSpacing = 10
 
     constructor(context: Context) : super(context) {
         init()

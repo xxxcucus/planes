@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         m_VideoSettingsService = VideoSettingsService(this)
         m_VideoSettingsService.readPreferences()
 
-        m_CreateGameSettingsService.createPreferencesService(this)
+        m_CreateGameSettingsService.createPreferencesService()
 
         m_NoRobotSettingsService = NoRobotSettingsService()
 

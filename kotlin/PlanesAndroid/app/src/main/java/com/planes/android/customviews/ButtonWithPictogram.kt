@@ -12,8 +12,8 @@ import androidx.appcompat.widget.AppCompatButton
  * Parent class for all buttons with pictograms
  */
 open class ButtonWithPictogram : AppCompatButton {
-    val m_MinWidth = 30
-    val m_MinHeight = 30
+    private val m_MinWidth = 30
+    private val m_MinHeight = 30
     protected lateinit var m_Paint: Paint
 
     constructor(context: Context) : super(context) {

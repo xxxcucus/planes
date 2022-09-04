@@ -1,4 +1,4 @@
-package com.planes.android.game.singleplayer
+package com.planes.android.game.multiplayer
 
 import android.content.Context
 import android.widget.Button
@@ -6,15 +6,11 @@ import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import com.planes.android.*
 import com.planes.android.customviews.ColouredSurfaceWithText
-import com.planes.android.customviews.ColouredSurfaceWithTwoLineText
 import com.planes.android.customviews.TwoLineTextButton
 import com.planes.android.customviews.TwoLineTextButtonWithState
-import com.planes.android.game.multiplayer.GameBoardsAdapterMultiplayer
-import com.planes.android.game.multiplayer.PlanesVerticalLayoutMultiplayer
-import com.planes.single_player_engine.GameStages
+
 
 class GameControlsAdapterMultiplayer(private val m_Context: Context) {
-    private val m_CurStage = GameStages.BoardEditing
     private lateinit var m_MultiplayerRound: MultiplayerRoundInterface
     private lateinit var m_GameBoards: GameBoardsAdapterMultiplayer
     private var m_Tablet = false
@@ -107,10 +103,8 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         m_WinnerTextView = winnerText
         m_Draws = drawsCount
         m_DrawsLabel = drawsLabel
-        if (this::m_StartNewRound.isInitialized != null) {
-            m_StartNewRound.setOnClickListener {
-                startNewGameLambda()
-            }
+        m_StartNewRound.setOnClickListener {
+            startNewGameLambda()
         }
         m_ViewComputerBoardButton2.setState("player", m_Context.resources.getString(R.string.view_player_board2))
         if (this::m_ViewComputerBoardButton2.isInitialized) {
@@ -132,25 +126,24 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         val computer_wins = m_MultiplayerRound.playerGuess_StatNoComputerWins()
         val player_wins = m_MultiplayerRound.playerGuess_StatNoPlayerWins()
         val draws = m_MultiplayerRound.playerGuess_StatNoDraws()
-        m_PlayerWins.setText(Integer.toString(player_wins))
-        m_ComputerWins.setText(Integer.toString(computer_wins))
-        m_Draws.setText(Integer.toString(draws))
+        m_PlayerWins.setText(player_wins.toString())
+        m_ComputerWins.setText(computer_wins.toString())
+        m_Draws.setText(draws.toString())
         m_ViewComputerBoardButton2.setState("player", m_Context.resources.getString(R.string.view_player_board2))
         m_PlanesLayout.setComputerBoard()
     }
 
-    fun setGameStage(showProgresBar: Boolean) {
+    fun setGameStage(showProgressBar: Boolean) {
         if (!showTwoBoards(m_Tablet)) {
             m_GameBoards.setComputerBoard()
             m_ViewOpponentBoardButton1.setState("player", m_Context.resources.getString(R.string.view_player_board2))
             //updateStats(true) //TODO: do I need this ?
-        } else {
         }
-        m_ProgressBarGame.isVisible = showProgresBar
+        m_ProgressBarGame.isVisible = showProgressBar
     }
 
-    fun setBoardEditingStage(showProgresBar: Boolean) {
-        m_ProgressBarBoardEditing.isVisible = showProgresBar
+    fun setBoardEditingStage(showProgresBars: Boolean) {
+        m_ProgressBarBoardEditing.isVisible = showProgresBars
     }
     /*fun updateStats(isComputer: Boolean) {
 
@@ -191,9 +184,9 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         val computer_wins = m_MultiplayerRound.playerGuess_StatNoComputerWins()
         val player_wins = m_MultiplayerRound.playerGuess_StatNoPlayerWins()
         val draws = m_MultiplayerRound.playerGuess_StatNoDraws()
-        m_PlayerWins.setText(Integer.toString(player_wins))
-        m_ComputerWins.setText(Integer.toString(computer_wins))
-        m_Draws.setText(Integer.toString(draws))
+        m_PlayerWins.setText(player_wins.toString())
+        m_ComputerWins.setText(computer_wins.toString())
+        m_Draws.setText(draws.toString())
         m_ViewComputerBoardButton2.setState("player", m_Context.resources.getText(R.string.view_player_board2).toString())
     }
 
@@ -214,7 +207,7 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         m_PlanesLayout = planesLayout
     }
 
-    fun showTwoBoards(isTablet: Boolean): Boolean {
-        return false;
+    private fun showTwoBoards(isTablet: Boolean): Boolean {
+        return false
     }
 }

@@ -17,8 +17,6 @@ class TextButton : AppCompatButton, ViewWithText {
     private lateinit var m_Paint: Paint
     private lateinit var m_Text: String
     private var m_TextSize = 10
-    private var m_MinWidth = 0
-    private var m_MinHeight = 0
 
     constructor(context: Context) : super(context) {
         init()

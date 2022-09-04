@@ -5,7 +5,6 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.planes.android.game.singleplayer.GameBoardSinglePlayer
 
 class GridSquare : View {
     private var m_BackgroundColor = 0
@@ -40,10 +39,6 @@ class GridSquare : View {
         m_Width = newWidth
         allocateMemory()
         invalidate()
-    }
-
-    fun setBackgroundColor(r: Int, g: Int, b: Int) {
-        m_BackgroundColor = 255 and 0xff shl 24 or (r and 0xff shl 16) or (g and 0xff shl 8) or (b and 0xff)
     }
 
     override fun setBackgroundColor(color: Int) {
@@ -83,7 +78,7 @@ class GridSquare : View {
         m_Paint.color = m_BackgroundColor
         canvas.drawRect((width / 20).toFloat(), (height / 20).toFloat(), (width * 19 / 20).toFloat(), (height * 19 / 20).toFloat(), m_Paint)
         if (m_GuessType >= 0) {
-            println("Draw " + m_GuessType + " " + m_RowNo + " " + m_ColNo)
+            println("Draw $m_GuessType $m_RowNo $m_ColNo")
             when (m_GuessType) {
                 0 -> {
                     //draw red circle

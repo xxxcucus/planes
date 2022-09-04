@@ -7,10 +7,8 @@ import com.planes.android.customviews.ColouredSurfaceWithText
 import com.planes.android.customviews.ColouredSurfaceWithTwoLineText
 import com.planes.android.customviews.TwoLineTextButton
 import com.planes.android.customviews.TwoLineTextButtonWithState
-import com.planes.single_player_engine.GameStages
 
 class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
-    private val m_CurStage = GameStages.BoardEditing
     private lateinit var m_PlaneRound: PlanesRoundInterface
     private lateinit var m_GameBoards: GameBoardsAdapterSinglePlayer
     private var m_Tablet = false
@@ -102,10 +100,10 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
                     val hits = m_PlaneRound.playerGuess_StatNoComputerHits()
                     val dead = m_PlaneRound.playerGuess_StatNoComputerDead()
                     val moves = m_PlaneRound.playerGuess_StatNoComputerMoves()
-                    m_MissesTextView.setText(Integer.toString(misses))
-                    m_HitsTextView.setText(Integer.toString(hits))
-                    m_DeadTextView.setText(Integer.toString(dead))
-                    m_MovesTextView.setText(Integer.toString(moves))
+                    m_MissesTextView.setText(misses.toString())
+                    m_HitsTextView.setText(hits.toString())
+                    m_DeadTextView.setText(dead.toString())
+                    m_MovesTextView.setText(moves.toString())
                     m_StatsTitle.setText(m_Context.resources.getString(R.string.computer_stats1), m_Context.resources.getString(
                         R.string.computer_stats2
                     ))
@@ -117,10 +115,10 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
                     val hits = m_PlaneRound.playerGuess_StatNoPlayerHits()
                     val dead = m_PlaneRound.playerGuess_StatNoPlayerDead()
                     val moves = m_PlaneRound.playerGuess_StatNoPlayerMoves()
-                    m_MissesTextView.setText(Integer.toString(misses))
-                    m_HitsTextView.setText(Integer.toString(hits))
-                    m_DeadTextView.setText(Integer.toString(dead))
-                    m_MovesTextView.setText(Integer.toString(moves))
+                    m_MissesTextView.setText(misses.toString())
+                    m_HitsTextView.setText(hits.toString())
+                    m_DeadTextView.setText(dead.toString())
+                    m_MovesTextView.setText(moves.toString())
                     m_StatsTitle.setText(m_Context.resources.getString(R.string.player_stats1), m_Context.resources.getString(
                         R.string.player_stats2
                     ))
@@ -144,13 +142,11 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
         m_WinnerTextView = winnerText
         m_Draws = drawsCount
         m_DrawsLabel = drawsLabel
-        if (this::m_StartNewRound.isInitialized != null) {
-            m_StartNewRound.setOnClickListener {
-                m_PlaneRound.initRound()
-                m_PlanesLayout.setBoardEditingStage()
-                m_GameBoards.setBoardEditingStage()
-                setBoardEditingStage()
-            }
+        m_StartNewRound.setOnClickListener {
+            m_PlaneRound.initRound()
+            m_PlanesLayout.setBoardEditingStage()
+            m_GameBoards.setBoardEditingStage()
+            setBoardEditingStage()
         }
         m_ViewComputerBoardButton2.setState("player", m_Context.resources.getString(R.string.view_player_board2))
         if (this::m_ViewComputerBoardButton2.isInitialized) {
@@ -172,9 +168,9 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
         val computer_wins = m_PlaneRound.playerGuess_StatNoComputerWins()
         val player_wins = m_PlaneRound.playerGuess_StatNoPlayerWins()
         val draws = m_PlaneRound.playerGuess_StatNoDraws()
-        m_PlayerWins.setText(Integer.toString(player_wins))
-        m_ComputerWins.setText(Integer.toString(computer_wins))
-        m_Draws.setText(Integer.toString(draws))
+        m_PlayerWins.setText(player_wins.toString())
+        m_ComputerWins.setText(computer_wins.toString())
+        m_Draws.setText(draws.toString())
         m_ViewComputerBoardButton2.setState("player", m_Context.resources.getString(R.string.view_player_board2))
         m_PlanesLayout.setComputerBoard()
     }
@@ -187,7 +183,6 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
                 R.string.computer_stats2
             ))
             updateStats(true)
-        } else {
         }
     }
 
@@ -201,19 +196,19 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
             val hits = m_PlaneRound.playerGuess_StatNoComputerHits()
             val dead = m_PlaneRound.playerGuess_StatNoComputerDead()
             val moves = m_PlaneRound.playerGuess_StatNoComputerMoves()
-            m_MissesTextView.setText(Integer.toString(misses))
-            m_HitsTextView.setText(Integer.toString(hits))
-            m_DeadTextView.setText(Integer.toString(dead))
-            m_MovesTextView.setText(Integer.toString(moves))
+            m_MissesTextView.setText(misses.toString())
+            m_HitsTextView.setText(hits.toString())
+            m_DeadTextView.setText(dead.toString())
+            m_MovesTextView.setText(moves.toString())
         } else {
             val misses = m_PlaneRound.playerGuess_StatNoPlayerMisses()
             val hits = m_PlaneRound.playerGuess_StatNoPlayerHits()
             val dead = m_PlaneRound.playerGuess_StatNoPlayerDead()
             val moves = m_PlaneRound.playerGuess_StatNoPlayerMoves()
-            m_MissesTextView.setText(Integer.toString(misses))
-            m_HitsTextView.setText(Integer.toString(hits))
-            m_DeadTextView.setText(Integer.toString(dead))
-            m_MovesTextView.setText(Integer.toString(moves))
+            m_MissesTextView.setText(misses.toString())
+            m_HitsTextView.setText(hits.toString())
+            m_DeadTextView.setText(dead.toString())
+            m_MovesTextView.setText(moves.toString())
         }
     }
 
@@ -227,9 +222,9 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
         val computer_wins = m_PlaneRound.playerGuess_StatNoComputerWins()
         val player_wins = m_PlaneRound.playerGuess_StatNoPlayerWins()
         val draws = m_PlaneRound.playerGuess_StatNoDraws()
-        m_PlayerWins.setText(Integer.toString(player_wins))
-        m_ComputerWins.setText(Integer.toString(computer_wins))
-        m_Draws.setText(Integer.toString(draws))
+        m_PlayerWins.setText(player_wins.toString())
+        m_ComputerWins.setText(computer_wins.toString())
+        m_Draws.setText(draws.toString())
         m_ViewComputerBoardButton2.setState("player", m_Context.resources.getText(R.string.view_player_board2).toString())
     }
 

@@ -10,6 +10,8 @@ import com.planes.android.game.common.GameBoardInterface
 import com.planes.android.game.common.GridSquare
 import com.planes.single_player_engine.GameStages
 import java.util.*
+import kotlin.math.abs
+import kotlin.math.min
 
 class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
     internal inner class PositionBoardPane(i: Int, j: Int) {
@@ -49,7 +51,6 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
     private val m_MinPlaneBodyColor = 0
     private val m_MaxPlaneBodyColor = 200
     private var m_GameStage = GameStages.BoardEditing
-    private val m_SelectedPlane = 0
     private var m_GRows = 10
     private var m_GCols = 10
     private var m_PlaneNo = 3
@@ -106,7 +107,7 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
         val topPos = paddingTop
         val bottomPos = bottom - top - paddingBottom
         val spacing = 0
-        val newWidth = (Math.min(bottomPos - topPos, rightPos - leftPos) - spacing) / (m_GRows + 2 * m_Padding)
+        val newWidth = (min(bottomPos - topPos, rightPos - leftPos) - spacing) / (m_GRows + 2 * m_Padding)
         m_GridSquareSize = newWidth
         var verticalOffset = 0
         var horizontalOffset = 0
@@ -158,7 +159,7 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
         }
     }
 
-    fun updateBoards() {
+    private fun updateBoards() {
         //draw the squares background
         for (i in 0 until m_GRows + 2 * m_Padding) {
             for (j in 0 until m_GCols + 2 * m_Padding) {
@@ -169,12 +170,12 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
             }
         } //display background of square; double for loop
 
-        var count = if (m_IsComputer) m_PlaneRound.getPlayerGuessesNo() else m_PlaneRound.getComputerGuessesNo()
+        val count = if (m_IsComputer) m_PlaneRound.getPlayerGuessesNo() else m_PlaneRound.getComputerGuessesNo()
         println("$count guesses")
         for (i in 0 until count) {
-            var row = 0
-            var col = 0
-            var type = 0
+            var row: Int
+            var col: Int
+            var type: Int
             if (m_IsComputer) {
                 row = m_PlaneRound.getPlayerGuessRow(i)
                 col = m_PlaneRound.getPlayerGuessCol(i)
@@ -191,7 +192,7 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
         }
     }
 
-    fun computeSquareBackgroundColor(i: Int, j: Int): Int {
+    private fun computeSquareBackgroundColor(i: Int, j: Int): Int {
         var squareColor = if (i < m_Padding || i >= m_GRows + m_Padding || j < m_Padding || j >= m_GCols + m_Padding) {
             Color.YELLOW
         } else {
@@ -263,7 +264,7 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
     private fun touchInMoreSquares(row_first: Int, col_first: Int, row_last: Int, col_last: Int) {
         //System.out.println("Drag from " + Integer.toString(row_first) + ", " + Integer.toString(col_first) + " to " + Integer.toString(row_last) + " , " + Integer.toString(col_last));
         if (!m_IsComputer && m_GameStage === GameStages.BoardEditing) {
-            if (Math.abs(row_last - row_first) > Math.abs(col_last - col_first)) {
+            if (abs(row_last - row_first) > abs(col_last - col_first)) {
                 //vertical movement
                 if (row_last > row_first) movePlaneRight() else movePlaneLeft()
             } else {
@@ -274,31 +275,31 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
     }
 
     fun movePlaneLeft() {
-        val valid = if (m_PlaneRound.movePlaneLeft(m_Selected) == 1) true else false
+        val valid = m_PlaneRound.movePlaneLeft(m_Selected) == 1
         updateBoards()
         m_GameControls.setDoneEnabled(valid)
     }
 
     fun movePlaneRight() {
-        val valid = if (m_PlaneRound.movePlaneRight(m_Selected) == 1) true else false
+        val valid = m_PlaneRound.movePlaneRight(m_Selected) == 1
         updateBoards()
         m_GameControls.setDoneEnabled(valid)
     }
 
     fun movePlaneUp() {
-        val valid = if (m_PlaneRound.movePlaneUpwards(m_Selected) == 1) true else false
+        val valid = m_PlaneRound.movePlaneUpwards(m_Selected) == 1
         updateBoards()
         m_GameControls.setDoneEnabled(valid)
     }
 
     fun movePlaneDown() {
-        val valid = if (m_PlaneRound.movePlaneDownwards(m_Selected) == 1) true else false
+        val valid = m_PlaneRound.movePlaneDownwards(m_Selected) == 1
         updateBoards()
         m_GameControls.setDoneEnabled(valid)
     }
 
     fun rotatePlane() {
-        val valid = if (m_PlaneRound.rotatePlane(m_Selected) == 1) true else false
+        val valid = m_PlaneRound.rotatePlane(m_Selected) == 1
         updateBoards()
         m_GameControls.setDoneEnabled(valid)
     }

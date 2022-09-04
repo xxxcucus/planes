@@ -1,7 +1,5 @@
 package com.planes.android.game.multiplayer
 
-import com.planes.android.game.singleplayer.GameBoardSinglePlayer
-import com.planes.android.game.singleplayer.GameControlsAdapterMultiplayer
 import com.planes.single_player_engine.GameStages
 
 //TODO: derive from basis class the same as GameBoardsAdapterSinglePlayer
@@ -27,7 +25,7 @@ class GameBoardsAdapterMultiplayer {
         m_ComputerBoard.setSiblingBoard(m_PlayerBoard)
     }
 
-    fun showTwoBoards(): Boolean {
+    private fun showTwoBoards(): Boolean {
         return false
     }
 
@@ -65,38 +63,6 @@ class GameBoardsAdapterMultiplayer {
             m_ComputerBoard.setGameStage(false)
         } else {
             m_GameBoard.setGameStage(true)
-        }
-    }
-
-    fun movePlaneLeft() {
-        if (showTwoBoards()) {
-            m_PlayerBoard.movePlaneLeft()
-        } else {
-            m_GameBoard.movePlaneLeft()
-        }
-    }
-
-    fun movePlaneRight() {
-        if (showTwoBoards()) {
-            m_PlayerBoard.movePlaneRight()
-        } else {
-            m_GameBoard.movePlaneRight()
-        }
-    }
-
-    fun movePlaneUp() {
-        if (showTwoBoards()) {
-            m_PlayerBoard.movePlaneUp()
-        } else {
-            m_GameBoard.movePlaneUp()
-        }
-    }
-
-    fun movePlaneDown() {
-        if (showTwoBoards()) {
-            m_PlayerBoard.movePlaneDown()
-        } else {
-            m_GameBoard.movePlaneDown()
         }
     }
 

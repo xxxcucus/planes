@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import com.planes.android.customviews.ButtonWithPictogram
+import kotlin.math.min
 
 class RotateButton : ButtonWithPictogram {
     constructor(context: Context) : super(context) {
@@ -26,7 +27,7 @@ class RotateButton : ButtonWithPictogram {
         val height = height
         val centerX = width / 2
         val centerY = height / 2
-        val radius = Math.min(width / 3, height / 3)
+        val radius = min(width / 3, height / 3)
         val path1 = Path()
         path1.moveTo((centerX + radius).toFloat(), centerY.toFloat())
         path1.arcTo(RectF((centerX - radius).toFloat(), (centerY - radius).toFloat(), (centerX + radius).toFloat(), (centerY + radius).toFloat()), 0f, 270f)
