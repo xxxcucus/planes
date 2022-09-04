@@ -5,9 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.CompoundButton
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.planes.android.ApplicationScreens
@@ -20,8 +17,6 @@ import com.planes.single_player_engine.GameStages
 
 class GameStatsFragment: Fragment() {
     private lateinit var binding: FragmentStatusBinding
-    private var m_Username = ""
-    private var m_Password = ""
     private var m_MultiplayerRound = MultiplayerRoundJava()
     private lateinit var m_Context: Context
 
@@ -31,19 +26,15 @@ class GameStatsFragment: Fragment() {
         m_MultiplayerRound.createPlanesRound()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentStatusBinding.inflate(inflater, container, false)
-        var username = m_MultiplayerRound.getUsername()
-        var gameData = m_MultiplayerRound.getGameData()
+        val username = m_MultiplayerRound.getUsername()
+        val gameData = m_MultiplayerRound.getGameData()
         gameData.username = username
-        var gameStage = GameStages.get(m_MultiplayerRound.getGameStage())!!
+        val gameStage = GameStages[m_MultiplayerRound.getGameStage()]!!
         binding.settingsData = GameStatsViewModel(
             gameData,
             gameStage,
@@ -53,20 +44,20 @@ class GameStatsFragment: Fragment() {
         (activity as MainActivity).setActionBarTitle(getString(R.string.game_stats))
         (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.GameStats)
 
-        var loginButton = binding.statusLogin as Button
-        loginButton.setOnClickListener(View.OnClickListener { goToLoginScreen() })
+        val loginButton = binding.statusLogin
+        loginButton.setOnClickListener { goToLoginScreen() }
 
-        if (!gameData.username.isNullOrEmpty())
+        if (gameData.username.isNotEmpty())
             loginButton.isEnabled = false
 
-        var connectToGameButton = binding.statusConnectToGame as Button
-        connectToGameButton.setOnClickListener(View.OnClickListener { goToConnectToGameScreen() })
+        val connectToGameButton = binding.statusConnectToGame
+        connectToGameButton.setOnClickListener { goToConnectToGameScreen() }
 
-        var connectedToGame = !(gameData.gameName.isNullOrEmpty() ||
-                (!gameData.gameName.isNullOrEmpty() && gameData.username == gameData.otherUsername)
+        val connectedToGame = !(gameData.gameName.isEmpty() ||
+                (gameData.gameName.isNotEmpty() && gameData.username == gameData.otherUsername)
                 || gameData.roundId == 0L)
 
-        if (gameData.username.isNullOrEmpty() || connectedToGame)
+        if (gameData.username.isEmpty() || connectedToGame)
             connectToGameButton.isEnabled = false
 
         if (!connectedToGame) {
@@ -83,11 +74,11 @@ class GameStatsFragment: Fragment() {
         return binding.root
     }
 
-    fun goToLoginScreen() {
+    private fun goToLoginScreen() {
         (activity as MainActivity).startLoginFragment()
     }
 
-    fun goToConnectToGameScreen() {
+    private fun goToConnectToGameScreen() {
         (activity as MainActivity).startConnectToGameFragment()
     }
 }

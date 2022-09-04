@@ -5,17 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
 import com.planes.android.databinding.FragmentLogoutBinding
-import com.planes.android.databinding.FragmentStatusBinding
-import com.planes.android.gamestats.GameStatsViewModel
 import com.planes.multiplayer_engine.MultiplayerRoundJava
-import com.planes.single_player_engine.GameStages
 
 
 class LogoutFragment: Fragment() {
@@ -32,9 +27,9 @@ class LogoutFragment: Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentLogoutBinding.inflate(inflater, container, false)
-        var username = m_MultiplayerRound.getUsername()
+        val username = m_MultiplayerRound.getUsername()
 
         binding.settingsData = LogoutViewModel(
             username,
@@ -43,16 +38,16 @@ class LogoutFragment: Fragment() {
         (activity as MainActivity).setActionBarTitle(getString(R.string.logout))
         (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Logout)
 
-        var logoutButton = binding.logout as Button
+        val logoutButton = binding.logout
 
-        logoutButton.setOnClickListener(View.OnClickListener { performLogout() })
-        if (username.isNullOrEmpty())
+        logoutButton.setOnClickListener { performLogout() }
+        if (username.isEmpty())
             logoutButton.isEnabled = false
 
         return binding.root
     }
 
-    fun performLogout() {
+    private fun performLogout() {
         m_MultiplayerRound.setUserData("", "", "")
         m_MultiplayerRound.resetGameData()
         m_MultiplayerRound.initRound()

@@ -13,9 +13,9 @@ class LogoutViewModel(var username: String, context: Context) : ViewModel() {
     init {
         m_Context = context
         m_Username = username
-        if (m_Username.isNullOrEmpty())
-            m_LoginStatus = m_Context.resources.getString(R.string.nouser)
+        m_LoginStatus = if (m_Username.isEmpty())
+            m_Context.resources.getString(R.string.nouser)
         else
-            m_LoginStatus = m_Context.resources.getString(R.string.userloggedin)
+            m_Context.resources.getString(R.string.userloggedin)
     }
 }

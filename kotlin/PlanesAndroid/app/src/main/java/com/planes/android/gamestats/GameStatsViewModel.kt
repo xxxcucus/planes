@@ -7,18 +7,18 @@ import com.planes.multiplayer_engine.GameData
 import com.planes.single_player_engine.GameStages
 import com.planes.single_player_engine.GameStatistics
 
-class GameStatsViewModel(gameData: GameData, var gameStage: GameStages, gameStats: GameStatistics, context: Context
+class GameStatsViewModel(gameData: GameData, gameStage: GameStages, gameStats: GameStatistics, context: Context
 ):  ViewModel() {
 
-    var m_UserLoggedIn: Boolean
+    private var m_UserLoggedIn: Boolean
     var m_LoginStatus: String
     var m_UserName: String
     var m_ConnectStatus: String
-    var m_ConnectedToGame: Boolean
+    private var m_ConnectedToGame: Boolean
     var m_GameName: String
     var m_RoundId: String
     var m_OpponentName: String
-    var m_GameStatsShown: Boolean
+    private var m_GameStatsShown: Boolean
     var m_GameStage: String
     var m_PlayerMoves: String
     var m_PlayerHits: String
@@ -36,12 +36,12 @@ class GameStatsViewModel(gameData: GameData, var gameStage: GameStages, gameStat
     init  {
         m_Context = context
 
-        m_UserLoggedIn = if (gameData.username.isNullOrEmpty()) false else true
+        m_UserLoggedIn = gameData.username.isNotEmpty()
         m_LoginStatus = if (m_UserLoggedIn) m_Context.resources.getString(R.string.userloggedin) else m_Context.resources.getString(R.string.nouser)
         m_UserName = if (m_UserLoggedIn) gameData.username else ""
-        m_ConnectedToGame = if (gameData.gameName.isNullOrEmpty()) false else true
+        m_ConnectedToGame = gameData.gameName.isNotEmpty()
         m_GameName = gameData.gameName
-        var connectedToGame = !(gameData.gameName.isNullOrEmpty() || (!gameData.gameName.isNullOrEmpty() && gameData.username == gameData.otherUsername)
+        val connectedToGame = !(gameData.gameName.isEmpty() || (gameData.gameName.isNotEmpty() && gameData.username == gameData.otherUsername)
                 || gameData.roundId == 0L)
         if (!connectedToGame) {
             m_ConnectStatus = m_Context.resources.getString(R.string.not_connected_togame)

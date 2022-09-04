@@ -6,9 +6,6 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.CompoundButton
 import androidx.fragment.app.Fragment
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
@@ -17,13 +14,12 @@ import com.planes.android.databinding.FragmentLoginBinding
 import com.planes.android.preferences.MultiplayerPreferencesServiceGlobal
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.commobj.LoginCommObj
-import com.planes.multiplayer_engine.responses.ErrorResponse
 import com.planes.multiplayer_engine.responses.LoginResponse
 import io.reactivex.Observable
 import retrofit2.Response
 
 
-//TODO to update accordint to google and udemy
+//TODO to update according to google and udemy
 class LoginFragment: Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private var m_Username = ""
@@ -38,27 +34,26 @@ class LoginFragment: Fragment() {
         m_MultiplayerRound.createPlanesRound()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         binding.settingsData = LoginViewModel(m_Username, m_Password)
         (activity as MainActivity).setActionBarTitle(getString(R.string.login))
         (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Login)
 
-        var saveSettingsButton = binding.login as Button
-        saveSettingsButton.setOnClickListener(View.OnClickListener { performLogin() })
+        val saveSettingsButton = binding.login
+        saveSettingsButton.setOnClickListener { performLogin() }
 
-        var hidePasswordCheckbox = binding.secureCheck as CheckBox
-        hidePasswordCheckbox.setOnCheckedChangeListener(
-            CompoundButton.OnCheckedChangeListener { buttonView, isChecked -> hideShowPassword(buttonView, isChecked) })
+        val hidePasswordCheckbox = binding.secureCheck
+        hidePasswordCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            hideShowPassword(
+                isChecked
+            )
+        }
 
-        var useCredentialFromPrefsButton = binding.credentialsPreferences
+        val useCredentialFromPrefsButton = binding.credentialsPreferences
         useCredentialFromPrefsButton.setOnClickListener {
             binding.settingsData!!.m_Password = m_PreferencesService.password
             binding.settingsData!!.m_Username = m_PreferencesService.username
@@ -75,25 +70,21 @@ class LoginFragment: Fragment() {
             m_LoginCommObj.disposeSubscription()
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
-
-    fun saveCredentials(username: String, password: String, authorizationHeader: String) {
+    private fun saveCredentials(username: String, password: String, authorizationHeader: String) {
         m_MultiplayerRound.setUserData(username, password, authorizationHeader)
         (activity as MainActivity).showSaveCredentialsPopup(username, password)
     }
 
 
-    fun finalizeLoginSuccessful() {
+    private fun finalizeLoginSuccessful() {
         (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
     }
 
-    fun createObservable() : Observable<Response<LoginResponse>> {
+    private fun createObservable() : Observable<Response<LoginResponse>> {
         return m_MultiplayerRound.login(binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password)
     }
 
-    fun performLogin() {
+    private fun performLogin() {
 
         if (!this::binding.isInitialized)
             return
@@ -108,7 +99,7 @@ class LoginFragment: Fragment() {
         m_LoginCommObj.makeRequest()
     }
 
-    fun hideShowPassword(buttonView: CompoundButton, isChecked: Boolean) {
+    private fun hideShowPassword(isChecked: Boolean) {
         if (isChecked) {
             binding.passwordEdittext.inputType =
                 InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
@@ -120,14 +111,14 @@ class LoginFragment: Fragment() {
     }
 
 
-    fun validationUsernamePasswordLogin(username: String, password: String) : String {
+    private fun validationUsernamePasswordLogin(username: String, password: String) : String {
         var retString = ""
 
         if (username.length > 30) {
             retString += " " + getString(R.string.validation_toolong_login_username)
         }
 
-        if (username.isNullOrEmpty()) {
+        if (username.isEmpty()) {
             retString += " " + getString(R.string.validation_empty_login_username)
         }
 
@@ -135,14 +126,14 @@ class LoginFragment: Fragment() {
             retString += " " + getString(R.string.validation_toolong_login_password)
         }
 
-        if (password.isNullOrEmpty()) {
+        if (password.isEmpty()) {
             retString += " " + getString(R.string.validation_empty_login_password)
         }
 
        return retString
     }
 
-    fun hideLoading() {
+    private fun hideLoading() {
         (activity as MainActivity).stopProgressDialog()
     }
 }
