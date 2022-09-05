@@ -2,7 +2,6 @@ package com.planes.multiplayer_engine.commobj
 
 import androidx.fragment.app.FragmentActivity
 import com.planes.android.MainActivity
-import com.planes.android.R
 import io.reactivex.Observable
 import retrofit2.Response
 
@@ -13,10 +12,10 @@ class SimpleRequestWithSimpleFinalizeCommObj<A>(createObservable: () -> Observab
 ):
     BasisCommObj<A>(true, createObservable, errorStrg, unknownError, false, false,
         successMsg, "", false, "", "",
-        {  a: String, b: String -> a },
-        { a : A -> "" }, false, { a: String, b: String, c: String -> {} },
-        { -> {} },
-        { -> {} }, activity )
+        { a: String, _: String -> a },
+        { "" }, false, { _: String, _: String, _: String -> },
+        { },
+        { }, activity )
 {
 
     override fun  finalizeRequest() {

@@ -1,7 +1,7 @@
 package com.planes.single_player_engine
 
 class HeadData(//size of the grid
-        var m_row: Int, var m_col: Int, //position of the head
+        m_row: Int, m_col: Int, //position of the head
         var m_headRow: Int, var m_headCol: Int) {
     //the correct plane orientation if decided
     var m_correctOrient: Int
@@ -11,7 +11,7 @@ class HeadData(//size of the grid
 
     init {
         m_correctOrient = -1
-        m_options = Array(4) { _ -> PlaneOrientationData()  }
+        m_options = Array(4) { PlaneOrientationData()  }
         for (i in 0..3) {
             val pl = Plane(m_headRow, m_headCol, Orientation.values()[i])
             //create the four planes for each head position

@@ -1,10 +1,10 @@
 package com.planes.single_player_engine
 
-class GuessPoint(val row: Int, val col: Int, val tp: Type) : Cloneable {
+class GuessPoint(val row: Int, val col: Int, tp: Type) : Cloneable {
 
     var m_row = 0
     var m_col = 0
-    var m_type = Type.Miss
+    private var m_type = Type.Miss
 
     init {
         m_row = row
@@ -50,5 +50,12 @@ class GuessPoint(val row: Int, val col: Int, val tp: Type) : Cloneable {
 
     public override fun clone(): Any {
         return GuessPoint(m_row, m_col, m_type)
+    }
+
+    override fun hashCode(): Int {
+        var result = m_row
+        result = 31 * result + m_col
+        result = 31 * result + m_type.hashCode()
+        return result
     }
 }

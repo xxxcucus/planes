@@ -1,7 +1,6 @@
 package com.planes.multiplayer_engine.commobj
 
 import androidx.fragment.app.FragmentActivity
-import com.planes.multiplayer_engine.responses.LoginResponse
 import com.planes.multiplayer_engine.responses.RegistrationResponse
 import io.reactivex.Observable
 import retrofit2.Response
@@ -14,6 +13,4 @@ class RegisterCommObj(createObservable: () -> Observable<Response<RegistrationRe
     BasisCommObj<RegistrationResponse>(true, createObservable, errorStrg, unknownError, false,
         false, "", "", true, username, password, userPasswordValidation,
         doWhenSuccess, false,
-        { a: String, b:String, c: String -> "" } , finalizeRequestSuccessful, { -> {} },activity)
-{
-}
+        { _: String, _:String, _: String -> "" } , finalizeRequestSuccessful, { },activity)

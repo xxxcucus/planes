@@ -13,7 +13,5 @@ class LoginWithoutLoadingCommObj(createObservable: () -> Observable<Response<Log
 
     BasisCommObj<LoginResponse>(false, createObservable, errorStrg, unknownError, false,
         false, "", "", true, username, password,
-        { a:String, b:String -> "" },
-        { a: LoginResponse -> "" }, true, saveCredentials, { -> {} }, { -> {} },activity)
-{
-}
+        { _:String, _:String -> "" },
+        { "" }, true, saveCredentials, { }, { },activity)

@@ -2,14 +2,14 @@ package com.planes.single_player_engine
 
 import java.util.*
 
-class Plane(val row: Int, val col: Int, val orient: Orientation) : Cloneable {
+class Plane(val row: Int, val col: Int, orient: Orientation) : Cloneable {
 
     //plane orientation
-    var m_orient = Orientation.NorthSouth
+    private var m_orient = Orientation.NorthSouth
 
     //coordinates of the position of the head of the plane
-    var m_row = 0
-    var m_col = 0
+    private var m_row = 0
+    private var m_col = 0
 
     init {
         m_row = row
@@ -18,9 +18,9 @@ class Plane(val row: Int, val col: Int, val orient: Orientation) : Cloneable {
     }
 
     //Various constructors
-    constructor(): this(0, 0, Orientation.NorthSouth) {}
+    constructor(): this(0, 0, Orientation.NorthSouth)
 
-    constructor(qp: Coordinate2D, orient: Orientation): this(qp.x(), qp.y(), orient) {}
+    constructor(qp: Coordinate2D, orient: Orientation): this(qp.x(), qp.y(), orient)
 
     //setter and getters
     //gives the planes orientation
@@ -153,6 +153,12 @@ class Plane(val row: Int, val col: Int, val orient: Orientation) : Cloneable {
             return retVal
         }
 
+    override fun hashCode(): Int {
+        var result = m_orient.hashCode()
+        result = 31 * result + m_row
+        result = 31 * result + m_col
+        return result
+    }
 
 
     companion object PlaneStatic {

@@ -1,15 +1,15 @@
 package com.planes.single_player_engine
 
 class Coordinate2D(val x: Int, val y: Int) : Cloneable {
-    var m_x = 0
-    var m_y = 0
+    private var m_x = 0
+    private var m_y = 0
 
     init {
         m_x = x
         m_y = y
     }
 
-    constructor(): this(0, 0) {}
+    constructor(): this(0, 0)
 
     fun x(): Int {
         return m_x
@@ -33,5 +33,11 @@ class Coordinate2D(val x: Int, val y: Int) : Cloneable {
 
     public override fun clone(): Any {
         return Coordinate2D(m_x, m_y)
+    }
+
+    override fun hashCode(): Int {
+        var result = m_x
+        result = 31 * result + m_y
+        return result
     }
 }

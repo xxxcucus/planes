@@ -17,31 +17,31 @@ import java.util.*
 //This structure keeps the information about the position of the head of the planes
 class ComputerLogic(//gets the number of rows
         //defines the grid size
-        var rowNo: Int, //get the number of cols
-        var colNo: Int, planeno: Int) {
+    private var rowNo: Int, //get the number of cols
+    private var colNo: Int, planeno: Int) {
 
     //maximum number of choices
-    protected var m_maxChoiceNo: Int
+    private var m_maxChoiceNo: Int = rowNo * colNo * 4
 
     //gets the number of planes
     //number of planes that need to be guessed
-    protected var m_planeNo: Int
+    private var m_planeNo: Int
 
 
     //list of already guessed planes
-    protected var m_guessedPlaneList: Vector<Plane>
+    private var m_guessedPlaneList: Vector<Plane>
 
     //list of available data for each head in m_guessHeadList
-    protected var m_headDataList: Vector<HeadData>
+    private var m_headDataList: Vector<HeadData>
 
     //gets the list of guesses
     //list of guesses made until this moment
-    protected var m_listGuesses: Vector<GuessPoint>
+    private var m_listGuesses: Vector<GuessPoint>
 
 
     //list of extended guesses; when the position of a plane is decided
     //all the points on this plane are considered as misses
-    protected var m_extendedListGuesses: Vector<GuessPoint>
+    private var m_extendedListGuesses: Vector<GuessPoint>
 
 
     //gets the choices
@@ -50,21 +50,20 @@ class ComputerLogic(//gets the number of rows
     //choice is -1 means that plane position is there impossible
     //choice 0 means no data about the choice is available
     //choice = k means that k data exist that support this choice
-    protected var choicesArray: Vector<Int>
+    private var choicesArray: Vector<Int>
 
     //array keeping the number of points with positive m_choice influenced by a given point
     //contains:
     //-1 when a guess has been made at this point, the position is impossible, or there is already data about this point
     //a positive number showing how many points are influenced by this point
-    protected var m_zero_choices: Vector<Int>
+    private var m_zero_choices: Vector<Int>
 
     //put here so that we calculate the list of indices only once
     //this iterator gives all the planes that intersect the
     //point (0,0) on the grid
-    protected var m_pipi: PlaneIntersectingPointIterator
+    private var m_pipi: PlaneIntersectingPointIterator
 
     init {
-        m_maxChoiceNo = rowNo * colNo * 4
         m_planeNo = planeno
 
         //creates the tables of choices
@@ -176,11 +175,6 @@ class ComputerLogic(//gets the number of rows
         }
     }
 
-    //tests whether all plane positions are guessed
-    fun areAllGuessed(): Boolean {
-        return m_guessedPlaneList.size >= m_planeNo
-    }
-
     //computes the position in the m_choices array of a given plane
     fun mapPlaneToIndex(pl: Plane): Int {
         return (pl.col() * rowNo + pl.row()) * 4 + pl.orientation().value
@@ -196,7 +190,7 @@ class ComputerLogic(//gets the number of rows
     }
 
     //computes the Coordinate2D corresponding to the head of the plane corresponding to the idx
-    fun mapIndexToQPoint(idx: Int): Coordinate2D {
+    private fun mapIndexToQPoint(idx: Int): Coordinate2D {
         val temp = idx / 4
         val row = temp % rowNo
         val col = temp / rowNo

@@ -16,13 +16,10 @@ import org.mindrot.jbcrypt.BCrypt
 import okhttp3.Interceptor
 
 import okhttp3.OkHttpClient
-import retrofit2.http.Body
-import android.R.bool
 import androidx.core.util.Pair
 import com.planes.android.game.multiplayer.IGameFragmentMultiplayer
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
-import kotlin.math.round
 
 class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     //communication structures
@@ -41,35 +38,36 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     private val HTTP_ORIGIN_VALUE = "Android"
 
     //whether the computer or the player moves first
-    private var m_isComputerFirst = false;
+    private var m_isComputerFirst = false
+
     //the  game statistics
-    private lateinit var m_gameStats: GameStatistics;
+    private var m_gameStats: GameStatistics
 
     //the player and computer's grid
-    private lateinit var m_PlayerGrid: PlaneGrid;
-    private lateinit var m_ComputerGrid: PlaneGrid;
+    private var m_PlayerGrid: PlaneGrid
+    private var m_ComputerGrid: PlaneGrid
 
     //the list of guesses for computer and player
-    private lateinit var m_computerGuessList: Vector<GuessPoint>
-    private lateinit var m_playerGuessList: Vector<GuessPoint>
+    private var m_computerGuessList: Vector<GuessPoint>
+    private var m_playerGuessList: Vector<GuessPoint>
 
-    private var m_State = GameStages.GameNotStarted;
+    private var m_State = GameStages.GameNotStarted
 
     //size of the grid and number of planes
-    private var m_rowNo = 10;
-    private var m_colNo = 10;
-    private var m_planeNo = 3;
+    private var m_rowNo = 10
+    private var m_colNo = 10
+    private var m_planeNo = 3
 
-    var m_PlayerMoveIndex = 0
-    var m_ComputerMoveIndex = 0
-    var m_WinnerFound: Boolean = false
-    var m_WinnerSent: Boolean = false
+    private var m_PlayerMoveIndex = 0
+    private var m_ComputerMoveIndex = 0
+    private var m_WinnerFound: Boolean = false
+    private var m_WinnerSent: Boolean = false
 
     private var m_NotSentMoves: Vector<Int> = Vector<Int>()
     private var m_LastNotSentMoveIndexSucces: Vector<Int> = Vector<Int>()
     private var m_ReceivedMoves: Vector<Int> = Vector<Int>()
 
-    private lateinit var m_GameFragmentMultiplayer: IGameFragmentMultiplayer;
+    private lateinit var m_GameFragmentMultiplayer: IGameFragmentMultiplayer
 
 
     private fun constructHeaderInterceptor(): Interceptor {
@@ -91,7 +89,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         HTTP_LOGGING_INTERCEPTOR.level = HttpLoggingInterceptor.Level.NONE
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            var spec = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+            val spec = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
                 .tlsVersions(TlsVersion.TLS_1_2)
                 .cipherSuites(
                     CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
@@ -99,7 +97,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
                     CipherSuite.TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
                 )
                 .build()
-            var okHttpClient = OkHttpClient.Builder()
+            val okHttpClient = OkHttpClient.Builder()
                 .connectTimeout(OK_HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(OK_HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(OK_HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
@@ -164,7 +162,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     fun authTokenExpired(): Boolean {
-        if (m_UserData.userName.isNullOrEmpty())
+        if (m_UserData.userName.isEmpty())
             return false
         return m_UserData.lastTokenUpdate != null && m_UserData.lastTokenUpdate!!.until(LocalDateTime.now(), ChronoUnit.MINUTES) > TOKEN_EXPIRATION_TIME_MINUTES
     }
@@ -215,11 +213,11 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     fun norobot(requestId: Long, answer: String): Observable<Response<NoRobotResponse>> {
-        return m_Service.norobot(NoRobotRequest(requestId.toString(), answer));
+        return m_Service.norobot(NoRobotRequest(requestId.toString(), answer))
     }
 
     fun isUserLoggedIn(): Boolean {
-        return !m_UserData.userName.isNullOrEmpty() && !m_UserData.authToken.isNullOrEmpty()
+        return m_UserData.userName.isNotEmpty() && m_UserData.authToken.isNotEmpty()
     }
 
     fun isUserConnectedToGame(): Boolean {
@@ -227,33 +225,33 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     fun refreshGameStatus(gameName: String/*, gameId: String, userName: String, userId: String*/):
-            Observable<retrofit2.Response<GameStatusResponse>> {
+            Observable<Response<GameStatusResponse>> {
         return m_Service.refreshGameStatus(m_UserData.authToken,
             GameStatusRequest(gameName, m_UserData.userName, m_UserData.userId.toString() , m_GameData.gameId.toString()))
     }
 
-    fun createGame(gameName: String): Observable<retrofit2.Response<CreateGameResponse>> {
+    fun createGame(gameName: String): Observable<Response<CreateGameResponse>> {
         return m_Service.createGame(m_UserData.authToken,
             CreateGameRequest(gameName, m_UserData.userName, m_UserData.userId.toString() , m_GameData.gameId.toString())
         )
     }
 
     fun setGameData(gameCreationResponse: CreateGameResponse) {
-        var resetScore = gameCreationResponse.m_GameName != m_GameData.gameName
+        val resetScore = gameCreationResponse.m_GameName != m_GameData.gameName
         m_GameData.setFromCreateGameResponse(gameCreationResponse)
         if (resetScore)
             m_gameStats.resetGameScore()
     }
 
     fun setGameData(connectToGameResponse: ConnectToGameResponse) {
-        var resetScore = connectToGameResponse.m_GameName != m_GameData.gameName
+        val resetScore = connectToGameResponse.m_GameName != m_GameData.gameName
         m_GameData.setFromConnectToGameResponse(connectToGameResponse)
         if (resetScore)
             m_gameStats.resetGameScore()
     }
 
     fun setGameData(gameStatusResponse: GameStatusResponse) {
-        var resetScore = gameStatusResponse.m_GameName != m_GameData.gameName
+        val resetScore = gameStatusResponse.m_GameName != m_GameData.gameName
         m_GameData.setFromGameStatusResponse(gameStatusResponse, m_UserData.userId, m_UserData.userName)
         if (resetScore)
             m_gameStats.resetGameScore()
@@ -267,7 +265,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         m_GameData.roundId = roundId
     }
 
-    fun connectToGame(gameName: String): Observable<retrofit2.Response<ConnectToGameResponse>> {
+    fun connectToGame(gameName: String): Observable<Response<ConnectToGameResponse>> {
         return m_Service.connectToGame(m_UserData.authToken,
             ConnectToGameRequest(gameName, m_UserData.userName, m_UserData.userId.toString() , m_GameData.gameId.toString())
         )
@@ -288,12 +286,12 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         m_computerGuessList.clear()
         m_gameStats.reset()
 
-        m_PlayerMoveIndex = 0;
-        m_ComputerMoveIndex = 0;
-        m_WinnerFound = false;
+        m_PlayerMoveIndex = 0
+        m_ComputerMoveIndex = 0
+        m_WinnerFound = false
         m_WinnerSent = false
-        m_GameData.reset();
-        m_UserData.reset();
+        m_GameData.reset()
+        m_UserData.reset()
     }
 
     fun initRound() {
@@ -316,42 +314,15 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         //round id is set through separate function
     }
 
-    private fun roundEnds(): Pair<Boolean, Boolean> {
-        val computerFinished = enoughGuesses(m_PlayerGrid, m_computerGuessList)
-        val playerFinished = enoughGuesses(m_ComputerGrid, m_playerGuessList)
-        return Pair.create(playerFinished, computerFinished)
-    }
-
-    //tests whether all of the planes have been guessed
-    private fun enoughGuesses(pg: PlaneGrid, guessList: Vector<GuessPoint>): Boolean {
-        //to test draws
-        //if (guessList.size() > 10)
-        //   return true;
-        var count = 0
-        for (i in guessList.indices) {
-            val gp = guessList[i]
-            if (gp.type() === Type.Dead) count++
-        }
-        return count >= pg.planeNo
-    }
-
     //based on a guesspoint updates the game stats
-    fun updateGameStats(gp: GuessPoint, isComputer: Boolean): Boolean
+    private fun updateGameStats(gp: GuessPoint, isComputer: Boolean): Boolean
     {
-        if ((!isComputer && !m_gameStats.playerFinished(m_planeNo)) || (isComputer && !m_gameStats.computerFinished(m_planeNo))) {
-            m_gameStats.updateStats(gp, isComputer);
-            return true;
+        return if ((!isComputer && !m_gameStats.playerFinished(m_planeNo)) || (isComputer && !m_gameStats.computerFinished(m_planeNo))) {
+            m_gameStats.updateStats(gp, isComputer)
+            true
         } else {
-            return false;
+            false
         }
-    }
-
-    fun playerFinished(): Boolean {
-        return m_gameStats.playerFinished(m_planeNo);
-    }
-
-    fun computerFinished(): Boolean {
-        return m_gameStats.computerFinished(m_planeNo);
     }
 
     fun doneEditing() {
@@ -365,7 +336,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     i - plane but not head
     */
     fun getPlaneSquareType(row: Int, col: Int, isComputer: Boolean): Int {
-        var isOnPlane: Pair<Boolean, Int>
+        val isOnPlane: Pair<Boolean, Int>
         if (isComputer) {
             isOnPlane = m_ComputerGrid.isPointOnPlane(row, col)
             if (!isOnPlane.first) return 0
@@ -393,7 +364,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     fun setRoundEnd() {
-        m_State = GameStages.GameNotStarted;
+        m_State = GameStages.GameNotStarted
     }
 
     /**
@@ -436,15 +407,6 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return !(m_PlayerGrid.doPlanesOverlap() || m_PlayerGrid.isPlaneOutsideGrid)
     }
 
-    fun updateGameStatsAndGuessListPlayer(gp: GuessPoint) {
-        //update the game statistics
-        updateGameStats(gp, false);
-        //add the player's guess to the list of guesses
-        //assume that the guess is different from the other guesses
-        m_playerGuessList.add(gp);
-        m_ComputerGrid.addGuess(gp);
-    }
-
     fun getRowNo(): Int {
         return m_rowNo
     }
@@ -458,7 +420,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     /**
-     * @param[in] row, col - coordinates of player's guess
+     * @param row, col - coordinates of player's guess
      * Check if a guess was already made at this position.
      */
     fun playerGuessAlreadyMade(row: Int, col: Int): Int {
@@ -473,8 +435,8 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     //region MultiplayerRound
 
     fun playerGuessIncomplete(row: Int, col: Int): Pair<Type, PlayerGuessReaction> {
-        var tp = m_ComputerGrid.getGuessResult(Coordinate2D(col, row))
-        var gp = GuessPoint(col, row, tp)
+        val tp = m_ComputerGrid.getGuessResult(Coordinate2D(col, row))
+        val gp = GuessPoint(col, row, tp)
         return Pair.create(tp, playerGuess(gp).second)
     }
 
@@ -487,20 +449,20 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
             msgBox.exec();*/
             //TODO
 
-            return Pair<Boolean, PlayerGuessReaction>(true, pgr);
+            return Pair<Boolean, PlayerGuessReaction>(true, pgr)
         }
 
         //update the game statistics
         if (updateGameStats(gp, false)) {
             //add the player's guess to the list of guesses
             //assume that the guess is different from the other guesses
-            m_playerGuessList.add(gp);
-            m_ComputerGrid.addGuess(gp);
+            m_playerGuessList.add(gp)
+            m_ComputerGrid.addGuess(gp)
 
             //GuessPoint::Type guessResult =  m_ComputerGrid->getGuessResult(PlanesCommonTools::Coordinate2D(gp.m_row, gp.m_col));
-            m_PlayerMoveIndex++;
+            m_PlayerMoveIndex++
             if (this::m_GameFragmentMultiplayer.isInitialized) {
-                m_GameFragmentMultiplayer.sendMove(gp, m_PlayerMoveIndex);
+                m_GameFragmentMultiplayer.sendMove(gp, m_PlayerMoveIndex)
             }
         //TODO
         } else {
@@ -508,30 +470,30 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         }
 
         if (!m_WinnerSent) {
-            var pgr = checkRoundEnd()
-            if (pgr.m_RoundEnds) {
+            val pgr1 = checkRoundEnd()
+            if (pgr1.m_RoundEnds) {
                 if (m_NotSentMoves.isEmpty()) {
                     if (this::m_GameFragmentMultiplayer.isInitialized) {  //asynchronous call from game fragment
                         m_GameFragmentMultiplayer.sendWinner(
-                            pgr.m_IsDraw,
-                            if (pgr.m_isPlayerWinner) m_GameData.userId else m_GameData.otherUserId
-                        );
+                            pgr1.m_IsDraw,
+                            if (pgr1.m_isPlayerWinner) m_GameData.userId else m_GameData.otherUserId
+                        )
                         m_WinnerSent = true
                     }
                 } else {
                     if (this::m_GameFragmentMultiplayer.isInitialized  && m_State != GameStages.SendRemainingMoves) {  //asynchronous call from game fragment
-                        m_GameFragmentMultiplayer.pollForOpponentMoves(false);
+                        m_GameFragmentMultiplayer.pollForOpponentMoves(false)
                     }
                 }
             }
 
-            if (pgr.m_PlayerFinishedStartPolling) {
+            if (pgr1.m_PlayerFinishedStartPolling) {
                 if (this::m_GameFragmentMultiplayer.isInitialized && m_State != GameStages.WaitForOpponentMoves) {  //asynchronous call from game fragment
-                    m_GameFragmentMultiplayer.pollForOpponentMoves(true);
+                    m_GameFragmentMultiplayer.pollForOpponentMoves(true)
                 }
             }
 
-            return Pair<Boolean, PlayerGuessReaction> (false, pgr)
+            return Pair<Boolean, PlayerGuessReaction> (false, pgr1)
         } else {
             return Pair<Boolean, PlayerGuessReaction> (true, PlayerGuessReaction())
         }
@@ -575,10 +537,9 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }*/
 
 
-    fun checkRoundEnd(): PlayerGuessReaction {
+    private fun checkRoundEnd(): PlayerGuessReaction {
 
-        var isPlayerWinner = false;
-        var pgr = PlayerGuessReaction()
+        val pgr = PlayerGuessReaction()
 
         if (m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
             if (m_ComputerMoveIndex > m_PlayerMoveIndex) {
@@ -679,23 +640,23 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return m_PlayerGrid.getPlane(pos).second
     }
 
-    fun sendPlanePositions(request: SendPlanePositionsRequest): Observable<retrofit2.Response<SendPlanePositionsResponse>> {
+    fun sendPlanePositions(request: SendPlanePositionsRequest): Observable<Response<SendPlanePositionsResponse>> {
         return m_Service.sendPlanePositions(m_UserData.authToken, request)
     }
 
     fun setComputerPlanes(plane1_x: Int, plane1_y: Int, plane1_orient: Orientation,
                           plane2_x: Int, plane2_y: Int, plane2_orient: Orientation,
                           plane3_x: Int, plane3_y: Int, plane3_orient: Orientation): Boolean {
-        m_State = GameStages.Game;
+        m_State = GameStages.Game
         return m_ComputerGrid.initGridByUser(plane1_x, plane1_y, plane1_orient,
-            plane2_x, plane2_y, plane2_orient, plane3_x, plane3_y, plane3_orient);
+            plane2_x, plane2_y, plane2_orient, plane3_x, plane3_y, plane3_orient)
     }
 
-    fun acquireOpponentPlanePositions(request: AcquireOpponentPositionsRequest): Observable<retrofit2.Response<AcquireOpponentPositionsResponse>> {
+    fun acquireOpponentPlanePositions(request: AcquireOpponentPositionsRequest): Observable<Response<AcquireOpponentPositionsResponse>> {
         return m_Service.acquireOpponentPlanePositions(m_UserData.authToken, request)
     }
 
-    fun sendWinner(draw: Boolean, winnerId: Long): Observable<retrofit2.Response<SendWinnerResponse>> {
+    fun sendWinner(draw: Boolean, winnerId: Long): Observable<Response<SendWinnerResponse>> {
         return m_Service.sendWinner(m_UserData.authToken, SendWinnerRequest(m_GameData.gameId.toString(), m_GameData.roundId.toString(), winnerId.toString(), draw))
     }
 
@@ -716,9 +677,9 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         if (m_ReceivedMoves.isEmpty())
             return Pair<Vector<Int>, Int>(Vector<Int>(), 0)
 
-        var maxReceivedMoveIndex =
+        val maxReceivedMoveIndex =
             m_ReceivedMoves.indices.map { i: Int -> m_ReceivedMoves[i]}.maxOrNull()
-        var notReceivedMoves = Vector<Int>()
+        val notReceivedMoves = Vector<Int>()
 
         for (i in 0 .. maxReceivedMoveIndex!!) {
             if (!m_ReceivedMoves.contains(i))
@@ -728,20 +689,20 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return Pair<Vector<Int>, Int>(notReceivedMoves, maxReceivedMoveIndex)
     }
 
-    fun sendMove(sendMoveRequest: SendNotSentMovesRequest): Observable<retrofit2.Response<SendNotSentMovesResponse>> {
+    fun sendMove(sendMoveRequest: SendNotSentMovesRequest): Observable<Response<SendNotSentMovesResponse>> {
         return m_Service.sendOwnMove(m_UserData.authToken, sendMoveRequest)
     }
 
     fun prepareNotSentMoves(): Vector<SingleMoveRequest> {
-        var retValue = Vector<SingleMoveRequest>()
+        val retValue = Vector<SingleMoveRequest>()
 
         for (moveIdx in m_LastNotSentMoveIndexSucces) {
-            var gp = m_playerGuessList[moveIdx - 1]
-            var move = SingleMoveRequest(moveIdx, gp.m_row, gp.m_col)
+            val gp = m_playerGuessList[moveIdx - 1]
+            val move = SingleMoveRequest(moveIdx, gp.m_row, gp.m_col)
             retValue.add(move)
         }
 
-        return retValue;
+        return retValue
     }
 
     fun deleteFromNotSentList() {
@@ -757,7 +718,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     fun addOpponentMove(gp: GuessPoint, idx: Int): Pair<Boolean, PlayerGuessReaction> {
         m_ReceivedMoves.add(idx)
 
-        var guessResult = m_PlayerGrid.getGuessResult(Coordinate2D(gp.m_row, gp.m_col))
+        val guessResult = m_PlayerGrid.getGuessResult(Coordinate2D(gp.m_row, gp.m_col))
         gp.setType(guessResult)
 
         if (updateGameStats(gp, true)) {
@@ -769,19 +730,19 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         }
 
         if (!m_WinnerSent) {
-            var pgr = checkRoundEnd()
+            val pgr = checkRoundEnd()
             if (pgr.m_RoundEnds) {
                 if (m_NotSentMoves.isEmpty()) {
                     if (this::m_GameFragmentMultiplayer.isInitialized) {  //asynchronous call from game fragment
                         m_GameFragmentMultiplayer.sendWinner(
                             pgr.m_IsDraw,
                             if (pgr.m_isPlayerWinner) m_GameData.userId else m_GameData.otherUserId
-                        );
+                        )
                         m_WinnerSent = true
                     }
                 } else {
                     if (this::m_GameFragmentMultiplayer.isInitialized && m_State != GameStages.SendRemainingMoves) {  //asynchronous call from game fragment
-                        m_GameFragmentMultiplayer.pollForOpponentMoves(false);
+                        m_GameFragmentMultiplayer.pollForOpponentMoves(false)
                     }
                 }
             }
@@ -794,30 +755,30 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
     fun checkWinnerSent() {
         if (!m_WinnerSent) {
-            var pgr = checkRoundEnd()
+            val pgr = checkRoundEnd()
             if (pgr.m_RoundEnds) {
                 if (m_NotSentMoves.isEmpty()) {
                     if (this::m_GameFragmentMultiplayer.isInitialized) {  //asynchronous call from game fragment
                         m_GameFragmentMultiplayer.sendWinner(
                             pgr.m_IsDraw,
                             if (pgr.m_isPlayerWinner) m_GameData.userId else m_GameData.otherUserId
-                        );
+                        )
                         m_WinnerSent = true
                     }
                 } else {
                     if (this::m_GameFragmentMultiplayer.isInitialized && m_State != GameStages.SendRemainingMoves) {  //asynchronous call from game fragment
-                        m_GameFragmentMultiplayer.pollForOpponentMoves(false);
+                        m_GameFragmentMultiplayer.pollForOpponentMoves(false)
                     }
                 }
             }
         }
     }
 
-    fun cancelRound(gameId: Long, roundId: Long): Observable<retrofit2.Response<CancelRoundResponse>> {
+    fun cancelRound(gameId: Long, roundId: Long): Observable<Response<CancelRoundResponse>> {
         return m_Service.cancelRound(m_UserData.authToken, CancelRoundRequest(gameId.toString(), roundId.toString()))
     }
 
-    fun startNewRound(gameId: Long, userId: Long, opponentId: Long): Observable<retrofit2.Response<StartNewRoundResponse>> {
+    fun startNewRound(gameId: Long, userId: Long, opponentId: Long): Observable<Response<StartNewRoundResponse>> {
         return m_Service.startRound(m_UserData.authToken, StartNewRoundRequest(gameId.toString(), userId.toString(), opponentId.toString()))
     }
 

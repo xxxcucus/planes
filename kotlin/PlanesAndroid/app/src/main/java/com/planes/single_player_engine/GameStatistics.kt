@@ -1,10 +1,5 @@
 package com.planes.single_player_engine
 
-import android.R.bool
-
-
-
-
 class GameStatistics {
     //keeps the number of moves and various guesses in the current round
 

@@ -2,7 +2,6 @@ package com.planes.multiplayer_engine
 
 import androidx.core.util.Pair
 import com.planes.android.MultiplayerRoundInterface
-import com.planes.android.PlanesRoundInterface
 import com.planes.android.game.multiplayer.IGameFragmentMultiplayer
 import com.planes.multiplayer_engine.requests.*
 import com.planes.multiplayer_engine.responses.*
@@ -13,8 +12,8 @@ import java.util.*
 
 class MultiplayerRoundJava : MultiplayerRoundInterface {
     override fun createPlanesRound() {
-        if (MultiplayerRoundJava.global_Round != null) return
-        MultiplayerRoundJava.global_Round = MultiplayerRound(10,10, 3)
+        if (global_Round != null) return
+        global_Round = MultiplayerRound(10,10, 3)
     }
 
     override fun testServerVersion(): Observable<Response<VersionResponse>> {
@@ -74,7 +73,7 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
     }
 
     override fun norobot(requestId: Long, answer: String): Observable<Response<NoRobotResponse>> {
-        return global_Round!!.norobot(requestId, answer);
+        return global_Round!!.norobot(requestId, answer)
     }
 
     override fun isUserLoggedIn(): Boolean {
@@ -86,11 +85,11 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
     }
 
     override fun refreshGameStatus(gameName: String):
-            Observable<retrofit2.Response<GameStatusResponse>> {
+            Observable<Response<GameStatusResponse>> {
         return global_Round!!.refreshGameStatus(gameName)
     }
 
-    override fun createGame(gameName: String): Observable<retrofit2.Response<CreateGameResponse>> {
+    override fun createGame(gameName: String): Observable<Response<CreateGameResponse>> {
         return global_Round!!.createGame(gameName)
     }
 
@@ -114,7 +113,7 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Round!!.setUserId(userid)
     }
 
-    override fun connectToGame(gameName: String): Observable<retrofit2.Response<ConnectToGameResponse>> {
+    override fun connectToGame(gameName: String): Observable<Response<ConnectToGameResponse>> {
         return global_Round!!.connectToGame(gameName)
     }
 
@@ -135,7 +134,7 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
     }
 
     override fun getPlaneSquareType(i: Int, j: Int, isComputer: Int): Int {
-        return global_Round!!.getPlaneSquareType(i, j, if (isComputer > 0) true else false)
+        return global_Round!!.getPlaneSquareType(i, j, isComputer > 0)
     }
 
     //edit the board
@@ -172,29 +171,28 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
     }
 
     override fun playerGuess(gp: GuessPoint): PlayerGuessReaction {
-        var result = global_Round!!.playerGuess(gp)
+        val result = global_Round!!.playerGuess(gp)
         if (!result.first)
             global_Player_Guess_Reaction = result.second
         return result.second
     }
 
     override fun playerGuessIncomplete(row: Int, col: Int): Pair<Type, PlayerGuessReaction> {
-        var result = global_Round!!.playerGuessIncomplete(row, col)
-        return result
+        return global_Round!!.playerGuessIncomplete(row, col)
     }
 
     override fun playerGuess_RoundEnds(): Boolean {
-        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();  //TODO: this is a hack and should be corrected
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats()  //TODO: this is a hack and should be corrected
         return global_Player_Guess_Reaction.m_RoundEnds
     }
 
     override fun playerGuess_IsDraw(): Boolean {
-        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats()
         return global_Player_Guess_Reaction.m_IsDraw
     }
 
     override fun playerGuess_IsPlayerWinner(): Boolean {
-        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats()
         return global_Player_Guess_Reaction.m_isPlayerWinner
     }
 
@@ -203,57 +201,57 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
     }
 
     override fun playerGuess_StatNoPlayerMoves(): Int {
-        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats()
         return global_Player_Guess_Reaction.m_GameStats.playerMoves()
     }
 
     override fun playerGuess_StatNoPlayerHits(): Int {
-        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats()
         return global_Player_Guess_Reaction.m_GameStats.playerHits()
     }
 
     override fun playerGuess_StatNoPlayerMisses(): Int {
-        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats()
         return global_Player_Guess_Reaction.m_GameStats.playerMisses()
     }
 
     override fun playerGuess_StatNoPlayerDead(): Int {
-        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats()
         return global_Player_Guess_Reaction.m_GameStats.playerDead()
     }
 
     override fun playerGuess_StatNoPlayerWins(): Int {
-        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats()
         return global_Player_Guess_Reaction.m_GameStats.playerWins()
     }
 
     override fun playerGuess_StatNoComputerMoves(): Int {
-        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats()
         return global_Player_Guess_Reaction.m_GameStats.computerMoves()
     }
 
     override fun playerGuess_StatNoComputerHits(): Int {
-        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats()
         return global_Player_Guess_Reaction.m_GameStats.computerHits()
     }
 
     override fun playerGuess_StatNoComputerMisses(): Int {
-        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats()
         return global_Player_Guess_Reaction.m_GameStats.computerMisses()
     }
 
     override fun playerGuess_StatNoComputerDead(): Int {
-        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats()
         return global_Player_Guess_Reaction.m_GameStats.computerDead()
     }
 
     override fun playerGuess_StatNoComputerWins(): Int {
-        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats()
         return global_Player_Guess_Reaction.m_GameStats.computerWins()
     }
 
     override fun playerGuess_StatNoDraws(): Int {
-        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats();
+        global_Player_Guess_Reaction.m_GameStats = global_Round!!.getGameStats()
         return global_Player_Guess_Reaction.m_GameStats.draws()
     }
 
@@ -325,7 +323,7 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Round!!.getPlayerPlaneNo(pos)
     }
 
-    override fun sendPlanePositions(request: SendPlanePositionsRequest): Observable<retrofit2.Response<SendPlanePositionsResponse>> {
+    override fun sendPlanePositions(request: SendPlanePositionsRequest): Observable<Response<SendPlanePositionsResponse>> {
         return global_Round!!.sendPlanePositions(request)
     }
 
@@ -335,7 +333,7 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Round!!.setComputerPlanes(plane1_x, plane1_y, plane1_orient, plane2_x, plane2_y, plane2_orient, plane3_x, plane3_y, plane3_orient)
     }
 
-    override fun acquireOpponentPlanePositions(request: AcquireOpponentPositionsRequest): Observable<retrofit2.Response<AcquireOpponentPositionsResponse>> {
+    override fun acquireOpponentPlanePositions(request: AcquireOpponentPositionsRequest): Observable<Response<AcquireOpponentPositionsResponse>> {
         return global_Round!!.acquireOpponentPlanePositions(request)
     }
 
@@ -367,7 +365,7 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Round!!.prepareNotSentMoves()
     }
 
-    override fun sendMove(sendMoveRequest: SendNotSentMovesRequest): Observable<retrofit2.Response<SendNotSentMovesResponse>> {
+    override fun sendMove(sendMoveRequest: SendNotSentMovesRequest): Observable<Response<SendNotSentMovesResponse>> {
         return global_Round!!.sendMove(sendMoveRequest)
     }
 
@@ -380,16 +378,16 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
     }
 
     override fun addOpponentMove(gp: GuessPoint, idx: Int) {
-        var result = global_Round!!.addOpponentMove(gp, idx)
+        val result = global_Round!!.addOpponentMove(gp, idx)
         if (!result.first)
             global_Player_Guess_Reaction = result.second
     }
 
-    override fun cancelRound(gameId: Long, roundId: Long): Observable<retrofit2.Response<CancelRoundResponse>> {
+    override fun cancelRound(gameId: Long, roundId: Long): Observable<Response<CancelRoundResponse>> {
         return global_Round!!.cancelRound(gameId, roundId)
     }
 
-    override fun startNewRound(gameId: Long, userId: Long, opponentId: Long): Observable<retrofit2.Response<StartNewRoundResponse>> {
+    override fun startNewRound(gameId: Long, userId: Long, opponentId: Long): Observable<Response<StartNewRoundResponse>> {
         return global_Round!!.startNewRound(gameId, userId, opponentId)
     }
 
@@ -408,7 +406,6 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
 
     companion object {
         private var global_Round: MultiplayerRound? = null
-        private var global_Guess_Result = Type.Miss
         private var global_Player_Guess_Reaction = PlayerGuessReaction()
     }
 }

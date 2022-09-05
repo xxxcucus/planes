@@ -46,13 +46,13 @@ class GameData {
         set(value) { m_UserName = value }
 
     fun reset() {
-            m_GameId = 0;
-            m_RoundId = 0;
-            m_UserId = 0;
-            m_OtherUserId = 0;
-            m_GameName = "";
-            m_OtherUsername = "";
-        }
+        m_GameId = 0
+        m_RoundId = 0
+        m_UserId = 0
+        m_OtherUserId = 0
+        m_GameName = ""
+        m_OtherUsername = ""
+    }
 
     fun setFromCreateGameResponse(gameCreationResponse: CreateGameResponse) {
         m_GameId = gameCreationResponse.m_GameId.toLong()

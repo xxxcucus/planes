@@ -1,6 +1,5 @@
 package com.planes.multiplayer_engine.commobj
 
-import android.app.Activity
 import androidx.fragment.app.FragmentActivity
 import com.planes.android.MainActivity
 import com.planes.android.MultiplayerRoundInterface
@@ -22,28 +21,28 @@ open class BasisCommObj<A>(withLoadingAnimation: Boolean,
         checkAuthorization: Boolean, saveCredentials: (String, String, String) -> Unit,
         finalizeRequestSuccessful: () -> Unit, finalizeRequestError: () -> Unit, activity: FragmentActivity) {
 
-    protected lateinit var m_RetrofitSubscription: Disposable
-    protected var m_PlaneRound: MultiplayerRoundInterface
-    protected lateinit var m_Observable: Observable<Response<A>>
+    private lateinit var m_RetrofitSubscription: Disposable
+    protected var m_PlaneRound: MultiplayerRoundInterface = MultiplayerRoundJava()
+    private lateinit var m_Observable: Observable<Response<A>>
     protected var m_RequestError: Boolean = false
     protected var m_RequestErrorString: String = ""
-    protected var m_GenericErrorString: String
-    protected var m_UnknownErrorString: String
-    protected var m_WithLoadingAnimation: Boolean
-    protected var m_ErrorStringNotConnected: String
+    private var m_GenericErrorString: String
+    private var m_UnknownErrorString: String
+    private var m_WithLoadingAnimation: Boolean
+    private var m_ErrorStringNotConnected: String
     protected var m_ErrorStringNotLoggedIn: String
-    protected var m_ShouldBeLoggedIn: Boolean
-    protected var m_ShouldBeConnectedToGame: Boolean
+    private var m_ShouldBeLoggedIn: Boolean
+    private var m_ShouldBeConnectedToGame: Boolean
     protected var m_CreateObservable: () -> Observable<Response<A>>
 
     protected var m_HideLoadingLambda: () -> Unit
     protected var m_ShowLoadingLambda: () -> Unit
     protected var m_IsActive = true  //Can I create another request (user clicks fast one time after the other)
 
-    protected var m_WithCredentials: Boolean
+    private var m_WithCredentials: Boolean
     protected var m_UserName: String
     protected var m_Password: String
-    protected var m_CheckAuthorization: Boolean
+    private var m_CheckAuthorization: Boolean
     protected var m_UserPasswordValidation: (String, String) -> String
     protected var m_SaveCredentials: (String, String, String) -> Unit
 
@@ -54,7 +53,6 @@ open class BasisCommObj<A>(withLoadingAnimation: Boolean,
     protected var m_MainActivity: FragmentActivity
 
     init {
-        m_PlaneRound = MultiplayerRoundJava()
         (m_PlaneRound as MultiplayerRoundJava).createPlanesRound()
         m_HideLoadingLambda = ::hideLoading
         m_ShowLoadingLambda = ::showLoading
@@ -111,15 +109,15 @@ open class BasisCommObj<A>(withLoadingAnimation: Boolean,
 
     open fun finishedRequest(code: Int, jsonErrorString: String?, headrs: Headers, body: A?) {
         if (m_CheckAuthorization)
-            finishedRequestAuthorization(code, jsonErrorString, headrs, body)
+            finishedRequestAuthorization(jsonErrorString, headrs)
         else
-            finishedRequestBody(code, jsonErrorString, headrs, body)
+            finishedRequestBody(jsonErrorString, body)
     }
 
-    private fun finishedRequestBody(code: Int, jsonErrorString: String?, headrs: Headers, body: A?) {
+    private fun finishedRequestBody(jsonErrorString: String?, body: A?) {
         if (body != null) {
-            var errorStrg = m_DoWhenSuccess(body!!)
-            if (!errorStrg.isNullOrEmpty()) {
+            val errorStrg = m_DoWhenSuccess(body)
+            if (errorStrg.isNotEmpty()) {
                 m_RequestError = true
                 m_RequestErrorString = errorStrg
             }
@@ -130,9 +128,9 @@ open class BasisCommObj<A>(withLoadingAnimation: Boolean,
         finalizeRequest()
     }
 
-    fun finishedRequestAuthorization(code: Int, jsonErrorString: String?, headrs: Headers, body: A?) {
-        if (headrs.get("Authorization") != null) {
-            var authorizationHeader = headrs.get("Authorization")
+    private fun finishedRequestAuthorization(jsonErrorString: String?, headrs: Headers) {
+        if (headrs["Authorization"] != null) {
+            val authorizationHeader = headrs["Authorization"]
             //TODO: should Bearer be removed from token?
 
             m_SaveCredentials(m_UserName, m_Password, authorizationHeader!!)
@@ -144,7 +142,7 @@ open class BasisCommObj<A>(withLoadingAnimation: Boolean,
         finalizeRequest()
     }
 
-    fun setRequestError(errorMsg: String) {
+    private fun setRequestError(errorMsg: String) {
         m_RequestError = true
         m_RequestErrorString = errorMsg
         finalizeRequest()
@@ -173,24 +171,24 @@ open class BasisCommObj<A>(withLoadingAnimation: Boolean,
     }
 
 
-    fun sendRequest() {
+    private fun sendRequest() {
         if (m_WithLoadingAnimation) {
             m_RetrofitSubscription = m_Observable
                 .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _ -> doOnSubscribe() }
+                .doOnSubscribe { doOnSubscribe() }
                 .doOnTerminate { doOnTerminate() }
                 .doOnComplete { doOnTerminate() }
                 .subscribe({data -> finishedRequest(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
-                    , {error -> setRequestError(error.localizedMessage.toString())});
+                    , {error -> error.localizedMessage?.let { setRequestError(it) } })
         } else {
             m_RetrofitSubscription = m_Observable
                 .delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({data -> finishedRequest(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
-                    , {error -> setRequestError(error.localizedMessage.toString())});
+                    , {error -> error.localizedMessage?.let { setRequestError(it) } })
         }
     }
 
@@ -213,9 +211,9 @@ open class BasisCommObj<A>(withLoadingAnimation: Boolean,
     }
 
     private fun userPasswordValidation(): Boolean {
-        var error = m_UserPasswordValidation(m_UserName, m_Password)
+        val error = m_UserPasswordValidation(m_UserName, m_Password)
 
-        if (!error.isNullOrEmpty()) {
+        if (error.isNotEmpty()) {
             m_RequestError = true
             m_RequestErrorString = error
             return false
@@ -231,11 +229,11 @@ open class BasisCommObj<A>(withLoadingAnimation: Boolean,
         m_HideLoadingLambda()
     }
 
-    fun showLoading() {
+    private fun showLoading() {
         (m_MainActivity as MainActivity).startProgressDialog()
     }
 
-    fun hideLoading() {
+    private fun hideLoading() {
         (m_MainActivity as MainActivity).stopProgressDialog()
     }
 }
