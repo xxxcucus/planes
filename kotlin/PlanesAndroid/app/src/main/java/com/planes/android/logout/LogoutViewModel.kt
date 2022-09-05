@@ -3,19 +3,20 @@ package com.planes.android.logout
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.planes.android.R
+import java.lang.ref.WeakReference
 
 class LogoutViewModel(var username: String, context: Context) : ViewModel() {
 
     var m_Username: String
     var m_LoginStatus: String
-    var m_Context: Context
+    var m_Context: WeakReference<Context>
 
     init {
-        m_Context = context
+        m_Context = WeakReference(context)
         m_Username = username
         m_LoginStatus = if (m_Username.isEmpty())
-            m_Context.resources.getString(R.string.nouser)
+            m_Context.get()!!.resources.getString(R.string.nouser)
         else
-            m_Context.resources.getString(R.string.userloggedin)
+            m_Context.get()!!.resources.getString(R.string.userloggedin)
     }
 }

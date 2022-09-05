@@ -6,6 +6,7 @@ import com.planes.android.R
 import com.planes.multiplayer_engine.GameData
 import com.planes.single_player_engine.GameStages
 import com.planes.single_player_engine.GameStatistics
+import java.lang.ref.WeakReference
 
 class GameStatsViewModel(gameData: GameData, gameStage: GameStages, gameStats: GameStatistics, context: Context
 ):  ViewModel() {
@@ -31,23 +32,23 @@ class GameStatsViewModel(gameData: GameData, gameStage: GameStages, gameStats: G
     var m_PlayerWins: String
     var m_OpponentWins: String
     var m_Draws: String
-    var m_Context: Context
+    var m_Context: WeakReference<Context>
 
     init  {
-        m_Context = context
+        m_Context = WeakReference(context)
 
         m_UserLoggedIn = gameData.username.isNotEmpty()
-        m_LoginStatus = if (m_UserLoggedIn) m_Context.resources.getString(R.string.userloggedin) else m_Context.resources.getString(R.string.nouser)
+        m_LoginStatus = if (m_UserLoggedIn) m_Context.get()!!.resources.getString(R.string.userloggedin) else m_Context.get()!!.resources.getString(R.string.nouser)
         m_UserName = if (m_UserLoggedIn) gameData.username else ""
         m_ConnectedToGame = gameData.gameName.isNotEmpty()
         m_GameName = gameData.gameName
         val connectedToGame = !(gameData.gameName.isEmpty() || (gameData.gameName.isNotEmpty() && gameData.username == gameData.otherUsername)
                 || gameData.roundId == 0L)
         if (!connectedToGame) {
-            m_ConnectStatus = m_Context.resources.getString(R.string.not_connected_togame)
+            m_ConnectStatus = m_Context.get()!!.resources.getString(R.string.not_connected_togame)
             m_GameName = ""
         } else {
-            m_ConnectStatus = m_Context.resources.getString(R.string.connected_togame)
+            m_ConnectStatus = m_Context.get()!!.resources.getString(R.string.connected_togame)
             m_GameName = gameData.gameName
         }
         m_RoundId = gameData.roundId.toString()
@@ -55,12 +56,12 @@ class GameStatsViewModel(gameData: GameData, gameStage: GameStages, gameStats: G
         m_GameStage = ""
         m_GameStatsShown = gameStage == GameStages.WaitForOpponentMoves || gameStage == GameStages.Game || gameStage == GameStages.SendRemainingMoves
         when (gameStage) {
-            GameStages.GameNotStarted -> m_GameStage = context.resources.getString(R.string.game_not_started_stage)
-            GameStages.BoardEditing -> m_GameStage = context.resources.getString(R.string.board_editing_stage)
-            GameStages.Game -> m_GameStage = context.resources.getString(R.string.game)
-            GameStages.WaitForOpponentPlanesPositions -> m_GameStage = context.resources.getString(R.string.board_editing_stage)
-            GameStages.WaitForOpponentMoves -> m_GameStage = context.resources.getString(R.string.game)
-            GameStages.SendRemainingMoves -> m_GameStage = context.resources.getString(R.string.game)
+            GameStages.GameNotStarted -> m_GameStage = m_Context.get()!!.resources.getString(R.string.game_not_started_stage)
+            GameStages.BoardEditing -> m_GameStage = m_Context.get()!!.resources.getString(R.string.board_editing_stage)
+            GameStages.Game -> m_GameStage = m_Context.get()!!.resources.getString(R.string.game)
+            GameStages.WaitForOpponentPlanesPositions -> m_GameStage = m_Context.get()!!.resources.getString(R.string.board_editing_stage)
+            GameStages.WaitForOpponentMoves -> m_GameStage = m_Context.get()!!.resources.getString(R.string.game)
+            GameStages.SendRemainingMoves -> m_GameStage = m_Context.get()!!.resources.getString(R.string.game)
         }
         m_PlayerMoves = gameStats.m_playerMoves.toString()
         m_PlayerDead = gameStats.m_playerDead.toString()
