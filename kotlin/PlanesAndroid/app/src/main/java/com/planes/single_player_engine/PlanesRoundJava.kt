@@ -26,7 +26,7 @@ class PlanesRoundJava : PlanesRoundInterface {
     }
 
     override fun getPlaneSquareType(i: Int, j: Int, isComputer: Int): Int {
-        return global_Round!!.getPlaneSquareType(i, j, if (isComputer > 0) true else false)
+        return global_Round!!.getPlaneSquareType(i, j, isComputer > 0)
     }
 
     //edit the board

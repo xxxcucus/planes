@@ -14,16 +14,12 @@ class PlayerGuessReaction {
     var m_ComputerMoveGenerated = false
 
     //which computer move was generated
-    var m_ComputerGuess: GuessPoint
+    var m_ComputerGuess: GuessPoint = GuessPoint(0, 0)
 
-    var m_GameStats: GameStatistics
+    var m_GameStats: GameStatistics = GameStatistics()
 
     var m_PlayerFinishedStartPolling: Boolean = false
 
     var m_Cancelled = false
 
-    init {
-        m_ComputerGuess = GuessPoint(0, 0)
-        m_GameStats = GameStatistics()
-    }
 }

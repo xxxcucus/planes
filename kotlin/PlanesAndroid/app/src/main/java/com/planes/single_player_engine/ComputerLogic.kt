@@ -108,7 +108,7 @@ class ComputerLogic(//gets the number of rows
     //returns the plane choice with the highest score and true
     //or false if there are no more valid choices
     fun makeChoice(computerSkillLevel: Int): Pair<Boolean, Coordinate2D> {
-        //based on the 3 strategies of choice choses 3 possible moves
+        //based on the 3 strategies of choice chooses 3 possible moves
 
         val test1 = makeChoiceFindHeadMode()
         val test2 = makeChoiceFindPositionMode()
@@ -218,7 +218,7 @@ class ComputerLogic(//gets the number of rows
         //if all the choices are impossible returns false
         if (choicesArray[maxidx] == -1) return Pair.create(false, Coordinate2D(0, 0))
 
-        //choses randomly a point with the maximum probability
+        //chooses randomly a point with the maximum probability
         val idx = generateRandomNumber(maxPos.size)
 
         //converts the choice into a plane's head position
@@ -234,7 +234,7 @@ class ComputerLogic(//gets the number of rows
         //if there are no head data structures return false
         if (m_headDataList.isEmpty()) return Pair.create(false, Coordinate2D(0, 0))
 
-        //choses a random plane head from the list of heads
+        //chooses a random plane head from the list of heads
         var idx = generateRandomNumber(m_headDataList.size)
         val hd = m_headDataList[idx]
 

@@ -48,7 +48,7 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
         initRound()
     }
 
-    //inits a new round
+    //initializes a new round
     fun initRound() {
         m_PlayerGrid.initGrid()
         m_ComputerGrid.initGrid()
@@ -65,17 +65,12 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
         m_State = GameStages.GameNotStarted
     }
 
-    //checks if we are in state GameNotStarted
-    fun didRoundEnd(): Boolean {
-        return m_State === GameStages.GameNotStarted
-    }
 
     /**
-     * @param[in] gp - the player's guess together with its evaluation
-     * @param[out] pgr - response to the player's guess: the computer's guess, if the game ended, winner, game statistics
+     * @param gp - the player's guess together with its evaluation
      * Plays a step in the game, as triggered by the player's guess gp.
      */
-    fun playerGuess(gp: GuessPoint): PlayerGuessReaction {
+    private fun playerGuess(gp: GuessPoint): PlayerGuessReaction {
         val pgr = PlayerGuessReaction()
         if (m_State !== GameStages.Game) return pgr
         if (m_isComputerFirst) {
@@ -105,7 +100,7 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     /**
-     * @param[in] row, col - coordinates of player's guess
+     * @param row, col - coordinates of player's guess
      * Check if a guess was already made at this position.
      */
     fun playerGuessAlreadyMade(row: Int, col: Int): Int {
@@ -116,9 +111,7 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     /**
-     * @param[in] row, col - coordinates of player's guess
-     * @param[out] guessRes - the evaluation of the player's guess
-     * @param[out] pgr - response to the player's guess: the computer's guess, if the game ended, winner, game statistics
+     * @param row, col - coordinates of player's guess
      * Plays a step in the game, as triggered by the the player's guess coordinates.
      */
     fun playerGuessIncomplete(row: Int, col: Int): Pair<Type, PlayerGuessReaction> {
@@ -173,18 +166,6 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
         m_State = GameStages.Game
     }
 
-    fun playerGrid(): PlaneGrid {
-        return m_PlayerGrid
-    }
-
-    fun computerGrid(): PlaneGrid {
-        return m_ComputerGrid
-    }
-
-    fun computerLogic(): ComputerLogic {
-        return m_computerLogic
-    }
-
     fun getRowNo(): Int {
         return m_rowNo
     }
@@ -204,7 +185,7 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
 	i - plane but not head
     */
     fun getPlaneSquareType(row: Int, col: Int, isComputer: Boolean): Int {
-        var isOnPlane: Pair<Boolean, Int>
+        val isOnPlane: Pair<Boolean, Int>
         if (isComputer) {
             isOnPlane = m_ComputerGrid.isPointOnPlane(row, col)
             if (!isOnPlane.first) return 0

@@ -129,11 +129,11 @@ class Plane(val row: Int, val col: Int, orient: Orientation) : Cloneable {
         toReturn = "$toReturn-"
         toReturn = toReturn + m_col
         toReturn = "$toReturn oriented: "
-        when (m_orient) {
-            Orientation.NorthSouth -> toReturn = toReturn + "NorthSouth"
-            Orientation.SouthNorth -> toReturn = toReturn + "SouthNorth"
-            Orientation.EastWest -> toReturn = toReturn + "EastWest"
-            Orientation.WestEast -> toReturn = toReturn + "WestEast"
+        toReturn = when (m_orient) {
+            Orientation.NorthSouth -> toReturn + "NorthSouth"
+            Orientation.SouthNorth -> toReturn + "SouthNorth"
+            Orientation.EastWest -> toReturn + "EastWest"
+            Orientation.WestEast -> toReturn + "WestEast"
         }
         return toReturn
     }

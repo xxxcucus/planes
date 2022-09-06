@@ -20,7 +20,7 @@ class PlaneIntersectingPointIterator(point: Coordinate2D) : VectorIterator<Plane
         }
         val it = m_internalList.iterator()
 
-        //elimintate all positions that do not contain (0,0)
+        //eliminate all positions that do not contain (0,0)
         while (it.hasNext()) {
             val pl = it.next()
             if (!pl!!.containsPoint(m_point)) {

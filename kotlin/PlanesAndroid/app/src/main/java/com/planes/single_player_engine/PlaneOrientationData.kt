@@ -4,7 +4,7 @@ import java.util.*
 
 class PlaneOrientationData {
     //the position of the plane
-    var m_plane: Plane
+    private var m_plane: Plane
 
     //whether this orientation was discarded
     var m_discarded: Boolean

@@ -9,29 +9,30 @@ import java.util.*
  */
 open class PlaneGrid(//gets the size of the grid
         //number of rows and columns
-        var rowNo: Int, var colNo: Int, //returns the number of planes that we should draw
+    private var rowNo: Int,
+    private var colNo: Int,
         //number of planes
-        var planeNo: Int, //returns whether the grid belongs to a computer or not
+    var planeNo: Int, //returns whether the grid belongs to a computer or not
         //whether the grid belongs to computer or to player
-        var isComputer: Boolean) {
+    var isComputer: Boolean) {
 
 
     //list of plane objects for the grid
-    protected var m_planeList: Vector<Plane>
+    private var m_planeList: Vector<Plane> = Vector()
 
     //list of all points on the planes
-    protected var m_listPlanePoints: Vector<Coordinate2D>
+    private var m_listPlanePoints: Vector<Coordinate2D> = Vector()
 
     //whether planes overlap. is computed every time the plane points are computed again.
-    protected var m_PlanesOverlap = false
+    private var m_PlanesOverlap = false
 
-    protected var m_PlaneNo = 0
+    private var m_PlaneNo = 0
 
     //whether a plane is outside of the grid
     var isPlaneOutsideGrid = false
 
     ///for QML
-    protected var m_listPlanePointsAnnotations: Vector<Int>
+    private var m_listPlanePointsAnnotations: Vector<Int>
 
     //the following annotations should exist
     //00000001 - belonging to plane 1
@@ -44,16 +45,14 @@ open class PlaneGrid(//gets the size of the grid
 
     //constructor
     init {
-        m_planeList = Vector()
-        m_listPlanePoints = Vector()
         m_PlaneNo = planeNo
         m_listPlanePointsAnnotations = Vector()
         guesses = Vector()
         initGrid()
     }
 
-    //initializes the grid
-    open fun initGrid() {
+    //initializes the grid - open for tests
+   open fun initGrid() {
         resetGrid()
         initGridByAutomaticGeneration()
         //compute list of plane points - needed for the guessing process
@@ -85,15 +84,6 @@ open class PlaneGrid(//gets the size of the grid
         return false
     }
 
-    //removes a plane from the list of planes
-    fun removePlane(idx: Int): Pair<Boolean, Plane> {
-        if (idx < 0 || idx >= m_planeList.size) return Pair.create(false, Plane(0, 0, Orientation.NorthSouth))
-        val pl = m_planeList[idx].clone() as Plane
-        //remove the plane from the list of planes
-        m_planeList.removeAt(idx)
-        return Pair.create(true, pl)
-    }
-
     //resets the plane grid
     fun resetGrid() {
         m_planeList.clear()
@@ -103,7 +93,7 @@ open class PlaneGrid(//gets the size of the grid
     }
 
     //returns whether a point is on a plane or not
-    //additionaly it returns the position of the point on the plane
+    //additionally it returns the position of the point on the plane
     fun isPointOnPlane(row: Int, col: Int): Pair<Boolean, Int> {
         val idx = m_listPlanePoints.indexOf(Coordinate2D(row, col))
         return if (idx < 0) Pair.create(false, idx) else Pair.create(true, idx)
@@ -111,12 +101,12 @@ open class PlaneGrid(//gets the size of the grid
 
     /***
      * computes the list of plane points
-     * @param[in] - sendSignal, whether to send signal that a new configuration was computed
+     * @param - sendSignal, whether to send signal that a new configuration was computed
      */
     //computes all the points on a plane
     //and returns false if planes intersect and true otherwise
     //also detects if a plane lies outside of the grid
-    //also marks to which plane does the point belong and wether is a plane head or not
+    //also marks to which plane does the point belong and whether is a plane head or not
     fun computePlanePointsList(): Boolean {
         m_listPlanePoints.clear()
         m_listPlanePointsAnnotations.clear()
@@ -144,16 +134,6 @@ open class PlaneGrid(//gets the size of the grid
         }
         m_PlanesOverlap = !returnValue
         return returnValue
-    }
-
-    //returns the size of the plane list
-    val planeListSize: Int
-        get() = m_planeList.size
-
-    //generates a random position on the grid
-    fun generateRandomGridPosition(): Coordinate2D {
-        val idx = generateRandomNumber(rowNo * colNo)
-        return Coordinate2D(idx % rowNo, idx / rowNo)
     }
 
     //finds how good is a guess
@@ -206,18 +186,9 @@ open class PlaneGrid(//gets the size of the grid
         return m_PlanesOverlap
     }
 
-    fun isPointInGrid(qp: Coordinate2D): Boolean {
+    private fun isPointInGrid(qp: Coordinate2D): Boolean {
         if (qp.x() < 0 || qp.y() < 0) return false
-        return if (qp.x() >= colNo || qp.y() >= rowNo) false else true
-    }
-
-    ///for integration with QML
-    fun planesPointsCount(): Int {
-        return m_listPlanePoints.size
-    }
-
-    fun getPlanePoint(idx: Int): Coordinate2D {
-        return m_listPlanePoints[idx]
+        return !(qp.x() >= colNo || qp.y() >= rowNo)
     }
 
     //retrieves additional information about a plane point
@@ -240,27 +211,8 @@ open class PlaneGrid(//gets the size of the grid
         return retVal
     }
 
-    //generates a plane at a random position on the grid
-    protected fun generateRandomPlane(): Plane {
-        val qp = generateRandomGridPosition()
-        val orient = generateRandomPlaneOrientation()
-        return Plane(qp, orient)
-    }
-
-    //generates a random plane orientation
-    protected fun generateRandomPlaneOrientation(): Orientation {
-        val idx = generateRandomNumber(4)
-        return when (idx) {
-            0 -> Orientation.NorthSouth
-            1 -> Orientation.SouthNorth
-            2 -> Orientation.EastWest
-            3 -> Orientation.WestEast
-            else -> Orientation.NorthSouth
-        }
-    }
-
     //randomly generates grid with planes
-    protected fun initGridByAutomaticGeneration(): Boolean {
+    private fun initGridByAutomaticGeneration(): Boolean {
         var count = 0
         val listPossiblePositions = Vector<Plane>()
 
@@ -273,7 +225,7 @@ open class PlaneGrid(//gets the size of the grid
         while (count < planeNo) {
             //generate a list iterator
             val it = listPossiblePositions.iterator()
-            //elimintate all positions that are valid considering the already
+            //eliminate all positions that are valid considering the already
             //created planes
             while (it.hasNext()) {
                 val pl = it.next()
@@ -318,9 +270,9 @@ open class PlaneGrid(//gets the size of the grid
         if (m_PlaneNo != 3)
             return false
 
-        var pl1 = Plane(plane1_x, plane1_y, plane1_orient)
-        var pl2 = Plane(plane2_x, plane2_y, plane2_orient)
-        var pl3 = Plane(plane3_x, plane3_y, plane3_orient)
+        val pl1 = Plane(plane1_x, plane1_y, plane1_orient)
+        val pl2 = Plane(plane2_x, plane2_y, plane2_orient)
+        val pl3 = Plane(plane3_x, plane3_y, plane3_orient)
 
         resetGrid()
 
@@ -372,13 +324,23 @@ open class PlaneGrid(//gets the size of the grid
         m_planeList.remove(pl)
     }
 
+  //removes a plane from the list of planes
+   fun removePlane(idx: Int): Pair<Boolean, Plane> {
+        if (idx < 0 || idx >= m_planeList.size) return Pair.create(false, Plane(0, 0, Orientation.NorthSouth))
+        val pl = m_planeList[idx].clone() as Plane
+        //remove the plane from the list of planes
+        m_planeList.removeAt(idx)
+        return Pair.create(true, pl)
+       }
+
+
     //returns whether a point is head of a plane or not
-    protected fun isPointHead(row: Int, col: Int): Boolean {
-        return if (searchPlane(row, col) != -1) true else false
+    private fun isPointHead(row: Int, col: Int): Boolean {
+        return searchPlane(row, col) != -1
     }
 
     //verifies if a plane position is valid within the grid
-    protected fun isPlanePosValid(pl: Plane): Boolean {
+    private fun isPlanePosValid(pl: Plane): Boolean {
         return pl.isPositionValid(rowNo, colNo)
     }
 
@@ -405,11 +367,6 @@ open class PlaneGrid(//gets the size of the grid
         guesses.add(gp.clone() as GuessPoint)
     }
 
-    //for unit tests
-    fun setPlanePoints(list: Vector<Coordinate2D>) {
-        m_listPlanePoints = list
-    }
-
     //gets the plane at a given position in the list of planes
     fun getPlane(pos: Int): Pair<Boolean, Plane> {
         if (pos < 0 || pos >= m_planeList.size)
@@ -418,6 +375,10 @@ open class PlaneGrid(//gets the size of the grid
         return Pair.create(true, m_planeList[pos])
     }
 
+      //for unit tests
+    fun setPlanePoints(list: Vector<Coordinate2D>) {
+      m_listPlanePoints = list
+    }
 
 
 }
