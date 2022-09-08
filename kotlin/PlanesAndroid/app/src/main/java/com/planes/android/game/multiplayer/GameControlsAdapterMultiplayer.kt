@@ -74,7 +74,7 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
                     m_PlanesLayout.setComputerBoard()
                 } else if (m_ViewOpponentBoardButton1.currentStateName === "player") {
                     m_GameBoards.setPlayerBoard()
-                    m_ViewOpponentBoardButton1.setState("computer", m_Context.resources.getString(R.string.view_computer_board2))
+                    m_ViewOpponentBoardButton1.setState("computer", m_Context.resources.getString(R.string.view_opponent_board2))
                     m_PlanesLayout.setPlayerBoard()
                 }
             }
@@ -116,7 +116,7 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
                 } else if (m_ViewComputerBoardButton2.currentStateName === "player") {
                     m_GameBoards.setPlayerBoard()
                     m_PlanesLayout.setPlayerBoard()
-                    m_ViewComputerBoardButton2.setState("computer", m_Context.resources.getString(R.string.view_computer_board2))
+                    m_ViewComputerBoardButton2.setState("computer", m_Context.resources.getString(R.string.view_opponent_board2))
                 }
             }
         }
@@ -176,7 +176,7 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         if (isCancelled) {
             m_WinnerTextView.setText(m_Context.resources.getText(R.string.round_cancelled).toString())
         } else {
-            if (isComputerWinner) m_WinnerTextView.setText(m_Context.resources.getText(R.string.computer_winner).toString()) else m_WinnerTextView.setText(m_Context.resources.getText(
+            if (isComputerWinner) m_WinnerTextView.setText(m_Context.resources.getText(R.string.opponent_wins).toString()) else m_WinnerTextView.setText(m_Context.resources.getText(
                 R.string.player_winner).toString())
         }
 
