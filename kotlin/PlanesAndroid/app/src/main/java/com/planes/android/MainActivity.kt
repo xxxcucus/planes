@@ -546,9 +546,7 @@ class MainActivity : AppCompatActivity() {
 
     fun showSaveCredentialsPopup(username: String, password: String) {
         if (m_MultiplayerPreferencesService.username == username && m_MultiplayerPreferencesService.password == password) {
-
             Tools.displayToast(getString(R.string.loginsuccess), applicationContext)
-
             return
         }
 
@@ -557,6 +555,7 @@ class MainActivity : AppCompatActivity() {
             m_MultiplayerPreferencesService.username = username_
             m_MultiplayerPreferencesService.password = password_
         }
+        Tools.displayToast(getString(R.string.loginsuccess), applicationContext)
     }
 
     private fun onButtonShowHelpWindowClick(multiplayerVersion: Boolean) {
