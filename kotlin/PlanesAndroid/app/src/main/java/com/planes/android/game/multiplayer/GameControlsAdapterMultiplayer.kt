@@ -176,7 +176,7 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         if (isCancelled) {
             m_WinnerTextView.setText(m_Context.resources.getText(R.string.round_cancelled).toString())
         } else {
-            if (isComputerWinner) m_WinnerTextView.setText(m_Context.resources.getText(R.string.opponent_wins).toString()) else m_WinnerTextView.setText(m_Context.resources.getText(
+            if (isComputerWinner) m_WinnerTextView.setText(m_Context.resources.getText(R.string.opponent_winner).toString()) else m_WinnerTextView.setText(m_Context.resources.getText(
                 R.string.player_winner).toString())
         }
 

@@ -180,7 +180,7 @@
     <string name="opponent_misses">Sbagli avversario</string>
     <string name="opponent_dead">Morte avversario</string>
     <string name="opponent_winner">Round vinto dall\'avversario!</string>
-    <string name="opponent_wins">Vincite avversario</string>
+    <string name="opponent_wins">Vittorie avversario</string>
 
     <string name="game_score">Punteggio gioco</string>
     <string name="round_status">Stato del round</string>

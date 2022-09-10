@@ -32,8 +32,8 @@
     <string name="start_new_game">Empezar juego nuevo</string>
     <string name="start_new_game1">Empezar</string>
     <string name="start_new_game2">Nuevo juego</string>
-    <string name="computer_wins">Ha ganado el Computador!</string>
-    <string name="player_wins">Ha ganado el Jugador!</string>
+    <string name="computer_wins">Victorias Computador!</string>
+    <string name="player_wins">Victorias Jugador!</string>
     <string name="draws">Empate</string>
     <string name="help">Ayuda</string>
     <string name="board_editing_stage">Editar Tablero</string>
@@ -180,7 +180,7 @@
     <string name="opponent_misses">Fallas del oponente</string>
     <string name="opponent_dead">Muertes del oponente</string>
     <string name="opponent_winner">¡El oponente ha ganado esta ronda!</string>
-    <string name="opponent_wins">Ha ganado el Oponente!.</string>
+    <string name="opponent_wins">Victorias Oponente</string>
 
     <string name="game_score">Puntuación del juego</string>
     <string name="round_status">Estado de la ronda</string>

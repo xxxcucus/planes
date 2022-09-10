@@ -178,7 +178,7 @@
     <string name="opponent_misses">Gegner Fehlschüsse</string>
     <string name="opponent_dead">Gegner Zerstört</string>
     <string name="opponent_winner">Gegner gewinnt Spiel!</string>
-    <string name="opponent_wins">Gegner gewinnt</string>
+    <string name="opponent_wins">Gegner Siege</string>
     <string name="game_score">Spielstand</string>
     <string name="round_status">Spielstand</string>
     <string name="current_round">Aktuelles Spiel</string>

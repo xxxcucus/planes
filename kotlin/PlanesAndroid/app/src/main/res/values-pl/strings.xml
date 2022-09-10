@@ -181,7 +181,7 @@
     <string name="opponent_misses">Pudła przeciwnika</string>
     <string name="opponent_dead">Zatopione przeciwnika</string>
     <string name="opponent_winner">Przeciwnik wygrywa rozgrywkę!</string>
-    <string name="opponent_wins">Przeciwnik zwycięża</string>
+    <string name="opponent_wins">Przeciwnik przeciwnika</string>
     
     <string name="game_score">Wynik gry</string>
     <string name="round_status">Status rozgrywki</string>
