@@ -178,7 +178,9 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
     }
 
     override fun playerGuessIncomplete(row: Int, col: Int): Pair<Type, PlayerGuessReaction> {
-        return global_Round!!.playerGuessIncomplete(row, col)
+        var result = global_Round!!.playerGuessIncomplete(row, col)
+        global_Player_Guess_Reaction = result.second
+        return result
     }
 
     override fun playerGuess_RoundEnds(): Boolean {

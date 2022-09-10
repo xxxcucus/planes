@@ -20,6 +20,7 @@ import androidx.core.util.Pair
 import com.planes.android.game.multiplayer.IGameFragmentMultiplayer
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
+import kotlin.math.max
 
 class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     //communication structures
@@ -724,7 +725,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         if (updateGameStats(gp, true)) {
             m_computerGuessList.add(gp)
             m_PlayerGrid.addGuess(gp)
-            m_ComputerMoveIndex++
+            m_ComputerMoveIndex = max(m_ComputerMoveIndex, idx)
         } else {
             //qDebug() << "computer has already found all planes";
         }
