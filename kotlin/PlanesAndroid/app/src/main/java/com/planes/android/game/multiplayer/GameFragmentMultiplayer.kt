@@ -343,6 +343,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         m_ReceiveOpponentPlanePositionsError = false
         m_ReceiveOpponentPlanePositionsErrorString = ""
 
+        disposeAllPollingSubscriptions()
+
         Tools.displayToast(getString(R.string.waiting_for_planes_positions), m_Context)
         val acquireOpponentPlanePositionsRequest = buildAcquireOpponentPlanePositionsRequest(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId(), m_PlaneRound.getUserId(),
             m_PlaneRound.getOpponentId())
@@ -572,6 +574,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     override fun pollForOpponentMoves(playerFinished: Boolean) {
         m_ReceiveOpponentMovesError = false
         m_ReceiveOpponentMovesErrorString = ""
+
+        disposeAllPollingSubscriptions()
 
         if (playerFinished) {
             Tools.displayToast(getString(R.string.waiting_for_moves), m_Context)
