@@ -90,9 +90,9 @@ class NoRobotFragment : Fragment() {
 
         val questionDogText = getString(R.string.norobot_dog)
         val questionCatText = getString(R.string.norobot_cat)
-        val question = when (m_Question) {
-            questionDogText -> questionDogText
-            questionCatText -> questionCatText
+        val question = when (m_Question.lowercase()) {
+            "dog" -> questionDogText
+            "cat" -> questionCatText
             else -> m_Question
         }
         questionTextView.text = getString(R.string.norobot_question, question)
