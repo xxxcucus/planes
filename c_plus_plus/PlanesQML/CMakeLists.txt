@@ -22,13 +22,14 @@ set(QML_SRCS
 	main.cpp
 	planegameqml.cpp)
 
-qt5_add_resources(RESOURCES qml.qrc)
+qt_add_resources(RESOURCES qml.qrc)
 	
 add_executable(PlanesQML ${QML_SRCS} ${RESOURCES} ${QML_HEADR})
 
 target_link_libraries(PlanesQML
-	libCommon)
+	libCommon
+	Qt6::Core
+	Qt6::Quick)
 
-qt5_use_modules(PlanesQML Core Quick)
 
 install(TARGETS PlanesQML DESTINATION bin)

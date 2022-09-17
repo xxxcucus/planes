@@ -93,9 +93,9 @@ target_link_libraries(PlanesGraphicsScene
 	libCommon
 	libMultiRound
 	libbcrypt
-	${Qt5Widgets_LIBRARIES}
-	${Qt5Network_LIBRARIES}
-	${Qt5Core_LIBRARIES})
-qt5_use_modules(PlanesGraphicsScene Core Widgets Network)
+	Qt6::Widgets
+	Qt6::Core
+	Qt6::Network)
+
 
 install(TARGETS PlanesGraphicsScene DESTINATION bin)

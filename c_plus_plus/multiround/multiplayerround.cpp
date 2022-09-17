@@ -1,6 +1,5 @@
 #include "multiplayerround.h"
 
-#include <QTextCodec>
 #include <QMessageBox>
 #include <QJsonArray>
 #include "communicationtools.h"

@@ -95,7 +95,7 @@ void BaseRenderArea::drawTexts(QPainter *painter) const
 
     //displays the window title
     QFontMetrics fm = this->fontMetrics();
-    int titleLength = fm.width(windowTitle());
+    int titleLength = fm.boundingRect(windowTitle()).width();
 
     painter->drawText(m_rowNo / 2 * m_spacing + m_spacing + m_offsetRow - titleLength / 2, m_offsetCol, windowTitle());
 }

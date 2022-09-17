@@ -5,7 +5,6 @@
 #include <QDir>
 #include <QFileInfoList>
 #include <QMessageBox>
-#include <QTextCodec>
 #include <QResizeEvent>
 #include "viewmodels/norobotviewmodel.h"
 #include "communicationtools.h"

@@ -2,7 +2,6 @@
 
 #include <cmath>
 
-#include <QTextCodec>
 #include <QMessageBox>
 #include <QDebug>
 #include <QJsonValue>
@@ -84,7 +83,7 @@ bool BasisCommObj::finishRequestHelper(QJsonObject& retJson)
     }
     
     QByteArray reply = m_ReplyObject->readAll();
-    QString replyQString = QTextCodec::codecForMib(106)->toUnicode(reply);
+    QString replyQString(reply);
     //qDebug() << replyQString;
     retJson = CommunicationTools::objectFromString(replyQString);
  

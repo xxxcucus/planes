@@ -39,16 +39,14 @@ set(WIDGET_SRCS
 	planeswwindow.cpp
 	revertcomputerlogic.cpp)
 
-    qt5_wrap_ui(UI_HEADERS
+    qt_wrap_ui(UI_HEADERS
         EditControl.ui
 	GameForm.ui)
 
-add_definitions(${Qt5Widgets_DEFINITIONS})
 add_executable(PlanesWidget ${WIDGET_SRCS} ${UI_HEADERS} ${WIDGET_HEADR})
 target_link_libraries(PlanesWidget 
 	libCommon
-	${Qt5Widgets_LIBRARIES})
-qt5_use_modules(PlanesWidget Widgets)
+	Qt6::Widgets)
 
 install(TARGETS PlanesWidget DESTINATION bin)
 

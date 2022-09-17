@@ -5,7 +5,6 @@
 #include <QGridLayout>
 #include <QPushButton>
 #include <QSpacerItem>
-#include <QTextCodec>
 #include "viewmodels/planespositionsviewmodel.h"
 #include "viewmodels/getopponentplanespositionsviewmodel.h"
 #include "communicationtools.h"
@@ -261,7 +260,7 @@ void LeftPane::setMinWidth()
     QString textD("Plane right");
 
     QFontMetrics fm = fontMetrics();
-    setMinimumWidth(((fm.width(textB) + fm.width(textC) + fm.width(textD)) * 170) / 100);
+    setMinimumWidth(((fm.boundingRect(textB).width() + fm.boundingRect(textC).width() + fm.boundingRect(textD).width()) * 170) / 100);
 }
 
 void LeftPane::setMinHeight()

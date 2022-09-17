@@ -79,11 +79,10 @@ add_library(libMultiRound SHARED
 target_link_libraries(libMultiRound
 	libCommon
     libbcrypt
-	${Qt5Widgets_LIBRARIES}
-	${Qt5Network_LIBRARIES}
-    ${Qt5Core_LIBRARIES})
+	Qt6::Widgets
+	Qt6::Network
+    Qt6::Core)
 
-qt5_use_modules(libMultiRound Core Widgets Network)
 
 if (UNIX)
 install(TARGETS libMultiRound DESTINATION lib)

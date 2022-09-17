@@ -192,8 +192,8 @@ void GenericBoard::endRound(bool isPlayerWinner, bool isDraw, bool isSinglePlaye
     QFont f = m_RoundEndsAnimatedText->font();
     QFontMetrics fm(f);
     m_PropertyAnimation->setDuration(1000);
-    m_PropertyAnimation->setStartValue(QPoint((m_Grid.getColNo() + m_PaddingEditingBoard * 2)  * m_SquareWidth / 2 - fm.width(winnerText) / 2, (m_Grid.getRowNo() +  m_PaddingEditingBoard) * m_SquareWidth));
-    m_PropertyAnimation->setEndValue(QPoint((m_Grid.getColNo() + m_PaddingEditingBoard * 2) * m_SquareWidth / 2 - fm.width(winnerText) / 2,  m_SquareWidth / 2));
+    m_PropertyAnimation->setStartValue(QPoint((m_Grid.getColNo() + m_PaddingEditingBoard * 2)  * m_SquareWidth / 2 - fm.boundingRect(winnerText).width() / 2, (m_Grid.getRowNo() +  m_PaddingEditingBoard) * m_SquareWidth));
+    m_PropertyAnimation->setEndValue(QPoint((m_Grid.getColNo() + m_PaddingEditingBoard * 2) * m_SquareWidth / 2 - fm.boundingRect(winnerText).width() / 2,  m_SquareWidth / 2));
     m_PropertyAnimation->start();
 }
 

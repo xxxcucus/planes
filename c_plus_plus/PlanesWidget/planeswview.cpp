@@ -37,7 +37,7 @@ PlanesWView::PlanesWView(PlaneRound *rd,QWidget *parent) :
     listWidget->addItem(tr("Computer choices"));
 
     QFontMetrics fm = listWidget->fontMetrics();
-    int maxWidth = fm.width("Computer choices");
+    int maxWidth = fm.boundingRect("Computer choices").width();
     listWidget->setFixedWidth(maxWidth * 2);
 
     QStackedLayout* stackedLayout = new QStackedLayout;

@@ -2,7 +2,7 @@
 
 #include <QJsonDocument>
 #include <QMessageBox>
-#include <QTextCodec>
+
 
 QString CommunicationTools::localTestServerPath = "https://planes.planes-android.com:8443/planesserver";
 
@@ -69,7 +69,7 @@ QJsonObject CommunicationTools::objectFromString(const QString& in)
 
 void CommunicationTools::treatCommunicationError(const QString& actionName, QNetworkReply* reply, QWidget* parentWidget) {
     QByteArray replyBA = reply->readAll();
-    QString registrationReplyQString = QTextCodec::codecForMib(106)->toUnicode(replyBA);
+    QString registrationReplyQString(replyBA);
     
     QMessageBox msgBox(parentWidget);
     msgBox.setText("Error when " + actionName + " " + reply->errorString() + "\n" +  registrationReplyQString); 

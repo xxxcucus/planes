@@ -4,7 +4,6 @@
 #include <QPushButton>
 #include <QDebug>
 #include <QMessageBox>
-#include <QTextCodec>
 #include "viewmodels/gameviewmodel.h"
 #include "communicationtools.h"
 

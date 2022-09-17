@@ -2,7 +2,6 @@
 
 #include <QPushButton>
 #include <QGridLayout>
-#include <QTextCodec>
 #include <QMessageBox>
 
 #include "viewmodels/gameviewmodel.h"

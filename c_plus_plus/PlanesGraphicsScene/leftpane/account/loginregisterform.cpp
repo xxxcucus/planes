@@ -4,7 +4,6 @@
 #include <QHBoxLayout>
 #include <QJsonDocument>
 #include <QMessageBox>
-#include <QTextCodec>
 #include <QDebug>
 #include "viewmodels/loginviewmodel.h"
 #include "communicationtools.h"
@@ -116,7 +115,7 @@ void LoginRegisterForm::noRobotRegistrationSlot(const std::vector<QString>& imag
     mainDialog.resize(800, 600);
     QBoxLayout mainDialogLayout(QBoxLayout::LeftToRight);
     mainDialogLayout.addWidget(m_NoRobotWidget); 
-    mainDialogLayout.setMargin (0);
+    //mainDialogLayout.setMargin (0);
     mainDialog.setLayout(&mainDialogLayout);
     m_NoRobotWidget->setImages(images);
     m_NoRobotWidget->setQuestion(registrationReplyJson.value("question").toString());

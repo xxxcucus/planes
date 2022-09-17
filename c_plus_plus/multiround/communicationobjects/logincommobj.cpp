@@ -2,7 +2,6 @@
 
 
 #include <QMessageBox>
-#include <QTextCodec>
 #include "viewmodels/loginviewmodel.h"
 #include "communicationtools.h"
 
@@ -41,7 +40,7 @@ void LoginCommObj::finishedRequest()
     bool successfull = false;
     
     for(QByteArray hdr : headers) {
-        QString hdrQString = QTextCodec::codecForMib(106)->toUnicode(hdr);
+        QString hdrQString(hdr);
         if (hdrQString == "Authorization") {
             m_GlobalData->m_UserData.m_AuthToken = m_ReplyObject->rawHeader(hdr);
             //qDebug() << hdrQString << ":" << m_ReplyObject->rawHeader(hdr);
