@@ -11,7 +11,7 @@
 int main(int argc, char *argv[])
 {
 #ifdef _WIN32 || _WIN64
-    FreeConsole();
+    //FreeConsole();
 #endif
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     QGuiApplication app(argc, argv);
