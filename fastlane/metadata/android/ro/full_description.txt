@@ -1,3 +1,5 @@
 Pozitioneaza-ti avioanele pe tabla de joc si ghiceste unde si-a pozitionat computerul avioanele inainte ca avioanele tale sa fie gasite.
 
+Incepand cu versiunea 0.4.0 este disponibil si un modul multiplayer.
+
 Aplicatia open-source este disponibila si pentru Windows si Linux.

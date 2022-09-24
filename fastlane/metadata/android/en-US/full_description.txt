@@ -1,3 +1,5 @@
 Position your planes on your game board and guess where the computer has hidden its before it guesses where you have hidden yours.
 
+Starting with version 0.4.0 a multiplayer module is available as well.
+
 The open-source app is also available for Windows and Linux.
