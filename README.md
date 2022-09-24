@@ -8,6 +8,8 @@ PlanesQML an implementation using QML. These use a game engine programmed in C++
 The Android application is currently developed in Kotlin.
 The older version of the Android application in Java still exists in the repository for reference.
 
+Starting with version 0.3.16 for the desktop version and version 0.4.0 for the Android app, a multiplayer module is included.
+
 In the releases section you will find a detailed documentation of the C++ part of the project. (TheGameOfPlanes.pdf)
 
 ![alt text](https://github.com/xxxcucus/planes/blob/master/Screenshots/PlanesQML1.jpg)
