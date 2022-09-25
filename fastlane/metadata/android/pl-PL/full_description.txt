@@ -1,3 +1,5 @@
 Ustaw swoje samoloty na planszy i zgadnij, gdzie komputer ustawił swoje samoloty zanim znajdzie on Twoje samoloty.
 
 Aplikacja o otwartym źródle jest również dostępna na systemy Windows oraz Linux.
+
+Wraz z wersją 0.4.0 dostępny jest tryb wieloosobowy.

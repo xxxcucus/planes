@@ -1,3 +1,5 @@
 Posiziona i tuoi aerei sul tabellone di gioco e indovina dove il computer ha nascosto i suoi prima che lui indovini dove hai nascosto i tui.
 
 L'app open source è disponibile anche per Windows e Linux.
+
+A partire dalla versione 0.4.0 è disponibile una versione multiplayer.
