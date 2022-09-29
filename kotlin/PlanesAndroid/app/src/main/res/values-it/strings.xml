@@ -186,5 +186,6 @@
     <string name="round_status">Stato del round</string>
     <string name="current_round">Round corrente</string>
     <string name="helptext_boardediting_3">Scorri il dito sul display per posizionare gli aerei</string>
+    <string name="video_duration">Durata: %1$s</string>
 
 </resources>
