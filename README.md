@@ -48,3 +48,5 @@ For the C++ projects PlanesWidget, PlanesGraphicsScene and PlanesQML, you will f
 2. Single-Player Planes: https://youtu.be/N2Cg8eflCxM
 3. Positioning of Planes: https://youtu.be/qgL0RdwqBRY
 4. Guessing Planes Postions: https://youtu.be/CAxSPp2h_Vo
+
+[![@xxxcucus's Holopin board](https://holopin.io/api/user/board?user=xxxcucus)](https://holopin.io/@xxxcucus)
