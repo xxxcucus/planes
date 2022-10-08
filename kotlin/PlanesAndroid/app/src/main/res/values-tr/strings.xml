@@ -55,7 +55,8 @@
     <string name="helptext_boardediting_1">Onu seçmek için uçağın gövdesine dokununuz.</string>
     <string name="helptext_boardediting_2">Seçili uçağı yerleştirmek için kontrol butonlarına basınız.</string>
     <string name="helptext_game_1">Uçağın nerede olduğunut ahmin etmek için bilgisayarın tahtasına dokununuz.</string>
-    <string name="helptext_game_2">X hedef yok edildi demektir. Disc hiçbir şey vurulmadı demektir. Rhombus vuruldu demektir.</string>
+    <string name="helptext_game_2_without_emoji">X hedef yok edildi demektir. Disc hiçbir şey vurulmadı demektir. Rhombus vuruldu demektir.</string>
+    <string name="helptext_game_2">❌ hedef yok edildi demektir.🔴 hiçbir şey vurulmadı demektir.🔶 vuruldu demektir.</string>
     <string name="popup_help_button_text">Videoya Bak</string>
     <string name="game_difficulty_options">Oyun Zorluk Seçenekleri</string>
     <string name="computer_skill">Bilgisayar Becerisi</string>
