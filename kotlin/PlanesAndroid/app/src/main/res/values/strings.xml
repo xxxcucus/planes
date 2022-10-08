@@ -55,6 +55,7 @@
     <string name="helptext_boardediting_2">Touch on the control buttons to position the selected plane."</string>
     <string name="helptext_game_1">Touch on the computer\'s board to guess where the computer\'s planes are.</string>
     <string name="helptext_game_2_without_emoji">X means target destroyed. Disc means nothing was hit. Rhombus means a hit.</string>
+    <string name="helptext_game_2">❌ means target destroyed.🔴 means nothing was hit.🔶 means a hit.</string>
     <string name="popup_help_button_text">See Video</string>
     <string name="game_difficulty_options">Game Difficulty Options</string>
     <string name="computer_skill">Computer Skill</string>

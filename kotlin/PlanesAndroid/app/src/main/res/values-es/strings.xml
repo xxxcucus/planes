@@ -50,6 +50,7 @@
     <string name="helptext_boardediting_1">Presionar el cuerpo del avión para seleccionarlo.</string>
     <string name="helptext_boardediting_2">Presionar en el botón de control para ubicar el avión."</string>
     <string name="helptext_game_1">Presionar en el tablero de la computadora para adivinar donde el avión de la computadora esta.</string>
+    <string name="helptext_game_2">❌ significa el obetivo destruido.🔴 significa que nada fue disparado.🔶 significa que fue acertado.</string>
     <string name="helptext_game_2_without_emoji">X significa el obetivo destruido. Disc significa que nada fue disparado. El Rombo significa que fue acertado..</string>
     <string name="popup_help_button_text">Ver Video</string>
     <string name="game_difficulty_options">Opciones de dificultad del Juego</string>

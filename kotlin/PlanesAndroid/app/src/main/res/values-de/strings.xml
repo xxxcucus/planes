@@ -50,7 +50,7 @@
     <string name="helptext_boardediting_1">Flugzeug anklicken, um es auszuwählen.</string>
     <string name="helptext_boardediting_2">Kontroll-Buttons anklicken, um das Flugzeug zu positionieren.</string>
     <string name="helptext_game_1">Felder des Computerspielfelds anklicken, um zu raten, wo die Flugzeuge des Computers sind.</string>
-    <string name="helptext_game_2">❌ bedeutet \'zerstört\'.\n🔴 bedeutet \'daneben\'.\n🔶 bedeutet \'Treffer\'.</string>
+    <string name="helptext_game_2">❌ bedeutet \'zerstört\'.🔴 bedeutet \'daneben\'.🔶 bedeutet \'Treffer\'.</string>
     <string name="helptext_game_2_without_emoji">X bedeutet \'zerstört\'. Kreis bedeutet \'daneben\'. Rhombus bedeutet \'Treffer\'.</string>
     <string name="popup_help_button_text">Video ansehen</string>
     <string name="game_difficulty_options">Einstellungen</string>
