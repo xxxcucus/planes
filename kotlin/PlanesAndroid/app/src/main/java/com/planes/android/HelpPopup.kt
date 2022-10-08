@@ -112,7 +112,10 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
                 if (!multiplayerVersion) {
                     m_HelpTextView.text = """
                     ${m_Context.getString(R.string.helptext_game_1)}
-                    ${m_Context.getString(R.string.helptext_game_2)}
+                    ${ if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.KITKAT) 
+                        m_Context.getString(R.string.helptext_game_2_without_emoji) 
+                        else
+                        m_Context.getString(R.string.helptext_game_2)}
                     """.trimIndent()
                     m_HelpButton.setOnClickListener {
                         m_StartTutorialLambda(0)
