@@ -4,7 +4,7 @@ project (libMultiRound)
 cmake_policy(SET CMP0020 NEW)
 cmake_policy(SET CMP0043 NEW)
 
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS OFF)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 add_definitions(-DMAKE_MULTIPLAYERROUND_LIB)
@@ -13,9 +13,9 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_SOURCE_DIR}/../common
 	${CMAKE_CURRENT_SOURCE_DIR}/../bcrypt
-	${Qt5Widgets_INCLUDE_DIRS}
-	${Qt5Network_INCLUDE_DIRS}
-    ${Qt5Core_INCLUDE_DIRS})
+	${Qt6Widgets_INCLUDE_DIRS}
+	${Qt6Network_INCLUDE_DIRS}
+    ${Qt6Core_INCLUDE_DIRS})
 
 set(MULTIROUND_HEADR 
     multiplayerround.h
@@ -82,7 +82,6 @@ target_link_libraries(libMultiRound
 	Qt6::Widgets
 	Qt6::Network
     Qt6::Core)
-
 
 if (UNIX)
 install(TARGETS libMultiRound DESTINATION lib)

@@ -7,7 +7,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 
-find_package(Qt6 COMPONENTS Core Widgets Quick Network)
+find_package(Qt6 COMPONENTS Core Widgets Quick Network Test)
 
 option(With_Asan "Compile with Address Sanitizer support" OFF)
 
@@ -26,12 +26,14 @@ add_subdirectory(PlanesQML)
 add_subdirectory(common)
 add_subdirectory(multiround)
 add_subdirectory(bcrypt)
+add_subdirectory(tests)
 
 
 set(ROOT_PATH ${Qt6_DIR}/../../../)
 
 if (NOT UNIX)
 	install(FILES ${ROOT_PATH}/bin/Qt6Core.dll DESTINATION bin)
+	install(FILES ${ROOT_PATH}/bin/Qt6Test.dll DESTINATION bin)
 	install(FILES ${ROOT_PATH}/bin/Qt6Gui.dll DESTINATION bin)
 	install(FILES ${ROOT_PATH}/bin/Qt6Widgets.dll DESTINATION bin)
 	install(FILES ${ROOT_PATH}/bin/Qt6Qml.dll DESTINATION bin)
@@ -66,6 +68,7 @@ message("Used Qt Version: " ${QT_MAJOR} " " ${QT_MINOR} " " ${QT_REVISION})
 if (UNIX)
 	install(FILES ${ROOT_PATH}/lib/libQt6Widgets.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6Gui.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
+	install(FILES ${ROOT_PATH}/lib/libQt6Test.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6Core.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6Qml.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6QmlWorkerScript.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)

@@ -50,7 +50,7 @@
     <string name="helptext_boardediting_1">Flugzeugrummpf anklicken, um es auszuwählen.</string>
     <string name="helptext_boardediting_2">Kontroll-Knöpfe anklicken, um Flugzeug zu positionieren."</string>
     <string name="helptext_game_1">Felder des Computerspielfelds anklicken, um zu raten, wo dessen Flugzeuge sind.</string>
-    <string name="helptext_game_2">X bedeutet \'zerstört\'. Kreis bedeutet \'daneben\'. Rhombus bedeutet \'Treffer\'.</string>
+    <string name="helptext_game_2_without_emoji">X bedeutet \'zerstört\'. Kreis bedeutet \'daneben\'. Rhombus bedeutet \'Treffer\'.</string>
     <string name="popup_help_button_text">Video ansehen</string>
     <string name="game_difficulty_options">Schwierigkeitsstufen</string>
     <string name="computer_skill">Computer Spiellevel</string>

@@ -9,8 +9,8 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../common
 	${CMAKE_CURRENT_SOURCE_DIR}/../multiround/
 	${CMAKE_CURRENT_SOURCE_DIR}/../bcrypt
-	${Qt5Widgets_INCLUDE_DIRS}
-	${Qt5Core_INCLUDE_DIRS})
+	${Qt6Widgets_INCLUDE_DIRS}
+	${Qt6Core_INCLUDE_DIRS})
 
 #link_directories(
 #	${CMAKE_CURRENT_BINARY_DIR}/../common/Release/

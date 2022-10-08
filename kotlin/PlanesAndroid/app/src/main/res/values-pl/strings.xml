@@ -54,7 +54,7 @@
     <string name="helptext_boardediting_1">Naciśnij na część samolotu, aby go wybrać.</string>
     <string name="helptext_boardediting_2">Dostosuj pozycję samolotu naciskając na przyciski sterowania.\"</string>
     <string name="helptext_game_1">Naciśnij pole na planszy komputera, aby zgadywać, gdzie znajdują się samolty komputera.</string>
-    <string name="helptext_game_2">Znak X oznacza zniszczenie całego samolotu. Znak kółka oznacza pudło. Znak rombu oznacza trafienie.</string>
+    <string name="helptext_game_2_without_emoji">Znak X oznacza zniszczenie całego samolotu. Znak kółka oznacza pudło. Znak rombu oznacza trafienie.</string>
     <string name="popup_help_button_text">Zobacz film</string>
     <string name="game_difficulty_options">Ustawienia poziomu trudności</string>
     <string name="computer_skill">Umiejętności komputera</string>

@@ -14,6 +14,9 @@ public:
     bool makeRequest();
     bool validateReply(const QJsonObject& retJson) override;
     
+protected:
+    CancelRoundCommObj() {}
+
 public slots:
     void finishedRequest() override;       
     
@@ -24,6 +27,8 @@ signals:
 private:
     MultiplayerRound* m_MultiRound;
     
+    friend class CancelRoundCommObjTest;
+
 };
 
 

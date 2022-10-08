@@ -1,3 +1,5 @@
 Esconde tus aviones en el tablero de juego y adivina dónde  tu oponente ha escondido los suyos. El primero en encontrar el avión del  oponente gana. El juego se juega contra la computadora.
 
 Se desarrollaron variantes de la aplicación en código abierto. Disponible para Linux y Windows.
+
+Hay una versión multijugador disponible a partir de la versión 0.4.0.

@@ -8,7 +8,7 @@ cmake_policy(SET CMP0043 NEW)
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_SOURCE_DIR}/../common
-	${Qt5Widgets_INCLUDE_DIRS})
+	${Qt6Widgets_INCLUDE_DIRS})
 
 #link_directories(
 #	${CMAKE_CURRENT_BINARY_DIR}/../common/Release/

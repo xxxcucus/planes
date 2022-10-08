@@ -50,7 +50,7 @@
     <string name="helptext_boardediting_1">Clicca sulla fusoliera dell\'aereo per selezionarlo.</string>
     <string name="helptext_boardediting_2">Fare clic sui pulsanti di controllo per posizionare l\'aereo.</string>
     <string name="helptext_game_1">Clicca sui campi della scheda del computer per indovinare la posizione dei suoi aerei.</string>
-    <string name="helptext_game_2">X significa bersaglio distrutto.  Il cerchio indica un colpo mancato. Rombo significa colpito.</string>
+    <string name="helptext_game_2_without_emoji">X significa bersaglio distrutto.  Il cerchio indica un colpo mancato. Rombo significa colpito.</string>
     <string name="popup_help_button_text">Guarda Video</string>
     <string name="game_difficulty_options">Livelli di difficoltà</string>
     <string name="computer_skill">Abilità Computer</string>

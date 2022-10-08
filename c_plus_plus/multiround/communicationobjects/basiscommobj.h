@@ -18,10 +18,13 @@ public:
             connect( m_NetworkManager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), this, SLOT(sslErrorOccured(QNetworkReply*,QList<QSslError>)));
         }
     virtual ~BasisCommObj();
-    
+
     bool makeRequestBasis(bool withToken, bool fromFinishedSlot = false);
     virtual bool validateReply(const QJsonObject& reply) = 0;
     
+protected:
+    BasisCommObj() {}
+
 public slots:
     virtual void errorRequest(QNetworkReply::NetworkError code);
     virtual void finishedRequest();   
