@@ -2,7 +2,7 @@
 
 After you have cloned the repository from GitHub, you need to install Qt.
 
-In order to prepare the building process you have to configure CMake either in command prompt or from a GUI CMake program. In Windows as well as in Linux CMake-gui is a GUI CMake program. In \ref{fig:cmakegui_planes} you can see a screenshot of what the cmake program will show after you give it the path to the project (the folder where the main CMakeLists.txt lies) and the folder where you want the project libraries to be built.
+In order to prepare the building process you have to configure CMake either in command prompt or from a GUI CMake program. In Windows as well as in Linux CMake-gui is a GUI CMake program. In \ref{fig:cmakegui_planes} you can see a screenshot of the cmake-gui program window after the path to the project (the folder where the main CMakeLists.txt lies) and the folder where the project should be built are set.
 
 
 \begin{figure}[h]
@@ -15,14 +15,12 @@ You have here several options which need to be set:
 
 \begin{itemize}
 	\item CMAKE\_INSTALL\_PREFIX defines the path where the project binaries will be built
-	\item Qt*\_DIR are the paths where the various Qt libraries are to be found by the project. Usually you have to define Qt5\_DIR and then the others will be setup automatically.
+	\item Qt*\_DIR are the paths where the various Qt libraries are to be found by the project. Usually you have to define Qt6\_DIR and then the others will be setup automatically.
 	\item With\_Asan will activate Address Sanitizer support
-	\item With\_Java has to be active when building for the Android application.
+	\item With\_Java has to be active when building for the Android application (this option is no longer used).
 \end{itemize}
 
 CMake GUI uses so called generators to define which toolchain is used for compilation. These need to be set for example for Visual Studio (as seen in \ref{fig:cmakegui_planes}), gcc, MinGW or any other toolchain you use to build the project.
-
-Tested binaries of the project used Visual Studio, gcc and MinGW generators.
 
 To perform project configuration click "Configure" and then "Generate".
 
@@ -36,8 +34,30 @@ For the Visual Studio generator, after "Generate" is clicked, a Visual Studio so
 
 You have to choose the MINGW generator before defining the CMAKE variables in the CMAKE-Gui. You have to run Configure and Generate as well as with the Visual Studio generator. After you have done that you have to go to Windows Command Prompt in the build path. There you should give the following command: cmake.exe --build . This will use MinGW's make program to build the program. To install the binaries along with their dependencies in the installation path (configured in CMAKE-Gui with CMAKE\_INSTALL\_PREFIX) run cmake.exe --build install .
 
+The Windows binaries of Planes are generated using the MinGW generators. Besides the Qt Libraries the installation needs the 3 dlls from the MinGW distribution. These are
+
+\begin{itemize}
+	\item libgcc\_s\_seh: Exception handling
+	\item libstdc++: C++ Standard Library (C/C++ library functions etc.)
+	\item libwinpthread: PThreads implementation on Windows (Threading)
+\end{itemize}
+
+In order for these files to be found one needs to configure the path to the MinGW Installation. Normally one can find it in the Qt Installation.
+This is done with an environment variable: MINGW\_HOME.
+
+PlanesGraphicsScene makes use in the Multiplayer module of SSL. For that one should include in the project the two dlls:
+
+\begin{itemize}
+	\item libcrypto-1\_1-x64.dll
+	\item libssl-1\_1-x64.dll
+\end{itemize}
+
+The two dlls are taken from the OpenSSL Installation folder. For that one must specify the path to this folder in the environment variable: OPENSSL\_HOME.
+
 \subsection {Linux - GCC}
 
 Configuration of the project with CMake-Gui is the same. I am usually doing only the setting of the CMAKE variables with the gui programs and then stop CMake-Gui. This is because CMake-Gui for Linux has not been updated in a while and I want to use always the latest CMake version. 
 
 After closing CMake-GUI go to the build folder in terminal. Run cmake .. then make and make install to install the binaries and their dependencies in the installation path.
+
+TODO: ssl library
