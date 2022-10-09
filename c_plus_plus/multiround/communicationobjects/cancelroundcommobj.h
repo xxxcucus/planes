@@ -2,6 +2,7 @@
 #define __CANCEL_ROUND_COMMOBJ__
 
 #include "basiscommobj.h"
+#include "viewmodels/cancelroundviewmodel.h"
 class MultiplayerRound;
 
 class CancelRoundCommObj : public BasisCommObj {
@@ -23,6 +24,8 @@ public slots:
 signals:
     void roundCancelled();
 
+private:
+    CancelRoundViewModel prepareViewModel();
     
 private:
     MultiplayerRound* m_MultiRound;

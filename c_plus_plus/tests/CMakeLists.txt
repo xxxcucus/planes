@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.10)
-project (mytest)
+project (commobjtest)
 
 cmake_policy(SET CMP0020 NEW)
 cmake_policy(SET CMP0043 NEW)
@@ -21,16 +21,15 @@ set(TEST_HEADR
 set(TEST_SRCS 	
 	cancelroundcommobjtest.cpp)
 
-
 enable_testing(true)
-add_executable(mytest  ${TEST_HEADR} ${TEST_SRCS})
-add_test(NAME mytest COMMAND mytest)
+add_executable(commobjtest  ${TEST_HEADR} ${TEST_SRCS})
+add_test(NAME commobjtest COMMAND mytest)
 
-target_link_libraries(mytest libMultiRound
+target_link_libraries(commobjtest libMultiRound
         Qt::Test Qt6::Widgets Qt6::Network Qt6::Core)
 
 if (UNIX)
-install(TARGETS mytest DESTINATION tests)
+install(TARGETS commobjtest DESTINATION tests)
 else (UNIX)
-install(TARGETS mytest DESTINATION bin)
+install(TARGETS commobjtest DESTINATION bin)
 endif (UNIX)

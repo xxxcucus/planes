@@ -12,17 +12,16 @@ bool CancelRoundCommObj::makeRequest()
         return false;
     }
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        QMessageBox msgBox(m_ParentWidget);
-        msgBox.setText("No user logged in"); 
-        msgBox.exec();
+        if (m_ParentWidget != nullptr) { //nullptr is in tests
+            QMessageBox msgBox(m_ParentWidget);
+            msgBox.setText("No user logged in");
+            msgBox.exec();
+        }
         return false;
     }
 
-    CancelRoundViewModel cancelRoundData;
-    cancelRoundData.m_RoundId = m_GlobalData->m_GameData.m_RoundId;
-    cancelRoundData.m_GameId = m_GlobalData->m_GameData.m_GameId;
 
-    m_RequestData = cancelRoundData.toJson();
+    m_RequestData = prepareViewModel().toJson();
     
     makeRequestBasis(true);
     return true;
@@ -40,4 +39,11 @@ void CancelRoundCommObj::finishedRequest()
 
 bool CancelRoundCommObj::validateReply(const QJsonObject& reply) {
     return (reply.contains("roundId"));
+}
+
+CancelRoundViewModel CancelRoundCommObj::prepareViewModel() {
+    CancelRoundViewModel cancelRoundData;
+    cancelRoundData.m_RoundId = m_GlobalData->m_GameData.m_RoundId;
+    cancelRoundData.m_GameId = m_GlobalData->m_GameData.m_GameId;
+    return cancelRoundData;
 }
