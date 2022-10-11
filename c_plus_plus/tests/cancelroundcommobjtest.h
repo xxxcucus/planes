@@ -1,3 +1,7 @@
+#ifndef __CANCEL_ROUND_COMMOBJ_TEST__
+#define __CANCEL_ROUND_COMMOBJ_TEST__
+
+
 #include <QObject>
 #include <QTest>
 #include "cancelroundcommobj.h"
@@ -14,3 +18,5 @@ private slots:
     void PrepareViewModelTest();
     void cleanupTestCase();
 };
+
+#endif

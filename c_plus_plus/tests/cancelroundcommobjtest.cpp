@@ -1,8 +1,6 @@
 #include "cancelroundcommobjtest.h"
 #include <QTest>
 
-QTEST_MAIN(CancelRoundCommObjTest)
-
 void CancelRoundCommObjTest::initTestCase()
 {
     qDebug("CancelRoundCommObjTest starts ..");
@@ -37,8 +35,6 @@ void CancelRoundCommObjTest::PrepareViewModelTest()
     QVERIFY(viewModel.m_GameId == 234L, "GameId was not copied to the view model");
     QVERIFY(viewModel.m_RoundId == 123L, "RoundId was not copied to the view model");
 }
-
-
 
 void CancelRoundCommObjTest::cleanupTestCase()
 {

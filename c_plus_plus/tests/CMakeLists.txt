@@ -16,14 +16,17 @@ include_directories(
 	${Qt6Network_INCLUDE_DIRS})
 
 set(TEST_HEADR 
-    cancelroundcommobjtest.h)
+    cancelroundcommobjtest.h
+	connecttogamecommobjtest.h)
 
 set(TEST_SRCS 	
-	cancelroundcommobjtest.cpp)
+	cancelroundcommobjtest.cpp
+	connecttogamecommobjtest.cpp
+	main.cpp)
 
 enable_testing(true)
 add_executable(commobjtest  ${TEST_HEADR} ${TEST_SRCS})
-add_test(NAME commobjtest COMMAND mytest)
+add_test(NAME commobjtest COMMAND commobjtest)
 
 target_link_libraries(commobjtest libMultiRound
         Qt::Test Qt6::Widgets Qt6::Network Qt6::Core)
