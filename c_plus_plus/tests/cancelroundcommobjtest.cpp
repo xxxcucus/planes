@@ -9,7 +9,7 @@ void CancelRoundCommObjTest::initTestCase()
 void CancelRoundCommObjTest::SinglePlayerTest()
 {
     m_CommObj.m_IsSinglePlayer = true;
-    QVERIFY(m_CommObj.makeRequest() == false, "CancelRoundCommObj should abort if single player game"); 
+    QVERIFY2(m_CommObj.makeRequest() == false, "CancelRoundCommObj should abort if single player game"); 
 }
 
 void CancelRoundCommObjTest::NoUserLoggedInTest()
@@ -19,7 +19,7 @@ void CancelRoundCommObjTest::NoUserLoggedInTest()
     GlobalData* gd = new GlobalData();
     gd->m_UserData.m_UserName = "";
     m_CommObj.m_GlobalData = gd;
-    QVERIFY(m_CommObj.makeRequest() == false, "Cannot cancel round without being logged in");
+    QVERIFY2(m_CommObj.makeRequest() == false, "Cannot cancel round without being logged in");
 }
 
 void CancelRoundCommObjTest::PrepareViewModelTest()
@@ -32,8 +32,8 @@ void CancelRoundCommObjTest::PrepareViewModelTest()
     
     CancelRoundViewModel viewModel = m_CommObj.prepareViewModel();
 
-    QVERIFY(viewModel.m_GameId == 234L, "GameId was not copied to the view model");
-    QVERIFY(viewModel.m_RoundId == 123L, "RoundId was not copied to the view model");
+    QVERIFY2(viewModel.m_GameId == 234L, "GameId was not copied to the view model");
+    QVERIFY2(viewModel.m_RoundId == 123L, "RoundId was not copied to the view model");
 }
 
 void CancelRoundCommObjTest::cleanupTestCase()

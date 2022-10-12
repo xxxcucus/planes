@@ -17,11 +17,13 @@ include_directories(
 
 set(TEST_HEADR 
     cancelroundcommobjtest.h
-	connecttogamecommobjtest.h)
+	connecttogamecommobjtest.h
+	creategamecommobjtest.h)
 
 set(TEST_SRCS 	
 	cancelroundcommobjtest.cpp
 	connecttogamecommobjtest.cpp
+	creategamecommobjtest.cpp
 	main.cpp)
 
 enable_testing(true)

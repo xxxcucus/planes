@@ -1,20 +1,20 @@
-#include "connecttogamecommobjtest.h"
+#include "creategamecommobjtest.h"
 #include "viewmodels/gameviewmodel.h"
 #include <QTest>
 
 
-void ConnectToGameCommObjTest::initTestCase()
+void CreateGameCommObjTest::initTestCase()
 {
-    qDebug("ConnectToGameCommObjTest starts ..");
+    qDebug("CreateGameCommObjTestTest starts ..");
 }
 
-void ConnectToGameCommObjTest::SinglePlayerTest()
+void CreateGameCommObjTest::SinglePlayerTest()
 {
     m_CommObj.m_IsSinglePlayer = true;
-    QVERIFY2(m_CommObj.makeRequest("testName") == false, "ConnectToGameCommObj should abort if single player game");
+    QVERIFY2(m_CommObj.makeRequest("testName") == false, "CreateGameCommObjTest should abort if single player game");
 }
 
-void ConnectToGameCommObjTest::NoUserLoggedInTest()
+void CreateGameCommObjTest::NoUserLoggedInTest()
 {
     m_CommObj.m_IsSinglePlayer = false;
     m_CommObj.m_ParentWidget = nullptr;
@@ -24,13 +24,13 @@ void ConnectToGameCommObjTest::NoUserLoggedInTest()
     QVERIFY2(m_CommObj.makeRequest("testName") == false, "Cannot cancel round without being logged in");
 }
 
-void ConnectToGameCommObjTest::PrepareViewModelTest()
-{   
+void CreateGameCommObjTest::PrepareViewModelTest()
+{
     GlobalData* gd = new GlobalData();
     gd->m_UserData.m_UserName = "testUserName";
     m_CommObj.m_GlobalData = gd;
     GameViewModel viewModel = m_CommObj.prepareViewModel("testName");
-    
+
 
     QVERIFY2(viewModel.m_GameId == 0L, "GameId was not set to zero");
     QVERIFY2(viewModel.m_UserId == 0L, "UserId was not set to zero");
@@ -38,7 +38,7 @@ void ConnectToGameCommObjTest::PrepareViewModelTest()
     QVERIFY2(viewModel.m_Username == "testUserName", "Username was not set");
 }
 
-void ConnectToGameCommObjTest::ProcessResponseTest() {
+void CreateGameCommObjTest::ProcessResponseTest() {
     GlobalData* gd = new GlobalData();
     m_CommObj.m_GlobalData = gd;
 
@@ -53,15 +53,14 @@ void ConnectToGameCommObjTest::ProcessResponseTest() {
     m_CommObj.processResponse(jsonObject);
     QVERIFY(1L == m_CommObj.m_GlobalData->m_GameData.m_GameId);
     QVERIFY("testGameName" == m_CommObj.m_GlobalData->m_GameData.m_GameName);
-    QVERIFY(2L == m_CommObj.m_GlobalData->m_GameData.m_RoundId);
-    QVERIFY(3L == m_CommObj.m_GlobalData->m_GameData.m_OtherUserId);
-    QVERIFY("testFirstPlayerName" == m_CommObj.m_GlobalData->m_GameData.m_OtherUsername);
-    QVERIFY(4L == m_CommObj.m_GlobalData->m_GameData.m_UserId);
+    QVERIFY(0L == m_CommObj.m_GlobalData->m_GameData.m_RoundId);
+    QVERIFY(0L == m_CommObj.m_GlobalData->m_GameData.m_OtherUserId);
+    QVERIFY(0L == m_CommObj.m_GlobalData->m_GameData.m_UserId);
     QVERIFY(4L == m_CommObj.m_GlobalData->m_UserData.m_UserId);
 }
 
-void ConnectToGameCommObjTest::cleanupTestCase()
+void CreateGameCommObjTest::cleanupTestCase()
 {
-    qDebug("ConnectToGameCommObjTest ends ..");
+    qDebug("CreateGameCommObjTest ends ..");
 
 }

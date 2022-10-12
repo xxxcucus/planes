@@ -1,5 +1,6 @@
 #include "cancelroundcommobjtest.h"
 #include "connecttogamecommobjtest.h"
+#include "creategamecommobjtest.h"
 
 int main(int argc, char** argv)
 {
@@ -11,6 +12,10 @@ int main(int argc, char** argv)
    {
       ConnectToGameCommObjTest tc;
       status |= QTest::qExec(&tc, argc, argv);
+   }
+   {
+       CreateGameCommObjTest tc;
+       status |= QTest::qExec(&tc, argc, argv);
    }
    return status;
 }
