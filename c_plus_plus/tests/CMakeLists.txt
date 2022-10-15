@@ -5,6 +5,7 @@ cmake_policy(SET CMP0020 NEW)
 cmake_policy(SET CMP0043 NEW)
 
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../multiround/communicationobjects
@@ -36,7 +37,7 @@ add_test(NAME commobjtest COMMAND commobjtest)
 target_link_libraries(commobjtest 
 		libMultiRound
 		libbcrypt
-        Qt::Test
+        Qt6::Test
 		Qt6::Widgets
 		Qt6::Network
 		Qt6::Core)

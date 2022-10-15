@@ -4,7 +4,7 @@ project (libMultiRound)
 cmake_policy(SET CMP0020 NEW)
 cmake_policy(SET CMP0043 NEW)
 
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 add_definitions(-DMAKE_MULTIPLAYERROUND_LIB)
@@ -82,6 +82,10 @@ target_link_libraries(libMultiRound
 	Qt6::Widgets
 	Qt6::Network
     Qt6::Core)
+
+set_target_properties(libMultiRound PROPERTIES
+    AUTOMOC ON
+)
 
 if (UNIX)
 install(TARGETS libMultiRound DESTINATION lib)
