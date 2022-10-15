@@ -3,6 +3,7 @@
 
 #include "basiscommobj.h"
 #include <QMessageBox>
+#include "viewmodels/loginviewmodel.h"
 
 class LoginCommObj : public BasisCommObj {
     Q_OBJECT
@@ -18,6 +19,9 @@ public:
     
     bool makeRequest(const QString& username, const QString& password);
     bool validateReply(const QJsonObject& retJson) override;
+
+protected:
+    LoginCommObj() {}
     
 public slots:
     void errorRequest(QNetworkReply::NetworkError code) override;
@@ -28,8 +32,15 @@ signals:
     void loginFailed();
         
 private:
+    LoginViewModel prepareViewModel(const QString& username, const QString& password);
+    bool searchAuthorizationInHeaders(const QList<QNetworkReply::RawHeaderPair>& headers);
+    void processResponse(bool successfull, const QJsonObject& retJson);
+
+private:
     QString m_UserName;
     QMessageBox* m_LoadingMessageBox = nullptr; 
+
+    friend class LoginCommObjTest;
 };
 
 
