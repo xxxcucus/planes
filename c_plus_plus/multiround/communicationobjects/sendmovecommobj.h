@@ -1,12 +1,18 @@
 #ifndef __SEND_MOVE_COMMOBJ__
 #define __SEND_MOVE_COMMOBJ__
 
+#if defined MAKE_MULTIPLAYERROUND_LIB
+#define MULTIPLAYER_EXPORT Q_DECL_EXPORT
+#else
+#define MULTIPLAYER_EXPORT Q_DECL_IMPORT
+#endif
+
 #include "guesspoint.h"
 
 #include "basiscommobj.h"
 class MultiplayerRound;
 
-class SendMoveCommObj : public BasisCommObj {
+class MULTIPLAYER_EXPORT SendMoveCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

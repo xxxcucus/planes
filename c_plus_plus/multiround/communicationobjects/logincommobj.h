@@ -1,11 +1,17 @@
 #ifndef __LOGIN_COMM_OBJ__
 #define __LOGIN_COMM_OBJ__
 
+#if defined MAKE_MULTIPLAYERROUND_LIB
+#define MULTIPLAYER_EXPORT Q_DECL_EXPORT
+#else
+#define MULTIPLAYER_EXPORT Q_DECL_IMPORT
+#endif
+
 #include "basiscommobj.h"
 #include <QMessageBox>
 #include "viewmodels/loginviewmodel.h"
 
-class LoginCommObj : public BasisCommObj {
+class MULTIPLAYER_EXPORT LoginCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

@@ -1,6 +1,13 @@
 #ifndef __BASIS_COM_OBJ__
 #define __BASIS_COM_OBJ__
 
+
+#if defined MAKE_MULTIPLAYERROUND_LIB
+#define MULTIPLAYER_EXPORT Q_DECL_EXPORT
+#else
+#define MULTIPLAYER_EXPORT Q_DECL_IMPORT
+#endif
+
 #include <QObject>
 #include <QJsonObject>
 #include <QNetworkReply>
@@ -9,7 +16,7 @@
 #include <QWidget>
 #include "global/globaldata.h"
 
-class BasisCommObj : public QObject {
+class MULTIPLAYER_EXPORT BasisCommObj : public QObject {
     Q_OBJECT
     
 public:

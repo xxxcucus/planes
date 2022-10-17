@@ -1,11 +1,15 @@
 #ifndef __GET_SERVER_VERSION_COMMOBJ__
 #define __GET_SERVER_VERSION_COMMOBJ__
 
-
+#if defined MAKE_MULTIPLAYERROUND_LIB
+#define MULTIPLAYER_EXPORT Q_DECL_EXPORT
+#else
+#define MULTIPLAYER_EXPORT Q_DECL_IMPORT
+#endif
 
 #include "basiscommobj.h"
 
-class GetServerVersionCommObj : public BasisCommObj {
+class MULTIPLAYER_EXPORT GetServerVersionCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

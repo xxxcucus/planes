@@ -1,11 +1,16 @@
 #ifndef __CONNECT_TO_GAME_COMMOBJ__
 #define __CONNECT_TO_GAME_COMMOBJ__
 
+#if defined MAKE_MULTIPLAYERROUND_LIB
+#define MULTIPLAYER_EXPORT Q_DECL_EXPORT
+#else
+#define MULTIPLAYER_EXPORT Q_DECL_IMPORT
+#endif
 
 #include "basiscommobj.h"
 #include "viewmodels/gameviewmodel.h"
 
-class ConnectToGameCommObj : public BasisCommObj {
+class MULTIPLAYER_EXPORT ConnectToGameCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

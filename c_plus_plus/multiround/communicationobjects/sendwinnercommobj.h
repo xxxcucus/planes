@@ -1,10 +1,15 @@
 #ifndef __SEND_WINNER_COMMOBJ__
 #define __SEND_WINNER_COMMOBJ__
 
+#if defined MAKE_MULTIPLAYERROUND_LIB
+#define MULTIPLAYER_EXPORT Q_DECL_EXPORT
+#else
+#define MULTIPLAYER_EXPORT Q_DECL_IMPORT
+#endif
 
 #include "basiscommobj.h"
 
-class SendWinnerCommObj : public BasisCommObj {
+class MULTIPLAYER_EXPORT SendWinnerCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:
