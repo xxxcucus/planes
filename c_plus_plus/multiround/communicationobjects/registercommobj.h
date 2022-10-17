@@ -1,12 +1,17 @@
 #ifndef _REGISTER_COMM_OBJ__
 #define _REGISTER_COMM_OBJ__
 
+#if defined MAKE_MULTIPLAYERROUND_LIB
+#define MULTIPLAYER_EXPORT Q_DECL_EXPORT
+#else
+#define MULTIPLAYER_EXPORT Q_DECL_IMPORT
+#endif
 
 #include "basiscommobj.h"
 #include <QMessageBox>
 
 
-class RegisterCommObj : public BasisCommObj {
+class MULTIPLAYER_EXPORT RegisterCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

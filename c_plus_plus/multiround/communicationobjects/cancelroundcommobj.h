@@ -1,11 +1,17 @@
 #ifndef __CANCEL_ROUND_COMMOBJ__
 #define __CANCEL_ROUND_COMMOBJ__
 
+#if defined MAKE_MULTIPLAYERROUND_LIB
+#define MULTIPLAYER_EXPORT Q_DECL_EXPORT
+#else
+#define MULTIPLAYER_EXPORT Q_DECL_IMPORT
+#endif
+
 #include "basiscommobj.h"
 #include "viewmodels/cancelroundviewmodel.h"
 class MultiplayerRound;
 
-class CancelRoundCommObj : public BasisCommObj {
+class MULTIPLAYER_EXPORT CancelRoundCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

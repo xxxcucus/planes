@@ -1,6 +1,6 @@
 #include "logincommobjtest.h"
 
-#include "viewmodels/gameviewmodel.h"
+#include "viewmodels/loginviewmodel.h"
 #include <QTest>
 #include <QPair>
 

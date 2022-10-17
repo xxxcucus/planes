@@ -1,11 +1,16 @@
 #ifndef __START_NEW_ROUND_COMMOBJ__
 #define __START_NEW_ROUND_COMMOBJ__
 
+#if defined MAKE_MULTIPLAYERROUND_LIB
+#define MULTIPLAYER_EXPORT Q_DECL_EXPORT
+#else
+#define MULTIPLAYER_EXPORT Q_DECL_IMPORT
+#endif
 
 #include "basiscommobj.h"
 class MultiplayerRound;
 
-class StartNewRoundCommObj : public BasisCommObj {
+class MULTIPLAYER_EXPORT StartNewRoundCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:
