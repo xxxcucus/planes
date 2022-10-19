@@ -492,6 +492,7 @@ class MainActivity : AppCompatActivity() {
         if (norobotError) {
             onWarning(message)
         } else {
+            startGameFragment()
             Tools.displayToast(getString(R.string.norobot_success), applicationContext)
         }
     }
@@ -547,6 +548,7 @@ class MainActivity : AppCompatActivity() {
     fun showSaveCredentialsPopup(username: String, password: String) {
         if (m_MultiplayerPreferencesService.username == username && m_MultiplayerPreferencesService.password == password) {
             Tools.displayToast(getString(R.string.loginsuccess), applicationContext)
+            startGameFragment()
             return
         }
 
@@ -556,12 +558,12 @@ class MainActivity : AppCompatActivity() {
             m_MultiplayerPreferencesService.password = password_
         }
         Tools.displayToast(getString(R.string.loginsuccess), applicationContext)
+        startGameFragment()
     }
 
     private fun onButtonShowHelpWindowClick(multiplayerVersion: Boolean) {
         val helpPopup = HelpPopup(applicationContext, m_MainLayout, mSelectedItem, ::startTutorialFragment)
         helpPopup.onButtonShowHelpWindowClick(multiplayerVersion)
     }
-
     //endregion
 }
