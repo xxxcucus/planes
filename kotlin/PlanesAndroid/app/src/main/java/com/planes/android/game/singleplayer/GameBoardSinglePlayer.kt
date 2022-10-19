@@ -46,6 +46,7 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
 
     private lateinit var m_GridSquares: HashMap<PositionBoardPane, GridSquare>
     private lateinit var m_PlaneRound: PlanesRoundInterface
+    private var longPressTimeInMillis: Long = 300
     private val m_Padding = 0
     private var m_IsComputer = false
     private val m_MinPlaneBodyColor = 0
@@ -84,7 +85,7 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
         m_PlaneNo = m_PlaneRound.getPlaneNo()
         m_ColorStep = (m_MaxPlaneBodyColor - m_MinPlaneBodyColor) / m_PlaneNo
         m_Tablet = isTablet
-        //init(m_Context);
+        // init(m_Context);
         updateBoards()
     }
 
@@ -98,7 +99,6 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
      * @param bottom
      */
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-
         // These are the far left and right edges in which we are performing layout.
         val leftPos = paddingLeft
         val rightPos = right - left - paddingRight
@@ -120,7 +120,7 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
         for (i in 0 until count) {
             val child = getChildAt(i) as GridSquare
             child.width = newWidth
-            //Log.d("Planes", "Set width " + i);
+            // Log.d("Planes", "Set width " + i);
             val childLeft = leftPos + horizontalOffset + spacing / 2 + child.getColNo() * newWidth
             val childTop = topPos + verticalOffset + spacing / 2 + child.getRowNo() * newWidth
             val childRight = leftPos + horizontalOffset + spacing / 2 + child.getColNo() * newWidth + newWidth
@@ -130,7 +130,7 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        //TODO: is this correct ?
+        // TODO: is this correct ?
         if (m_GridSquareSize == 0) super.onMeasure(widthMeasureSpec, heightMeasureSpec) else setMeasuredDimension((m_GRows + 2 * m_Padding) * m_GridSquareSize, (m_GRows + 2 * m_Padding) * m_GridSquareSize)
     }
 
@@ -142,9 +142,11 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
         for (i in 0 until m_GRows + 2 * m_Padding) {
             for (j in 0 until m_GCols + 2 * m_Padding) {
                 val gs = GridSquare(context, gridSize)
-                if (i < m_Padding || i >= m_GRows + m_Padding || j < m_Padding || j >= m_GCols + m_Padding) gs.setBackgroundColor(Color.YELLOW) else gs.setBackgroundColor(resources.getColor(
-                    R.color.aqua
-                ))
+                if (i < m_Padding || i >= m_GRows + m_Padding || j < m_Padding || j >= m_GCols + m_Padding) gs.setBackgroundColor(Color.YELLOW) else gs.setBackgroundColor(
+                    resources.getColor(
+                        R.color.aqua
+                    )
+                )
                 gs.setGuess(-1)
                 gs.setRowCount(m_GRows + 2 * m_Padding)
                 gs.setColCount(m_GCols + 2 * m_Padding)
@@ -160,7 +162,7 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
     }
 
     private fun updateBoards() {
-        //draw the squares background
+        // draw the squares background
         for (i in 0 until m_GRows + 2 * m_Padding) {
             for (j in 0 until m_GCols + 2 * m_Padding) {
                 val c = m_GridSquares[PositionBoardPane(i, j)]
@@ -168,7 +170,7 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
                 c.setBackgroundColor(computeSquareBackgroundColor(i, j))
                 c.invalidate()
             }
-        } //display background of square; double for loop
+        } // display background of square; double for loop
 
         val count = if (m_IsComputer) m_PlaneRound.getPlayerGuessesNo() else m_PlaneRound.getComputerGuessesNo()
         println("$count guesses")
@@ -186,7 +188,7 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
                 type = m_PlaneRound.getComputerGuessType(i)
             }
             val c = m_GridSquares[PositionBoardPane(row + m_Padding, col + m_Padding)]
-            //System.out.println("Guess type " + type);
+            // System.out.println("Guess type " + type);
             c!!.setGuess(type)
             c.invalidate()
         }
@@ -199,7 +201,7 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
             resources.getColor(R.color.aqua)
         }
         if (!m_IsComputer || m_IsComputer && m_GameStage === GameStages.GameNotStarted) {
-            //if (true) {
+            // if (true) {
             val type = m_PlaneRound.getPlaneSquareType(i - m_Padding, j - m_Padding, if (m_IsComputer) 1 else 0)
             when (type) {
                 -1 -> squareColor = Color.RED
@@ -217,15 +219,19 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
         return squareColor
     }
 
-    override fun touchEventUp(row: Int, col: Int, row_diff: Int, col_diff: Int) {
+    override fun touchEventUp(row: Int, col: Int, row_diff: Int, col_diff: Int, touchedTime: Long) {
         if (row_diff == 0 && col_diff == 0) {
-            touchInASingleSquare(row, col)
+            if (touchedTime > longPressTimeInMillis) {
+                rotatePlane()
+            } else {
+                touchInASingleSquare(row, col)
+            }
         } else {
             touchInMoreSquares(row, col, row + row_diff, col + col_diff)
         }
     }
 
-    //simple touch
+    // simple touch
     private fun touchInASingleSquare(row: Int, col: Int) {
         if (!m_IsComputer && m_GameStage === GameStages.BoardEditing) {
             val type = m_PlaneRound.getPlaneSquareType(row - m_Padding, col - m_Padding, if (m_IsComputer) 1 else 0)
@@ -241,7 +247,7 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
                 }
                 m_PlaneRound.playerGuess(col - m_Padding, row - m_Padding)
 
-                //check if the round ended
+                // check if the round ended
                 if (m_PlaneRound.playerGuess_RoundEnds()) {
                     if (m_Tablet) {
                         m_SiblingBoard.setNewRoundStage(false)
@@ -260,15 +266,15 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
         }
     }
 
-    //drag
+    // drag
     private fun touchInMoreSquares(row_first: Int, col_first: Int, row_last: Int, col_last: Int) {
-        //System.out.println("Drag from " + Integer.toString(row_first) + ", " + Integer.toString(col_first) + " to " + Integer.toString(row_last) + " , " + Integer.toString(col_last));
+        // System.out.println("Drag from " + Integer.toString(row_first) + ", " + Integer.toString(col_first) + " to " + Integer.toString(row_last) + " , " + Integer.toString(col_last));
         if (!m_IsComputer && m_GameStage === GameStages.BoardEditing) {
             if (abs(row_last - row_first) > abs(col_last - col_first)) {
-                //vertical movement
+                // vertical movement
                 if (row_last > row_first) movePlaneRight() else movePlaneLeft()
             } else {
-                //horizontal movement
+                // horizontal movement
                 if (col_last > col_first) movePlaneDown() else movePlaneUp()
             }
         }
