@@ -221,7 +221,7 @@ class GameBoardMultiplayer : GridLayout, GameBoardInterface {
 
     override fun touchEventUp(row: Int, col: Int, row_diff: Int, col_diff: Int, touchedTime: Long) {
         if (row_diff == 0 && col_diff == 0) {
-            if (touchedTime > longPressTimeInMillis) {
+            if (!m_IsComputer && m_GameStage === GameStages.BoardEditing && touchedTime > longPressTimeInMillis) {
                 rotatePlane()
             } else {
                 touchInASingleSquare(row, col)
