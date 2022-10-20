@@ -191,6 +191,8 @@
     <string name="helptext_boardediting_3">Swipe on the display to position the planes."</string>
     <string name="video_duration">Duration: %1$s</string>
 
+    <string name="newuser_register">New User? Register Here!</string>
+
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">

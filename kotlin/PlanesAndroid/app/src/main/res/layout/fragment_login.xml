@@ -58,15 +58,12 @@
                 android:text="@string/credentials_preferences"
                 android:textSize="10dp" />
 
-            <TextView
+            <Button
                 android:id="@+id/register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000DFF"
-                android:textStyle="bold"
-                android:textSize="12sp"
-                android:layout_margin="10dp"
-                android:text="New User? Register Here!"/>
+                android:textSize="10dp"
+                android:text="@string/newuser_register"/>
 
             <Button
                 android:id="@+id/login"
