@@ -46,6 +46,9 @@ class LoginFragment: Fragment() {
         val saveSettingsButton = binding.login
         saveSettingsButton.setOnClickListener { performLogin() }
 
+        val goToRegisterButton = binding.register
+        goToRegisterButton?.setOnClickListener { goToRegistration()}
+
         val hidePasswordCheckbox = binding.secureCheck
         hidePasswordCheckbox.setOnCheckedChangeListener { _, isChecked ->
             hideShowPassword(
@@ -61,6 +64,10 @@ class LoginFragment: Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun goToRegistration() {
+        (activity as MainActivity).startRegistrationFragment()
     }
 
     override fun onDetach () {

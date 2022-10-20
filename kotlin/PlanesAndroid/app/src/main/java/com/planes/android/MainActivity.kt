@@ -496,6 +496,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun startRegistrationFragment() {
+        mSelectedItem = R.id.nav_register
+        setFragment(true)
+    }
+
+
     fun startGameFragment() {
         mSelectedItem = R.id.nav_game
         setFragment(true)

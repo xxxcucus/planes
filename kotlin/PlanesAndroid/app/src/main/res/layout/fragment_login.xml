@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -18,44 +19,60 @@
                 android:id="@+id/login_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:text="@string/username" />
+                android:text="@string/username"
+                android:textSize="20dp" />
+
             <EditText
                 android:id="@+id/username_edittext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@={settingsData.m_Username}"/>
+                android:text="@={settingsData.m_Username}" />
+
             <TextView
                 android:id="@+id/login_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:text="@string/password"/>
+                android:text="@string/password"
+                android:textSize="20dp" />
+
             <EditText
                 android:id="@+id/password_edittext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:text="@={settingsData.m_Password}"/>
+                android:text="@={settingsData.m_Password}" />
+
             <CheckBox
                 android:id="@+id/secure_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:checked="true"
-                android:layout_margin="10dip"
                 android:text="@string/hide_password"
-                android:textSize="10dp"/>
+                android:textSize="10dp" />
+
             <Button
                 android:id="@+id/credentials_preferences"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/credentials_preferences"
-                android:textSize="10dp"/>
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000DFF"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:layout_margin="10dp"
+                android:text="New User? Register Here!"/>
+
             <Button
                 android:id="@+id/login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/submit"/>
+                android:text="@string/submit" />
         </LinearLayout>
     </RelativeLayout>
 </layout>
