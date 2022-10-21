@@ -71,5 +71,19 @@
                 android:layout_height="wrap_content"
                 android:text="@string/submit" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/creategame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_connectto_game"
+                android:enabled="false"/>
+        </LinearLayout>
     </RelativeLayout>
 </layout>

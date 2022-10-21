@@ -63,11 +63,21 @@ class LoginFragment: Fragment() {
             binding.invalidateAll()
         }
 
+        val createGameButton = binding.creategame
+        createGameButton.isEnabled = !m_MultiplayerRound.getUsername().isEmpty()
+        createGameButton.setOnClickListener {
+            goToCreateGame()
+        }
+
         return binding.root
     }
 
     private fun goToRegistration() {
         (activity as MainActivity).startRegistrationFragment()
+    }
+
+    private fun goToCreateGame() {
+        (activity as MainActivity).startConnectToGameFragment()
     }
 
     override fun onDetach () {
@@ -84,6 +94,7 @@ class LoginFragment: Fragment() {
 
 
     private fun finalizeLoginSuccessful() {
+        binding.creategame.isEnabled = true
         (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
     }
 
