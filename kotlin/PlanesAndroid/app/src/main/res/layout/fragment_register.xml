@@ -1,55 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
-        <variable name="settingsData" type="com.planes.android.register.RegisterViewModel"/>
+
+        <variable
+            name="settingsData"
+            type="com.planes.android.register.RegisterViewModel" />
     </data>
-    <RelativeLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background">
+        android:background="@drawable/background"
+        android:focusableInTouchMode="true">
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical">
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:background="@drawable/login_gradient"
+            android:backgroundTint="@color/aqua"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/login_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:text="@string/username" />
-            <EditText
-                android:id="@+id/username_edittext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@={settingsData.m_Username}"/>
-            <TextView
-                android:id="@+id/login_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:text="@string/password"/>
-            <EditText
-                android:id="@+id/password_edittext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:text="@={settingsData.m_Password}"/>
+                style="@style/loginHeader"
+                android:text="@string/register_title"
+                android:layout_marginTop="@dimen/loginViewsMargin" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputEmail"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+
+                <EditText
+                    android:id="@+id/username_edittext"
+                    style="@style/modifiedEditText"
+                    android:hint="@string/username"
+                    android:inputType="text"
+                    android:text="@={settingsData.m_Username}"
+                    android:maxLines="1"
+                    android:importantForAutofill="no" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputPassword"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/loginViewsMargin">
+
+                <EditText
+                    android:id="@+id/password_edittext"
+                    style="@style/modifiedEditText"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:text="@={settingsData.m_Password}"
+                    android:maxLines="1"
+                    android:autofillHints="" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <CheckBox
                 android:id="@+id/secure_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:layout_margin="10dip"
+                android:layout_margin="4dp"
                 android:text="@string/hide_password"
-                android:textSize="10dp"/>
+                android:textSize="11sp" />
+
             <Button
                 android:id="@+id/register"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/submit"/>
+                style="@style/loginButton"
+                android:text="@string/submit"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/loginViewsMargin" />
+
+            <TextView
+                android:id="@+id/signInTextView"
+                style="@style/parent"
+                android:textAlignment="textEnd"
+                android:textStyle="bold"
+                android:textColor="@color/primaryTextColor"
+                android:text="@string/signup_login_hint"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:gravity="end" />
+
         </LinearLayout>
-    </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

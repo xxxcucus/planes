@@ -6,6 +6,17 @@
     <color name="layout_background_start">#b2ce49</color>
     <color name="layout_background_end">#186dff</color>
     <color name="video_pressed">#3DDC84</color>
+    <color name="loginBkColor">#f0f0f0</color>
+
+    <color name="colorPrimary">#1F5BF3</color>
+    <color name="colorPrimaryDark">#0947E8</color>
+    <color name="colorAccent">#00A5FF</color>
+
+    <!--colors for modern ui-->
+    <color name="whiteTextColor">#fff</color>
+    <color name="primaryTextColor">#2661FA</color>
+    <!--colors for card-->
+    <color name="whiteCardColor">#fff</color>
     <color name="orange">#ff8d33</color>
     <color name="grey">#e5e6e2</color>
     <color name="red">#FF0000</color>

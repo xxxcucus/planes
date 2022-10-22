@@ -3,7 +3,6 @@ package com.planes.android.game.multiplayer
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.util.Log
 import android.widget.GridLayout
 import com.planes.android.MultiplayerRoundInterface
 import com.planes.android.R
@@ -144,9 +143,12 @@ class GameBoardMultiplayer : GridLayout, GameBoardInterface {
             for (j in 0 until m_GCols + 2 * m_Padding) {
                 val gs = GridSquare(context, gridSize)
                 if (i < m_Padding || i >= m_GRows + m_Padding || j < m_Padding || j >= m_GCols + m_Padding) gs.setBackgroundColor(
-                    Color.YELLOW) else gs.setBackgroundColor(resources.getColor(
-                    R.color.aqua
-                ))
+                    Color.YELLOW
+                ) else gs.setBackgroundColor(
+                    resources.getColor(
+                        R.color.aqua
+                    )
+                )
                 gs.setGuess(-1)
                 gs.setRowCount(m_GRows + 2 * m_Padding)
                 gs.setColCount(m_GCols + 2 * m_Padding)

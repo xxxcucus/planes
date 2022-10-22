@@ -17,8 +17,8 @@ import com.planes.multiplayer_engine.responses.RegistrationResponse
 import io.reactivex.Observable
 import retrofit2.Response
 
-//TODO to update according to google and udemy
-class RegisterFragment: Fragment() {
+// TODO to update according to google and udemy
+class RegisterFragment : Fragment() {
     private lateinit var binding: FragmentRegisterBinding
     private var m_Username = ""
     private var m_Password = ""
@@ -32,7 +32,8 @@ class RegisterFragment: Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
@@ -42,6 +43,9 @@ class RegisterFragment: Fragment() {
 
         val saveSettingsButton = binding.register
         saveSettingsButton.setOnClickListener { performRegister() }
+
+        val registerButton = binding.signInTextView
+        registerButton?.setOnClickListener { (activity as MainActivity).startLoginFragment() }
 
         val hidePasswordCheckbox = binding.secureCheck
         hidePasswordCheckbox.setOnCheckedChangeListener { _, isChecked ->
@@ -53,11 +57,12 @@ class RegisterFragment: Fragment() {
         return binding.root
     }
 
-    override fun onDetach () {
+    override fun onDetach() {
         super.onDetach()
         hideLoading()
-        if (this::m_RegisterCommObj.isInitialized)
+        if (this::m_RegisterCommObj.isInitialized) {
             m_RegisterCommObj.disposeSubscription()
+        }
     }
 
     private fun prepareNorobotTest(body: RegistrationResponse): String {
@@ -69,18 +74,20 @@ class RegisterFragment: Fragment() {
         (activity as MainActivity).startNoRobotFragment(m_MultiplayerRound.getRegistrationResponse())
     }
 
-    private fun createObservableRegister() : Observable<Response<RegistrationResponse>> {
+    private fun createObservableRegister(): Observable<Response<RegistrationResponse>> {
         return m_MultiplayerRound.register(binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password)
     }
 
     private fun performRegister() {
-
-        if (!this::binding.isInitialized)
+        if (!this::binding.isInitialized) {
             return
+        }
 
-        m_RegisterCommObj = RegisterCommObj(::createObservableRegister, getString(R.string.loginerror),
+        m_RegisterCommObj = RegisterCommObj(
+            ::createObservableRegister, getString(R.string.loginerror),
             getString(R.string.unknownerror), binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password,
-            ::validationUsernamePasswordRegister, ::prepareNorobotTest, ::finalizeRegister, requireActivity())
+            ::validationUsernamePasswordRegister, ::prepareNorobotTest, ::finalizeRegister, requireActivity()
+        )
 
         m_RegisterCommObj.makeRequest()
     }
@@ -100,7 +107,7 @@ class RegisterFragment: Fragment() {
         (activity as MainActivity).stopProgressDialog()
     }
 
-    private fun validationUsernamePasswordRegister(username: String, password: String) : String {
+    private fun validationUsernamePasswordRegister(username: String, password: String): String {
         var retString = ""
 
         if (username.length > 30) {

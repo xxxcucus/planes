@@ -107,6 +107,8 @@
     <string name="loginerror">Login Error</string>
     <string name="registererror">Register Error</string>
     <string name="submit">Submit</string>
+    <string name="signup_login_hint">Already have an account? Sign In</string>
+    <string name="login_signup_hint">Don\'t have an account? Sign Up</string>
     <string name="nouser">No user logged in</string>
     <string name="userloggedin"> Logged in as</string>
     <string name="singleplayergame">Single Player Game</string>
@@ -199,4 +201,6 @@
         com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
     <string name="drawer_open_content_description" translatable="false">Open Menu</string>
     <string name="drawer_closed_content_description" translatable="false">Close Menu</string>
+    <string name="login_title">Login</string>
+    <string name="register_title">Register</string>
 </resources>
