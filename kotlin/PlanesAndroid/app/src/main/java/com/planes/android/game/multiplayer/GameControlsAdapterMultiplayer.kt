@@ -9,26 +9,25 @@ import com.planes.android.customviews.ColouredSurfaceWithText
 import com.planes.android.customviews.TwoLineTextButton
 import com.planes.android.customviews.TwoLineTextButtonWithState
 
-
 class GameControlsAdapterMultiplayer(private val m_Context: Context) {
     private lateinit var m_MultiplayerRound: MultiplayerRoundInterface
     private lateinit var m_GameBoards: GameBoardsAdapterMultiplayer
     private var m_Tablet = false
     private lateinit var m_PlanesLayout: PlanesVerticalLayoutMultiplayer
 
-    //Board Editing
+    // Board Editing
     private lateinit var m_RotateButton: Button
     private lateinit var m_DoneButton: Button
     private lateinit var m_CancelBoardEditingButton: Button
     private lateinit var m_ProgressBarBoardEditing: ProgressBar
 
-    //Game
+    // Game
     private lateinit var m_GameStats: TwoLineTextButton
     private lateinit var m_ViewOpponentBoardButton1: TwoLineTextButtonWithState
     private lateinit var m_CancelGameButton: Button
     private lateinit var m_ProgressBarGame: ProgressBar
 
-    //Start New Game
+    // Start New Game
     private lateinit var m_WinnerTextView: ColouredSurfaceWithText
     private lateinit var m_StartNewRound: TwoLineTextButton
     private lateinit var m_ComputerWins: ColouredSurfaceWithText
@@ -39,8 +38,14 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
     private lateinit var m_DrawsLabel: ColouredSurfaceWithText
     private lateinit var m_ViewComputerBoardButton2: TwoLineTextButtonWithState
 
-    fun setBoardEditingControls(doneButton: Button, rotateButton: Button, cancelButton: Button, progressBar: ProgressBar,
-                            doneLambda: () -> Unit, cancelLambda: () -> Unit) {
+    fun setBoardEditingControls(
+        doneButton: Button,
+        rotateButton: Button,
+        cancelButton: Button,
+        progressBar: ProgressBar,
+        doneLambda: () -> Unit,
+        cancelLambda: () -> Unit
+    ) {
         m_DoneButton = doneButton
         m_RotateButton = rotateButton
         m_CancelBoardEditingButton = cancelButton
@@ -55,11 +60,16 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         if (this::m_CancelBoardEditingButton.isInitialized) {
             m_CancelBoardEditingButton.setOnClickListener { cancelLambda() }
         }
-
     }
 
-    fun setGameControls(gameStats: TwoLineTextButton, viewOpponentBoard: TwoLineTextButtonWithState, cancelButton: Button,
-                        progressBar: ProgressBar, cancelLambda: () -> Unit, showGameStatsLambda: () -> Unit) {
+    fun setGameControls(
+        gameStats: TwoLineTextButton,
+        viewOpponentBoard: TwoLineTextButtonWithState,
+        cancelButton: Button,
+        progressBar: ProgressBar,
+        cancelLambda: () -> Unit,
+        showGameStatsLambda: () -> Unit
+    ) {
         m_GameStats = gameStats
         m_ViewOpponentBoardButton1 = viewOpponentBoard
         m_CancelGameButton = cancelButton
@@ -88,11 +98,17 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         }
     }
 
-    fun setStartNewGameControls(viewComputerBoardButton2: TwoLineTextButtonWithState, startNewGameButton: TwoLineTextButton,
-                                computerWinsLabel: ColouredSurfaceWithText, computerWinsCount: ColouredSurfaceWithText,
-                                playerWinsLabel: ColouredSurfaceWithText, playerWinsCount: ColouredSurfaceWithText,
-                                drawsLabel: ColouredSurfaceWithText, drawsCount: ColouredSurfaceWithText, winnerText: ColouredSurfaceWithText,
-                                startNewGameLambda: () -> Unit
+    fun setStartNewGameControls(
+        viewComputerBoardButton2: TwoLineTextButtonWithState,
+        startNewGameButton: TwoLineTextButton,
+        computerWinsLabel: ColouredSurfaceWithText,
+        computerWinsCount: ColouredSurfaceWithText,
+        playerWinsLabel: ColouredSurfaceWithText,
+        playerWinsCount: ColouredSurfaceWithText,
+        drawsLabel: ColouredSurfaceWithText,
+        drawsCount: ColouredSurfaceWithText,
+        winnerText: ColouredSurfaceWithText,
+        startNewGameLambda: () -> Unit
     ) {
         m_ViewComputerBoardButton2 = viewComputerBoardButton2
         m_StartNewRound = startNewGameButton
@@ -137,7 +153,7 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         if (!showTwoBoards(m_Tablet)) {
             m_GameBoards.setComputerBoard()
             m_ViewOpponentBoardButton1.setState("player", m_Context.resources.getString(R.string.view_player_board2))
-            //updateStats(true) //TODO: do I need this ?
+            // updateStats(true) //TODO: do I need this ?
         }
         m_ProgressBarGame.isVisible = showProgressBar
     }
@@ -176,8 +192,11 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         if (isCancelled) {
             m_WinnerTextView.setText(m_Context.resources.getText(R.string.round_cancelled).toString())
         } else {
-            if (isComputerWinner) m_WinnerTextView.setText(m_Context.resources.getText(R.string.opponent_winner).toString()) else m_WinnerTextView.setText(m_Context.resources.getText(
-                R.string.player_winner).toString())
+            if (isComputerWinner) m_WinnerTextView.setText(m_Context.resources.getText(R.string.opponent_winner).toString()) else m_WinnerTextView.setText(
+                m_Context.resources.getText(
+                    R.string.player_winner
+                ).toString()
+            )
         }
 
         if (isDraw) m_WinnerTextView.setText(m_Context.resources.getText(R.string.draw_result).toString())

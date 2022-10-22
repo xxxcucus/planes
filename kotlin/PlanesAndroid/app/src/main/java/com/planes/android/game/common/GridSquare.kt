@@ -7,9 +7,10 @@ import android.view.MotionEvent
 import android.view.View
 
 class GridSquare : View {
+    private var m_TouchedTime = 0L
     private var m_BackgroundColor = 0
     private val m_GuessColor = Color.RED
-    private var m_GuessType = -1 //no guess
+    private var m_GuessType = -1 // no guess
     private var m_RowCount = 10
     private var m_ColCount = 10
     private var m_RowNo = -1
@@ -81,19 +82,19 @@ class GridSquare : View {
             println("Draw $m_GuessType $m_RowNo $m_ColNo")
             when (m_GuessType) {
                 0 -> {
-                    //draw red circle
+                    // draw red circle
                     m_Paint.style = Paint.Style.FILL
                     m_Paint.color = m_GuessColor
                     canvas.drawOval(m_MissCircle, m_Paint)
                 }
                 1 -> {
-                    //draw triangle
+                    // draw triangle
                     m_Paint.style = Paint.Style.FILL
                     m_Paint.color = m_GuessColor
                     canvas.drawPath(m_HitPath, m_Paint)
                 }
                 2 -> {
-                    //draw X
+                    // draw X
                     m_Paint.style = Paint.Style.STROKE
                     m_Paint.strokeWidth = 10f
                     m_Paint.color = m_GuessColor
@@ -114,7 +115,7 @@ class GridSquare : View {
     }
 
     private fun allocateMemory() {
-        //System.out.println("Allocate " + m_Width);
+        // System.out.println("Allocate " + m_Width);
         m_MissCircle = RectF((m_Width / 4).toFloat(), (m_Width / 4).toFloat(), (m_Width * 3 / 4).toFloat(), (m_Width * 3 / 4).toFloat())
         m_HitPath = Path()
         m_HitPath.moveTo(0f, (m_Width / 2).toFloat())
@@ -134,13 +135,14 @@ class GridSquare : View {
             MotionEvent.ACTION_DOWN -> {
                 m_XTouched = event.rawX.toInt()
                 m_YTouched = event.rawY.toInt()
+                m_TouchedTime = System.currentTimeMillis()
             }
             MotionEvent.ACTION_MOVE -> {
             }
             MotionEvent.ACTION_BUTTON_RELEASE, MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
                 val xtouched = event.rawX.toInt()
                 val ytouched = event.rawY.toInt()
-                m_Parent.touchEventUp(m_RowNo, m_ColNo, (ytouched - m_YTouched) / m_Width, (xtouched - m_XTouched) / m_Width)
+                m_Parent.touchEventUp(m_RowNo, m_ColNo, (ytouched - m_YTouched) / m_Width, (xtouched - m_XTouched) / m_Width, System.currentTimeMillis() - m_TouchedTime)
             }
         }
         return true

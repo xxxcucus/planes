@@ -14,7 +14,6 @@
         android:layout_height="match_parent"
         android:background="@drawable/background"
         android:focusableInTouchMode="true">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,11 +70,10 @@
                 android:id="@+id/secure_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:checked="true"
-                android:layout_margin="4dp"
                 android:text="@string/hide_password"
                 android:textSize="11sp" />
-
             <Button
                 android:id="@+id/credentials_preferences"
                 style="@style/loginButton"
@@ -102,60 +100,5 @@
                 android:text="@string/login_signup_hint"
                 android:layout_marginTop="@dimen/loginViewsMargin" />
         </LinearLayout>
-
-        <!--    <RelativeLayout-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="match_parent"-->
-        <!--        android:background="@drawable/background">-->
-        <!--        <LinearLayout-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_centerInParent="true"-->
-        <!--            android:orientation="vertical">-->
-
-        <!--            <TextView-->
-        <!--                android:id="@+id/login_username"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:textSize="20dp"-->
-        <!--                android:text="@string/username" />-->
-        <!--            <EditText-->
-        <!--                android:id="@+id/username_edittext"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:text="@={settingsData.m_Username}"/>-->
-        <!--            <TextView-->
-        <!--                android:id="@+id/login_password"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:textSize="20dp"-->
-        <!--                android:text="@string/password"/>-->
-        <!--            <EditText-->
-        <!--                android:id="@+id/password_edittext"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:inputType="textPassword"-->
-        <!--                android:text="@={settingsData.m_Password}"/>-->
-        <!--            <CheckBox-->
-        <!--                android:id="@+id/secure_check"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:checked="true"-->
-        <!--                android:layout_margin="10dip"-->
-        <!--                android:text="@string/hide_password"-->
-        <!--                android:textSize="10dp"/>-->
-        <!--            <Button-->
-        <!--                android:id="@+id/credentials_preferences"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:text="@string/credentials_preferences"-->
-        <!--                android:textSize="10dp"/>-->
-        <!--            <Button-->
-        <!--                android:id="@+id/login"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:text="@string/submit"/>-->
-        <!--        </LinearLayout>-->
-        <!--    </RelativeLayout>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

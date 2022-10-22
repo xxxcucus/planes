@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.planes.android.about.AboutFragment
 import com.planes.android.creategame.CreateGameFragment
 import com.planes.android.creategame.CreateGameSettingsGlobal
@@ -24,10 +25,10 @@ import com.planes.android.game.singleplayer.GameFragmentSinglePlayer
 import com.planes.android.gamestats.GameStatsFragment
 import com.planes.android.login.LoginFragment
 import com.planes.android.logout.LogoutFragment
-import com.planes.android.register.RegisterFragment
 import com.planes.android.preferences.*
 import com.planes.android.register.NoRobotFragment
 import com.planes.android.register.NoRobotSettingsService
+import com.planes.android.register.RegisterFragment
 import com.planes.android.videos.VideoFragment1
 import com.planes.android.videos.VideoSettingsService
 import com.planes.multiplayer_engine.MultiplayerRoundJava
@@ -492,9 +493,26 @@ class MainActivity : AppCompatActivity() {
         if (norobotError) {
             onWarning(message)
         } else {
-            Tools.displayToast(getString(R.string.norobot_success), applicationContext)
+            showRegistrationSuccessfullSnack()
         }
     }
+
+    fun showRegistrationSuccessfullSnack() {
+        val snackbar1 =
+            Snackbar.make(m_MainLayout, getString(R.string.norobot_success), Snackbar.LENGTH_LONG)
+        snackbar1.setAction(getString(R.string.login).uppercase(), object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                startLoginFragment()
+            }
+        })
+        snackbar1.show()
+    }
+
+    fun startRegistrationFragment() {
+        mSelectedItem = R.id.nav_register
+        setFragment(true)
+    }
+
 
     fun startGameFragment() {
         mSelectedItem = R.id.nav_game
@@ -547,6 +565,7 @@ class MainActivity : AppCompatActivity() {
     fun showSaveCredentialsPopup(username: String, password: String) {
         if (m_MultiplayerPreferencesService.username == username && m_MultiplayerPreferencesService.password == password) {
             Tools.displayToast(getString(R.string.loginsuccess), applicationContext)
+            //startGameFragment()
             return
         }
 
@@ -556,12 +575,12 @@ class MainActivity : AppCompatActivity() {
             m_MultiplayerPreferencesService.password = password_
         }
         Tools.displayToast(getString(R.string.loginsuccess), applicationContext)
+        //startGameFragment()
     }
 
     private fun onButtonShowHelpWindowClick(multiplayerVersion: Boolean) {
         val helpPopup = HelpPopup(applicationContext, m_MainLayout, mSelectedItem, ::startTutorialFragment)
         helpPopup.onButtonShowHelpWindowClick(multiplayerVersion)
     }
-
     //endregion
 }

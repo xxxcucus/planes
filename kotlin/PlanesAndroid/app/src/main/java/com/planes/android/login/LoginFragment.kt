@@ -47,7 +47,7 @@ class LoginFragment : Fragment() {
         saveSettingsButton.setOnClickListener { performLogin() }
 
         val registerButton = binding.signInTextView
-        registerButton?.setOnClickListener { (activity as MainActivity).startRegistrationFragment(false, "") }
+        registerButton?.setOnClickListener { goToRegistration() }
 
         val hidePasswordCheckbox = binding.secureCheck
         hidePasswordCheckbox.setOnCheckedChangeListener { _, isChecked ->
@@ -64,6 +64,10 @@ class LoginFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun goToRegistration() {
+        (activity as MainActivity).startRegistrationFragment()
     }
 
     override fun onDetach() {
