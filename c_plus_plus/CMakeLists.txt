@@ -146,6 +146,7 @@ if (UNIX)
 	install(FILES ${ROOT_PATH}/lib/libicui18n.so.56 DESTINATION lib)
 	install(DIRECTORY ${ROOT_PATH}/plugins/platforms/ DESTINATION bin/platforms/)
 	install(DIRECTORY ${ROOT_PATH}/plugins/xcbglintegrations DESTINATION bin)
+	install(DIRECTORY ${ROOT_PATH}/plugins/tls DESTINATION bin)
 	
 
 	install(FILES ${ROOT_PATH}/lib/libQt6QuickLayouts.so.${QT_MAJOR} DESTINATION lib)
@@ -163,6 +164,12 @@ if (UNIX)
 	install(DIRECTORY ${ROOT_PATH}/qml/QtQuick/Window DESTINATION bin/QtQuick/)	
 	#install(DIRECTORY ${ROOT_PATH}/qml/QtQuick.2 DESTINATION bin)
 	install(DIRECTORY ${ROOT_PATH}/qml/QtQml DESTINATION bin)
+
+	install(FILES $ENV{OPENSSL_HOME}/libcrypto.so.1.1 DESTINATION lib)
+	install(FILES $ENV{OPENSSL_HOME}/libssl.so.1.1 DESTINATION  lib)
+	install(FILES $ENV{OPENSSL_HOME}/libcrypto.so DESTINATION lib)
+	install(FILES $ENV{OPENSSL_HOME}/libssl.so DESTINATION  lib)
+
 	
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/PlanesWidget.sh PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ DESTINATION .)
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/PlanesGraphicsScene.sh PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ DESTINATION .)
