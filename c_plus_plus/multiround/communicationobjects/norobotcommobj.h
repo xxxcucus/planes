@@ -3,6 +3,7 @@
 
 
 #include "basiscommobj.h"
+#include "viewmodels/norobotviewmodel.h"
 #include <QMessageBox>
 
 class NoRobotCommObj : public BasisCommObj {
@@ -19,6 +20,9 @@ public:
     
     bool makeRequest(const QString& requestId, const QString& answer);
     bool validateReply(const QJsonObject& retJson) override;
+
+protected:
+    NoRobotCommObj() {}
     
 public slots:
     void finishedRequest() override;   
@@ -30,7 +34,12 @@ signals:
     void registrationComplete();
     
 private:
+    NoRobotViewModel prepareViewModel(const QString& requestId, const QString& answer);
+
+private:
     QMessageBox* m_LoadingMessageBox = nullptr;
+
+    friend class NoRobotCommObjTest;
 };
 
 
