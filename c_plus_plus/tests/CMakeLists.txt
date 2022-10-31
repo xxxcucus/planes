@@ -22,7 +22,8 @@ set(TEST_HEADR
 	connecttogamecommobjtest.h
 	creategamecommobjtest.h
 	logincommobjtest.h
-	norobotcommobjtest.h)
+	norobotcommobjtest.h
+	refreshgamestatuscommobjtest.h)
 
 set(TEST_SRCS 	
 	cancelroundcommobjtest.cpp
@@ -30,6 +31,7 @@ set(TEST_SRCS
 	creategamecommobjtest.cpp
 	logincommobjtest.cpp
 	norobotcommobjtest.cpp
+	refreshgamestatuscommobjtest.cpp
 	main.cpp)
 
 enable_testing(true)

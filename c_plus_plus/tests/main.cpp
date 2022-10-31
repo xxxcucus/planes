@@ -3,6 +3,7 @@
 #include "creategamecommobjtest.h"
 #include "logincommobjtest.h"
 #include "norobotcommobjtest.h"
+#include "refreshgamestatuscommobjtest.h"
 
 int main(int argc, char** argv)
 {
@@ -25,6 +26,10 @@ int main(int argc, char** argv)
    }
    {
        NoRobotCommObjTest tc;
+       status |= QTest::qExec(&tc, argc, argv);
+   }
+   {
+       RefreshGameStatusCommObjTest tc;
        status |= QTest::qExec(&tc, argc, argv);
    }
    return status;
