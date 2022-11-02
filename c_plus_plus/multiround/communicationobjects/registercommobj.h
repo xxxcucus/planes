@@ -9,6 +9,7 @@
 
 #include "basiscommobj.h"
 #include <QMessageBox>
+#include "viewmodels/loginviewmodel.h"
 
 
 class MULTIPLAYER_EXPORT RegisterCommObj : public BasisCommObj {
@@ -26,6 +27,9 @@ public:
     bool makeRequest(const QString& username, const QString& password);
     bool validateReply(const QJsonObject& retJson) override;
     
+protected:
+    RegisterCommObj() {}
+
 public slots:
     void finishedRequest() override;    
     void errorRequest(QNetworkReply::NetworkError code) override;
@@ -35,8 +39,15 @@ signals:
     void noRobotRegistration(const std::vector<QString>& images, const QJsonObject& request);
     
 private:
+    LoginViewModel prepareViewModel(const QString& username, const QString& password);
+    void processResponse(const QJsonObject& retJson);
+
+private:
     QString m_UserName;
     QMessageBox* m_LoadingMessageBox = nullptr;
+    std::vector<QString> m_Images;
+
+    friend class RegisterCommObjTest;
 };
 
 
