@@ -110,7 +110,7 @@ public:
     void playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr) override;
     void playerGuessIncomplete(int row, int col, GuessPoint::Type& guessRes, PlayerGuessReaction& pgr) override;
     
-    void addOpponentMove(GuessPoint& gp, int moveIndex);
+    virtual void addOpponentMove(GuessPoint& gp, int moveIndex);
     
     long int getRoundId() {
         return m_GlobalData->m_GameData.m_RoundId;
@@ -143,6 +143,9 @@ public:
 
     void testServerVersion();
     
+protected:
+    MultiplayerRound() {}
+
 private:
     bool validateOpponentMovesReply(const QJsonObject& reply);
     void startNewRound(long int desiredRoundId);

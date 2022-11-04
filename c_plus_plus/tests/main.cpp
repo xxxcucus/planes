@@ -5,6 +5,7 @@
 #include "norobotcommobjtest.h"
 #include "refreshgamestatuscommobjtest.h"
 #include "registercommobjtest.h"
+#include "requestopponentmovescommobjtest.h"
 
 int main(int argc, char** argv)
 {
@@ -35,6 +36,10 @@ int main(int argc, char** argv)
    }
    {
        RegisterCommObjTest tc;
+       status |= QTest::qExec(&tc, argc, argv);
+   }
+   {
+       RequestOpponentMovesCommObjTest tc;
        status |= QTest::qExec(&tc, argc, argv);
    }
    return status;

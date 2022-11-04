@@ -10,6 +10,7 @@
 #include "guesspoint.h"
 
 #include "basiscommobj.h"
+#include "viewmodels/getopponentemovesviewmodel.h"
 class MultiplayerRound;
 
 class MULTIPLAYER_EXPORT RequestOpponentMovesCommObj : public BasisCommObj {
@@ -22,6 +23,9 @@ public:
     bool makeRequest(int opponentMoveIndex);
     bool validateReply(const QJsonObject& retJson) override;
     
+protected:
+    RequestOpponentMovesCommObj() {}
+
 public slots:
     void finishedRequest() override;       
     
@@ -30,7 +34,13 @@ signals:
     void opponentMoveGenerated(const GuessPoint& gp);
     
 private:
+    GetOpponentsMovesViewModel prepareViewModel(int opponentMoveIndex);
+    void processResponse(const QJsonObject& retJson);
+
+protected:
     MultiplayerRound* m_MultiRound;
+
+    friend class RequestOpponentMovesCommObjTest;
 };
 
 

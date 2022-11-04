@@ -16,6 +16,7 @@ public:
     //various constructors
     GuessPoint(int row, int col);
     GuessPoint(int row, int col, Type tp);
+    GuessPoint() {}
 
     //sets the result of the guess
     void setType(Type tp) { m_type = tp; }

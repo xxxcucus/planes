@@ -12,6 +12,7 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../multiround/global
 	${CMAKE_CURRENT_SOURCE_DIR}/../multiround/
 	${CMAKE_CURRENT_SOURCE_DIR}/../bcrypt
+	${CMAKE_CURRENT_SOURCE_DIR}/../common
 	${Qt6Widgets_INCLUDE_DIRS}
 	${Qt6Network_INCLUDE_DIRS}
     ${Qt6Core_INCLUDE_DIRS}
@@ -24,7 +25,8 @@ set(TEST_HEADR
 	logincommobjtest.h
 	norobotcommobjtest.h
 	refreshgamestatuscommobjtest.h
-	registercommobjtest.h)
+	registercommobjtest.h
+	requestopponentmovescommobjtest.h)
 
 set(TEST_SRCS 	
 	cancelroundcommobjtest.cpp
@@ -34,6 +36,7 @@ set(TEST_SRCS
 	norobotcommobjtest.cpp
 	refreshgamestatuscommobjtest.cpp
 	registercommobjtest.cpp
+	requestopponentmovescommobjtest.cpp
 	main.cpp)
 
 enable_testing(true)
@@ -41,6 +44,7 @@ add_executable(commobjtest  ${TEST_HEADR} ${TEST_SRCS})
 add_test(NAME commobjtest COMMAND commobjtest)
 
 target_link_libraries(commobjtest 
+		libCommon
 		libMultiRound
 		libbcrypt
         Qt6::Test
