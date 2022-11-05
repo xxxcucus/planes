@@ -8,20 +8,23 @@
 #endif
 
 #include "guesspoint.h"
-
+#include "viewmodels/unsentmovesviewmodel.h"
 #include "basiscommobj.h"
 class MultiplayerRound;
 
 class MULTIPLAYER_EXPORT SendMoveCommObj : public BasisCommObj {
     Q_OBJECT
-    
+
 public:
-    SendMoveCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData, MultiplayerRound* mrd):
+    SendMoveCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData, MultiplayerRound* mrd) :
         BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData), m_MultiRound(mrd) {}
-    
+
     bool makeRequest(const std::vector<GuessPoint>& guessList, const std::vector<int>& notSentMoves, const std::vector<int>& receivedMoves, bool fromFinishedSlot = false);
     bool validateReply(const QJsonObject& retJson) override;
-    
+
+protected:
+    SendMoveCommObj() {}
+
 public slots:
     void finishedRequest() override;       
     
@@ -33,11 +36,16 @@ signals:
     
 private:
     std::vector<int> computeNotReceivedMoves(const std::vector<int>& receivedMoves, int& maxReceivedIndex);
+    UnsentMovesViewModel prepareViewModel(int maxReceivedIndex, const std::vector<int>& notSentMoves, const std::vector<int>& notReceivedMoves,
+        const std::vector<GuessPoint>& guessList);
+    void processResponse(const QJsonObject& retJson);
     
 private:
     MultiplayerRound* m_MultiRound;
     std::vector<int> m_LastNotSentMoveIndexSucces;  //Not sent moves sent when the controller method on the server was called
     std::vector<int> m_LastNotSentMoveIndexError; //Not sent moves when  the controller method on the server was not called (called too fast after previous call)
+
+    friend class SendMoveCommObjTest;
 };
 
 

@@ -26,7 +26,8 @@ set(TEST_HEADR
 	norobotcommobjtest.h
 	refreshgamestatuscommobjtest.h
 	registercommobjtest.h
-	requestopponentmovescommobjtest.h)
+	requestopponentmovescommobjtest.h
+	sendmovecommobjtest.h)
 
 set(TEST_SRCS 	
 	cancelroundcommobjtest.cpp
@@ -37,6 +38,7 @@ set(TEST_SRCS
 	refreshgamestatuscommobjtest.cpp
 	registercommobjtest.cpp
 	requestopponentmovescommobjtest.cpp
+	sendmovecommobjtest.cpp
 	main.cpp)
 
 enable_testing(true)

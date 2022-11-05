@@ -6,6 +6,7 @@
 #include "refreshgamestatuscommobjtest.h"
 #include "registercommobjtest.h"
 #include "requestopponentmovescommobjtest.h"
+#include "sendmovecommobjtest.h"
 
 int main(int argc, char** argv)
 {
@@ -40,6 +41,10 @@ int main(int argc, char** argv)
    }
    {
        RequestOpponentMovesCommObjTest tc;
+       status |= QTest::qExec(&tc, argc, argv);
+   }
+   {
+       SendMoveCommObjTest tc;
        status |= QTest::qExec(&tc, argc, argv);
    }
    return status;
