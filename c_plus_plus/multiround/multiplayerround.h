@@ -116,8 +116,8 @@ public:
         return m_GlobalData->m_GameData.m_RoundId;
     }
     
-    void getPlayerPlaneNo(int pos, Plane& pl);
-    bool setComputerPlanes(int plane1_x, int plane1_y, Plane::Orientation plane1_orient, int plane2_x, int plane2_y, Plane::Orientation plane2_orient, int plane3_x, int plane3_y, Plane::Orientation plane3_orient); 
+    virtual void getPlayerPlaneNo(int pos, Plane& pl);
+    virtual bool setComputerPlanes(int plane1_x, int plane1_y, Plane::Orientation plane1_orient, int plane2_x, int plane2_y, Plane::Orientation plane2_orient, int plane3_x, int plane3_y, Plane::Orientation plane3_orient); 
     
     void setRoundCancelled() override;
     

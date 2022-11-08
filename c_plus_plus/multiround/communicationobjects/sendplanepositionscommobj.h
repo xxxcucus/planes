@@ -8,6 +8,7 @@
 #endif
 
 #include "basiscommobj.h"
+#include "viewmodels/planespositionsviewmodel.h"
 class MultiplayerRound;
 
 class MULTIPLAYER_EXPORT SendPlanePositionsCommObj : public BasisCommObj {
@@ -19,7 +20,10 @@ public:
     
     bool makeRequest();
     bool validateReply(const QJsonObject& retJson) override;
-    
+   
+protected:
+    SendPlanePositionsCommObj() {}
+
 public slots:
     void finishedRequest() override;       
     
@@ -29,8 +33,14 @@ signals:
     void waitForOpponentPlanePositions();
     
 private:
+    PlanesPositionsViewModel prepareViewModel();
+    void processResponse(const QJsonObject& retJson);
+
+private:
     QString m_GameName;
     MultiplayerRound* m_MultiRound;
+
+    friend class SendPlanePositionsCommObjTest;
 };
 
 
