@@ -8,6 +8,7 @@
 #endif
 
 #include "basiscommobj.h"
+#include "viewmodels/startnewroundviewmodel.h"
 class MultiplayerRound;
 
 class MULTIPLAYER_EXPORT StartNewRoundCommObj : public BasisCommObj {
@@ -20,15 +21,23 @@ public:
     bool makeRequest();
     bool validateReply(const QJsonObject& retJson) override;
     
+protected:
+    StartNewRoundCommObj() {}
+
 public slots:
     void finishedRequest() override;       
     
 signals:
     void startNewRound();
 
+private:
+    void processResponse(const QJsonObject& retJson);
+    StartNewRoundViewModel prepareViewModel();
     
 private:
     MultiplayerRound* m_MultiRound;
+
+    friend class StartNewRoundCommObjTest;
     
 };
 

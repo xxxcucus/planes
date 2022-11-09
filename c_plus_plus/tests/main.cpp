@@ -9,6 +9,7 @@
 #include "sendmovecommobjtest.h"
 #include "sendplanepositionscommobjtest.h"
 #include "sendwinnercommobjtest.h"
+#include "startnewroundcommobjtest.h"
 
 int main(int argc, char** argv)
 {
@@ -55,6 +56,10 @@ int main(int argc, char** argv)
    }
    {
        SendWinnerCommObjTest tc;
+       status |= QTest::qExec(&tc, argc, argv);
+   }
+   {
+       StartNewRoundCommObjTest tc;
        status |= QTest::qExec(&tc, argc, argv);
    }
    return status;

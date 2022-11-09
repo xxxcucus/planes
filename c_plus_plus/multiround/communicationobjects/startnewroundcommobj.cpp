@@ -2,26 +2,36 @@
 
 #include <QMessageBox>
 #include "multiplayerround.h"
-#include "viewmodels/startnewroundviewmodel.h"
+
 
 bool StartNewRoundCommObj::makeRequest()
 {
-    if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        QMessageBox msgBox(m_ParentWidget);
-        msgBox.setText("No user logged in"); 
-        msgBox.exec();
+    if (m_IsSinglePlayer) {
+        //qDebug() << "makeRequestBasis in single player modus";
         return false;
     }
 
+    if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
+        if (m_ParentWidget != nullptr) {
+            QMessageBox msgBox(m_ParentWidget);
+            msgBox.setText("No user logged in");
+            msgBox.exec();
+        }
+        return false;
+    }
+
+    m_RequestData = prepareViewModel().toJson();
+    
+    makeRequestBasis(true);
+    return true;
+}
+
+StartNewRoundViewModel StartNewRoundCommObj::prepareViewModel() {
     StartNewRoundViewModel startNewRoundData;
     startNewRoundData.m_GameId = m_GlobalData->m_GameData.m_GameId;
     startNewRoundData.m_OwnUserId = m_GlobalData->m_GameData.m_UserId;
     startNewRoundData.m_OpponentUserId = m_GlobalData->m_GameData.m_OtherUserId;
-
-    m_RequestData = startNewRoundData.toJson();
-    
-    makeRequestBasis(true);
-    return true;
+    return startNewRoundData;
 }
 
 void StartNewRoundCommObj::finishedRequest()
@@ -30,13 +40,14 @@ void StartNewRoundCommObj::finishedRequest()
     if (!finishRequestHelper(retJson)) 
         return;
 
+    processResponse(retJson);
+}
+
+void StartNewRoundCommObj::processResponse(const QJsonObject& retJson) {
     long int roundId = retJson.value("roundId").toString().toLong(); //TODO: to add validation
     m_GlobalData->m_GameData.m_RoundId = roundId;
-    
     m_MultiRound->initRound();
-    
     emit startNewRound();
-
 }
 
 bool StartNewRoundCommObj::validateReply(const QJsonObject& reply) {

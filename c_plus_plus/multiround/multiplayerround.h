@@ -105,7 +105,7 @@ public:
     MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo);
     virtual ~MultiplayerRound();
     void reset() override;
-    void initRound() override;
+    virtual void initRound() override;
 
     void playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr) override;
     void playerGuessIncomplete(int row, int col, GuessPoint::Type& guessRes, PlayerGuessReaction& pgr) override;
