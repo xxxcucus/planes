@@ -32,6 +32,8 @@ signals:
 
 private:
     CancelRoundViewModel prepareViewModel();
+    void processResponse();
+
     
 private:
     MultiplayerRound* m_MultiRound;

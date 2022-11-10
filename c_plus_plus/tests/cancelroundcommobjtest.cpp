@@ -1,5 +1,6 @@
 #include "cancelroundcommobjtest.h"
 #include <QTest>
+#include <QSignalSpy>
 
 void CancelRoundCommObjTest::initTestCase()
 {
@@ -34,6 +35,16 @@ void CancelRoundCommObjTest::PrepareViewModelTest()
 
     QVERIFY2(viewModel.m_GameId == 234L, "GameId was not copied to the view model");
     QVERIFY2(viewModel.m_RoundId == 123L, "RoundId was not copied to the view model");
+}
+
+void CancelRoundCommObjTest::ProcessResponseTest() {
+    MultiplayerRoundMock* multiRoundMock = new MultiplayerRoundMock();
+    m_CommObj.m_MultiRound = multiRoundMock;
+    QSignalSpy spy(&m_CommObj, SIGNAL(roundCancelled()));
+
+    m_CommObj.processResponse();
+    QCOMPARE(1, (dynamic_cast<MultiplayerRoundMock*>(m_CommObj.m_MultiRound))->m_CallCount);
+    QCOMPARE(spy.count(), 1);
 }
 
 void CancelRoundCommObjTest::cleanupTestCase()
