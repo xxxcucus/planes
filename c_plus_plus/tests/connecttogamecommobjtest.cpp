@@ -1,6 +1,7 @@
 #include "connecttogamecommobjtest.h"
 #include "viewmodels/gameviewmodel.h"
 #include <QTest>
+#include <QSignalSpy>
 
 
 void ConnectToGameCommObjTest::initTestCase()
@@ -40,7 +41,10 @@ void ConnectToGameCommObjTest::PrepareViewModelTest()
 
 void ConnectToGameCommObjTest::ProcessResponseTest() {
     GlobalData* gd = new GlobalData();
+    m_CommObj.m_GlobalData->m_UserData.m_UserName = "testUserName";
+    m_CommObj.m_GlobalData->m_GameData.m_GameName = "testGameName1";
     m_CommObj.m_GlobalData = gd;
+    m_CommObj.m_GameName = "testGameName1";
 
     QJsonObject jsonObject;
     jsonObject.insert("id", QJsonValue("1"));
@@ -50,6 +54,8 @@ void ConnectToGameCommObjTest::ProcessResponseTest() {
     jsonObject.insert("secondPlayerId", QJsonValue("4"));
     jsonObject.insert("firstPlayerName", QJsonValue("testFirstPlayerName"));
 
+    QSignalSpy spy(&m_CommObj, SIGNAL(gameConnectedTo(const QString&, const QString&, const QString&, const QString&, bool)));
+
     m_CommObj.processResponse(jsonObject);
     QVERIFY(1L == m_CommObj.m_GlobalData->m_GameData.m_GameId);
     QVERIFY("testGameName" == m_CommObj.m_GlobalData->m_GameData.m_GameName);
@@ -58,6 +64,14 @@ void ConnectToGameCommObjTest::ProcessResponseTest() {
     QVERIFY("testFirstPlayerName" == m_CommObj.m_GlobalData->m_GameData.m_OtherUsername);
     QVERIFY(4L == m_CommObj.m_GlobalData->m_GameData.m_UserId);
     QVERIFY(4L == m_CommObj.m_GlobalData->m_UserData.m_UserId);
+
+    QCOMPARE(spy.count(), 1);
+    QList<QVariant> arguments = spy.takeFirst(); 
+    QCOMPARE("testGameName1", arguments.at(0).toString());
+    QCOMPARE("testFirstPlayerName", arguments.at(1).toString());
+    QCOMPARE("testUserName", arguments.at(2).toString());
+    QCOMPARE("2", arguments.at(3).toString());
+    QCOMPARE(false, arguments.at(4).toBool());
 }
 
 void ConnectToGameCommObjTest::cleanupTestCase()
