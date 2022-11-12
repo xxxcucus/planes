@@ -35,6 +35,7 @@ signals:
     
 private:
     NoRobotViewModel prepareViewModel(const QString& requestId, const QString& answer);
+    void processResponse(const QJsonObject& retJson);
 
 private:
     QMessageBox* m_LoadingMessageBox = nullptr;

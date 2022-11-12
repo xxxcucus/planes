@@ -3,11 +3,12 @@
 #include "viewmodels/loginviewmodel.h"
 #include <QTest>
 #include <QPair>
+#include <QSignalSpy>
 
 
 void LoginCommObjTest::initTestCase()
 {
-    qDebug("CreateGameCommObjTestTest starts ..");
+    qDebug("LoginGameCommObjTestTest starts ..");
 }
 
 void LoginCommObjTest::SinglePlayerTest()
@@ -70,6 +71,7 @@ void LoginCommObjTest::ProcessResponseTest() {
     jsonObject.insert("id", QJsonValue("1"));
     jsonObject.insert("username", QJsonValue("testUsername"));
 
+    QSignalSpy spy(&m_CommObj, SIGNAL(loginCompleted()));
 
     m_CommObj.processResponse(true, jsonObject);
     QVERIFY(0L == m_CommObj.m_GlobalData->m_GameData.m_GameId);
@@ -81,10 +83,11 @@ void LoginCommObjTest::ProcessResponseTest() {
     QVERIFY("" == m_CommObj.m_GlobalData->m_UserData.m_UserPassword);
     QVERIFY(1L == m_CommObj.m_GlobalData->m_UserData.m_UserId);
     QVERIFY("testUsername" == m_CommObj.m_GlobalData->m_UserData.m_UserName);
+    QCOMPARE(spy.count(), 1);
 }
 
 void LoginCommObjTest::cleanupTestCase()
 {
-    qDebug("CreateGameCommObjTest ends ..");
+    qDebug("LoginGameCommObjTest ends ..");
 
 }

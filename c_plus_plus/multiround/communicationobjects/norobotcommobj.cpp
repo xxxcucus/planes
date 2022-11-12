@@ -49,9 +49,13 @@ void NoRobotCommObj::finishedRequest()
     if (!finishRequestHelper(retJson)) 
         return;
 
+    processResponse(retJson);
+}
+
+void NoRobotCommObj::processResponse(const QJsonObject& retJson) {
     QString username = retJson.value("username").toString();
     long int userid = retJson.value("id").toString().toLong();
-    
+
     if (m_ParentWidget != nullptr) {
         QMessageBox msgBox(m_ParentWidget);
         msgBox.setText("User " + username + " created ");

@@ -1,6 +1,7 @@
 #include "refreshgamestatuscommobjtest.h"
 #include "viewmodels/gameviewmodel.h"
 #include <QTest>
+#include <QSignalSpy>
 
 
 void RefreshGameStatusCommObjTest::initTestCase()
@@ -50,6 +51,9 @@ void RefreshGameStatusCommObjTest::ProcessResponseTest() {
     jsonObject.insert("secondPlayerId", QJsonValue("4"));
     jsonObject.insert("firstPlayerName", QJsonValue("testFirstPlayerName"));
     jsonObject.insert("secondPlayerName", QJsonValue("testSecondPlayerName"));
+    jsonObject.insert("exists", QJsonValue(true));
+
+    QSignalSpy spy(&m_CommObj, SIGNAL(refreshStatus(bool, const QString&, const QString&, const QString&, const QString&)));
 
     m_CommObj.processResponse(jsonObject);
     QVERIFY(1L == m_CommObj.m_GlobalData->m_GameData.m_GameId);
@@ -59,6 +63,14 @@ void RefreshGameStatusCommObjTest::ProcessResponseTest() {
     QVERIFY("testSecondPlayerName" == m_CommObj.m_GlobalData->m_GameData.m_OtherUsername);
     QVERIFY(3L == m_CommObj.m_GlobalData->m_GameData.m_UserId);
     QVERIFY(3L == m_CommObj.m_GlobalData->m_UserData.m_UserId);
+
+    QCOMPARE(spy.count(), 1);
+    QList<QVariant> arguments = spy.takeFirst();
+    QCOMPARE(true, arguments.at(0).toBool());
+    QCOMPARE("testGameName", arguments.at(1).toString());
+    QCOMPARE("testFirstPlayerName", arguments.at(2).toString());
+    QCOMPARE("testSecondPlayerName", arguments.at(3).toString());
+    QCOMPARE("2", arguments.at(4).toString());
 }
 
 void RefreshGameStatusCommObjTest::cleanupTestCase()

@@ -14,6 +14,7 @@ private slots:
     void initTestCase();
     void SinglePlayerTest();
     void PrepareViewModelTest();
+    void ProcessResponseTest();
     void cleanupTestCase();
 };
 

@@ -1,6 +1,7 @@
 #include "norobotcommobjtest.h"
 #include "viewmodels/norobotviewmodel.h"
 #include <QTest>
+#include <QSignalSpy>
 
 
 void NoRobotCommObjTest::initTestCase()
@@ -21,6 +22,14 @@ void NoRobotCommObjTest::PrepareViewModelTest()
     QVERIFY2(viewModel.m_requestId == "1", "RequestId was not saved in the viewmodel");
     QVERIFY2(viewModel.m_answer == "111111111", "Answer was not saved in the viewmodel");
 }
+
+void NoRobotCommObjTest::ProcessResponseTest() {
+    QSignalSpy spy(&m_CommObj, SIGNAL(registrationComplete()));
+    QJsonObject jsonObject;
+    m_CommObj.processResponse(jsonObject);
+    QCOMPARE(spy.count(), 1);
+}
+
 
 void NoRobotCommObjTest::cleanupTestCase()
 {
