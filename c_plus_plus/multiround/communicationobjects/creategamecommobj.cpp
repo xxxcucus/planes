@@ -3,8 +3,7 @@
 #include <QMessageBox>
 #include "viewmodels/gameviewmodel.h"
 
-bool CreateGameCommObj::makeRequest(const QString& gameName)
-{
+bool CreateGameCommObj::makeRequest(const QString& gameName) {
     if (m_IsSinglePlayer) {
         //qDebug() << "makeRequestBasis in single player modus";
         return false;
@@ -37,8 +36,7 @@ GameViewModel CreateGameCommObj::prepareViewModel(const QString& gameName) {
     return gameData;
 }
 
-void CreateGameCommObj::finishedRequest()
-{
+void CreateGameCommObj::finishedRequest() {
     QJsonObject retJson;
     if (!finishRequestHelper(retJson)) 
         return;

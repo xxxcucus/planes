@@ -41,8 +41,8 @@ void ConnectToGameCommObjTest::PrepareViewModelTest()
 
 void ConnectToGameCommObjTest::ProcessResponseTest() {
     GlobalData* gd = new GlobalData();
-    m_CommObj.m_GlobalData->m_UserData.m_UserName = "testUserName";
-    m_CommObj.m_GlobalData->m_GameData.m_GameName = "testGameName1";
+    gd->m_UserData.m_UserName = "testUserName";
+    gd->m_GameData.m_GameName = "testGameName1";
     m_CommObj.m_GlobalData = gd;
     m_CommObj.m_GameName = "testGameName1";
 
@@ -71,7 +71,7 @@ void ConnectToGameCommObjTest::ProcessResponseTest() {
     QCOMPARE("testFirstPlayerName", arguments.at(1).toString());
     QCOMPARE("testUserName", arguments.at(2).toString());
     QCOMPARE("2", arguments.at(3).toString());
-    QCOMPARE(false, arguments.at(4).toBool());
+    QCOMPARE(true, arguments.at(4).toBool());
 }
 
 void ConnectToGameCommObjTest::cleanupTestCase()
