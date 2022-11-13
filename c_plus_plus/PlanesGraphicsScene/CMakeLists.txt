@@ -28,6 +28,7 @@ set(GS_SRCS
     leftpane/account/loginregisterform.cpp
     leftpane/account/mainaccountwidget.cpp
     leftpane/account/norobotwidget.cpp
+	leftpane/account/norobotdialog.cpp
     leftpane/account/userprofileframe.cpp
     rightpane/boards/computerboard.cpp
 	rightpane/boards/customgraphicsscene.cpp
@@ -64,6 +65,7 @@ set(GS_HEADR
     leftpane/account/mainaccountwidget.h
     leftpane/account/norobotwidget.h
     leftpane/account/userprofileframe.h
+	leftpane/account/norobotdialog.h
     rightpane/boards/computerboard.h
 	rightpane/boards/customgraphicsscene.h
 	rightpane/boards/customgraphicsview.h

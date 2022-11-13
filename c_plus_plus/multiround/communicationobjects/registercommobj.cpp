@@ -3,7 +3,8 @@
 
 RegisterCommObj::~RegisterCommObj()
 {
-    delete m_LoadingMessageBox;
+    if (m_LoadingMessageBox != nullptr)
+        delete m_LoadingMessageBox;
 }
 
 
@@ -55,10 +56,11 @@ void RegisterCommObj::processResponse(const QJsonObject& retJson) {
     m_Images.push_back(retJson.value("image_id_7").toString());
     m_Images.push_back(retJson.value("image_id_8").toString());
     m_Images.push_back(retJson.value("image_id_9").toString());
-    long int request_id = retJson.value("id").toString().toLong(); //TODO validation
+    long int requestId = retJson.value("id").toString().toLong(); //TODO validation
+    QString question = retJson.value("question").toString();
 
     //qDebug() << "Registration request with id " << request_id << " received ";
-    emit noRobotRegistration(m_Images, retJson);
+    emit noRobotRegistration(m_Images, question, requestId);
 }
 
 bool RegisterCommObj::validateReply(const QJsonObject& reply) {

@@ -1,6 +1,7 @@
 #include "registercommobjtest.h"
 #include "viewmodels/gameviewmodel.h"
 #include <QTest>
+#include <QSignalSpy>
 
 
 void RegisterCommObjTest::initTestCase()
@@ -37,7 +38,10 @@ void RegisterCommObjTest::ProcessResponseTest() {
     jsonObject.insert("image_id_7", QJsonValue("test7"));
     jsonObject.insert("image_id_8", QJsonValue("test8"));
     jsonObject.insert("image_id_9", QJsonValue("test9"));
+    jsonObject.insert("question", QJsonValue("111000111"));
+    jsonObject.insert("id", QJsonValue("1"));
 
+    QSignalSpy spy(&m_CommObj, SIGNAL(noRobotRegistration(const std::vector<QString>&, const QString&, long int)));
 
     m_CommObj.processResponse(jsonObject);
     QVERIFY(m_CommObj.m_Images[0] == "test1");
@@ -49,6 +53,12 @@ void RegisterCommObjTest::ProcessResponseTest() {
     QVERIFY(m_CommObj.m_Images[6] == "test7");
     QVERIFY(m_CommObj.m_Images[7] == "test8");
     QVERIFY(m_CommObj.m_Images[8] == "test9");
+
+    QCOMPARE(spy.count(), 1);
+    QList<QVariant> arguments = spy.takeFirst();
+    QCOMPARE("111000111", arguments.at(1).toString());
+    QCOMPARE(1, arguments.at(2).toInt());
+
 }
 
 void RegisterCommObjTest::cleanupTestCase()

@@ -7,7 +7,8 @@
 
 LoginCommObj::~LoginCommObj()
 {
-    delete m_LoadingMessageBox;
+    if (m_LoadingMessageBox != nullptr)
+        delete m_LoadingMessageBox;
 }
 
 bool LoginCommObj::makeRequest(const QString& username, const QString& password)

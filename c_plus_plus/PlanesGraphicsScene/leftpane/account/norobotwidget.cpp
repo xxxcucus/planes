@@ -13,6 +13,9 @@ NoRobotWidget::NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* s
     : QWidget(parent), m_NetworkManager(networkManager), m_Settings(settings), m_GlobalData(globalData), m_GameInfo(gameInfo), m_MultiRound(mrd) {
     QGridLayout* gridLayout = new QGridLayout();
     
+    connect(m_MultiRound, &MultiplayerRound::registrationComplete, this, &NoRobotWidget::closeParent);
+    connect(m_MultiRound, &MultiplayerRound::registrationFailed, this, &NoRobotWidget::closeParent);
+
     m_Labels = std::vector<ClickableLabel*>(m_ImagesCount);
     m_Answer = std::vector<bool>(m_ImagesCount, false);
     m_Images = std::vector<QString>();
@@ -116,7 +119,6 @@ void NoRobotWidget::submitAnswer()
         answer += m_Answer[i] ? "1" : "0";
     }
     m_MultiRound->noRobotRegister(m_RequestId, answer);
-    emit noRobotSubmit();
 }
 
 void NoRobotWidget::setRequestId(const QString& id)
@@ -133,4 +135,7 @@ void NoRobotWidget::resizeEvent(QResizeEvent* event)
     QWidget::resizeEvent(event);
 }
     
+void NoRobotWidget::closeParent() {
+    emit noRobotSubmit(0);
+}
 

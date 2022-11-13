@@ -90,7 +90,7 @@ signals:
     void refreshStatus(bool exists, const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
     void loginCompleted();
     void loginFailed();
-    void noRobotRegistration(const std::vector<QString>& images, const QJsonObject& request);
+    void noRobotRegistration(const std::vector<QString>& images, const QString& question, long int requestId);
     void registrationFailed();
     void registrationComplete();
     

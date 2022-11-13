@@ -1,12 +1,17 @@
 #ifndef __NOROBOT_COMM_OBJ__
 #define __NOROBOT_COMM_OBJ__
 
+#if defined MAKE_MULTIPLAYERROUND_LIB
+#define MULTIPLAYER_EXPORT Q_DECL_EXPORT
+#else
+#define MULTIPLAYER_EXPORT Q_DECL_IMPORT
+#endif
 
 #include "basiscommobj.h"
 #include "viewmodels/norobotviewmodel.h"
 #include <QMessageBox>
 
-class NoRobotCommObj : public BasisCommObj {
+class MULTIPLAYER_EXPORT NoRobotCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

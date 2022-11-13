@@ -64,6 +64,9 @@ if (NOT UNIX)
 	install(FILES ${ROOT_PATH}/plugins/platforms/qwindows.dll DESTINATION bin/platforms)
 	install(DIRECTORY ${ROOT_PATH}/plugins/tls DESTINATION bin)
 
+	install(FILES $ENV{OPENSSL_HOME}/bin/libcrypto-1_1-x64.dll DESTINATION bin)
+	install(FILES $ENV{OPENSSL_HOME}/bin/libssl-1_1-x64.dll DESTINATION  bin)
+
 
 endif (NOT UNIX)
 
@@ -72,8 +75,6 @@ if (MINGW)
 	install(FILES $ENV{MINGW_HOME}/bin/libgcc_s_seh-1.dll DESTINATION bin)
 	install(FILES $ENV{MINGW_HOME}/bin/libstdc++-6.dll DESTINATION  bin)
 	install(FILES $ENV{MINGW_HOME}/bin/libwinpthread-1.dll DESTINATION  bin)
-	install(FILES $ENV{OPENSSL_HOME}/bin/libcrypto-1_1-x64.dll DESTINATION bin)
-	install(FILES $ENV{OPENSSL_HOME}/bin/libssl-1_1-x64.dll DESTINATION  bin)
 endif (MINGW)
 
 string(REGEX MATCH "[0-9]\\.[0-9]+\\.[0-9]+" QT_VERSION ${ROOT_PATH})

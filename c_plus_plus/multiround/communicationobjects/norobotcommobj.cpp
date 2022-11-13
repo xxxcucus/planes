@@ -5,7 +5,8 @@
 
 NoRobotCommObj::~NoRobotCommObj()
 {
-    delete m_LoadingMessageBox;
+    if (m_LoadingMessageBox != nullptr)
+        delete m_LoadingMessageBox;
 }
 
 
@@ -38,6 +39,7 @@ void NoRobotCommObj::errorRequest(QNetworkReply::NetworkError code)
 
     BasisCommObj::errorRequest(code);
     emit registrationFailed();
+    //qDebug() << "registration failed";
 }
 
 void NoRobotCommObj::finishedRequest()
@@ -63,6 +65,7 @@ void NoRobotCommObj::processResponse(const QJsonObject& retJson) {
     }
 
     emit registrationComplete();
+    //qDebug() << "registration completed";
 }
 
 bool NoRobotCommObj::validateReply(const QJsonObject& reply) {

@@ -14,6 +14,7 @@
 #include "gameinfo.h"
 #include "multiplayerround.h"
 #include "norobotwidget.h"
+#include "norobotdialog.h"
 
 class LoginRegisterForm : public QFrame
 {
@@ -26,7 +27,7 @@ private slots:
     void submitSlot();
     void submitLogin();
     void submitRegistration();
-    void noRobotRegistrationSlot(const std::vector<QString>& images, const QJsonObject& registrationReplyJson);
+    void noRobotRegistrationSlot(const std::vector<QString>& images, const QString& question, long int requestId);
     
 private:
     QLineEdit* m_passwordLineEdit = nullptr;
@@ -34,6 +35,7 @@ private:
     bool m_Login = false;
     
     NoRobotWidget* m_NoRobotWidget = nullptr;
+    NoRobotDialog* m_NoRobotDialog = nullptr;
     
     QLabel* m_TitleLabel = nullptr;
     QPushButton* m_ToggleLoginRegistrationButton = nullptr;

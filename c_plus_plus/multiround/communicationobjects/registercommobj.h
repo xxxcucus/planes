@@ -36,7 +36,7 @@ public slots:
 
     
 signals:
-    void noRobotRegistration(const std::vector<QString>& images, const QJsonObject& request);
+    void noRobotRegistration(const std::vector<QString>& images, const QString& question, long int requestId);
     
 private:
     LoginViewModel prepareViewModel(const QString& username, const QString& password);
