@@ -76,7 +76,7 @@ add_library(libMultiRound SHARED
 )
 
 target_link_libraries(libMultiRound
-	libCommon
+	libSingleRound
     libbcrypt
 	Qt6::Widgets
 	Qt6::Network

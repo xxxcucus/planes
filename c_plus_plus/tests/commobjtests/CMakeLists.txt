@@ -52,7 +52,7 @@ add_executable(commobjtest  ${TEST_HEADR} ${TEST_SRCS})
 add_test(NAME commobjtest COMMAND commobjtest)
 
 target_link_libraries(commobjtest 
-		libCommon
+		libSingleRound
 		libMultiRound
 		libbcrypt
         Qt6::Test

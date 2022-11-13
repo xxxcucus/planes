@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.10)
-project (libCommon)
+project (libSingleRound)
 
 cmake_policy(SET CMP0020 NEW)
 cmake_policy(SET CMP0043 NEW)
@@ -51,11 +51,11 @@ set(COMMON_SRCS
 	headdata.cpp)
 
 
-add_library(libCommon SHARED ${COMMON_SRCS} ${COMMON_HEADR})
+add_library(libSingleRound SHARED ${COMMON_SRCS} ${COMMON_HEADR})
 
 
 if (UNIX)
-install(TARGETS libCommon DESTINATION lib)
+install(TARGETS libSingleRound DESTINATION lib)
 else (UNIX)
-install(TARGETS libCommon DESTINATION bin)
+install(TARGETS libSingleRound DESTINATION bin)
 endif (UNIX)

@@ -23,10 +23,10 @@ endif (UNIX)
 add_subdirectory(PlanesWidget)
 add_subdirectory(PlanesGraphicsScene)
 add_subdirectory(PlanesQML)
-add_subdirectory(common)
+add_subdirectory(singleround)
 add_subdirectory(multiround)
 add_subdirectory(bcrypt)
-add_subdirectory(tests)
+add_subdirectory(tests/commobjtests)
 
 
 set(ROOT_PATH ${Qt6_DIR}/../../../)

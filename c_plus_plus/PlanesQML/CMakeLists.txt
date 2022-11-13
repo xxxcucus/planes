@@ -27,7 +27,7 @@ qt_add_resources(RESOURCES qml.qrc)
 add_executable(PlanesQML ${QML_SRCS} ${RESOURCES} ${QML_HEADR})
 
 target_link_libraries(PlanesQML
-	libCommon
+	libSingleRound
 	Qt6::Core
 	Qt6::Quick)
 

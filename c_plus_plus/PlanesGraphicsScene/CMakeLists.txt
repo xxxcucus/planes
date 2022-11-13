@@ -92,7 +92,7 @@ add_executable(PlanesGraphicsScene
 	${GS_HEADR}
 	resources.qrc)
 target_link_libraries(PlanesGraphicsScene
-	libCommon
+	libSingleRound
 	libMultiRound
 	libbcrypt
 	Qt6::Widgets

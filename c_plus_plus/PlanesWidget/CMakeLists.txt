@@ -45,7 +45,7 @@ set(WIDGET_SRCS
 
 add_executable(PlanesWidget ${WIDGET_SRCS} ${UI_HEADERS} ${WIDGET_HEADR})
 target_link_libraries(PlanesWidget 
-	libCommon
+	libSingleRound
 	Qt6::Widgets)
 
 install(TARGETS PlanesWidget DESTINATION bin)
