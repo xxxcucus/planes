@@ -8,11 +8,11 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 include_directories(
-	${CMAKE_CURRENT_SOURCE_DIR}/../multiround/communicationobjects
-	${CMAKE_CURRENT_SOURCE_DIR}/../multiround/global
-	${CMAKE_CURRENT_SOURCE_DIR}/../multiround/
-	${CMAKE_CURRENT_SOURCE_DIR}/../bcrypt
-	${CMAKE_CURRENT_SOURCE_DIR}/../common
+	${CMAKE_CURRENT_SOURCE_DIR}/../../multiround/communicationobjects
+	${CMAKE_CURRENT_SOURCE_DIR}/../../multiround/global
+	${CMAKE_CURRENT_SOURCE_DIR}/../../multiround/
+	${CMAKE_CURRENT_SOURCE_DIR}/../../bcrypt
+	${CMAKE_CURRENT_SOURCE_DIR}/../../common
 	${Qt6Widgets_INCLUDE_DIRS}
 	${Qt6Network_INCLUDE_DIRS}
     ${Qt6Core_INCLUDE_DIRS}

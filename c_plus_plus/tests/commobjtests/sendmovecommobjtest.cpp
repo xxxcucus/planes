@@ -35,7 +35,6 @@ void SendMoveCommObjTest::PrepareViewModelTest()
     gd->m_GameData.m_OtherUserId = 4L;
     m_CommObj.m_GlobalData = gd;
     UnsentMovesViewModel viewModel = m_CommObj.prepareViewModel(4, { 1 }, { 1 }, { GuessPoint(10, 11)});
-    
 
     QVERIFY2(viewModel.m_GameId == 1L, "GameId was not set");
     QVERIFY2(viewModel.m_RoundId == 2L, "RoundId was not set");
