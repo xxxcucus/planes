@@ -21,6 +21,12 @@ Plane::Plane(const PlanesCommonTools::Coordinate2D& qp, Orientation orient) {
     m_orient = orient;
 }
 
+Plane::Plane(const Plane& pl) {
+    m_row = pl.m_row;
+    m_col = pl.m_col;
+    m_orient = pl.m_orient;
+}
+
 //equality operator
 bool Plane::operator==(const Plane& pl1) const {
     return ((pl1.m_row == m_row) && (pl1.m_col == m_col) && (pl1.m_orient == m_orient));
@@ -71,6 +77,7 @@ bool Plane::isPositionValid(int row, int col) const {
 
     while(ppi.hasNext())
     {
+        
         PlanesCommonTools::Coordinate2D qp = ppi.next();
         if(qp.x() < 0 || qp.x() >= row)
             return false;

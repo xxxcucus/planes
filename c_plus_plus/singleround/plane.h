@@ -23,6 +23,7 @@ public:
     Plane();
     Plane(int row, int col, Orientation orient);
     Plane(const PlanesCommonTools::Coordinate2D& qp, Orientation orient);
+    Plane(const Plane& pl);
 
     //setter and getters
     //gives the planes orientation

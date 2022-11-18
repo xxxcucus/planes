@@ -27,6 +27,7 @@ add_subdirectory(singleround)
 add_subdirectory(multiround)
 add_subdirectory(bcrypt)
 add_subdirectory(tests/commobjtests)
+add_subdirectory(tests/singleroundtests)
 
 
 set(ROOT_PATH ${Qt6_DIR}/../../../)

@@ -10,7 +10,7 @@ add_definitions(-DMAKE_MULTIPLAYERROUND_LIB)
 
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
-	${CMAKE_CURRENT_SOURCE_DIR}/../common
+	${CMAKE_CURRENT_SOURCE_DIR}/../singleround
 	${CMAKE_CURRENT_SOURCE_DIR}/../bcrypt
 	${Qt6Widgets_INCLUDE_DIRS}
 	${Qt6Network_INCLUDE_DIRS}
