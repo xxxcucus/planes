@@ -17,11 +17,13 @@ set(TEST_HEADR
 	planetest.h
 	coordinate2dtest.h
 	vectoriteratortest.h
+	planepointiteratortest.h
 )
 
 set(TEST_SRCS 
 	planetest.cpp
 	vectoriteratortest.cpp
+	planepointiteratortest.cpp
 	coordinate2dtest.cpp
 	main.cpp)
 

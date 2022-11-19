@@ -1,6 +1,7 @@
 #include "planetest.h"
 #include "coordinate2dtest.h"
 #include "vectoriteratortest.h"
+#include "planepointiteratortest.h"
 
 int main(int argc, char** argv)
 {
@@ -19,6 +20,12 @@ int main(int argc, char** argv)
        VectorIteratorTest tc;
        status |= QTest::qExec(&tc, argc, argv);
    }
+
+   {
+       PlanePointIteratorTest tc;
+       status |= QTest::qExec(&tc, argc, argv);
+   }
+
 
    return status;
 }

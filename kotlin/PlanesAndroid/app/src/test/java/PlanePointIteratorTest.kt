@@ -86,11 +86,11 @@ class PlanePointIteratorTest {
 
     private fun computeHisto(values: Vector<Int>): HashMap<Int, Int> {
         val retVal = HashMap<Int, Int>()
-        for (`val` in values) {
-            if (retVal.containsKey(`val`)) {
-                retVal[`val`] = retVal[`val`]!! + 1
+        for (value in values) {
+            if (retVal.containsKey(value)) {
+                retVal[value] = retVal[value]!! + 1
             } else {
-                retVal[`val`] = 1
+                retVal[value] = 1
             }
         }
         return retVal
