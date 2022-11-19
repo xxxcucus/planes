@@ -16,10 +16,12 @@ include_directories(
 set(TEST_HEADR 
 	planetest.h
 	coordinate2dtest.h
+	vectoriteratortest.h
 )
 
 set(TEST_SRCS 
 	planetest.cpp
+	vectoriteratortest.cpp
 	coordinate2dtest.cpp
 	main.cpp)
 

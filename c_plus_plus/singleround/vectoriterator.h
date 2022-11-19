@@ -26,6 +26,8 @@ public:
     const T& next();
     //returns number of elements
     int itemNo() const;
+    //for tests
+    void setInternalList(const std::vector<T>& list);
 };
 
 template <class T>
@@ -62,6 +64,13 @@ template <class T>
 int VectorIterator<T>::itemNo() const
 {
     return m_internalList.size();
+}
+
+
+//for test purposes
+template <class T>
+void VectorIterator<T>::setInternalList(const std::vector<T>& list) {
+    m_internalList = list;
 }
 
 }
