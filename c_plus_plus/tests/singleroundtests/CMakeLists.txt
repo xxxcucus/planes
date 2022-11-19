@@ -18,12 +18,14 @@ set(TEST_HEADR
 	coordinate2dtest.h
 	vectoriteratortest.h
 	planepointiteratortest.h
+	planeintersectingpointiteratortest.h
 )
 
 set(TEST_SRCS 
 	planetest.cpp
 	vectoriteratortest.cpp
 	planepointiteratortest.cpp
+	planeintersectingpointiteratortest.cpp
 	coordinate2dtest.cpp
 	main.cpp)
 

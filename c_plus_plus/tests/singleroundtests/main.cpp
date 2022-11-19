@@ -2,6 +2,7 @@
 #include "coordinate2dtest.h"
 #include "vectoriteratortest.h"
 #include "planepointiteratortest.h"
+#include "planeintersectingpointiteratortest.h"
 
 int main(int argc, char** argv)
 {
@@ -26,6 +27,10 @@ int main(int argc, char** argv)
        status |= QTest::qExec(&tc, argc, argv);
    }
 
+   {
+       PlaneIntersectingPointIteratorTest tc;
+       status |= QTest::qExec(&tc, argc, argv);
+   }
 
    return status;
 }
