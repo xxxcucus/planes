@@ -15,10 +15,12 @@ include_directories(
 
 set(TEST_HEADR 
 	planetest.h
+	coordinate2dtest.h
 )
 
 set(TEST_SRCS 
 	planetest.cpp
+	coordinate2dtest.cpp
 	main.cpp)
 
 enable_testing(true)
