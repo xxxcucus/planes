@@ -32,6 +32,7 @@ struct PlaneOrientationData
     bool areAllPointsChecked();
 
     friend class PlaneOrientationDataTest;
+    friend class HeadDataTest;
 };
 
 #endif

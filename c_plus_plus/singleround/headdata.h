@@ -12,13 +12,15 @@ struct HeadData
     //the correct plane orientation if decided
     int m_correctOrient;
 
-    //statistics about the 4 positions with this head
+    //statistics about the 4 orientations with this head
     PlaneOrientationData m_options[4];
 
     HeadData(int row, int col, int headRow, int headCol);
     //update the current data with a guess
     //return true if a plane is confirmed
     bool update(const GuessPoint& gp);
+
+    friend class HeadDataTest;
 };
 
 #endif

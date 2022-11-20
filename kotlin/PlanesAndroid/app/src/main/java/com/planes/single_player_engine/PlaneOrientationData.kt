@@ -47,6 +47,7 @@ class PlaneOrientationData {
 
         //if point found
         //if dead and point is the planes head remove the head from the list of untested points
+        //TODO: the head point is not in the list so this is useless
         if (gp.type() === Type.Dead && m_plane.isHead(Coordinate2D(gp.row(), gp.col()))) {
             m_pointsNotTested.removeAt(idx)
             return

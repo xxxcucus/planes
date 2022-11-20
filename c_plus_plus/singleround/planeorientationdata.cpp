@@ -57,11 +57,11 @@ void PlaneOrientationData::update(const GuessPoint &gp)
 	//if point found
 	//if dead and idx = 0 remove the head from the list of untested points
 	//TODO: this is not needed. The head is not in the list
-	if (gp.m_type == GuessPoint::Dead && m_plane.isHead(PlanesCommonTools::Coordinate2D(gp.m_row, gp.m_col)))
+	/*if (gp.m_type == GuessPoint::Dead && m_plane.isHead(PlanesCommonTools::Coordinate2D(gp.m_row, gp.m_col)))
 	{
 		m_pointsNotTested.erase(it);
 		return;
-	}
+	}*/
 
 	//if miss or dead discard plane
 	if (gp.m_type == GuessPoint::Miss || gp.m_type == GuessPoint::Dead)
