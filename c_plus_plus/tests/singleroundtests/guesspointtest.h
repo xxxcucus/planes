@@ -6,13 +6,14 @@
 #include <QTest>
 
 
-class GuessPointTypeTest : public QObject {
+class GuessPointTest : public QObject {
     Q_OBJECT
 
 
 private slots:
     void initTestCase();
     void Type_Values();
+    void GuessPoint_SetType();
     void cleanupTestCase();
 };
 
