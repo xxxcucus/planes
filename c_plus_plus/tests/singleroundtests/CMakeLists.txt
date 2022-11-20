@@ -19,6 +19,7 @@ set(TEST_HEADR
 	vectoriteratortest.h
 	planepointiteratortest.h
 	planeintersectingpointiteratortest.h
+	orientationtest.h
 )
 
 set(TEST_SRCS 
@@ -27,6 +28,7 @@ set(TEST_SRCS
 	planepointiteratortest.cpp
 	planeintersectingpointiteratortest.cpp
 	coordinate2dtest.cpp
+	orientationtest.cpp
 	main.cpp)
 
 enable_testing(true)
