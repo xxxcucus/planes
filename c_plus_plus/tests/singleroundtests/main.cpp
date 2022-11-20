@@ -4,6 +4,7 @@
 #include "planepointiteratortest.h"
 #include "planeintersectingpointiteratortest.h"
 #include "orientationtest.h"
+#include "guesspointtypetest.h"
 
 int main(int argc, char** argv)
 {
@@ -35,6 +36,11 @@ int main(int argc, char** argv)
 
    {
        OrientationTest tc;
+       status |= QTest::qExec(&tc, argc, argv);
+   }
+
+   {
+       GuessPointTypeTest tc;
        status |= QTest::qExec(&tc, argc, argv);
    }
 
