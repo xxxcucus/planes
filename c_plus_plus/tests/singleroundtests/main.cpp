@@ -6,6 +6,7 @@
 #include "orientationtest.h"
 #include "guesspointtest.h"
 #include "gamestagestest.h"
+#include "planeorientationdatatest.h"
 
 int main(int argc, char** argv)
 {
@@ -47,6 +48,12 @@ int main(int argc, char** argv)
 
    {
        GameStagesTest tc;
+       status |= QTest::qExec(&tc, argc, argv);
+   }
+
+
+   {
+       PlaneOrientationDataTest tc;
        status |= QTest::qExec(&tc, argc, argv);
    }
 

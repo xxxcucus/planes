@@ -22,6 +22,7 @@ set(TEST_HEADR
 	orientationtest.h
 	guesspointtest.h
 	gamestagestest.h
+	planeorientationdatatest.h
 )
 
 set(TEST_SRCS 
@@ -33,6 +34,7 @@ set(TEST_SRCS
 	orientationtest.cpp
 	guesspointtest.cpp
 	gamestagestest.cpp
+	planeorientationdatatest.cpp
 	main.cpp)
 
 enable_testing(true)

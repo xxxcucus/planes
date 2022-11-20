@@ -30,6 +30,8 @@ struct PlaneOrientationData
     void update(const GuessPoint& gp);
     //verifies if all the points in the current orientation were already checked
     bool areAllPointsChecked();
+
+    friend class PlaneOrientationDataTest;
 };
 
 #endif
