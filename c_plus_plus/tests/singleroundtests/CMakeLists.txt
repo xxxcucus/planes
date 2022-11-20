@@ -21,6 +21,7 @@ set(TEST_HEADR
 	planeintersectingpointiteratortest.h
 	orientationtest.h
 	guesspointtypetest.h
+	gamestagestest.h
 )
 
 set(TEST_SRCS 
@@ -31,6 +32,7 @@ set(TEST_SRCS
 	coordinate2dtest.cpp
 	orientationtest.cpp
 	guesspointtypetest.cpp
+	gamestagestest.cpp
 	main.cpp)
 
 enable_testing(true)
