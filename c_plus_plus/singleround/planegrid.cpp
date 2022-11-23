@@ -18,7 +18,6 @@ PlaneGrid::PlaneGrid(int row, int col, int planesNo, bool isComputer):
 void PlaneGrid::initGrid()
 {
     resetGrid();
-
     initGridByAutomaticGeneration();
     //commented because of interfacing with Java
 	/*if (!m_isComputer)

@@ -139,6 +139,17 @@ private:
     //when it belongs to more planes the function is called
     //more times and the results are combined
     int generateAnnotation(int planeNo, bool isHead);
+
+    //for unit tests
+    void setPlanePoints(const std::vector<PlanesCommonTools::Coordinate2D>& list) {
+        m_listPlanePoints = list;
+    }
+
+    void clearPlanes() {
+        m_planeList.clear();
+    }
+
+    friend class PlaneGridTest;
 };
 
 #endif // PLANEGRID_H

@@ -8,6 +8,7 @@
 #include "gamestagestest.h"
 #include "planeorientationdatatest.h"
 #include "headdatatest.h"
+#include "planegridtest.h"
 
 int main(int argc, char** argv)
 {
@@ -60,6 +61,11 @@ int main(int argc, char** argv)
 
    {
        HeadDataTest tc;
+       status |= QTest::qExec(&tc, argc, argv);
+   }
+
+   {
+       PlaneGridTest tc;
        status |= QTest::qExec(&tc, argc, argv);
    }
 

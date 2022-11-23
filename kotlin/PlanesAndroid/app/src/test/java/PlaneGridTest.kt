@@ -58,7 +58,9 @@ class PlaneGridTest {
         val rows = 10
         val cols = 10
         val grid = PlaneGridStubNoPlanes(rows, cols, 3, false)
-        grid.setPlanePoints(Vector(Arrays.asList(*arrayOf(Coordinate2D(0, 0), Coordinate2D(0, 1)))))
+        var coordinateVector = Vector<Coordinate2D>()
+        coordinateVector.addAll(listOf(Coordinate2D(0,0), Coordinate2D(0, 1)))
+        grid.setPlanePoints(coordinateVector);
         Truth.assertThat(grid.isPointOnPlane(0, 0).first).isTrue()
         Truth.assertThat(grid.isPointOnPlane(0, 0).second == 0).isTrue()
         Truth.assertThat(grid.isPointOnPlane(0, 1).first).isTrue()
@@ -143,10 +145,18 @@ class PlaneGridTest {
         val rows = 10
         val cols = 10
         val grid = PlaneGridStubNoPlanes(rows, cols, 3, false)
-        Truth.assertThat(grid.decodeAnnotation(1)).isEqualTo(Vector(Arrays.asList(*arrayOf(0))))
-        Truth.assertThat(grid.decodeAnnotation(2)).isEqualTo(Vector(Arrays.asList(*arrayOf(-1))))
-        Truth.assertThat(grid.decodeAnnotation(5)).isEqualTo(Vector(Arrays.asList(*arrayOf(0, 1))))
-        Truth.assertThat(grid.decodeAnnotation(9)).isEqualTo(Vector(Arrays.asList(*arrayOf(0, -2))))
+        var result = Vector<Int>()
+        result.addAll(listOf(0));
+        Truth.assertThat(grid.decodeAnnotation(1)).isEqualTo(result)
+        result.clear()
+        result.addAll(listOf(-1));
+        Truth.assertThat(grid.decodeAnnotation(2)).isEqualTo(result)
+        result.clear()
+        result.addAll(listOf(0, 1))
+        Truth.assertThat(grid.decodeAnnotation(5)).isEqualTo(result)
+        result.clear()
+        result.addAll(listOf(0, -2))
+        Truth.assertThat(grid.decodeAnnotation(9)).isEqualTo(result)
     }
 
     @Test

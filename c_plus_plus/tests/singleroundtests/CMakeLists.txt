@@ -24,6 +24,7 @@ set(TEST_HEADR
 	gamestagestest.h
 	planeorientationdatatest.h
 	headdatatest.h
+	planegridtest.h
 )
 
 set(TEST_SRCS 
@@ -37,6 +38,7 @@ set(TEST_SRCS
 	gamestagestest.cpp
 	planeorientationdatatest.cpp
 	headdatatest.cpp
+	planegridtest.cpp
 	main.cpp)
 
 enable_testing(true)
