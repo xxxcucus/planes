@@ -51,13 +51,7 @@ protected:
     //choice is -1 means that plane position is there impossible
     //choice 0 means no data about the choice is available
     //choice = k means that k data exist that support this choice
-    int* m_choices;
-
-    //array keeping the number of points with positive m_choice influenced by a given point
-    //contains:
-    //-1 when a guess has been made at this point, the position is impossible, or there is already data about this point
-    //a positive number showing how many points are influenced by this point
-    int* m_zero_choices;
+    std::vector<int> m_choices;
 
     //put here so that we calculate the list of indices only once
     //this iterator gives all the planes that intersect the
@@ -86,7 +80,7 @@ public:
     const std::vector<GuessPoint>&  getListGuesses() const { return m_guessesList; }
     const std::vector<GuessPoint>& getExtendedListGuesses() const { return m_extendedGuessesList; }
     //gets the choices
-    const int* getChoicesArray() const { return m_choices; }
+    const std::vector<int> getChoicesArray() const { return m_choices; }
     //computes the position in the m_choices array of a given plane
     int mapPlaneToIndex(const Plane& pl) const;
 
@@ -115,6 +109,8 @@ private:
     void updateChoiceMapMissInfo(int row, int col);
     //updates the choices with the info about a found plane
     void updateChoiceMapPlaneData(const Plane& pl);
+
+    friend class ComputerLogicTest;
 };
 
 #endif // COMPUTERLOGIC_H

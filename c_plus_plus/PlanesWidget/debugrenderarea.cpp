@@ -67,7 +67,7 @@ void DebugRenderArea::drawScores(QPainter *painter) const
         {
             Plane pl(i,j,m_orient);
             int idx = m_logic->mapPlaneToIndex(pl);
-            const int *values = m_logic->getChoicesArray();
+            const std::vector<int> values = m_logic->getChoicesArray();
             if(values[idx]==0)
                 fillGridRect(i,j,QString("Yellow"),painter);
             if(values[idx]>0)

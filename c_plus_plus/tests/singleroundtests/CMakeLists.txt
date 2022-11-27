@@ -25,6 +25,7 @@ set(TEST_HEADR
 	planeorientationdatatest.h
 	headdatatest.h
 	planegridtest.h
+	computerlogictest.h
 )
 
 set(TEST_SRCS 
@@ -39,6 +40,7 @@ set(TEST_SRCS
 	planeorientationdatatest.cpp
 	headdatatest.cpp
 	planegridtest.cpp
+	computerlogictest.cpp
 	main.cpp)
 
 enable_testing(true)

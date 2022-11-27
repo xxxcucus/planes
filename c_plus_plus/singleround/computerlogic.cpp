@@ -12,8 +12,7 @@ ComputerLogic::ComputerLogic(int row, int col, int planeno):
     m_planeNo(planeno)
 {
     //creates the tables of choices
-    m_choices = new int[maxChoiceNo];
-    m_zero_choices = new int[maxChoiceNo / 4];
+    m_choices = std::vector<int>(maxChoiceNo);
 
     //initializes the table of choices and the head data
     reset();
@@ -49,8 +48,6 @@ void ComputerLogic::reset()
 ComputerLogic::~ComputerLogic()
 {
     //deletes the object containing the choices
-    delete [] m_choices;
-    delete [] m_zero_choices;
 }
 
 //computes the position in the m_choices array of a given plane
@@ -400,7 +397,7 @@ void ComputerLogic::updateChoiceMapMissInfo(int row, int col)
             continue;
 
         //position is valid; because it includes a miss
-        //it must be taken out from the list of choice
+        //it must be taken out from the list of choices
 
         int idx = mapPlaneToIndex(pl);
         if(m_choices[idx] >= 0)
