@@ -13,7 +13,7 @@ option(With_Asan "Compile with Address Sanitizer support" OFF)
 
 
 if (UNIX)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 ")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++17 ")
 	if (With_Asan)
 		set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 		set (CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
@@ -109,6 +109,7 @@ if (UNIX)
 
 	install(FILES ${ROOT_PATH}/lib/libQt6Widgets.so.${QT_MAJOR} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6Gui.so.${QT_MAJOR} DESTINATION lib)
+	install(FILES ${ROOT_PATH}/lib/libQt6Test.so.${QT_MAJOR} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6Core.so.${QT_MAJOR} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6Qml.so.${QT_MAJOR} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6QmlWorkerScript.so.${QT_MAJOR} DESTINATION lib)
