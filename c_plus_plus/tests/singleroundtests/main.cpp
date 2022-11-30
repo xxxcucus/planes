@@ -10,6 +10,7 @@
 #include "headdatatest.h"
 #include "planegridtest.h"
 #include "computerlogictest.h"
+#include "planeroundtest.h"
 
 int main(int argc, char** argv)
 {
@@ -72,6 +73,11 @@ int main(int argc, char** argv)
 
    {
        ComputerLogicTest tc;
+       status |= QTest::qExec(&tc, argc, argv);
+   }
+
+   {
+       PlaneRoundTest tc;
        status |= QTest::qExec(&tc, argc, argv);
    }
 

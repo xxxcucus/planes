@@ -92,6 +92,7 @@ public:
 	}
 
 	int getPlaneSquareType(int i, int j, bool isComputer);
+	
 
 	int getPlayerGuessesNo() {
 		return int(m_playerGuessList.size());
@@ -142,6 +143,8 @@ protected:
 
 	virtual void updateGameStatsAndGuessListPlayer(const GuessPoint& gp);
 	//void updateGameStatsAndReactionComputer(PlayerGuessReaction& pgr);
+
+	int getPlaneSquareType(PlaneGrid* grid, int row, int col);
 
 protected:
 	//whether the computer or the player moves first

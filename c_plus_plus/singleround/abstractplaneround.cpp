@@ -113,43 +113,35 @@ int AbstractPlaneRound::getPlaneSquareType(int row, int col, bool isComputer)
 	bool isOnPlane = false;
 
 	if (isComputer) {
-		int idxInPlanePointList = 0;
-		isOnPlane = m_ComputerGrid->isPointOnPlane(row, col, idxInPlanePointList);
-		if (!isOnPlane)
-			return 0;
-		int annotation = m_ComputerGrid->getPlanePointAnnotation(idxInPlanePointList);
-		std::vector<int> planesIdx = m_ComputerGrid->decodeAnnotation(annotation);
-		if (planesIdx.size() > 1) {
-			return -1;
-		} 
-		
-		if (planesIdx.size() == 1) {
-			if (planesIdx[0] < 0)
-				return -2;
-			else
-				return (planesIdx[0] + 1);
-		}
+		return getPlaneSquareType(m_ComputerGrid, row, col);
 	} else {
-		int idxInPlanePointList = 0;
-		isOnPlane = m_PlayerGrid->isPointOnPlane(row, col, idxInPlanePointList);
-		if (!isOnPlane)
-			return 0;
-		int annotation = m_PlayerGrid->getPlanePointAnnotation(idxInPlanePointList);
-		std::vector<int> planesIdx = m_PlayerGrid->decodeAnnotation(annotation);
-		if (planesIdx.size() > 1) {
-			return -1;
-		}
-
-		if (planesIdx.size() == 1) {
-			if (planesIdx[0] < 0)
-				return -2;
-			else
-				return (planesIdx[0] + 1);
-		}
+		return getPlaneSquareType(m_PlayerGrid, row, col);
 	}
 
 	return 0;
 }
+
+int AbstractPlaneRound::getPlaneSquareType(PlaneGrid* grid, int row, int col) {
+	int idxInPlanePointList = 0;
+	bool isOnPlane = grid->isPointOnPlane(row, col, idxInPlanePointList);
+	if (!isOnPlane)
+		return 0;
+	int annotation = grid->getPlanePointAnnotation(idxInPlanePointList);
+	std::vector<int> planesIdx = m_ComputerGrid->decodeAnnotation(annotation);
+	if (planesIdx.size() > 1) {
+		return -1;
+	}
+
+	if (planesIdx.size() == 1) {
+		if (planesIdx[0] < 0)
+			return -2;
+		else
+			return (planesIdx[0] + 1);
+	}
+
+	return 0;
+}
+
 
 bool AbstractPlaneRound::rotatePlane(int idx) {
 	m_PlayerGrid->rotatePlane(idx);
@@ -188,10 +180,10 @@ void AbstractPlaneRound::updateGameStatsAndGuessListPlayer(const GuessPoint& gp)
 	//printf("show after kill %d \n", m_RoundOptions.m_ShowPlaneAfterKill);
 }
 
-/**void AbstractPlaneRound::updateGameStatsAndReactionComputer(PlayerGuessReaction& pgr) {
-	GuessPoint gpc = guessComputerMove();
-	m_PlayerGrid->addGuess(gpc);
-	updateGameStats(gpc, true);
-	pgr.m_ComputerMoveGenerated = true;
-	pgr.m_ComputerGuess = gpc;
-}**/
+int AbstractPlaneRound::playerGuessAlreadyMade(int row, int col) {
+	for (GuessPoint guess: m_playerGuessList) {
+		if (guess.m_row == col && guess.m_col == row)
+			return 1;
+	}
+	return 0;
+}
