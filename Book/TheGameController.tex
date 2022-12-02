@@ -70,38 +70,30 @@ The game controller interacts with the outside (the graphical user interface) th
 
 void PlaneRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr)
 {
-	if (m_State != GameStages::Game)
-		return;
-
-	if (m_isComputerFirst) {
-		GuessPoint gpc = guessComputerMove();
-		updateGameStats(gpc, true);
-		pgr.m_ComputerMoveGenerated = true;
-		pgr.m_ComputerGuess = gpc;
+	if (m_State != AbstractPlaneRound::GameStages::Game)
+	return;
 	
-		//update the game statistics
-		updateGameStats(gp, false);
-		//add the player's guess to the list of guesses
-		//assume that the guess is different from the other guesses
-		m_playerGuessList.push_back(gp);
+	if (m_isComputerFirst) {
+		updateGameStatsAndReactionComputer(pgr);
+		updateGameStatsAndGuessListPlayer(gp);
 	} else {
-		//update the game statistics
-		updateGameStats(gp, false);
-		//add the player's guess to the list of guesses
-		//assume that the guess is different from the other guesses
-		m_playerGuessList.push_back(gp);
-		
-		GuessPoint gpc = guessComputerMove();
-		updateGameStats(gpc, true);
-		pgr.m_ComputerMoveGenerated = true;
-		pgr.m_ComputerGuess = gpc;
+		updateGameStatsAndGuessListPlayer(gp);
+		updateGameStatsAndReactionComputer(pgr);
 	}
 	
 	bool isPlayerWinner = false;
-	if (roundEnds(isPlayerWinner)) {
-		m_gameStats.updateWins(isPlayerWinner);
+	bool isComputerWinner = false;
+	if (roundEnds(isPlayerWinner, isComputerWinner)) {
+		if (isPlayerWinner && isComputerWinner) {
+			m_gameStats.updateDraws();
+			pgr.m_isDraw = true;
+		} else {
+			m_gameStats.updateWins(isPlayerWinner);
+			pgr.m_isDraw = false;
+		}
+		
 		pgr.m_RoundEnds = true;
-		m_State = GameStages::GameNotStarted;
+		m_State = AbstractPlaneRound::GameStages::GameNotStarted;
 		pgr.m_isPlayerWinner = isPlayerWinner;
 	} else {
 		pgr.m_RoundEnds = false;
