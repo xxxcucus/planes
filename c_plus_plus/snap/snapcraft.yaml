@@ -1,0 +1,31 @@
+name: planes
+version: 0.3.10.1
+grade: stable
+adopt-info: planes
+
+confinement: devmode
+base: core18
+
+apps:
+  planes:
+    common-id: com.planes.desktop
+    command: planes
+    extensions:
+      - kde-neon
+
+parts:
+  kcalc:
+    parse-info:
+      - snap/planes.metainfo.xml
+    plugin: cmake
+    build-snaps:
+      - kde-frameworks-5-core18-sdk
+      - kde-frameworks-5-core18
+    source: /home/xxxcucus/planes/c_plus_plus
+    configflags:
+      - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+      - "-DCMAKE_INSTALL_PREFIX=/usr"
+      - "-DCMAKE_BUILD_TYPE=Release"
+      - "-DENABLE_TESTING=OFF"
+      - "-DBUILD_TESTING=OFF"
+      - "-DKDE_SKIP_TEST_SETTINGS=ON"
