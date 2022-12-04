@@ -68,7 +68,7 @@ else()
 	set(QT_MAJOR "5")
 	set(QT_MINOR "15")
 	set(QT_REVISION "5")
-	set(ROOT_PATH ${Qt5_DIR}/../)
+	set(ROOT_PATH ${Qt5_DIR}/../../)
 endif()
 
 message("Used Qt Version: " ${QT_MAJOR} " " ${QT_MINOR} " " ${QT_REVISION})
