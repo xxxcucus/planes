@@ -111,7 +111,7 @@ if (UNIX)
 	install(FILES ${ROOT_PATH}/libicuuc.so.66 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libicudata.so.66 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libicui18n.so.66 DESTINATION lib)
-	install(DIRECTORY ${ROOT_PATH}/plugins/platforms/ DESTINATION bin/platforms/)
+	install(DIRECTORY ${ROOT_PATH}/qt5/plugins/platforms/ DESTINATION bin/platforms/)
 	
 	install(FILES ${ROOT_PATH}/libQt5QuickControls2.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libQt5Quick.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
