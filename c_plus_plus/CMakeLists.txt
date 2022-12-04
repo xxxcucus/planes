@@ -57,11 +57,18 @@ if (MINGW)
 	install(FILES $ENV{MINGW_HOME}/bin/libwinpthread-1.dll DESTINATION  bin)
 endif (MINGW)
 
-string(REGEX MATCH "[0-9]\\.[0-9]+\\.[0-9]+" QT_VERSION ${ROOT_PATH})
-string(REPLACE "." ";" QT_VERSION_LIST ${QT_VERSION})
-list(GET QT_VERSION_LIST 0 QT_MAJOR)
-list(GET QT_VERSION_LIST 1 QT_MINOR)
-list(GET QT_VERSION_LIST 2 QT_REVISION)
+if (${QT_VERSION} MATCHES "[0-9]\\.[0-9]+\\.[0-9]+")
+	string(REGEX MATCH "[0-9]\\.[0-9]+\\.[0-9]+" QT_VERSION ${ROOT_PATH})
+	string(REPLACE "." ";" QT_VERSION_LIST ${QT_VERSION})
+	list(GET QT_VERSION_LIST 0 QT_MAJOR)
+	list(GET QT_VERSION_LIST 1 QT_MINOR)
+	list(GET QT_VERSION_LIST 2 QT_REVISION)
+else()
+	set(QT_MAJOR "5")
+	set(QT_MINOR "15")
+	set(QT_REVISION "3")
+endif()
+
 message("Used Qt Version: " ${QT_MAJOR} " " ${QT_MINOR} " " ${QT_REVISION})
 
 #todo: install qml in linux
