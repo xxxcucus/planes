@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.planes.desktop</id> 
+  <name>Planes Single Player</name>
+  <summary>Planes Single Player is a variant of the Battleships game for Linux</summary>
+  <description>
+    Position your planes on your game board and guess where the computer has hidden its before it guesses where you have hidden yours.
+  </description>
+  <icon type="local">../fastlane/metadata/android/en-US/images/icon.png</icon>
+  <launchable type="desktop-id">
+    com.planes.desktop
+  </launchable>
+  <releases>
+    <release date="2020-10-25" version="0.3.10.1"/>
+  </releases>
+</component>
