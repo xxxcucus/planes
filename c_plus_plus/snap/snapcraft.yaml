@@ -9,7 +9,7 @@ base: core20
 apps:
   planes:
     common-id: com.planes.desktop
-    command: planes
+    command: usr/local/PlanesQML.sh
     extensions:
       - kde-neon
 
@@ -17,7 +17,7 @@ apps:
 parts:
    planes:
     parse-info:
-      - planes.metainfo.xml
+      - /root/parts/planes/src/c_plus_plus/planes.metainfo.xml
     plugin: cmake
     build-snaps:
       - kde-frameworks-5-91-qt-5-15-3-core20-sdk
@@ -25,3 +25,5 @@ parts:
     source: https://github.com/xxxcucus/planes.git
     source-subdir: c_plus_plus
     source-branch: 0.3.10.1-branch
+    stage-packages: 
+        - libgl1
