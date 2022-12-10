@@ -130,7 +130,7 @@ if (UNIX)
 	install(DIRECTORY ${ROOT_PATH}/qt5/qml/QtQuick/Layouts DESTINATION bin/QtQuick/)
 	install(DIRECTORY ${ROOT_PATH}/qt5/qml/QtQuick/Templates.2 DESTINATION bin/QtQuick/)
 	install(DIRECTORY ${ROOT_PATH}/qt5/qml/QtQuick/Window.2 DESTINATION bin/QtQuick/)	
-	install(DIRECTORY ${ROOT_PATH}/qt5/qml/QtQuick.2 DESTINATION bin/QtQuick)
+	install(DIRECTORY ${ROOT_PATH}/qt5/qml/QtQuick.2 DESTINATION bin)
 	install(DIRECTORY ${ROOT_PATH}/qt5/qml/QtQml DESTINATION bin)
 	
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/PlanesWidget.sh PERMISSIONS WORLD_EXECUTE WORLD_WRITE WORLD_READ DESTINATION .)
