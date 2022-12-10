@@ -1,4 +1,4 @@
-package com.planes.test
+package com.planes.singleround.test.com.planes.singleround.test
 import com.google.common.truth.Truth
 import com.planes.single_player_engine.Coordinate2D
 import org.junit.Test
