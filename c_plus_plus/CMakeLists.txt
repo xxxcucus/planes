@@ -136,9 +136,13 @@ if (UNIX)
 	install(FILES ${ROOT_PATH}/libGL.so.1 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libGL.so.1.7.0 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libpng16.so.16 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libpng16.so.16.37.0 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libharfbuzz.so.0 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libharfbuzz.so.0.20600.4 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libmd4c.so.0 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libmd4c.so.0.4.8 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libdouble-conversion.so.3 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libdouble-conversion.so.3.1 DESTINATION lib)
 
 	
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/PlanesWidget.sh PERMISSIONS WORLD_EXECUTE WORLD_WRITE WORLD_READ DESTINATION .)
