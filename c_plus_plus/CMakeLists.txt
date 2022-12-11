@@ -144,6 +144,14 @@ if (UNIX)
 	install(FILES ${ROOT_PATH}/libdouble-conversion.so.3 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libdouble-conversion.so.3.1 DESTINATION lib)
 
+	install(FILES ${ROOT_PATH}/libpcre2-16.so.0 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libzstd.so.1 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libglib-2.0.so.0 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libgssapi_krb5.so.2 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libGLdispatch.so.0 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libGLX.so.0 DESTINATION lib)
+
+
 	
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/PlanesWidget.sh PERMISSIONS WORLD_EXECUTE WORLD_WRITE WORLD_READ DESTINATION .)
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/PlanesGraphicsScene.sh PERMISSIONS WORLD_EXECUTE WORLD_WRITE WORLD_READ DESTINATION .)
