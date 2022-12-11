@@ -133,7 +133,7 @@ if (UNIX)
 	install(DIRECTORY ${ROOT_PATH}/qt5/qml/QtQuick.2 DESTINATION bin)
 	install(DIRECTORY ${ROOT_PATH}/qt5/qml/QtQml DESTINATION bin)
 
-	install(FILES ${ROOT_PATH}/../lib/x86_64-linux-gnu/libGL.so.1 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libGL.so.1 DESTINATION lib)
 
 	
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/PlanesWidget.sh PERMISSIONS WORLD_EXECUTE WORLD_WRITE WORLD_READ DESTINATION .)
