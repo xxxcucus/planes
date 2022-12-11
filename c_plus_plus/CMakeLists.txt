@@ -146,7 +146,6 @@ if (UNIX)
 
 	install(FILES ${ROOT_PATH}/libpcre2-16.so.0 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libglib-2.0.so.0 DESTINATION lib)
-	install(FILES ${ROOT_PATH}/libgssapi_krb5.so.2 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libGLdispatch.so.0 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libGLX.so.0 DESTINATION lib)
 
