@@ -154,7 +154,9 @@ if (UNIX)
 	install(FILES ${ROOT_PATH}/libGLX.so.0.0.0 DESTINATION lib)
 
 	install(FILES ${ROOT_PATH}/libfreetype.so.6 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libfreetype.so.6.17.1 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libgraphite2.so.3 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libgraphite2.so.3.2.1 DESTINATION lib)
 	#install(FILES ${ROOT_PATH}/libkrb5support.so.0 DESTINATION lib)
 
 	#install(FILES ${ROOT_PATH}/libX11.so.6 DESTINATION lib)
