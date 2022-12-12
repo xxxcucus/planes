@@ -155,7 +155,6 @@ if (UNIX)
 
 	install(FILES ${ROOT_PATH}/libfreetype.so.6 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libgraphite2.so.3 DESTINATION lib)
-	install(FILES ${ROOT_PATH}/libk5crypto.so.3 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libcom_err.so.2 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libkrb5support.so.0 DESTINATION lib)
 
