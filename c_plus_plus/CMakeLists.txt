@@ -153,6 +153,26 @@ if (UNIX)
 	install(FILES ${ROOT_PATH}/libGLX.so.0 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libGLX.so.0.0.0 DESTINATION lib)
 
+	install(FILES ${ROOT_PATH}/libfreetype.so.6 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libgraphite2.so.3 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libpcre.so.3 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libkrb5.so.3 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libk5crypto.so.3 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libcom_err.so.2 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libkrb5support.so.0 DESTINATION lib)
+
+	install(FILES ${ROOT_PATH}/libX11.so.6 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libbrotlidec.so.1 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libkeyutils.so.1 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libresolv.so.2 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libxcb.so.1 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libbrotlicommon.so.1 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libXau.so.6 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libXdmcp.so.6 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libbsd.so.0 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libmd.so.0 DESTINATION lib)
+
+
 
 	
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/PlanesWidget.sh PERMISSIONS WORLD_EXECUTE WORLD_WRITE WORLD_READ DESTINATION .)
