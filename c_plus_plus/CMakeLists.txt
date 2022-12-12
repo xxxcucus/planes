@@ -160,6 +160,7 @@ if (UNIX)
 	#install(FILES ${ROOT_PATH}/libkrb5support.so.0 DESTINATION lib)
 
 	install(FILES ${ROOT_PATH}/libX11.so.6 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libX11.so.6.3.0 DESTINATION lib)
 	#install(FILES ${ROOT_PATH}/libbrotlidec.so.1 DESTINATION lib)
 	#install(FILES ${ROOT_PATH}/libkeyutils.so.1 DESTINATION lib)
 	#install(FILES ${ROOT_PATH}/libresolv.so.2 DESTINATION lib)
