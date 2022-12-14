@@ -27,6 +27,7 @@ parts:
     source-branch: 0.3.10.1-branch
     stage-packages: 
         - libgl1
+        - libgl1-mesa-dri
         - libpng16-16
         - libharfbuzz-dev
         - libmd4c-dev
