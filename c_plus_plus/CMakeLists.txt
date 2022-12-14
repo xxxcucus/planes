@@ -170,6 +170,7 @@ if (UNIX)
 	install(FILES ${ROOT_PATH}/libXau.so.6 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libXau.so.6.0.0 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/libXdmcp.so.6 DESTINATION lib)
+	install(FILES ${ROOT_PATH}/libXdmcp.so.6.0.0 DESTINATION lib)
 	#install(FILES ${ROOT_PATH}/libbsd.so.0 DESTINATION lib)
 	#install(FILES ${ROOT_PATH}/libmd.so.0 DESTINATION lib)
 
