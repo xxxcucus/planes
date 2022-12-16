@@ -12,6 +12,12 @@ apps:
     command: usr/local/PlanesQML.sh
     extensions:
       - kde-neon
+    plugs:
+      - opengl
+      - desktop
+      - home
+      - x11
+      - wayland
 
 
 parts:
@@ -26,8 +32,6 @@ parts:
     source-subdir: c_plus_plus
     source-branch: 0.3.10.1-branch
     stage-packages: 
-        - libgl1
-        - libgl1-mesa-dri
         - libpng16-16
         - libharfbuzz-dev
         - libmd4c-dev
