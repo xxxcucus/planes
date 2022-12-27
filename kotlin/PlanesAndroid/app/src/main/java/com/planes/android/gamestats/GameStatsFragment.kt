@@ -17,8 +17,8 @@ import com.planes.single_player_engine.GameStages
 
 class GameStatsFragment: Fragment() {
     private lateinit var binding: FragmentStatusBinding
-    private var m_MultiplayerRound = MultiplayerRoundJava()
-    private lateinit var m_Context: Context
+    public var m_MultiplayerRound = MultiplayerRoundJava()
+    public lateinit var m_Context: Context
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -41,8 +41,11 @@ class GameStatsFragment: Fragment() {
             m_MultiplayerRound.getGameStats(),
             m_Context
         )
-        (activity as MainActivity).setActionBarTitle(getString(R.string.game_stats))
-        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.GameStats)
+
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.game_stats))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.GameStats)
+        }
 
         val loginButton = binding.statusLogin
         loginButton.setOnClickListener { goToLoginScreen() }
@@ -75,10 +78,12 @@ class GameStatsFragment: Fragment() {
     }
 
     private fun goToLoginScreen() {
-        (activity as MainActivity).startLoginFragment()
+        if (activity is MainActivity)
+            (activity as MainActivity).startLoginFragment()
     }
 
     private fun goToConnectToGameScreen() {
-        (activity as MainActivity).startConnectToGameFragment()
+        if (activity is MainActivity)
+            (activity as MainActivity).startConnectToGameFragment()
     }
 }

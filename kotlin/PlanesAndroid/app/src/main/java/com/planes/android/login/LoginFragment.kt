@@ -24,8 +24,8 @@ class LoginFragment: Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private var m_Username = ""
     private var m_Password = ""
-    private var m_PreferencesService = MultiplayerPreferencesServiceGlobal()
-    private var m_MultiplayerRound = MultiplayerRoundJava()
+    public var m_PreferencesService = MultiplayerPreferencesServiceGlobal()
+    public var m_MultiplayerRound = MultiplayerRoundJava()
     private lateinit var m_LoginCommObj: LoginCommObj
 
     override fun onAttach(context: Context) {
@@ -40,8 +40,11 @@ class LoginFragment: Fragment() {
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         binding.settingsData = LoginViewModel(m_Username, m_Password)
-        (activity as MainActivity).setActionBarTitle(getString(R.string.login))
-        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Login)
+
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.login))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Login)
+        }
 
         val saveSettingsButton = binding.login
         saveSettingsButton.setOnClickListener { performLogin() }
@@ -73,11 +76,13 @@ class LoginFragment: Fragment() {
     }
 
     private fun goToRegistration() {
-        (activity as MainActivity).startRegistrationFragment()
+        if (activity is MainActivity)
+            (activity as MainActivity).startRegistrationFragment()
     }
 
     private fun goToCreateGame() {
-        (activity as MainActivity).startConnectToGameFragment()
+        if (activity is MainActivity)
+            (activity as MainActivity).startConnectToGameFragment()
     }
 
     override fun onDetach () {
@@ -89,13 +94,15 @@ class LoginFragment: Fragment() {
 
     private fun saveCredentials(username: String, password: String, authorizationHeader: String) {
         m_MultiplayerRound.setUserData(username, password, authorizationHeader)
-        (activity as MainActivity).showSaveCredentialsPopup(username, password)
+        if (activity is MainActivity)
+            (activity as MainActivity).showSaveCredentialsPopup(username, password)
     }
 
 
     private fun finalizeLoginSuccessful() {
         binding.creategame.isEnabled = true
-        (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
+        if (activity is MainActivity)
+            (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
     }
 
     private fun createObservable() : Observable<Response<LoginResponse>> {
@@ -108,7 +115,8 @@ class LoginFragment: Fragment() {
             return
 
         m_MultiplayerRound.setUserData("", "", "")
-        (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
+        if (activity is MainActivity)
+            (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
 
         m_LoginCommObj = LoginCommObj(::createObservable, getString(R.string.loginerror),
             getString(R.string.unknownerror), binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password,
@@ -129,7 +137,7 @@ class LoginFragment: Fragment() {
     }
 
 
-    private fun validationUsernamePasswordLogin(username: String, password: String) : String {
+    public fun validationUsernamePasswordLogin(username: String, password: String) : String {
         var retString = ""
 
         if (username.length > 30) {
@@ -152,6 +160,7 @@ class LoginFragment: Fragment() {
     }
 
     private fun hideLoading() {
-        (activity as MainActivity).stopProgressDialog()
+        if (activity is MainActivity)
+            (activity as MainActivity).stopProgressDialog()
     }
 }

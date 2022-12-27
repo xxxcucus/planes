@@ -23,10 +23,10 @@ class NoRobotFragment : Fragment() {
     private lateinit var m_PhotosList: List<PhotoModel>
     private lateinit var m_PhotosAdapter: PhotoAdapter
 
-    private var m_RequestId: Long = 0
-    private lateinit var m_Question: String
-    private lateinit var m_Images: Array<String>
-    private lateinit var m_Selection: Array<Boolean>
+    var m_RequestId: Long = 0
+    lateinit var m_Question: String
+    lateinit var m_Images: Array<String>
+    lateinit var m_Selection: Array<Boolean>
 
     private var m_MultiplayerRound = MultiplayerRoundJava()
     private lateinit var m_NoRobotCommObj: SimpleRequestWithSimpleFinalizeCommObj<NoRobotResponse>
@@ -106,8 +106,10 @@ class NoRobotFragment : Fragment() {
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = m_PhotosAdapter
 
-        (activity as MainActivity).setActionBarTitle(getString(R.string.register))
-        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.NoRobot)
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.register))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.NoRobot)
+        }
 
         return  rootview
     }
@@ -123,7 +125,10 @@ class NoRobotFragment : Fragment() {
     }
 
     private fun isHorizontal(): Boolean {
-        return (activity as MainActivity).isHorizontal()
+        if (activity is MainActivity)
+            return (activity as MainActivity).isHorizontal()
+        else
+            return false
     }
 
     override fun onPause() {
@@ -152,7 +157,8 @@ class NoRobotFragment : Fragment() {
         m_Selection = m_PhotosList.map {
             photo -> photo.m_Selected
         }.toTypedArray()
-        (activity as MainActivity).setNorobotSettings(m_RequestId, m_Images, m_Question, m_Selection)
+        if (activity is MainActivity)
+            (activity as MainActivity).setNorobotSettings(m_RequestId, m_Images, m_Question, m_Selection)
     }
 
     private fun createObservableNoRobot() : Observable<Response<NoRobotResponse>> {
@@ -177,7 +183,8 @@ class NoRobotFragment : Fragment() {
     }
 
     private fun hideLoading() {
-        (activity as MainActivity).stopProgressDialog()
+        if (activity is MainActivity)
+            (activity as MainActivity).stopProgressDialog()
     }
 
 }
