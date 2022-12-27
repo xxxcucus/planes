@@ -93,42 +93,22 @@ class SinglePlayerSettingsFragment : Fragment() {
 
     private fun writeToPreferencesService() {
 
-        /*
-            if multiplayerVersion check connection to server, then set multiplayerVersion in MainPreferencesService
-
-            m_MultiRound.getVersion - subscribe
-            show wait animation until the request finishes
-
-            if successful must
-                mark changedVersion = true
-                mark multiplayerVersion in m_MainPreferencesService
-
-            then save the remaining options with the saveOptions function
-            from the MainActivity
-
-            if changedVersion jump to the login Screen of the multiplayer version
-        */
         if (!this::binding.isInitialized)
             return
 
 
         if (binding.settingsData!!.m_MultiplayerVersion) {
-            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
-                Tools.displayToast(getString(R.string.multiplayer_not_available), m_Context)
-                finalizeSavingError()
-            } else {
-                m_VerifyVersionCommObj = SimpleRequestWithoutCredentialsCommObj(
-                    ::createObservableVerifyVersion,
-                    getString(R.string.version_error),
-                    getString(R.string.unknownerror),
-                    ::checkServerVersion,
-                    ::finalizeSavingSuccessful,
-                    ::finalizeSavingError,
-                    requireActivity()
-                )
+            m_VerifyVersionCommObj = SimpleRequestWithoutCredentialsCommObj(
+                ::createObservableVerifyVersion,
+                getString(R.string.version_error),
+                getString(R.string.unknownerror),
+                ::checkServerVersion,
+                ::finalizeSavingSuccessful,
+                ::finalizeSavingError,
+                requireActivity()
+            )
 
-                m_VerifyVersionCommObj.makeRequest()
-            }
+            m_VerifyVersionCommObj.makeRequest()
         }
 
         if (!(activity as MainActivity).setSinglePlayerOptions(
