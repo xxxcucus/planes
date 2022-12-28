@@ -20,11 +20,11 @@ class SinglePlayerSettingsFragment : Fragment() {
     private var m_InitialComputerSkill = 0
     private var m_InitialShowPlaneAfterKill = false
     private var m_InitialMultiplayerVersion = false
-    private var m_PreferencesService = SinglePlayerPreferencesServiceGlobal()
-    private var m_MainPreferencesService = MainPreferencesServiceGlobal()
-    private var m_MultiplayerRound = MultiplayerRoundJava()
-    private var m_PlaneRound: PlanesRoundInterface = PlanesRoundJava()
-    private lateinit var m_Context: Context
+    var m_PreferencesService = SinglePlayerPreferencesServiceGlobal()
+    var m_MainPreferencesService = MainPreferencesServiceGlobal()
+    var m_MultiplayerRound = MultiplayerRoundJava()
+    var m_PlaneRound: PlanesRoundInterface = PlanesRoundJava()
+    lateinit var m_Context: Context
 
     private lateinit var m_VerifyVersionCommObj: SimpleRequestWithoutCredentialsCommObj<VersionResponse>
 
@@ -46,8 +46,11 @@ class SinglePlayerSettingsFragment : Fragment() {
         m_InitialShowPlaneAfterKill = m_PreferencesService.showPlaneAfterKill
         m_InitialMultiplayerVersion = m_MainPreferencesService.multiplayerVersion
         binding.settingsData = SinglePlayerSettingsViewModel(m_InitialComputerSkill, m_InitialShowPlaneAfterKill, m_InitialMultiplayerVersion)
-        (activity as MainActivity).setActionBarTitle(getString(R.string.options))
-        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Preferences)
+
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.options))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Preferences)
+        }
         val saveSettingsButton = binding.optionsSavesettings
         saveSettingsButton.setOnClickListener { writeToPreferencesService() }
 
@@ -63,7 +66,9 @@ class SinglePlayerSettingsFragment : Fragment() {
     }
 
     private fun hideLoading() {
-        (activity as MainActivity).stopProgressDialog()
+        if (activity is MainActivity) {
+            (activity as MainActivity).stopProgressDialog()
+        }
     }
 
     private fun checkServerVersion(body: VersionResponse): String {
@@ -79,7 +84,8 @@ class SinglePlayerSettingsFragment : Fragment() {
     private fun finalizeSavingSuccessful() {
         m_MainPreferencesService.multiplayerVersion = true
         m_PlaneRound.initRound()
-        (activity as MainActivity).switchSingleMultiplayerVersion()
+        if (activity is MainActivity)
+            (activity as MainActivity).switchSingleMultiplayerVersion()
     }
 
     private fun finalizeSavingError() {
@@ -111,14 +117,16 @@ class SinglePlayerSettingsFragment : Fragment() {
             m_VerifyVersionCommObj.makeRequest()
         }
 
-        if (!(activity as MainActivity).setSinglePlayerOptions(
-                binding.settingsData!!.m_ComputerSkill,
-                binding.settingsData!!.m_ShowPlaneAfterKill
-            )
-        ) {
-            binding.settingsData!!.m_ComputerSkill = m_InitialComputerSkill
-            binding.settingsData!!.m_ShowPlaneAfterKill = m_InitialShowPlaneAfterKill
-            binding.invalidateAll()
+        if (activity is MainActivity) {
+            if (!(activity as MainActivity).setSinglePlayerOptions(
+                    binding.settingsData!!.m_ComputerSkill,
+                    binding.settingsData!!.m_ShowPlaneAfterKill
+                )
+            ) {
+                binding.settingsData!!.m_ComputerSkill = m_InitialComputerSkill
+                binding.settingsData!!.m_ShowPlaneAfterKill = m_InitialShowPlaneAfterKill
+                binding.invalidateAll()
+            }
         }
     }
 }
