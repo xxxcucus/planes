@@ -16,7 +16,7 @@ import io.reactivex.Observable
 import retrofit2.Response
 
 class SinglePlayerSettingsFragment : Fragment() {
-    private lateinit var binding: FragmentOptionsSingleBinding
+    lateinit var binding: FragmentOptionsSingleBinding
     private var m_InitialComputerSkill = 0
     private var m_InitialShowPlaneAfterKill = false
     private var m_InitialMultiplayerVersion = false
@@ -71,7 +71,7 @@ class SinglePlayerSettingsFragment : Fragment() {
         }
     }
 
-    private fun checkServerVersion(body: VersionResponse): String {
+    fun checkServerVersion(body: VersionResponse): String {
         var errorString = ""
         if (body.m_VersionString != m_MainPreferencesService.serverVersion) {
             errorString = getString(R.string.server_version_error)
@@ -81,14 +81,14 @@ class SinglePlayerSettingsFragment : Fragment() {
     }
 
 
-    private fun finalizeSavingSuccessful() {
+    fun finalizeSavingSuccessful() {
         m_MainPreferencesService.multiplayerVersion = true
         m_PlaneRound.initRound()
         if (activity is MainActivity)
             (activity as MainActivity).switchSingleMultiplayerVersion()
     }
 
-    private fun finalizeSavingError() {
+    fun finalizeSavingError() {
         binding.settingsData!!.m_MultiplayerVersion = false
         binding.invalidateAll()
     }
