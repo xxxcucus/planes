@@ -176,6 +176,10 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return m_UserData.password
     }
 
+    fun getAuthToken(): String {
+        return m_UserData.authToken
+    }
+
     fun getOpponentName() : String {
         return m_GameData.otherUsername
     }

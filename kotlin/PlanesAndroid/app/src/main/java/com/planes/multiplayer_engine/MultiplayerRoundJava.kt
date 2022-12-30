@@ -32,6 +32,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Round!!.authTokenExpired()
     }
 
+    override fun getAuthToken(): String {
+        return global_Round!!.getAuthToken()
+    }
+
     override fun getGameId() : Long {
         return global_Round!!.getGameId()
     }

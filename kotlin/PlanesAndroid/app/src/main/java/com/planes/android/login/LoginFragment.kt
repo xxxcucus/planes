@@ -21,7 +21,7 @@ import retrofit2.Response
 
 //TODO to update according to google and udemy
 class LoginFragment: Fragment() {
-    private lateinit var binding: FragmentLoginBinding
+    lateinit var binding: FragmentLoginBinding
     private var m_Username = ""
     private var m_Password = ""
     public var m_PreferencesService = MultiplayerPreferencesServiceGlobal()
@@ -92,14 +92,14 @@ class LoginFragment: Fragment() {
             m_LoginCommObj.disposeSubscription()
     }
 
-    private fun saveCredentials(username: String, password: String, authorizationHeader: String) {
+    fun saveCredentials(username: String, password: String, authorizationHeader: String) {
         m_MultiplayerRound.setUserData(username, password, authorizationHeader)
         if (activity is MainActivity)
             (activity as MainActivity).showSaveCredentialsPopup(username, password)
     }
 
 
-    private fun finalizeLoginSuccessful() {
+    fun finalizeLoginSuccessful() {
         binding.creategame.isEnabled = true
         if (activity is MainActivity)
             (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
