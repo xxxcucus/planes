@@ -43,7 +43,7 @@ or get the app directly from Google Play Store: https://play.google.com/store/ap
 For the C++ projects PlanesWidget, PlanesGraphicsScene and PlanesQML, you will find the compilation and installation instructions in the Appendix of the pdf documentation - see the Releases page (available after Release 0.3.1)
 
 # tests
-The C++ projects include unittests. These are grouped under 2 CMake projects: singleroundtests and commobjtests. To run the tests under Linux, install the software and then run the script runTests.sh. To run the tests under Windows run the corresponding executables found in the bin folder of the installation. The Android project include the equivalent of the singleroundtests. You can run them from inside the Android Studio.
+The C++ projects include unittests. These are grouped under 2 CMake projects: singleroundtests and commobjtests. To run the tests under Linux, install the software and then run the script runTests.sh. To run the tests under Windows run the corresponding executables found in the bin folder of the installation. The Android project include the equivalent of the singleroundtests as well as instrumented tests for fragments. You can run them from inside the Android Studio.
 
 # tutorials
 
