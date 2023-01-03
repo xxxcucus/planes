@@ -29,9 +29,9 @@ import java.util.concurrent.TimeUnit
 
 class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
-    private lateinit var m_PlaneRound: MultiplayerRoundInterface
+    lateinit var m_PlaneRound: MultiplayerRoundInterface
     private lateinit var m_GameBoards: GameBoardsAdapterMultiplayer
-    private lateinit var m_GameControls: GameControlsAdapterMultiplayer
+    lateinit var m_GameControls: GameControlsAdapterMultiplayer
     private lateinit var m_PlanesLayout: PlanesVerticalLayoutMultiplayer
 
     private lateinit var m_DonePositioningCommObj: SimpleRequestCommObj<SendPlanePositionsResponse>
@@ -44,7 +44,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     private lateinit var m_PollOpponentPositionsSubscription: Disposable
     private lateinit var m_PollOpponentMovesSubscription: Disposable
 
-    private lateinit var m_Context: Context
+    lateinit var m_Context: Context
 
     private var m_ReceiveOpponentPlanePositionsError: Boolean = false
     private var m_ReceiveOpponentPlanePositionsErrorString: String = ""
@@ -129,8 +129,10 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         performLoginWhenTokenExpired()
         reinitializeFromState()
 
-        (activity as MainActivity).setActionBarTitle(getString(R.string.game))
-        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Game)
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.game))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Game)
+        }
         return rootView
     }
 
@@ -375,7 +377,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     private fun finalizeReceiveOpponentPlanePositions() {
         if (m_ReceiveOpponentPlanePositionsError) {
-            (activity as MainActivity).onWarning(m_ReceiveOpponentPlanePositionsErrorString)
+            if (activity is MainActivity)
+                (activity as MainActivity).onWarning(m_ReceiveOpponentPlanePositionsErrorString)
         } else {
             if (m_PlaneRound.getGameStage() == GameStages.Game.value) {  //plane positions where received
                 reinitializeFromState()
@@ -612,7 +615,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     private fun finalizeReceiveOpponentMoves() {
         if (m_ReceiveOpponentMovesError) {
-            (activity as MainActivity).onWarning(m_ReceiveOpponentPlanePositionsErrorString)
+            if (activity is MainActivity)
+                (activity as MainActivity).onWarning(m_ReceiveOpponentPlanePositionsErrorString)
         } else if (m_PlaneRound.getGameStage() == GameStages.GameNotStarted.value) {
             disposeAllSubscriptions()
             reinitializeFromState()
@@ -687,11 +691,13 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     //endregion StartNewGame
 
     private fun hideLoading() {
-        (activity as MainActivity).stopProgressDialog()
+        if (activity is MainActivity)
+            (activity as MainActivity).stopProgressDialog()
     }
 
     private fun showGameStats() {
-        (activity as MainActivity).startGameStatsFragment()
+        if (activity is MainActivity)
+            (activity as MainActivity).startGameStatsFragment()
     }
 
 }

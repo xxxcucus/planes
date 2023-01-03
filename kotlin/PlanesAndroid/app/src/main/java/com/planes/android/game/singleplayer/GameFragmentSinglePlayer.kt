@@ -19,9 +19,9 @@ import com.planes.single_player_engine.PlanesRoundJava
 
 class GameFragmentSinglePlayer : Fragment() {
 
-    private lateinit var m_PlaneRound: PlanesRoundInterface
+    lateinit var m_PlaneRound: PlanesRoundInterface
     private lateinit var m_GameBoards: GameBoardsAdapterSinglePlayer
-    private lateinit var m_GameControls: GameControlsAdapterSinglePlayer
+    lateinit var m_GameControls: GameControlsAdapterSinglePlayer
     private lateinit var m_PlanesLayout: PlanesVerticalLayoutSinglePlayer
 
     override fun onAttach(context: Context) {
@@ -118,8 +118,10 @@ class GameFragmentSinglePlayer : Fragment() {
             }
         }
 
-        (activity as MainActivity).setActionBarTitle(getString(R.string.game))
-        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Game)
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.game))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Game)
+        }
         return rootView
     }
 }
