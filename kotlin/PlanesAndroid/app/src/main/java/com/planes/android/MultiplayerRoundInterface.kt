@@ -110,4 +110,10 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
     fun cancelRound()
 
     fun getGameStats() : GameStatistics
+
+    fun getComputerPlaneNo(pos: Int): Plane
+
+    fun getNotSentMoveCount(): Int
+
+    fun getReceivedMovesCount(): Int
 }

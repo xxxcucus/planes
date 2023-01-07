@@ -291,7 +291,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         }
     }
 
-    private fun receivedOpponentPlanePositions(body: SendPlanePositionsResponse): String {
+    fun receivedOpponentPlanePositions(body: SendPlanePositionsResponse): String {
         var errorString = ""
 
         if (body.m_Cancelled) {
@@ -396,7 +396,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         return AcquireOpponentPositionsRequest(gameId.toString(), roundId.toString(), userId.toString(), opponentId.toString())
     }
 
-    private fun reactToOpponentPlanePositionsInPolling(body: AcquireOpponentPositionsResponse?) {
+    fun reactToOpponentPlanePositionsInPolling(body: AcquireOpponentPositionsResponse?) {
         if (body != null) {
 
             if (body.m_Cancelled) {
@@ -467,7 +467,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         m_CancelRoundCommObj.makeRequest()
     }
 
-    private fun finalizeCancelRound() {
+    fun finalizeCancelRound() {
         m_PlaneRound.cancelRound()
         m_GameControls.roundEnds(isComputerWinner = false, isDraw = false, isCancelled = true)
         disposeAllSubscriptions()
@@ -500,7 +500,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     }
 
-    private fun finalizeSendWinner() {
+    fun finalizeSendWinner() {
         m_PlaneRound.setGameStage(GameStages.GameNotStarted)
         m_GameControls.roundEnds(!m_PlaneRound.playerGuess_IsPlayerWinner(), m_PlaneRound.playerGuess_IsDraw())
         reinitializeFromState()
@@ -549,7 +549,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
          }
     }
 
-    private fun receivedSendMoveResponse(body: SendNotSentMovesResponse) : String{
+    fun receivedSendMoveResponse(body: SendNotSentMovesResponse) : String{
         if (body.m_Cancelled) {
             m_PlaneRound.cancelRound()
             m_GameControls.roundEnds(isComputerWinner = false, isDraw = false, isCancelled = true)
@@ -623,7 +623,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         }
     }
 
-    private fun reactToOpponentMovesInPolling(body: SendNotSentMovesResponse?) {
+    fun reactToOpponentMovesInPolling(body: SendNotSentMovesResponse?) {
         if (body != null) {
 
             if (body.m_Cancelled) {
@@ -677,7 +677,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         m_StartNewRoundCommObj.makeRequest()
     }
 
-    private fun finalizeStartNewRound() {
+    fun finalizeStartNewRound() {
         m_PlaneRound.initRound()
         disposeAllSubscriptions()
         reinitializeFromState()

@@ -410,6 +410,18 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Round!!.getGameStats()
     }
 
+    override fun getComputerPlaneNo(pos: Int): Plane {
+        return global_Round!!.getComputerPlaneNo(pos)
+    }
+
+    override fun getNotSentMoveCount(): Int {
+        return global_Round!!.getNotSentMoveCount()
+    }
+
+    override fun getReceivedMovesCount(): Int {
+        return global_Round!!.getReceivedMovesCount()
+    }
+
     companion object {
         private var global_Round: MultiplayerRound? = null
         private var global_Player_Guess_Reaction = PlayerGuessReaction()
