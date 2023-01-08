@@ -17,7 +17,7 @@ class AboutFragment : Fragment() {
 
     private lateinit var m_SectionsList: List<AboutModel>
     private lateinit var m_AboutAdapter: AboutAdapter
-    private lateinit var m_Version: String
+    public lateinit var m_Version: String
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -38,8 +38,10 @@ class AboutFragment : Fragment() {
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = m_AboutAdapter
 
-        (activity as MainActivity).setActionBarTitle(getString(R.string.about))
-        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.About)
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.about))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.About)
+        }
         return rootView
     }
 

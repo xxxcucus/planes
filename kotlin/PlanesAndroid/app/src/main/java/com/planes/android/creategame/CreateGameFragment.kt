@@ -27,16 +27,16 @@ import kotlin.random.Random
 //TODO to update according to google and udemy
 class CreateGameFragment: Fragment() {
     private lateinit var binding: FragmentCreateGameBinding
-    private var m_GameName = ""
-    private var m_CreateGameError = false
-    private var m_CreateGameErrorString = ""
-    private var m_MultiplayerRound = MultiplayerRoundJava()
+    var m_GameName = ""
+    var m_CreateGameError = false
+    var m_CreateGameErrorString = ""
+    var m_MultiplayerRound = MultiplayerRoundJava()
     private lateinit var m_CreateGameSubscription: Disposable
     private lateinit var m_ConnectToGameSubscription: Disposable
     private lateinit var m_RefreshGameStatusSubscription: Disposable
     private lateinit var m_PollForOpponentSubscription: Disposable
-    private var m_CreateGameSettingsService = CreateGameSettingsGlobal()
-    private lateinit var m_Context: Context
+    var m_CreateGameSettingsService = CreateGameSettingsGlobal()
+    lateinit var m_Context: Context
     private lateinit var m_MainLayout: RelativeLayout
 
     override fun onAttach(context: Context) {
@@ -52,8 +52,11 @@ class CreateGameFragment: Fragment() {
     ): View {
         binding = FragmentCreateGameBinding.inflate(inflater, container, false)
         binding.settingsData = CreateGameViewModel(m_CreateGameSettingsService.gameName)
-        (activity as MainActivity).setActionBarTitle(getString(R.string.create_connectto_game))
-        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.CreateGame)
+
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.create_connectto_game))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.CreateGame)
+        }
 
         m_GameName = m_CreateGameSettingsService.gameName
 
@@ -141,7 +144,7 @@ class CreateGameFragment: Fragment() {
         reinitializeFromState()
     }
 
-    private fun reactToGameStatus(jsonErrorString: String?, body: GameStatusResponse?) {
+    fun reactToGameStatus(jsonErrorString: String?, body: GameStatusResponse?) {
         if (body != null)  {
            if (!body.m_Exists) {
                showCreateGamePopup()
@@ -159,7 +162,7 @@ class CreateGameFragment: Fragment() {
         finalizeCreateGame()
     }
 
-    private fun reactToGameStatusInPolling(body: GameStatusResponse?) {
+    fun reactToGameStatusInPolling(body: GameStatusResponse?) {
         m_MultiplayerRound.setGameData(body!!)
         m_MultiplayerRound.initRound()
         if (m_MultiplayerRound.getGameId() != 0L && m_MultiplayerRound.getOpponentId() != 0L && m_MultiplayerRound.getUserId() != 0L
@@ -179,10 +182,12 @@ class CreateGameFragment: Fragment() {
     }
 
     private fun finalizeCreateGame() {
-        if (m_CreateGameError) {
-            (activity as MainActivity).onWarning(m_CreateGameErrorString)
-        } else {
-            //(activity as MainActivity).setUsernameDrawerMenuMultiplayer()
+        if (activity is MainActivity) {
+            if (m_CreateGameError) {
+                (activity as MainActivity).onWarning(m_CreateGameErrorString)
+            } else {
+                //(activity as MainActivity).setUsernameDrawerMenuMultiplayer()
+            }
         }
     }
 
@@ -219,7 +224,7 @@ class CreateGameFragment: Fragment() {
             ) { error -> error.localizedMessage?.let { setCreateGameError(it) } }
     }
 
-    private fun validationGameName(gameName: String) : Boolean {
+    fun validationGameName(gameName: String) : Boolean {
         var retString = ""
 
         if (gameName.length > 30) {
@@ -282,7 +287,7 @@ class CreateGameFragment: Fragment() {
             ) { error -> error.localizedMessage?.let { setCreateGameError(it) } }
     }
 
-    private fun reactToGameCreation(jsonErrorString: String?, body: CreateGameResponse?) {
+    fun reactToGameCreation(jsonErrorString: String?, body: CreateGameResponse?) {
         if (body != null)  {
             m_MultiplayerRound.setGameData(body)
             m_MultiplayerRound.setUserId(body.m_SecondPlayerId.toLong())
@@ -313,7 +318,7 @@ class CreateGameFragment: Fragment() {
             ) { error -> error.localizedMessage?.let { setCreateGameError(it) } }
     }
 
-    private fun reactToConnectToGame(
+    fun reactToConnectToGame(
         jsonErrorString: String?,
         body: ConnectToGameResponse?
     ) {
@@ -342,6 +347,9 @@ class CreateGameFragment: Fragment() {
     }
 
     private fun pollForGameConnection() {
+
+        if (!(activity is MainActivity))
+            return;
         Tools.displayToast(getString(R.string.game_created), m_Context)
 
         binding.ProgressBarCreateGame.isVisible = true
@@ -368,14 +376,17 @@ class CreateGameFragment: Fragment() {
     }
 
     private fun showLoading() {
-        (activity as MainActivity).startProgressDialog()
+        if (activity is MainActivity)
+            (activity as MainActivity).startProgressDialog()
     }
 
     private fun hideLoading() {
-        (activity as MainActivity).stopProgressDialog()
+        if (activity is MainActivity)
+            (activity as MainActivity).stopProgressDialog()
     }
 
     private fun switchToGameFragment() {
-        (activity as MainActivity).startGameFragment()
+        if (activity is MainActivity)
+            (activity as MainActivity).startGameFragment()
     }
 }

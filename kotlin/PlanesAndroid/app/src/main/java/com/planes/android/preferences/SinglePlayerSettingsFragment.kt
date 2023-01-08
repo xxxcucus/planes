@@ -16,15 +16,15 @@ import io.reactivex.Observable
 import retrofit2.Response
 
 class SinglePlayerSettingsFragment : Fragment() {
-    private lateinit var binding: FragmentOptionsSingleBinding
+    lateinit var binding: FragmentOptionsSingleBinding
     private var m_InitialComputerSkill = 0
     private var m_InitialShowPlaneAfterKill = false
     private var m_InitialMultiplayerVersion = false
-    private var m_PreferencesService = SinglePlayerPreferencesServiceGlobal()
-    private var m_MainPreferencesService = MainPreferencesServiceGlobal()
-    private var m_MultiplayerRound = MultiplayerRoundJava()
-    private var m_PlaneRound: PlanesRoundInterface = PlanesRoundJava()
-    private lateinit var m_Context: Context
+    var m_PreferencesService = SinglePlayerPreferencesServiceGlobal()
+    var m_MainPreferencesService = MainPreferencesServiceGlobal()
+    var m_MultiplayerRound = MultiplayerRoundJava()
+    var m_PlaneRound: PlanesRoundInterface = PlanesRoundJava()
+    lateinit var m_Context: Context
 
     private lateinit var m_VerifyVersionCommObj: SimpleRequestWithoutCredentialsCommObj<VersionResponse>
 
@@ -46,8 +46,11 @@ class SinglePlayerSettingsFragment : Fragment() {
         m_InitialShowPlaneAfterKill = m_PreferencesService.showPlaneAfterKill
         m_InitialMultiplayerVersion = m_MainPreferencesService.multiplayerVersion
         binding.settingsData = SinglePlayerSettingsViewModel(m_InitialComputerSkill, m_InitialShowPlaneAfterKill, m_InitialMultiplayerVersion)
-        (activity as MainActivity).setActionBarTitle(getString(R.string.options))
-        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Preferences)
+
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.options))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Preferences)
+        }
         val saveSettingsButton = binding.optionsSavesettings
         saveSettingsButton.setOnClickListener { writeToPreferencesService() }
 
@@ -63,10 +66,12 @@ class SinglePlayerSettingsFragment : Fragment() {
     }
 
     private fun hideLoading() {
-        (activity as MainActivity).stopProgressDialog()
+        if (activity is MainActivity) {
+            (activity as MainActivity).stopProgressDialog()
+        }
     }
 
-    private fun checkServerVersion(body: VersionResponse): String {
+    fun checkServerVersion(body: VersionResponse): String {
         var errorString = ""
         if (body.m_VersionString != m_MainPreferencesService.serverVersion) {
             errorString = getString(R.string.server_version_error)
@@ -76,13 +81,14 @@ class SinglePlayerSettingsFragment : Fragment() {
     }
 
 
-    private fun finalizeSavingSuccessful() {
+    fun finalizeSavingSuccessful() {
         m_MainPreferencesService.multiplayerVersion = true
         m_PlaneRound.initRound()
-        (activity as MainActivity).switchSingleMultiplayerVersion()
+        if (activity is MainActivity)
+            (activity as MainActivity).switchSingleMultiplayerVersion()
     }
 
-    private fun finalizeSavingError() {
+    fun finalizeSavingError() {
         binding.settingsData!!.m_MultiplayerVersion = false
         binding.invalidateAll()
     }
@@ -93,52 +99,34 @@ class SinglePlayerSettingsFragment : Fragment() {
 
     private fun writeToPreferencesService() {
 
-        /*
-            if multiplayerVersion check connection to server, then set multiplayerVersion in MainPreferencesService
-
-            m_MultiRound.getVersion - subscribe
-            show wait animation until the request finishes
-
-            if successful must
-                mark changedVersion = true
-                mark multiplayerVersion in m_MainPreferencesService
-
-            then save the remaining options with the saveOptions function
-            from the MainActivity
-
-            if changedVersion jump to the login Screen of the multiplayer version
-        */
         if (!this::binding.isInitialized)
             return
 
 
         if (binding.settingsData!!.m_MultiplayerVersion) {
-            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
-                Tools.displayToast(getString(R.string.multiplayer_not_available), m_Context)
-                finalizeSavingError()
-            } else {
-                m_VerifyVersionCommObj = SimpleRequestWithoutCredentialsCommObj(
-                    ::createObservableVerifyVersion,
-                    getString(R.string.version_error),
-                    getString(R.string.unknownerror),
-                    ::checkServerVersion,
-                    ::finalizeSavingSuccessful,
-                    ::finalizeSavingError,
-                    requireActivity()
-                )
+            m_VerifyVersionCommObj = SimpleRequestWithoutCredentialsCommObj(
+                ::createObservableVerifyVersion,
+                getString(R.string.version_error),
+                getString(R.string.unknownerror),
+                ::checkServerVersion,
+                ::finalizeSavingSuccessful,
+                ::finalizeSavingError,
+                requireActivity()
+            )
 
-                m_VerifyVersionCommObj.makeRequest()
-            }
+            m_VerifyVersionCommObj.makeRequest()
         }
 
-        if (!(activity as MainActivity).setSinglePlayerOptions(
-                binding.settingsData!!.m_ComputerSkill,
-                binding.settingsData!!.m_ShowPlaneAfterKill
-            )
-        ) {
-            binding.settingsData!!.m_ComputerSkill = m_InitialComputerSkill
-            binding.settingsData!!.m_ShowPlaneAfterKill = m_InitialShowPlaneAfterKill
-            binding.invalidateAll()
+        if (activity is MainActivity) {
+            if (!(activity as MainActivity).setSinglePlayerOptions(
+                    binding.settingsData!!.m_ComputerSkill,
+                    binding.settingsData!!.m_ShowPlaneAfterKill
+                )
+            ) {
+                binding.settingsData!!.m_ComputerSkill = m_InitialComputerSkill
+                binding.settingsData!!.m_ShowPlaneAfterKill = m_InitialShowPlaneAfterKill
+                binding.invalidateAll()
+            }
         }
     }
 }

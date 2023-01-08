@@ -78,25 +78,6 @@ class VideoFragment1 : Fragment() {
         return (activity as MainActivity).isTablet()
     }
 
-    //TODO: currently not used ?
-    private fun setDimension(isHorizontal: Boolean, videoRatio: Float) {
-        val videoProportion: Float = videoRatio
-        val screenWidth = if (!isHorizontal)  resources.displayMetrics.widthPixels else resources.displayMetrics.widthPixels * 6 / 10
-        val screenHeight = resources.displayMetrics.heightPixels
-
-        val screenProportion = screenWidth.toFloat() / screenHeight.toFloat()
-        val lp: ViewGroup.LayoutParams = m_VideoView!!.getLayoutParams()
-        if (videoProportion < screenProportion) {
-            lp.height = screenHeight
-            lp.width = (screenHeight.toFloat() / videoProportion).toInt()
-        } else {
-            lp.width = screenWidth
-            lp.height = (screenWidth.toFloat() * videoProportion).toInt()
-        }
-
-        m_VideoView!!.setLayoutParams(lp)
-    }
-
     override fun onStart() {
         super.onStart()
         if (m_CurrentPositionInVideo != 0)

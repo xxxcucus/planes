@@ -1,32 +1,47 @@
 #include "sendplanepositionscommobj.h"
 
 #include <QMessageBox>
-#include "viewmodels/planespositionsviewmodel.h"
 #include "multiplayerround.h"
 
 bool SendPlanePositionsCommObj::makeRequest()
 {
-    if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        QMessageBox msgBox(m_ParentWidget);
-        msgBox.setText("No user logged in"); 
-        msgBox.exec();
+    if (m_IsSinglePlayer) {
+        //qDebug() << "makeRequestBasis in single player modus";
         return false;
     }
+
+    if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
+        if (m_ParentWidget != nullptr) {
+            QMessageBox msgBox(m_ParentWidget);
+            msgBox.setText("No user logged in");
+            msgBox.exec();
+        }
+        return false;
+    }
+    
+    m_RequestData = prepareViewModel().toJson();
+    
+    makeRequestBasis(true);
+    return true;
+}
+
+PlanesPositionsViewModel SendPlanePositionsCommObj::prepareViewModel() {
 
     PlanesPositionsViewModel planesPositionsData;
     planesPositionsData.m_GameId = m_GlobalData->m_GameData.m_GameId;
     planesPositionsData.m_RoundId = m_GlobalData->m_GameData.m_RoundId;
     planesPositionsData.m_OwnUserId = m_GlobalData->m_UserData.m_UserId;
     planesPositionsData.m_OpponentUserId = m_GlobalData->m_GameData.m_OtherUserId;
-    
+
     Plane pl1;
     Plane pl2;
     Plane pl3;
-        
+
+
     m_MultiRound->getPlayerPlaneNo(0, pl1);
     m_MultiRound->getPlayerPlaneNo(1, pl2);
     m_MultiRound->getPlayerPlaneNo(2, pl3);
-    
+
     planesPositionsData.m_Plane1X = pl1.row();
     planesPositionsData.m_Plane1Y = pl1.col();
     planesPositionsData.m_Plane1Orient = pl1.orientation();
@@ -36,15 +51,9 @@ bool SendPlanePositionsCommObj::makeRequest()
     planesPositionsData.m_Plane3X = pl3.row();
     planesPositionsData.m_Plane3Y = pl3.col();
     planesPositionsData.m_Plane3Orient = pl3.orientation();
-    
-    //qDebug() << "Plane 1 " << pl1.row() << " " << pl1.col() << " " << (int)pl1.orientation();
-    //qDebug() << "Plane 2 " << pl2.row() << " " << pl2.col() << " " << (int)pl2.orientation();
-    //qDebug() << "Plane 3 " << pl3.row() << " " << pl3.col() << " " << (int)pl3.orientation();
-    
-    m_RequestData = planesPositionsData.toJson();
-    
-    makeRequestBasis(true);
-    return true;
+
+    return planesPositionsData;
+
 }
 
 void SendPlanePositionsCommObj::finishedRequest()
@@ -62,6 +71,10 @@ void SendPlanePositionsCommObj::finishedRequest()
         return;
     }
     
+    processResponse(retJson);
+}
+
+void SendPlanePositionsCommObj::processResponse(const QJsonObject& retJson) {
     bool otherPositionsExist = retJson.value("otherExist").toBool();
     if (otherPositionsExist) {
         int plane1_x = retJson.value("plane1_x").toInt();
@@ -78,13 +91,16 @@ void SendPlanePositionsCommObj::finishedRequest()
         //qDebug() << "Plane 3 from opponent" << plane3_x << " " << plane3_y << " " << plane3_orient;
         bool setOk = m_MultiRound->setComputerPlanes(plane1_x, plane1_y, (Plane::Orientation)plane1_orient, plane2_x, plane2_y, (Plane::Orientation)plane2_orient, plane3_x, plane3_y, (Plane::Orientation)plane3_orient);
         if (!setOk) {
-            QMessageBox msgBox(m_ParentWidget);
-            msgBox.setText("Planes positions from opponent are not valid"); 
-            msgBox.exec();
-            return;            
+            if (m_ParentWidget != nullptr) {
+                QMessageBox msgBox(m_ParentWidget);
+                msgBox.setText("Planes positions from opponent are not valid");
+                msgBox.exec();
+                return;
+            }
         }
         emit opponentPlanePositionsReceived();
-    } else {
+    }
+    else {
         m_MultiRound->setCurrentStage(AbstractPlaneRound::GameStages::WaitForOpponentPlanesPositions);
         emit waitForOpponentPlanePositions();
     }

@@ -32,6 +32,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Round!!.authTokenExpired()
     }
 
+    override fun getAuthToken(): String {
+        return global_Round!!.getAuthToken()
+    }
+
     override fun getGameId() : Long {
         return global_Round!!.getGameId()
     }
@@ -404,6 +408,18 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
 
     override fun getGameStats() : GameStatistics {
         return global_Round!!.getGameStats()
+    }
+
+    override fun getComputerPlaneNo(pos: Int): Plane {
+        return global_Round!!.getComputerPlaneNo(pos)
+    }
+
+    override fun getNotSentMoveCount(): Int {
+        return global_Round!!.getNotSentMoveCount()
+    }
+
+    override fun getReceivedMovesCount(): Int {
+        return global_Round!!.getReceivedMovesCount()
     }
 
     companion object {

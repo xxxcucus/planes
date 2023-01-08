@@ -16,10 +16,10 @@ import com.planes.multiplayer_engine.MultiplayerRoundJava
 
 
 class LogoutFragment: Fragment() {
-    private lateinit var binding: FragmentLogoutBinding
-    private var m_MultiplayerRound = MultiplayerRoundJava()
-    private var m_CreateGameSettingsService = CreateGameSettingsGlobal()
-    private lateinit var m_Context: Context
+    public lateinit var binding: FragmentLogoutBinding
+    public var m_MultiplayerRound = MultiplayerRoundJava()
+    public var m_CreateGameSettingsService = CreateGameSettingsGlobal()
+    public lateinit var m_Context: Context
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -39,8 +39,11 @@ class LogoutFragment: Fragment() {
             username,
             m_Context
         )
-        (activity as MainActivity).setActionBarTitle(getString(R.string.logout))
-        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Logout)
+
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.logout))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Logout)
+        }
 
         val logoutButton = binding.logout
 
@@ -51,7 +54,7 @@ class LogoutFragment: Fragment() {
         return binding.root
     }
 
-    private fun performLogout() {
+    public fun performLogout() {
         m_MultiplayerRound.setUserData("", "", "")
         m_MultiplayerRound.resetGameData()
         m_MultiplayerRound.initRound()
@@ -67,7 +70,8 @@ class LogoutFragment: Fragment() {
         binding.settingsData!!.m_Username = ""
         binding.invalidateAll()
 
-        (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
+        if (activity is MainActivity)
+            (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
     }
 
 }

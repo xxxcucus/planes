@@ -90,7 +90,7 @@ signals:
     void refreshStatus(bool exists, const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
     void loginCompleted();
     void loginFailed();
-    void noRobotRegistration(const std::vector<QString>& images, const QJsonObject& request);
+    void noRobotRegistration(const std::vector<QString>& images, const QString& question, long int requestId);
     void registrationFailed();
     void registrationComplete();
     
@@ -105,21 +105,21 @@ public:
     MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo);
     virtual ~MultiplayerRound();
     void reset() override;
-    void initRound() override;
+    virtual void initRound() override;
 
     void playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr) override;
     void playerGuessIncomplete(int row, int col, GuessPoint::Type& guessRes, PlayerGuessReaction& pgr) override;
     
-    void addOpponentMove(GuessPoint& gp, int moveIndex);
+    virtual void addOpponentMove(GuessPoint& gp, int moveIndex);
     
     long int getRoundId() {
         return m_GlobalData->m_GameData.m_RoundId;
     }
     
-    void getPlayerPlaneNo(int pos, Plane& pl);
-    bool setComputerPlanes(int plane1_x, int plane1_y, Plane::Orientation plane1_orient, int plane2_x, int plane2_y, Plane::Orientation plane2_orient, int plane3_x, int plane3_y, Plane::Orientation plane3_orient); 
+    virtual void getPlayerPlaneNo(int pos, Plane& pl);
+    virtual bool setComputerPlanes(int plane1_x, int plane1_y, Plane::Orientation plane1_orient, int plane2_x, int plane2_y, Plane::Orientation plane2_orient, int plane3_x, int plane3_y, Plane::Orientation plane3_orient); 
     
-    void setRoundCancelled() override;
+    virtual void setRoundCancelled() override;
     
     //Requests to server
     void createGame(const QString& gameName);
@@ -143,6 +143,9 @@ public:
 
     void testServerVersion();
     
+protected:
+    MultiplayerRound() {}
+
 private:
     bool validateOpponentMovesReply(const QJsonObject& reply);
     void startNewRound(long int desiredRoundId);

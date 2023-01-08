@@ -1,53 +1,71 @@
 #include "norobotcommobj.h"
 
 #include <QMessageBox>
-#include "viewmodels/norobotviewmodel.h"
+
 
 NoRobotCommObj::~NoRobotCommObj()
 {
-    delete m_LoadingMessageBox;
+    if (m_LoadingMessageBox != nullptr)
+        delete m_LoadingMessageBox;
 }
 
 
 bool NoRobotCommObj::makeRequest(const QString& requestId, const QString& answer)
 {
-    NoRobotViewModel requestData;
-    requestData.m_requestId = requestId;
-    requestData.m_answer = answer;
-    
-    m_RequestData = requestData.toJson();
-    
-    m_LoadingMessageBox->show();
+    if (m_IsSinglePlayer) {
+        //qDebug() << "makeRequestBasis in single player modus";
+        return false;
+    }
+
+    m_RequestData = prepareViewModel(requestId, answer).toJson();
+    if (m_LoadingMessageBox != nullptr)
+        m_LoadingMessageBox->show();
 
     makeRequestBasis(false);
     return true;
 }
 
+NoRobotViewModel NoRobotCommObj::prepareViewModel(const QString& requestId, const QString& answer) {
+    NoRobotViewModel requestData;
+    requestData.m_requestId = requestId;
+    requestData.m_answer = answer;
+    return requestData;
+}
+
 void NoRobotCommObj::errorRequest(QNetworkReply::NetworkError code)
 {
-    if (m_LoadingMessageBox->isVisible())
+    if (m_LoadingMessageBox != nullptr && m_LoadingMessageBox->isVisible())
         m_LoadingMessageBox->hide();
 
     BasisCommObj::errorRequest(code);
     emit registrationFailed();
+    //qDebug() << "registration failed";
 }
 
 void NoRobotCommObj::finishedRequest()
 {
-    if (m_LoadingMessageBox->isVisible())
+    if (m_LoadingMessageBox != nullptr && m_LoadingMessageBox->isVisible())
         m_LoadingMessageBox->hide();
 
     QJsonObject retJson;
     if (!finishRequestHelper(retJson)) 
         return;
 
+    processResponse(retJson);
+}
+
+void NoRobotCommObj::processResponse(const QJsonObject& retJson) {
     QString username = retJson.value("username").toString();
     long int userid = retJson.value("id").toString().toLong();
-    QMessageBox msgBox(m_ParentWidget);
-    msgBox.setText("User " + username + " created "); 
-    msgBox.exec();
+
+    if (m_ParentWidget != nullptr) {
+        QMessageBox msgBox(m_ParentWidget);
+        msgBox.setText("User " + username + " created ");
+        msgBox.exec();
+    }
 
     emit registrationComplete();
+    //qDebug() << "registration completed";
 }
 
 bool NoRobotCommObj::validateReply(const QJsonObject& reply) {

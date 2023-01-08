@@ -2,45 +2,30 @@
 
 #include <QMessageBox>
 #include <QJsonArray>
-
-#include "viewmodels/unsentmovesviewmodel.h"
 #include "multiplayerround.h"
 
 
 
 bool SendMoveCommObj::makeRequest(const std::vector<GuessPoint>& guessList, const std::vector<int>& notSentMoves, const std::vector<int>& receivedMoves, bool fromFinishedSlot) 
 {
-    if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        QMessageBox msgBox(m_ParentWidget);
-        msgBox.setText("No user logged in"); 
-        msgBox.exec();
+    if (m_IsSinglePlayer) {
+        //qDebug() << "makeRequestBasis in single player modus";
         return false;
     }
 
-    UnsentMovesViewModel newMoveData;
-    newMoveData.m_GameId = m_GlobalData->m_GameData.m_GameId;
-    newMoveData.m_RoundId = m_GlobalData->m_GameData.m_RoundId;
-    newMoveData.m_OwnUserId = m_GlobalData->m_GameData.m_UserId;
-    newMoveData.m_OpponentUserId = m_GlobalData->m_GameData.m_OtherUserId;
-    
+    if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
+        if (m_ParentWidget != nullptr) {
+            QMessageBox msgBox(m_ParentWidget);
+            msgBox.setText("No user logged in");
+            msgBox.exec();
+        }
+        return false;
+    }
+
     int maxReceivedIndex = 0;
     std::vector<int> notReceivedMoves = computeNotReceivedMoves(receivedMoves, maxReceivedIndex);
-    
-    newMoveData.m_OpponentMoveIndex = maxReceivedIndex;
-    newMoveData.m_NotReceivedMoveIndex = notReceivedMoves;
-
-    std::vector<SingleMoveViewModel> moves;
-    for (auto idx : notSentMoves) {
-        SingleMoveViewModel move;
-        GuessPoint gp = guessList[idx - 1];
-        move.m_MoveX = gp.m_row;
-        move.m_MoveY = gp.m_col;
-        move.m_MoveIndex = idx;
-        moves.push_back(move);
-    }
-    
-    newMoveData.m_NotSentMovesIndex = moves;
-    m_RequestData = newMoveData.toJson();
+   
+    m_RequestData = prepareViewModel(maxReceivedIndex, notSentMoves, notReceivedMoves, guessList).toJson();
     
     /*qDebug() << "Not sent moves ";
     for (auto idx: notSentMoves)
@@ -59,6 +44,32 @@ bool SendMoveCommObj::makeRequest(const std::vector<GuessPoint>& guessList, cons
     return true;
 }
 
+UnsentMovesViewModel SendMoveCommObj::prepareViewModel(int maxReceivedIndex, const std::vector<int>& notSentMoves, const std::vector<int>& notReceivedMoves,
+    const std::vector<GuessPoint>& guessList) {
+    UnsentMovesViewModel newMoveData;
+    newMoveData.m_GameId = m_GlobalData->m_GameData.m_GameId;
+    newMoveData.m_RoundId = m_GlobalData->m_GameData.m_RoundId;
+    newMoveData.m_OwnUserId = m_GlobalData->m_GameData.m_UserId;
+    newMoveData.m_OpponentUserId = m_GlobalData->m_GameData.m_OtherUserId;
+
+    newMoveData.m_OpponentMoveIndex = maxReceivedIndex;
+    newMoveData.m_NotReceivedMoveIndex = notReceivedMoves;
+
+    std::vector<SingleMoveViewModel> moves;
+    for (auto idx : notSentMoves) {
+        SingleMoveViewModel move;
+        GuessPoint gp = guessList[idx - 1];
+        move.m_MoveX = gp.m_row;
+        move.m_MoveY = gp.m_col;
+        move.m_MoveIndex = idx;
+        moves.push_back(move);
+    }
+
+    newMoveData.m_NotSentMovesIndex = moves;
+    return newMoveData;
+}
+
+
 void SendMoveCommObj::finishedRequest()
 {
     QJsonObject retJson;
@@ -76,9 +87,21 @@ void SendMoveCommObj::finishedRequest()
     for (auto idx : m_LastNotSentMoveIndexSucces)
     m_MultiRound->deleteFromNotSentList(idx);
     
+    processResponse(retJson);
+    
+    //TODO: when not sent elements with error exist and player finished  send them as well
+    //TODO: this here only when the user has guessed everything ??
+    if (!m_LastNotSentMoveIndexError.empty()) {
+        emit allGuessedAndMovesStillToSend();
+    } else {
+        emit allMovesSent();
+    }
+}
+
+void SendMoveCommObj::processResponse(const QJsonObject& retJson) {
     QJsonValue movesObject = retJson.value("listMoves");
     QJsonArray movesArray = movesObject.toArray();
-    
+
     for (int i = 0; i < movesArray.size(); i++) {
         QJsonValue moveValue = movesArray.at(i);
         QJsonObject moveObject = moveValue.toObject();
@@ -88,17 +111,9 @@ void SendMoveCommObj::finishedRequest()
             if (!m_MultiRound->moveAlreadyReceived(moveIndex)) {
                 //qDebug() << "add opponent move to grid ";
                 m_MultiRound->addOpponentMove(gp, moveIndex);
-                emit opponentMoveGenerated(gp); 
+                emit opponentMoveGenerated(gp);
             }
         }
-    }
-    
-    //TODO: when not sent elements with error exist and player finished  send them as well
-    //TODO: this here only when the user has guessed everything ??
-    if (!m_LastNotSentMoveIndexError.empty()) {
-        emit allGuessedAndMovesStillToSend();
-    } else {
-        emit allMovesSent();
     }
 }
 

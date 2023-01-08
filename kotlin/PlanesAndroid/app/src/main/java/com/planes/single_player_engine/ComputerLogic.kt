@@ -32,7 +32,7 @@ class ComputerLogic(//gets the number of rows
     private var m_guessedPlaneList: Vector<Plane>
 
     //list of available data for each head in m_guessHeadList
-    private var m_headDataList: Vector<HeadData>
+    public var m_headDataList: Vector<HeadData>
 
     //gets the list of guesses
     //list of guesses made until this moment
@@ -41,7 +41,7 @@ class ComputerLogic(//gets the number of rows
 
     //list of extended guesses; when the position of a plane is decided
     //all the points on this plane are considered as misses
-    private var m_extendedListGuesses: Vector<GuessPoint>
+    public var m_extendedListGuesses: Vector<GuessPoint>
 
 
     //gets the choices
@@ -50,7 +50,7 @@ class ComputerLogic(//gets the number of rows
     //choice is -1 means that plane position is there impossible
     //choice 0 means no data about the choice is available
     //choice = k means that k data exist that support this choice
-    private var choicesArray: Vector<Int>
+    public var choicesArray: Vector<Int>
 
     //array keeping the number of points with positive m_choice influenced by a given point
     //contains:
@@ -198,8 +198,7 @@ class ComputerLogic(//gets the number of rows
     }
 
     //make choice in find head mode
-    //TODO: test
-    private fun makeChoiceFindHeadMode(): Pair<Boolean, Coordinate2D> {
+    public fun makeChoiceFindHeadMode(): Pair<Boolean, Coordinate2D> {
         val maxPos = Vector<Int>()
 
         //computes the point on the m_choices table
@@ -226,7 +225,7 @@ class ComputerLogic(//gets the number of rows
     }
 
     //make choice in find plane position mode
-    private fun makeChoiceFindPositionMode(): Pair<Boolean, Coordinate2D> {
+    public fun makeChoiceFindPositionMode(): Pair<Boolean, Coordinate2D> {
         //chose randomly a head data from the list
         //and choose randomly an orientation which is not discarded
         //select a point which was not selected from this orientation
@@ -262,7 +261,7 @@ class ComputerLogic(//gets the number of rows
     }
 
     //make a random choice
-    private fun makeChoiceRandomMode(): Pair<Boolean, Coordinate2D> {
+    public fun makeChoiceRandomMode(): Pair<Boolean, Coordinate2D> {
         //find a random point which has zero score in the choice map
         val idx = generateRandomNumber(m_maxChoiceNo)
 
@@ -321,7 +320,7 @@ class ComputerLogic(//gets the number of rows
     }
 
     //updates the choices with info about a dead guess
-    private fun updateChoiceMapDeadInfo(row: Int, col: Int) {
+    public fun updateChoiceMapDeadInfo(row: Int, col: Int) {
         //do nothing as everything is done in the updateHeadData function
         //the decision to chose a plane is made in the
         //updateHeadData function
@@ -329,7 +328,7 @@ class ComputerLogic(//gets the number of rows
     }
 
     //updates the choices with info about a hit guess
-    private fun updateChoiceMapHitInfo(row: Int, col: Int) {
+    public fun updateChoiceMapHitInfo(row: Int, col: Int) {
         //for all the plane positions that are valid and that contain the
         //current position increment their score
         m_pipi.reset()
@@ -351,7 +350,7 @@ class ComputerLogic(//gets the number of rows
     }
 
     //updates the choices with info about a miss guess
-    private fun updateChoiceMapMissInfo(row: Int, col: Int) {
+    public fun updateChoiceMapMissInfo(row: Int, col: Int) {
         //discard all plane positions that contain this point
         m_pipi.reset()
         while (m_pipi.hasNext()) {
@@ -372,7 +371,7 @@ class ComputerLogic(//gets the number of rows
     }
 
     //updates the choices with the info about a found plane
-    private fun updateChoiceMapPlaneData(pl: Plane) {
+    public fun updateChoiceMapPlaneData(pl: Plane) {
         //interprets a plane as a list of miss guesses
         //updates the choice map with this list of guesses
         //and appends the guesses to the list of guesses

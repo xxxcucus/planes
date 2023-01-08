@@ -124,7 +124,7 @@ struct HeadData
 };
 \end{lstlisting}
 
-The most important aspect of HeadData is that it contains 4 PlaneOrientationData structures, each for every possible orientation of a plane with a the given plane head position. Additionally the size of the game board is saved, along with the plane head position. If there is enough data to be sure that the plane is in one of the 4 searched positions, m\_correctOrienta will be set to the index of the found orientation in the array m\_options. The most important function is the function update() that receives a guess (which is a position on the game board together with a guess result: dead, hit, miss) and updates the knowledge about this plane head's position.
+The most important aspect of HeadData is that it contains 4 PlaneOrientationData structures, each for every possible orientation of a plane with a the given plane head position. Additionally the size of the game board is saved, along with the plane head position. If there is enough data to be sure that the plane is in one of the 4 searched positions, m\_correctOrient will be set to the index of the found orientation in the array m\_options. The most important function is the function update() that receives a guess (which is a position on the game board together with a guess result: dead, hit, miss) and updates the knowledge about this plane head's position.
 
 \subsection{Data Available to the Computer}
 

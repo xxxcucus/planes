@@ -3,30 +3,39 @@
 
 #include <QMessageBox>
 #include <QJsonArray>
-
-#include "viewmodels/getopponentemovesviewmodel.h"
 #include "multiplayerround.h"
 
 bool RequestOpponentMovesCommObj::makeRequest(int opponentMoveIndex)
 {
-    if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        QMessageBox msgBox(m_ParentWidget);
-        msgBox.setText("No user logged in"); 
-        msgBox.exec();
+    if (m_IsSinglePlayer) {
+        //qDebug() << "makeRequestBasis in single player modus";
         return false;
     }
 
+    if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
+        if (m_ParentWidget != nullptr) {
+            QMessageBox msgBox(m_ParentWidget);
+            msgBox.setText("No user logged in");
+            msgBox.exec();
+        }
+        return false;
+    }
+
+    m_RequestData = prepareViewModel(opponentMoveIndex).toJson();
+    
+    makeRequestBasis(true);
+    return true;
+}
+
+GetOpponentsMovesViewModel RequestOpponentMovesCommObj::prepareViewModel(int opponentMoveIndex) {
     GetOpponentsMovesViewModel opponentViewModel;
     opponentViewModel.m_GameId = m_GlobalData->m_GameData.m_GameId;
     opponentViewModel.m_RoundId = m_GlobalData->m_GameData.m_RoundId;
     opponentViewModel.m_OwnUserId = m_GlobalData->m_GameData.m_UserId;
     opponentViewModel.m_OpponentUserId = m_GlobalData->m_GameData.m_OtherUserId;
     opponentViewModel.m_MoveIndex = opponentMoveIndex;
-    
-    m_RequestData = opponentViewModel.toJson();
-    
-    makeRequestBasis(true);
-    return true;
+
+    return opponentViewModel;
 }
 
 
@@ -45,15 +54,19 @@ void RequestOpponentMovesCommObj::finishedRequest()
         return;
     }
     
+    processResponse(retJson);
+}
+
+void RequestOpponentMovesCommObj::processResponse(const QJsonObject& retJson) {
     QJsonValue movesObject = retJson.value("listMoves");
     QJsonArray movesArray = movesObject.toArray();
-    
+
     for (int i = 0; i < movesArray.size(); i++) {
         QJsonValue moveValue = movesArray.at(i);
         QJsonObject moveObject = moveValue.toObject();
         if (moveObject.contains("moveX") && moveObject.contains("moveY")) {
             GuessPoint gp = GuessPoint(moveObject.value("moveX").toInt(), moveObject.value("moveY").toInt());
-            //qDebug() << "add opponent move to grid ";
+            //qDebug() << gp.m_row << "," << gp.m_col;
             m_MultiRound->addOpponentMove(gp, moveObject.value("moveIndex").toInt());
             emit opponentMoveGenerated(gp);
         }

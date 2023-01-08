@@ -1,11 +1,17 @@
 #ifndef __NOROBOT_COMM_OBJ__
 #define __NOROBOT_COMM_OBJ__
 
+#if defined MAKE_MULTIPLAYERROUND_LIB
+#define MULTIPLAYER_EXPORT Q_DECL_EXPORT
+#else
+#define MULTIPLAYER_EXPORT Q_DECL_IMPORT
+#endif
 
 #include "basiscommobj.h"
+#include "viewmodels/norobotviewmodel.h"
 #include <QMessageBox>
 
-class NoRobotCommObj : public BasisCommObj {
+class MULTIPLAYER_EXPORT NoRobotCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:
@@ -19,6 +25,9 @@ public:
     
     bool makeRequest(const QString& requestId, const QString& answer);
     bool validateReply(const QJsonObject& retJson) override;
+
+protected:
+    NoRobotCommObj() {}
     
 public slots:
     void finishedRequest() override;   
@@ -30,7 +39,13 @@ signals:
     void registrationComplete();
     
 private:
+    NoRobotViewModel prepareViewModel(const QString& requestId, const QString& answer);
+    void processResponse(const QJsonObject& retJson);
+
+private:
     QMessageBox* m_LoadingMessageBox = nullptr;
+
+    friend class NoRobotCommObjTest;
 };
 
 

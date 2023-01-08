@@ -33,6 +33,8 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
 
     fun getPassword(): String
 
+    fun getAuthToken(): String
+
     fun getOpponentName(): String
 
     fun register(username: String, password: String): Observable<Response<RegistrationResponse>>
@@ -108,4 +110,10 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
     fun cancelRound()
 
     fun getGameStats() : GameStatistics
+
+    fun getComputerPlaneNo(pos: Int): Plane
+
+    fun getNotSentMoveCount(): Int
+
+    fun getReceivedMovesCount(): Int
 }

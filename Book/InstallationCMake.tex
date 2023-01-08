@@ -45,12 +45,14 @@ The Windows binaries of Planes are generated using the MinGW generators. Besides
 In order for these files to be found one needs to configure the path to the MinGW Installation. Normally one can find it in the Qt Installation.
 This is done with an environment variable: MINGW\_HOME.
 
-PlanesGraphicsScene makes use in the Multiplayer module of SSL. For that one should include in the project the two dlls:
+PlanesGraphicsScene makes use in the Multiplayer module of SSL.The two dlls:
 
 \begin{itemize}
 	\item libcrypto-1\_1-x64.dll
 	\item libssl-1\_1-x64.dll
 \end{itemize}
+
+are needed for the project to be able to connect to the game server.
 
 The two dlls are taken from the OpenSSL Installation folder. For that one must specify the path to this folder in the environment variable: OPENSSL\_HOME.
 
@@ -60,4 +62,11 @@ Configuration of the project with CMake-Gui is the same. I am usually doing only
 
 After closing CMake-GUI go to the build folder in terminal. Run cmake .. then make and make install to install the binaries and their dependencies in the installation path.
 
-TODO: ssl library
+For the PlanesGraphicsScene one should download and compile locally OpenSSL and set an environment variable OPENSSL\_HOME.
+
+The libraries that are used from the OpenSSL folder are:
+
+\begin{itemize}
+	\item libcrypto.so.1.1
+	\item libssl.so.1.1
+\end{itemize}

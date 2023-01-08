@@ -23,7 +23,7 @@ class RegisterFragment : Fragment() {
     private var m_Username = ""
     private var m_Password = ""
 
-    private var m_MultiplayerRound = MultiplayerRoundJava()
+    var m_MultiplayerRound = MultiplayerRoundJava()
     private lateinit var m_RegisterCommObj: RegisterCommObj
 
     override fun onAttach(context: Context) {
@@ -38,8 +38,11 @@ class RegisterFragment : Fragment() {
     ): View {
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
         binding.settingsData = RegisterViewModel(m_Username, m_Password)
-        (activity as MainActivity).setActionBarTitle(getString(R.string.register))
-        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Register)
+
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.register))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Register)
+        }
 
         val saveSettingsButton = binding.register
         saveSettingsButton.setOnClickListener { performRegister() }
@@ -71,7 +74,8 @@ class RegisterFragment : Fragment() {
     }
 
     private fun finalizeRegister() {
-        (activity as MainActivity).startNoRobotFragment(m_MultiplayerRound.getRegistrationResponse())
+        if (activity is MainActivity)
+            (activity as MainActivity).startNoRobotFragment(m_MultiplayerRound.getRegistrationResponse())
     }
 
     private fun createObservableRegister(): Observable<Response<RegistrationResponse>> {
@@ -104,10 +108,11 @@ class RegisterFragment : Fragment() {
     }
 
     private fun hideLoading() {
-        (activity as MainActivity).stopProgressDialog()
+        if (activity is MainActivity)
+            (activity as MainActivity).stopProgressDialog()
     }
 
-    private fun validationUsernamePasswordRegister(username: String, password: String): String {
+    fun validationUsernamePasswordRegister(username: String, password: String) : String {
         var retString = ""
 
         if (username.length > 30) {

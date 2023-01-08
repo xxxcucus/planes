@@ -1,0 +1,38 @@
+name: planes
+version: 0.3.10.1
+grade: stable
+adopt-info: planes
+
+confinement: devmode
+base: core20
+
+apps:
+  planes:
+    common-id: com.planes.desktop
+    command: usr/local/PlanesQML.sh
+    extensions:
+      - kde-neon
+    plugs:
+      - opengl
+      - desktop
+      - home
+      - x11
+      - wayland
+
+
+parts:
+   planes:
+    parse-info:
+      - /root/parts/planes/src/c_plus_plus/planes.metainfo.xml
+    plugin: cmake
+    build-snaps:
+      - kde-frameworks-5-98-qt-5-15-6-core20-sdk
+      - kde-frameworks-5-98-qt-5-15-6-core20
+    source: https://github.com/xxxcucus/planes.git
+    source-subdir: c_plus_plus
+    source-branch: 0.3.10.1-branch
+    stage-packages: 
+        - libpng16-16
+        - libharfbuzz-dev
+        - libmd4c-dev
+        - libdouble-conversion-dev

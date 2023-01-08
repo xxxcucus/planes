@@ -6,7 +6,7 @@ void RevertComputerLogic::operator=(const ComputerLogic& cl)
     if (m_row != cl.getRowNo() && m_col != cl.getRowNo())
         return;
 
-    const int* choices = cl.getChoicesArray();
+    const std::vector<int> choices = cl.getChoicesArray();
 
     for(int i = 0;i < maxChoiceNo; i++)
         m_choices[i] = choices[i];

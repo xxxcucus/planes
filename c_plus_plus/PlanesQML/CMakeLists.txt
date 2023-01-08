@@ -6,7 +6,7 @@ cmake_policy(SET CMP0043 NEW)
 
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
-	${CMAKE_CURRENT_SOURCE_DIR}/../common
+	${CMAKE_CURRENT_SOURCE_DIR}/../singleround
 	)
 
 #link_directories(
@@ -27,7 +27,7 @@ qt_add_resources(RESOURCES qml.qrc)
 add_executable(PlanesQML ${QML_SRCS} ${RESOURCES} ${QML_HEADR})
 
 target_link_libraries(PlanesQML
-	libCommon
+	libSingleRound
 	Qt6::Core
 	Qt6::Quick)
 

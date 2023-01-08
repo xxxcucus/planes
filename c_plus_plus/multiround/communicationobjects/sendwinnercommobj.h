@@ -8,6 +8,7 @@
 #endif
 
 #include "basiscommobj.h"
+#include "viewmodels/sendwinnerviewmodel.h"
 
 class MULTIPLAYER_EXPORT SendWinnerCommObj : public BasisCommObj {
     Q_OBJECT
@@ -19,8 +20,16 @@ public:
     bool makeRequest(bool draw, long int winnerId);
     bool validateReply(const QJsonObject& retJson) override;
     
+protected:
+    SendWinnerCommObj() {}
+
 public slots:
-    void finishedRequest() override;       
+    void finishedRequest() override;   
+
+private:
+    SendWinnerViewModel prepareViewModel(bool draw, long int winnerId);
+
+    friend class SendWinnerCommObjTest;
 };
 
 #endif 

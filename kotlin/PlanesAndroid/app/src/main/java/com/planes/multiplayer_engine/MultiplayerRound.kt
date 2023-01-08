@@ -176,6 +176,10 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return m_UserData.password
     }
 
+    fun getAuthToken(): String {
+        return m_UserData.authToken
+    }
+
     fun getOpponentName() : String {
         return m_GameData.otherUsername
     }
@@ -641,6 +645,10 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return m_PlayerGrid.getPlane(pos).second
     }
 
+    fun getComputerPlaneNo(pos: Int): Plane {
+        return m_ComputerGrid.getPlane(pos).second
+    }
+
     fun sendPlanePositions(request: SendPlanePositionsRequest): Observable<Response<SendPlanePositionsResponse>> {
         return m_Service.sendPlanePositions(m_UserData.authToken, request)
     }
@@ -669,6 +677,10 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         m_NotSentMoves.add(moveIndex)
     }
 
+    fun getNotSentMoveCount(): Int {
+        return m_NotSentMoves.size
+    }
+
     fun saveNotSentMoves() {
         m_LastNotSentMoveIndexSucces.clear()
         m_LastNotSentMoveIndexSucces.addAll(m_NotSentMoves)
@@ -688,6 +700,10 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         }
 
         return Pair<Vector<Int>, Int>(notReceivedMoves, maxReceivedMoveIndex)
+    }
+
+    fun getReceivedMovesCount(): Int {
+        return m_ReceivedMoves.size
     }
 
     fun sendMove(sendMoveRequest: SendNotSentMovesRequest): Observable<Response<SendNotSentMovesResponse>> {

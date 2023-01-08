@@ -7,7 +7,7 @@ cmake_policy(SET CMP0043 NEW)
 
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
-	${CMAKE_CURRENT_SOURCE_DIR}/../common
+	${CMAKE_CURRENT_SOURCE_DIR}/../singleround
 	${Qt6Widgets_INCLUDE_DIRS})
 
 #link_directories(
@@ -45,7 +45,7 @@ set(WIDGET_SRCS
 
 add_executable(PlanesWidget ${WIDGET_SRCS} ${UI_HEADERS} ${WIDGET_HEADR})
 target_link_libraries(PlanesWidget 
-	libCommon
+	libSingleRound
 	Qt6::Widgets)
 
 install(TARGETS PlanesWidget DESTINATION bin)

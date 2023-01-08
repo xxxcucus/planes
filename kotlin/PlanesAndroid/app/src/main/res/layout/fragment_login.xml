@@ -99,6 +99,14 @@
                 android:textColor="@color/primaryTextColor"
                 android:text="@string/login_signup_hint"
                 android:layout_marginTop="@dimen/loginViewsMargin" />
+
+            <Button
+                android:id="@+id/creategame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_connectto_game"
+                android:enabled="false"/>
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

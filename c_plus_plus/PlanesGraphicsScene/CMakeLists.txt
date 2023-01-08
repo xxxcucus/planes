@@ -6,7 +6,7 @@ cmake_policy(SET CMP0043 NEW)
 
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
-	${CMAKE_CURRENT_SOURCE_DIR}/../common
+	${CMAKE_CURRENT_SOURCE_DIR}/../singleround
 	${CMAKE_CURRENT_SOURCE_DIR}/../multiround/
 	${CMAKE_CURRENT_SOURCE_DIR}/../bcrypt
 	${Qt6Widgets_INCLUDE_DIRS}
@@ -28,6 +28,7 @@ set(GS_SRCS
     leftpane/account/loginregisterform.cpp
     leftpane/account/mainaccountwidget.cpp
     leftpane/account/norobotwidget.cpp
+	leftpane/account/norobotdialog.cpp
     leftpane/account/userprofileframe.cpp
     rightpane/boards/computerboard.cpp
 	rightpane/boards/customgraphicsscene.cpp
@@ -64,6 +65,7 @@ set(GS_HEADR
     leftpane/account/mainaccountwidget.h
     leftpane/account/norobotwidget.h
     leftpane/account/userprofileframe.h
+	leftpane/account/norobotdialog.h
     rightpane/boards/computerboard.h
 	rightpane/boards/customgraphicsscene.h
 	rightpane/boards/customgraphicsview.h
@@ -90,7 +92,7 @@ add_executable(PlanesGraphicsScene
 	${GS_HEADR}
 	resources.qrc)
 target_link_libraries(PlanesGraphicsScene
-	libCommon
+	libSingleRound
 	libMultiRound
 	libbcrypt
 	Qt6::Widgets

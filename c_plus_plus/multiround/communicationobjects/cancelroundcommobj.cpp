@@ -33,8 +33,7 @@ void CancelRoundCommObj::finishedRequest()
     if (!finishRequestHelper(retJson)) 
         return;
 
-    m_MultiRound->setRoundCancelled();
-    emit roundCancelled();
+    processResponse();
 }
 
 bool CancelRoundCommObj::validateReply(const QJsonObject& reply) {
@@ -46,4 +45,9 @@ CancelRoundViewModel CancelRoundCommObj::prepareViewModel() {
     cancelRoundData.m_RoundId = m_GlobalData->m_GameData.m_RoundId;
     cancelRoundData.m_GameId = m_GlobalData->m_GameData.m_GameId;
     return cancelRoundData;
+}
+
+void CancelRoundCommObj::processResponse() {
+    m_MultiRound->setRoundCancelled();
+    emit roundCancelled();
 }

@@ -27,12 +27,13 @@ public:
 private slots:
     void imageClicked(int imageIndex);
     void submitAnswer();    
+    void closeParent();
     
 private:
     void displayAndScaleImages();
     
 signals:
-    void noRobotSubmit();
+    void noRobotSubmit(int code);
     
 private:
     std::vector<ClickableLabel*> m_Labels;
