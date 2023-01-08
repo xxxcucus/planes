@@ -2,8 +2,21 @@
 
     <!-- Base application theme. -->
     <style name="MyAppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorLightGreen500</item>
+        <item name="colorOnPrimary">@color/colorAmber500</item>
+        <item name="colorPrimaryDark">@color/colorLightGreen700</item>
+        <item name="colorAccent">@color/colorAmber200</item>
+        <item name="colorControlHighlight">@color/colorLightGreen100</item>
+        <item name="colorButtonNormal">@color/colorLightGreen600</item>
+        <item name="colorControlActivated">@color/colorLightGreen400</item>
+
+        <!--<item name="android:buttonStyle">@style/ButtonColor</item>-->
     </style>
+
+    <!--<style name="ButtonColor" parent="@android:style/Widget.Button">
+        <item name="android:textColor">@color/colorAmber500</item>
+        <item name="android:background">@color/colorLightGreen600</item>
+    </style>-->
 
     <style name="NavigationDrawerStyle">
         <item name="android:textSize">20sp</item><!-- text size in menu-->
