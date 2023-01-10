@@ -28,6 +28,7 @@
         android:textSize="15dp"
         android:layout_alignParentRight="true"
         android:layout_margin="10dip"
+        style="@style/ButtonColor"
         android:text="@string/popup_help_button_text"
         android:layout_below="@+id/about_section_text"
         android:gravity="right"/>

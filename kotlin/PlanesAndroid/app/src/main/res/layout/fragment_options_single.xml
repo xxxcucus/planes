@@ -88,6 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
+                style="@style/ButtonColor"
                 android:text="@string/savesettings"
                 android:layout_gravity="right"/>
         </LinearLayout>

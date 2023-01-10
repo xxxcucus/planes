@@ -56,6 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/credentials_preferences"
+                style="@style/ButtonColor"
                 android:textSize="10dp" />
 
             <Button
@@ -63,13 +64,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
+                style="@style/ButtonColor"
                 android:text="@string/newuser_register"/>
 
             <Button
                 android:id="@+id/login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/submit" />
+                android:text="@string/submit"
+                android:textSize="15dp"
+                style="@style/ButtonColor"/>
         </LinearLayout>
 
         <LinearLayout
@@ -83,6 +87,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/create_connectto_game"
+                style="@style/ButtonColor"
+                android:textSize="15dp"
                 android:enabled="false"/>
         </LinearLayout>
     </RelativeLayout>

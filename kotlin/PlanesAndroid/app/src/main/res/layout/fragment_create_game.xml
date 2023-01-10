@@ -31,11 +31,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/random_game_name"
+                style="@style/ButtonColor"
                 android:textSize="10dp"/>
             <Button
                 android:id="@+id/creategame"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/ButtonColor"
                 android:text="@string/submit"/>
         </LinearLayout>
 
@@ -57,6 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/start_playing"
+                style="@style/ButtonColor"
                 android:enabled="false"/>
         </LinearLayout>
     </RelativeLayout>

@@ -14,6 +14,8 @@
     <color name="colorLightGreen700">#689F38</color>
     <color name="colorAmber200">#FFE082</color>
     <color name="colorAmber500">#FFC107</color>
+    <color name="colorAmber600">#FFB300</color>
+    <color name="colorAmber900">#FF6F00</color>
 
     <color name="colorLightGreen100">#DCEDC8</color>
     <color name="colorLightGreen600">#7CB342</color>

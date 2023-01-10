@@ -30,6 +30,7 @@
         android:layout_alignParentRight="true"
         android:layout_margin="10dip"
         android:text="@string/connectto_game"
+        style="@style/ButtonColor"
         android:layout_below="@+id/connecttogame_text" />
 
     <Button
@@ -39,6 +40,7 @@
         android:textSize="15dp"
         android:layout_margin="10dip"
         android:text="@string/cancel"
+        style="@style/ButtonColor"
         android:layout_below="@+id/connecttogame_text"
         android:layout_toLeftOf="@+id/connecttogame_button" />
 

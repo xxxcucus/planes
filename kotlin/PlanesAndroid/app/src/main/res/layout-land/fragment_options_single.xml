@@ -104,6 +104,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="15dp"
                     android:text="@string/savesettings"
+                    style="@style/ButtonColor"
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/options_multiplayer"/>
             </RelativeLayout>

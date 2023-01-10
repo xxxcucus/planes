@@ -29,6 +29,7 @@
         android:layout_alignParentRight="true"
         android:layout_margin="10dip"
         android:text="@string/popup_help_button_text"
+        style="@style/ButtonColor"
         android:layout_below="@+id/popup_help_text" />
 
 </RelativeLayout>

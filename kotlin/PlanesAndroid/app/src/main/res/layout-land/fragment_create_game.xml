@@ -46,12 +46,14 @@
                 android:layout_below="@id/creategame_gamename"
                 android:layout_alignLeft="@id/creategame_gamename"
                 android:text="@string/random_game_name"
+                style="@style/ButtonColor"
                 android:textSize="10dp" />
             <Button
                 android:id="@+id/creategame"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/submit"
+                style="@style/ButtonColor"
                 android:layout_alignRight="@id/generate_gamename"
                 android:layout_below="@id/generate_gamename"/>
         </RelativeLayout>
@@ -73,6 +75,7 @@
                 android:id="@+id/start_playing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/ButtonColor"
                 android:text="@string/start_playing"
                 android:enabled="false"/>
         </LinearLayout>

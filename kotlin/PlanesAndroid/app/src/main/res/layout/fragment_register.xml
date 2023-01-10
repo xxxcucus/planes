@@ -49,6 +49,7 @@
                 android:id="@+id/register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/ButtonColor"
                 android:text="@string/submit"/>
         </LinearLayout>
     </RelativeLayout>
