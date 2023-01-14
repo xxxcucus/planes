@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import com.planes.android.customviews.CanvasPaintUtilities.Functions.drawButtonShadow
 import androidx.appcompat.widget.AppCompatButton
+import com.planes.android.game.common.PlanesVerticalLayoutParams
 
 /**
  * Parent class for all buttons with pictograms
@@ -33,7 +34,8 @@ open class ButtonWithPictogram : AppCompatButton {
     }
 
     public override fun onDraw(canvas: Canvas) {
-        m_Paint.color = Color.GRAY
+        val lp = layoutParams as PlanesVerticalLayoutParams
+        m_Paint.color = lp.getBackgroundColor().defaultColor
         canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), m_Paint)
         m_Paint.color = Color.BLACK
         drawButtonShadow(canvas, m_Paint, width, height)

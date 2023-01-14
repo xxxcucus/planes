@@ -15,6 +15,7 @@ class ColouredSurfaceWithTwoLineText : View, ViewWithText {
     private lateinit var m_Text2: String
     private var m_TextSize = 10
     private var m_BackgroundColor = 0
+    private var m_ForegroundColor = 0
     private var m_LineSpacing = 10
 
     constructor(context: Context) : super(context) {
@@ -43,7 +44,8 @@ class ColouredSurfaceWithTwoLineText : View, ViewWithText {
         val lp = layoutParams as PlanesVerticalLayoutParams
         if (!this::m_Text1.isInitialized) m_Text1 = lp.getText1()
         if (!this::m_Text2.isInitialized) m_Text2 = lp.getText2()
-        m_BackgroundColor = lp.getColor()
+        m_BackgroundColor = lp.getBackgroundColor().defaultColor
+        m_ForegroundColor = lp.getForegroundColor().defaultColor
         val measuredHeight = CanvasPaintUtilities.measureHeightTwoLinesText(
             heightMeasureSpec, m_Paint, m_Text1, m_Text2, m_LineSpacing)
         val measuredWidth = CanvasPaintUtilities.measureWidthTwoLinesText(
@@ -55,7 +57,7 @@ class ColouredSurfaceWithTwoLineText : View, ViewWithText {
         //TODO: draw the surface in the colour specified
         m_Paint.color = m_BackgroundColor
         canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), m_Paint)
-        m_Paint.color = Color.BLUE
+        m_Paint.color = m_ForegroundColor
         CanvasPaintUtilities.drawTextFitToSizeTwoLines(
             m_Text1, m_Text2, m_TextSize, canvas, m_Paint, width, height, m_LineSpacing)
     }

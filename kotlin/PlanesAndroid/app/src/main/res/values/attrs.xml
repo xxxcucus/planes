@@ -9,7 +9,8 @@
         <attr name="gc_text" format="string"/>
         <attr name="gc_text1" format="string"/>
         <attr name="gc_text2" format="string"/>
-        <attr name="gc_background_color" format="color" />
+        <attr name="gc_background_color" format="reference" />
+        <attr name="gc_foreground_color" format="reference" />
     </declare-styleable>
     <declare-styleable name="TextButton">
     </declare-styleable>

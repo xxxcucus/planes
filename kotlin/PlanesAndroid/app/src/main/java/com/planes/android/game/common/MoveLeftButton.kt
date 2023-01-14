@@ -26,7 +26,8 @@ class MoveLeftButton : ButtonWithPictogram {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         m_Paint.style = Paint.Style.FILL
-        m_Paint.color = Color.BLUE
+        val lp = layoutParams as PlanesVerticalLayoutParams
+        m_Paint.color = lp.getForegroundColor().defaultColor
         val width = width
         val height = height
         val centerX = width / 2

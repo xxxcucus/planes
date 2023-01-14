@@ -1,9 +1,12 @@
 package com.planes.android.game.common
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.ViewGroup
 import com.planes.android.R
+
 
 class PlanesVerticalLayoutParams(context: Context, attrs: AttributeSet) :
     ViewGroup.LayoutParams(context, attrs) {
@@ -20,8 +23,12 @@ class PlanesVerticalLayoutParams(context: Context, attrs: AttributeSet) :
         return m_Text2
     }
 
-    fun getColor(): Int {
+    fun getBackgroundColor(): ColorStateList {
         return m_BackgroundColor
+    }
+
+    fun getForegroundColor(): ColorStateList {
+        return m_ForegroundColor
     }
 
     //TODO: to add text formatting options
@@ -34,7 +41,8 @@ class PlanesVerticalLayoutParams(context: Context, attrs: AttributeSet) :
     private var m_Text: String
     private var m_Text1: String
     private var m_Text2: String
-    private var m_BackgroundColor = 0
+    private lateinit var m_BackgroundColor : ColorStateList
+    private lateinit var m_ForegroundColor : ColorStateList
 
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.PlanesVerticalLayout)
@@ -46,10 +54,16 @@ class PlanesVerticalLayoutParams(context: Context, attrs: AttributeSet) :
         m_Text = a.getString(R.styleable.PlanesVerticalLayout_gc_text).toString()
         m_Text1 = a.getString(R.styleable.PlanesVerticalLayout_gc_text1).toString()
         m_Text2 = a.getString(R.styleable.PlanesVerticalLayout_gc_text2).toString()
-        m_BackgroundColor = a.getColor(
-            R.styleable.PlanesVerticalLayout_gc_background_color, context.resources.getColor(
-                R.color.grey
-            ))
+        val colorBackStyle: Int = R.styleable.PlanesVerticalLayout_gc_background_color
+        if (a.hasValue(colorBackStyle)) {
+            m_BackgroundColor =
+                a.getColorStateList(R.styleable.PlanesVerticalLayout_gc_background_color)!!
+        }
+        val colorForeStyle: Int = R.styleable.PlanesVerticalLayout_gc_foreground_color
+        if (a.hasValue(colorForeStyle)) {
+            m_ForegroundColor =
+                a.getColorStateList(R.styleable.PlanesVerticalLayout_gc_foreground_color)!!
+        }
         a.recycle()
     }
 }

@@ -17,6 +17,8 @@ class TextButton : AppCompatButton, ViewWithText {
     private lateinit var m_Paint: Paint
     private lateinit var m_Text: String
     private var m_TextSize = 10
+    private var m_BackgroundColor = 0
+    private var m_ForegroundColor = 0
 
     constructor(context: Context) : super(context) {
         init()
@@ -37,6 +39,8 @@ class TextButton : AppCompatButton, ViewWithText {
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val lp = layoutParams as PlanesVerticalLayoutParams
         if (!this::m_Text.isInitialized) m_Text = lp.getText()
+        m_BackgroundColor = lp.getBackgroundColor().defaultColor
+        m_ForegroundColor = lp.getForegroundColor().defaultColor
         val measuredHeight = measureHeightOneLineText(heightMeasureSpec, m_Paint, m_Text)
         val measuredWidth = measureWidthOneLineText(widthMeasureSpec, m_Paint, m_Text)
         setMeasuredDimension(measuredWidth, measuredHeight)
@@ -44,9 +48,9 @@ class TextButton : AppCompatButton, ViewWithText {
 
     public override fun onDraw(canvas: Canvas) {
         //super.onDraw(canvas);
-        m_Paint.color = Color.GRAY
+        m_Paint.color = m_BackgroundColor
         canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), m_Paint)
-        m_Paint.color = Color.BLUE
+        m_Paint.color = m_ForegroundColor
         drawTextFitToSizeOneLine(m_Text, m_TextSize, canvas, m_Paint, width, height)
         m_Paint.color = Color.BLACK
         drawButtonShadow(canvas, m_Paint, width, height)

@@ -16,6 +16,17 @@
         <item name="android:background">@color/colorLightGreen500</item>
         <item name="android:padding">5dp</item>
         <item name="android:layout_margin">3dp</item>
+        <item name="gc_background_color">@color/colorLightGreen500</item>
+        <item name="gc_foreground_color">@color/colorAmber900</item>
+    </style>
+
+    <style name="HighlightedButtonColor" parent="@style/Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@color/colorAmber900</item>
+        <item name="android:background">@color/colorLightGreen700</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="gc_background_color">@color/colorLightGreen700</item>
+        <item name="gc_foreground_color">@color/colorAmber900</item>
     </style>
 
     <style name="NavigationDrawerStyle">

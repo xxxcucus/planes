@@ -20,6 +20,8 @@ open class TwoLineTextButton : AppCompatButton, ViewWithText {
     protected lateinit var m_Text2: String
     protected var m_TextSize = 10
     protected var m_LineSpacing = 10
+    protected var m_BackgroundColor = 0
+    protected var m_ForegroundColor = 0
 
     constructor(context: Context) : super(context) {
         init()
@@ -41,15 +43,17 @@ open class TwoLineTextButton : AppCompatButton, ViewWithText {
         val lp = layoutParams as PlanesVerticalLayoutParams
         if (!this::m_Text1.isInitialized) m_Text1 = lp.getText1()
         if (!this::m_Text2.isInitialized) m_Text2 = lp.getText2()
+        m_BackgroundColor = lp.getBackgroundColor().defaultColor
+        m_ForegroundColor = lp.getForegroundColor().defaultColor
         val measuredHeight = measureHeightTwoLinesText(heightMeasureSpec, m_Paint, m_Text1, m_Text2, m_LineSpacing)
         val measuredWidth = measureWidthTwoLinesText(widthMeasureSpec, m_Paint, m_Text1, m_Text2)
         setMeasuredDimension(measuredWidth, measuredHeight)
     }
 
     public override fun onDraw(canvas: Canvas) {
-        m_Paint.color = Color.GRAY
+        m_Paint.color = m_BackgroundColor
         canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), m_Paint)
-        m_Paint.color = Color.BLUE
+        m_Paint.color = m_ForegroundColor
         drawTextFitToSizeTwoLines(m_Text1, m_Text2, m_TextSize, canvas, m_Paint, width, height, m_LineSpacing)
         m_Paint.color = Color.BLACK
         drawButtonShadow(canvas, m_Paint, width, height)
