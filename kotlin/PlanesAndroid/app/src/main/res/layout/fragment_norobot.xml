@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:text = "@string/norobot_question"
         android:textSize="20dp"
+        style="@style/CustomTextViewStyle"
         android:layout_margin="10dp"/>
 
     <Button

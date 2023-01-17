@@ -1,6 +1,7 @@
 package com.planes.android
 
 import android.content.res.Configuration
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -192,6 +193,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_planes, menu)
+
+        for (i in 0 until menu.size()) {
+            val drawable = menu.getItem(i).icon
+            if (drawable != null) {
+                drawable.mutate()
+                drawable.setColorFilter(
+                    resources.getColor(R.color.colorAmber900),
+                    PorterDuff.Mode.SRC_ATOP
+                )
+            }
+        }
         return true
     }
 

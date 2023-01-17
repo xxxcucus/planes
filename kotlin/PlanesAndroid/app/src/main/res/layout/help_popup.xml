@@ -11,12 +11,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
         android:textSize="20dp"
+        style="@style/CustomTextViewStyle"
         android:textStyle="bold"
         android:text="@string/help"/>
     <TextView
         android:id="@+id/popup_help_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/CustomTextViewStyle"
         android:layout_margin="10dip"
         android:layout_below="@+id/popup_help_title"
         android:textSize="15dp"/>

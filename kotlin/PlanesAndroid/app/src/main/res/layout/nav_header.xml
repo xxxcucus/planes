@@ -17,6 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/singleplayergame"
+        style="@style/CustomTextViewStyle"
         android:paddingTop="10dp"/>
 
     <TextView
@@ -24,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/nouser"
+        style="@style/CustomTextViewStyle"
         android:paddingTop="10dp"/>
 
 </LinearLayout>

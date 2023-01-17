@@ -12,6 +12,7 @@
         android:layout_marginTop="10dip"
         android:textSize="20dp"
         android:textStyle="bold"
+        style="@style/CustomTextViewStyle"
         android:text="@string/warning_options_title"/>
     <TextView
         android:id="@+id/warning_options_text"
@@ -20,6 +21,7 @@
         android:layout_below="@+id/warning_options_title"
         android:layout_margin="10dp"
         android:text="@string/warning_options_text"
+        style="@style/CustomTextViewStyle"
         android:textSize="15dp"/>
 
 </RelativeLayout>

@@ -20,12 +20,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/username"
+                style="@style/CustomTextViewStyle"
                 android:textSize="20dp" />
 
             <EditText
                 android:id="@+id/username_edittext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/CustomTextViewStyle"
                 android:text="@={settingsData.m_Username}" />
 
             <TextView
@@ -33,6 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/password"
+                style="@style/CustomTextViewStyle"
                 android:textSize="20dp" />
 
             <EditText
@@ -40,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                style="@style/CustomTextViewStyle"
                 android:text="@={settingsData.m_Password}" />
 
             <CheckBox
@@ -49,6 +53,7 @@
                 android:layout_margin="10dp"
                 android:checked="true"
                 android:text="@string/hide_password"
+                style="@style/CustomTextViewStyle"
                 android:textSize="10dp" />
 
             <Button

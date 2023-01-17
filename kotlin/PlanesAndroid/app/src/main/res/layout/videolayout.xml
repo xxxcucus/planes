@@ -16,12 +16,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textSize="20dp"
+            style="@style/CustomTextViewStyle"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/duration"
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/CustomTextViewStyle"
             android:textSize="10dp"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.cardview.widget.CardView>

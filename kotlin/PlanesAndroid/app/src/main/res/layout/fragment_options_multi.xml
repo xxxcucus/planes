@@ -24,6 +24,7 @@
                 android:layout_margin="10dip"
                 android:textSize="20dp"
                 android:textStyle="bold"
+                style="@style/CustomTextViewStyle"
                 android:text="@string/security_options"/>
             <LinearLayout
                 android:orientation="horizontal"
@@ -34,12 +35,14 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
                     android:textSize="20dp"
+                    style="@style/CustomTextViewStyle"
                     android:text="@string/username"/>
                 <EditText
                     android:id="@+id/username_edittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
+                    style="@style/CustomTextViewStyle"
                     android:text="@={settingsData.m_Username}"/>
             </LinearLayout>
             <LinearLayout
@@ -51,6 +54,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
                     android:layout_margin="10dip"
+                    style="@style/CustomTextViewStyle"
                     android:text="@string/password"/>
                 <EditText
                     android:id="@+id/password_edittext"
@@ -58,6 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
                     android:inputType="textPassword"
+                    style="@style/CustomTextViewStyle"
                     android:text="@={settingsData.m_Password}"/>
             </LinearLayout>
             <CheckBox
@@ -67,6 +72,7 @@
                 android:checked="true"
                 android:text="@string/hide_password"
                 android:layout_gravity="left"
+                style="@style/CustomTextViewStyle"
                 android:layout_marginLeft="30dp"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -74,6 +80,7 @@
                 android:layout_margin="10dip"
                 android:textSize="20dp"
                 android:textStyle="bold"
+                style="@style/CustomTextViewStyle"
                 android:text="@string/multiplayer_options"/>
             <LinearLayout
                 android:orientation="horizontal"
@@ -84,12 +91,14 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
                     android:textSize="20dp"
+                    style="@style/CustomTextViewStyle"
                     android:text="@string/multiplayer_version"/>
                 <Spinner
                     android:id="@+id/multiplayer_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
+                    style="@style/CustomTextViewStyle"
                     app:multiplayerVersion="@={settingsData.m_MultiplayerVersion}"/>
             </LinearLayout>
             <Button

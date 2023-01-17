@@ -26,6 +26,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
                     android:text="@string/username"
+                    style="@style/CustomTextViewStyle"
                     android:textSize="20dp" />
 
                 <EditText
@@ -33,6 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
+                    style="@style/CustomTextViewStyle"
                     android:text="@={settingsData.m_Username}" />
             </LinearLayout>
 
@@ -49,6 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
                     android:text="@string/password"
+                    style="@style/CustomTextViewStyle"
                     android:textSize="20dp" />
 
                 <EditText
@@ -57,6 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
                     android:inputType="textPassword"
+                    style="@style/CustomTextViewStyle"
                     android:text="@={settingsData.m_Password}" />
             </LinearLayout>
 
@@ -67,6 +71,7 @@
                 android:layout_below="@id/login_password"
                 android:layout_alignLeft="@id/login_password"
                 android:checked="true"
+                style="@style/CustomTextViewStyle"
                 android:text="@string/hide_password"
                 android:textSize="10dp" />
             <Button

@@ -19,16 +19,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
+                style="@style/CustomTextViewStyle"
                 android:text="@string/username" />
             <EditText
                 android:id="@+id/username_edittext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/CustomTextViewStyle"
                 android:text="@={settingsData.m_Username}"/>
             <TextView
                 android:id="@+id/login_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/CustomTextViewStyle"
                 android:textSize="20dp"
                 android:text="@string/password"/>
             <EditText
@@ -36,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                style="@style/CustomTextViewStyle"
                 android:text="@={settingsData.m_Password}"/>
             <CheckBox
                 android:id="@+id/secure_check"

@@ -24,7 +24,7 @@
             android:title="@string/register"/>
         <item
             android:id="@+id/nav_norobot"
-            android:visible="false"/>
+            android:visible="false" />
         <item
             android:id="@+id/nav_creategame"
             android:icon="@drawable/ic_baseline_add_circle_24"

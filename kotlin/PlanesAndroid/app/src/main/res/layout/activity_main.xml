@@ -23,7 +23,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimaryDark"
+                app:theme="@style/MyToolbarTheme"
                 app:layout_scrollFlags="enterAlways|scroll" />
         </com.google.android.material.appbar.AppBarLayout>
         <androidx.appcompat.widget.LinearLayoutCompat

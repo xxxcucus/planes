@@ -24,6 +24,7 @@
                 android:layout_margin="10dip"
                 android:textSize="20dp"
                 android:textStyle="bold"
+                style="@style/CustomTextViewStyle"
                 android:text="@string/game_difficulty_options"/>
             <LinearLayout
                 android:orientation="horizontal"
@@ -34,6 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
                     android:textSize="20dp"
+                    style="@style/CustomTextViewStyle"
                     android:text="@string/computer_skill"/>
                 <Spinner
                     android:id="@+id/computer_skill_spinner"
@@ -51,6 +53,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
                     android:layout_margin="10dip"
+                    style="@style/CustomTextViewStyle"
                     android:text="@string/show_plane_after_kill"/>
                 <Spinner
                     android:id="@+id/show_plane_after_kill"
@@ -65,6 +68,7 @@
                 android:layout_margin="10dip"
                 android:textSize="20dp"
                 android:textStyle="bold"
+                style="@style/CustomTextViewStyle"
                 android:text="@string/multiplayer_options"/>
             <LinearLayout
                 android:orientation="horizontal"
@@ -75,6 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
                     android:textSize="20dp"
+                    style="@style/CustomTextViewStyle"
                     android:text="@string/multiplayer_version"/>
                 <Spinner
                     android:id="@+id/multiplayer_spinner"

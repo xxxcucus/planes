@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
         android:textSize="20dp"
+        style="@style/CustomTextViewStyle"
         android:textStyle="bold"
         android:text="@string/create_game"/>
     <TextView
@@ -19,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
         android:text = "@string/creategame_possible"
+        style="@style/CustomTextViewStyle"
         android:layout_below="@+id/creategame_title"
         android:textSize="15dp"/>
 
