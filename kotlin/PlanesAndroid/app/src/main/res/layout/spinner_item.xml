@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:textSize="20dp"
-    android:textColor="@color/red"
+    android:textColor="@color/colorAmber900"
     android:background="@color/layout_background_start"
     />
 
