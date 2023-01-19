@@ -1,11 +1,14 @@
 package com.planes.android
 
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.*
 import android.widget.*
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -194,12 +197,17 @@ class MainActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_planes, menu)
 
+        val typedValue = TypedValue()
+        val theme: Resources.Theme = getTheme()
+        theme.resolveAttribute(R.attr.planesToolbarForegroundColor, typedValue, true)
+        @ColorInt val toolbarForegroundColor: Int = typedValue.data
+
         for (i in 0 until menu.size()) {
             val drawable = menu.getItem(i).icon
             if (drawable != null) {
                 drawable.mutate()
                 drawable.setColorFilter(
-                    resources.getColor(R.color.colorAmber900),
+                    toolbarForegroundColor,
                     PorterDuff.Mode.SRC_ATOP
                 )
             }

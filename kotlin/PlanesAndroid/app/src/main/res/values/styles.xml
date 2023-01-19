@@ -9,6 +9,9 @@
         <item name="colorControlHighlight">@color/colorLightGreen100</item>
         <item name="colorButtonNormal">@color/colorLightGreen600</item>
         <item name="colorControlActivated">@color/colorLightGreen400</item>
+
+        <item name="planesToolbarForegroundColor">@color/colorAmber200</item>
+        <item name="planesToolbarBackgroundColor">@color/colorLightGreen400</item>
     </style>
 
     <style name="ButtonColor" parent="@style/Widget.AppCompat.Button.Colored">
@@ -30,9 +33,9 @@
     </style>
 
     <style name="MyToolbarTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="android:textColorPrimary">@color/colorAmber900</item>
-        <item name="android:textColorSecondary">@color/colorAmber900</item>
-        <item name="android:background">@color/colorLightGreen700</item>
+        <item name="android:textColorPrimary">?planesToolbarForegroundColor</item>
+        <item name="android:textColorSecondary">?planesToolbarForegroundColor</item>
+        <item name="android:background">?planesToolbarBackgroundColor</item>
     </style>
 
     <style name="CustomTextViewStyle" parent="@style/Theme.AppCompat.Light.NoActionBar">

@@ -12,7 +12,7 @@
         <attr name="gc_background_color" format="reference" />
         <attr name="gc_foreground_color" format="reference" />
     </declare-styleable>
-    <declare-styleable name="TextButton">
-    </declare-styleable>
+    <attr name="planesToolbarForegroundColor" format="reference|color"/>
+    <attr name="planesToolbarBackgroundColor" format="reference|color"/>
     <bool name="isTablet">false</bool>
 </resources>
