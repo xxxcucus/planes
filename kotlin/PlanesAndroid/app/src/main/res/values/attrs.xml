@@ -14,5 +14,7 @@
     </declare-styleable>
     <attr name="planesToolbarForegroundColor" format="reference|color"/>
     <attr name="planesToolbarBackgroundColor" format="reference|color"/>
+    <attr name="planesBackgroundStartColor" format="reference|color"/>
+    <attr name="planesBackgroundEndColor" format="reference|color"/>
     <bool name="isTablet">false</bool>
 </resources>

@@ -12,6 +12,8 @@
 
         <item name="planesToolbarForegroundColor">@color/colorAmber200</item>
         <item name="planesToolbarBackgroundColor">@color/colorLightGreen400</item>
+        <item name="planesBackgroundStartColor">@color/colorAmber500</item>
+        <item name="planesBackgroundEndColor">@color/colorLightGreen700</item>
     </style>
 
     <style name="ButtonColor" parent="@style/Widget.AppCompat.Button.Colored">
