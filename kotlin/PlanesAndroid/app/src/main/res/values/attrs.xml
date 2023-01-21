@@ -16,5 +16,8 @@
     <attr name="planesToolbarBackgroundColor" format="reference|color"/>
     <attr name="planesBackgroundStartColor" format="reference|color"/>
     <attr name="planesBackgroundEndColor" format="reference|color"/>
+    <attr name="planesGameButtonBackgroundColor" format="reference|color"/>
+    <attr name="planesGameButtonHighlightedBackgroundColor" format="reference|color"/>
+    <attr name="planesGameButtonForegroundColor" format="reference|color"/>
     <bool name="isTablet">false</bool>
 </resources>

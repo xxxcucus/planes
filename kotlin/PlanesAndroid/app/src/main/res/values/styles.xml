@@ -14,24 +14,27 @@
         <item name="planesToolbarBackgroundColor">@color/colorLightGreen400</item>
         <item name="planesBackgroundStartColor">@color/colorAmber500</item>
         <item name="planesBackgroundEndColor">@color/colorLightGreen700</item>
+        <item name="planesGameButtonBackgroundColor">@color/colorLightGreen700</item>
+        <item name="planesGameButtonHighlightedBackgroundColor">@color/colorLightGreenA700</item>
+        <item name="planesGameButtonForegroundColor">@color/colorAmber100</item>
     </style>
 
     <style name="ButtonColor" parent="@style/Widget.AppCompat.Button.Colored">
-        <item name="android:textColor">@color/colorAmber900</item>
-        <item name="android:background">@color/colorLightGreen700</item>
+        <item name="android:textColor">?planesGameButtonForegroundColor</item>
+        <item name="android:background">?planesGameButtonBackgroundColor</item>
         <item name="android:padding">5dp</item>
         <item name="android:layout_margin">3dp</item>
-        <item name="gc_background_color">@color/colorLightGreen700</item>
-        <item name="gc_foreground_color">@color/colorAmber900</item>
+        <item name="gc_background_color">?planesGameButtonBackgroundColor</item>
+        <item name="gc_foreground_color">?planesGameButtonForegroundColor</item>
     </style>
 
     <style name="HighlightedButtonColor" parent="@style/Widget.AppCompat.Button.Colored">
-        <item name="android:textColor">@color/colorAmber900</item>
-        <item name="android:background">@color/colorLightGreen500</item>
+        <item name="android:textColor">?planesGameButtonForegroundColor</item>
+        <item name="android:background">?planesGameButtonHighlightedBackgroundColor</item>
         <item name="android:padding">5dp</item>
         <item name="android:layout_margin">3dp</item>
-        <item name="gc_background_color">@color/colorLightGreen500</item>
-        <item name="gc_foreground_color">@color/colorAmber900</item>
+        <item name="gc_background_color">?planesGameButtonHighlightedBackgroundColor</item>
+        <item name="gc_foreground_color">?planesGameButtonForegroundColor</item>
     </style>
 
     <style name="MyToolbarTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">

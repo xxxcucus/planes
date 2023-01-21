@@ -10,15 +10,32 @@
     <color name="grey">#e5e6e2</color>
     <color name="red">#FF0000</color>
 
-    <color name="colorLightGreen500">#8BC34A</color>
-    <color name="colorLightGreen700">#689F38</color>
+
+    <color name="colorAmber100">#FFECB3</color>
     <color name="colorAmber200">#FFE082</color>
+    <color name="colorAmber300">#FFD54F</color>
+    <color name="colorAmber400">#FFCA28</color>
     <color name="colorAmber500">#FFC107</color>
     <color name="colorAmber600">#FFB300</color>
+    <color name="colorAmber700">#FFA000</color>
+    <color name="colorAmber800">#FF8F00</color>
     <color name="colorAmber900">#FF6F00</color>
+    <color name="colorAmberA100">#FFE57F</color>
+    <color name="colorAmberA200">#FFD740</color>
+    <color name="colorAmberA400">#FFC400</color>
+    <color name="colorAmberA700">#FFAB00</color>
 
     <color name="colorLightGreen100">#DCEDC8</color>
-    <color name="colorLightGreen600">#7CB342</color>
+    <color name="colorLightGreen200">#C5E1A5</color>
+    <color name="colorLightGreen300">#AED581</color>
     <color name="colorLightGreen400">#9CCC65</color>
+    <color name="colorLightGreen500">#8BC34A</color>
+    <color name="colorLightGreen600">#7CB342</color>
+    <color name="colorLightGreen700">#689F38</color>
+    <color name="colorLightGreen800">#558B2F</color>
     <color name="colorLightGreen900">#33691E</color>
+    <color name="colorLightGreenA100">#CCFF90</color>
+    <color name="colorLightGreenA200">#B2FF59</color>
+    <color name="colorLightGreenA400">#76FF03</color>
+    <color name="colorLightGreenA700">#64DD17</color>
 </resources>
