@@ -17,6 +17,10 @@
         <item name="planesGameButtonBackgroundColor">@color/colorLightGreen700</item>
         <item name="planesGameButtonHighlightedBackgroundColor">@color/colorLightGreenA700</item>
         <item name="planesGameButtonForegroundColor">@color/colorAmber100</item>
+        <item name="planesTextColor">@color/colorAmber700</item>
+        <item name="planesNavigationMenuTextColor">@color/colorAmberA100</item>
+        <item name="planesNavigationMenuBackgroundColor">@color/colorLightGreen400</item>
+        <item name="planesProgressBarColor">@color/aqua</item>
     </style>
 
     <style name="ButtonColor" parent="@style/Widget.AppCompat.Button.Colored">
@@ -43,15 +47,18 @@
         <item name="android:background">?planesToolbarBackgroundColor</item>
     </style>
 
-    <style name="CustomTextViewStyle" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="android:textColor">@color/colorAmber900</item>
+    <style name="CustomTextViewStyle" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textColor">?planesTextColor</item>
     </style>
 
+    <style name="NavigationTextViewStyle" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textColor">?planesNavigationMenuTextColor</item>
+    </style>
 
     <style name="NavigationDrawerStyle">
         <item name="android:textSize">20sp</item><!-- text size in menu-->
-        <item name="itemTextColor">@color/colorAmber900</item>
-        <item name="itemIconTint">@color/colorAmber900</item>
+        <item name="itemTextColor">?planesNavigationMenuTextColor</item>
+        <item name="itemIconTint">?planesNavigationMenuTextColor</item>
         <!-- item size in menu-->
         <item name="android:listPreferredItemHeightSmall">40dp</item>
         <item name="listPreferredItemHeightSmall">40dp</item>

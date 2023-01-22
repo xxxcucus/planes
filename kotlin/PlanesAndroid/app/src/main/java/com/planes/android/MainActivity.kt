@@ -559,10 +559,10 @@ class MainActivity : AppCompatActivity() {
      */
     fun switchSingleMultiplayerVersion() {
         if (m_MainPreferencesService.multiplayerVersion) {
-            Tools.displayToast(getString(R.string.multiplayergame), applicationContext)
+            Tools.displayToast(getString(R.string.multiplayergame), this)
             setDrawerMenuMultiplayer()
         } else {
-            Tools.displayToast(getString(R.string.singleplayergame), applicationContext)
+            Tools.displayToast(getString(R.string.singleplayergame), this)
             setDrawerMenuSinglePlayer()
         }
 
@@ -579,27 +579,27 @@ class MainActivity : AppCompatActivity() {
 
     //region popups
     fun onWarning(errorString: String) {
-        Popups.onWarning(applicationContext, m_MainLayout, errorString)
+        Popups.onWarning(this, m_MainLayout, errorString)
     }
 
     fun showSaveCredentialsPopup(username: String, password: String) {
         if (m_MultiplayerPreferencesService.username == username && m_MultiplayerPreferencesService.password == password) {
-            Tools.displayToast(getString(R.string.loginsuccess), applicationContext)
+            Tools.displayToast(getString(R.string.loginsuccess), this)
             //startGameFragment()
             return
         }
 
-        Popups.showSaveCredentialsPopup(applicationContext, m_MainLayout, username, password
+        Popups.showSaveCredentialsPopup(this, m_MainLayout, username, password
         ) { username_: String, password_: String ->
             m_MultiplayerPreferencesService.username = username_
             m_MultiplayerPreferencesService.password = password_
         }
-        Tools.displayToast(getString(R.string.loginsuccess), applicationContext)
+        Tools.displayToast(getString(R.string.loginsuccess), this)
         //startGameFragment()
     }
 
     private fun onButtonShowHelpWindowClick(multiplayerVersion: Boolean) {
-        val helpPopup = HelpPopup(applicationContext, m_MainLayout, mSelectedItem, ::startTutorialFragment)
+        val helpPopup = HelpPopup(this, m_MainLayout, mSelectedItem, ::startTutorialFragment)
         helpPopup.onButtonShowHelpWindowClick(multiplayerVersion)
     }
     //endregion

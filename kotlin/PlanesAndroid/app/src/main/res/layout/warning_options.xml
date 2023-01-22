@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/layout_background_end">
+    android:background="@drawable/background">
 
     <TextView
         android:id="@+id/warning_options_title"

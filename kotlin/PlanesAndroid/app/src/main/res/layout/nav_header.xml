@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="226dp"
     android:orientation="vertical"
-    android:background="@color/layout_background_start"
+    android:background="@drawable/background"
     android:gravity="bottom"
     android:padding="10dp">
 
@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/singleplayergame"
-        style="@style/CustomTextViewStyle"
+        style="@style/NavigationTextViewStyle"
         android:paddingTop="10dp"/>
 
     <TextView
@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/nouser"
-        style="@style/CustomTextViewStyle"
+        style="@style/NavigationTextViewStyle"
         android:paddingTop="10dp"/>
 
 </LinearLayout>

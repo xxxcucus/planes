@@ -9,7 +9,7 @@ import android.view.View
 class GridSquare : View {
     private var m_TouchedTime = 0L
     private var m_BackgroundColor = 0
-    private val m_GuessColor = Color.RED
+    private var m_GuessColor = Color.RED
     private var m_GuessType = -1 // no guess
     private var m_RowCount = 10
     private var m_ColCount = 10
@@ -44,6 +44,10 @@ class GridSquare : View {
 
     override fun setBackgroundColor(color: Int) {
         m_BackgroundColor = color
+    }
+
+    fun setGuessColor(color: Int) {
+        m_GuessColor = color
     }
 
     fun setGuess(guess_type: Int) {

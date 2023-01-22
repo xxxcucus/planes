@@ -6,7 +6,7 @@
 	android:color="#000000"/>
 	<corners android:radius="8dp" />
 	<gradient
-	android:startColor="?planesBackgroundStartColor"
-	android:endColor="?planesBackgroundEndColor"
+	android:startColor="?attr/planesBackgroundStartColor"
+	android:endColor="?attr/planesBackgroundEndColor"
 	android:angle="45"/>
 </shape>
