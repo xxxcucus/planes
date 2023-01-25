@@ -18,6 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            style="@style/MyGameBoardStyle"
             />
         <com.planes.android.game.singleplayer.GameBoardSinglePlayer
             android:id="@+id/computer_board"

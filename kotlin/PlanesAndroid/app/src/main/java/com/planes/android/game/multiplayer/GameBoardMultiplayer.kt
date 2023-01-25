@@ -9,6 +9,7 @@ import com.planes.android.MultiplayerRoundInterface
 import com.planes.android.R
 import com.planes.android.game.common.GameBoardInterface
 import com.planes.android.game.common.GridSquare
+import com.planes.android.game.common.PlanesVerticalLayoutParams
 import com.planes.single_player_engine.GameStages
 import java.util.HashMap
 import kotlin.math.abs
@@ -63,6 +64,14 @@ class GameBoardMultiplayer : GridLayout, GameBoardInterface {
     private var m_Tablet = false
     private lateinit var m_SiblingBoard: GameBoardMultiplayer
     private var m_GridSquareSize = 0
+    private var m_BoardColor = Color.YELLOW
+    private var m_GuessColor = Color.RED
+    private var m_FirstPlaneColor = Color.BLACK
+    private var m_SecondPlaneColor = Color.BLACK
+    private var m_ThirdPlaneColor = Color.BLACK
+    private var m_SelectedPlaneColor = Color.BLACK
+    private var m_CockpitColor = Color.GREEN
+    private var m_PlaneOverlapColor = Color.RED
 
     constructor(context: Context) : super(context) {
         m_Context = context
@@ -100,6 +109,16 @@ class GameBoardMultiplayer : GridLayout, GameBoardInterface {
      * @param bottom
      */
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        val lp = layoutParams as PlanesVerticalLayoutParams
+        m_GuessColor = lp.getGuessColor().defaultColor
+        m_FirstPlaneColor = lp.getFirstPlaneColor().defaultColor
+        m_SecondPlaneColor = lp.getSecondPlaneColor().defaultColor
+        m_ThirdPlaneColor = lp.getThirdPlaneColor().defaultColor
+        m_SelectedPlaneColor = lp.getSelectedPlaneColor().defaultColor
+        m_CockpitColor = lp.getCockpitColor().defaultColor
+        m_BoardColor = lp.getBoardColor().defaultColor
+        m_PlaneOverlapColor = lp.getPlaneOverlapColor().defaultColor
+
         // These are the far left and right edges in which we are performing layout.
         val leftPos = paddingLeft
         val rightPos = right - left - paddingRight
@@ -128,14 +147,20 @@ class GameBoardMultiplayer : GridLayout, GameBoardInterface {
             val childBottom = topPos + verticalOffset + spacing / 2 + child.getRowNo() * newWidth + newWidth
             child.layout(childLeft, childTop, childRight, childBottom)
         }
+        updateBoards()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         // TODO: is this correct ?
+
+        val lp = layoutParams as PlanesVerticalLayoutParams
+        m_GuessColor = lp.getGuessColor().defaultColor
+
         if (m_GridSquareSize == 0) super.onMeasure(widthMeasureSpec, heightMeasureSpec) else setMeasuredDimension((m_GRows + 2 * m_Padding) * m_GridSquareSize, (m_GRows + 2 * m_Padding) * m_GridSquareSize)
     }
 
     private fun init(context: Context) {
+
         val gridSize = 1
         rowCount = m_GRows + 2 * m_Padding
         columnCount = m_GCols + 2 * m_Padding
@@ -147,6 +172,7 @@ class GameBoardMultiplayer : GridLayout, GameBoardInterface {
                     Color.YELLOW) else gs.setBackgroundColor(resources.getColor(
                     R.color.aqua
                 ))
+                gs.setGuessColor(m_GuessColor)
                 gs.setGuess(-1)
                 gs.setRowCount(m_GRows + 2 * m_Padding)
                 gs.setColCount(m_GCols + 2 * m_Padding)
@@ -161,7 +187,7 @@ class GameBoardMultiplayer : GridLayout, GameBoardInterface {
         }
     }
 
-    private fun updateBoards() {
+    public fun updateBoards() {
         // draw the squares background
         for (i in 0 until m_GRows + 2 * m_Padding) {
             for (j in 0 until m_GCols + 2 * m_Padding) {
@@ -190,6 +216,7 @@ class GameBoardMultiplayer : GridLayout, GameBoardInterface {
             val c = m_GridSquares[PositionBoardPane(row + m_Padding, col + m_Padding)]
             // System.out.println("Guess type " + type);
             c!!.setGuess(type)
+            c!!.setGuessColor(m_GuessColor)
             c.invalidate()
         }
     }
@@ -198,23 +225,26 @@ class GameBoardMultiplayer : GridLayout, GameBoardInterface {
         var squareColor = if (i < m_Padding || i >= m_GRows + m_Padding || j < m_Padding || j >= m_GCols + m_Padding) {
             Color.YELLOW
         } else {
-            resources.getColor(R.color.aqua)
+            m_BoardColor
         }
         if (!m_IsComputer || m_IsComputer && m_GameStage === GameStages.GameNotStarted) {
             // if (true) {
             val type = m_MultiplayerRound.getPlaneSquareType(i - m_Padding, j - m_Padding, if (m_IsComputer) 1 else 0)
-            when (type) {
-                -1 -> squareColor = Color.RED
-                -2 -> squareColor = Color.GREEN
-                0 -> {
-                }
-                else -> squareColor = if (type - 1 == m_Selected && !m_IsComputer && m_GameStage === GameStages.BoardEditing) {
-                    Color.BLUE
-                } else {
-                    val grayCol = m_MinPlaneBodyColor + type * m_ColorStep
-                    Color.rgb(grayCol, grayCol, grayCol)
-                }
+            if (type == -1) {
+                squareColor = m_PlaneOverlapColor
+            } else if (type == -2) {
+                squareColor = m_CockpitColor
+            } else if (type == 0) {
+            } else if (type - 1 == m_Selected && !m_IsComputer && m_GameStage === GameStages.BoardEditing) {
+                squareColor = m_SelectedPlaneColor
+            } else if (type == 1) {
+                squareColor = m_FirstPlaneColor
+            } else if (type == 2) {
+                squareColor = m_SecondPlaneColor
+            } else if (type == 3) {
+                squareColor = m_ThirdPlaneColor
             }
+
         }
         return squareColor
     }

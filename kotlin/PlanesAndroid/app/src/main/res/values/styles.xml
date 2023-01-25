@@ -21,6 +21,14 @@
         <item name="planesNavigationMenuTextColor">@color/colorAmberA100</item>
         <item name="planesNavigationMenuBackgroundColor">@color/colorLightGreen400</item>
         <item name="planesProgressBarColor">@color/aqua</item>
+        <item name="planesGuessColor">@color/colorDeepOrange900</item>
+        <item name="planesBoardColor">@color/colorGreenA200</item>
+        <item name="planesFirstPlaneColor">@color/colorTeal100</item>
+        <item name="planesSecondPlaneColor">@color/colorTeal200</item>
+        <item name="planesThirdPlaneColor">@color/colorTeal300</item>
+        <item name="planesSelectedPlaneColor">@color/colorTeal900</item>
+        <item name="planesCockpitColor">@color/colorDeepOrange100</item>
+        <item name="planesPlaneOverlapColor">@color/colorDeepOrangeA400</item>
     </style>
 
     <style name="ButtonColor" parent="@style/Widget.AppCompat.Button.Colored">
@@ -45,6 +53,17 @@
         <item name="android:textColorPrimary">?planesToolbarForegroundColor</item>
         <item name="android:textColorSecondary">?planesToolbarForegroundColor</item>
         <item name="android:background">?planesToolbarBackgroundColor</item>
+    </style>
+
+    <style name="MyGameBoardStyle" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="gc_guess_color">?planesGuessColor</item>
+        <item name="gc_board_color">?planesBoardColor</item>
+        <item name="gc_first_plane_color">?planesFirstPlaneColor</item>
+        <item name="gc_second_plane_color">?planesSecondPlaneColor</item>
+        <item name="gc_third_plane_color">?planesThirdPlaneColor</item>
+        <item name="gc_selected_plane_color">?planesSelectedPlaneColor</item>
+        <item name="gc_cockpit_color">?planesCockpitColor</item>
+        <item name="gc_overlap_planes_color">?planesPlaneOverlapColor</item>
     </style>
 
     <style name="CustomTextViewStyle" parent="@style/Widget.AppCompat.TextView">

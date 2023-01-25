@@ -31,6 +31,38 @@ class PlanesVerticalLayoutParams(context: Context, attrs: AttributeSet) :
         return m_ForegroundColor
     }
 
+    fun getGuessColor(): ColorStateList {
+        return m_GuessColor
+    }
+
+    fun getBoardColor(): ColorStateList {
+        return m_BoardColor
+    }
+
+    fun getFirstPlaneColor(): ColorStateList {
+        return m_FirstPlaneColor
+    }
+
+    fun getSecondPlaneColor(): ColorStateList {
+        return m_SecondPlaneColor
+    }
+
+    fun getThirdPlaneColor(): ColorStateList {
+        return m_ThirdPlaneColor
+    }
+
+    fun getSelectedPlaneColor(): ColorStateList {
+        return m_SelectedPlaneColor
+    }
+
+    fun getCockpitColor(): ColorStateList {
+        return m_CockpitColor
+    }
+
+    fun getPlaneOverlapColor(): ColorStateList {
+        return m_PlaneOverlapColor
+    }
+
     //TODO: to add text formatting options
     //word wrap, no word wrap
     var m_Row = 0
@@ -43,6 +75,15 @@ class PlanesVerticalLayoutParams(context: Context, attrs: AttributeSet) :
     private var m_Text2: String
     private lateinit var m_BackgroundColor : ColorStateList
     private lateinit var m_ForegroundColor : ColorStateList
+    private lateinit var m_GuessColor: ColorStateList
+    private lateinit var m_BoardColor: ColorStateList
+    private lateinit var m_FirstPlaneColor: ColorStateList
+    private lateinit var m_SecondPlaneColor: ColorStateList
+    private lateinit var m_ThirdPlaneColor: ColorStateList
+    private lateinit var m_SelectedPlaneColor: ColorStateList
+    private lateinit var m_CockpitColor: ColorStateList
+    private lateinit var m_PlaneOverlapColor: ColorStateList
+
 
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.PlanesVerticalLayout)
@@ -63,6 +104,39 @@ class PlanesVerticalLayoutParams(context: Context, attrs: AttributeSet) :
         if (a.hasValue(colorForeStyle)) {
             m_ForegroundColor =
                 a.getColorStateList(R.styleable.PlanesVerticalLayout_gc_foreground_color)!!
+        }
+
+        val guessColorStyle: Int = R.styleable.PlanesVerticalLayout_gc_guess_color
+        if (a.hasValue(guessColorStyle)) {
+            m_GuessColor = a.getColorStateList(R.styleable.PlanesVerticalLayout_gc_guess_color)!!
+        }
+        val boardColorStyle: Int = R.styleable.PlanesVerticalLayout_gc_board_color
+        if (a.hasValue(guessColorStyle)) {
+            m_BoardColor = a.getColorStateList(R.styleable.PlanesVerticalLayout_gc_board_color)!!
+        }
+        val firstPlaneColorStyle: Int = R.styleable.PlanesVerticalLayout_gc_first_plane_color
+        if (a.hasValue(guessColorStyle)) {
+            m_FirstPlaneColor = a.getColorStateList(R.styleable.PlanesVerticalLayout_gc_first_plane_color)!!
+        }
+        val secondPlaneColorStyle: Int = R.styleable.PlanesVerticalLayout_gc_second_plane_color
+        if (a.hasValue(guessColorStyle)) {
+            m_SecondPlaneColor = a.getColorStateList(R.styleable.PlanesVerticalLayout_gc_second_plane_color)!!
+        }
+        val thirdPlaneColorStyle: Int = R.styleable.PlanesVerticalLayout_gc_third_plane_color
+        if (a.hasValue(guessColorStyle)) {
+            m_ThirdPlaneColor = a.getColorStateList(R.styleable.PlanesVerticalLayout_gc_third_plane_color)!!
+        }
+        val selectedPlaneColorStyle: Int = R.styleable.PlanesVerticalLayout_gc_selected_plane_color
+        if (a.hasValue(guessColorStyle)) {
+            m_SelectedPlaneColor = a.getColorStateList(R.styleable.PlanesVerticalLayout_gc_selected_plane_color)!!
+        }
+        val cockpitColorStyle: Int = R.styleable.PlanesVerticalLayout_gc_cockpit_color
+        if (a.hasValue(guessColorStyle)) {
+            m_CockpitColor = a.getColorStateList(R.styleable.PlanesVerticalLayout_gc_cockpit_color)!!
+        }
+        val planeOverlapColorStyle: Int = R.styleable.PlanesVerticalLayout_gc_overlap_planes_color
+        if (a.hasValue(guessColorStyle)) {
+            m_PlaneOverlapColor = a.getColorStateList(R.styleable.PlanesVerticalLayout_gc_overlap_planes_color)!!
         }
         a.recycle()
     }

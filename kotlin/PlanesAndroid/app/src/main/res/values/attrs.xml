@@ -17,6 +17,8 @@
         <attr name="gc_second_plane_color" format="reference"/>
         <attr name="gc_third_plane_color" format="reference"/>
         <attr name="gc_selected_plane_color" format="reference"/>
+        <attr name="gc_cockpit_color" format="reference"/>
+        <attr name="gc_overlap_planes_color" format="reference"/>
     </declare-styleable>
     <attr name="planesToolbarForegroundColor" format="reference|color"/>
     <attr name="planesToolbarBackgroundColor" format="reference|color"/>
@@ -29,5 +31,13 @@
     <attr name="planesNavigationMenuTextColor" format="reference|color"/>
     <attr name="planesNavigationMenuBackgroundColor" format="reference|color"/>
     <attr name="planesProgressBarColor" format="reference|color"/>
+    <attr name="planesGuessColor" format="reference|color"/>
+    <attr name="planesBoardColor" format="reference|color"/>
+    <attr name="planesFirstPlaneColor" format="reference|color"/>
+    <attr name="planesSecondPlaneColor" format="reference|color"/>
+    <attr name="planesThirdPlaneColor" format="reference|color"/>
+    <attr name="planesSelectedPlaneColor" format="reference|color"/>
+    <attr name="planesCockpitColor" format="reference|color"/>
+    <attr name="planesPlaneOverlapColor" format="reference|color"/>
     <bool name="isTablet">false</bool>
 </resources>

@@ -16,6 +16,7 @@
             android:id="@+id/game_boards"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/MyGameBoardStyle"
             />
         <!-- Buttons for board editing stage -->
         <com.planes.android.game.common.MoveUpButton
