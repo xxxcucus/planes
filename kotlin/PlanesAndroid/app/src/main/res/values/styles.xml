@@ -3,29 +3,29 @@
     <!-- Base application theme. -->
     <style name="MyAppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorLightGreen500</item>
-        <item name="colorOnPrimary">@color/colorAmber900</item>
+        <item name="colorOnPrimary">@color/colorAmber100</item>
         <item name="colorPrimaryDark">@color/colorLightGreen700</item>
         <item name="colorAccent">@color/colorAmber200</item>
         <item name="colorControlHighlight">@color/colorLightGreen100</item>
-        <item name="colorButtonNormal">@color/colorLightGreen600</item>
+        <item name="colorButtonNormal">@color/colorLightGreen700</item>
         <item name="colorControlActivated">@color/colorLightGreen400</item>
 
-        <item name="planesToolbarForegroundColor">@color/colorAmber200</item>
+        <item name="planesToolbarForegroundColor">@color/colorAmber100</item>
         <item name="planesToolbarBackgroundColor">@color/colorLightGreen400</item>
-        <item name="planesBackgroundStartColor">@color/colorAmber500</item>
-        <item name="planesBackgroundEndColor">@color/colorLightGreen700</item>
+        <item name="planesBackgroundStartColor">@color/colorRed900</item>
+        <item name="planesBackgroundEndColor">@color/colorPurple700</item>
         <item name="planesGameButtonBackgroundColor">@color/colorLightGreen700</item>
         <item name="planesGameButtonHighlightedBackgroundColor">@color/colorLightGreenA700</item>
         <item name="planesGameButtonForegroundColor">@color/colorAmber100</item>
-        <item name="planesTextColor">@color/colorAmber700</item>
-        <item name="planesNavigationMenuTextColor">@color/colorAmberA100</item>
+        <item name="planesTextColor">@color/colorAmber100</item>
+        <item name="planesNavigationMenuTextColor">@color/colorAmber100</item>
         <item name="planesNavigationMenuBackgroundColor">@color/colorLightGreen400</item>
-        <item name="planesProgressBarColor">@color/aqua</item>
+        <item name="planesProgressBarColor">@color/colorDeepOrange900</item>
         <item name="planesGuessColor">@color/colorDeepOrange900</item>
         <item name="planesBoardColor">@color/colorGreenA200</item>
-        <item name="planesFirstPlaneColor">@color/colorTeal100</item>
-        <item name="planesSecondPlaneColor">@color/colorTeal200</item>
-        <item name="planesThirdPlaneColor">@color/colorTeal300</item>
+        <item name="planesFirstPlaneColor">@color/colorTeal200</item>
+        <item name="planesSecondPlaneColor">@color/colorTeal400</item>
+        <item name="planesThirdPlaneColor">@color/colorTeal600</item>
         <item name="planesSelectedPlaneColor">@color/colorTeal900</item>
         <item name="planesCockpitColor">@color/colorDeepOrange100</item>
         <item name="planesPlaneOverlapColor">@color/colorDeepOrangeA400</item>

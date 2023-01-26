@@ -185,4 +185,5 @@
     <string name="current_round">Runda curenta</string>
     <string name="helptext_boardediting_3">Trage avioanul pentru a-l pozitiona.</string>
     <string name="video_duration">Durata videoclipului: %1$s</string>
+    <string name="newuser_register">Utilizator nou? Inregistreaza-te!</string>
 </resources>
