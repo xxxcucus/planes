@@ -6,7 +6,7 @@
         <item name="colorOnPrimary">@color/colorAmber100</item>
         <item name="colorPrimaryDark">@color/colorLightGreen700</item>
         <item name="colorAccent">@color/colorAmber200</item>
-        <item name="colorControlHighlight">@color/colorLightGreen100</item>
+        <item name="colorControlHighlight">@color/colorLightGreen600</item>
         <item name="colorButtonNormal">@color/colorLightGreen700</item>
         <item name="colorControlActivated">@color/colorLightGreen400</item>
 
@@ -23,9 +23,9 @@
         <item name="planesProgressBarColor">@color/colorDeepOrange900</item>
         <item name="planesGuessColor">@color/colorDeepOrange900</item>
         <item name="planesBoardColor">@color/colorGreenA200</item>
-        <item name="planesFirstPlaneColor">@color/colorTeal200</item>
-        <item name="planesSecondPlaneColor">@color/colorTeal400</item>
-        <item name="planesThirdPlaneColor">@color/colorTeal600</item>
+        <item name="planesFirstPlaneColor">@color/colorCyan500</item>
+        <item name="planesSecondPlaneColor">@color/colorCyan700</item>
+        <item name="planesThirdPlaneColor">@color/colorCyan900</item>
         <item name="planesSelectedPlaneColor">@color/colorTeal900</item>
         <item name="planesCockpitColor">@color/colorDeepOrange100</item>
         <item name="planesPlaneOverlapColor">@color/colorDeepOrangeA400</item>
