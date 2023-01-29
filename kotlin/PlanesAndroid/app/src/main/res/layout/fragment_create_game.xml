@@ -15,19 +15,20 @@
             android:layout_centerInParent="true"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/gamename"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                style="@style/CustomTextViewStyle"
-                android:text="@string/game_name" />
-            <EditText
-                android:id="@+id/gamename_edittext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/CustomTextViewStyle"
-                android:text="@={settingsData.m_GameName}"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInput_gamename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/gamename_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/ModifiedEditText"
+                    android:textSize="20dp"
+                    android:hint="@string/game_name"
+                    android:text="@={settingsData.m_GameName}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <Button
                 android:id="@+id/generate_gamename"
                 android:layout_width="wrap_content"

@@ -114,8 +114,8 @@
     <string name="yes">Da</string>
     <string name="no">Nu</string>
     <string name="savecredentials_question">Vrei sa salvezi numele de utilizator si parola in Preferinte? Poti sa le refolosesti cu o simpla apasare data viitoare cand te logezi.</string>
-    <string name="validation_toolong_login_username">Numele de utilizator mai lung de 30 de caractere</string>
-    <string name="validation_toolong_login_password">Parola mai lunga de 30 de caractere</string>
+    <string name="validation_toolong_login_username">Numele de utilizator mai lung de 30 de caractere.</string>
+    <string name="validation_toolong_login_password">Parola mai lunga de 30 de caractere.</string>
     <string name="validation_empty_login_username">Numele de utilizator nu e completat.</string>
     <string name="validation_empty_login_password">Parola nu e completata.</string>
     <string name="validation_startsendswithempty_register_username">Numele de utilizator incepe cu spatii.</string>

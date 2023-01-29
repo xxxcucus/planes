@@ -7,7 +7,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background">
+        android:background="@drawable/background"
+        >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -15,36 +16,34 @@
             android:layout_centerInParent="true"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/login_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/username"
-                style="@style/CustomTextViewStyle"
-                android:textSize="20dp" />
-
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInput_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/username_edittext"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/CustomTextViewStyle"
+                style="@style/ModifiedEditText"
+                android:hint="@string/username"
+                android:textSize="20dp"
                 android:text="@={settingsData.m_Username}" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/login_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/password"
-                style="@style/CustomTextViewStyle"
-                android:textSize="20dp" />
-
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInput_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/password_edittext"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                style="@style/CustomTextViewStyle"
+                android:hint="@string/password"
+                style="@style/ModifiedEditText"
+                android:textSize="20dp"
                 android:text="@={settingsData.m_Password}" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <CheckBox
                 android:id="@+id/secure_check"

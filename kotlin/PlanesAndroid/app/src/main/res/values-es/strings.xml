@@ -118,10 +118,10 @@
     <string name="validation_toolong_login_username"> Nombre de usuario tiene más de 30 caracteres.</string>
     <string name="validation_toolong_login_password"> La contraseña tiene más de 30 caracteres.</string>
     <string name="validation_empty_login_username"> Usuario en blanco.</string>
-    <string name="validation_empty_login_password"> Contraseña en blanco</string>
+    <string name="validation_empty_login_password">" Contraseña en blanco."</string>
     <string name="validation_startsendswithempty_register_username"> El nombre de usuario comienza o termina con espacios vacíos. </string>
     <string name="validation_tooshort_register_username"> El usuario tiene menos de 5 caracteres. </string>
-    <string name="validation_tooshort_register_password"> La contraseña tiene menos de 5 caracteres </string>
+    <string name="validation_tooshort_register_password">" La contraseña tiene menos de 5 caracteres. "</string>
     <string name="unknown_registration_error"> Error al registrarse </string>
     <string name="norobot_question">Marque todas las imágenes correspondientes a la categoría: %1$s</string>
     <string name="norobot_cat"> Gato </string>

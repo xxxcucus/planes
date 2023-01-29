@@ -9,6 +9,7 @@
         <item name="colorControlHighlight">@color/colorLightGreen600</item>
         <item name="colorButtonNormal">@color/colorLightGreen700</item>
         <item name="colorControlActivated">@color/colorLightGreen400</item>
+        <item name="android:textColorHint">@color/colorAmber100</item>
 
         <item name="planesToolbarForegroundColor">@color/colorAmber100</item>
         <item name="planesToolbarBackgroundColor">@color/colorLightGreen400</item>
@@ -68,6 +69,11 @@
 
     <style name="CustomTextViewStyle" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">?planesTextColor</item>
+    </style>
+
+    <style name="ModifiedEditText" parent="@style/Widget.AppCompat.EditText">
+        <item name="android:backgroundTint">?planesBackgroundEndColor</item>
+        <item name="android:textColor">?planesToolbarForegroundColor</item>
     </style>
 
     <style name="NavigationTextViewStyle" parent="@style/Widget.AppCompat.TextView">

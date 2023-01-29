@@ -121,8 +121,8 @@
     <string name="validation_empty_login_username"> User name is empty.</string>
     <string name="validation_empty_login_password"> Password is empty.</string>
     <string name="validation_startsendswithempty_register_username"> User name starts or ends with empty spaces. </string>
-    <string name="validation_tooshort_register_username"> User name shorter as 5 characters </string>
-    <string name="validation_tooshort_register_password"> Password shorter as 5 characters </string>
+    <string name="validation_tooshort_register_username">" User name shorter as 5 characters. "</string>
+    <string name="validation_tooshort_register_password">" Password shorter as 5 characters. "</string>
     <string name="unknown_registration_error"> Error when registering </string>
     <string name="norobot_question">Mark all images corresponding to category: %1$s</string>
     <string name="norobot_cat"> Cat </string>

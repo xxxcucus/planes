@@ -120,8 +120,8 @@
     <string name="validation_empty_login_username"> Il nome utente è vuoto.</string>
     <string name="validation_empty_login_password"> La password è vuota.</string>
     <string name="validation_startsendswithempty_register_username"> Il nome utente inizia o finisce con spazi vuoti. </string>
-    <string name="validation_tooshort_register_username"> Nome utente più breve di 5 caratteri </string>
-    <string name="validation_tooshort_register_password"> Password più breve di 5 caratteri </string>
+    <string name="validation_tooshort_register_username">" Nome utente più breve di 5 caratteri. "</string>
+    <string name="validation_tooshort_register_password">" Password più breve di 5 caratteri. "</string>
     <string name="unknown_registration_error"> Errore durante la registrazione </string>
     <string name="norobot_question">Contrassegna tutte le immagini corrispondenti alla categoria: %1$s</string>
     <string name="norobot_cat"> Gatto </string>
