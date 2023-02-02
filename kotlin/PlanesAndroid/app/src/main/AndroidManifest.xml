@@ -8,24 +8,35 @@
 
     <queries>
         <intent>
-            <action android:name="android.intent.action.VIEW"/>
-            <data android:scheme="https" android:host="youtube.com"/>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data
+                android:host="youtube.com"
+                android:scheme="https" />
         </intent>
     </queries>
 
     <application>
         <activity
-        android:icon="@mipmap/ic_launcher"
-        android:label="Planes Android"
-        android:testOnly="false"
-        android:exported="true"
-        android:theme="@style/MyAppTheme"
-        android:allowBackup="true"
-        android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            android:name=".LoaderActivity"
+            android:exported="true"
+            android:theme="@style/MyAppTheme"
+            android:testOnly="false"
+            android:label="Planes Android"
+            android:icon="@mipmap/ic_launcher"
+            android:allowBackup="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:allowBackup="true"
+            android:exported="false"
+            android:testOnly="false"
+            android:theme="@style/MyAppTheme">
+
         </activity>
     </application>
 

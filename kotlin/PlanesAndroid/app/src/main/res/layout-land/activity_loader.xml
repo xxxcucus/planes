@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/feature_graphic_horizontal"
+        android:scaleType="centerCrop"></ImageView>
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/singleplayer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/singleplayergame"
+            android:layout_centerHorizontal="true"
+            android:textSize="15dp"
+            style="@style/ButtonColor"/>
+        <Button
+            android:id="@+id/multiplayer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/multiplayergame"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/singleplayer"
+            android:textSize="15dp"
+            style="@style/ButtonColor"/>
+    </RelativeLayout>
+</FrameLayout>
