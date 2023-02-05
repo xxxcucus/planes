@@ -5,7 +5,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/feature_graphic_horizontal"
+        android:background="@drawable/feature_graphic_horizontal"
         android:scaleType="centerCrop"></ImageView>
     <RelativeLayout
         android:layout_height="wrap_content"
