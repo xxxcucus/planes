@@ -31,6 +31,8 @@ class LoaderActivity : AppCompatActivity() {
             }
         })
 
+        //TODO: check server version before starting multiplayer version
+        //show toast with which version was loaded
         multiplayerGameButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 m_MainPreferencesService.multiplayerVersion = true;
