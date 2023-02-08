@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.LinearLayoutCompat
@@ -12,7 +13,7 @@ import androidx.appcompat.widget.LinearLayoutCompat
 class Popups {
     companion object Popups {
 
-        fun onWarning(context: Context, mainLayout: LinearLayoutCompat, errorString: String) {
+        fun onWarning(context: Context, mainLayout: ViewGroup, errorString: String) {
             val inflater = context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val popupView: View = inflater.inflate(R.layout.warning_options, null)
 

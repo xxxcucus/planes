@@ -229,11 +229,11 @@ open class BasisCommObj<A>(withLoadingAnimation: Boolean,
         m_HideLoadingLambda()
     }
 
-    private fun showLoading() {
+    fun showLoading() {
         (m_MainActivity as MainActivity).startProgressDialog()
     }
 
-    private fun hideLoading() {
+    fun hideLoading() {
         (m_MainActivity as MainActivity).stopProgressDialog()
     }
 }

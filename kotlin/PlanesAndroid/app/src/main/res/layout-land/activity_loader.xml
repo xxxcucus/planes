@@ -8,6 +8,7 @@
         android:background="@drawable/feature_graphic_horizontal"
         android:scaleType="centerCrop"></ImageView>
     <RelativeLayout
+        android:id="@+id/loader_layout"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:orientation="vertical"
@@ -31,4 +32,13 @@
             android:textSize="15dp"
             style="@style/ButtonColor"/>
     </RelativeLayout>
+    <ProgressBar
+        android:id="@+id/ProgressBarBottom"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:foregroundTint="?planesProgressBarColor"
+        android:progressTint="?planesProgressBarColor"
+        android:indeterminateTint="?planesProgressBarColor"
+        android:visibility="invisible"
+        android:layout_gravity="center"/>
 </FrameLayout>
