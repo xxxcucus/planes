@@ -11,7 +11,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/layout_background_start"
+            android:background="?planesBackgroundEndColor"
             android:id="@+id/status_layout">
 
             <LinearLayout
@@ -79,7 +79,7 @@
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/layout_background_start"
+                android:background="?planesBackgroundEndColor"
                 android:layout_margin="10dip">
                 <TextView
                     android:layout_width="wrap_content"
@@ -102,7 +102,7 @@
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/layout_background_start"
+                android:background="?planesBackgroundEndColor"
                 android:layout_margin="10dip">
                 <TextView
                     android:layout_width="wrap_content"
@@ -125,7 +125,7 @@
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/layout_background_start"
+                android:background="?planesBackgroundEndColor"
                 android:layout_margin="10dip">
                 <TextView
                     android:layout_width="wrap_content"
@@ -148,7 +148,7 @@
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/layout_background_start"
+                android:background="?planesBackgroundEndColor"
                 android:layout_margin="10dip">
                 <TextView
                     android:layout_width="wrap_content"
@@ -162,7 +162,7 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/layout_background_start"
+                    android:background="?planesBackgroundEndColor"
                     android:layout_margin="10dip">
                     <TextView
                         android:layout_width="wrap_content"
@@ -184,7 +184,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
-                    android:background="@color/layout_background_start"
+                    android:background="?planesBackgroundEndColor"
                     android:orientation="horizontal">
 
                     <TextView
@@ -209,7 +209,7 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/layout_background_start"
+                    android:background="?planesBackgroundEndColor"
                     android:layout_margin="10dip">
                     <TextView
                         android:layout_width="wrap_content"
@@ -231,7 +231,7 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/layout_background_start"
+                    android:background="?planesBackgroundEndColor"
                     android:layout_margin="10dip">
                     <TextView
                         android:layout_width="wrap_content"
@@ -253,7 +253,7 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/layout_background_start"
+                    android:background="?planesBackgroundEndColor"
                     android:layout_margin="10dip">
 
                     <TextView
@@ -276,7 +276,7 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/layout_background_start"
+                    android:background="?planesBackgroundEndColor"
                     android:layout_margin="10dip">
                     <TextView
                         android:layout_width="wrap_content"
@@ -298,7 +298,7 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/layout_background_start"
+                    android:background="?planesBackgroundEndColor"
                     android:layout_margin="10dip">
                     <TextView
                         android:layout_width="wrap_content"
@@ -320,7 +320,7 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/layout_background_start"
+                    android:background="?planesBackgroundEndColor"
                     android:layout_margin="10dip">
                     <TextView
                         android:layout_width="wrap_content"
@@ -344,7 +344,7 @@
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/layout_background_start"
+                android:background="?planesBackgroundEndColor"
                 android:layout_margin="10dip">
                 <TextView
                     android:layout_width="wrap_content"
@@ -358,7 +358,7 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/layout_background_start"
+                    android:background="?planesBackgroundEndColor"
                     android:layout_margin="10dip">
 
                     <TextView
@@ -381,7 +381,7 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/layout_background_start"
+                    android:background="?planesBackgroundEndColor"
                     android:layout_margin="10dip">
 
                     <TextView
@@ -404,7 +404,7 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/layout_background_start"
+                    android:background="?planesBackgroundEndColor"
                     android:layout_margin="10dip">
 
                     <TextView

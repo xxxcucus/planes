@@ -47,6 +47,9 @@ class LoaderActivity : AppCompatActivity() {
             override fun onClick(view: View?) {
                 m_MainPreferencesService.multiplayerVersion = false;
                 m_MainPreferencesService.writePreferences()
+                m_MultiplayerRound.setUserData("", "", "")
+                m_MultiplayerRound.resetGameData()
+                m_MultiplayerRound.initRound()
                 val intent = Intent(this@LoaderActivity, MainActivity::class.java)
                 startActivity(intent)
             }
@@ -90,7 +93,9 @@ class LoaderActivity : AppCompatActivity() {
         } else {
             m_MainPreferencesService.multiplayerVersion = true;
             m_MainPreferencesService.writePreferences()
-            //TODO: should I call m_Multiround.initRound()?
+            m_MultiplayerRound.setUserData("", "", "")
+            m_MultiplayerRound.resetGameData()
+            m_MultiplayerRound.initRound()
             m_VerifyVersionCommObj.dispose()
             val intent = Intent(this@LoaderActivity, MainActivity::class.java)
             startActivity(intent)
