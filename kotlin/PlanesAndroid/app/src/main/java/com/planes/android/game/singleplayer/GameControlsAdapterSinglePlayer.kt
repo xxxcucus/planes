@@ -2,6 +2,7 @@ package com.planes.android.game.singleplayer
 
 import android.content.Context
 import android.widget.Button
+import android.widget.ProgressBar
 import com.planes.android.*
 import com.planes.android.customviews.ColouredSurfaceWithText
 import com.planes.android.customviews.ColouredSurfaceWithTwoLineText
@@ -16,10 +17,7 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
 
     //Board Editing
     private lateinit var m_RotateButton: Button
-    private lateinit var m_LeftButton: Button
-    private lateinit var m_RightButton: Button
-    private lateinit var m_UpButton: Button
-    private lateinit var m_DownButton: Button
+    private lateinit var m_CancelBoardEditingButton: Button
     private lateinit var m_DoneButton: Button
 
     //Game
@@ -45,28 +43,20 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
     private lateinit var m_DrawsLabel: ColouredSurfaceWithText
     private lateinit var m_ViewComputerBoardButton2: TwoLineTextButtonWithState
 
-    fun setBoardEditingControls(upButton: Button, downButton: Button, leftButton: Button, rightButton: Button, doneButton: Button, rotateButton: Button) {
-        m_UpButton = upButton
-        m_DownButton = downButton
-        m_LeftButton = leftButton
-        m_RightButton = rightButton
+    fun setBoardEditingControls(
+        doneButton: Button,
+        rotateButton: Button,
+        cancelButton: Button) {
         m_DoneButton = doneButton
         m_RotateButton = rotateButton
-        if (this::m_LeftButton.isInitialized) {
-            m_LeftButton.setOnClickListener { m_GameBoards.movePlaneUp() }
-        }
-        if (this::m_RightButton.isInitialized) {
-            m_RightButton.setOnClickListener { m_GameBoards.movePlaneDown() }
-        }
-        if (this::m_UpButton.isInitialized) {
-            m_UpButton.setOnClickListener { m_GameBoards.movePlaneLeft() }
-        }
-        if (this::m_DownButton.isInitialized) {
-            m_DownButton.setOnClickListener { m_GameBoards.movePlaneRight() }
-        }
+        m_CancelBoardEditingButton = cancelButton
+
         if (this::m_RotateButton.isInitialized) {
             m_RotateButton.setOnClickListener { m_GameBoards.rotatePlane() }
         }
+
+        //TODO: cancel round
+
         if (this::m_DoneButton.isInitialized) {
             m_DoneButton.setOnClickListener {
                 setGameStage()
@@ -75,6 +65,7 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
                 m_PlaneRound.doneClicked()
             }
         }
+
     }
 
     fun setGameControls(statsTitle: ColouredSurfaceWithTwoLineText, viewComputerBoardButton1: TwoLineTextButtonWithState, movesLabel: ColouredSurfaceWithText, movesCount: ColouredSurfaceWithText, missesLabel: ColouredSurfaceWithText, missesCount: ColouredSurfaceWithText,
