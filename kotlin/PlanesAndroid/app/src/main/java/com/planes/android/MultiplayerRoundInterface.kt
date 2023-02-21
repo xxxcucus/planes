@@ -107,7 +107,7 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
 
     fun startNewRound(gameId: Long, userId: Long, opponentId: Long): Observable<Response<StartNewRoundResponse>>
 
-    fun cancelRound()
+    override fun cancelRound()
 
     fun getGameStats() : GameStatistics
 

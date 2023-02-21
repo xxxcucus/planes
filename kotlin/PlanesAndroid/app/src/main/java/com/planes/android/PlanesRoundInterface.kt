@@ -48,6 +48,8 @@ interface PlanesRoundInterface {
     fun roundEnds()
     fun initRound()
 
+    fun cancelRound()
+
     //show the guesses
     fun getPlayerGuessesNo(): Int
     fun getPlayerGuessRow(idx: Int): Int

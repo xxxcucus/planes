@@ -55,6 +55,16 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
             m_RotateButton.setOnClickListener { m_GameBoards.rotatePlane() }
         }
 
+        if (this::m_CancelBoardEditingButton.isInitialized) {
+            m_CancelBoardEditingButton.setOnClickListener {
+                cancelRound()
+                setNewRoundStage()
+                m_PlanesLayout.setNewRoundStage()
+                m_GameBoards.setNewRoundStage()
+                m_PlaneRound.cancelRound()
+            }
+
+        }
         //TODO: cancel round
 
         if (this::m_DoneButton.isInitialized) {
@@ -201,6 +211,10 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
             m_DeadTextView.setText(dead.toString())
             m_MovesTextView.setText(moves.toString())
         }
+    }
+
+    fun cancelRound() {
+        m_WinnerTextView.setText(m_Context.resources.getString(R.string.round_cancelled).toString())
     }
 
     fun roundEnds(isComputerWinner: Boolean, isDraw: Boolean) {

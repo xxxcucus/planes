@@ -66,6 +66,10 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
 
+    fun cancelRound() {
+        m_State = GameStages.GameNotStarted
+    }
+
     /**
      * @param gp - the player's guess together with its evaluation
      * Plays a step in the game, as triggered by the player's guess gp.

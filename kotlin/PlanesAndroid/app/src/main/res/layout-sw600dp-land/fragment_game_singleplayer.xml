@@ -23,6 +23,7 @@
             android:id="@+id/computer_board"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
+            style="@style/MyGameBoardStyle"
             />
         <!-- Buttons for board editing stage -->
         <com.planes.android.game.common.RotateButton

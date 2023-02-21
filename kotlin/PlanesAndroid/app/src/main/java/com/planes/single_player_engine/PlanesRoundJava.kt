@@ -137,6 +137,10 @@ class PlanesRoundJava : PlanesRoundInterface {
         global_Round!!.setRoundEnd()
     }
 
+    override fun cancelRound() {
+        global_Round!!.cancelRound()
+    }
+
     override fun initRound() {
         global_Round!!.initRound()
         global_Player_Guess_Reaction.m_GameStats.reset()
