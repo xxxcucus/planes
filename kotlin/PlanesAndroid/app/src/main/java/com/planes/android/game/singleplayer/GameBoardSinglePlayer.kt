@@ -280,7 +280,7 @@ class GameBoardSinglePlayer : GridLayout, GameBoardInterface {
                     } else {
                         setNewRoundStage(true)
                     }
-                    m_PlaneRound.roundEnds()
+                    m_PlaneRound.roundEnds(!m_PlaneRound.playerGuess_IsPlayerWinner(), m_PlaneRound.playerGuess_IsDraw())
                     m_GameControls.roundEnds(!m_PlaneRound.playerGuess_IsPlayerWinner(), m_PlaneRound.playerGuess_IsDraw())
                 } else {
                     if (!m_Tablet) m_GameControls.updateStats(m_IsComputer)

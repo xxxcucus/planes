@@ -133,8 +133,8 @@ class PlanesRoundJava : PlanesRoundInterface {
         return global_Player_Guess_Reaction.m_GameStats.draws()
     }
 
-    override fun roundEnds() {
-        global_Round!!.setRoundEnd()
+    override fun roundEnds(isComputerWinner: Boolean, isDraw: Boolean) {
+        global_Round!!.setRoundEnd(isComputerWinner, isDraw)
     }
 
     override fun cancelRound() {
@@ -197,6 +197,10 @@ class PlanesRoundJava : PlanesRoundInterface {
 
     override fun getShowPlaneAfterKill(): Boolean {
         return global_Round!!.getShowPlaneAfterKill()
+    }
+
+    override fun getRoundEndStatus(): Int {
+        return global_Round!!.getRoundEndStatus()
     }
 
     companion object {

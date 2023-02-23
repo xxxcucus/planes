@@ -45,7 +45,7 @@ interface PlanesRoundInterface {
     fun playerGuess_StatNoComputerDead(): Int
     fun playerGuess_StatNoComputerWins(): Int
     fun playerGuess_StatNoDraws(): Int
-    fun roundEnds()
+    fun roundEnds(isComputerWinner: Boolean, isDraw : Boolean)
     fun initRound()
 
     fun cancelRound()
@@ -66,5 +66,7 @@ interface PlanesRoundInterface {
     fun setShowPlaneAfterKill(show: Boolean): Boolean
     fun getComputerSkill(): Int
     fun getShowPlaneAfterKill(): Boolean
+
+    fun getRoundEndStatus(): Int
 
 }

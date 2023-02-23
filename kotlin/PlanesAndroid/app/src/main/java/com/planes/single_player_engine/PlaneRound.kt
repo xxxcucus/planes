@@ -22,6 +22,7 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
     //the computer's strategy
     private var m_computerLogic: ComputerLogic
     private var m_State = GameStages.GameNotStarted
+    private var m_RoundEndState = RoundEndStatus.Cancelled
 
     //size of the grid and number of planes
     private var m_rowNo = 10
@@ -61,13 +62,21 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     //switches to the state GameNotStarted
-    fun setRoundEnd() {
+    fun setRoundEnd(isComputerWinner: Boolean, isDraw: Boolean) {
         m_State = GameStages.GameNotStarted
+        if (isDraw) {
+            m_RoundEndState = RoundEndStatus.Draw
+        } else if (isComputerWinner) {
+            m_RoundEndState = RoundEndStatus.ComputerWins
+        } else {
+            m_RoundEndState = RoundEndStatus.PlayerWins
+        }
     }
 
 
     fun cancelRound() {
         m_State = GameStages.GameNotStarted
+        m_RoundEndState = RoundEndStatus.Cancelled
     }
 
     /**
@@ -294,6 +303,10 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
     fun getShowPlaneAfterKill(): Boolean {
         return m_RoundOptions.m_ShowPlaneAfterKill
+    }
+
+    fun getRoundEndStatus(): Int {
+        return m_RoundEndState.value
     }
 
     private fun updateGameStatsAndGuessListPlayer(gp: GuessPoint) {

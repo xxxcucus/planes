@@ -8,6 +8,7 @@ import com.planes.android.customviews.ColouredSurfaceWithText
 import com.planes.android.customviews.ColouredSurfaceWithTwoLineText
 import com.planes.android.customviews.TwoLineTextButton
 import com.planes.android.customviews.TwoLineTextButtonWithState
+import com.planes.single_player_engine.RoundEndStatus
 
 class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
     private lateinit var m_PlaneRound: PlanesRoundInterface
@@ -58,10 +59,10 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
         if (this::m_CancelBoardEditingButton.isInitialized) {
             m_CancelBoardEditingButton.setOnClickListener {
                 cancelRound()
+                m_PlaneRound.cancelRound()
                 setNewRoundStage()
                 m_PlanesLayout.setNewRoundStage()
                 m_GameBoards.setNewRoundStage()
-                m_PlaneRound.cancelRound()
             }
 
         }
@@ -172,6 +173,19 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
         m_PlayerWins.setText(player_wins.toString())
         m_ComputerWins.setText(computer_wins.toString())
         m_Draws.setText(draws.toString())
+
+        var winnerText  =
+            when(m_PlaneRound.getRoundEndStatus()) {
+                RoundEndStatus.Cancelled.value -> m_Context.resources.getString(R.string.round_cancelled)
+                RoundEndStatus.PlayerWins.value -> m_Context.resources.getString(R.string.player_winner)
+                RoundEndStatus.ComputerWins.value -> m_Context.resources.getString(R.string.computer_winner)
+                else -> {
+                    m_Context.resources.getString(R.string.draw_result)
+                }
+            }
+
+        m_WinnerTextView.setText(winnerText)
+
         m_ViewComputerBoardButton2.setState("player", m_Context.resources.getString(R.string.view_player_board2))
         m_PlanesLayout.setComputerBoard()
     }

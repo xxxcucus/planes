@@ -53,6 +53,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     private var m_playerGuessList: Vector<GuessPoint>
 
     private var m_State = GameStages.GameNotStarted
+    private var m_RoundEndState = RoundEndStatus.Cancelled
 
     //size of the grid and number of planes
     private var m_rowNo = 10
@@ -368,8 +369,15 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return 0
     }
 
-    fun setRoundEnd() {
+    fun setRoundEnd(isComputerWinner: Boolean, isDraw: Boolean) {
         m_State = GameStages.GameNotStarted
+        if (isDraw) {
+            m_RoundEndState = RoundEndStatus.Draw
+        } else if (isComputerWinner) {
+            m_RoundEndState = RoundEndStatus.ComputerWins
+        } else {
+            m_RoundEndState = RoundEndStatus.PlayerWins
+        }
     }
 
     /**
@@ -803,5 +811,12 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return m_gameStats
     }
 
+    fun getRoundEndStatus(): Int {
+        return m_RoundEndState.value
+    }
+
+    fun setRoundEndStatus(status: RoundEndStatus) {
+        m_RoundEndState = status
+    }
 }
 

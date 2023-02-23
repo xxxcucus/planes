@@ -261,8 +261,8 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Player_Guess_Reaction.m_GameStats.draws()
     }
 
-    override fun roundEnds() {
-        global_Round!!.setRoundEnd()
+    override fun roundEnds(isComputerWinner: Boolean, isDraw: Boolean) {
+        global_Round!!.setRoundEnd(isComputerWinner, isDraw)
     }
 
     override fun initRound() {
@@ -402,6 +402,7 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
     }
 
     override fun cancelRound() {
+        global_Round!!.setRoundEndStatus(RoundEndStatus.Cancelled)
         global_Round!!.setGameStage(GameStages.GameNotStarted)
         global_Player_Guess_Reaction.m_Cancelled = true
     }
@@ -420,6 +421,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
 
     override fun getReceivedMovesCount(): Int {
         return global_Round!!.getReceivedMovesCount()
+    }
+
+    override fun getRoundEndStatus(): Int {
+        return global_Round!!.getRoundEndStatus()
     }
 
     companion object {

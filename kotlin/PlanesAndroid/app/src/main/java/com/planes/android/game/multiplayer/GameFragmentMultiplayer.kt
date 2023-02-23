@@ -501,8 +501,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     }
 
     fun finalizeSendWinner() {
-        m_PlaneRound.setGameStage(GameStages.GameNotStarted)
         m_GameControls.roundEnds(!m_PlaneRound.playerGuess_IsPlayerWinner(), m_PlaneRound.playerGuess_IsDraw())
+        m_PlaneRound.roundEnds(!m_PlaneRound.playerGuess_IsPlayerWinner(), m_PlaneRound.playerGuess_IsDraw())
         reinitializeFromState()
     }
 
