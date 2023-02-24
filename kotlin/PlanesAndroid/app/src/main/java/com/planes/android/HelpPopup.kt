@@ -90,17 +90,13 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
             }
             GameStages.BoardEditing.value -> {
                 m_HelpTitleTextView.text = m_Context.getString(R.string.board_editing_stage)
-                if (!multiplayerVersion) {
-                    m_HelpTextView.text = """
-                    ${m_Context.getString(R.string.helptext_boardediting_1)}
-                    ${m_Context.getString(R.string.helptext_boardediting_2)}
-                    """.trimIndent()
-                } else {
-                    m_HelpTextView.text = """
-                    ${m_Context.getString(R.string.helptext_boardediting_1)}
-                    ${m_Context.getString(R.string.helptext_boardediting_3)}
-                    """.trimIndent()
-                }
+
+                m_HelpTextView.text = """
+                ${m_Context.getString(R.string.helptext_boardediting_1)}
+                ${m_Context.getString(R.string.helptext_boardediting_3)}
+                ${m_Context.getString(R.string.helptext_game_3)}
+                """.trimIndent()
+
                 m_HelpButton.setOnClickListener {
                     m_StartTutorialLambda(1)
                     popupWindow.dismiss()

@@ -52,7 +52,7 @@ class AboutFragment : Fragment() {
             getString(R.string.credits_software_content), true, getString(R.string.credits_software_button),
             "https://www.github.com/xxxcucus/planes")
         val graphics_section = AboutModel(getString(R.string.credits_graphics_title),
-            getString(R.string.credits_graphics_content), true, getString(R.string.credits_graphics_button),
+            getString(R.string.credits_graphics_content1), true, getString(R.string.credits_graphics_button),
         "https://axa951.wixsite.com/portfolio")
         val others_section = AboutModel(getString(R.string.credits_othercontributions_title),
             getString(R.string.credits_othercontributions), false, "Empty", "Empty")

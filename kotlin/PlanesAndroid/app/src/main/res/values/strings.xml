@@ -192,6 +192,8 @@
     <string name="video_duration">Duration: %1$s</string>
 
     <string name="newuser_register">New User? Register Here!</string>
+    <string name="helptext_game_3">Long touch to rotate the selected plane.</string>
+    <string name="credits_graphics_content1">The logo of the game, the store graphics and the loader illustration were created by Alexandru Vintilescu. Other work from Alex can be seen at https://axa951.wixsite.com/portfolio</string>
 
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
