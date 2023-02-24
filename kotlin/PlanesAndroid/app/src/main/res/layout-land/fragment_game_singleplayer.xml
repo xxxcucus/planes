@@ -71,6 +71,17 @@
             app:gc_col="1"
             app:gc_game_stage="2"
             style="@style/ButtonColor"/>
+        <com.planes.android.customviews.TextButton
+            android:id="@+id/cancel_game"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_row="4"
+            app:gc_colspan="3"
+            app:gc_rowspan="2"
+            app:gc_col="1"
+            app:gc_game_stage="2"
+            app:gc_text="@string/cancel"
+            style="@style/ButtonColor"/>
         <com.planes.android.customviews.ColouredSurfaceWithText
             android:id="@+id/moves_label"
             android:layout_width="wrap_content"
@@ -140,7 +151,7 @@
             app:gc_colspan="2"
             app:gc_col="4"
             app:gc_game_stage="2"
-            style="@style/ButtonColor"/>
+            style="@style/HighlightedButtonColor"/>
         <com.planes.android.customviews.ColouredSurfaceWithText
             android:id="@+id/dead_count"
             android:layout_width="wrap_content"
@@ -149,7 +160,7 @@
             app:gc_row="5"
             app:gc_col="6"
             app:gc_game_stage="2"
-            style="@style/ButtonColor"/>
+            style="@style/HighlightedButtonColor"/>
 
         <!-- Buttons for start new game stage -->
         <com.planes.android.customviews.TwoLineTextButtonWithState

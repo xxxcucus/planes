@@ -77,6 +77,7 @@ class GameFragmentSinglePlayer : Fragment() {
         val hitsCount = rootView.findViewById<View>(R.id.hits_count) as ColouredSurfaceWithText?
         val deadsLabel = rootView.findViewById<View>(R.id.dead_label) as ColouredSurfaceWithText?
         val deadCount = rootView.findViewById<View>(R.id.dead_count) as ColouredSurfaceWithText?
+        val cancelGameButton = rootView.findViewById<View>(R.id.cancel_game) as Button
 
         //Start New Game Stage
         val viewComputerBoardButton2 = rootView.findViewById<View>(R.id.view_computer_board2) as TwoLineTextButtonWithState
@@ -90,7 +91,8 @@ class GameFragmentSinglePlayer : Fragment() {
         val drawsCount = rootView.findViewById<View>(R.id.draws_count) as ColouredSurfaceWithText
 
         m_GameControls.setBoardEditingControls(doneButton, rotateButton, cancelBoardEditingButton)
-        if (!isTablet) m_GameControls.setGameControls(statsTitle!!, viewComputerBoardButton1!!, movesLabel!!, movesCount!!, missesLabel!!, missesCount!!, hitsLabel!!, hitsCount!!, deadsLabel!!, deadCount!!)
+        if (!isTablet) m_GameControls.setGameControls(statsTitle!!, viewComputerBoardButton1!!, movesLabel!!, movesCount!!,
+            missesLabel!!, missesCount!!, hitsLabel!!, hitsCount!!, deadsLabel!!, deadCount!!, cancelGameButton)
         m_GameControls.setStartNewGameControls(viewComputerBoardButton2, startNewGameButton, computerWinsLabel, computerWinsCount, playerWinsLabel, playerWinsCount, drawsLabel, drawsCount, winnerText)
         m_GameControls.setGameSettings(m_PlaneRound, isTablet)
         m_GameControls.setGameBoards(m_GameBoards)

@@ -32,6 +32,7 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
     private lateinit var m_DeadLabel: ColouredSurfaceWithText
     private lateinit var m_MovesLabel: ColouredSurfaceWithText
     private lateinit var m_ViewComputerBoardButton1: TwoLineTextButtonWithState
+    private lateinit var m_CancelGameButton: Button
 
     //Start New Game
     private lateinit var m_WinnerTextView: ColouredSurfaceWithText
@@ -64,7 +65,6 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
                 m_PlanesLayout.setNewRoundStage()
                 m_GameBoards.setNewRoundStage()
             }
-
         }
         //TODO: cancel round
 
@@ -79,8 +79,11 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
 
     }
 
-    fun setGameControls(statsTitle: ColouredSurfaceWithTwoLineText, viewComputerBoardButton1: TwoLineTextButtonWithState, movesLabel: ColouredSurfaceWithText, movesCount: ColouredSurfaceWithText, missesLabel: ColouredSurfaceWithText, missesCount: ColouredSurfaceWithText,
-                        hitsLabel: ColouredSurfaceWithText, hitsCount: ColouredSurfaceWithText, deadsLabel: ColouredSurfaceWithText, deadCount: ColouredSurfaceWithText
+    fun setGameControls(statsTitle: ColouredSurfaceWithTwoLineText, viewComputerBoardButton1: TwoLineTextButtonWithState,
+                        movesLabel: ColouredSurfaceWithText, movesCount: ColouredSurfaceWithText, missesLabel: ColouredSurfaceWithText,
+                        missesCount: ColouredSurfaceWithText,
+                        hitsLabel: ColouredSurfaceWithText, hitsCount: ColouredSurfaceWithText, deadsLabel: ColouredSurfaceWithText,
+                        deadCount: ColouredSurfaceWithText, cancelButton: Button
     ) {
         m_StatsTitle = statsTitle
         m_ViewComputerBoardButton1 = viewComputerBoardButton1
@@ -92,6 +95,8 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
         m_HitsTextView = hitsCount
         m_DeadLabel = deadsLabel
         m_DeadTextView = deadCount
+        m_CancelGameButton = cancelButton
+
         m_ViewComputerBoardButton1.setState("player", m_Context.resources.getString(R.string.view_player_board2))
         if (this::m_ViewComputerBoardButton1.isInitialized) {
             m_ViewComputerBoardButton1.setOnClickListener {
@@ -126,6 +131,16 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
                     ))
                     m_PlanesLayout.setPlayerBoard()
                 }
+            }
+        }
+
+        if (this::m_CancelGameButton.isInitialized) {
+            m_CancelGameButton.setOnClickListener {
+                cancelRound()
+                m_PlaneRound.cancelRound()
+                setNewRoundStage()
+                m_PlanesLayout.setNewRoundStage()
+                m_GameBoards.setNewRoundStage()
             }
         }
     }
