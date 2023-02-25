@@ -20,6 +20,7 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
     private lateinit var m_RotateButton: Button
     private lateinit var m_CancelBoardEditingButton: Button
     private lateinit var m_DoneButton: Button
+    private lateinit var m_ResetBoardButton: TwoLineTextButton
 
     //Game
     private lateinit var m_StatsTitle: ColouredSurfaceWithTwoLineText
@@ -48,10 +49,12 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
     fun setBoardEditingControls(
         doneButton: Button,
         rotateButton: Button,
-        cancelButton: Button) {
+        cancelButton: Button,
+        resetBoardButton: TwoLineTextButton) {
         m_DoneButton = doneButton
         m_RotateButton = rotateButton
         m_CancelBoardEditingButton = cancelButton
+        m_ResetBoardButton = resetBoardButton
 
         if (this::m_RotateButton.isInitialized) {
             m_RotateButton.setOnClickListener { m_GameBoards.rotatePlane() }
@@ -66,7 +69,6 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
                 m_GameBoards.setNewRoundStage()
             }
         }
-        //TODO: cancel round
 
         if (this::m_DoneButton.isInitialized) {
             m_DoneButton.setOnClickListener {
@@ -74,6 +76,13 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
                 m_PlanesLayout.setGameStage()
                 m_GameBoards.setGameStage()
                 m_PlaneRound.doneClicked()
+            }
+        }
+
+        if (this::m_ResetBoardButton.isInitialized) {
+            m_ResetBoardButton.setOnClickListener {
+                m_PlaneRound.initRound()
+                m_GameBoards.setBoardEditingStage()
             }
         }
 

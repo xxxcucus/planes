@@ -45,6 +45,16 @@
             app:gc_game_stage="1"
             app:gc_text="@string/cancel"
             style="@style/ButtonColor"/>
+        <com.planes.android.customviews.TwoLineTextButton
+            android:id="@+id/reset_board"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gc_text1="@string/reset_board1"
+            app:gc_text2="@string/reset_board2"
+            app:gc_row="2"
+            app:gc_col="2"
+            app:gc_game_stage="1"
+            style="@style/ButtonColor"/>
 
         <!-- Buttons for game stage -->
 

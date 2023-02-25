@@ -34,7 +34,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     lateinit var m_GameControls: GameControlsAdapterMultiplayer
     private lateinit var m_PlanesLayout: PlanesVerticalLayoutMultiplayer
 
-    private lateinit var m_DonePositioningCommObj: SimpleRequestCommObj<SendPlanePositionsResponse>
+    private lateinit var m_DonePositioningCommObj: SimpleRequestWithoutLoadingCommObj<SendPlanePositionsResponse>
     private lateinit var m_CancelRoundCommObj: SimpleRequestCommObj<CancelRoundResponse>
     private lateinit var m_SendMoveCommObj: SimpleRequestWithoutLoadingCommObj<SendNotSentMovesResponse>
     private lateinit var m_SendWinnerCommObj: SimpleRequestCommObj<SendWinnerResponse>
@@ -98,7 +98,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         val doneButton = rootView.findViewById<View>(R.id.done_button) as Button
         val rotateButton = rootView.findViewById<View>(R.id.rotate_button) as Button
         val cancelBoardEditingButton = rootView.findViewById<View>(R.id.cancel_boardediting) as Button
-        val progressBarBoardEditing = rootView.findViewById<View>(R.id.ProgressBarBoardEditing) as ProgressBar
+        val resetBoardButton = rootView.findViewById<View>(R.id.reset_board) as TwoLineTextButton
 
         //Game Stage
         val statsTitle = rootView.findViewById<View>(R.id.stats_title_label) as TwoLineTextButton
@@ -117,7 +117,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         val drawsLabel = rootView.findViewById<View>(R.id.draws_label) as ColouredSurfaceWithText
         val drawsCount = rootView.findViewById<View>(R.id.draws_count) as ColouredSurfaceWithText
 
-        m_GameControls.setBoardEditingControls(doneButton, rotateButton, cancelBoardEditingButton, progressBarBoardEditing, ::doneClicked, ::cancelRound)
+        m_GameControls.setBoardEditingControls(doneButton, rotateButton, cancelBoardEditingButton, resetBoardButton, ::doneClicked, ::cancelRound)
         if (!showTwoBoards(isTablet)) m_GameControls.setGameControls(statsTitle, viewOpponentBoardButton1, cancelGameButton, progressBarGameButton, ::cancelRound, ::showGameStats)
         m_GameControls.setStartNewGameControls(viewComputerBoardButton2, startNewGameButton, computerWinsLabel, computerWinsCount, playerWinsLabel,
             playerWinsCount, drawsLabel, drawsCount, winnerText, ::startNewGame)
@@ -146,7 +146,6 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
             }
             1 -> {
                 m_GameBoards.setBoardEditingStage()
-                m_GameControls.setBoardEditingStage(false)
                 m_PlanesLayout.setBoardEditingStage()
             }
             2 -> {
@@ -156,7 +155,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
             }
             3 -> {
                 m_GameBoards.setBoardEditingStage()
-                m_GameControls.setBoardEditingStage(true)
+                showLoading()
                 m_PlanesLayout.setBoardEditingStage()
                 pollForOpponentPlanesPositions()
             }
@@ -271,7 +270,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     private fun doneClicked() {
 
-        m_DonePositioningCommObj = SimpleRequestCommObj(::createObservableDoneClicked,
+        m_DonePositioningCommObj = SimpleRequestWithoutLoadingCommObj(::createObservableDoneClicked,
             getString(R.string.sendplanepositions_error), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
                 getString(R.string.validation_not_connected_to_game), ::receivedOpponentPlanePositions, ::finalizeSendPlanePositions, requireActivity())
 
@@ -283,7 +282,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
             disposeAllPollingSubscriptions()
             reinitializeFromState()
         } else if (m_PlaneRound.getGameStage() == GameStages.WaitForOpponentPlanesPositions.value) {
-            m_GameControls.setBoardEditingStage(true)
+            showLoading()
             pollForOpponentPlanesPositions()
         } else if (m_PlaneRound.getGameStage() == GameStages.GameNotStarted.value) {
             disposeAllSubscriptions()
@@ -334,6 +333,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
             }
         } else {
             m_PlaneRound.setGameStage(GameStages.WaitForOpponentPlanesPositions)
+            finalizeSendPlanePositions()
         }
         return errorString
     }
@@ -446,6 +446,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
                 } else {
                     Tools.displayToast(getString(R.string.plane_positions_received), m_Context)
                 }
+
+                hideLoading()
             }
         }
         finalizeReceiveOpponentPlanePositions()
@@ -693,6 +695,11 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     private fun hideLoading() {
         if (activity is MainActivity)
             (activity as MainActivity).stopProgressDialog()
+    }
+
+    private fun showLoading() {
+        if (activity is MainActivity)
+            (activity as MainActivity).startProgressDialog()
     }
 
     private fun showGameStats() {

@@ -20,7 +20,7 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
     private lateinit var m_RotateButton: Button
     private lateinit var m_DoneButton: Button
     private lateinit var m_CancelBoardEditingButton: Button
-    private lateinit var m_ProgressBarBoardEditing: ProgressBar
+    private lateinit var m_ResetBoardButton: TwoLineTextButton
 
     // Game
     private lateinit var m_GameStats: TwoLineTextButton
@@ -43,14 +43,14 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         doneButton: Button,
         rotateButton: Button,
         cancelButton: Button,
-        progressBar: ProgressBar,
+        resetBoardButton: TwoLineTextButton,
         doneLambda: () -> Unit,
         cancelLambda: () -> Unit
     ) {
         m_DoneButton = doneButton
         m_RotateButton = rotateButton
         m_CancelBoardEditingButton = cancelButton
-        m_ProgressBarBoardEditing = progressBar
+        m_ResetBoardButton = resetBoardButton
 
         if (this::m_RotateButton.isInitialized) {
             m_RotateButton.setOnClickListener { m_GameBoards.rotatePlane() }
@@ -60,6 +60,13 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         }
         if (this::m_CancelBoardEditingButton.isInitialized) {
             m_CancelBoardEditingButton.setOnClickListener { cancelLambda() }
+        }
+
+        if (this::m_ResetBoardButton.isInitialized) {
+            m_ResetBoardButton.setOnClickListener {
+                m_MultiplayerRound.initRound()
+                m_GameBoards.setBoardEditingStage()
+            }
         }
     }
 
@@ -151,7 +158,7 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         when(m_MultiplayerRound.getRoundEndStatus()) {
             RoundEndStatus.Cancelled.value -> m_Context.resources.getString(R.string.round_cancelled)
             RoundEndStatus.PlayerWins.value -> m_Context.resources.getString(R.string.player_winner)
-            RoundEndStatus.ComputerWins.value -> m_Context.resources.getString(R.string.computer_winner)
+            RoundEndStatus.ComputerWins.value -> m_Context.resources.getString(R.string.opponent_winner)
             else -> {
                 m_Context.resources.getString(R.string.draw_result)
             }
@@ -171,7 +178,7 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
     }
 
     fun setBoardEditingStage(showProgresBars: Boolean) {
-        m_ProgressBarBoardEditing.isVisible = showProgresBars
+        //m_ProgressBarBoardEditing.isVisible = showProgresBars
     }
     /*fun updateStats(isComputer: Boolean) {
 
