@@ -7,7 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.RelativeLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.planes.android.*
@@ -16,11 +16,11 @@ import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.ConnectToGameResponse
 import com.planes.multiplayer_engine.responses.CreateGameResponse
 import com.planes.multiplayer_engine.responses.GameStatusResponse
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
-import io.reactivex.Observable
 import kotlin.random.Random
 
 
@@ -248,8 +248,11 @@ class CreateGameFragment: Fragment() {
         val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
         val STRING_LENGTH = 10
 
+        val time = System.currentTimeMillis()
+        var randomGenerator = Random(time)
+
         return (1..STRING_LENGTH)
-            .map { Random.nextInt(0, charPool.size) }
+            .map { randomGenerator.nextInt(0, charPool.size) }
             .map(charPool::get)
             .joinToString("")
     }
