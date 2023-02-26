@@ -270,24 +270,30 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     private fun doneClicked() {
 
+        showLoading()
         m_DonePositioningCommObj = SimpleRequestWithoutLoadingCommObj(::createObservableDoneClicked,
             getString(R.string.sendplanepositions_error), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
-                getString(R.string.validation_not_connected_to_game), ::receivedOpponentPlanePositions, ::finalizeSendPlanePositions, requireActivity())
+                getString(R.string.validation_not_connected_to_game), ::receivedOpponentPlanePositions, ::finalizeSendPlanePositions,
+            ::finalizeSendPlanePositionsError, requireActivity())
 
         m_DonePositioningCommObj.makeRequest()
     }
 
     private fun finalizeSendPlanePositions() {
         if (m_PlaneRound.getGameStage() == GameStages.Game.value) {  //plane positions where received
+            hideLoading()
             disposeAllPollingSubscriptions()
             reinitializeFromState()
         } else if (m_PlaneRound.getGameStage() == GameStages.WaitForOpponentPlanesPositions.value) {
-            showLoading()
             pollForOpponentPlanesPositions()
         } else if (m_PlaneRound.getGameStage() == GameStages.GameNotStarted.value) {
             disposeAllSubscriptions()
             reinitializeFromState()
         }
+    }
+
+    private fun finalizeSendPlanePositionsError() {
+        hideLoading()
     }
 
     fun receivedOpponentPlanePositions(body: SendPlanePositionsResponse): String {
@@ -539,7 +545,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
         m_SendMoveCommObj = SimpleRequestWithoutLoadingCommObj(::createObservableSendMove,
             getString(R.string.sendmove_error), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
-            getString(R.string.validation_not_connected_to_game), ::receivedSendMoveResponse, ::finalizeSendMove, requireActivity())
+            getString(R.string.validation_not_connected_to_game), ::receivedSendMoveResponse, ::finalizeSendMove, {},  requireActivity())
 
         m_SendMoveCommObj.makeRequest()
     }
