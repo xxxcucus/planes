@@ -54,8 +54,14 @@ class AboutFragment : Fragment() {
         val graphics_section = AboutModel(getString(R.string.credits_graphics_title),
             getString(R.string.credits_graphics_content1), true, getString(R.string.credits_graphics_button),
         "https://axa951.wixsite.com/portfolio")
+
+        val otherContributionText = """
+                ${getString(R.string.credits_othercontributions_1)}
+                ${getString(R.string.credits_othercontributions_2)}
+                ${getString(R.string.credits_othercontributions_3)}
+                """.trimIndent()
         val others_section = AboutModel(getString(R.string.credits_othercontributions_title),
-            getString(R.string.credits_othercontributions), false, "Empty", "Empty")
+            otherContributionText, false, "Empty", "Empty")
         val tools_section = AboutModel(getString(R.string.credits_tools_title),
             getString(R.string.credits_tools), false, "Empty", "Empty")
 

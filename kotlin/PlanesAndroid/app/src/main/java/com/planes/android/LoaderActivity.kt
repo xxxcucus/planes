@@ -9,6 +9,8 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.view.isVisible
+import com.planes.android.creategame.CreateGameSettingsGlobal
+import com.planes.android.creategame.CreateGameStates
 import com.planes.android.preferences.MainPreferencesServiceGlobal
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.commobj.SimpleRequestWithoutCredentialsCommObj
@@ -24,6 +26,7 @@ class LoaderActivity : AppCompatActivity() {
     private lateinit var m_VerifyVersionCommObj: Disposable
     private lateinit var m_ProgressBar: ProgressBar
     var m_MultiplayerRound = MultiplayerRoundJava()
+    var m_CreateGameSettingsService = CreateGameSettingsGlobal()
     private lateinit var m_MainLayout: RelativeLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +37,7 @@ class LoaderActivity : AppCompatActivity() {
         m_MainPreferencesService.readPreferences()
 
         m_MultiplayerRound.createPlanesRound()
+        m_CreateGameSettingsService.createPreferencesService()
 
         m_MainLayout = findViewById(R.id.loader_layout)
 
@@ -50,6 +54,7 @@ class LoaderActivity : AppCompatActivity() {
                 m_MultiplayerRound.setUserData("", "", "")
                 m_MultiplayerRound.resetGameData()
                 m_MultiplayerRound.initRound()
+                m_CreateGameSettingsService.createGameState = CreateGameStates.NotSubmitted
                 val intent = Intent(this@LoaderActivity, MainActivity::class.java)
                 startActivity(intent)
             }
@@ -96,6 +101,7 @@ class LoaderActivity : AppCompatActivity() {
             m_MultiplayerRound.setUserData("", "", "")
             m_MultiplayerRound.resetGameData()
             m_MultiplayerRound.initRound()
+            m_CreateGameSettingsService.createGameState = CreateGameStates.NotSubmitted
             m_VerifyVersionCommObj.dispose()
             val intent = Intent(this@LoaderActivity, MainActivity::class.java)
             startActivity(intent)

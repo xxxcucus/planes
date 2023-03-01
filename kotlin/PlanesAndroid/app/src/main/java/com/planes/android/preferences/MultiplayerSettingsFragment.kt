@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
+import com.planes.android.creategame.CreateGameSettingsGlobal
+import com.planes.android.creategame.CreateGameStates
 import com.planes.android.databinding.FragmentOptionsMultiBinding
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 
@@ -23,11 +25,14 @@ class MultiplayerSettingsFragment : Fragment() {
     private var m_PreferencesService = MultiplayerPreferencesServiceGlobal()
     private var m_MainPreferencesService = MainPreferencesServiceGlobal()
     private var m_MultiplayerRound = MultiplayerRoundJava()
+    var m_CreateGameSettingsService = CreateGameSettingsGlobal()
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         m_PreferencesService.createPreferencesService(context)
         m_MainPreferencesService.createPreferencesService(context)
+        m_CreateGameSettingsService.createPreferencesService()
         m_MultiplayerRound.createPlanesRound()
     }
 
@@ -76,6 +81,7 @@ class MultiplayerSettingsFragment : Fragment() {
             m_MultiplayerRound.setUserData("", "", "")
             m_MultiplayerRound.resetGameData()
             m_MultiplayerRound.initRound()
+            m_CreateGameSettingsService.createGameState = CreateGameStates.NotSubmitted
             (activity as MainActivity).switchSingleMultiplayerVersion()
         }
 

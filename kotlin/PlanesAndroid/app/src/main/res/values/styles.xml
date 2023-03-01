@@ -16,12 +16,13 @@
         <item name="planesBackgroundStartColor">@color/colorRed900</item>
         <item name="planesBackgroundEndColor">@color/colorPurple700</item>
         <item name="planesGameButtonBackgroundColor">@color/colorLightGreen700</item>
+        <item name="planesGameButtonBackgroundDisabledColor">@color/colorAmber200</item>
         <item name="planesGameButtonHighlightedBackgroundColor">@color/colorLightGreenA700</item>
         <item name="planesGameButtonForegroundColor">@color/colorAmber100</item>
         <item name="planesTextColor">@color/colorAmber100</item>
         <item name="planesNavigationMenuTextColor">@color/colorAmber100</item>
         <item name="planesNavigationMenuBackgroundColor">@color/colorLightGreen400</item>
-        <item name="planesProgressBarColor">@color/colorDeepOrange900</item>
+        <item name="planesProgressBarColor">@color/colorAmber500</item>
         <item name="planesGuessColor">@color/colorDeepOrange900</item>
         <item name="planesBoardColor">@color/colorGreenA200</item>
         <item name="planesFirstPlaneColor">@color/colorCyan500</item>
@@ -34,7 +35,7 @@
 
     <style name="ButtonColor" parent="@style/Widget.AppCompat.Button.Colored">
         <item name="android:textColor">?planesGameButtonForegroundColor</item>
-        <item name="android:background">?planesGameButtonBackgroundColor</item>
+        <item name="android:background">@drawable/diseableblebutton</item>
         <item name="android:padding">5dp</item>
         <item name="android:layout_margin">3dp</item>
         <item name="gc_background_color">?planesGameButtonBackgroundColor</item>

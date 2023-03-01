@@ -197,4 +197,5 @@
     <string name="drawer_open_content_description" translatable="false">Open Menu</string>
     <string name="drawer_closed_content_description" translatable="false">Close Menu</string>
     <string name="video_duration">Długość: %1$s</string>
+    <string name="credits_othercontributions_1">Do powstania projektu przyczynili się również:</string>
 </resources>

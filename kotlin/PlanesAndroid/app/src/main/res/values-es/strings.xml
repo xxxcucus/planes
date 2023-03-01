@@ -189,5 +189,6 @@
 
     <string name="helptext_boardediting_3">Desliza el dedo sobre la pantalla para colocar los aviones."</string>
     <string name="video_duration">Duración: %1$s</string>
+    <string name="credits_othercontributions_1">Otras contribuciones al proyecto son de:</string>
 
 </resources>
