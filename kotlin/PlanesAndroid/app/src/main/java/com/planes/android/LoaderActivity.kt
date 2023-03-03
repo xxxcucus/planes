@@ -56,6 +56,7 @@ class LoaderActivity : AppCompatActivity() {
                 m_MultiplayerRound.initRound()
                 m_CreateGameSettingsService.createGameState = CreateGameStates.NotSubmitted
                 val intent = Intent(this@LoaderActivity, MainActivity::class.java)
+                intent.putExtra("startScreen", ApplicationScreens.Game.value)
                 startActivity(intent)
             }
         })
@@ -104,6 +105,7 @@ class LoaderActivity : AppCompatActivity() {
             m_CreateGameSettingsService.createGameState = CreateGameStates.NotSubmitted
             m_VerifyVersionCommObj.dispose()
             val intent = Intent(this@LoaderActivity, MainActivity::class.java)
+            intent.putExtra("startScreen", ApplicationScreens.Login.value)
             startActivity(intent)
         }
     }

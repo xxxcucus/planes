@@ -110,6 +110,14 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        var fromIntent = false
+        var bundle = intent.extras
+        if (bundle != null) {
+            val screenCode = bundle.getInt("startScreen")
+            setCurrentFragmentId(ApplicationScreens[screenCode]!!)
+            fromIntent = true
+        }
+
         if (savedInstanceState != null) {
             m_SinglePlayerPreferencesService.readFromSavedInstanceState(savedInstanceState)
             m_MultiplayerPreferencesService.readFromSavedInstanceState(savedInstanceState)
@@ -127,12 +135,13 @@ class MainActivity : AppCompatActivity() {
         else
             setDrawerMenuSinglePlayer()
 
+        var withHistory = mSelectedItem != 0 && !fromIntent
+
         if (mSelectedItem == 0) {
             mSelectedItem = R.id.nav_game
-            setFragment(false)
-        } else {
-            setFragment(true)
         }
+
+        setFragment(withHistory)
 
     }
 
