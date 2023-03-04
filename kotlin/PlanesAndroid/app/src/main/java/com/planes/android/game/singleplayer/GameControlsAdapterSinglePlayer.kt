@@ -33,7 +33,7 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
     private lateinit var m_DeadLabel: ColouredSurfaceWithText
     private lateinit var m_MovesLabel: ColouredSurfaceWithText
     private lateinit var m_ViewComputerBoardButton1: TwoLineTextButtonWithState
-    private lateinit var m_CancelGameButton: Button
+    private var m_CancelGameButton: Button? = null
 
     //Start New Game
     private lateinit var m_WinnerTextView: ColouredSurfaceWithText
@@ -92,7 +92,7 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
                         movesLabel: ColouredSurfaceWithText, movesCount: ColouredSurfaceWithText, missesLabel: ColouredSurfaceWithText,
                         missesCount: ColouredSurfaceWithText,
                         hitsLabel: ColouredSurfaceWithText, hitsCount: ColouredSurfaceWithText, deadsLabel: ColouredSurfaceWithText,
-                        deadCount: ColouredSurfaceWithText, cancelButton: Button
+                        deadCount: ColouredSurfaceWithText, cancelButton: Button?
     ) {
         m_StatsTitle = statsTitle
         m_ViewComputerBoardButton1 = viewComputerBoardButton1
@@ -143,8 +143,8 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
             }
         }
 
-        if (this::m_CancelGameButton.isInitialized) {
-            m_CancelGameButton.setOnClickListener {
+        if (m_CancelGameButton != null) {
+            m_CancelGameButton!!.setOnClickListener {
                 cancelRound()
                 m_PlaneRound.cancelRound()
                 setNewRoundStage()

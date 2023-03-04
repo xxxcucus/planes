@@ -78,7 +78,7 @@ class GameFragmentSinglePlayer : Fragment() {
         val hitsCount = rootView.findViewById<View>(R.id.hits_count) as ColouredSurfaceWithText?
         val deadsLabel = rootView.findViewById<View>(R.id.dead_label) as ColouredSurfaceWithText?
         val deadCount = rootView.findViewById<View>(R.id.dead_count) as ColouredSurfaceWithText?
-        val cancelGameButton = rootView.findViewById<View>(R.id.cancel_game) as Button
+        val cancelGameButton = rootView.findViewById<View>(R.id.cancel_game) as Button?
 
         //Start New Game Stage
         val viewComputerBoardButton2 = rootView.findViewById<View>(R.id.view_computer_board2) as TwoLineTextButtonWithState
