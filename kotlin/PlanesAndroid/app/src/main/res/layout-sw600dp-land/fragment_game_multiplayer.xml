@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/rootView"
     android:background="@drawable/background"
-    android:tag="phone vertical">
+    android:tag="tablet horizontal">
 
     <com.planes.android.game.multiplayer.PlanesVerticalLayoutMultiplayer
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/planes_layout">
         <com.planes.android.game.multiplayer.GameBoardMultiplayer
-            android:id="@+id/game_boards"
+            android:id="@+id/player_board"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
+            style="@style/MyGameBoardStyle"
+            />
+        <com.planes.android.game.multiplayer.GameBoardMultiplayer
+            android:id="@+id/computer_board"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
             style="@style/MyGameBoardStyle"
             />
         <!-- Buttons for board editing stage -->
@@ -45,7 +52,7 @@
             app:gc_game_stage="1"
             app:gc_text="@string/cancel"
             style="@style/ButtonColor"/>
-        <com.planes.android.customviews.TwoLineTextButton
+        <com.planes.android.customviews.TwoLineTextButtonWithState
             android:id="@+id/reset_board"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,48 +62,6 @@
             app:gc_col="2"
             app:gc_game_stage="1"
             style="@style/ButtonColor"/>
-
-        <!-- Buttons for game stage -->
-
-        <com.planes.android.customviews.TwoLineTextButton
-            android:id="@+id/stats_title_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:gc_text1 = "@string/game_stats1"
-            app:gc_text2="@string/game_stats2"
-            app:gc_row="1"
-            app:gc_col="1"
-            app:gc_game_stage="2"
-            style="@style/HighlightedButtonColor"/>
-        <com.planes.android.customviews.TwoLineTextButtonWithState
-            android:id="@+id/view_opponent_board1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:gc_text1="@string/view_opponent_board1"
-            app:gc_text2="@string/view_opponent_board2"
-            app:gc_row="2"
-            app:gc_col="1"
-            app:gc_game_stage="2"
-            style="@style/ButtonColor"/>
-        <com.planes.android.customviews.TextButton
-            android:id="@+id/cancel_game"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:gc_text="@string/cancel"
-            app:gc_row="1"
-            app:gc_col="2"
-            app:gc_game_stage="2"
-            style="@style/HighlightedButtonColor"/>
-        <ProgressBar
-            android:id="@+id/ProgressBarGame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible"
-            android:indeterminate="true"
-            app:gc_row="2"
-            app:gc_col="2"
-            app:gc_game_stage="2"
-            />
 
         <!-- Buttons for start new game stage -->
         <com.planes.android.customviews.TwoLineTextButtonWithState

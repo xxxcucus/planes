@@ -23,10 +23,10 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
     private lateinit var m_ResetBoardButton: TwoLineTextButton
 
     // Game
-    private lateinit var m_GameStats: TwoLineTextButton
-    private lateinit var m_ViewOpponentBoardButton1: TwoLineTextButtonWithState
-    private lateinit var m_CancelGameButton: Button
-    private lateinit var m_ProgressBarGame: ProgressBar
+    private var m_GameStats: TwoLineTextButton? = null
+    private var m_ViewOpponentBoardButton1: TwoLineTextButtonWithState? = null
+    private var m_CancelGameButton: Button? = null
+    private var m_ProgressBarGame: ProgressBar? = null
 
     // Start New Game
     private lateinit var m_WinnerTextView: ColouredSurfaceWithText
@@ -71,10 +71,10 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
     }
 
     fun setGameControls(
-        gameStats: TwoLineTextButton,
-        viewOpponentBoard: TwoLineTextButtonWithState,
-        cancelButton: Button,
-        progressBar: ProgressBar,
+        gameStats: TwoLineTextButton?,
+        viewOpponentBoard: TwoLineTextButtonWithState?,
+        cancelButton: Button?,
+        progressBar: ProgressBar?,
         cancelLambda: () -> Unit,
         showGameStatsLambda: () -> Unit
     ) {
@@ -83,26 +83,27 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
         m_CancelGameButton = cancelButton
         m_ProgressBarGame = progressBar
 
-        m_ViewOpponentBoardButton1.setState("player", m_Context.resources.getString(R.string.view_player_board2))
-        if (this::m_ViewOpponentBoardButton1.isInitialized) {
-            m_ViewOpponentBoardButton1.setOnClickListener {
-                if (m_ViewOpponentBoardButton1.currentStateName === "computer") {
+        if (m_ViewOpponentBoardButton1 != null) {
+            m_ViewOpponentBoardButton1!!.setState("player", m_Context.resources.getString(R.string.view_player_board2))
+
+            m_ViewOpponentBoardButton1!!.setOnClickListener {
+                if (m_ViewOpponentBoardButton1!!.currentStateName === "computer") {
                     m_GameBoards.setComputerBoard()
-                    m_ViewOpponentBoardButton1.setState("player", m_Context.resources.getString(R.string.view_player_board2))
+                    m_ViewOpponentBoardButton1!!.setState("player", m_Context.resources.getString(R.string.view_player_board2))
                     m_PlanesLayout.setComputerBoard()
-                } else if (m_ViewOpponentBoardButton1.currentStateName === "player") {
+                } else if (m_ViewOpponentBoardButton1!!.currentStateName === "player") {
                     m_GameBoards.setPlayerBoard()
-                    m_ViewOpponentBoardButton1.setState("computer", m_Context.resources.getString(R.string.view_opponent_board2))
+                    m_ViewOpponentBoardButton1!!.setState("computer", m_Context.resources.getString(R.string.view_opponent_board2))
                     m_PlanesLayout.setPlayerBoard()
                 }
             }
         }
-        if (this::m_CancelGameButton.isInitialized) {
-            m_CancelGameButton.setOnClickListener { cancelLambda() }
+        if (m_CancelGameButton != null) {
+            m_CancelGameButton!!.setOnClickListener { cancelLambda() }
         }
 
-        if (this::m_GameStats.isInitialized) {
-            m_GameStats.setOnClickListener { showGameStatsLambda() }
+        if (m_GameStats != null) {
+            m_GameStats!!.setOnClickListener { showGameStatsLambda() }
         }
     }
 
@@ -171,10 +172,12 @@ class GameControlsAdapterMultiplayer(private val m_Context: Context) {
     fun setGameStage(showProgressBar: Boolean) {
         if (!showTwoBoards(m_Tablet)) {
             m_GameBoards.setComputerBoard()
-            m_ViewOpponentBoardButton1.setState("player", m_Context.resources.getString(R.string.view_player_board2))
+            if (m_ViewOpponentBoardButton1 != null)
+                m_ViewOpponentBoardButton1!!.setState("player", m_Context.resources.getString(R.string.view_player_board2))
             // updateStats(true) //TODO: do I need this ?
         }
-        m_ProgressBarGame.isVisible = showProgressBar
+        if (m_ProgressBarGame != null)
+            m_ProgressBarGame!!.isVisible = showProgressBar
     }
 
     fun setBoardEditingStage(showProgresBars: Boolean) {

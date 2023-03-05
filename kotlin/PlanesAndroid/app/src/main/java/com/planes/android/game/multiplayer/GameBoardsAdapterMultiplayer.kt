@@ -26,7 +26,7 @@ class GameBoardsAdapterMultiplayer {
     }
 
     private fun showTwoBoards(): Boolean {
-        return false
+        return m_Tablet
     }
 
     fun setGameControls(controls: GameControlsAdapterMultiplayer) {

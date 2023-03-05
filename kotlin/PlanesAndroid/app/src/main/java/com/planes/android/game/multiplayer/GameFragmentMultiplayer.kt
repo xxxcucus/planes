@@ -101,10 +101,10 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         val resetBoardButton = rootView.findViewById<View>(R.id.reset_board) as TwoLineTextButton
 
         //Game Stage
-        val statsTitle = rootView.findViewById<View>(R.id.stats_title_label) as TwoLineTextButton
-        val viewOpponentBoardButton1 = rootView.findViewById<View>(R.id.view_opponent_board1) as TwoLineTextButtonWithState
-        val cancelGameButton = rootView.findViewById<View>(R.id.cancel_game) as TextButton
-        val progressBarGameButton = rootView.findViewById<View>(R.id.ProgressBarGame) as ProgressBar
+        val statsTitle = rootView.findViewById<View>(R.id.stats_title_label) as TwoLineTextButton?
+        val viewOpponentBoardButton1 = rootView.findViewById<View>(R.id.view_opponent_board1) as TwoLineTextButtonWithState?
+        val cancelGameButton = rootView.findViewById<View>(R.id.cancel_game) as TextButton?
+        val progressBarGameButton = rootView.findViewById<View>(R.id.ProgressBarGame) as ProgressBar?
 
         //Start New Game Stage
         val viewComputerBoardButton2 = rootView.findViewById<View>(R.id.view_opponent_board2) as TwoLineTextButtonWithState
@@ -219,7 +219,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     }
 
     private fun showTwoBoards(isTablet: Boolean): Boolean {
-        return false
+        return true
     }
 
     private fun saveCredentialsTokenExpired(username: String, password: String, authorizationHeader: String) {

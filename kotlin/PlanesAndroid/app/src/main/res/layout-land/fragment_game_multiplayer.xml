@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/rootView"
     android:background="@drawable/background"
-    android:tag="phone vertical">
+    android:tag="phone horizontal">
 
     <com.planes.android.game.multiplayer.PlanesVerticalLayoutMultiplayer
         xmlns:app="http://schemas.android.com/apk/res-auto"
