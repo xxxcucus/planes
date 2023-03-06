@@ -389,6 +389,6 @@ class GameBoardMultiplayer : GridLayout, GameBoardInterface {
     }
 
     private fun showTwoBoards(isTablet: Boolean): Boolean {
-        return false
+        return isTablet
     }
 }

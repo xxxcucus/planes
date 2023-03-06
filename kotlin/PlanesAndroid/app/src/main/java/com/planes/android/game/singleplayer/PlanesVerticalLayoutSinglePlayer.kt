@@ -188,6 +188,9 @@ class PlanesVerticalLayoutSinglePlayer : ViewGroup {
     }
 
     private fun setGameControlsPositions(left: Int, top: Int, right: Int, bottom: Int) {
+        if (!m_GameControlsMaxRow.containsKey(m_GameStage.value))
+            return
+
         val maxRow = m_GameControlsMaxRow[m_GameStage.value]!!
         val maxCol = m_GameControlsMaxCol[m_GameStage.value]!!
         val stepX = (right - left) / (maxCol + 2)

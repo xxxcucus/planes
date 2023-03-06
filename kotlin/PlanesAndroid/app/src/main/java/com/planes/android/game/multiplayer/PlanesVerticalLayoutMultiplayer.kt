@@ -74,6 +74,8 @@ class PlanesVerticalLayoutMultiplayer : ViewGroup {
         }
         val layoutWidth = right - left
         val layoutHeight = bottom - top
+
+
         if (m_GameStage === GameStages.BoardEditing) {
             if (m_Tablet) {
                 if (m_Vertical) {
@@ -93,14 +95,16 @@ class PlanesVerticalLayoutMultiplayer : ViewGroup {
                 }
             }
         }
+
+        val boardSpacing = 20
         if (m_GameStage === GameStages.Game) {
             if (m_Tablet) {
                 if (m_Vertical) {
-                    setPlayerBoardPosition(0, 0, layoutWidth, layoutHeight / 2, true)
-                    setGameControlsPositions(0, layoutHeight / 2, layoutWidth, layoutHeight)
+                    setPlayerBoardPosition(0, 0, layoutWidth, layoutHeight / 2 - boardSpacing, false)
+                    setComputerBoardPosition(0, layoutHeight / 2 + boardSpacing, layoutWidth, layoutHeight, false)
                 } else {
-                    setPlayerBoardPosition(0, 0, layoutWidth / 2, layoutHeight, true)
-                    setGameControlsPositions(layoutWidth / 2, 0, layoutWidth, layoutHeight)
+                    setPlayerBoardPosition(0, 0, layoutWidth / 2 - boardSpacing, layoutHeight, false)
+                    setComputerBoardPosition(layoutWidth / 2 + boardSpacing, 0, layoutWidth, layoutHeight, false)
                 }
             } else {
                 if (m_Vertical) {
@@ -186,6 +190,9 @@ class PlanesVerticalLayoutMultiplayer : ViewGroup {
     }
 
     private fun setGameControlsPositions(left: Int, top: Int, right: Int, bottom: Int) {
+        if (!m_GameControlsMaxRow.containsKey(m_GameStage.value))
+            return
+
         val maxRow = m_GameControlsMaxRow[m_GameStage.value]!!
         val maxCol = m_GameControlsMaxCol[m_GameStage.value]!!
         val stepX = (right - left) / (maxCol + 2)

@@ -219,7 +219,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     }
 
     private fun showTwoBoards(isTablet: Boolean): Boolean {
-        return true
+        return isTablet
     }
 
     private fun saveCredentialsTokenExpired(username: String, password: String, authorizationHeader: String) {
@@ -572,6 +572,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
                     val moveIdx = move.m_MoveIndex
                     if (!m_PlaneRound.moveAlreadyReceived(moveIdx)) {
                         m_PlaneRound.addOpponentMove(gp, moveIdx)
+
                     }
                 }
             }
