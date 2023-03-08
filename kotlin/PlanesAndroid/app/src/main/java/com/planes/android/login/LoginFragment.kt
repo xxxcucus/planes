@@ -44,6 +44,7 @@ class LoginFragment: Fragment() {
         if (activity is MainActivity) {
             (activity as MainActivity).setActionBarTitle(getString(R.string.login))
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Login)
+            (activity as MainActivity).updateOptionsMenu()
         }
 
         val saveSettingsButton = binding.login

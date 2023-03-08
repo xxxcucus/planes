@@ -109,6 +109,7 @@ class NoRobotFragment : Fragment() {
         if (activity is MainActivity) {
             (activity as MainActivity).setActionBarTitle(getString(R.string.register))
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.NoRobot)
+            (activity as MainActivity).updateOptionsMenu()
         }
 
         return  rootview

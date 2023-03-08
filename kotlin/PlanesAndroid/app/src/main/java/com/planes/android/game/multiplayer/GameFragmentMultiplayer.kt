@@ -132,6 +132,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         if (activity is MainActivity) {
             (activity as MainActivity).setActionBarTitle(getString(R.string.game))
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Game)
+            (activity as MainActivity).updateOptionsMenu()
         }
         return rootView
     }
@@ -171,7 +172,10 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
                 m_PlanesLayout.setGameStage()
                 pollForOpponentMoves(false)
             }
+        }
 
+        if (activity is MainActivity) {
+            (activity as MainActivity).updateOptionsMenu()
         }
     }
 

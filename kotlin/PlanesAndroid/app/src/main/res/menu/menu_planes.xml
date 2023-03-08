@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu_cancel"
+        android:icon="@drawable/baseline_close_24"
+        android:visible="false"
+        android:text="@string/cancel"
+        app:showAsAction="ifRoom|withText"/>
+    <item android:id="@+id/menu_show_stats"
+        android:icon="@drawable/ic_baseline_assessment_24"
+        android:text="@string/game_stats"
+        android:visible="false"
+        app:showAsAction="ifRoom|withText"/>
     <item android:id="@+id/menu_help"
         android:icon="@android:drawable/ic_menu_help"
         android:text="@string/help"
-        app:showAsAction="ifRoom|withText"/>
+        app:showAsAction="ifRoom|withText" />
 </menu>

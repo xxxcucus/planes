@@ -45,6 +45,7 @@ class GameStatsFragment: Fragment() {
         if (activity is MainActivity) {
             (activity as MainActivity).setActionBarTitle(getString(R.string.game_stats))
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.GameStats)
+            (activity as MainActivity).updateOptionsMenu()
         }
 
         val loginButton = binding.statusLogin

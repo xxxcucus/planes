@@ -37,6 +37,7 @@ import com.planes.android.videos.VideoFragment1
 import com.planes.android.videos.VideoSettingsService
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.RegistrationResponse
+import com.planes.single_player_engine.GameStages
 import com.planes.single_player_engine.PlanesRoundJava
 
 
@@ -167,6 +168,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        if (m_MultiplayerRound.getGameStage() == GameStages.Game.value && mSelectedItem == R.id.nav_game) {
+            menu.getItem(1).isVisible = true
+            menu.getItem(0).isVisible = true
+        } else {
+            menu.getItem(1).isVisible = false
+            menu.getItem(0).isVisible = false
+        }
+        return true
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -612,4 +624,8 @@ class MainActivity : AppCompatActivity() {
         helpPopup.onButtonShowHelpWindowClick(multiplayerVersion)
     }
     //endregion
+
+    fun updateOptionsMenu() {
+        invalidateOptionsMenu()
+    }
 }

@@ -56,6 +56,7 @@ class CreateGameFragment: Fragment() {
         if (activity is MainActivity) {
             (activity as MainActivity).setActionBarTitle(getString(R.string.create_connectto_game))
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.CreateGame)
+            (activity as MainActivity).updateOptionsMenu()
         }
 
         m_GameName = m_CreateGameSettingsService.gameName

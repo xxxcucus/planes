@@ -43,6 +43,7 @@ class LogoutFragment: Fragment() {
         if (activity is MainActivity) {
             (activity as MainActivity).setActionBarTitle(getString(R.string.logout))
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Logout)
+            (activity as MainActivity).updateOptionsMenu()
         }
 
         val logoutButton = binding.logout

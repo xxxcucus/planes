@@ -51,6 +51,7 @@ class VideoFragment1 : Fragment() {
         initializeVideo()
         (activity as MainActivity).setActionBarTitle(getString(R.string.videos))
         (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Videos)
+        (activity as MainActivity).updateOptionsMenu()
 
         return  rootview
     }

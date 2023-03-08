@@ -41,6 +41,7 @@ class AboutFragment : Fragment() {
         if (activity is MainActivity) {
             (activity as MainActivity).setActionBarTitle(getString(R.string.about))
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.About)
+            (activity as MainActivity).updateOptionsMenu()
         }
         return rootView
     }
