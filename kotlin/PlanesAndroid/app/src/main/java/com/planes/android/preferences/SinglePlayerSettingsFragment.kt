@@ -50,6 +50,7 @@ class SinglePlayerSettingsFragment : Fragment() {
         if (activity is MainActivity) {
             (activity as MainActivity).setActionBarTitle(getString(R.string.options))
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Preferences)
+            (activity as MainActivity).updateOptionsMenu()
         }
         val saveSettingsButton = binding.optionsSavesettings
         saveSettingsButton.setOnClickListener { writeToPreferencesService() }

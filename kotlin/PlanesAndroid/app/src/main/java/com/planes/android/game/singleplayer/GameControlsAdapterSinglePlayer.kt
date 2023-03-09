@@ -10,7 +10,7 @@ import com.planes.android.customviews.TwoLineTextButton
 import com.planes.android.customviews.TwoLineTextButtonWithState
 import com.planes.single_player_engine.RoundEndStatus
 
-class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
+class GameControlsAdapterSinglePlayer(private val context: Context, updateOptionsMenuLambda: () -> Unit) {
     private lateinit var m_PlaneRound: PlanesRoundInterface
     private lateinit var m_GameBoards: GameBoardsAdapterSinglePlayer
     private var m_Tablet = false
@@ -46,6 +46,12 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
     private lateinit var m_DrawsLabel: ColouredSurfaceWithText
     private lateinit var m_ViewComputerBoardButton2: TwoLineTextButtonWithState
 
+    private var m_UpdateOptionsMenuLambda: () -> Unit
+    private var m_Context: Context
+    init {
+        m_UpdateOptionsMenuLambda = updateOptionsMenuLambda
+        m_Context = context
+    }
     fun setBoardEditingControls(
         doneButton: Button,
         rotateButton: Button,
@@ -146,10 +152,6 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
         if (m_CancelGameButton != null) {
             m_CancelGameButton!!.setOnClickListener {
                 cancelRound()
-                m_PlaneRound.cancelRound()
-                setNewRoundStage()
-                m_PlanesLayout.setNewRoundStage()
-                m_GameBoards.setNewRoundStage()
             }
         }
     }
@@ -212,6 +214,7 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
 
         m_ViewComputerBoardButton2.setState("player", m_Context.resources.getString(R.string.view_player_board2))
         m_PlanesLayout.setComputerBoard()
+        m_UpdateOptionsMenuLambda()
     }
 
     fun setGameStage() {
@@ -223,9 +226,12 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
             ))
             updateStats(true)
         }
+        m_UpdateOptionsMenuLambda()
     }
 
-    fun setBoardEditingStage() {}
+    fun setBoardEditingStage() {
+        m_UpdateOptionsMenuLambda()
+    }
     fun updateStats(isComputer: Boolean) {
 
         //on the computer board show the computer stats and
@@ -253,6 +259,10 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
 
     fun cancelRound() {
         m_WinnerTextView.setText(m_Context.resources.getString(R.string.round_cancelled).toString())
+        m_PlaneRound.cancelRound()
+        setNewRoundStage()
+        m_PlanesLayout.setNewRoundStage()
+        m_GameBoards.setNewRoundStage()
     }
 
     fun roundEnds(isComputerWinner: Boolean, isDraw: Boolean) {
@@ -269,6 +279,7 @@ class GameControlsAdapterSinglePlayer(private val m_Context: Context) {
         m_ComputerWins.setText(computer_wins.toString())
         m_Draws.setText(draws.toString())
         m_ViewComputerBoardButton2.setState("player", m_Context.resources.getText(R.string.view_player_board2).toString())
+        m_UpdateOptionsMenuLambda()
     }
 
     fun setDoneEnabled(enabled: Boolean) {

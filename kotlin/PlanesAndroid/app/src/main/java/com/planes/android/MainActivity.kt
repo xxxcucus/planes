@@ -165,19 +165,31 @@ class MainActivity : AppCompatActivity() {
         if (id == R.id.menu_help) {
             onButtonShowHelpWindowClick(m_MainPreferencesService.multiplayerVersion)
             return true
+        } else if (id == R.id.menu_show_stats) {
+            mSelectedItem = R.id.nav_game_status
+            setFragment(true)
+        } else if (id == R.id.menu_cancel) {
+            if (m_MultiplayerRound.getGameStage() == GameStages.Game.value) {
+                val fragment: GameFragmentMultiplayer? =
+                    supportFragmentManager.findFragmentByTag(ApplicationScreens.Game.toString()) as GameFragmentMultiplayer?
+                fragment?.cancelRound()
+            }
+            if (m_PlaneRound.getGameStage() == GameStages.Game.value) {
+                val fragment: GameFragmentSinglePlayer? =
+                    supportFragmentManager.findFragmentByTag(ApplicationScreens.Game.toString()) as GameFragmentSinglePlayer?
+                fragment?.cancelRound()
+            }
         }
 
         return super.onOptionsItemSelected(item)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        if (m_MultiplayerRound.getGameStage() == GameStages.Game.value && mSelectedItem == R.id.nav_game) {
-            menu.getItem(1).isVisible = true
-            menu.getItem(0).isVisible = true
-        } else {
-            menu.getItem(1).isVisible = false
-            menu.getItem(0).isVisible = false
-        }
+        val t = isTablet()
+        menu.findItem(R.id.menu_cancel).isVisible = isTablet() && (m_MultiplayerRound.getGameStage() == GameStages.Game.value ||
+                m_PlaneRound.getGameStage() == GameStages.Game.value ) && mSelectedItem == R.id.nav_game
+        menu.findItem(R.id.menu_show_stats).isVisible = isTablet() && (m_MultiplayerRound.getGameStage() == GameStages.Game.value)
+                && mSelectedItem == R.id.nav_game
         return true
     }
 
@@ -413,6 +425,7 @@ class MainActivity : AppCompatActivity() {
     //region start fragments
     fun setFragment(addToBackStack: Boolean) {
         lateinit var newFragment:Fragment
+        var tag = "tag"
 
         when(mSelectedItem) {
             R.id.nav_settings -> {
@@ -420,13 +433,14 @@ class MainActivity : AppCompatActivity() {
                     SinglePlayerSettingsFragment()
                 else
                     MultiplayerSettingsFragment()
-
+                tag = ApplicationScreens.Preferences.toString()
             }
             R.id.nav_game -> {
                 newFragment = if (!m_MainPreferencesService.multiplayerVersion)
                     GameFragmentSinglePlayer()
                 else
                     GameFragmentMultiplayer()
+                tag = ApplicationScreens.Game.toString()
             }
             R.id.nav_videos -> {
                 val bundle = Bundle()
@@ -434,19 +448,24 @@ class MainActivity : AppCompatActivity() {
                 bundle.putSerializable("videosettings/videoPlaybackPositions", m_VideoSettingsService.videoPlaybackPositions)
                 newFragment = VideoFragment1()
                 newFragment.setArguments(bundle)
+                tag = ApplicationScreens.Videos.toString()
             }
             R.id.nav_about -> {
                 newFragment = AboutFragment()
+                tag = ApplicationScreens.About.toString()
             }
             R.id.nav_login -> {
                 newFragment = LoginFragment()
+                tag = ApplicationScreens.Login.toString()
             }
             R.id.nav_logout -> {
                 newFragment = LogoutFragment()
+                tag = ApplicationScreens.Logout.toString()
             }
 
             R.id.nav_register -> {
                 newFragment = RegisterFragment()
+                tag = ApplicationScreens.Register.toString()
             }
 
             R.id.nav_norobot -> {
@@ -457,14 +476,17 @@ class MainActivity : AppCompatActivity() {
                 bundle.putSerializable("norobot/selection", m_NoRobotSettingsService.selection)
                 newFragment = NoRobotFragment()
                 newFragment.setArguments(bundle)
+                tag = ApplicationScreens.NoRobot.toString()
             }
 
             R.id.nav_creategame -> {
                 newFragment = CreateGameFragment()
+                tag = ApplicationScreens.CreateGame.toString()
             }
 
             R.id.nav_game_status -> {
                 newFragment = GameStatsFragment()
+                tag = ApplicationScreens.GameStats.toString()
             }
         }
 
@@ -472,13 +494,13 @@ class MainActivity : AppCompatActivity() {
 
             if (addToBackStack)
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_content, newFragment)
+                    .replace(R.id.main_content, newFragment, tag)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .addToBackStack("FromMainMenu")
                     .commit()
             else
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_content, newFragment)
+                    .replace(R.id.main_content, newFragment, tag)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit()
         }
@@ -503,7 +525,7 @@ class MainActivity : AppCompatActivity() {
         newFragment.arguments = bundle
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_content, newFragment)
+            .replace(R.id.main_content, newFragment, ApplicationScreens.NoRobot.toString())
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()
 
@@ -520,7 +542,7 @@ class MainActivity : AppCompatActivity() {
         newFragment.arguments = bundle
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_content, newFragment)
+            .replace(R.id.main_content, newFragment, ApplicationScreens.Videos.toString())
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .addToBackStack("FromHelp")
             .commit()

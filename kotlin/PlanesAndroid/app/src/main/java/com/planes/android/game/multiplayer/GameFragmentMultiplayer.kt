@@ -132,7 +132,6 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         if (activity is MainActivity) {
             (activity as MainActivity).setActionBarTitle(getString(R.string.game))
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Game)
-            (activity as MainActivity).updateOptionsMenu()
         }
         return rootView
     }
@@ -471,7 +470,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     private fun createObservableCancelRound() : Observable<Response<CancelRoundResponse>> {
         return m_PlaneRound.cancelRound(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId())
     }
-    private fun cancelRound() {
+    fun cancelRound() {
         m_CancelRoundCommObj = SimpleRequestCommObj(::createObservableCancelRound,
             getString(R.string.error_cancelround), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
             getString(R.string.validation_not_connected_to_game), { "" }, ::finalizeCancelRound, requireActivity())

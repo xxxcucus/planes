@@ -30,7 +30,8 @@ class GameFragmentSinglePlayer : Fragment() {
         m_PlaneRound = PlanesRoundJava()
         (m_PlaneRound as PlanesRoundJava).createPlanesRound()
 
-        m_GameControls = GameControlsAdapterSinglePlayer(context)
+        m_GameControls = GameControlsAdapterSinglePlayer(context, ::updateOptionsMenu)
+        //TODO: give lambda to update options menu function as parameter
     }
 
     override fun onCreateView(
@@ -99,6 +100,17 @@ class GameFragmentSinglePlayer : Fragment() {
         m_GameControls.setGameBoards(m_GameBoards)
         m_GameControls.setPlanesLayout(m_PlanesLayout)
         m_GameBoards.setGameControls(m_GameControls)
+
+        reinitializeFromState()
+
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.game))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Game)
+        }
+        return rootView
+    }
+
+    fun reinitializeFromState() {
         when ((m_PlaneRound as PlanesRoundJava).getGameStage()) {
             0 -> {
                 m_GameBoards.setNewRoundStage()
@@ -118,10 +130,15 @@ class GameFragmentSinglePlayer : Fragment() {
             }
         }
 
-        if (activity is MainActivity) {
-            (activity as MainActivity).setActionBarTitle(getString(R.string.game))
-            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Game)
-        }
-        return rootView
+        if (activity is MainActivity)
+            (activity as MainActivity).updateOptionsMenu()
+    }
+
+    fun updateOptionsMenu() {
+        if (activity is MainActivity)
+            (activity as MainActivity).updateOptionsMenu()
+    }
+    fun cancelRound() {
+        m_GameControls.cancelRound()
     }
 }

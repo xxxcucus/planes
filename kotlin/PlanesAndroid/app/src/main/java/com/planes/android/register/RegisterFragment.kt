@@ -41,6 +41,7 @@ class RegisterFragment: Fragment() {
         if (activity is MainActivity) {
             (activity as MainActivity).setActionBarTitle(getString(R.string.register))
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Register)
+            (activity as MainActivity).updateOptionsMenu()
         }
 
         val saveSettingsButton = binding.register
