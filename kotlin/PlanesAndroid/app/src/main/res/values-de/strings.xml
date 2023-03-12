@@ -192,4 +192,5 @@
     <string name="reset_board2">Spielbrett</string>
     <string name="credits_othercontributions_1">Andere Beiträge zu dem Projekt sind von:</string>
     <string name="credits_othercontributions_3">Beiträge via GitHub werden in der GitHub Seite des Projektes gelistet.</string>
+    <string name="helptext_game_1_opponent">Felder des Gegnerspielfelds anklicken, um zu raten, wo die Flugzeuge des Gegners sind.</string>
 </resources>

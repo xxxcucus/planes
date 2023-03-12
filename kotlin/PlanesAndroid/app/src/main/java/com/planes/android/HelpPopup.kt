@@ -10,6 +10,7 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.LinearLayoutCompat
+import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.single_player_engine.GameStages
 import com.planes.single_player_engine.PlanesRoundJava
 
@@ -22,6 +23,7 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
     var m_StartTutorialLambda: (Int) -> Unit
 
     private var m_PlaneRound: PlanesRoundInterface
+    private var m_MultiplayerRound: MultiplayerRoundInterface
     private lateinit var m_HelpTextView: TextView
     private lateinit var m_HelpTitleTextView: TextView
     private var m_HelpButton: Button? = null
@@ -34,6 +36,9 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
 
         m_PlaneRound = PlanesRoundJava()
         (m_PlaneRound as PlanesRoundJava).createPlanesRound()
+
+        m_MultiplayerRound = MultiplayerRoundJava()
+        (m_MultiplayerRound as MultiplayerRoundJava).createPlanesRound()
     }
 
     fun onButtonShowHelpWindowClick(multiplayerVersion: Boolean) {
@@ -53,7 +58,9 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
 
         when (m_CurFragment) {
             R.id.nav_game -> {
-                val gameStage = m_PlaneRound.getGameStage()
+                var gameStage = m_PlaneRound.getGameStage()
+                if (multiplayerVersion)
+                    gameStage = m_MultiplayerRound.getGameStage()
                 if (gameStage == GameStages.BoardEditing.value || gameStage == GameStages.Game.value)
                     popupView = inflater.inflate(R.layout.help_popup, null)
                 else
@@ -95,7 +102,9 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
     }
 
     private fun showHelpGameFragment(multiplayerVersion: Boolean, popupWindow: PopupWindow) {
-        val gameStage = m_PlaneRound.getGameStage()
+        var gameStage = m_PlaneRound.getGameStage()
+        if (multiplayerVersion)
+            gameStage = m_MultiplayerRound.getGameStage()
         when (gameStage) {
             GameStages.GameNotStarted.value -> {
                 m_HelpTitleTextView.text = m_Context.getString(R.string.game_not_started_stage)
@@ -118,17 +127,20 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
             }
             GameStages.Game.value -> {
                 m_HelpTitleTextView.text = m_Context.getString(R.string.game_stage)
-                if (!multiplayerVersion) {
-                    m_HelpTextView.text = """
-                    ${m_Context.getString(R.string.helptext_game_1)}
-                    ${m_Context.getString(R.string.helptext_game_2)}
-                    """.trimIndent()
-                    m_HelpButton!!.setOnClickListener {
-                        m_StartTutorialLambda(0)
-                        popupWindow.dismiss()
-                    }
-                    m_HelpButton!!.isEnabled = true
+
+                m_HelpTextView.text = """
+                ${if (multiplayerVersion)
+                        m_Context.getString(R.string.helptext_game_1_opponent)
+                    else
+                        m_Context.getString(R.string.helptext_game_1)}
+                ${m_Context.getString(R.string.helptext_game_2)}
+                """.trimIndent()
+                m_HelpButton!!.setOnClickListener {
+                    m_StartTutorialLambda(0)
+                    popupWindow.dismiss()
                 }
+                m_HelpButton!!.isEnabled = true
+
             }
         }
     }

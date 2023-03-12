@@ -192,4 +192,5 @@
     <string name="reset_board2">Tabla</string>
     <string name="credits_othercontributions_1">Urmatoarele persoane au mai contribuit la proiect:</string>
     <string name="credits_othercontributions_3">Contributorii prin GitHub sunt listati in pagina de GitHub a proiectului.</string>
+    <string name="helptext_game_1_opponent">Apasa pe tabla oponentului pentru a ghici unde se afla avioanele acestuia.</string>
 </resources>
