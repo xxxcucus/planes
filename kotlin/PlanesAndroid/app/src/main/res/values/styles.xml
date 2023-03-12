@@ -72,6 +72,11 @@
         <item name="android:textColor">?planesTextColor</item>
     </style>
 
+    <style name="ModifiedEditTextMaterial" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+        <item name="android:backgroundTint">?planesBackgroundEndColor</item>
+        <item name="android:textColor">?planesToolbarForegroundColor</item>
+    </style>
+
     <style name="ModifiedEditText" parent="@style/Widget.AppCompat.EditText">
         <item name="android:backgroundTint">?planesBackgroundEndColor</item>
         <item name="android:textColor">?planesToolbarForegroundColor</item>
