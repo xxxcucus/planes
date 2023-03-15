@@ -197,5 +197,6 @@
     <string name="reset_board1">Restablecer</string>
     <string name="reset_board2">Tablero</string>
     <string name="credits_othercontributions_3">Las contribuciones de GitHub se enumeran en la página de GitHub del proyecto. </string>
+    <string name="helptext_game_1_opponent">Toque el tablero del oponente para adivinar dónde se podrían encontrar sus aviones.</string>
 
 </resources>

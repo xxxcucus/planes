@@ -200,4 +200,5 @@
     <string name="reset_board2">planszę</string>
     <string name="credits_othercontributions_1">Do powstania projektu przyczynili się również:</string>
     <string name="credits_othercontributions_3">Wkład z GitHub jest wymieniony na stronie projektu w tej usłudze.</string>
+    <string name="helptext_game_1_opponent">Naciśnij na planszy przeciwnika, aby zgadywać pozycje jego samolotów.</string>
 </resources>
