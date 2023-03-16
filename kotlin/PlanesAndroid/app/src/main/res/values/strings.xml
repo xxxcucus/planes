@@ -203,6 +203,6 @@
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">
         com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
-    <string name="drawer_open_content_description" translatable="false">Open Menu</string>
-    <string name="drawer_closed_content_description" translatable="false">Close Menu</string>
+    <string name="drawer_open_content_description">Open Menu</string>
+    <string name="drawer_closed_content_description">Close Menu</string>
 </resources>
