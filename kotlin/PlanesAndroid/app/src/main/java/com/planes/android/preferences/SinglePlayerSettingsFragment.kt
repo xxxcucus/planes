@@ -2,6 +2,7 @@ package com.planes.android.preferences
 
 import android.content.Context
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,6 +59,14 @@ class SinglePlayerSettingsFragment : Fragment() {
         return binding.root
     }
 
+    override fun onGetLayoutInflater(savedInstanceState: Bundle?): LayoutInflater {
+        if (activity is MainActivity)
+            return super.onGetLayoutInflater(savedInstanceState)
+
+        val inflater = super.onGetLayoutInflater(savedInstanceState)
+        val contextThemeWrapper: Context = ContextThemeWrapper(requireContext(), R.style.MyAppTheme)
+        return inflater.cloneInContext(contextThemeWrapper)
+    }
     override fun onDetach () {
         super.onDetach()
         //TODO: move this in OnDestroy?

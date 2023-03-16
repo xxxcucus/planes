@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -103,6 +104,15 @@ class CreateGameFragment: Fragment() {
         reinitializeFromState()
 
         return binding.root
+    }
+
+    override fun onGetLayoutInflater(savedInstanceState: Bundle?): LayoutInflater {
+        if (activity is MainActivity)
+            return super.onGetLayoutInflater(savedInstanceState)
+
+        val inflater = super.onGetLayoutInflater(savedInstanceState)
+        val contextThemeWrapper: Context = ContextThemeWrapper(requireContext(), R.style.MyAppTheme)
+        return inflater.cloneInContext(contextThemeWrapper)
     }
 
     private fun reinitializeFromState() {
@@ -268,11 +278,13 @@ class CreateGameFragment: Fragment() {
     }
 
     private fun showCreateGamePopup() {
-        Popups.showCreateNewGamePopup(m_Context, m_MainLayout, ::createGame)
+        if (activity is MainActivity)
+            Popups.showCreateNewGamePopup(m_Context, m_MainLayout, ::createGame)
     }
 
     private fun showConnectToGamePopup(opponentName: String) {
-        Popups.showConnectToGamePopup(m_Context, m_MainLayout, ::connectToGame, opponentName)
+        if (activity is MainActivity)
+            Popups.showConnectToGamePopup(m_Context, m_MainLayout, ::connectToGame, opponentName)
     }
 
     fun createGame() {

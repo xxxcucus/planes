@@ -2,6 +2,7 @@ package com.planes.android.game.singleplayer
 
 import android.content.Context
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -108,6 +109,15 @@ class GameFragmentSinglePlayer : Fragment() {
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Game)
         }
         return rootView
+    }
+
+    override fun onGetLayoutInflater(savedInstanceState: Bundle?): LayoutInflater {
+        if (activity is MainActivity)
+            return super.onGetLayoutInflater(savedInstanceState)
+
+        val inflater = super.onGetLayoutInflater(savedInstanceState)
+        val contextThemeWrapper: Context = ContextThemeWrapper(requireContext(), R.style.MyAppTheme)
+        return inflater.cloneInContext(contextThemeWrapper)
     }
 
     fun reinitializeFromState() {
