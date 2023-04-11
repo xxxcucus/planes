@@ -188,8 +188,8 @@
     <string name="newuser_register">Neue Nutzer? Register!</string>
     <string name="helptext_game_3">Lang anklicken um das ausgewählte Flugzeug zu drehen.</string>
     <string name="credits_graphics_content1">Das Logo und die Grafiken wurden von Alexandru Vintilescu angefertigt. Andere Arbeiten von Alex sind hier zu finden: https://axa951.wixsite.com/portfolio</string>
-    <string name="reset_board1">Reset</string>
-    <string name="reset_board2">Spielbrett</string>
+    <string name="reset_board1">Spielbrett</string>
+    <string name="reset_board2">zurücksetzen</string>
     <string name="credits_othercontributions_1">Andere Beiträge zu dem Projekt sind von:</string>
     <string name="credits_othercontributions_3">Beiträge via GitHub werden in der GitHub Seite des Projektes gelistet.</string>
     <string name="helptext_game_1_opponent">Felder des Gegnerspielfelds anklicken, um zu raten, wo die Flugzeuge des Gegners sind.</string>
