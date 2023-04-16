@@ -63,8 +63,8 @@ class VideoFragment1 : Fragment() {
             0,1.42f, "https://youtu.be/qgL0RdwqBRY")
         var videoModel_single = VideoModel(getString(R.string.singleplayertutorial), R.raw.singleplayer, "00:02:00",
             0, 1.36f, "https://youtu.be/N2Cg8eflCxM")
-        var videoModel_multi = VideoModel(getString(R.string.multiplayertutorial), R.raw.multiplayer, "00:05:44",
-            0,1.77f, "https://youtu.be/VqYK1T91-YE")
+        var videoModel_multi = VideoModel(getString(R.string.multiplayertutorial), R.raw.multiplayer_android, "00:05:34",
+            0,1.77f, "https://youtu.be/mlSvZREBTwA")
 
         m_MovieList = arrayListOf(videoModel_guessing, videoModel_positioning, videoModel_single, videoModel_multi)
         m_VideosAdapter = VideoAdapter( { position -> onVideoItemClick(position)}, m_MovieList, requireContext())
