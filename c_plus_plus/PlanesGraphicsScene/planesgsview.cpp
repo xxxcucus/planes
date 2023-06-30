@@ -41,7 +41,9 @@ PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* gl
     connect(m_LeftPane, SIGNAL(doneClicked()), this, SLOT(doneClicked()));
     connect(m_RightPane, SIGNAL(guessMade(const GuessPoint&)), this, SLOT(receivedPlayerGuess(const GuessPoint&)));
     connect(m_LeftPane, SIGNAL(newRoundStarted()), this, SLOT(startNewGame()));
+    connect(m_MultiRound, &MultiplayerRound::logoutCompleted, m_StatusBarWidget, &StatusBarWidget::updateSlot);
     connect(m_LeftPane, &LeftPane::newRoundStarted, m_StatusBarWidget, &StatusBarWidget::updateSlot);
+    connect(m_StatusBarWidget, &StatusBarWidget::logoutPressed, this, &PlanesGSView::logoutPressed);
     connect(m_MultiRound, SIGNAL(newRoundStarted()), this, SLOT(startNewGame()));
     
     connect(m_MultiRound, &MultiplayerRound::opponentMoveGenerated, this, &PlanesGSView::opponentMoveGeneratedSlot);
@@ -123,4 +125,9 @@ void PlanesGSView::doneClicked()
 void PlanesGSView::roundWasCancelledSlot() {
     m_round->setRoundCancelled();
     m_RightPane->roundWasCancelledSlot();
+}
+
+void PlanesGSView::logoutPressed() {
+    m_MultiRound->logout(m_GlobalData->m_UserData.m_UserName);
+    m_StatusBarWidget->updateSlot();
 }

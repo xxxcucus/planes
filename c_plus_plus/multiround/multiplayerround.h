@@ -31,6 +31,7 @@
 #include "communicationobjects/startnewroundcommobj.h"
 #include "communicationobjects/sendwinnercommobj.h"
 #include "communicationobjects/getserverversioncommobj.h"
+#include "communicationobjects/logoutcommobj.h"
 
 
 class MULTIPLAYER_EXPORT MultiplayerRound : public QObject, public AbstractPlaneRound  {
@@ -61,6 +62,7 @@ private:
     StartNewRoundCommObj* m_StartNewRoundCommObj;
     SendWinnerCommObj* m_SendWinnerCommObj;
     GetServerVersionCommObj* m_GetServerVersionCommObj;
+    LogoutCommObj* m_LogoutCommObj;
     
     
     std::vector<int> m_NotSentMoves;
@@ -100,7 +102,8 @@ signals:
     void gameStatsUpdated(const GameStatistics& gameStats);
     
     void allMovesSent();
-    
+    void logoutCompleted();
+
 public:
     MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo);
     virtual ~MultiplayerRound();
@@ -120,12 +123,14 @@ public:
     virtual bool setComputerPlanes(int plane1_x, int plane1_y, Plane::Orientation plane1_orient, int plane2_x, int plane2_y, Plane::Orientation plane2_orient, int plane3_x, int plane3_y, Plane::Orientation plane3_orient); 
     
     virtual void setRoundCancelled() override;
+    void completeLogout();
     
     //Requests to server
     void createGame(const QString& gameName);
     void connectToGame(const QString& gameName);
     void refreshGameStatus(const QString& gameName);
     void login(const QString& username, const QString& password);
+    void logout(const QString& username);
     void registerUser(const QString& username, const QString& password);
     void noRobotRegister(const QString& requestId, const QString& answer);
     void sendPlanePositions();

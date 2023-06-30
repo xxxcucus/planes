@@ -7,10 +7,17 @@ StatusBarWidget::StatusBarWidget(GameInfo* gameInfo, GlobalData* globalData, QWi
     QWidget(parent), m_GlobalData(globalData), m_GameInfo(gameInfo)  {
 
     QVBoxLayout* vLayout1 = new QVBoxLayout();
+    QHBoxLayout* hLayout1 = new QHBoxLayout();
     m_StatusLabel = new QLabel();
-    vLayout1->addWidget(m_StatusLabel);
+    m_LogoutPushButton = new QPushButton("Logout");
+    hLayout1->addWidget(m_StatusLabel);
+    hLayout1->addWidget(m_LogoutPushButton);
+    hLayout1->addStretch(5);
+    vLayout1->addLayout(hLayout1);
     setLayout(vLayout1);
     updateSlot();
+
+    connect(m_LogoutPushButton, &QPushButton::clicked, this, &StatusBarWidget::logoutPressed);
 }
 
 void StatusBarWidget::updateSlot()
@@ -22,10 +29,13 @@ void StatusBarWidget::updateSlot()
         
         if (!m_GlobalData->m_UserData.m_UserName.trimmed().isEmpty()) {
             statusText += " - Username: " + m_GlobalData->m_UserData.m_UserName;
+            m_LogoutPushButton->setVisible(true);
         } else if (m_GlobalData->m_UserData.m_UserId != 0) {
             statusText += " - User id: " + QString::number(m_GlobalData->m_UserData.m_UserId);
+            m_LogoutPushButton->setVisible(true);
         } else {
             statusText += " - Not logged in";
+            m_LogoutPushButton->setVisible(false);
         }
         
         if (m_GlobalData->m_GameData.m_GameId != 0) 

@@ -4,7 +4,8 @@
 #include <QMessageBox>
 
 
-QString CommunicationTools::localTestServerPath = "https://planes.planes-android.com:8443/planesserver";
+//QString CommunicationTools::localTestServerPath = "https://planes.planes-android.com:8443/planesserver";
+QString CommunicationTools::localTestServerPath = "http://localhost:8080/";
 
 QNetworkReply * CommunicationTools::buildPostRequestWithAuth(const QString& routePath, const QString& serverPath, const QJsonObject& jsonObject, const QByteArray& authToken, QNetworkAccessManager* networkManager)
 {

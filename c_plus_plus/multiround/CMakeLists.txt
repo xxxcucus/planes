@@ -36,6 +36,7 @@ set(MULTIROUND_HEADR
     communicationobjects/refreshgamestatuscommobj.h
     communicationobjects/connecttogamecommobj.h
     communicationobjects/logincommobj.h
+    communicationobjects/logoutcommobj.h
     communicationobjects/registercommobj.h
     communicationobjects/norobotcommobj.h
     communicationobjects/sendplanepositionscommobj.h
@@ -57,6 +58,7 @@ set(MULTIROUND_SRCS
     communicationobjects/refreshgamestatuscommobj.cpp
     communicationobjects/connecttogamecommobj.cpp
     communicationobjects/logincommobj.cpp
+    communicationobjects/logoutcommobj.cpp
     communicationobjects/registercommobj.cpp
     communicationobjects/norobotcommobj.cpp
     communicationobjects/sendplanepositionscommobj.cpp

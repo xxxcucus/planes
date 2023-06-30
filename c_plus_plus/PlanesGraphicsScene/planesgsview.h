@@ -34,6 +34,7 @@ public slots:
     
     void opponentMoveGeneratedSlot(const GuessPoint& gp);
     void roundWasCancelledSlot();
+    void logoutPressed();
 
 private:
 

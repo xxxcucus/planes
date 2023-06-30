@@ -52,7 +52,7 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     connect(this, &LeftPane::currentChanged, this, &LeftPane::currentTabChangedSlot);
 
     if (!m_GameInfo->getSinglePlayer()) {
-        m_MainAccountWidgetIndex = addTab(m_MainAccountWidget, "Login");    
+        m_MainAccountWidgetIndex = addTab(m_MainAccountWidget, "Login");
         m_GameWidgetIndex = addTab(m_GameWidget, "ConnectToGame");
     }
     m_GameTabIndex = addTab(m_PlayRoundWidget, "Round");
