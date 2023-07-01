@@ -44,7 +44,7 @@ MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QWidget* par
     connect(m_StartNewRoundCommObj, &StartNewRoundCommObj::startNewRound, this, &MultiplayerRound::newRoundStarted);
     m_SendWinnerCommObj = new SendWinnerCommObj("/round/end", "ending round ", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     m_GetServerVersionCommObj = new GetServerVersionCommObj("/status/getversion", "getting version", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
-    m_LogoutCommObj = new LogoutCommObj("/logout", "logging out", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
+    m_LogoutCommObj = new LogoutCommObj("/operations/logout", "logging out", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_LogoutCommObj, &LogoutCommObj::logoutCompleted, this, &MultiplayerRound::completeLogout);
         
     reset();
