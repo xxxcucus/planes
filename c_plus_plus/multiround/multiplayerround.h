@@ -32,6 +32,7 @@
 #include "communicationobjects/sendwinnercommobj.h"
 #include "communicationobjects/getserverversioncommobj.h"
 #include "communicationobjects/logoutcommobj.h"
+#include "communicationobjects/playerslistcommobj.h"
 
 
 class MULTIPLAYER_EXPORT MultiplayerRound : public QObject, public AbstractPlaneRound  {
@@ -63,6 +64,7 @@ private:
     SendWinnerCommObj* m_SendWinnerCommObj;
     GetServerVersionCommObj* m_GetServerVersionCommObj;
     LogoutCommObj* m_LogoutCommObj;
+    PlayersListCommObj* mPlayersListCommObj;
     
     
     std::vector<int> m_NotSentMoves;
@@ -103,6 +105,7 @@ signals:
     
     void allMovesSent();
     void logoutCompleted();
+    void playersListReceived(const QStringList& playersList);
 
 public:
     MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo);
@@ -147,7 +150,8 @@ public:
     void addToReceivedList(int value);
 
     void testServerVersion();
-    
+    void requestLoggedInPlayers();
+
 protected:
     MultiplayerRound() {}
 

@@ -11,7 +11,8 @@ StatusBarWidget::StatusBarWidget(GameInfo* gameInfo, GlobalData* globalData, QWi
     m_StatusLabel = new QLabel();
     m_LogoutPushButton = new QPushButton("Logout");
     hLayout1->addWidget(m_StatusLabel);
-    hLayout1->addWidget(m_LogoutPushButton);
+    if (!m_GameInfo->getSinglePlayer())
+        hLayout1->addWidget(m_LogoutPushButton);
     hLayout1->addStretch(5);
     vLayout1->addLayout(hLayout1);
     setLayout(vLayout1);

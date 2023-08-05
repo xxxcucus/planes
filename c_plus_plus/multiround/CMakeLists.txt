@@ -47,6 +47,7 @@ set(MULTIROUND_HEADR
     communicationobjects/startnewroundcommobj.h
     communicationobjects/sendwinnercommobj.h
     communicationobjects/getserverversioncommobj.h
+    communicationobjects/playerslistcommobj.h
     communicationtools.h
     gameinfo.h)
 
@@ -69,6 +70,7 @@ set(MULTIROUND_SRCS
     communicationobjects/startnewroundcommobj.cpp
     communicationobjects/sendwinnercommobj.cpp
     communicationobjects/getserverversioncommobj.cpp
+    communicationobjects/playerslistcommobj.cpp
     )
 
 

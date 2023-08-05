@@ -23,13 +23,18 @@ set(GS_SRCS
 	leftpane/boardediting/boardeditingwidget.cpp
 	leftpane/startnewround/startnewroundwidget.cpp
 	leftpane/startnewround/scoreframe.cpp
-    rightpane/rightpane.cpp
     leftpane/account/clickablelabel.cpp
     leftpane/account/loginregisterform.cpp
     leftpane/account/mainaccountwidget.cpp
     leftpane/account/norobotwidget.cpp
 	leftpane/account/norobotdialog.cpp
     leftpane/account/userprofileframe.cpp
+	leftpane/game/gamewidget.cpp
+	leftpane/game/gameendwidget.cpp
+	leftpane/game/gamestatuswidget.cpp
+	leftpane/game/creategamewidget.cpp
+	leftpane/playerslist/playerslistwidget.cpp
+    rightpane/rightpane.cpp
     rightpane/boards/computerboard.cpp
 	rightpane/boards/customgraphicsscene.cpp
 	rightpane/boards/customgraphicsview.cpp
@@ -37,10 +42,6 @@ set(GS_SRCS
 	rightpane/boards/gridsquare.cpp
 	rightpane/boards/playareagridsquare.cpp
 	rightpane/boards/playerboard.cpp
-	leftpane/game/gamewidget.cpp
-	leftpane/game/gameendwidget.cpp
-	leftpane/game/gamestatuswidget.cpp
-	leftpane/game/creategamewidget.cpp
 	rightpane/options/gamedifficultyoptions.cpp
 	rightpane/options/serversettingsoptions.cpp
 	rightpane/options/optionswindow.cpp
@@ -59,24 +60,25 @@ set(GS_HEADR
 	leftpane/boardediting/boardeditingwidget.h
 	leftpane/startnewround/startnewroundwidget.h
 	leftpane/startnewround/scoreframe.h
-    rightpane/rightpane.h
     leftpane/account/clickablelabel.h
     leftpane/account/loginregisterform.h
     leftpane/account/mainaccountwidget.h
     leftpane/account/norobotwidget.h
     leftpane/account/userprofileframe.h
 	leftpane/account/norobotdialog.h
-    rightpane/boards/computerboard.h
+	leftpane/game/gamewidget.h
+	leftpane/game/gameendwidget.h
+	leftpane/game/gamestatuswidget.h
+	leftpane/game/creategamewidget.h
+	leftpane/playerslist/playerslistwidget.h
+	rightpane/rightpane.h
+	rightpane/boards/computerboard.h
 	rightpane/boards/customgraphicsscene.h
 	rightpane/boards/customgraphicsview.h
 	rightpane/boards/genericboard.h
 	rightpane/boards/gridsquare.h
 	rightpane/boards/playareagridsquare.h
 	rightpane/boards/playerboard.h
-	leftpane/game/gamewidget.h
-	leftpane/game/gameendwidget.h
-	leftpane/game/gamestatuswidget.h
-	leftpane/game/creategamewidget.h
 	rightpane/options/gamedifficultyoptions.h
 	rightpane/options/serversettingsoptions.h
 	rightpane/options/optionswindow.h

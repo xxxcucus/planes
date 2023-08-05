@@ -46,13 +46,14 @@ MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QWidget* par
     m_GetServerVersionCommObj = new GetServerVersionCommObj("/status/getversion", "getting version", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     m_LogoutCommObj = new LogoutCommObj("/operations/logout", "logging out", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_LogoutCommObj, &LogoutCommObj::logoutCompleted, this, &MultiplayerRound::completeLogout);
-        
+    mPlayersListCommObj = new PlayersListCommObj("/users/available_users", "getting logged in users", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
+    connect(mPlayersListCommObj, &PlayersListCommObj::playersListReceived, this, &MultiplayerRound::playersListReceived);
+
     reset();
     initRound();
 }
 
-MultiplayerRound::~MultiplayerRound()
-{
+MultiplayerRound::~MultiplayerRound() {
     delete m_CreateGameObj;
     delete m_ConnectToGameObj;
     delete m_LoginCommObj;
@@ -70,8 +71,7 @@ MultiplayerRound::~MultiplayerRound()
 
 
 //resets the PlaneRound object
-void MultiplayerRound::reset()
-{
+void MultiplayerRound::reset() {
     AbstractPlaneRound::reset();
     m_PlayerMoveIndex = 0;
     m_ComputerMoveIndex = 0;
@@ -80,8 +80,7 @@ void MultiplayerRound::reset()
     m_GlobalData->m_UserData.reset();
 }
 
-void MultiplayerRound::initRound()
-{
+void MultiplayerRound::initRound() {
     AbstractPlaneRound::initRound();
     m_WinnerFound = false;
     m_PlayerMoveIndex = 0;
@@ -150,8 +149,7 @@ bool MultiplayerRound::setComputerPlanes(int plane1_x, int plane1_y, Plane::Orie
     return m_ComputerGrid->initGridByUser(plane1_x, plane1_y, plane1_orient, plane2_x, plane2_y, plane2_orient, plane3_x, plane3_y, plane3_orient);
 }
 
-void MultiplayerRound::setRoundCancelled()
-{
+void MultiplayerRound::setRoundCancelled() {
     m_State = AbstractPlaneRound::GameStages::GameNotStarted;
 }
 
@@ -163,13 +161,11 @@ void MultiplayerRound::startNewRound(long int desiredRoundId) {
     m_GlobalData->m_GameData.m_RoundId = desiredRoundId;
 }
 
-void MultiplayerRound::createGame(const QString& gameName)
-{
+void MultiplayerRound::createGame(const QString& gameName) {
     m_CreateGameObj->makeRequest(gameName);
 }
 
-void MultiplayerRound::connectToGame(const QString& gameName)
-{
+void MultiplayerRound::connectToGame(const QString& gameName) {
     m_ConnectToGameObj->makeRequest(gameName);
 }
 
@@ -193,23 +189,19 @@ void MultiplayerRound::gameCreatedSlot(const QString& gameName, const QString& u
     emit gameCreated(gameName, userName);
 }
 
-void MultiplayerRound::refreshGameStatus(const QString& gameName)
-{
+void MultiplayerRound::refreshGameStatus(const QString& gameName) {
     m_RefreshGameStatusCommObj->makeRequest(gameName);
 }
 
-void MultiplayerRound::login(const QString& username, const QString& password)
-{
+void MultiplayerRound::login(const QString& username, const QString& password) {
     m_LoginCommObj->makeRequest(username, password);
 }
 
-void MultiplayerRound::logout(const QString& username)
-{
+void MultiplayerRound::logout(const QString& username) {
     m_LogoutCommObj->makeRequest(username);
 }
 
-void MultiplayerRound::registerUser(const QString& username, const QString& password)
-{
+void MultiplayerRound::registerUser(const QString& username, const QString& password) {
     m_RegisterCommObj->makeRequest(username, password);
 }
 
@@ -221,8 +213,7 @@ void MultiplayerRound::sendPlanePositions() {
     m_SendPlanePositionsCommObj->makeRequest();
 }
 
-void MultiplayerRound::acquireOpponentPlanePositions()
-{
+void MultiplayerRound::acquireOpponentPlanePositions() {
     m_AcquireOpponentPlanePositions->makeRequest();
 }
 
@@ -286,8 +277,7 @@ bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPla
     return false;
 }
 
-void MultiplayerRound::addOpponentMove(GuessPoint& gp, int moveIndex)
-{
+void MultiplayerRound::addOpponentMove(GuessPoint& gp, int moveIndex) {
     addToReceivedList(moveIndex);
     GuessPoint::Type guessResult =  m_PlayerGrid->getGuessResult(PlanesCommonTools::Coordinate2D(gp.m_row, gp.m_col));
     gp.setType(guessResult);    
@@ -314,8 +304,7 @@ void MultiplayerRound::addOpponentMove(GuessPoint& gp, int moveIndex)
     }
 }
 
-void MultiplayerRound::requestOpponentMoves()
-{
+void MultiplayerRound::requestOpponentMoves() {
     m_SendMoveCommObj->makeRequest(m_playerGuessList, m_NotSentMoves, m_ReceivedMoves);
 }
 
@@ -324,57 +313,53 @@ void MultiplayerRound::cancelRound()
     m_CancelRoundCommObj->makeRequest();
 }
 
-void MultiplayerRound::startNewRound()
-{
+void MultiplayerRound::startNewRound() {
     m_StartNewRoundCommObj->makeRequest();
 }
 
-void MultiplayerRound::sendWinner(bool draw, long winnerId)
-{
+void MultiplayerRound::sendWinner(bool draw, long winnerId) {
     m_SendWinnerCommObj->makeRequest(draw, winnerId);
 }
 
-void MultiplayerRound::deleteFromNotSentList(int value)
-{
+void MultiplayerRound::deleteFromNotSentList(int value) {
     std::vector<int>::iterator it = std::find(m_NotSentMoves.begin(), m_NotSentMoves.end(), value);
     if (it != m_NotSentMoves.end())
         m_NotSentMoves.erase(it);
 }
 
-void MultiplayerRound::addToNotSentList(int value)
-{
+void MultiplayerRound::addToNotSentList(int value) {
     std::vector<int>::iterator it = std::find(m_NotSentMoves.begin(), m_NotSentMoves.end(), value);
     if (it == m_NotSentMoves.end())
         m_NotSentMoves.push_back(value);
 
 }
 
-bool MultiplayerRound::moveAlreadyReceived(int moveIndex)
-{
+bool MultiplayerRound::moveAlreadyReceived(int moveIndex) {
     std::vector<int>::iterator it = std::find(m_ReceivedMoves.begin(), m_ReceivedMoves.end(), moveIndex);
     return (it != m_ReceivedMoves.end());
 }
 
-void MultiplayerRound::addToReceivedList(int value)
-{
+void MultiplayerRound::addToReceivedList(int value) {
     m_ReceivedMoves.push_back(value);
 }
 
-void MultiplayerRound::testServerVersion()
-{
+void MultiplayerRound::testServerVersion() {
     m_GetServerVersionCommObj->makeRequest();
 }
 
-void MultiplayerRound::allMovesSentSlot()
-{
+void MultiplayerRound::allMovesSentSlot() {
     //qDebug() << "allMovesSent" ;
     if (playerFinished() && !computerFinished())
         emit allMovesSent();
 }
 
-void MultiplayerRound::completeLogout()
-{
+void MultiplayerRound::completeLogout() {
     m_GlobalData->reset();
     initRound();
     emit logoutCompleted();
 }
+
+void MultiplayerRound::requestLoggedInPlayers() {
+    mPlayersListCommObj->makeRequest();
+}
+

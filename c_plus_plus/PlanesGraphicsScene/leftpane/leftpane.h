@@ -17,6 +17,7 @@
 #include "startnewround/startnewroundwidget.h"
 #include "account/mainaccountwidget.h"
 #include "game/gamewidget.h"
+#include "playerslist/playerslistwidget.h"
 
 class LeftPane : public QTabWidget
 {
@@ -124,7 +125,9 @@ public slots:
     void activateGameWidget();
     
     void currentTabChangedSlot();
-    
+    void loginCompleted();
+    void logoutCompleted();
+
 private:
     void submitDoneClicked();    
     
@@ -135,12 +138,14 @@ private:
     StartNewRoundWidget* m_StartNewRoundWidget;
     MainAccountWidget* m_MainAccountWidget;
     GameWidget* m_GameWidget;
+    PlayersListWidget* m_PlayersListWidget;
 
     int m_MainAccountWidgetIndex = -1;
     int m_GameWidgetIndex = -1;
     int m_GameTabIndex = -1;
     int m_EditorTabIndex = -1;
     int m_GameStartIndex = -1;
+    int m_PlayersListIndex = -1;
 
         
     GameInfo* m_GameInfo;

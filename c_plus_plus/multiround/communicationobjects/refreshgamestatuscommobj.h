@@ -40,22 +40,4 @@ private:
     friend class RefreshGameStatusCommObjTest;
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif
