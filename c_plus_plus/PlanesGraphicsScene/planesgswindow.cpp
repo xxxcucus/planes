@@ -21,8 +21,7 @@ PlanesGSWindow::PlanesGSWindow(bool isMultiplayer, QWidget *parent) : QMainWindo
 }
 
 
-PlanesGSWindow::~PlanesGSWindow()
-{
+PlanesGSWindow::~PlanesGSWindow() {
     delete mRound;
     delete m_MultiRound;
     delete m_GameInfo;

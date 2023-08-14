@@ -42,4 +42,6 @@ private:
     //friend class LoginCommObjTest;
 };
 
+//TODO: test
+
 #endif

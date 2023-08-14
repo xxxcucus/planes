@@ -59,6 +59,7 @@ PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* gl
         m_LeftPane->activateEditingBoard();
     else
         m_LeftPane->activateAccountWidget();
+
 }
 
 void PlanesGSView::startNewGame() {

@@ -50,7 +50,6 @@ bool BasisCommObj::makeRequestBasis(bool withToken, bool fromFinishedSlot)
 
 void BasisCommObj::errorRequest(QNetworkReply::NetworkError code)
 {
-    //qDebug() << "Error 1";
     if (m_IsSinglePlayer) {
        // qDebug() << "errorRequest in single player modus";
         return;

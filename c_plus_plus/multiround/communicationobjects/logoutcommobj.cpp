@@ -6,6 +6,7 @@ bool LogoutCommObj::makeRequest(const QString& username) {
         //qDebug() << "makeRequestBasis in single player modus";
         return false;
     }
+
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         if (m_ParentWidget != nullptr) { //nullptr is in tests
             QMessageBox msgBox(m_ParentWidget);
@@ -37,6 +38,7 @@ void LogoutCommObj::finishedRequest()
     QJsonObject retJson;
     if (!finishRequestHelper(retJson))
         return;
+
 
     processResponse();
 }

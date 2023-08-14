@@ -20,9 +20,9 @@ bool CreateGameCommObj::makeRequest(const QString& gameName) {
 
     m_GameName = gameName;
     m_GlobalData->m_GameData.reset();
-       
+
     m_RequestData = prepareViewModel(m_GameName).toJson();
-    
+
     makeRequestBasis(true);
     return true;
 }
@@ -38,7 +38,7 @@ GameViewModel CreateGameCommObj::prepareViewModel(const QString& gameName) {
 
 void CreateGameCommObj::finishedRequest() {
     QJsonObject retJson;
-    if (!finishRequestHelper(retJson)) 
+    if (!finishRequestHelper(retJson))
         return;
 
     if (m_ParentWidget != nullptr) {

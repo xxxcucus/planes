@@ -18,6 +18,10 @@ public:
         m_UserPassword = QString();
         m_UserId = 0;
     }
+
+    bool isUserLoggedIn() {
+        return !m_UserName.isEmpty();
+    }
 };
 
 #endif
