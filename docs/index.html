@@ -1,34 +1,117 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-<meta charset="UTF-8"/>
-<meta name="author" content="Cristian Cucu"/>
-<meta name="description" content="A variant of the Battleships game"/>
-<meta name="keywords" content="board game, strategy game, battleships game, open source, free game, ad-free game, multiplatform game"/>
 <title>Planes</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+body {font-family: "Times New Roman", Georgia, Serif;}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display";
+  letter-spacing: 5px;
+}
+</style>
 </head>
-
 <body>
-<h1>Planes</h1>
 
-<p>Planes is a strategy game for two persons and a variant of the Battleships game.</p>
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-padding w3-card" style="letter-spacing:4px;">
+    <a href="#home" class="w3-bar-item w3-button">Planes</a>
+    <!-- Right-sided navbar links. Hide them on small screens -->
+    <div class="w3-right w3-hide-small">
+      <a href="#about" class="w3-bar-item w3-button">About</a>
+      <a href="#game" class="w3-bar-item w3-button">Game</a>
+      <a href="#account" class="w3-bar-item w3-button">Account</a>
+    </div>
+  </div>
+</div>
 
-<p>The game is played on a 10x10 board. Each player has his / her own board where he / she places 3 planes. The planes consist of 10 grid squares representing wings, body, tail and cockpit. The planes are not allowed to overlap on the board. The goal of the game is to guess the position of the opponent's plane cockpits before the opponent guesses the same for your planes. The players do not see the opponent's board, they are only allowed to make (educated) guesses on where the cockpits might be.</p>
+<!-- Header -->
+<header class="w3-display-container w3-content w3-wide" style="max-width:1600px;min-width:500px" id="home">
+  <img class="w3-image" src="graphics/Feature_Graphic.png" alt="Planes" width="1600" height="800">
+  <div class="w3-display-bottomleft w3-padding-large w3-opacity">
+    <h1 class="w3-xxlarge">Planes</h1>
+  </div>
+</header>
 
-<p>After each player has positioned his / her planes a set of guessing turns are performed. Each player is allowed to unveil a square on the opponent's board and the opponent tells what was unveiled: a miss, that means there was no plane there, a hit, that means a part of the plane is there but it is not the cockpit, and dead, that means a cockpit was found.</p>
+<!-- Page content -->
+<div class="w3-content" style="max-width:1100px">
 
-<p>It is possible to have a draw when both players guess the other player's cockpits in the same number of turns. </p>
+  <!-- About Section -->
+  <div class="w3-row w3-padding-64" id="about">
+    <div class="w3-col m6 w3-padding-large w3-hide-small">
+     <img src="graphics/PlanesQML.png" class="w3-round w3-image w3-opacity-min" alt="PlanesQML" width="600" height="750">
+    </div>
 
-<p>A variation of the game specifies that when a cockpit was guessed all the grid squares corresponding to that plane are communicated to the player who made the correct guess.</p>
+    <div class="w3-col m6 w3-padding-large">
+      <h1 class="w3-center">About Planes</h1><br>
+      <p class="w3-large">Planes is a strategy game for two persons and a variant of the Battleships game. It is currently available for the Linux, Windows and Android operating systems.
+	  It is open source, free and ad-free. Currently the game can be played either in single-player modus (agains the computer) or 
+	  in multiplayer modus (against other human players).</p>
+      <p class="w3-large w3-text-grey w3-hide-medium">Here are some usefull links:
+	   <ul>
+		  <li>Implementation of the game for Android</li>
+		  <li>Implementations for Linux and Windows</li>
+		  <li>Tutorials on how the game is played</li>
+		  <li>GitHub page of the project</li>
+		  <li>Partial Documentation of the C++ implementation</li>
+		</ul> 
+	</p>
+    </div>
+  </div>
+  
+  <hr>
+  
+  <!-- Game Section -->
+  <div class="w3-row w3-padding-64" id="game">
+    <div class="w3-col l6 w3-padding-large">
+      <h1 class="w3-center">Game</h1><br>
+      <p>The game is played on a 10x10 board. Each player has his / her own board where he / she places 3 planes.
+	  The planes consist of 10 grid squares representing wings, body, tail and cockpit.
+	  The planes are not allowed to overlap on the board.
+	  The goal of the game is to guess the position of the opponent's plane cockpits before the opponent guesses the same for your planes.
+	  The players do not see the opponent's board, they are only allowed to make (educated) guesses on where the cockpits might be.</p>
 
-<p> An implementation of the game for Android can be downloaded from <a href="https://play.google.com/store/apps/details?id=com.planes.android&hl=ro&gl=US&pli=1"> here</a> </p>
+	  <p>After each player has positioned his / her planes a set of guessing turns are performed.
+	  Each player is allowed to unveil a square on the opponent's board and the opponent tells what was unveiled:
+	  a miss, that means there was no plane there, a hit, that means a part of the plane
+	  is there but it is not the cockpit, and dead, that means a cockpit was found.</p>
 
-<p> Implementations for Linux and Windows can be downloaded from <a href="https://www.linux-games.org/p/1265849"> here </a> </p>
+	  <p>It is possible to have a draw when both players guess the other player's cockpits in the same number of turns. </p>
 
-<p> Tutorials on how the game is played can be found  <a href="https://www.youtube.com/playlist?list=PL3EEsYj5mw1UHjsSUeo9OYCv-jov7xSfO"> here </a> </p>
+      <p>A variation of the game specifies that when a cockpit was guessed all the grid squares corresponding
+	  to that plane are communicated to the player who made the correct guess.</p>
+    </div>
+    
+    <div class="w3-col l6 w3-padding-large">
+      <img src="graphics/PlanesAndroid.png" class="w3-round w3-image w3-opacity-min" alt="PlanesAndroid" width="600" height="750">
+    </div>
+  </div>
 
-<p> The Github project page can be accessed <a href="https://github.com/xxxcucus/planes"> here </a> </p>
+  <hr>
+
+  <!-- Contact Section -->
+  <div class="w3-container w3-padding-64" id="account">
+    <h1>Account</h1><br>
+    <p>For the multiplayer version of the game an user account is required. In order to comply with Google's Policy we offer here the possibility
+	to delete your own user account provided that you submit the account credentials.</p>
+    <form action="/action_page.php" target="_blank">
+      <p><input class="w3-input w3-padding-16" type="text" placeholder="Username" required name="Name"></p>
+      <p><input class="w3-input w3-padding-16" type="text" placeholder="Password" required name="People"></p>
+      <p><button class="w3-button w3-light-grey w3-section" type="submit">DELETE ACCOUNT</button></p>
+    </form>
+  </div>
+  
+<!-- End page content -->
+</div>
+
+<!-- Footer -->
+<footer class="w3-center w3-light-grey w3-padding-32">
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+</footer>
+
 </body>
-
 </html>
+s
