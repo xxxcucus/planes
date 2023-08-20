@@ -22,6 +22,7 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     m_MainAccountWidget = new MainAccountWidget(m_Settings, m_GlobalData, m_NetworkManager, m_GameInfo, m_MultiRound);
     m_GameWidget = new GameWidget(m_GlobalData, m_MultiRound);
     m_PlayersListWidget = new PlayersListWidget(m_MultiRound);
+    m_UserProfileFrame = new UserProfileFrame(m_GlobalData, m_MultiRound);
 
     connect(m_MainAccountWidget, &MainAccountWidget::toGameCreationClicked, this, &LeftPane::activateGameWidget);
     connect(m_GameWidget, &GameWidget::toGameButtonClicked, this, &LeftPane::activateEditingBoard);
@@ -59,6 +60,7 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     m_GameTabIndex = addTab(m_PlayRoundWidget, "Round");
     m_EditorTabIndex = addTab(m_BoardEditingWidget, "BoardEditing");
     m_GameStartIndex = addTab(m_StartNewRoundWidget, "Start Round");
+    m_UserProfileFrameIndex = addTab(m_UserProfileFrame, "User Info");
     setTabEnabled(m_PlayersListIndex, false);
     m_PlayersListWidget->setActive(false);
 

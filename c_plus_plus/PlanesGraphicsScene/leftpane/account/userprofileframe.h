@@ -4,7 +4,7 @@
 #include <QLabel>
 #include "global/globaldata.h"
 #include "multiplayerround.h"
-
+#include "userprofileform.h"
 /**
  * User data for the user which is logged in
  **/ 
@@ -15,27 +15,14 @@ class UserProfileFrame : public QFrame
 public:
     explicit UserProfileFrame(GlobalData* globalData, MultiplayerRound* mrd, QWidget* parent = nullptr);
     
-public slots:
+private slots:
     void loginCompleted();
-    void loginFailed();
+    void logoutCompleted();
 
 private:
-    QLabel* m_UserNameLabel;
-    QLabel* m_UserNameTextLabel;
-    QLabel* m_UserNotLoggedInLabel;
     GlobalData* m_GlobalData;
-    
+    UserProfileForm* m_UserProfileForm;
     MultiplayerRound* m_MultiRound;
 };
-
-
-
-
-
-
-
-
-
-
 
 #endif

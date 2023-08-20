@@ -4,33 +4,37 @@
 
 UserProfileFrame::UserProfileFrame(GlobalData* globalData, MultiplayerRound* mrd, QWidget* parent): QFrame(parent), m_GlobalData(globalData), m_MultiRound(mrd)
 {
-    QString titleText = QString("<b> User Profile</b>");
-    QLabel* titleLabel = new QLabel();
-    titleLabel->setText(titleText);
-    m_UserNameTextLabel = new QLabel("");
-    m_UserNameLabel = new QLabel("");
-    m_UserNotLoggedInLabel = new QLabel("No user logged in");
-    QGridLayout* gridLayout1 = new QGridLayout();
-    gridLayout1->addWidget(titleLabel);
-    gridLayout1->addWidget(m_UserNotLoggedInLabel, 1, 0, 1, 2);
-    gridLayout1->addWidget(m_UserNameTextLabel, 2, 0);
-    gridLayout1->addWidget(m_UserNameLabel, 2, 1);
-    setLayout(gridLayout1);
-    setFrameStyle(QFrame::Panel | QFrame::Raised);
-    
+    QVBoxLayout* vLayout = new QVBoxLayout();
+    //m_userProfileFrame = new UserProfileFrame(m_GlobalData, m_MultiRound);
+    m_UserProfileForm = new UserProfileForm();
+
+    QSpacerItem* spacer = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    QSpacerItem* spacer2 = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    QSpacerItem* spacer1 = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    QSpacerItem* spacer3 = new QSpacerItem(50, 50, QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+
+    //vLayout->addWidget(m_userProfileFrame);
+    vLayout->addItem(spacer2);
+    vLayout->addWidget(m_UserProfileForm);
+    vLayout->addItem(spacer);
+
+    QHBoxLayout* hLayout = new QHBoxLayout();
+    hLayout->addItem(spacer1);
+    hLayout->addLayout(vLayout);
+    hLayout->addItem(spacer3);
+
+    setLayout(hLayout);
+
     connect(m_MultiRound, &MultiplayerRound::loginCompleted, this, &UserProfileFrame::loginCompleted);
+    connect(m_MultiRound, &MultiplayerRound::logoutCompleted, this, &UserProfileFrame::logoutCompleted);
 }
 
-void UserProfileFrame::loginCompleted()
-{
-    m_UserNotLoggedInLabel->setText("");
-    m_UserNameLabel->setText(m_GlobalData->m_UserData.m_UserName);
-    m_UserNameTextLabel->setText("User name: ");
+void UserProfileFrame::loginCompleted() {
+    m_UserProfileForm->setUsername(m_GlobalData->m_UserData.m_UserName);
 }
 
-void UserProfileFrame::loginFailed()
-{
-    m_UserNotLoggedInLabel->setText("No User Logged in");
-    m_UserNameLabel->setText("");
-    m_UserNameTextLabel->setText("");
+void UserProfileFrame::logoutCompleted() {
+    m_UserProfileForm->setUsername("");
 }

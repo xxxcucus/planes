@@ -137,6 +137,7 @@ private:
     BoardEditingWidget* m_BoardEditingWidget;
     StartNewRoundWidget* m_StartNewRoundWidget;
     MainAccountWidget* m_MainAccountWidget;
+    UserProfileFrame* m_UserProfileFrame;
     GameWidget* m_GameWidget;
     PlayersListWidget* m_PlayersListWidget;
 
@@ -146,6 +147,7 @@ private:
     int m_EditorTabIndex = -1;
     int m_GameStartIndex = -1;
     int m_PlayersListIndex = -1;
+    int m_UserProfileFrameIndex = -1;
 
         
     GameInfo* m_GameInfo;

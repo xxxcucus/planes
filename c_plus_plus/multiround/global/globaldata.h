@@ -17,6 +17,4 @@ public:
     }
 };
 
-
-
 #endif

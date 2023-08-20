@@ -29,6 +29,7 @@ set(GS_SRCS
     leftpane/account/norobotwidget.cpp
 	leftpane/account/norobotdialog.cpp
     leftpane/account/userprofileframe.cpp
+    leftpane/account/userprofileform.cpp
 	leftpane/game/gamewidget.cpp
 	leftpane/game/gameendwidget.cpp
 	leftpane/game/gamestatuswidget.cpp
@@ -62,6 +63,7 @@ set(GS_HEADR
 	leftpane/startnewround/scoreframe.h
     leftpane/account/clickablelabel.h
     leftpane/account/loginregisterform.h
+    leftpane/account/userprofileform.h
     leftpane/account/mainaccountwidget.h
     leftpane/account/norobotwidget.h
     leftpane/account/userprofileframe.h
