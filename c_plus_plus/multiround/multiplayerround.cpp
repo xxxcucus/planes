@@ -48,7 +48,9 @@ MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QWidget* par
     connect(m_LogoutCommObj, &LogoutCommObj::logoutCompleted, this, &MultiplayerRound::completeLogout);
     mPlayersListCommObj = new PlayersListCommObj("/users/available_users", "getting logged in users", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(mPlayersListCommObj, &PlayersListCommObj::playersListReceived, this, &MultiplayerRound::playersListReceived);
-
+    m_DeactivateUserCommObj = new DeactivateUserCommObj("/users/deactivate_user", "deactivating users", m_ParentWidget, m_NetworkManager,
+    m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
+    connect(m_DeactivateUserCommObj, &DeactivateUserCommObj::userDeactivated, this, &MultiplayerRound::userDeactivated);
     reset();
     initRound();
 }
@@ -361,5 +363,15 @@ void MultiplayerRound::completeLogout() {
 
 void MultiplayerRound::requestLoggedInPlayers() {
     mPlayersListCommObj->makeRequest();
+}
+
+void MultiplayerRound::userDeactivatedSlot() {
+    m_GlobalData->reset();
+    initRound();
+    emit userDeactivated();
+}
+
+void MultiplayerRound::deactivateUser() {
+    m_DeactivateUserCommObj->makeRequest(m_GlobalData->m_UserData.m_UserName);
 }
 

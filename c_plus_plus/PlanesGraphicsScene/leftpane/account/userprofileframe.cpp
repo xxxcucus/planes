@@ -29,6 +29,8 @@ UserProfileFrame::UserProfileFrame(GlobalData* globalData, MultiplayerRound* mrd
 
     connect(m_MultiRound, &MultiplayerRound::loginCompleted, this, &UserProfileFrame::loginCompleted);
     connect(m_MultiRound, &MultiplayerRound::logoutCompleted, this, &UserProfileFrame::logoutCompleted);
+    connect(m_MultiRound, &MultiplayerRound::userDeactivated, this, &UserProfileFrame::logoutCompleted);
+    connect(m_UserProfileForm, &UserProfileForm::deactivatedClicked, this, &UserProfileFrame::deactivateUser);
 }
 
 void UserProfileFrame::loginCompleted() {
@@ -37,4 +39,8 @@ void UserProfileFrame::loginCompleted() {
 
 void UserProfileFrame::logoutCompleted() {
     m_UserProfileForm->setUsername("");
+}
+
+void UserProfileFrame::deactivateUser() {
+    m_MultiRound->deactivateUser();
 }

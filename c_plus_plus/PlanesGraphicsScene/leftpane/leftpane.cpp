@@ -77,6 +77,7 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
 
     connect(m_MultiRound, &MultiplayerRound::loginCompleted, this, &LeftPane::loginCompleted);
     connect(m_MultiRound, &MultiplayerRound::logoutCompleted, this, &LeftPane::logoutCompleted);
+    connect(m_MultiRound, &MultiplayerRound::userDeactivated, this, &LeftPane::logoutCompleted);
 }
 
 void LeftPane::activateDoneButton(bool planesOverlap)

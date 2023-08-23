@@ -31,6 +31,7 @@ set(MULTIROUND_HEADR
 	viewmodels/startnewroundviewmodel.h
 	viewmodels/sendwinnerviewmodel.h
 	viewmodels/unsentmovesviewmodel.h
+	viewmodels/deactivateuserviewmodel.h
     communicationobjects/basiscommobj.h
     communicationobjects/creategamecommobj.h
     communicationobjects/refreshgamestatuscommobj.h
@@ -48,6 +49,7 @@ set(MULTIROUND_HEADR
     communicationobjects/sendwinnercommobj.h
     communicationobjects/getserverversioncommobj.h
     communicationobjects/playerslistcommobj.h
+    communicationobjects/deactivateusercommobj.h
     communicationtools.h
     gameinfo.h)
 
@@ -71,6 +73,7 @@ set(MULTIROUND_SRCS
     communicationobjects/sendwinnercommobj.cpp
     communicationobjects/getserverversioncommobj.cpp
     communicationobjects/playerslistcommobj.cpp
+    communicationobjects/deactivateusercommobj.cpp
     )
 
 

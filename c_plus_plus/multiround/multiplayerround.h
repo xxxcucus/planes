@@ -33,7 +33,7 @@
 #include "communicationobjects/getserverversioncommobj.h"
 #include "communicationobjects/logoutcommobj.h"
 #include "communicationobjects/playerslistcommobj.h"
-
+#include "communicationobjects/deactivateusercommobj.h"
 
 class MULTIPLAYER_EXPORT MultiplayerRound : public QObject, public AbstractPlaneRound  {
     Q_OBJECT
@@ -65,6 +65,7 @@ private:
     GetServerVersionCommObj* m_GetServerVersionCommObj;
     LogoutCommObj* m_LogoutCommObj;
     PlayersListCommObj* mPlayersListCommObj;
+    DeactivateUserCommObj* m_DeactivateUserCommObj;
     
     
     std::vector<int> m_NotSentMoves;
@@ -83,6 +84,9 @@ private slots:
      * No postponed sends, all the moves were sent. Emit allMovesSent when the player guessed the planes positions
      * **/
     void allMovesSentSlot();
+
+    void completeLogout();
+    void userDeactivatedSlot();
     
 signals:
     void opponentMoveGenerated(const GuessPoint& gp);
@@ -106,6 +110,7 @@ signals:
     void allMovesSent();
     void logoutCompleted();
     void playersListReceived(const QStringList& playersList);
+    void userDeactivated();
 
 public:
     MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo);
@@ -126,7 +131,6 @@ public:
     virtual bool setComputerPlanes(int plane1_x, int plane1_y, Plane::Orientation plane1_orient, int plane2_x, int plane2_y, Plane::Orientation plane2_orient, int plane3_x, int plane3_y, Plane::Orientation plane3_orient); 
     
     virtual void setRoundCancelled() override;
-    void completeLogout();
     
     //Requests to server
     void createGame(const QString& gameName);
@@ -151,6 +155,7 @@ public:
 
     void testServerVersion();
     void requestLoggedInPlayers();
+    void deactivateUser();
 
 protected:
     MultiplayerRound() {}

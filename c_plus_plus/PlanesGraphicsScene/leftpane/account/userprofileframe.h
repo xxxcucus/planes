@@ -18,6 +18,7 @@ public:
 private slots:
     void loginCompleted();
     void logoutCompleted();
+    void deactivateUser();
 
 private:
     GlobalData* m_GlobalData;

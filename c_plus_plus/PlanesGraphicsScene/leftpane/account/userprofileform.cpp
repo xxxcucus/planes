@@ -19,6 +19,8 @@ UserProfileForm::UserProfileForm(QWidget* parent): QFrame(parent) {
     gridLayout1->addWidget(m_UserNameLabel, 2, 1);
     gridLayout1->addWidget(m_DeactivateUserButton, 3, 1);
     setLayout(gridLayout1);
+
+    connect(m_DeactivateUserButton, &QPushButton::clicked, this, &UserProfileForm::deactivatedClicked);
 }
 
 void UserProfileForm::setUsername(const QString& username) {

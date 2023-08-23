@@ -8,7 +8,7 @@
 #endif
 
 #include "basiscommobj.h"
-#include "viewmodels/gameviewmodel.h"
+#include "viewmodels/deactivateuserviewmodel.h"
 
 class MULTIPLAYER_EXPORT DeactivateUserCommObj : public BasisCommObj {
     Q_OBJECT
@@ -36,3 +36,4 @@ private:
     //TODO: test
 };
 
+#endif

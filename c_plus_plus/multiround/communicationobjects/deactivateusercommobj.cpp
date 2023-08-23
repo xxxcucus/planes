@@ -1,5 +1,7 @@
 #include "deactivateusercommobj.h"
 
+#include <QMessageBox>
+
 bool DeactivateUserCommObj::makeRequest(const QString& username) {
     if (m_IsSinglePlayer) {
         //qDebug() << "makeRequestBasis in single player modus";

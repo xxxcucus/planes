@@ -12,6 +12,9 @@ public:
     UserProfileForm(QWidget *parent = nullptr);
     void setUsername(const QString& username);
 
+signals:
+    void deactivatedClicked();
+
 private:
     QLabel* m_UserNameLabel;
     QLabel* m_UserNameTextLabel;
