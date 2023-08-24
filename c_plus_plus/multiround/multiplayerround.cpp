@@ -50,7 +50,7 @@ MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QWidget* par
     connect(mPlayersListCommObj, &PlayersListCommObj::playersListReceived, this, &MultiplayerRound::playersListReceived);
     m_DeactivateUserCommObj = new DeactivateUserCommObj("/users/deactivate_user", "deactivating users", m_ParentWidget, m_NetworkManager,
     m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
-    connect(m_DeactivateUserCommObj, &DeactivateUserCommObj::userDeactivated, this, &MultiplayerRound::userDeactivated);
+    connect(m_DeactivateUserCommObj, &DeactivateUserCommObj::userDeactivated, this, &MultiplayerRound::userDeactivatedSlot);
     reset();
     initRound();
 }
