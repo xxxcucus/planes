@@ -97,7 +97,7 @@ h1, h2, h3, h4, h5, h6 {
     <h1>Account (Under development)</h1><br>
     <p>For the multiplayer version of the game an user account is required. In order to comply with Google's Policy we offer here the possibility
 	to delete your own user account provided that you submit the account credentials.</p>
-    <form action="https://planes.planes-android.com:8443/planesserver/login" method="post">
+    <form action="https://planes.planes-android.com:8443/planesserver/login/" method="post">
       <p><input class="w3-input w3-padding-16" type="text" id="username" placeholder="Username" required name="Name"></p>
       <p><input class="w3-input w3-padding-16" type="text" id="password" placeholder="Password" required name="People"></p>
       <p><button class="w3-button w3-light-grey w3-section" type="submit" onclick="login()">LOGIN</button></p>
@@ -139,7 +139,7 @@ h1, h2, h3, h4, h5, h6 {
     xhr.onload = () => {
       if (xhr.readyState == 4 && xhr.status == 200) {
           var jsonResponse = JSON.parse(xhr.responseText);
-          xhrDeactivate.open("POST", "https://planes.planes-android.com:8443/planesserver/users/deactivate_user");
+          xhrDeactivate.open("POST", "https://planes.planes-android.com:8443/planesserver/users/deactivate_user/");
           xhrDeactivate.setRequestHeader("Content-Type", "application/fhir+json");
           xhrDeactivate.setRequestHeader("Authorization", jsonResponse.token);
           const bodyDeactivate = JSON.stringify({
