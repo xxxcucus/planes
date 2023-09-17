@@ -127,11 +127,11 @@ h1, h2, h3, h4, h5, h6 {
     });
 
     const xhrDeactivate = new XMLHttpRequest();
-   xhrDeactivate.onload = () => {
+    xhrDeactivate.onload = () => {
       if (xhrDeactivate.readyState == 4 && xhrDeactivate.status == 200) {
-        console.log(`User ${myUsername} deleted)`);
+        window.alert("User " + myUsername + "was deleted");
       } else {
-        console.log(`Error: ${xhrDeactivate.status}`);
+        window.alert("Error when deleting user: " + xhrDeactivate.status);
       }
     }
 
@@ -147,7 +147,7 @@ h1, h2, h3, h4, h5, h6 {
           });
           xhrDeactivate.send(bodyDeactivate);
       } else {
-        console.log(`Error: ${xhr.status}`);
+        window.alert("Error when deleting user: " + xhr.status);
       }
     };
    
