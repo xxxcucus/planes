@@ -99,7 +99,7 @@ h1, h2, h3, h4, h5, h6 {
 	to delete your own user account provided that you submit the account credentials.</p>
     <form onsubmit="return false;" method="post">
       <p><input class="w3-input w3-padding-16" type="text" id="username" placeholder="Username" required name="username"></p>
-      <p><input class="w3-input w3-padding-16" type="text" id="password" placeholder="Password" required name="password"></p>
+      <p><input class="w3-input w3-padding-16" type="password" id="password" placeholder="Password" required name="password"></p>
       <p><button class="w3-button w3-light-grey w3-section" type="submit" onclick="login()">DELETE ACCOUNT</button></p>
     </form>
   </div>
@@ -131,7 +131,7 @@ h1, h2, h3, h4, h5, h6 {
       if (xhrDeactivate.readyState == 4 && xhrDeactivate.status == 200) {
         window.alert("User " + myUsername + "was deleted");
       } else {
-        window.alert("Error when deleting user: " + xhrDeactivate.status);
+        window.alert("Error when deleting user(" + xhrDeactivate.status + "): user does not exist or credentials are not correct");
       }
     }
 
@@ -147,7 +147,7 @@ h1, h2, h3, h4, h5, h6 {
           });
           xhrDeactivate.send(bodyDeactivate);
       } else {
-        window.alert("Error when deleting user: " + xhr.status);
+        window.alert("Error when deleting user:(" + xhr.status + "): user does not exist or credentials are not correct");
       }
     };
    
