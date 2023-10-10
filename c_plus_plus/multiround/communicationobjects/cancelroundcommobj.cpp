@@ -42,6 +42,8 @@ bool CancelRoundCommObj::validateReply(const QJsonObject& reply) {
 
 CancelRoundViewModel CancelRoundCommObj::prepareViewModel() {
     CancelRoundViewModel cancelRoundData;
+    cancelRoundData.m_UserId = m_GlobalData->m_UserData.m_UserId;
+    cancelRoundData.m_Username = m_GlobalData->m_UserData.m_UserName;
     cancelRoundData.m_RoundId = m_GlobalData->m_GameData.m_RoundId;
     cancelRoundData.m_GameId = m_GlobalData->m_GameData.m_GameId;
     return cancelRoundData;

@@ -25,7 +25,8 @@ bool DeactivateUserCommObj::makeRequest(const QString& username) {
 
 DeactivateUserViewModel DeactivateUserCommObj::prepareViewModel(const QString& username) {
     DeactivateUserViewModel requestViewModel;
-    requestViewModel.m_UserName = username;
+    requestViewModel.m_Username = m_GlobalData->m_UserData.m_UserName;
+    requestViewModel.m_UserId = m_GlobalData->m_UserData.m_UserId;
     return requestViewModel;
 }
 

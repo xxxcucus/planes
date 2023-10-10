@@ -25,7 +25,8 @@ bool LogoutCommObj::makeRequest(const QString& username) {
 
 LogoutViewModel LogoutCommObj::prepareViewModel(const QString& username) {
     LogoutViewModel logoutData;
-    logoutData.m_UserName = username;
+    logoutData.m_Username = m_GlobalData->m_UserData.m_UserName;
+    logoutData.m_UserId = m_GlobalData->m_UserData.m_UserId;
     return logoutData;
 }
 

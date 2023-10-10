@@ -38,7 +38,7 @@ void SendMoveCommObjTest::PrepareViewModelTest()
 
     QVERIFY2(viewModel.m_GameId == 1L, "GameId was not set");
     QVERIFY2(viewModel.m_RoundId == 2L, "RoundId was not set");
-    QVERIFY2(viewModel.m_OwnUserId == 3L, "USerId was not set");
+    QVERIFY2(viewModel.m_UserId == 3L, "USerId was not set");
     QVERIFY2(viewModel.m_OpponentUserId == 4L, "OpponentUserId was not set");
     QVERIFY2(viewModel.m_OpponentMoveIndex == 4, "OpponentMoveIndex was not set");
     QVERIFY2(viewModel.m_NotReceivedMoveIndex[0] == 1, "NotReceivedMoveIndex was not set");

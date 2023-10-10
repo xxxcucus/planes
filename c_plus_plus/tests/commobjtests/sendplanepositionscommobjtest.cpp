@@ -41,7 +41,7 @@ void SendPlanePositionsCommObjTest::PrepareViewModelTest()
     
     QVERIFY2(viewModel.m_GameId == 1L, "GameId was not set");
     QVERIFY2(viewModel.m_RoundId == 2L, "RoundId was not set");
-    QVERIFY2(viewModel.m_OwnUserId == 3L, "USerId was not set");
+    QVERIFY2(viewModel.m_UserId == 3L, "USerId was not set");
     QVERIFY2(viewModel.m_OpponentUserId == 4L, "OpponentUserId was not set");
 
     QVERIFY2(viewModel.m_Plane1X == 2, "Plane1X was not set");

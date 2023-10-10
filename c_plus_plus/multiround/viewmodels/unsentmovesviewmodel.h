@@ -6,6 +6,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+#include "basisrequestviewmodel.h"
+
 struct SingleMoveViewModel {
   int m_MoveX;
   int m_MoveY;
@@ -21,20 +23,18 @@ struct SingleMoveViewModel {
 };
 
 
-struct UnsentMovesViewModel {
+struct UnsentMovesViewModel : public BasisRequestViewModel {
     long int m_GameId;
     long int m_RoundId;
-    long int m_OwnUserId;
     long int m_OpponentUserId;
     std::vector<SingleMoveViewModel> m_NotSentMovesIndex;
     int m_OpponentMoveIndex;
     std::vector<int> m_NotReceivedMoveIndex;
     
     QJsonObject toJson() {
-        QJsonObject retVal;
+        QJsonObject retVal = BasisRequestViewModel::toJson();
         retVal.insert("gameId", QString::number(m_GameId));
         retVal.insert("roundId", QString::number(m_RoundId));
-        retVal.insert("ownUserId", QString::number(m_OwnUserId));
         retVal.insert("opponentUserId", QString::number(m_OpponentUserId));
         retVal.insert("opponentMoveIndex", m_OpponentMoveIndex);
         

@@ -49,7 +49,8 @@ UnsentMovesViewModel SendMoveCommObj::prepareViewModel(int maxReceivedIndex, con
     UnsentMovesViewModel newMoveData;
     newMoveData.m_GameId = m_GlobalData->m_GameData.m_GameId;
     newMoveData.m_RoundId = m_GlobalData->m_GameData.m_RoundId;
-    newMoveData.m_OwnUserId = m_GlobalData->m_GameData.m_UserId;
+    newMoveData.m_UserId = m_GlobalData->m_GameData.m_UserId;
+    newMoveData.m_Username = m_GlobalData->m_UserData.m_UserName;
     newMoveData.m_OpponentUserId = m_GlobalData->m_GameData.m_OtherUserId;
 
     newMoveData.m_OpponentMoveIndex = maxReceivedIndex;

@@ -4,16 +4,14 @@
 #include <QJsonObject>
 #include <QString>
 #include <QDebug>
+#include "basisrequestviewmodel.h"
 
 
-struct DeactivateUserViewModel {
-    QString m_UserName;
+struct DeactivateUserViewModel: public BasisRequestViewModel {
 
     public:
     QJsonObject toJson() {
-        QJsonObject retVal;
-        retVal.insert("username", m_UserName);
-        return retVal;
+        return BasisRequestViewModel::toJson();
     }
 
 };

@@ -28,6 +28,8 @@ bool SendWinnerCommObj::makeRequest(bool draw, long int winnerId)
 
 SendWinnerViewModel SendWinnerCommObj::prepareViewModel(bool draw, long int winnerId) {
     SendWinnerViewModel sendWinnerData;
+    sendWinnerData.m_UserId = m_GlobalData->m_GameData.m_UserId;
+    sendWinnerData.m_Username = m_GlobalData->m_UserData.m_UserName;
     sendWinnerData.m_GameId = m_GlobalData->m_GameData.m_GameId;
     sendWinnerData.m_RoundId = m_GlobalData->m_GameData.m_RoundId;
     sendWinnerData.m_Draw = draw;

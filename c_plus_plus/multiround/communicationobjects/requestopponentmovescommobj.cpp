@@ -31,9 +31,10 @@ GetOpponentsMovesViewModel RequestOpponentMovesCommObj::prepareViewModel(int opp
     GetOpponentsMovesViewModel opponentViewModel;
     opponentViewModel.m_GameId = m_GlobalData->m_GameData.m_GameId;
     opponentViewModel.m_RoundId = m_GlobalData->m_GameData.m_RoundId;
-    opponentViewModel.m_OwnUserId = m_GlobalData->m_GameData.m_UserId;
+    opponentViewModel.m_UserId = m_GlobalData->m_GameData.m_UserId;
     opponentViewModel.m_OpponentUserId = m_GlobalData->m_GameData.m_OtherUserId;
     opponentViewModel.m_MoveIndex = opponentMoveIndex;
+    opponentViewModel.m_Username = m_GlobalData->m_UserData.m_UserName;
 
     return opponentViewModel;
 }

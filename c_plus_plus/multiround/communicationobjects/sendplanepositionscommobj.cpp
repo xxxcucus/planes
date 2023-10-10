@@ -30,8 +30,9 @@ PlanesPositionsViewModel SendPlanePositionsCommObj::prepareViewModel() {
     PlanesPositionsViewModel planesPositionsData;
     planesPositionsData.m_GameId = m_GlobalData->m_GameData.m_GameId;
     planesPositionsData.m_RoundId = m_GlobalData->m_GameData.m_RoundId;
-    planesPositionsData.m_OwnUserId = m_GlobalData->m_UserData.m_UserId;
+    planesPositionsData.m_UserId = m_GlobalData->m_UserData.m_UserId;
     planesPositionsData.m_OpponentUserId = m_GlobalData->m_GameData.m_OtherUserId;
+    planesPositionsData.m_Username = m_GlobalData->m_UserData.m_UserName;
 
     Plane pl1;
     Plane pl2;

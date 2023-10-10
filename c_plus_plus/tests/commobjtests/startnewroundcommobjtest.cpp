@@ -35,7 +35,7 @@ void StartNewRoundCommObjTest::PrepareViewModelTest()
     StartNewRoundViewModel viewModel = m_CommObj.prepareViewModel();
     
     QVERIFY2(viewModel.m_GameId == 1L, "GameId was not set to zero");
-    QVERIFY2(viewModel.m_OwnUserId == 2L, "UserId was not set to zero");
+    QVERIFY2(viewModel.m_UserId == 2L, "UserId was not set to zero");
     QVERIFY2(viewModel.m_OpponentUserId == 3L, "OpponentUserId was not set to zero");
 }
 

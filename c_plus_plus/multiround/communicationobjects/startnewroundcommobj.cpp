@@ -29,7 +29,8 @@ bool StartNewRoundCommObj::makeRequest()
 StartNewRoundViewModel StartNewRoundCommObj::prepareViewModel() {
     StartNewRoundViewModel startNewRoundData;
     startNewRoundData.m_GameId = m_GlobalData->m_GameData.m_GameId;
-    startNewRoundData.m_OwnUserId = m_GlobalData->m_GameData.m_UserId;
+    startNewRoundData.m_UserId = m_GlobalData->m_GameData.m_UserId;
+    startNewRoundData.m_Username = m_GlobalData->m_UserData.m_UserName;
     startNewRoundData.m_OpponentUserId = m_GlobalData->m_GameData.m_OtherUserId;
     return startNewRoundData;
 }

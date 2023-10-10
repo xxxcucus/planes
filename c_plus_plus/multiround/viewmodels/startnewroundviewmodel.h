@@ -4,17 +4,16 @@
 
 #include <QString>
 #include <QJsonObject>
+#include "basisrequestviewmodel.h"
 
 
-struct StartNewRoundViewModel {
+struct StartNewRoundViewModel : public BasisRequestViewModel {
     long int m_GameId;
-    long int m_OwnUserId;
     long int m_OpponentUserId;
     
     QJsonObject toJson() {
-        QJsonObject retVal;
+        QJsonObject retVal = BasisRequestViewModel::toJson();
         retVal.insert("gameId", QString::number(m_GameId));
-        retVal.insert("ownUserId", QString::number(m_OwnUserId));
         retVal.insert("opponentUserId", QString::number(m_OpponentUserId));
         return retVal;
     }
