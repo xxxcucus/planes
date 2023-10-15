@@ -4,6 +4,7 @@
 #include <QJsonArray>
 #include <QMessageBox>
 
+
 bool PlayersListCommObj::makeRequest() {
     if (m_IsSinglePlayer) {
         //qDebug() << "makeRequestBasis in single player modus";
@@ -19,7 +20,7 @@ bool PlayersListCommObj::makeRequest() {
         return false;
     }
 
-    m_RequestData = QJsonObject();
+    m_RequestData = prepareViewModel().toJson();
 
     makeRequestBasis(true);
     return true;
@@ -52,4 +53,11 @@ void PlayersListCommObj::processResponse(const QJsonObject& retJson) {
     }
 
     emit playersListReceived(playersList);
+}
+
+BasisRequestViewModel PlayersListCommObj::prepareViewModel() {
+    BasisRequestViewModel viewModel;
+    viewModel.m_UserId = m_GlobalData->m_UserData.m_UserId;
+    viewModel.m_Username = m_GlobalData->m_UserData.m_UserName;
+    return viewModel;
 }

@@ -8,6 +8,7 @@
 #endif
 
 #include "basiscommobj.h"
+#include "viewmodels/basisrequestviewmodel.h"
 
 class  MULTIPLAYER_EXPORT PlayersListCommObj : public BasisCommObj {
     Q_OBJECT
@@ -30,6 +31,7 @@ signals:
 
 private:
     void processResponse(const QJsonObject& retJson);
+    BasisRequestViewModel prepareViewModel();
 };
 
 //TODO:test

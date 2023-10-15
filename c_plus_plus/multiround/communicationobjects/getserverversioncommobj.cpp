@@ -4,7 +4,7 @@
 #include <QJsonObject>
 #include <QApplication>
 
-QString knownServerVersion = "0.1.0";
+QString knownServerVersion = "0.1.2";
 
 bool GetServerVersionCommObj::makeRequest()
 { 
