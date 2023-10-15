@@ -3,12 +3,13 @@
 
 #include "multiplayerround.h"
 #include <QListWidget>
+#include "global/globaldata.h"
 
 class PlayersListWidget: public QWidget {
     Q_OBJECT
 
 public:
-    PlayersListWidget(MultiplayerRound* mrd, QWidget *parent = 0);
+    PlayersListWidget(GlobalData* globalData, MultiplayerRound* mrd, QWidget *parent = 0);
     void setActive(bool active);
 
 private slots:
@@ -19,6 +20,7 @@ private:
 
 private:
     MultiplayerRound* m_MultiplayerRound = nullptr;
+    GlobalData* m_GlobalData = nullptr;
     QListWidget* m_PlayersListWidget = nullptr;
     QTimer* m_RefreshPlayersListTimer = nullptr;
 

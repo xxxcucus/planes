@@ -1,8 +1,8 @@
 #include "playerslistwidget.h"
 #include <QVBoxLayout>
 
-PlayersListWidget::PlayersListWidget(MultiplayerRound* mrd, QWidget *parent):
-    QWidget(parent), m_MultiplayerRound(mrd) {
+PlayersListWidget::PlayersListWidget(GlobalData* globalData, MultiplayerRound* mrd, QWidget *parent):
+    QWidget(parent), m_GlobalData(globalData), m_MultiplayerRound(mrd) {
 
     QVBoxLayout* vLayout = new QVBoxLayout();
 
@@ -23,7 +23,8 @@ void PlayersListWidget::updatePlayers(const QStringList& players) {
     }
 
     for (QString player: players) {
-        m_PlayersListWidget->addItem(player);
+        if (player != m_GlobalData->m_UserData.m_UserName)
+            m_PlayersListWidget->addItem(player);
     }
 }
 

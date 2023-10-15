@@ -21,7 +21,7 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     m_StartNewRoundWidget = new StartNewRoundWidget(m_GameInfo);
     m_MainAccountWidget = new MainAccountWidget(m_Settings, m_GlobalData, m_NetworkManager, m_GameInfo, m_MultiRound);
     m_GameWidget = new GameWidget(m_GlobalData, m_MultiRound);
-    m_PlayersListWidget = new PlayersListWidget(m_MultiRound);
+    m_PlayersListWidget = new PlayersListWidget(m_GlobalData, m_MultiRound);
     m_UserProfileFrame = new UserProfileFrame(m_GlobalData, m_MultiRound);
 
     connect(m_MainAccountWidget, &MainAccountWidget::toGameCreationClicked, this, &LeftPane::activateGameWidget);
