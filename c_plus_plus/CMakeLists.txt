@@ -7,7 +7,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 
-find_package(Qt6 COMPONENTS Core Widgets Quick Network Test)
+find_package(Qt6 COMPONENTS Core Widgets Quick Network Test WebSockets)
 
 option(With_Asan "Compile with Address Sanitizer support" OFF)
 
@@ -26,9 +26,10 @@ add_subdirectory(PlanesQML)
 add_subdirectory(singleround)
 add_subdirectory(multiround)
 add_subdirectory(bcrypt)
+add_subdirectory(stomp)
 add_subdirectory(tests/commobjtests)
 add_subdirectory(tests/singleroundtests)
-
+add_subdirectory(tests/stomptests)
 
 set(ROOT_PATH ${Qt6_DIR}/../../../)
 
