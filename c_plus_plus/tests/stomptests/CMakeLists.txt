@@ -15,10 +15,12 @@ include_directories(
 
 set(TEST_HEADR 
 	stompframetest.h
+	stompframeparsertest.h
 )
 
 set(TEST_SRCS 
 	stompframetest.cpp
+	stompframeparsertest.cpp
 	main.cpp)
 
 enable_testing(true)

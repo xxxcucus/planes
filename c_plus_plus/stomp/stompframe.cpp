@@ -12,6 +12,18 @@ bool StompFrame::setCommand(HeaderTypes command) {
     return true;
 }
 
+bool StompFrame::setCommand(const QString& command) {
+    m_Command = convertCommandFromString(command);
+    m_CommandString = command;
+    QByteArray convertedArray = convertCommandToQByteArray(m_Command);
+    m_CommandBA = convertedArray;
+
+    if (convertedArray == QByteArray(1, 0))
+        return false;
+
+    return true;
+}
+
 QString StompFrame::convertCommandToQString(HeaderTypes command) const {
     switch(command) {
         case HeaderTypes::CONNECT:
@@ -99,23 +111,27 @@ StompFrame::HeaderTypes StompFrame::convertCommandFromString(const QString& stri
         retVal = HeaderTypes::ERROR;
     else
         retVal = HeaderTypes::UNKNOWN;
-
-    //check that the original command was really what was converted
-    QByteArray convertedRetVal = convertCommandToQByteArray(retVal);
-
-    if (convertedRetVal == m_CommandBA)
-        return retVal;
-
-    return HeaderTypes::UNKNOWN;
+    return retVal;
 }
 
 bool StompFrame::addHeader(const QString& key, const QString& value) {
     //escape the strings and create headers as QString
-
     assert(m_HeadersBA.size() == m_ValuesBA.size());
     assert(m_HeadersString.size() == m_ValuesString.size());
     QByteArray baKey = escapeSpecialSymbols(key.toUtf8());
     QByteArray baValue = escapeSpecialSymbols(value.toUtf8());
+    m_HeadersBA.push_back(baKey);
+    m_ValuesBA.push_back(baValue);
+    m_HeadersString.push_back(QString(baKey));
+    m_ValuesString.push_back(QString(baValue));
+    return true;
+}
+
+bool StompFrame::addHeader(const QByteArray& key, const QByteArray& value) {
+    assert(m_HeadersBA.size() == m_ValuesBA.size());
+    assert(m_HeadersString.size() == m_ValuesString.size());
+    QByteArray baKey = escapeSpecialSymbols(key);
+    QByteArray baValue = escapeSpecialSymbols(value);
     m_HeadersBA.push_back(baKey);
     m_ValuesBA.push_back(baValue);
     m_HeadersString.push_back(QString(baKey));
@@ -148,50 +164,6 @@ QByteArray StompFrame::escapeSpecialSymbols(const QByteArray& ba) {
 
     return retVal;
 }
-
-
-std::pair<bool, QByteArray> StompFrame::unescapeSpecialSymbols(const QByteArray& ba) {
-    QByteArray::const_iterator it = ba.begin();
-    QByteArray retVal;
-
-    bool found92 = false;
-    while (it != ba.end()) {
-        if (*it == 92) {
-            if (found92) {
-                retVal.append(92);
-                found92 = false;
-            } else {
-                found92 = true;
-            }
-        } else if (*it == 110) {
-            if (found92)
-                retVal.append(10);
-            else
-                retVal.append(110);
-            found92 = false;
-        } else if (*it == 114) {
-            if (found92)
-                retVal.append(13);
-            else
-                retVal.append(114);
-            found92 = false;
-        } else if (*it == 99) {
-            if (found92)
-                retVal.append(58);
-            else
-                retVal.append(99);
-            found92 = false;
-        } else {
-            if (found92)
-                return std::make_pair(false, QByteArray(1, 0));
-            retVal.append(*it);
-        }
-        it++;
-    }
-
-    return std::make_pair(true, retVal);
-}
-
 
 std::tuple<bool, QString, QString> StompFrame::getHeader(int i) const {
     if (i < 0 || i >= m_HeadersBA.size() || i >= m_ValuesBA.size())
@@ -244,7 +216,7 @@ QByteArray StompFrame::convertToByteArray() {
 
 
 bool StompFrame::addTextBody(const QString& body) {
-    if (body.size() == 0)
+    if (body.isEmpty())
         return true;
 
     if (m_BodyBA.size() > 0)
@@ -264,3 +236,15 @@ bool StompFrame::addByteArrayBody(const QByteArray& body) {
     return true;
 }
 
+QStringList StompFrame::getCommandQStringList() {
+    if(!m_CommandTypeStringList.isEmpty())
+        return m_CommandTypeStringList;
+    for (auto headerType : m_HeaderTypesList) {
+        m_CommandTypeStringList.push_back(convertCommandToQString(headerType));
+    }
+    return m_CommandTypeStringList;
+}
+
+QString StompFrame::getTextBody() const {
+    return m_BodyString;
+}

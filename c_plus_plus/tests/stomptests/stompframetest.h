@@ -14,12 +14,6 @@ private slots:
     void escapeSpecialSymbolsTestCarriageReturn();
     void escapeSpecialSymbolsTestLineFeed();
     void escapeSpecialSymbolsTestWorks();
-    void unescapeSpecialSymbolsTestColon();
-    void unescapeSpecialSymbolsTestSlash();
-    void unescapeSpecialSymbolsTestCarriageReturn();
-    void unescapeSpecialSymbolsTestLineFeed();
-    void unescapeSpecialSymbolsTestWorks();
-    void unescapeSpecialSymbolsTestIllegalSymbols();
     void cleanupTestCase();
 };
 

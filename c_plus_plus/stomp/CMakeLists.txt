@@ -15,12 +15,14 @@ set(STOMP_HEADR
 	stompframe.h
 	stompclient.h
 	stompframecreator.h
+	stompframeparser.h
 	)
 
 set(STOMP_SRCS 	
 	stompframe.cpp
 	stompclient.cpp
 	stompframecreator.cpp
+	stompframeparser.cpp
 	)
 
 

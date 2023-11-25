@@ -19,6 +19,7 @@ public:
 
 signals:
     void clientConnected();
+    void stompMessageReceived(const QString& message);
 
 private slots:
     void socketConnected();

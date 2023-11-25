@@ -1,4 +1,8 @@
 #include "stompclient.h"
+#include "stompframeparser.h"
+#include "stompframe.h"
+
+#include <memory>
 
 StompClient::StompClient() {
     QObject::connect(&m_Socket, &QWebSocket::connected,  this, &StompClient::socketConnected);
@@ -28,8 +32,6 @@ void StompClient::setUrl(const QString& url) {
 
 void StompClient::socketConnected() {
     qDebug() << "Connected to socket";
-    qDebug() << "Socket version " << m_Socket.version();
-    qDebug() << "Max incoming message size " << QWebSocket::maxIncomingMessageSize();
     emit clientConnected();
 }
 
@@ -65,6 +67,13 @@ void StompClient::binaryMessageReceived(const QByteArray& ba) {
 
 void StompClient::textMessageReceived(const QString& message) {
     qDebug() << "Received stomp text message " << message;
+    StompFrameParser parser;
+
+    bool error = true;
+    std::shared_ptr<StompFrame> stompFrame = parser.parseFromTextMessage(message, error);
+    if (error && stompFrame->getCommand() == StompFrame::HeaderTypes::MESSAGE) {
+        emit stompMessageReceived(stompFrame->getTextBody());
+    }
 }
 
 void StompClient::textFrameReceived(const QString &frame, bool isLastFrame) {

@@ -49,7 +49,7 @@ std::shared_ptr<StompFrame> StompFrameCreator::createSendTextFrame(const QString
     auto stompFrame = std::make_shared<StompFrame>();
     stompFrame->setCommand(StompFrame::HeaderTypes::SEND);
     stompFrame->addHeader("destination", destination);
-    stompFrame->addHeader("content-type", "application/json");
+    stompFrame->addHeader("content-type", QString("application/json"));
     stompFrame->addTextBody(message);
     return stompFrame;
 }

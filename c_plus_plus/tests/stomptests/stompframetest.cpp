@@ -2,6 +2,7 @@
 
 #include <QTest>
 #include "stompframe.h"
+#include "stompframeparser.h"
 
 void StompFrameTest::initTestCase()
 {
@@ -55,53 +56,6 @@ void StompFrameTest::escapeSpecialSymbolsTestWorks() {
     QVERIFY2(QString(ba) == "testtest", errorMsg.toUtf8().data());
 }
 
-void StompFrameTest::unescapeSpecialSymbolsTestColon() {
-    StompFrame frame;
-    auto res = frame.unescapeSpecialSymbols("test\\ctest");
-    QVERIFY2(res.first, "Decoding of : failed");
-    QString errorMsg = QString("Decoding of : failed ") + QString(res.second);
-    QVERIFY2(QString(res.second) == "test:test", errorMsg.toUtf8().data());
-}
-
-void StompFrameTest::unescapeSpecialSymbolsTestSlash() {
-    StompFrame frame;
-    auto res = frame.unescapeSpecialSymbols("test\\\\test");
-    QVERIFY2(res.first, "Decoding of \\ failed ");
-    QString errorMsg = QString("Decoding of \\ failed ") + QString(res.second);
-    QVERIFY2(QString(res.second) == "test\\test", errorMsg.toUtf8().data());
-}
-
-void StompFrameTest::unescapeSpecialSymbolsTestCarriageReturn() {
-    StompFrame frame;
-    auto res = frame.unescapeSpecialSymbols("test\\rtest");
-    QVERIFY2(res.first, "Decoding of \\r failed ");
-    QString errorMsg = QString("Decoding of \\r failed ") + QString(res.second);
-    QVERIFY2(QString(res.second) == "test\rtest", errorMsg.toUtf8().data());
-}
-
-void StompFrameTest::unescapeSpecialSymbolsTestLineFeed() {
-    StompFrame frame;
-    auto res = frame.unescapeSpecialSymbols("test\\ntest");
-    QVERIFY2(res.first, "Decoding of \\n failed");
-    QString errorMsg = QString("Decoding of \\n failed ") + QString(res.second);
-    QVERIFY2(QString(res.second) == "test\ntest", errorMsg.toUtf8().data());
-}
-
-void StompFrameTest::unescapeSpecialSymbolsTestWorks() {
-    StompFrame frame;
-    auto res = frame.unescapeSpecialSymbols("testtest");
-    QVERIFY2(res.first, "Decoding of testtest failed");
-    QString errorMsg = QString("Decoding of test failed ") + QString(res.second);
-    QVERIFY2(QString(res.second) == "testtest", errorMsg.toUtf8().data());
-}
-
-void StompFrameTest::unescapeSpecialSymbolsTestIllegalSymbols() {
-    StompFrame frame;
-    auto res = frame.unescapeSpecialSymbols("test\\ftest");
-    QVERIFY2(!res.first, "Illegal symbol not recognized");
-}
-
-void StompFrameTest::cleanupTestCase()
-{
+void StompFrameTest::cleanupTestCase() {
     qDebug("StompFrameTest ends ..");
 }
