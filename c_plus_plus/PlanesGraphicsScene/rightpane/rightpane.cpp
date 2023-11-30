@@ -43,27 +43,25 @@ RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings,
 	
 
 	OptionsWindow* optionsWindow = new OptionsWindow(m_PlaneRound, m_Settings, m_GameInfo);
-    //AccountWidget* accountWidget = new AccountWidget(m_Settings, m_GlobalData, m_NetworkManager, m_GameInfo, m_MultiRound);
-    //GameWidget* gameWidget = new GameWidget(m_GlobalData, m_GameInfo, m_NetworkManager, m_Settings, m_MultiRound);
+    m_ChatWidget = new ChatWidget(m_GlobalData, m_MultiRound);
 
     m_OwnBoardIndex = addTab(m_PlayerBoard->getView(), "Player Board");
     m_OpponentBoardIndex = addTab(m_ComputerBoard->getView(), m_GameInfo->getSinglePlayer() ? "Computer Board" : "Opponent Board");
-	addTab(optionsWindow, "Options");
-    //m_AccountWidgetIndex = addTab(accountWidget, "Account");
-    //m_GameWidgetIndex = addTab(gameWidget, "Game");
-    /*if (m_GameInfo->getSinglePlayer()) {
-        setTabEnabled(m_AccountWidgetIndex, false);
-        setTabEnabled(m_GameWidgetIndex, false);
-    }*/
-    addTab(helpWidget, "Help");
-    addTab(aboutWidget, "About");
+	m_ChatWidgetIndex = addTab(m_ChatWidget, "Chat");
+    m_OptionsIndex = addTab(optionsWindow, "Options");
+    m_HelpIndex = addTab(helpWidget, "Help");
+    m_AboutIndex = addTab(aboutWidget, "About");
 
-    connect(m_PlayerBoard, SIGNAL(planePositionNotValid(bool)), this, SIGNAL(planePositionNotValid(bool)));
-    connect(m_ComputerBoard, SIGNAL(guessMade(const GuessPoint&)), this, SIGNAL(guessMade(const GuessPoint&)));
+    connect(m_PlayerBoard, &PlayerBoard::planePositionNotValid, this, &RightPane::planePositionNotValid);
+    connect(m_ComputerBoard, &ComputerBoard::guessMade, this, &RightPane::guessMade);
     connect(m_MultiRound, &MultiplayerRound::gameConnectedTo, this, &RightPane::gameConnectedToSlot);
     connect(m_MultiRound, &MultiplayerRound::refreshStatus, this, &RightPane::multiplayerRoundReset);
-    connect(m_MultiRound, SIGNAL(roundWasCancelled()), this, SLOT(roundWasCancelledSlot()));
+    connect(m_MultiRound, &MultiplayerRound::roundWasCancelled, this, &RightPane::roundWasCancelledSlot);
     connect(m_MultiRound, &MultiplayerRound::winnerSent, this, &RightPane::endRound);
+
+    connect(m_MultiRound, &MultiplayerRound::loginCompleted, this, &RightPane::loginCompleted);
+    connect(m_MultiRound, &MultiplayerRound::logoutCompleted, this, &RightPane::logoutCompleted);
+    connect(m_MultiRound, &MultiplayerRound::userDeactivated, this, &RightPane::logoutCompleted);
 }
 
 RightPane::~RightPane()
@@ -161,4 +159,14 @@ void RightPane::multiplayerRoundReset(bool exists, const QString& gameName, cons
 void RightPane::roundWasCancelledSlot() {
     m_PlayerBoard->setGameStage(GenericBoard::GameStages::GameNotStarted); //to deactivate guessing
     m_ComputerBoard->setGameStage(GenericBoard::GameStages::GameNotStarted);
+}
+
+void RightPane::loginCompleted() {
+    setTabEnabled(m_ChatWidgetIndex, true);
+    m_ChatWidget->setActive(true);
+}
+
+void RightPane::logoutCompleted() {
+    setTabEnabled(m_ChatWidgetIndex, false);
+    m_ChatWidget->setActive(false);
 }

@@ -8,7 +8,7 @@
 #include "viewmodels/planespositionsviewmodel.h"
 #include "viewmodels/getopponentplanespositionsviewmodel.h"
 #include "communicationtools.h"
-#include <global/globalgamedata.h>
+#include "global/globalgamedata.h"
 #include "viewmodels/getopponentemovesviewmodel.h"
 #include "viewmodels/cancelroundviewmodel.h"
 #include "viewmodels/startnewroundviewmodel.h"
@@ -21,7 +21,6 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     m_StartNewRoundWidget = new StartNewRoundWidget(m_GameInfo);
     m_MainAccountWidget = new MainAccountWidget(m_Settings, m_GlobalData, m_NetworkManager, m_GameInfo, m_MultiRound);
     m_GameWidget = new GameWidget(m_GlobalData, m_MultiRound);
-    m_PlayersListWidget = new PlayersListWidget(m_GlobalData, m_MultiRound);
     m_UserProfileFrame = new UserProfileFrame(m_GlobalData, m_MultiRound);
 
     connect(m_MainAccountWidget, &MainAccountWidget::toGameCreationClicked, this, &LeftPane::activateGameWidget);
@@ -55,14 +54,11 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     if (!m_GameInfo->getSinglePlayer()) {
         m_MainAccountWidgetIndex = addTab(m_MainAccountWidget, "Login");
         m_GameWidgetIndex = addTab(m_GameWidget, "ConnectToGame");
-        m_PlayersListIndex = addTab(m_PlayersListWidget, "Online players");
     }
     m_GameTabIndex = addTab(m_PlayRoundWidget, "Round");
     m_EditorTabIndex = addTab(m_BoardEditingWidget, "BoardEditing");
     m_GameStartIndex = addTab(m_StartNewRoundWidget, "Start Round");
     m_UserProfileFrameIndex = addTab(m_UserProfileFrame, "User Info");
-    setTabEnabled(m_PlayersListIndex, false);
-    m_PlayersListWidget->setActive(false);
 
     if (!m_GameInfo->getSinglePlayer())
         activateAccountWidget();
@@ -74,10 +70,6 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     
     m_AcquireOpponentMovesTimer = new QTimer(this);
     connect(m_AcquireOpponentMovesTimer, &QTimer::timeout, this, &LeftPane::acquireOpponentMovesTimeoutSlot);
-
-    connect(m_MultiRound, &MultiplayerRound::loginCompleted, this, &LeftPane::loginCompleted);
-    connect(m_MultiRound, &MultiplayerRound::logoutCompleted, this, &LeftPane::logoutCompleted);
-    connect(m_MultiRound, &MultiplayerRound::userDeactivated, this, &LeftPane::logoutCompleted);
 }
 
 void LeftPane::activateDoneButton(bool planesOverlap)
@@ -347,13 +339,3 @@ void LeftPane::acquireOpponentMovesSlot()
     m_AcquireOpponentMovesTimer->start(5000);
 }
 
-void LeftPane::loginCompleted() {
-    setTabEnabled(m_PlayersListIndex, true);
-    m_PlayersListWidget->setActive(true);
-}
-
-void LeftPane::logoutCompleted() {
-    setTabEnabled(m_PlayersListIndex, false);
-    m_PlayersListWidget->setActive(false);
-
-}

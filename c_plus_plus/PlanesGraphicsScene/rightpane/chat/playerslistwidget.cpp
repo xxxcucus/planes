@@ -14,7 +14,6 @@ PlayersListWidget::PlayersListWidget(GlobalData* globalData, MultiplayerRound* m
     m_RefreshPlayersListTimer = new QTimer(this);
     connect(m_MultiplayerRound, &MultiplayerRound::playersListReceived, this, &PlayersListWidget::updatePlayers);
     connect(m_RefreshPlayersListTimer, &QTimer::timeout, this, &PlayersListWidget::sendPlayersRequest);
-
 }
 
 void PlayersListWidget::updatePlayers(const QStringList& players) {

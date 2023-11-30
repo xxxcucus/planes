@@ -11,6 +11,7 @@
 #include "global/globaldata.h"
 #include "gameinfo.h"
 #include "multiplayerround.h"
+#include "chat/chatwidget.h"
 
 class RightPane : public QTabWidget
 {
@@ -53,7 +54,8 @@ public slots:
     void gameConnectedToSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
     
     void roundWasCancelledSlot();
-    
+    void loginCompleted();
+    void logoutCompleted();
     
 signals:
     void planePositionNotValid(bool);
@@ -68,11 +70,14 @@ private:
     GlobalData* m_GlobalData;
     QNetworkAccessManager* m_NetworkManager;
     GameInfo* m_GameInfo;
+    ChatWidget* m_ChatWidget;
     
     int m_OwnBoardIndex = 0;
     int m_OpponentBoardIndex = 0;
-    int m_AccountWidgetIndex = 0;
-    int m_GameWidgetIndex = 0;
+    int m_OptionsIndex = 0;
+    int m_HelpIndex = 0;
+    int m_AboutIndex = 0;
+    int m_ChatWidgetIndex = 0;
 
 };
 

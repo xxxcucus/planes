@@ -12,10 +12,6 @@ include_directories(
 	${Qt6Widgets_INCLUDE_DIRS}
 	${Qt6Core_INCLUDE_DIRS})
 
-#link_directories(
-#	${CMAKE_CURRENT_BINARY_DIR}/../common/Release/
-#)
-
 set(GS_SRCS 	
 	leftpane/leftpane.cpp
 	leftpane/round/gamestatsframe.cpp
@@ -34,7 +30,6 @@ set(GS_SRCS
 	leftpane/game/gameendwidget.cpp
 	leftpane/game/gamestatuswidget.cpp
 	leftpane/game/creategamewidget.cpp
-	leftpane/playerslist/playerslistwidget.cpp
     rightpane/rightpane.cpp
     rightpane/boards/computerboard.cpp
 	rightpane/boards/customgraphicsscene.cpp
@@ -46,6 +41,8 @@ set(GS_SRCS
 	rightpane/options/gamedifficultyoptions.cpp
 	rightpane/options/serversettingsoptions.cpp
 	rightpane/options/optionswindow.cpp
+	rightpane/chat/playerslistwidget.cpp
+	rightpane/chat/chatwidget.cpp
 	main.cpp
     animatedtextitem.cpp
     customhorizlayout.cpp
@@ -72,7 +69,6 @@ set(GS_HEADR
 	leftpane/game/gameendwidget.h
 	leftpane/game/gamestatuswidget.h
 	leftpane/game/creategamewidget.h
-	leftpane/playerslist/playerslistwidget.h
 	rightpane/rightpane.h
 	rightpane/boards/computerboard.h
 	rightpane/boards/customgraphicsscene.h
@@ -84,6 +80,8 @@ set(GS_HEADR
 	rightpane/options/gamedifficultyoptions.h
 	rightpane/options/serversettingsoptions.h
 	rightpane/options/optionswindow.h
+	rightpane/chat/playerslistwidget.h
+	rightpane/chat/chatwidget.h
 	customhorizlayout.h
 	animatedtextitem.h
 	planesgsview.h
