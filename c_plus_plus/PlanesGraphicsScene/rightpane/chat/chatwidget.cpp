@@ -2,7 +2,8 @@
 
 #include <QHBoxLayout>
 
-ChatWidget::ChatWidget(GlobalData* globalData, MultiplayerRound* multiround, QWidget* parent) {
+ChatWidget::ChatWidget(GlobalData* globalData, MultiplayerRound* multiround, QWidget* parent):
+        m_MultiRound(multiround), m_GlobalData(globalData) {
     m_PlayersListWidget = new PlayersListWidget(m_GlobalData, m_MultiRound);
     m_ChatStackedWidget = new QStackedWidget();
 

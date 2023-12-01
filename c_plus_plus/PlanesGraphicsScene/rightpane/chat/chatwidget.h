@@ -14,11 +14,11 @@ public:
     void setActive(bool active);
 
 private:
-    PlayersListWidget* m_PlayersListWidget;
+    PlayersListWidget* m_PlayersListWidget = nullptr;
     std::map<QString, QTextEdit*> m_ChatSessions;
-    QStackedWidget* m_ChatStackedWidget;
-    GlobalData* m_GlobalData;
-    MultiplayerRound* m_MultiRound;
+    QStackedWidget* m_ChatStackedWidget = nullptr;
+    GlobalData* m_GlobalData = nullptr;
+    MultiplayerRound* m_MultiRound = nullptr;
 };
 
 #endif
