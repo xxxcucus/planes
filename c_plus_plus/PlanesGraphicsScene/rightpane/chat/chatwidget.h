@@ -4,6 +4,8 @@
 #include "playerslistwidget.h"
 #include <QStackedWidget>
 #include <QTextEdit>
+#include <QLineEdit>
+#include <QPushButton>
 #include <map>
 
 class ChatWidget : public QWidget {
@@ -17,6 +19,8 @@ private:
     PlayersListWidget* m_PlayersListWidget = nullptr;
     std::map<QString, QTextEdit*> m_ChatSessions;
     QStackedWidget* m_ChatStackedWidget = nullptr;
+    QLineEdit* m_MessageLineEdit = nullptr;
+    QPushButton* m_SendMessageButton = nullptr;
     GlobalData* m_GlobalData = nullptr;
     MultiplayerRound* m_MultiRound = nullptr;
 };

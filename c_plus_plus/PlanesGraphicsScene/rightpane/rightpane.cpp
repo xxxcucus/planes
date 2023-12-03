@@ -43,11 +43,14 @@ RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings,
 	
 
 	OptionsWindow* optionsWindow = new OptionsWindow(m_PlaneRound, m_Settings, m_GameInfo);
-    m_ChatWidget = new ChatWidget(m_GlobalData, m_MultiRound);
 
     m_OwnBoardIndex = addTab(m_PlayerBoard->getView(), "Player Board");
     m_OpponentBoardIndex = addTab(m_ComputerBoard->getView(), m_GameInfo->getSinglePlayer() ? "Computer Board" : "Opponent Board");
-	m_ChatWidgetIndex = addTab(m_ChatWidget, "Chat");
+
+    if (!m_GameInfo->getSinglePlayer()) {
+        m_ChatWidget = new ChatWidget(m_GlobalData, m_MultiRound);
+        m_ChatWidgetIndex = addTab(m_ChatWidget, "Chat");
+    }
     m_OptionsIndex = addTab(optionsWindow, "Options");
     m_HelpIndex = addTab(helpWidget, "Help");
     m_AboutIndex = addTab(aboutWidget, "About");
