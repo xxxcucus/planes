@@ -12,6 +12,7 @@ class StompClient : public QObject {
 
 public:
     StompClient();
+    ~StompClient();
     void connectToServer();
     void setUrl(const QString& url);
 

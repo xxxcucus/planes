@@ -9,8 +9,10 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../singleround
 	${CMAKE_CURRENT_SOURCE_DIR}/../multiround/
 	${CMAKE_CURRENT_SOURCE_DIR}/../bcrypt
+	${CMAKE_CURRENT_SOURCE_DIR}/../stomp
 	${Qt6Widgets_INCLUDE_DIRS}
-	${Qt6Core_INCLUDE_DIRS})
+	${Qt6Core_INCLUDE_DIRS}
+	${Qt6WebSockets_INCLUDE_DIRS})
 
 set(GS_SRCS 	
 	leftpane/leftpane.cpp
@@ -97,6 +99,7 @@ target_link_libraries(PlanesGraphicsScene
 	libSingleRound
 	libMultiRound
 	libbcrypt
+	libStomp
 	Qt6::Widgets
 	Qt6::Core
 	Qt6::Network)

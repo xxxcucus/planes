@@ -19,7 +19,10 @@ StompClient::StompClient() {
     QObject::connect(&m_Socket, &QWebSocket::proxyAuthenticationRequired, this, &StompClient::proxyAuthenticationRequired);
     QObject::connect(&m_Socket, &QWebSocket::sslErrors, this, &StompClient::sslErrors);
     QObject::connect(&m_Socket, &QWebSocket::stateChanged, this, &StompClient::stateChanged);
+}
 
+StompClient::~StompClient() {
+    m_Socket.close();
 }
 
 int StompClient::getState() {

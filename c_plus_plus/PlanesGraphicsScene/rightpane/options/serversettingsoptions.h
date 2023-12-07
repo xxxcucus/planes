@@ -17,6 +17,7 @@ private slots:
 private:
 	QSettings* m_Settings;
     QLineEdit* m_PathToServerLineEdit;
+	QLineEdit* m_PathToChatServerLineEdit;
 };
 
 

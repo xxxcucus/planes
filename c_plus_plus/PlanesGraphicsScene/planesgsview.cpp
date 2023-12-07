@@ -4,8 +4,8 @@
 #include <QDebug>
 #include "customhorizlayout.h"
 
-PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QSettings* settings, QWidget *parent)
-    : QWidget(parent), m_round(rd), m_MultiRound(mrd), m_GlobalData(globalData), m_NetworkManager(networkManager), m_GameInfo(gameInfo), m_Settings(settings)
+PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QSettings* settings, StompClient* stompClient, QWidget *parent)
+    : QWidget(parent), m_round(rd), m_MultiRound(mrd), m_GlobalData(globalData), m_NetworkManager(networkManager), m_GameInfo(gameInfo), m_Settings(settings), m_StompClient(stompClient)
 {
     m_StatusBarWidget = new StatusBarWidget(m_GameInfo, m_GlobalData);
     
@@ -15,7 +15,7 @@ PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* gl
     m_LeftPane->setMinWidth();
     //m_LeftPane->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 
-    m_RightPane = new RightPane(m_round, m_MultiRound, m_Settings, m_GlobalData, m_NetworkManager, m_GameInfo, this);
+    m_RightPane = new RightPane(m_round, m_MultiRound, m_Settings, m_GlobalData, m_NetworkManager, m_GameInfo, m_StompClient, this);
     m_RightPane->setMinWidth();
 
     hLayout->addWidget(m_LeftPane);

@@ -3,8 +3,9 @@
 #include <QHBoxLayout>
 #include <QLabel>
 
-ChatWidget::ChatWidget(GlobalData* globalData, MultiplayerRound* multiround, QWidget* parent):
-        m_MultiRound(multiround), m_GlobalData(globalData) {
+ChatWidget::ChatWidget(GlobalData* globalData, MultiplayerRound* multiround, QSettings* settings, StompClient* stompClient, QWidget* parent):
+        m_MultiRound(multiround), m_GlobalData(globalData), m_Settings(settings), m_StompClient(stompClient) {
+
     m_PlayersListWidget = new PlayersListWidget(m_GlobalData, m_MultiRound);
     m_ChatStackedWidget = new QStackedWidget();
     m_MessageLineEdit = new QLineEdit();

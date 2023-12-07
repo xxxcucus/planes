@@ -8,7 +8,7 @@
 #include "options/optionswindow.h"
 #include "planeround.h"
 
-RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_MultiRound(mrd), m_GlobalData(globalData), m_NetworkManager(networkManager), m_Settings(settings), m_GameInfo(gameInfo)
+RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, StompClient* stompClient, QWidget* parent) : QTabWidget(parent), m_PlaneRound(pr), m_MultiRound(mrd), m_GlobalData(globalData), m_NetworkManager(networkManager), m_Settings(settings), m_GameInfo(gameInfo), m_StompClient(stompClient)
 {
     QWidget* helpWidget = new QWidget();
     QHBoxLayout* layout = new QHBoxLayout();
@@ -48,7 +48,8 @@ RightPane::RightPane(PlaneRound* pr, MultiplayerRound* mrd, QSettings* settings,
     m_OpponentBoardIndex = addTab(m_ComputerBoard->getView(), m_GameInfo->getSinglePlayer() ? "Computer Board" : "Opponent Board");
 
     if (!m_GameInfo->getSinglePlayer()) {
-        m_ChatWidget = new ChatWidget(m_GlobalData, m_MultiRound);
+
+        m_ChatWidget = new ChatWidget(m_GlobalData, m_MultiRound, m_Settings, m_StompClient);
         m_ChatWidgetIndex = addTab(m_ChatWidget, "Chat");
     }
     m_OptionsIndex = addTab(optionsWindow, "Options");

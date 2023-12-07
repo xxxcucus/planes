@@ -19,7 +19,7 @@ class PlanesGSView : public QWidget
 {
     Q_OBJECT
 public:
-    PlanesGSView(PlaneRound* rd, MultiplayerRound* mrd, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QSettings* settings, QWidget *parent = 0);
+    PlanesGSView(PlaneRound* rd, MultiplayerRound* mrd, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QSettings* settings, StompClient* stompClient, QWidget *parent = 0);
 
 signals:
 
@@ -56,6 +56,7 @@ private:
     QNetworkAccessManager* m_NetworkManager;
     GameInfo* m_GameInfo;
     QSettings* m_Settings;
+    StompClient* m_StompClient;
 };
 
 #endif // PLANESGSVIEW_H

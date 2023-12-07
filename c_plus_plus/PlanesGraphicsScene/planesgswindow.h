@@ -9,6 +9,7 @@
 #include "global/globaldata.h"
 #include "gameinfo.h"
 #include "multiplayerround.h"
+#include "stompclient.h"
 
 class PlanesGSWindow : public QMainWindow
 {
@@ -32,6 +33,7 @@ private:
     QNetworkAccessManager* m_NetworkManager;
     GameInfo* m_GameInfo;
     QSettings* m_Settings;
+    StompClient* m_StompClient;
 };
 
 #endif // PLANESGSWINDOW_H
