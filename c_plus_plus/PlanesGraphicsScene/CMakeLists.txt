@@ -99,7 +99,6 @@ target_link_libraries(PlanesGraphicsScene
 	libSingleRound
 	libMultiRound
 	libbcrypt
-	libStomp
 	Qt6::Widgets
 	Qt6::Core
 	Qt6::Network)

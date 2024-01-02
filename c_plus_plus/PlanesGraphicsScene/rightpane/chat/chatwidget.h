@@ -14,7 +14,7 @@ class ChatWidget : public QWidget {
     Q_OBJECT
 
 public:
-    ChatWidget(GlobalData* globalData, MultiplayerRound* multiRound, QSettings* settings, StompClient* stompClient, QWidget* parent = nullptr);
+    ChatWidget(GlobalData* globalData, MultiplayerRound* multiRound, QSettings* settings, QWidget* parent = nullptr);
     void setActive(bool active);
 
 private:
@@ -26,7 +26,6 @@ private:
     GlobalData* m_GlobalData = nullptr;
     MultiplayerRound* m_MultiRound = nullptr;
     QSettings* m_Settings = nullptr;
-    StompClient* m_StompClient = nullptr;
 };
 
 #endif

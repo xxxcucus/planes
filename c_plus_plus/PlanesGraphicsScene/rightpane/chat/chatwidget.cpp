@@ -3,8 +3,8 @@
 #include <QHBoxLayout>
 #include <QLabel>
 
-ChatWidget::ChatWidget(GlobalData* globalData, MultiplayerRound* multiround, QSettings* settings, StompClient* stompClient, QWidget* parent):
-        m_MultiRound(multiround), m_GlobalData(globalData), m_Settings(settings), m_StompClient(stompClient) {
+ChatWidget::ChatWidget(GlobalData* globalData, MultiplayerRound* multiround, QSettings* settings, QWidget* parent):
+        m_MultiRound(multiround), m_GlobalData(globalData), m_Settings(settings) {
 
     m_PlayersListWidget = new PlayersListWidget(m_GlobalData, m_MultiRound);
     m_ChatStackedWidget = new QStackedWidget();
@@ -32,6 +32,8 @@ ChatWidget::ChatWidget(GlobalData* globalData, MultiplayerRound* multiround, QSe
 
     hLayout->addLayout(vLayout1);
     setLayout(hLayout);
+
+    m_MultiRound->connectToChat();
 }
 
 void ChatWidget::setActive(bool active) {

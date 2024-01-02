@@ -13,6 +13,7 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../../multiround/
 	${CMAKE_CURRENT_SOURCE_DIR}/../../bcrypt
 	${CMAKE_CURRENT_SOURCE_DIR}/../../singleround
+	${CMAKE_CURRENT_SOURCE_DIR}/../../stomp
 	${Qt6Widgets_INCLUDE_DIRS}
 	${Qt6Network_INCLUDE_DIRS}
     ${Qt6Core_INCLUDE_DIRS}

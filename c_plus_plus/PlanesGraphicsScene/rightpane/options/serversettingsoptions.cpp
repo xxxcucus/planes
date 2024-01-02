@@ -36,4 +36,5 @@ ServerSettingsOptions::ServerSettingsOptions(QSettings* settings, QWidget* paren
 void ServerSettingsOptions::setPathToServer()
 {
     m_Settings->setValue("multiplayer/serverpath", m_PathToServerLineEdit->text().trimmed());
+    m_Settings->setValue("multiplayer/chatserverpath", m_PathToChatServerLineEdit->text().trimmed());
 }

@@ -12,13 +12,14 @@ PlanesGSWindow::PlanesGSWindow(bool isMultiplayer, QWidget *parent) : QMainWindo
 
     //builds the game object - the controller
     mRound = new PlaneRound(10, 10, 3);
-    m_MultiRound = new MultiplayerRound(10, 10, 3, this, m_NetworkManager, m_GlobalData, m_Settings, m_GameInfo);
+    m_StompClient = new StompClient();
+    m_MultiRound = new MultiplayerRound(10, 10, 3, this, m_NetworkManager, m_GlobalData, m_Settings, m_GameInfo, m_StompClient);
     if (isMultiplayer)
         m_MultiRound->testServerVersion();
-    m_StompClient = new StompClient();
+
     
     //builds the view object
-    mPlanesView = new PlanesGSView(mRound, m_MultiRound, m_GlobalData, m_NetworkManager, m_GameInfo, m_Settings, m_StompClient, this);
+    mPlanesView = new PlanesGSView(mRound, m_MultiRound, m_GlobalData, m_NetworkManager, m_GameInfo, m_Settings, this);
     setCentralWidget(mPlanesView);
 }
 

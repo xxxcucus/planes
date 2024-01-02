@@ -12,6 +12,7 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_SOURCE_DIR}/../singleround
 	${CMAKE_CURRENT_SOURCE_DIR}/../bcrypt
+	${CMAKE_CURRENT_SOURCE_DIR}/../stomp
 	${Qt6Widgets_INCLUDE_DIRS}
 	${Qt6Network_INCLUDE_DIRS}
     ${Qt6Core_INCLUDE_DIRS})
@@ -85,6 +86,7 @@ add_library(libMultiRound SHARED
 target_link_libraries(libMultiRound
 	libSingleRound
     libbcrypt
+    libStomp
 	Qt6::Widgets
 	Qt6::Network
     Qt6::Core)

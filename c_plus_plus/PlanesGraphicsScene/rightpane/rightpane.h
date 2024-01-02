@@ -17,7 +17,7 @@ class RightPane : public QTabWidget
 {
     Q_OBJECT
 public:
-    RightPane(PlaneRound *pr, MultiplayerRound* mrd, QSettings *settings, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, StompClient* stompClient, QWidget* parent = nullptr);
+    RightPane(PlaneRound *pr, MultiplayerRound* mrd, QSettings *settings, GlobalData* globalData, QNetworkAccessManager* networkManager, GameInfo* gameInfo, QWidget* parent = nullptr);
     ~RightPane();
 
     void setMinWidth();
