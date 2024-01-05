@@ -107,6 +107,8 @@ if (UNIX)
 	install(FILES ${ROOT_PATH}/lib/libQt6QuickDialogs2.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6QuickDialogs2QuickImpl.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6QuickDialogs2Utils.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
+	install(FILES ${ROOT_PATH}/lib/libQt6WebSockets.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
+	
 
 	install(FILES ${ROOT_PATH}/lib/libQt6Widgets.so.${QT_MAJOR} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6Gui.so.${QT_MAJOR} DESTINATION lib)
@@ -128,6 +130,8 @@ if (UNIX)
 	install(FILES ${ROOT_PATH}/lib/libQt6QuickDialogs2QuickImpl.so.${QT_MAJOR} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6QuickDialogs2Utils.so.${QT_MAJOR} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6QuickLayouts.so.${QT_MAJOR} DESTINATION lib)
+	install(FILES ${ROOT_PATH}/lib/libQt6WebSockets.so.${QT_MAJOR} DESTINATION lib)
+
 
 	install(FILES ${ROOT_PATH}/lib/libicuuc.so.56.1 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libicudata.so.56.1 DESTINATION lib)
