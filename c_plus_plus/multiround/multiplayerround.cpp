@@ -9,11 +9,11 @@
 MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo, StompClient* stompClient)
     : AbstractPlaneRound(rows, cols, planeNo), m_ParentWidget(parentWidget), m_NetworkManager(networkManager), m_GlobalData(globalData), m_Settings(settings), m_GameInfo(gameInfo), m_StompClient(stompClient)
 {
-    m_CreateGameObj = new CreateGameCommObj("/game/create/", "creating game", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
+    m_CreateGameObj = new CreateGameCommObj("/game/create", "creating game", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_CreateGameObj, &CreateGameCommObj::gameCreated, this, &MultiplayerRound::gameCreatedSlot);
-    m_ConnectToGameObj = new ConnectToGameCommObj("/game/connect/", "connecting to game ", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
+    m_ConnectToGameObj = new ConnectToGameCommObj("/game/connect", "connecting to game ", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_ConnectToGameObj, &ConnectToGameCommObj::gameConnectedTo, this, &MultiplayerRound::connectedToGameSlot);
-    m_RefreshGameStatusCommObj = new RefreshGameStatusCommObj("/game/status/", "refreshing game status ", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
+    m_RefreshGameStatusCommObj = new RefreshGameStatusCommObj("/game/status", "refreshing game status ", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_RefreshGameStatusCommObj, &RefreshGameStatusCommObj::refreshStatus, this, &MultiplayerRound::refreshStatus);
     m_LoginCommObj = new LoginCommObj("/login/", "logging in ", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_LoginCommObj, &LoginCommObj::loginCompleted, this, &MultiplayerRound::loginCompleted);
