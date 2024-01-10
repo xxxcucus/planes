@@ -15,20 +15,20 @@
 15. Update Book with the changes implemented in javafx_1 branch
 16. Add GUI chapters to Book with UML diagrams.
 17. Implement PlanesAndroid - ok 25.02.19
-18. Deploy PlanesJavaFx.
-19. Use gradle or maven for PlanesJavaFx.
-20. PlanesGraphicsScene, PlanesJavaFx - in the left pane always allow access to score tab, 
+18. Deploy PlanesJavaFx. - ok
+19. Use gradle or maven for PlanesJavaFx. - ok
+20. PlanesGraphicsScene, PlanesJavaFx - in the left pane always allow access to score tab,- ok 
 but the "Start New Round" button should only be active at the end of one round. - ok 01.02.2019
-21. PlanesJavaFx - test with Linux.
+21. PlanesJavaFx - test with Linux. - ok
 22. PlanesJavaFx: disable done button when the position of the planes is not valid. - ok
-23. Add installation instructions and compilation instructions to github page.
+23. Add installation instructions and compilation instructions to github page. - ok
 24. Add help in PlanesAndroid. - ok
 25. When clicking more times on the same position in PlanesAndroid the guess counters are increased. - ok 
 26. When closing the app with the back button, when starting again the application is in an inconsistent state - ok
 27. Position the planes with pictogram buttons. - PlanesAndroid - ok - February 2020
 28. Different layout for tablet devices - PlanesAndroid - ok - February 2020
 29. Add color picker for colors in the game. - PlanesAndroid
-30. Add HomeActivity which allows to switch from multiplayer to single player game.
+30. Add HomeActivity which allows to switch from multiplayer to single player game. -ok 2023
 31. Verify and improve saving an restoring of game. (destroy game engine object and save its state, then recreate and restore state).
 32. Add crashalytics support.
 33. Reorganize repository based on programming language. ok - April 2020
@@ -42,7 +42,7 @@ but the "Start New Round" button should only be active at the end of one round. 
 41. Add game levels.
 42. Add graphic for plane 
 43. Change pictograms in the top bar
-44. Shuffle planes button in board editing step.
+44. Shuffle planes button in board editing step.- ok 2023
 45. Moving of planes with touch. - July 2020
 46. Add tutorial video. - May2020
 47. Add links to pages in Credits popups. - May2020
@@ -68,5 +68,5 @@ but the "Start New Round" button should only be active at the end of one round. 
 66. Add CMake variable for folder where the OpenSsl libraries are.
 67. Do not display a console window on Windows. - Juni 2021
 68. Show load animation at login and register
-69. Plane movement per touch in Android application.
-70. Score Fragment in Android Application.
+69. Plane movement per touch in Android application. - ok 2023
+70. Score Fragment in Android Application. - ok 2023
