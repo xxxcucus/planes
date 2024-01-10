@@ -124,6 +124,7 @@ public slots:
     void activateGameWidget();
     
     void currentTabChangedSlot();
+    void logoutCompleted();
 
 private:
     void submitDoneClicked();    

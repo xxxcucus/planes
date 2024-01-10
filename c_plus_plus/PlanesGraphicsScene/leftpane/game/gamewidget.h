@@ -22,16 +22,14 @@ public:
      * Tab is changed in the left pane
      * **/
     void currentTabChanged();
+    void stopRefreshStatusTimer();
 
 public slots:
     void toGameButtonClickedSlot(bool value);
     void periodicallyRefreshStatusSlot();
     void refreshStatusWithTimer();
     void connectToGameSlot();
-    
-private:
-    void stopRefreshStatusTimer();
-    
+
 signals:
     void toGameButtonClicked(bool value);
     

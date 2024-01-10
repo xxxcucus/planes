@@ -45,6 +45,8 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     connect(m_MultiRound, &MultiplayerRound::newRoundStarted, this, &LeftPane::startNewRound);
     connect(m_MultiRound, &MultiplayerRound::winnerSent, this, &LeftPane::endRound);
     connect(m_MultiRound, &MultiplayerRound::gameStatsUpdated, this, &LeftPane::updateGameStatistics);    
+    connect(m_MultiRound, &MultiplayerRound::logoutCompleted, this, &LeftPane::logoutCompleted);
+
     
     connect(m_MultiRound, &MultiplayerRound::allMovesSent, this, &LeftPane::acquireOpponentMovesSlot);
     
@@ -337,5 +339,15 @@ void LeftPane::currentTabChangedSlot()
 void LeftPane::acquireOpponentMovesSlot()
 {
     m_AcquireOpponentMovesTimer->start(5000);
+}
+void LeftPane::logoutCompleted()
+{
+    if (m_AcquireOpponentPlanesPositionsTimer != nullptr)
+        m_AcquireOpponentPlanesPositionsTimer->stop();
+
+    if (m_AcquireOpponentMovesTimer != nullptr)
+        m_AcquireOpponentMovesTimer->stop();
+
+    m_GameWidget->stopRefreshStatusTimer();
 }
 
