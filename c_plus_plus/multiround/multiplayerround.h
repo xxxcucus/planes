@@ -115,6 +115,10 @@ signals:
     void playersListReceived(const QStringList& playersList);
     void userDeactivated();
 
+    void connectedToChatServer();
+    void disconnectedFromChatServer();
+    void connectedToChat();
+
 public:
     MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo, StompClient* stompClient);
     virtual ~MultiplayerRound();
@@ -161,6 +165,9 @@ public:
     void deactivateUser();
 
     void connectToChat();
+    void createChatConnection();
+    void destroyChatConnection();
+    bool chatSocketConnected();
 
 protected:
     MultiplayerRound() {}

@@ -5,6 +5,7 @@
 #include "communicationtools.h"
 #include "viewmodels/newmoveviewmodel.h"
 #include "viewmodels/getopponentemovesviewmodel.h"
+#include "stompframecreator.h"
 
 MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo, StompClient* stompClient)
     : AbstractPlaneRound(rows, cols, planeNo), m_ParentWidget(parentWidget), m_NetworkManager(networkManager), m_GlobalData(globalData), m_Settings(settings), m_GameInfo(gameInfo), m_StompClient(stompClient)
@@ -376,6 +377,33 @@ void MultiplayerRound::deactivateUser() {
 }
 
 void MultiplayerRound::connectToChat() {
+    connect(m_StompClient, &StompClient::clientConnected, this, &MultiplayerRound::connectedToChatServer);
+    connect(m_StompClient, &StompClient::clientDisconnected, this, &MultiplayerRound::disconnectedFromChatServer);
+    connect(m_StompClient, &StompClient::connectedToChat, this, &MultiplayerRound::connectedToChat);
+
     m_StompClient->setUrl(m_Settings->value("multiplayer/chatserverpath").toString());
     m_StompClient->connectToServer();
+}
+
+void MultiplayerRound::createChatConnection() {
+    StompFrameCreator stompFrameCreator;
+    auto connectFrame = stompFrameCreator.createConnectFrame("1.2", "", "", "", 10000, 10000);
+    m_StompClient->sendFrame(connectFrame);
+
+    //TODO: parse connected response and update state
+
+    /*auto subscribeFrame = stompFrameCreator.createSubscribeFrame(1, "/topic/greetings", "auto");
+    m_StompClient->sendFrame(subscribeFrame);*/
+
+}
+
+void MultiplayerRound::destroyChatConnection() {
+
+}
+
+bool MultiplayerRound::chatSocketConnected() {
+    if (!m_StompClient->isClientConnectedToServer())
+        return false;
+
+    return true;
 }

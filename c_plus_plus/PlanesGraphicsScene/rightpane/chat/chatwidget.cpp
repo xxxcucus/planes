@@ -33,9 +33,29 @@ ChatWidget::ChatWidget(GlobalData* globalData, MultiplayerRound* multiround, QSe
     hLayout->addLayout(vLayout1);
     setLayout(hLayout);
 
+    connect(m_MultiRound, &MultiplayerRound::connectedToChat, this, &ChatWidget::subscribeToTopic);
     m_MultiRound->connectToChat();
 }
 
 void ChatWidget::setActive(bool active) {
     m_PlayersListWidget->setActive(active);
+
+    if (!m_MultiRound->chatSocketConnected()) {
+        qDebug() << "Not connected to chat server";
+        return;
+    }
+
+    if (active) {
+        m_MultiRound->createChatConnection();
+        return;
+    }
+
+    m_MultiRound->destroyChatConnection();
+
+    //TODO: if active true connect and subscribe to topic
+    //TODO: if active false unsubscribe to topic and disconnect
+}
+
+void ChatWidget::subscribeToTopic() {
+    qDebug() << "Subscribe to topic";
 }

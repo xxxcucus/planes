@@ -17,10 +17,13 @@ public:
     void setUrl(const QString& url);
 
     bool sendFrame(std::shared_ptr<StompFrame>);
+    bool isClientConnectedToServer();
 
 signals:
     void clientConnected();
+    void clientDisconnected();
     void stompMessageReceived(const QString& message);
+    void connectedToChat();
 
 private slots:
     void socketConnected();

@@ -17,6 +17,9 @@ public:
     ChatWidget(GlobalData* globalData, MultiplayerRound* multiRound, QSettings* settings, QWidget* parent = nullptr);
     void setActive(bool active);
 
+public slots:
+    void subscribeToTopic();
+
 private:
     PlayersListWidget* m_PlayersListWidget = nullptr;
     std::map<QString, QTextEdit*> m_ChatSessions;

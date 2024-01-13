@@ -40,6 +40,7 @@ void StompClient::socketConnected() {
 
 void StompClient::socketDisconnected() {
     qDebug() << "Disconnected from socket";
+    emit clientDisconnected();
 }
 
 
@@ -76,7 +77,14 @@ void StompClient::textMessageReceived(const QString& message) {
     std::shared_ptr<StompFrame> stompFrame = parser.parseFromTextMessage(message, error);
     if (error && stompFrame->getCommand() == StompFrame::HeaderTypes::MESSAGE) {
         emit stompMessageReceived(stompFrame->getTextBody());
+        return;
     }
+
+    if (error && stompFrame->getCommand() == StompFrame::HeaderTypes::CONNECTED) {
+        emit connectedToChat();
+        return;
+    }
+
 }
 
 void StompClient::textFrameReceived(const QString &frame, bool isLastFrame) {
@@ -117,4 +125,8 @@ void StompClient::sslErrors(const QList<QSslError> &errors) {
 
 void StompClient::stateChanged(QAbstractSocket::SocketState state) {
     qDebug() << "Socket state: " << state;
+}
+
+bool StompClient::isClientConnectedToServer() {
+    return m_Socket.state() == QAbstractSocket::ConnectedState;
 }
