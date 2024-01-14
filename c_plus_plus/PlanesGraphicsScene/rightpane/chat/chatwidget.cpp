@@ -34,6 +34,8 @@ ChatWidget::ChatWidget(GlobalData* globalData, MultiplayerRound* multiround, QSe
     setLayout(hLayout);
 
     connect(m_MultiRound, &MultiplayerRound::connectedToChat, this, &ChatWidget::subscribeToTopic);
+    connect(m_PlayersListWidget, &PlayersListWidget::playerDoubleClicked, this, &ChatWidget::openChatWindow);
+    connect(m_SendMessageButton, &QPushButton::clicked, this, &ChatWidget::sendMessageToPlayer);
     m_MultiRound->connectToChat();
 }
 
@@ -60,3 +62,32 @@ void ChatWidget::subscribeToTopic() {
     qDebug() << "Subscribe to topic";
     m_MultiRound->subscribeToChatTopic();
 }
+
+void ChatWidget::openChatWindow(const QString& player) {
+    qDebug() << "Open chat window";
+    if (m_ChatSessions.find(player) != m_ChatSessions.end()) {
+        m_ChatStackedWidget->setCurrentWidget(m_ChatSessions[player]);
+        return;
+    }
+
+    QTextEdit* chatSession = new QTextEdit();
+    m_ChatSessions[player] = chatSession;
+    m_ChatStackedWidget->addWidget(chatSession);
+    m_ChatStackedWidget->setCurrentWidget(chatSession);
+}
+
+void ChatWidget::sendMessageToPlayer() {
+    QString message = m_MessageLineEdit->text().trimmed();
+    if (message.isEmpty())
+        return;
+
+    QTextEdit* chatSession = dynamic_cast<QTextEdit*>(m_ChatStackedWidget->currentWidget());
+    if (chatSession == nullptr) {
+        qDebug() << "Chat session is null";
+        return;
+    }
+
+    //TODO: send message to chat server
+    chatSession->append(message);
+}
+

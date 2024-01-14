@@ -14,6 +14,10 @@ public:
 
 private slots:
     void updatePlayers(const QStringList& players);
+    void itemDoubleClicked(QListWidgetItem* item);
+
+signals:
+    void playerDoubleClicked(const QString& player);
 
 private:
     void sendPlayersRequest();

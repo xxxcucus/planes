@@ -398,7 +398,8 @@ void MultiplayerRound::createChatConnection() {
 }
 
 void MultiplayerRound::destroyChatConnection() {
-
+    //TODO: unsubscribe
+    //TODO: disconnect
 }
 
 bool MultiplayerRound::chatSocketConnected() {
@@ -414,7 +415,8 @@ void MultiplayerRound::subscribeToChatTopic() {
         return;
     }
 
+    StompFrameCreator stompFrameCreator;
     QString topicName = QString("/topic/userChannel/%1").arg(m_GlobalData->m_UserData.m_UserName);
     auto subscribeFrame = stompFrameCreator.createSubscribeFrame(1, topicName, "auto");
-    m_StompClient.sendFrame(subscribeFrame);
+    m_StompClient->sendFrame(subscribeFrame);
 }

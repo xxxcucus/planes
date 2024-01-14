@@ -19,6 +19,8 @@ public:
 
 public slots:
     void subscribeToTopic();
+    void openChatWindow(const QString& player);
+    void sendMessageToPlayer();
 
 private:
     PlayersListWidget* m_PlayersListWidget = nullptr;

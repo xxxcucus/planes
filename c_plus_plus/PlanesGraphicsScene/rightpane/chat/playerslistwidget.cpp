@@ -14,6 +14,8 @@ PlayersListWidget::PlayersListWidget(GlobalData* globalData, MultiplayerRound* m
     m_RefreshPlayersListTimer = new QTimer(this);
     connect(m_MultiplayerRound, &MultiplayerRound::playersListReceived, this, &PlayersListWidget::updatePlayers);
     connect(m_RefreshPlayersListTimer, &QTimer::timeout, this, &PlayersListWidget::sendPlayersRequest);
+    connect(m_PlayersListWidget, &QListWidget::itemDoubleClicked, this, &PlayersListWidget::itemDoubleClicked);
+
 }
 
 void PlayersListWidget::updatePlayers(const QStringList& players) {
@@ -42,3 +44,6 @@ void PlayersListWidget::sendPlayersRequest() {
         m_MultiplayerRound->requestLoggedInPlayers();
 }
 
+void PlayersListWidget::itemDoubleClicked(QListWidgetItem* item) {
+    emit playerDoubleClicked(item->text());
+}
