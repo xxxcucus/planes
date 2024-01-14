@@ -58,4 +58,5 @@ void ChatWidget::setActive(bool active) {
 
 void ChatWidget::subscribeToTopic() {
     qDebug() << "Subscribe to topic";
+    m_MultiRound->subscribeToChatTopic();
 }

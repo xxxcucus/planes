@@ -168,6 +168,7 @@ public:
     void createChatConnection();
     void destroyChatConnection();
     bool chatSocketConnected();
+    void subscribeToChatTopic();
 
 protected:
     MultiplayerRound() {}

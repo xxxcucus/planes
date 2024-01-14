@@ -407,3 +407,14 @@ bool MultiplayerRound::chatSocketConnected() {
 
     return true;
 }
+
+void MultiplayerRound::subscribeToChatTopic() {
+    if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
+        qDebug() << "No user logged in";
+        return;
+    }
+
+    QString topicName = QString("/topic/userChannel/%1").arg(m_GlobalData->m_UserData.m_UserName);
+    auto subscribeFrame = stompFrameCreator.createSubscribeFrame(1, topicName, "auto");
+    m_StompClient.sendFrame(subscribeFrame);
+}
