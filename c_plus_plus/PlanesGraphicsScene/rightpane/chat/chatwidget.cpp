@@ -74,6 +74,7 @@ void ChatWidget::openChatWindow(const QString& player) {
     m_ChatSessions[player] = chatSession;
     m_ChatStackedWidget->addWidget(chatSession);
     m_ChatStackedWidget->setCurrentWidget(chatSession);
+    m_CurrentReceiver = player;
 }
 
 void ChatWidget::sendMessageToPlayer() {
@@ -87,7 +88,7 @@ void ChatWidget::sendMessageToPlayer() {
         return;
     }
 
-    //TODO: send message to chat server
+    m_MultiRound->sendMessageThroughChat(m_CurrentReceiver, message);
     chatSession->append(message);
 }
 

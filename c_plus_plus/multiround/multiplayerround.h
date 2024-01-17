@@ -169,6 +169,7 @@ public:
     void destroyChatConnection();
     bool chatSocketConnected();
     void subscribeToChatTopic();
+    void sendMessageThroughChat(const QString& receiver, const QString& message);
 
 protected:
     MultiplayerRound() {}

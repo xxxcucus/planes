@@ -25,6 +25,7 @@ public slots:
 private:
     PlayersListWidget* m_PlayersListWidget = nullptr;
     std::map<QString, QTextEdit*> m_ChatSessions;
+    QString m_CurrentReceiver;
     QStackedWidget* m_ChatStackedWidget = nullptr;
     QLineEdit* m_MessageLineEdit = nullptr;
     QPushButton* m_SendMessageButton = nullptr;

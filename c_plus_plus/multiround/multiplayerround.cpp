@@ -2,6 +2,7 @@
 
 #include <QMessageBox>
 #include <QJsonArray>
+#include <QJsonDocument>
 #include "communicationtools.h"
 #include "viewmodels/newmoveviewmodel.h"
 #include "viewmodels/getopponentemovesviewmodel.h"
@@ -419,4 +420,23 @@ void MultiplayerRound::subscribeToChatTopic() {
     QString topicName = QString("/topic/userChannel/%1").arg(m_GlobalData->m_UserData.m_UserName);
     auto subscribeFrame = stompFrameCreator.createSubscribeFrame(1, topicName, "auto");
     m_StompClient->sendFrame(subscribeFrame);
+}
+
+void MultiplayerRound::sendMessageThroughChat(const QString& receiver, const QString& message) {
+       if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
+        qDebug() << "No user logged in";
+        return;
+    }
+
+    StompFrameCreator stompFrameCreator;
+
+    QJsonObject jsonObject;
+    jsonObject.insert("senderUserName", QJsonValue::fromVariant(m_GlobalData->m_UserData.m_UserName));
+    jsonObject.insert("receiverUserName", QJsonValue::fromVariant(receiver));
+    jsonObject.insert("message", QJsonValue::fromVariant(message));
+    QJsonDocument doc(jsonObject);
+
+    auto publishFrame = stompFrameCreator.createSendTextFrame("/app/chat", doc.toJson());
+    qDebug() << "Sending " << doc.toJson();
+    m_StompClient->sendFrame(publishFrame);
 }
