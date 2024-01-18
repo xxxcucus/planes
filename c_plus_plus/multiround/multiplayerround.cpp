@@ -381,6 +381,7 @@ void MultiplayerRound::connectToChat() {
     connect(m_StompClient, &StompClient::clientConnected, this, &MultiplayerRound::connectedToChatServer);
     connect(m_StompClient, &StompClient::clientDisconnected, this, &MultiplayerRound::disconnectedFromChatServer);
     connect(m_StompClient, &StompClient::connectedToChat, this, &MultiplayerRound::connectedToChat);
+    connect(m_StompClient, &StompClient::stompMessageReceived, this, &MultiplayerRound::chatMessageReceivedSlot);
 
     m_StompClient->setUrl(m_Settings->value("multiplayer/chatserverpath").toString());
     m_StompClient->connectToServer();
@@ -390,12 +391,6 @@ void MultiplayerRound::createChatConnection() {
     StompFrameCreator stompFrameCreator;
     auto connectFrame = stompFrameCreator.createConnectFrame("1.2", "", "", "", 10000, 10000);
     m_StompClient->sendFrame(connectFrame);
-
-    //TODO: parse connected response and update state
-
-    /*auto subscribeFrame = stompFrameCreator.createSubscribeFrame(1, "/topic/greetings", "auto");
-    m_StompClient->sendFrame(subscribeFrame);*/
-
 }
 
 void MultiplayerRound::destroyChatConnection() {
@@ -439,4 +434,22 @@ void MultiplayerRound::sendMessageThroughChat(const QString& receiver, const QSt
     auto publishFrame = stompFrameCreator.createSendTextFrame("/app/chat", doc.toJson());
     qDebug() << "Sending " << doc.toJson();
     m_StompClient->sendFrame(publishFrame);
+}
+
+void MultiplayerRound::chatMessageReceivedSlot(const QString& message) {
+
+    QJsonObject jsonMessage = CommunicationTools::objectFromString(message);
+
+    if (jsonMessage.contains("senderUserName") && jsonMessage.contains("message") && jsonMessage.contains("receiverUserName")) {
+        QString receiverUserName = jsonMessage.value("receiverUserName").toString();
+        QString senderUserName = jsonMessage.value("senderUserName").toString();
+        QString message = jsonMessage.value("message").toString();
+        if (receiverUserName == m_GlobalData->m_UserData.m_UserName) {
+            emit chatMessageReceived(senderUserName, message);
+        } else {
+            qDebug() << "Chat message not for me";
+        }
+    }
+
+
 }

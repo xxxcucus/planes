@@ -34,6 +34,7 @@ ChatWidget::ChatWidget(GlobalData* globalData, MultiplayerRound* multiround, QSe
     setLayout(hLayout);
 
     connect(m_MultiRound, &MultiplayerRound::connectedToChat, this, &ChatWidget::subscribeToTopic);
+    connect(m_MultiRound, &MultiplayerRound::chatMessageReceived, this, &ChatWidget::chatMessageReceived);
     connect(m_PlayersListWidget, &PlayersListWidget::playerDoubleClicked, this, &ChatWidget::openChatWindow);
     connect(m_SendMessageButton, &QPushButton::clicked, this, &ChatWidget::sendMessageToPlayer);
     m_MultiRound->connectToChat();
@@ -65,6 +66,10 @@ void ChatWidget::subscribeToTopic() {
 
 void ChatWidget::openChatWindow(const QString& player) {
     qDebug() << "Open chat window";
+
+    if (m_CurrentReceiver == player)
+        return;
+
     if (m_ChatSessions.find(player) != m_ChatSessions.end()) {
         m_ChatStackedWidget->setCurrentWidget(m_ChatSessions[player]);
         return;
@@ -89,6 +94,18 @@ void ChatWidget::sendMessageToPlayer() {
     }
 
     m_MultiRound->sendMessageThroughChat(m_CurrentReceiver, message);
-    chatSession->append(message);
+    chatSession->append(QString("%1 : %2").arg(m_GlobalData->m_UserData.m_UserName).arg(message));
 }
 
+void ChatWidget::chatMessageReceived(const QString& sender, const QString& message) {
+    //TODO: when the player is not in the player list add it to this list
+
+    openChatWindow(sender);
+    QTextEdit* chatSession = dynamic_cast<QTextEdit*>(m_ChatStackedWidget->currentWidget());
+    if (chatSession == nullptr) {
+        qDebug() << "Chat session is null";
+        return;
+    }
+
+    chatSession->append(QString("%1 : %2").arg(sender).arg(message));
+}

@@ -91,6 +91,8 @@ private slots:
     void completeLogout();
     void userDeactivatedSlot();
     
+    void chatMessageReceivedSlot(const QString& jsonMessage);
+
 signals:
     void opponentMoveGenerated(const GuessPoint& gp);
     void roundWasCancelled();
@@ -118,6 +120,7 @@ signals:
     void connectedToChatServer();
     void disconnectedFromChatServer();
     void connectedToChat();
+    void chatMessageReceived(const QString& sender, const QString& message);
 
 public:
     MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo, StompClient* stompClient);
