@@ -98,7 +98,7 @@ void ChatWidget::sendMessageToPlayer() {
 }
 
 void ChatWidget::chatMessageReceived(const QString& sender, const QString& message) {
-    //TODO: when the player is not in the player list add it to this list
+    m_PlayersListWidget->addPlayer(sender);
 
     openChatWindow(sender);
     QTextEdit* chatSession = dynamic_cast<QTextEdit*>(m_ChatStackedWidget->currentWidget());

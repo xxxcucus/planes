@@ -19,14 +19,14 @@ PlayersListWidget::PlayersListWidget(GlobalData* globalData, MultiplayerRound* m
 }
 
 void PlayersListWidget::updatePlayers(const QStringList& players) {
-    while (m_PlayersListWidget->count() > 0) {
-        m_PlayersListWidget->takeItem(0);
-    }
+    updatePlayersList(players);
+    updatePlayersFromPlayersList();
+}
 
-    for (QString player: players) {
-        if (player != m_GlobalData->m_UserData.m_UserName)
-            m_PlayersListWidget->addItem(player);
-    }
+void PlayersListWidget::addPlayer(const QString& player) {
+    auto res = m_PlayersList.insert(player);
+    if (res.second)
+        updatePlayersFromPlayersList();
 }
 
 void PlayersListWidget::setActive(bool active) {
@@ -46,4 +46,20 @@ void PlayersListWidget::sendPlayersRequest() {
 
 void PlayersListWidget::itemDoubleClicked(QListWidgetItem* item) {
     emit playerDoubleClicked(item->text());
+}
+
+void PlayersListWidget::updatePlayersList(const QStringList& players) {
+    for (QString player : players)
+        m_PlayersList.insert(player);
+}
+
+void PlayersListWidget::updatePlayersFromPlayersList() {
+    while (m_PlayersListWidget->count() > 0) {
+        m_PlayersListWidget->takeItem(0);
+    }
+
+    for (QString player: m_PlayersList) {
+        if (player != m_GlobalData->m_UserData.m_UserName)
+            m_PlayersListWidget->addItem(player);
+    }
 }
