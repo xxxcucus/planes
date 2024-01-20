@@ -45,6 +45,13 @@ std::shared_ptr<StompFrame> StompFrameCreator::createSubscribeFrame(const QStrin
     return stompFrame;
 }
 
+std::shared_ptr<StompFrame> StompFrameCreator::createUnsubscribeFrame(int id) {
+    auto stompFrame = std::make_shared<StompFrame>();
+    stompFrame->setCommand(StompFrame::HeaderTypes::UNSUBSCRIBE);
+    stompFrame->addHeader("id", QString::number(id));
+    return stompFrame;
+}
+
 std::shared_ptr<StompFrame> StompFrameCreator::createSendTextFrame(const QString& destination, const QString& message) {
     auto stompFrame = std::make_shared<StompFrame>();
     stompFrame->setCommand(StompFrame::HeaderTypes::SEND);
