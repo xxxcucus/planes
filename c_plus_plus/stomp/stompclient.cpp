@@ -85,6 +85,11 @@ void StompClient::textMessageReceived(const QString& message) {
         return;
     }
 
+    if (error && stompFrame->getCommand() == StompFrame::HeaderTypes::ERROR) {
+        emit communicationError(stompFrame->getTextBody());
+        return;
+    }
+
 }
 
 void StompClient::textFrameReceived(const QString &frame, bool isLastFrame) {

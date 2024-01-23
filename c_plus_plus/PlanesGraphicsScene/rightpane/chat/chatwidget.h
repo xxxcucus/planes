@@ -22,6 +22,7 @@ public slots:
     void openChatWindow(const QString& player);
     void sendMessageToPlayer();
     void chatMessageReceived(const QString& sender, const QString& message);
+    void chatConnectionError(const QString& errorMessage);
 
 private:
     PlayersListWidget* m_PlayersListWidget = nullptr;

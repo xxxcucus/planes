@@ -121,6 +121,7 @@ signals:
     void disconnectedFromChatServer();
     void connectedToChat();
     void chatMessageReceived(const QString& sender, const QString& message);
+    void chatConnectionError(const QString& error);
 
 public:
     MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo, StompClient* stompClient);

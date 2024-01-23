@@ -35,6 +35,7 @@ ChatWidget::ChatWidget(GlobalData* globalData, MultiplayerRound* multiround, QSe
 
     connect(m_MultiRound, &MultiplayerRound::connectedToChat, this, &ChatWidget::subscribeToTopic);
     connect(m_MultiRound, &MultiplayerRound::chatMessageReceived, this, &ChatWidget::chatMessageReceived);
+    connect(m_MultiRound, &MultiplayerRound::chatConnectionError, this, &ChatWidget::chatConnectionError);
     connect(m_PlayersListWidget, &PlayersListWidget::playerDoubleClicked, this, &ChatWidget::openChatWindow);
     connect(m_SendMessageButton, &QPushButton::clicked, this, &ChatWidget::sendMessageToPlayer);
     m_MultiRound->connectToChat();
@@ -105,4 +106,8 @@ void ChatWidget::chatMessageReceived(const QString& sender, const QString& messa
     }
 
     chatSession->append(QString("%1 : %2").arg(sender).arg(message));
+}
+
+void ChatWidget::chatConnectionError(const QString& errorMessage) {
+    qDebug() << "Chat server error " << errorMessage;
 }

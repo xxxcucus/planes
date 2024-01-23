@@ -24,6 +24,7 @@ signals:
     void clientDisconnected();
     void stompMessageReceived(const QString& message);
     void connectedToChat();
+    void communicationError(const QString& message);
 
 private slots:
     void socketConnected();

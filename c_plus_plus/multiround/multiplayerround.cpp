@@ -382,6 +382,7 @@ void MultiplayerRound::connectToChat() {
     connect(m_StompClient, &StompClient::clientDisconnected, this, &MultiplayerRound::disconnectedFromChatServer);
     connect(m_StompClient, &StompClient::connectedToChat, this, &MultiplayerRound::connectedToChat);
     connect(m_StompClient, &StompClient::stompMessageReceived, this, &MultiplayerRound::chatMessageReceivedSlot);
+    connect(m_StompClient, &StompClient::communicationError, this, &MultiplayerRound::chatConnectionError);
 
     m_StompClient->setUrl(m_Settings->value("multiplayer/chatserverpath").toString());
     m_StompClient->connectToServer();
