@@ -54,9 +54,6 @@ void ChatWidget::setActive(bool active) {
     }
 
     m_MultiRound->destroyChatConnection();
-
-    //TODO: if active true connect and subscribe to topic
-    //TODO: if active false unsubscribe to topic and disconnect
 }
 
 void ChatWidget::subscribeToTopic() {

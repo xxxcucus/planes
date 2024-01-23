@@ -60,3 +60,10 @@ std::shared_ptr<StompFrame> StompFrameCreator::createSendTextFrame(const QString
     stompFrame->addTextBody(message);
     return stompFrame;
 }
+
+std::shared_ptr<StompFrame> StompFrameCreator::createDisconnectFrame(int id) {
+    auto stompFrame = std::make_shared<StompFrame>();
+    stompFrame->setCommand(StompFrame::HeaderTypes::DISCONNECT);
+    stompFrame->addHeader("receipt", QString::number(id));
+    return stompFrame;
+}
