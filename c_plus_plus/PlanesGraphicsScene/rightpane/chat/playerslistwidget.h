@@ -33,6 +33,7 @@ private:
     QTimer* m_RefreshPlayersListTimer = nullptr;
 
     std::set<QString> m_PlayersList;
+    std::set<QString> m_PlayersListFromServer;
 
     bool m_IsActive = false;
 };

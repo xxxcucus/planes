@@ -19,8 +19,24 @@ PlayersListWidget::PlayersListWidget(GlobalData* globalData, MultiplayerRound* m
 }
 
 void PlayersListWidget::updatePlayers(const QStringList& players) {
-    updatePlayersList(players);
-    updatePlayersFromPlayersList();
+    while (m_PlayersListWidget->count() > 0) {
+        m_PlayersListWidget->takeItem(0);
+    }
+
+    m_PlayersListFromServer.clear();
+    for (QString player: players) {
+        if (player != m_GlobalData->m_UserData.m_UserName) {
+            m_PlayersListWidget->addItem(player);
+            m_PlayersListFromServer.insert(player);
+        }
+    }
+
+    for (QString player: m_PlayersList) {
+        if (m_PlayersListFromServer.find(player) != m_PlayersListFromServer.end())
+            continue;
+        if (player != m_GlobalData->m_UserData.m_UserName)
+            m_PlayersListWidget->addItem(player);
+    }
 }
 
 void PlayersListWidget::addPlayer(const QString& player) {
@@ -58,7 +74,16 @@ void PlayersListWidget::updatePlayersFromPlayersList() {
         m_PlayersListWidget->takeItem(0);
     }
 
+    m_PlayersListFromServer.clear();
+    for (QString player: m_PlayersListFromServer) {
+        if (player != m_GlobalData->m_UserData.m_UserName) {
+            m_PlayersListWidget->addItem(player);
+        }
+    }
+
     for (QString player: m_PlayersList) {
+        if (m_PlayersListFromServer.find(player) != m_PlayersListFromServer.end())
+            continue;
         if (player != m_GlobalData->m_UserData.m_UserName)
             m_PlayersListWidget->addItem(player);
     }
