@@ -1,5 +1,6 @@
 cmake_minimum_required (VERSION 3.10)
 project (libStomp)
+add_definitions(-DMAKE_STOMP_LIB)
 
 cmake_policy(SET CMP0020 NEW)
 cmake_policy(SET CMP0043 NEW)

@@ -7,7 +7,13 @@
 
 #include "stompframe.h"
 
-class StompClient : public QObject {
+#if defined MAKE_STOMP_LIB
+#define STOMP_EXPORT Q_DECL_EXPORT
+#else
+#define STOMP_EXPORT Q_DECL_IMPORT
+#endif
+
+class STOMP_EXPORT StompClient : public QObject {
     Q_OBJECT
 
 public:
