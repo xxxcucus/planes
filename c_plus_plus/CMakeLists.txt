@@ -52,6 +52,7 @@ if (NOT UNIX)
 	install(FILES ${ROOT_PATH}/bin/Qt6QuickDialogs2.dll DESTINATION bin)
 	install(FILES ${ROOT_PATH}/bin/Qt6QuickDialogs2QuickImpl.dll DESTINATION bin)
 	install(FILES ${ROOT_PATH}/bin/Qt6QuickDialogs2Utils.dll DESTINATION bin)
+	install(FILES ${ROOT_PATH}/bin/Qt6WebSockets.dll DESTINATION bin)
 
 	install(FILES ${ROOT_PATH}/qml/QtQuick/qtquick2plugin.dll DESTINATION bin/QtQuick/)
     install(FILES ${ROOT_PATH}/qml/QtQuick/plugins.qmltypes DESTINATION bin/QtQuick/)
