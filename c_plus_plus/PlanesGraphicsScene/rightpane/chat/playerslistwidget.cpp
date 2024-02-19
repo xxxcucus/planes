@@ -19,6 +19,11 @@ PlayersListWidget::PlayersListWidget(GlobalData* globalData, MultiplayerRound* m
 }
 
 void PlayersListWidget::updatePlayers(const QStringList& players) {
+   if (m_PlayersListWidget->currentItem() != nullptr)
+       m_CurrentItemText = m_PlayersListWidget->currentItem()->text();
+   else
+       m_CurrentItemText = QString();
+
     while (m_PlayersListWidget->count() > 0) {
         m_PlayersListWidget->takeItem(0);
     }
@@ -36,6 +41,18 @@ void PlayersListWidget::updatePlayers(const QStringList& players) {
             continue;
         if (player != m_GlobalData->m_UserData.m_UserName)
             m_PlayersListWidget->addItem(player);
+    }
+
+    //TODO: should one chat window be selected here ?
+    if (m_CurrentItemText.isEmpty())
+        return;
+
+    for (int i = 0; i < m_PlayersListWidget->count(); i++) {
+        QListWidgetItem* item = m_PlayersListWidget->item(i);
+        if (item->text() == m_CurrentItemText) {
+            m_PlayersListWidget->setCurrentItem(item);
+            break;
+        }
     }
 }
 

@@ -34,6 +34,7 @@ private:
 
     std::set<QString> m_PlayersList;
     std::set<QString> m_PlayersListFromServer;
+    QString m_CurrentItemText;
 
     bool m_IsActive = false;
 };

@@ -37,6 +37,7 @@ ChatWidget::ChatWidget(GlobalData* globalData, MultiplayerRound* multiround, QSe
     connect(m_MultiRound, &MultiplayerRound::chatMessageReceived, this, &ChatWidget::chatMessageReceived);
     connect(m_MultiRound, &MultiplayerRound::chatConnectionError, this, &ChatWidget::chatConnectionError);
     connect(m_PlayersListWidget, &PlayersListWidget::playerDoubleClicked, this, &ChatWidget::openChatWindow);
+    //connect(m_PlayersListWidget, &PlayersListWidget::)
     connect(m_SendMessageButton, &QPushButton::clicked, this, &ChatWidget::sendMessageToPlayer);
     m_MultiRound->connectToChat();
 }
@@ -63,16 +64,21 @@ void ChatWidget::subscribeToTopic() {
 }
 
 void ChatWidget::openChatWindow(const QString& player) {
-    qDebug() << "Open chat window";
+    qDebug() << "Open chat window" << player;
 
-    if (m_CurrentReceiver == player)
-        return;
-
-    if (m_ChatSessions.find(player) != m_ChatSessions.end()) {
-        m_ChatStackedWidget->setCurrentWidget(m_ChatSessions[player]);
+    if (m_CurrentReceiver == player) {
+        //qDebug() << "You are in the correct chat window";
         return;
     }
 
+    if (m_ChatSessions.find(player) != m_ChatSessions.end()) {
+        //qDebug() << "Getting chat window from list";
+        m_ChatStackedWidget->setCurrentWidget(m_ChatSessions[player]);
+        m_CurrentReceiver = player;
+        return;
+    }
+
+    //qDebug() << "Creating chat window ";
     QTextEdit* chatSession = new QTextEdit();
     m_ChatSessions[player] = chatSession;
     m_ChatStackedWidget->addWidget(chatSession);
@@ -98,6 +104,7 @@ void ChatWidget::sendMessageToPlayer() {
 void ChatWidget::chatMessageReceived(const QString& sender, const QString& message) {
     m_PlayersListWidget->addPlayer(sender);
 
+    qDebug() << "Chat message received from " << sender;
     openChatWindow(sender);
     QTextEdit* chatSession = dynamic_cast<QTextEdit*>(m_ChatStackedWidget->currentWidget());
     if (chatSession == nullptr) {
