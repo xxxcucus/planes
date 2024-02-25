@@ -10,9 +10,12 @@ data class AcquireOpponentPositionsRequest (
     @SerializedName("roundId")
     var m_RoundId: String,
 
-    @SerializedName("ownUserId")
-    var m_OwnUserId: String,
-
     @SerializedName("opponentUserId")
-    var m_OpponentUserId: String
-)
+    var m_OpponentUserId: String,
+
+    @SerializedName("userName")
+    override var m_UserName: String,
+
+    @SerializedName("userId")
+    override var m_UserId: String
+    ): BasisRequest(m_UserName, m_UserId)

@@ -267,17 +267,17 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         val plane3 = m_PlaneRound.getPlayerPlaneNo(2)
 
         val sendPlanePositionsRequest = buildPlanePositionsRequest(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId(), m_PlaneRound.getUserId(),
-            m_PlaneRound.getOpponentId(), plane1, plane2, plane3)
+            m_PlaneRound.getOpponentId(), plane1, plane2, plane3, m_PlaneRound.getUsername())
 
         return m_PlaneRound.sendPlanePositions(sendPlanePositionsRequest)
     }
 
     private fun buildPlanePositionsRequest(
-        gameId: Long, roundId: Long, userId: Long, opponentId: Long, plane1: Plane, plane2: Plane, plane3: Plane): SendPlanePositionsRequest {
+        gameId: Long, roundId: Long, userId: Long, opponentId: Long, plane1: Plane, plane2: Plane, plane3: Plane, userName: String): SendPlanePositionsRequest {
 
-        return SendPlanePositionsRequest(gameId.toString(), roundId.toString(), userId.toString(), opponentId.toString(),
+        return SendPlanePositionsRequest(gameId.toString(), roundId.toString(), opponentId.toString(),
             plane1.row(), plane1.col(), plane1.orientation().value, plane2.row(), plane2.col(), plane2.orientation().value,
-            plane3.row(), plane3.col(), plane3.orientation().value)
+            plane3.row(), plane3.col(), plane3.orientation().value, userId.toString(), userName)
 
     }
 
@@ -367,8 +367,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         disposeAllPollingSubscriptions()
 
         Tools.displayToast(getString(R.string.waiting_for_planes_positions), m_Context)
-        val acquireOpponentPlanePositionsRequest = buildAcquireOpponentPlanePositionsRequest(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId(), m_PlaneRound.getUserId(),
-            m_PlaneRound.getOpponentId())
+        val acquireOpponentPlanePositionsRequest = buildAcquireOpponentPlanePositionsRequest(m_PlaneRound.getGameId(), m_PlaneRound.getUserId(), m_PlaneRound.getRoundId(),
+            m_PlaneRound.getOpponentId(), m_PlaneRound.getUsername())
 
 
         m_PollOpponentPositionsSubscription =
@@ -411,8 +411,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         }
     }
 
-    private fun buildAcquireOpponentPlanePositionsRequest(gameId: Long, roundId: Long, userId: Long, opponentId: Long): AcquireOpponentPositionsRequest {
-        return AcquireOpponentPositionsRequest(gameId.toString(), roundId.toString(), userId.toString(), opponentId.toString())
+    private fun buildAcquireOpponentPlanePositionsRequest(gameId: Long, roundId: Long, userId: Long, opponentId: Long, userName: String): AcquireOpponentPositionsRequest {
+        return AcquireOpponentPositionsRequest(gameId.toString(), roundId.toString(), opponentId.toString(), userName, userId.toString())
     }
 
     fun reactToOpponentPlanePositionsInPolling(body: AcquireOpponentPositionsResponse?) {
@@ -533,17 +533,17 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
     private fun createObservableSendMove() : Observable<Response<SendNotSentMovesResponse>> {
         val sendMoveRequest = buildSendMoveRequest(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId(), m_PlaneRound.getUserId(),
-            m_PlaneRound.getOpponentId())
+            m_PlaneRound.getOpponentId(), m_PlaneRound.getUsername())
 
         return m_PlaneRound.sendMove(sendMoveRequest)
     }
 
-    private fun buildSendMoveRequest(gameId: Long, roundId: Long, userId: Long, opponentId: Long): SendNotSentMovesRequest {
+    private fun buildSendMoveRequest(gameId: Long, roundId: Long, userId: Long, opponentId: Long, userName: String): SendNotSentMovesRequest {
         val receivedMovesData = m_PlaneRound.computeNotReceivedMoves()
         val notSentMoves = m_PlaneRound.prepareNotSentMoves()
 
-        return SendNotSentMovesRequest(gameId.toString(), roundId.toString(), userId.toString(), opponentId.toString(), receivedMovesData.second,
-            notSentMoves, receivedMovesData.first)
+        return SendNotSentMovesRequest(gameId.toString(), roundId.toString(), opponentId.toString(), receivedMovesData.second,
+            notSentMoves, receivedMovesData.first, userId.toString(), userName)
     }
 
     override fun sendMove(gp: GuessPoint, playerMoveIndex: Int) {
@@ -625,7 +625,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     private fun buildSendMoveRequestInPolling(): Observable<Response<SendNotSentMovesResponse>> {
         m_PlaneRound.saveNotSentMoves()
         val sendMoveRequest = buildSendMoveRequest(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId(), m_PlaneRound.getUserId(),
-            m_PlaneRound.getOpponentId())
+            m_PlaneRound.getOpponentId(), m_PlaneRound.getUsername())
         return m_PlaneRound.sendMove(sendMoveRequest)
     }
 

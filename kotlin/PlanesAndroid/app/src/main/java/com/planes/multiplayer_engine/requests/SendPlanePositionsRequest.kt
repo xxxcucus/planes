@@ -10,9 +10,6 @@ data class SendPlanePositionsRequest(
     @SerializedName("roundId")
     var m_RoundId: String,
 
-    @SerializedName("ownUserId")
-    var m_OwnUserId: String,
-
     @SerializedName("opponentUserId")
     var m_OpponentUserId: String,
 
@@ -41,5 +38,11 @@ data class SendPlanePositionsRequest(
     var m_Plane3Y: Int,
 
     @SerializedName("plane3_orient")
-    var m_Plane3Orient: Int
-    )
+    var m_Plane3Orient: Int,
+
+    @SerializedName("userId")
+    override var m_UserId: String,
+
+    @SerializedName("userName")
+    override var m_UserName: String
+    ): BasisRequest(m_UserName, m_UserId)

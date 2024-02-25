@@ -13,6 +13,11 @@ data class SendWinnerRequest (
     var m_WinnerId: String,
 
     @SerializedName("draw")
-    var m_Draw: Boolean
+    var m_Draw: Boolean,
 
-)
+    @SerializedName("userId")
+    override var m_UserId: String,
+
+    @SerializedName("userName")
+    override var m_UserName: String
+) : BasisRequest(m_UserName, m_UserId)

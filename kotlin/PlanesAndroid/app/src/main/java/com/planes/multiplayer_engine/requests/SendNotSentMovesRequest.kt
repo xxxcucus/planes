@@ -11,9 +11,6 @@ class SendNotSentMovesRequest (
     @SerializedName("roundId")
     var m_RoundId: String,
 
-    @SerializedName("ownUserId")
-    var m_OwnUserId: String,
-
     @SerializedName("opponentUserId")
     var m_OpponentUserId: String,
 
@@ -24,5 +21,11 @@ class SendNotSentMovesRequest (
     var m_ListMoves: Vector<SingleMoveRequest>,
 
     @SerializedName("listNotReceivedMoves")
-    var m_ListNotReceivedMoves: Vector<Int>
-)
+    var m_ListNotReceivedMoves: Vector<Int>,
+
+    @SerializedName("userId")
+    override var m_UserId: String,
+
+    @SerializedName("userName")
+    override var m_UserName: String
+) : BasisRequest(m_UserName, m_UserId)
