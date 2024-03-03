@@ -18,6 +18,8 @@
     msgBox.exec();
     bool isMultiplayer = msgBox.clickedButton() == multiplayerButton;
     
+    qDebug() << "SSL version" << QSslSocket::supportsSsl() << QSslSocket::sslLibraryBuildVersionString() << QSslSocket::sslLibraryVersionString();
+
     //constructs and shows the program main window
     PlanesGSWindow *planesWindow = new PlanesGSWindow(isMultiplayer);
     planesWindow->show();

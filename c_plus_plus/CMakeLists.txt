@@ -154,10 +154,10 @@ if (UNIX)
 	install(DIRECTORY ${ROOT_PATH}/qml/QtQuick/Window DESTINATION bin/QtQuick/)	
 	install(DIRECTORY ${ROOT_PATH}/qml/QtQml DESTINATION bin)
 
-	install(FILES $ENV{OPENSSL_HOME}/libcrypto.so.1.1 DESTINATION lib)
-	install(FILES $ENV{OPENSSL_HOME}/libssl.so.1.1 DESTINATION  lib)
-	install(FILES $ENV{OPENSSL_HOME}/libcrypto.so DESTINATION lib)
-	install(FILES $ENV{OPENSSL_HOME}/libssl.so DESTINATION  lib)
+	install(FILES $ENV{OPENSSL_HOME}/libcrypto.so.3 DESTINATION lib)
+	install(FILES $ENV{OPENSSL_HOME}/libssl.so.3 DESTINATION  lib)
+	#install(FILES $ENV{OPENSSL_HOME}/libcrypto.so DESTINATION lib)
+	#install(FILES $ENV{OPENSSL_HOME}/libssl.so DESTINATION  lib)
 
 	
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/PlanesWidget.sh PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ DESTINATION .)
