@@ -7,5 +7,11 @@ data class CancelRoundRequest (
     var m_GameId: String,
 
     @SerializedName("roundId")
-    var m_RoundId: String
-)
+    var m_RoundId: String,
+
+    @SerializedName("userName")
+    override var m_UserName: String,
+
+    @SerializedName("userId")
+    override var m_UserId: String
+): BasisRequest(m_UserName, m_UserId)

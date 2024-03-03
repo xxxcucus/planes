@@ -674,7 +674,8 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     fun sendWinner(draw: Boolean, winnerId: Long): Observable<Response<SendWinnerResponse>> {
-        return m_Service.sendWinner(m_UserData.authToken, SendWinnerRequest(m_GameData.gameId.toString(), m_GameData.roundId.toString(), winnerId.toString(), draw))
+        return m_Service.sendWinner(m_UserData.authToken, SendWinnerRequest(m_GameData.gameId.toString(), m_GameData.roundId.toString(), winnerId.toString(), draw,
+        m_UserData.userId.toString(), m_UserData.userName))
     }
 
     fun setGameFragment(gameFragment: IGameFragmentMultiplayer) {
@@ -800,11 +801,12 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     fun cancelRound(gameId: Long, roundId: Long): Observable<Response<CancelRoundResponse>> {
-        return m_Service.cancelRound(m_UserData.authToken, CancelRoundRequest(gameId.toString(), roundId.toString()))
+        return m_Service.cancelRound(m_UserData.authToken, CancelRoundRequest(gameId.toString(), roundId.toString(), m_UserData.userId.toString(),
+        m_UserData.userName))
     }
 
     fun startNewRound(gameId: Long, userId: Long, opponentId: Long): Observable<Response<StartNewRoundResponse>> {
-        return m_Service.startRound(m_UserData.authToken, StartNewRoundRequest(gameId.toString(), userId.toString(), opponentId.toString()))
+        return m_Service.startRound(m_UserData.authToken, StartNewRoundRequest(gameId.toString(), opponentId.toString(), userId.toString(), m_UserData.userName))
     }
 
     fun getGameStats() : GameStatistics {

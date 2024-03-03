@@ -7,10 +7,10 @@ data class CreateGameRequest (
     var m_GameName: String,
 
     @SerializedName("userName")
-    var m_UserName: String,
+    override var m_UserName: String,
 
     @SerializedName("userId")
-    var m_UserId: String,
+    override var m_UserId: String,
 
     @SerializedName("gameId")
-    var m_GameId: String)
+    var m_GameId: String): BasisRequest(m_UserName, m_UserId)

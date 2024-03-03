@@ -6,9 +6,12 @@ data class StartNewRoundRequest (
     @SerializedName("gameId")
     var m_GameId: String,
 
-    @SerializedName("ownUserId")
-    var m_UserId: String,
-
     @SerializedName("opponentUserId")
-    var m_OpponentId: String
-)
+    var m_OpponentId: String,
+
+    @SerializedName("userId")
+    override var m_UserId: String,
+
+    @SerializedName("userName")
+    override var m_UserName: String
+): BasisRequest(m_UserName, m_UserId)
