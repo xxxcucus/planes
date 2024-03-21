@@ -5,7 +5,7 @@ import android.os.Bundle
 
 class MainPreferencesServiceGlobal : IMainPreferencesService {
 
-    var serverVersion = "0.1.0"
+    var serverVersion = "0.1.2"
 
     override var multiplayerVersion: Boolean
         get() = global_Service!!.multiplayerVersion
