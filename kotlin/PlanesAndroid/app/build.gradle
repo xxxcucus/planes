@@ -9,7 +9,7 @@ android {
         targetSdkVersion 34
         compileSdk 34
         multiDexEnabled true
-        versionCode 24
+        versionCode 26
         versionName "0.4.2"
     }
     compileOptions {
