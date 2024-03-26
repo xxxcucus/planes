@@ -119,7 +119,7 @@ h1, h2, h3, h4, h5, h6 {
     //window.alert("Login was clicked with" + myUsername + " " + myPassword);
 
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://planes.planes-android.com:8443/planesserver/login");
+    xhr.open("POST", "https://planes.planes-android.com:8443/planesserver/login/");
     xhr.setRequestHeader("Content-Type", "application/fhir+json");
     const body = JSON.stringify({
       "username": myUsername,
