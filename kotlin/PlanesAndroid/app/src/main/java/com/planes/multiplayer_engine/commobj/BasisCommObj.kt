@@ -13,6 +13,28 @@ import okhttp3.Headers
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
 
+/*
+Basis class for communicating with the game server via Retrofit
+ - withLoadingAnimation: show a loader animation from start of the request until receiving of the response
+ - createObservable: function creating the Retrofit observable
+ - errorStrg: error string displayed in case of an known error
+ - unknownError: error string displayed in case of an unknown error
+ - shouldBeLoggedIn: should an user be logged in when this request is made
+ - shouldBeConnectedToGame: should an user be connected to game when sending this request
+ - errorStrgNotLoggedIn: error message shown when no user is logged in and it should be
+ - errorStrgNotConnected: error message shown when no user is connected to a game and it should be
+ - withCredentials: provide credentials for credentials validation
+ - username: username
+ - password: password
+ - userPasswordValidation: function used for user password validation
+ - doWhenSuccess: function performed when the request was successfull
+ - checkAuthorization: verify the received "Authorization" header
+ - saveCredentials: save the used credentials (user, password, token)
+ - finalizeRequestSuccessful: function to end request when the request was successfull
+ - finalizeRequestError: function to end request when the request failed
+ - activity: the Fragment Activity from which the request is made
+ */
+
 open class BasisCommObj<A>(withLoadingAnimation: Boolean,
         createObservable: () -> Observable<Response<A>>, errorStrg: String, unknownError: String, shouldBeLoggedIn: Boolean,
         shouldBeConnectedToGame: Boolean, errorStrgNotLoggedIn: String, errorStrgNotConnected: String,
