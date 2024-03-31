@@ -144,8 +144,11 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     fun login(username: String, password: String): Observable<Response<LoginResponse>> {
-
         return m_Service.login(LoginRequest(username, password))
+    }
+
+    fun logout(username: String, userid: String): Observable<Response<LogoutResponse>> {
+        return m_Service.logout(m_UserData.authToken, LogoutRequest(userid, username))
     }
 
     fun setUserData(username: String, password: String, authToken: String) {

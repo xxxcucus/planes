@@ -16,6 +16,7 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
     fun testServerVersion(): Observable<Response<VersionResponse>>
 
     fun login(username: String, password: String): Observable<Response<LoginResponse>>
+    fun logout(username: String, userid: String): Observable<Response<LogoutResponse>>
 
     fun setUserData(username: String, password: String, authToken: String)
 

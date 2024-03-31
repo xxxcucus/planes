@@ -14,10 +14,17 @@ import com.planes.android.creategame.CreateGameSettingsGlobal
 import com.planes.android.creategame.CreateGameStates
 import com.planes.android.databinding.FragmentLogoutBinding
 import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.commobj.SimpleRequestCommObj
+import com.planes.multiplayer_engine.commobj.SimpleRequestNotConnectedToGameCommObj
+import com.planes.multiplayer_engine.responses.LoginResponse
+import com.planes.multiplayer_engine.responses.LogoutResponse
+import io.reactivex.Observable
+import retrofit2.Response
 
 
 class LogoutFragment: Fragment() {
     public lateinit var binding: FragmentLogoutBinding
+    private lateinit var m_LogoutCommObj: SimpleRequestNotConnectedToGameCommObj<LogoutResponse>
     public var m_MultiplayerRound = MultiplayerRoundJava()
     public var m_CreateGameSettingsService = CreateGameSettingsGlobal()
     public lateinit var m_Context: Context
@@ -64,7 +71,28 @@ class LogoutFragment: Fragment() {
         val contextThemeWrapper: Context = ContextThemeWrapper(requireContext(), R.style.MyAppTheme)
         return inflater.cloneInContext(contextThemeWrapper)
     }
+
+    private fun createObservable() : Observable<Response<LogoutResponse>> {
+        return m_MultiplayerRound.logout(m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId().toString())
+    }
     public fun performLogout() {
+
+        //TODO: update instrumented tests
+        m_LogoutCommObj = SimpleRequestNotConnectedToGameCommObj(::createObservable,
+        getString(R.string.error_logout), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
+         ::receiveLogoutStatus, ::finalizeLogoutSuccessful, requireActivity())
+        
+        m_LogoutCommObj.makeRequest()
+    }
+
+    fun receiveLogoutStatus(response: LogoutResponse): String {
+        var errorString = ""
+        if (!response.m_LoggedOut)
+            errorString = getString(R.string.error_logout)
+        return errorString
+    }
+
+    fun finalizeLogoutSuccessful() {
         m_MultiplayerRound.setUserData("", "", "")
         m_MultiplayerRound.resetGameData()
         m_MultiplayerRound.initRound()

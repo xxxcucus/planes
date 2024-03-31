@@ -129,6 +129,7 @@ class LoginFragment: Fragment() {
         if (activity is MainActivity)
             (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
 
+        //TODO: create this in constructor ?
         m_LoginCommObj = LoginCommObj(::createObservable, getString(R.string.loginerror),
             getString(R.string.unknownerror), binding.settingsData!!.m_Username.trim(), binding.settingsData!!.m_Password,
             ::validationUsernamePasswordLogin, ::saveCredentials, ::finalizeLoginSuccessful, requireActivity())
