@@ -16,14 +16,14 @@ bool LogoutCommObj::makeRequest(const QString& username) {
         return false;
     }
 
-    m_RequestData = prepareViewModel(username).toJson();
+    m_RequestData = prepareViewModel().toJson();
 
     makeRequestBasis(true);
     return true;
 
 }
 
-LogoutViewModel LogoutCommObj::prepareViewModel(const QString& username) {
+LogoutViewModel LogoutCommObj::prepareViewModel() {
     LogoutViewModel logoutData;
     logoutData.m_Username = m_GlobalData->m_UserData.m_UserName;
     logoutData.m_UserId = m_GlobalData->m_UserData.m_UserId;

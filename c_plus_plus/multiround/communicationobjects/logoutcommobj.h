@@ -34,7 +34,7 @@ signals:
     void logoutFailed();
 
 private:
-    LogoutViewModel prepareViewModel(const QString& username);
+    LogoutViewModel prepareViewModel();
     void processResponse();
 
 private:
