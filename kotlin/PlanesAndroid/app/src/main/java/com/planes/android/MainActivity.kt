@@ -527,6 +527,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_content, newFragment, ApplicationScreens.NoRobot.toString())
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .addToBackStack("FromRegister")
             .commit()
 
     }
