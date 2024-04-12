@@ -6,8 +6,11 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
-import android.view.*
-import android.widget.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -29,7 +32,11 @@ import com.planes.android.game.singleplayer.GameFragmentSinglePlayer
 import com.planes.android.gamestats.GameStatsFragment
 import com.planes.android.login.LoginFragment
 import com.planes.android.logout.LogoutFragment
-import com.planes.android.preferences.*
+import com.planes.android.preferences.MainPreferencesServiceGlobal
+import com.planes.android.preferences.MultiplayerPreferencesServiceGlobal
+import com.planes.android.preferences.MultiplayerSettingsFragment
+import com.planes.android.preferences.SinglePlayerPreferencesServiceGlobal
+import com.planes.android.preferences.SinglePlayerSettingsFragment
 import com.planes.android.register.NoRobotFragment
 import com.planes.android.register.NoRobotSettingsService
 import com.planes.android.register.RegisterFragment
@@ -98,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         m_DrawerLayout = findViewById(R.id.drawer_layout)
         mDrawerToggle = object : ActionBarDrawerToggle(this, m_DrawerLayout, R.string.drawer_open_content_description, R.string.drawer_closed_content_description) {
             override fun onDrawerClosed(view: View) {
-                setFragment(true)
+                setFragment(true, "FromMainMenu")
             }
         }
         m_DrawerLayout.addDrawerListener(mDrawerToggle)
@@ -142,7 +149,14 @@ class MainActivity : AppCompatActivity() {
             mSelectedItem = R.id.nav_game
         }
 
-        setFragment(withHistory)
+        /*supportFragmentManager.addOnBackStackChangedListener {
+            println("Backstack")
+            for (i in 0 until supportFragmentManager.backStackEntryCount)
+                println(supportFragmentManager.getBackStackEntryAt(i).name
+            )
+        }*/
+
+        setFragment(withHistory, "AfterInitialization")
 
     }
 
@@ -167,7 +181,7 @@ class MainActivity : AppCompatActivity() {
             return true
         } else if (id == R.id.menu_show_stats) {
             mSelectedItem = R.id.nav_game_status
-            setFragment(true)
+            setFragment(true, "FromOptionsMenu")
         } else if (id == R.id.menu_cancel) {
             if (m_MultiplayerRound.getGameStage() == GameStages.Game.value) {
                 val fragment: GameFragmentMultiplayer? =
@@ -185,7 +199,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val t = isTablet()
         menu.findItem(R.id.menu_cancel).isVisible = isTablet() && (m_MultiplayerRound.getGameStage() == GameStages.Game.value ||
                 m_PlaneRound.getGameStage() == GameStages.Game.value ) && mSelectedItem == R.id.nav_game
         menu.findItem(R.id.menu_show_stats).isVisible = isTablet() && (m_MultiplayerRound.getGameStage() == GameStages.Game.value)
@@ -423,7 +436,7 @@ class MainActivity : AppCompatActivity() {
     //endregion
 
     //region start fragments
-    fun setFragment(addToBackStack: Boolean) {
+    fun setFragment(addToBackStack: Boolean, addToBackStackName: String) {
         lateinit var newFragment:Fragment
         var tag = "tag"
 
@@ -496,7 +509,7 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.main_content, newFragment, tag)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .addToBackStack("FromMainMenu")
+                    .addToBackStack(addToBackStackName)
                     .commit()
             else
                 supportFragmentManager.beginTransaction()
@@ -552,7 +565,7 @@ class MainActivity : AppCompatActivity() {
 
     fun startRegistrationFragment(norobotError: Boolean, message: String) {
         mSelectedItem = R.id.nav_register
-        setFragment(true)
+        setFragment(true, "FromNoRobot")
 
         if (norobotError) {
             onWarning(message)
@@ -566,7 +579,7 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(m_MainLayout, getString(R.string.norobot_success), Snackbar.LENGTH_LONG)
         snackbar1.setAction(getString(R.string.login).uppercase(), object : View.OnClickListener {
             override fun onClick(view: View?) {
-                startLoginFragment()
+                startLoginFragment("FromNoRobot")
             }
         })
         snackbar1.show()
@@ -574,28 +587,28 @@ class MainActivity : AppCompatActivity() {
 
     fun startRegistrationFragment() {
         mSelectedItem = R.id.nav_register
-        setFragment(true)
+        setFragment(true, "FromLogin")
     }
 
 
     fun startGameFragment() {
         mSelectedItem = R.id.nav_game
-        setFragment(true)
+        setFragment(true, "FromCreateGame")
     }
 
-    fun startLoginFragment() {
+    fun startLoginFragment(nameForBackStack: String) {
         mSelectedItem = R.id.nav_login
-        setFragment(true)
+        setFragment(true, nameForBackStack)
     }
 
-    fun startConnectToGameFragment() {
+    fun startConnectToGameFragment(nameForBackStack: String) {
         mSelectedItem = R.id.nav_creategame
-        setFragment(true)
+        setFragment(true, nameForBackStack)
     }
 
     fun startGameStatsFragment() {
         mSelectedItem = R.id.nav_game_status
-        setFragment(true)
+        setFragment(true, "FromGame")
     }
 
     /**
@@ -616,7 +629,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             R.id.nav_game
         }
-        setFragment(true)
+        setFragment(true, "SwitchingPlayModus")
     }
 
     //endregion

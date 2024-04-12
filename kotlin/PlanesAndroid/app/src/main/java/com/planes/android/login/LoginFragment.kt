@@ -93,7 +93,7 @@ class LoginFragment: Fragment() {
 
     private fun goToCreateGame() {
         if (activity is MainActivity)
-            (activity as MainActivity).startConnectToGameFragment()
+            (activity as MainActivity).startConnectToGameFragment("FromLogin")
     }
 
     override fun onDetach () {

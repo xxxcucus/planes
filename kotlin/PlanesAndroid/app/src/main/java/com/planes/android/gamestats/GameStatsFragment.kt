@@ -80,11 +80,11 @@ class GameStatsFragment: Fragment() {
 
     private fun goToLoginScreen() {
         if (activity is MainActivity)
-            (activity as MainActivity).startLoginFragment()
+            (activity as MainActivity).startLoginFragment("FromGameStats")
     }
 
     private fun goToConnectToGameScreen() {
         if (activity is MainActivity)
-            (activity as MainActivity).startConnectToGameFragment()
+            (activity as MainActivity).startConnectToGameFragment("FromGameStats")
     }
 }
