@@ -9,6 +9,8 @@ import com.planes.android.logout.LogoutFragment
 import org.junit.Test
 import org.junit.runner.RunWith
 import com.planes.android.R
+import com.planes.multiplayer_engine.responses.GameStatusResponse
+import com.planes.single_player_engine.GameStages
 
 
 @RunWith(AndroidJUnit4::class)
@@ -34,6 +36,10 @@ class LogoutFragmentTest {
             initialState = Lifecycle.State.RESUMED
         )
         fragmentScenario.onFragment { fragment ->
+            fragment.m_MultiplayerRound.setUserData("test", "test", "test")
+            fragment.m_MultiplayerRound.setGameStage(GameStages.BoardEditing)
+            fragment.m_MultiplayerRound.setGameData(GameStatusResponse(true, "1", "test", "test", "test",
+                "1", "1", "1"))
             fragment.finalizeLogoutSuccessful()
             assertThat(fragment.m_CreateGameSettingsService.createGameState == CreateGameStates.NotSubmitted).isTrue()
             assertThat(fragment.m_CreateGameSettingsService.gameName == "").isTrue()
