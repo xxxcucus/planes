@@ -34,7 +34,7 @@ class LogoutFragmentTest {
             initialState = Lifecycle.State.RESUMED
         )
         fragmentScenario.onFragment { fragment ->
-            fragment.performLogout()
+            fragment.finalizeLogoutSuccessful()
             assertThat(fragment.m_CreateGameSettingsService.createGameState == CreateGameStates.NotSubmitted).isTrue()
             assertThat(fragment.m_CreateGameSettingsService.gameName == "").isTrue()
             assertThat(fragment.m_MultiplayerRound.getUsername() == "").isTrue()
