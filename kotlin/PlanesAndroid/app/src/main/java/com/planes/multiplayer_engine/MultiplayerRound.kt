@@ -151,6 +151,9 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return m_Service.logout(m_UserData.authToken, LogoutRequest(userid, username))
     }
 
+    fun deactivateUser(username: String, userid: String): Observable<Response<DeleteUserResponse>> {
+        return m_Service.deactivateUser(m_UserData.authToken, DeleteUserRequest(userid, username))
+    }
     fun setUserData(username: String, password: String, authToken: String) {
         if (m_UserData.userName != username || m_UserData.password != password) {
             //login with new credentials

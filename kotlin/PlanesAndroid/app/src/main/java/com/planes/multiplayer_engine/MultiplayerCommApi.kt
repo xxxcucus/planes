@@ -22,6 +22,10 @@ interface MultiplayerCommApi {
     @Headers("Content-Type: application/json")
     fun logout(@Header("Authorization") authorization: String, @Body user: LogoutRequest): Observable<retrofit2.Response<LogoutResponse>>
 
+    @POST("users/deactivate_user")
+    @Headers("Content-Type: application/json")
+    fun deactivateUser(@Header("Authorization") authorization: String, @Body user: DeleteUserRequest): Observable<retrofit2.Response<DeleteUserResponse>>
+
     @POST("users/registration_request")
     @Headers("Content-Type: application/json")
     fun register(@Body user: RegistrationRequest): Observable<retrofit2.Response<RegistrationResponse>>

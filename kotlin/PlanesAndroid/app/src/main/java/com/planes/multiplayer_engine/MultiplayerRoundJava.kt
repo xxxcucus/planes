@@ -28,6 +28,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Round!!.logout(username, userid)
     }
 
+    override fun deactivateUser(username: String, userid: String): Observable<Response<DeleteUserResponse>> {
+        return global_Round!!.deactivateUser(username, userid)
+    }
+
     override fun setUserData(username: String, password: String, authToken: String) {
         global_Round!!.setUserData(username, password, authToken)
     }

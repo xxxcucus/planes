@@ -1,4 +1,4 @@
-package com.planes.android.logout
+package com.planes.android.deleteuser
 
 import android.content.Context
 import android.os.Bundle
@@ -12,17 +12,16 @@ import com.planes.android.MainActivity
 import com.planes.android.R
 import com.planes.android.creategame.CreateGameSettingsGlobal
 import com.planes.android.creategame.CreateGameStates
-import com.planes.android.databinding.FragmentLogoutBinding
+import com.planes.android.databinding.FragmentDeleteUserBinding
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.commobj.SimpleRequestNotConnectedToGameCommObj
-import com.planes.multiplayer_engine.responses.LogoutResponse
+import com.planes.multiplayer_engine.responses.DeleteUserResponse
 import io.reactivex.Observable
 import retrofit2.Response
 
-
-class LogoutFragment: Fragment() {
-    public lateinit var binding: FragmentLogoutBinding
-    private lateinit var m_LogoutCommObj: SimpleRequestNotConnectedToGameCommObj<LogoutResponse>
+class DeleteUserFragment: Fragment() {
+    public lateinit var binding: FragmentDeleteUserBinding
+    private lateinit var m_LogoutCommObj: SimpleRequestNotConnectedToGameCommObj<DeleteUserResponse>
     public var m_MultiplayerRound = MultiplayerRoundJava()
     public var m_CreateGameSettingsService = CreateGameSettingsGlobal()
     public lateinit var m_Context: Context
@@ -38,25 +37,25 @@ class LogoutFragment: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentLogoutBinding.inflate(inflater, container, false)
+        binding = FragmentDeleteUserBinding.inflate(inflater, container, false)
         val username = m_MultiplayerRound.getUsername()
 
-        binding.settingsData = LogoutViewModel(
+        binding.settingsData = DeleteUserViewModel(
             username,
             m_Context
         )
 
         if (activity is MainActivity) {
-            (activity as MainActivity).setActionBarTitle(getString(R.string.logout))
-            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Logout)
+            (activity as MainActivity).setActionBarTitle(getString(R.string.delete_user))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.DeleteUser)
             (activity as MainActivity).updateOptionsMenu()
         }
 
-        val logoutButton = binding.logout
+        val deleteUserButton = binding.deleteuser
 
-        logoutButton.setOnClickListener { performLogout() }
+        deleteUserButton.setOnClickListener { performDeleteUser() }
         if (username.isEmpty())
-            logoutButton.isEnabled = false
+            deleteUserButton.isEnabled = false
 
         return binding.root
     }
@@ -70,26 +69,27 @@ class LogoutFragment: Fragment() {
         return inflater.cloneInContext(contextThemeWrapper)
     }
 
-    private fun createObservable() : Observable<Response<LogoutResponse>> {
-        return m_MultiplayerRound.logout(m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId().toString())
+    private fun createObservable() : Observable<Response<DeleteUserResponse>> {
+        return m_MultiplayerRound.deactivateUser(m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId().toString())
     }
-    public fun performLogout() {
+    public fun performDeleteUser() {
 
+        //TODO: update instrumented tests
         m_LogoutCommObj = SimpleRequestNotConnectedToGameCommObj(::createObservable,
-        getString(R.string.error_logout), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
-         ::receiveLogoutStatus, ::finalizeLogoutSuccessful, requireActivity())
-        
+            getString(R.string.error_deleteuser), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
+            ::receiveDeleteUserStatus, ::finalizeDeleteUserSuccessful, requireActivity())
+
         m_LogoutCommObj.makeRequest()
     }
 
-    fun receiveLogoutStatus(response: LogoutResponse): String {
+    fun receiveDeleteUserStatus(response: DeleteUserResponse): String {
         var errorString = ""
-        if (!response.m_LoggedOut)
-            errorString = getString(R.string.error_logout)
+        if (!response.m_Deactivated)
+            errorString = getString(R.string.error_deleteuser)
         return errorString
     }
 
-    fun finalizeLogoutSuccessful() {
+    fun finalizeDeleteUserSuccessful() {
         m_MultiplayerRound.setUserData("", "", "")
         m_MultiplayerRound.resetGameData()
         m_MultiplayerRound.initRound()
@@ -100,7 +100,7 @@ class LogoutFragment: Fragment() {
         if (!this::binding.isInitialized)
             return
 
-        binding.logout.isEnabled = false
+        binding.deleteuser.isEnabled = false
         binding.settingsData!!.m_LoginStatus = m_Context.resources.getString(R.string.nouser)
         binding.settingsData!!.m_Username = ""
         binding.invalidateAll()

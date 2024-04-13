@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="settingsData" type="com.planes.android.deleteuser.DeleteUserViewModel"/>
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background">
+        <RelativeLayout
+            android:id="@+id/deleteuser_root"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:id="@+id/deleteuser_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:textSize="20dp"
+                style="@style/CustomTextViewStyle"
+                android:text="@={settingsData.m_LoginStatus}"/>
+            <TextView
+                android:id="@+id/deleteuser_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/deleteuser_state"
+                android:textSize="20dp"
+                android:layout_marginLeft="10dp"
+                style="@style/CustomTextViewStyle"
+                android:text="@={settingsData.m_Username}" />
+            <Button
+                android:id="@+id/deleteuser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/deleteuser_username"
+                android:layout_alignRight="@+id/deleteuser_username"
+                style="@style/ButtonColor"
+                android:text="@string/logout"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

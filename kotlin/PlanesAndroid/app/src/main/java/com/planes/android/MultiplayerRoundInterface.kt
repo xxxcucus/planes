@@ -18,6 +18,7 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
     fun login(username: String, password: String): Observable<Response<LoginResponse>>
     fun logout(username: String, userid: String): Observable<Response<LogoutResponse>>
 
+    fun deactivateUser(username: String, userid: String): Observable<Response<DeleteUserResponse>>
     fun setUserData(username: String, password: String, authToken: String)
 
     fun authTokenExpired(): Boolean

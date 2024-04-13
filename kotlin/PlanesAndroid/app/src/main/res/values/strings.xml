@@ -202,6 +202,8 @@
     <string name="helptext_game_1_opponent">Touch on the opponent\'s board to guess where the opponent\'s planes are.</string>
 
     <string name="error_logout"> Error when logging out.</string>
+    <string name="delete_user"> Delete User</string>
+    <string name="error_deleteuser"> Error when deleting user.</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">
