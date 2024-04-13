@@ -38,7 +38,7 @@
                 android:layout_below="@+id/deleteuser_username"
                 android:layout_alignRight="@+id/deleteuser_username"
                 style="@style/ButtonColor"
-                android:text="@string/logout"/>
+                android:text="@string/delete_user"/>
         </RelativeLayout>
     </RelativeLayout>
 </layout>

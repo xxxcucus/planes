@@ -27,6 +27,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.planes.android.about.AboutFragment
 import com.planes.android.creategame.CreateGameFragment
 import com.planes.android.creategame.CreateGameSettingsGlobal
+import com.planes.android.deleteuser.DeleteUserFragment
 import com.planes.android.game.multiplayer.GameFragmentMultiplayer
 import com.planes.android.game.singleplayer.GameFragmentSinglePlayer
 import com.planes.android.gamestats.GameStatsFragment
@@ -277,6 +278,7 @@ class MainActivity : AppCompatActivity() {
             ApplicationScreens.NoRobot.value -> R.id.nav_norobot
             ApplicationScreens.CreateGame.value -> R.id.nav_creategame
             ApplicationScreens.GameStats.value -> R.id.nav_game_status
+            ApplicationScreens.DeleteUser.value -> R.id.nav_deleteuser
             else -> R.id.nav_game
         }
     }
@@ -307,6 +309,7 @@ class MainActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_register).isVisible = true
             menu.findItem(R.id.nav_game_status).isVisible = true
             menu.findItem(R.id.nav_creategame).isVisible = true
+            menu.findItem(R.id.nav_deleteuser).isVisible = true
         }
 
         setUsernameDrawerMenuMultiplayer()
@@ -335,6 +338,7 @@ class MainActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_register).isVisible = false
             menu.findItem(R.id.nav_game_status).isVisible = false
             menu.findItem(R.id.nav_creategame).isVisible = false
+            menu.findItem(R.id.nav_deleteuser).isVisible = false
         }
         val header = navigationView.getHeaderView(0)
         val versionTextView = header.findViewById<TextView>(R.id.version_header)
@@ -479,6 +483,11 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_register -> {
                 newFragment = RegisterFragment()
                 tag = ApplicationScreens.Register.toString()
+            }
+
+            R.id.nav_deleteuser -> {
+                newFragment = DeleteUserFragment()
+                tag = ApplicationScreens.DeleteUser.toString()
             }
 
             R.id.nav_norobot -> {

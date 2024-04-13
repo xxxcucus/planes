@@ -7,6 +7,10 @@
             android:icon="@drawable/ic_baseline_sports_basketball_24"
             android:title="@string/game"/>
         <item
+            android:id="@+id/nav_creategame"
+            android:icon="@drawable/ic_baseline_add_circle_24"
+            android:title="@string/connectto_game"/>
+        <item
             android:id="@+id/nav_game_status"
             android:icon="@drawable/ic_baseline_assessment_24"
             android:title="@string/game_stats"/>
@@ -26,9 +30,9 @@
             android:id="@+id/nav_norobot"
             android:visible="false" />
         <item
-            android:id="@+id/nav_creategame"
-            android:icon="@drawable/ic_baseline_add_circle_24"
-            android:title="@string/connectto_game"/>
+            android:id="@+id/nav_deleteuser"
+            android:icon="@drawable/baseline_delete_24"
+            android:title="@string/delete_user"/>
         <item
             android:id="@+id/nav_videos"
             android:icon="@drawable/ic_baseline_video_library_24"
