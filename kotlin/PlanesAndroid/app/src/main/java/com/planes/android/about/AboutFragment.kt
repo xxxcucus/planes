@@ -32,7 +32,6 @@ class AboutFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_about1, container, false)
 
         val recyclerView: RecyclerView = rootView.findViewById(R.id.recycler_about)
-
         val mLayoutManager = LinearLayoutManager(activity)
         recyclerView.layoutManager = mLayoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
@@ -63,10 +62,12 @@ class AboutFragment : Fragment() {
                 """.trimIndent()
         val others_section = AboutModel(getString(R.string.credits_othercontributions_title),
             otherContributionText, false, "Empty", "Empty")
+        val website_section = AboutModel(getString(R.string.credits_website_title), getString(R.string.credits_website), true,
+            getString(R.string.credits_website_button), "https://xxxcucus.github.io/planes/")
         val tools_section = AboutModel(getString(R.string.credits_tools_title),
             getString(R.string.credits_tools), false, "Empty", "Empty")
 
-        m_SectionsList = arrayListOf(version_section, software_section, graphics_section, others_section, tools_section)
+        m_SectionsList = arrayListOf(version_section, software_section, graphics_section, others_section, website_section, tools_section)
         m_AboutAdapter = AboutAdapter(m_SectionsList)
         m_AboutAdapter.notifyDataSetChanged()
     }

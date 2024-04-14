@@ -205,6 +205,10 @@
     <string name="delete_user"> Delete User</string>
     <string name="error_deleteuser"> Error when deleting user.</string>
 
+    <string name="credits_website_title">Project Website</string>
+    <string name="credits_website">The project\'s website summarizing all the informations about the game and the project is https://xxxcucus.github.io/planes/.</string>
+    <string name="credits_website_button">Go to Project\'s Website</string>
+
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">
         com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>

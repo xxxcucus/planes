@@ -36,7 +36,7 @@ class AboutAdapter(aboutSectionsList: List<AboutModel>) : RecyclerView.Adapter<R
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (position == 1 || position == 2)
+        if (position == 1 || position == 2 || position == 4)
             return 0
         return 1
     }
