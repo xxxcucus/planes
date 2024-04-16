@@ -193,4 +193,11 @@
     <string name="credits_othercontributions_1">Andere Beiträge zu dem Projekt sind von:</string>
     <string name="credits_othercontributions_3">Beiträge via GitHub werden in der GitHub Seite des Projektes gelistet.</string>
     <string name="helptext_game_1_opponent">Felder des Gegnerspielfelds anklicken, um zu raten, wo die Flugzeuge des Gegners sind.</string>
+    <string name="error_logout"> Fehler beim Ausloggen</string>
+    <string name="delete_user"> Nutzer Löschen</string>
+    <string name="error_deleteuser"> Fehler beim Nutzer Löschen</string>
+
+    <string name="credits_website_title">Die Website des Projekts</string>
+    <string name="credits_website">Die Website die alle Informationen zum Projekt und Spiel ist https://xxxcucus.github.io/planes/.</string>
+    <string name="credits_website_button">Zu der Website des Projekts</string>
 </resources>
