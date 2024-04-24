@@ -201,4 +201,14 @@
     <string name="credits_othercontributions_1">Do powstania projektu przyczynili się również:</string>
     <string name="credits_othercontributions_3">Wkład z GitHub jest wymieniony na stronie projektu w tej usłudze.</string>
     <string name="helptext_game_1_opponent">Naciśnij na planszy przeciwnika, aby zgadywać pozycje jego samolotów.</string>
+
+    <string name="error_logout"> Błąd wylogowywania</string>
+    <string name="delete_user"> Usuń użytkownika</string>
+    <string name="error_deleteuser"> Błąd usuwania użytkownika</string>
+
+    <string name="credits_website_title">Strona internetowa</string>
+    <string name="credits_website">Strona internetowa zawierająca wszystkie informacje o grze i całości projektu: https://xxxcucus.github.io/planes/.</string>
+    <string name="credits_website_button">Przejdź do strony internetowej</string>
+
+
 </resources>
