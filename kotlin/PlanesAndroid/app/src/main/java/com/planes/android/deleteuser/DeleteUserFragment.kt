@@ -21,7 +21,7 @@ import retrofit2.Response
 
 class DeleteUserFragment: Fragment() {
     public lateinit var binding: FragmentDeleteUserBinding
-    private lateinit var m_LogoutCommObj: SimpleRequestNotConnectedToGameCommObj<DeleteUserResponse>
+    private lateinit var m_DeleteUserCommObj: SimpleRequestNotConnectedToGameCommObj<DeleteUserResponse>
     public var m_MultiplayerRound = MultiplayerRoundJava()
     public var m_CreateGameSettingsService = CreateGameSettingsGlobal()
     public lateinit var m_Context: Context
@@ -75,11 +75,11 @@ class DeleteUserFragment: Fragment() {
     public fun performDeleteUser() {
 
         //TODO: update instrumented tests
-        m_LogoutCommObj = SimpleRequestNotConnectedToGameCommObj(::createObservable,
+        m_DeleteUserCommObj = SimpleRequestNotConnectedToGameCommObj(::createObservable,
             getString(R.string.error_deleteuser), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
             ::receiveDeleteUserStatus, ::finalizeDeleteUserSuccessful, requireActivity())
 
-        m_LogoutCommObj.makeRequest()
+        m_DeleteUserCommObj.makeRequest()
     }
 
     fun receiveDeleteUserStatus(response: DeleteUserResponse): String {
@@ -107,6 +107,18 @@ class DeleteUserFragment: Fragment() {
 
         if (activity is MainActivity)
             (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
+    }
+
+    override fun onDetach () {
+        super.onDetach()
+        hideLoading()
+        if (this::m_DeleteUserCommObj.isInitialized)
+            m_DeleteUserCommObj.disposeSubscription()
+    }
+
+    private fun hideLoading() {
+        if (activity is MainActivity)
+            (activity as MainActivity).stopProgressDialog()
     }
 
 }

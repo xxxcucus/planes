@@ -109,4 +109,16 @@ class LogoutFragment: Fragment() {
             (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
     }
 
+    override fun onDetach () {
+        super.onDetach()
+        hideLoading()
+        if (this::m_LogoutCommObj.isInitialized)
+            m_LogoutCommObj.disposeSubscription()
+    }
+
+    private fun hideLoading() {
+        if (activity is MainActivity)
+            (activity as MainActivity).stopProgressDialog()
+    }
+
 }
