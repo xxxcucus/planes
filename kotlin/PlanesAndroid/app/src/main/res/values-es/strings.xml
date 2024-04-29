@@ -199,4 +199,12 @@
     <string name="credits_othercontributions_3">Las contribuciones de GitHub se enumeran en la página de GitHub del proyecto. </string>
     <string name="helptext_game_1_opponent">Toque el tablero del oponente para adivinar dónde se podrían encontrar sus aviones.</string>
 
+    <string name="error_logout"> Error al cerrar sesión</string>
+    <string name="delete_user"> Eliminar usuario</string>
+    <string name="error_deleteuser"> Errores al eliminar usuario</string>
+
+    <string name="credits_website_title">Sitio web del proyecto</string>
+    <string name="credits_website">El sitio web que resume toda la información sobre el juego y el proyecto es https://xxxcucus.github.io/planes/.</string>
+    <string name="credits_website_button">Ir al sitio web del proyecto</string>
+
 </resources>
