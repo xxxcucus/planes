@@ -71,4 +71,8 @@ interface MultiplayerCommApi {
     @Headers("Content-Type: application/json")
     fun startRound(@Header("Authorization") authorization: String, @Body request: StartNewRoundRequest): Observable<retrofit2.Response<StartNewRoundResponse>>
 
+    @POST("/users/available_users")
+    @Headers("Content-Type: application/json")
+    fun getPlayersList(@Header("Authorization") authorization: String, @Body request: PlayersListRequest): Observable<retrofit2.Response<PlayersListResponse>>
+
 }

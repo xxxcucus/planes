@@ -248,6 +248,11 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         )
     }
 
+    fun getPlayersList(): Observable<Response<PlayersListResponse>> {
+        return m_Service.getPlayersList(m_UserData.authToken, PlayersListRequest(m_UserData.userId.toString(), m_UserData.userName)
+        )
+    }
+
     fun setGameData(gameCreationResponse: CreateGameResponse) {
         val resetScore = gameCreationResponse.m_GameName != m_GameData.gameName
         m_GameData.setFromCreateGameResponse(gameCreationResponse)

@@ -118,4 +118,6 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
     fun getNotSentMoveCount(): Int
 
     fun getReceivedMovesCount(): Int
+
+    fun getPlayersList(): Observable<Response<PlayersListResponse>>
 }
