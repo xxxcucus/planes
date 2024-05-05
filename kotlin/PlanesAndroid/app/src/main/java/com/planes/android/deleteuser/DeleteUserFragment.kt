@@ -13,6 +13,7 @@ import com.planes.android.R
 import com.planes.android.creategame.CreateGameSettingsGlobal
 import com.planes.android.creategame.CreateGameStates
 import com.planes.android.databinding.FragmentDeleteUserBinding
+import com.planes.android.login.PlayersListServiceGlobal
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.commobj.SimpleRequestNotConnectedToGameCommObj
 import com.planes.multiplayer_engine.responses.DeleteUserResponse
@@ -20,17 +21,19 @@ import io.reactivex.Observable
 import retrofit2.Response
 
 class DeleteUserFragment: Fragment() {
-    public lateinit var binding: FragmentDeleteUserBinding
+    private lateinit var binding: FragmentDeleteUserBinding
     private lateinit var m_DeleteUserCommObj: SimpleRequestNotConnectedToGameCommObj<DeleteUserResponse>
-    public var m_MultiplayerRound = MultiplayerRoundJava()
-    public var m_CreateGameSettingsService = CreateGameSettingsGlobal()
-    public lateinit var m_Context: Context
+    private var m_MultiplayerRound = MultiplayerRoundJava()
+    private var m_PlayersListService = PlayersListServiceGlobal()
+    private var m_CreateGameSettingsService = CreateGameSettingsGlobal()
+    private lateinit var m_Context: Context
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         m_Context = context
         m_MultiplayerRound.createPlanesRound()
         m_CreateGameSettingsService.createPreferencesService()
+        m_PlayersListService.createService()
     }
 
     override fun onCreateView(
@@ -96,6 +99,8 @@ class DeleteUserFragment: Fragment() {
 
         m_CreateGameSettingsService.createGameState = CreateGameStates.NotSubmitted
         m_CreateGameSettingsService.gameName = ""
+
+        m_PlayersListService.stopPolling()
 
         if (!this::binding.isInitialized)
             return

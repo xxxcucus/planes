@@ -39,13 +39,17 @@ class PlayersListService : IPlayersListService {
             m_PollPlayersListSubscription.dispose()
     }
 
+    override fun isPolling(): Boolean {
+        return this::m_PollPlayersListSubscription.isInitialized
+    }
+
     fun reactToPlayersListInPolling(body: PlayersListResponse?) {
         if (body == null)
             return;
         m_PlayersList = body.m_Users.map { user -> user.m_Username }
     }
 
-    fun getPlayersList(): List<String> {
+    override fun getPlayersList(): List<String> {
         if (!this::m_PlayersList.isInitialized)
             return emptyList<String>()
         return m_PlayersList

@@ -93,7 +93,7 @@ class LoaderActivity : AppCompatActivity() {
 
         if (body == null) {
             onWarning(getString(R.string.unknownerror));
-        } else if (body!!.m_VersionString != m_MainPreferencesService.serverVersion) {
+        } else if (body.m_VersionString != m_MainPreferencesService.serverVersion) {
             val errorString = getString(R.string.server_version_error)
             onWarning(errorString)
         } else {

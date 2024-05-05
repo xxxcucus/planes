@@ -11,17 +11,13 @@ import androidx.fragment.app.Fragment
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
-import com.planes.android.Tools
 import com.planes.android.databinding.FragmentLoginBinding
 import com.planes.android.preferences.MultiplayerPreferencesServiceGlobal
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.commobj.LoginCommObj
 import com.planes.multiplayer_engine.responses.LoginResponse
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
-import java.util.concurrent.TimeUnit
 
 
 //TODO to update according to google and udemy
@@ -29,16 +25,16 @@ class LoginFragment: Fragment() {
     lateinit var binding: FragmentLoginBinding
     private var m_Username = ""
     private var m_Password = ""
-    public var m_PreferencesService = MultiplayerPreferencesServiceGlobal()
-    public var m_MultiplayerRound = MultiplayerRoundJava()
-    public var m_PlayersListService = PlayersListServiceGlobal()
+    private var m_PreferencesService = MultiplayerPreferencesServiceGlobal()
+    private var m_MultiplayerRound = MultiplayerRoundJava()
+    private var m_PlayersListService = PlayersListServiceGlobal()
     private lateinit var m_LoginCommObj: LoginCommObj
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         m_PreferencesService.createPreferencesService(context)
         m_MultiplayerRound.createPlanesRound()
-        m_PlayersListService.createPreferencesService()
+        m_PlayersListService.createService()
     }
 
     override fun onCreateView(
@@ -113,11 +109,13 @@ class LoginFragment: Fragment() {
         m_MultiplayerRound.setUserData(username, password, authorizationHeader)
         if (activity is MainActivity)
             (activity as MainActivity).showSaveCredentialsPopup(username, password)
+        m_PlayersListService.startPolling()
     }
 
 
     fun finalizeLoginSuccessful() {
         binding.creategame.isEnabled = true
+
         if (activity is MainActivity)
             (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
     }

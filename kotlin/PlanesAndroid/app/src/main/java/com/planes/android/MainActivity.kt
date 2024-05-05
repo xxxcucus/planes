@@ -32,6 +32,7 @@ import com.planes.android.game.multiplayer.GameFragmentMultiplayer
 import com.planes.android.game.singleplayer.GameFragmentSinglePlayer
 import com.planes.android.gamestats.GameStatsFragment
 import com.planes.android.login.LoginFragment
+import com.planes.android.login.PlayersListServiceGlobal
 import com.planes.android.logout.LogoutFragment
 import com.planes.android.preferences.MainPreferencesServiceGlobal
 import com.planes.android.preferences.MultiplayerPreferencesServiceGlobal
@@ -60,6 +61,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var m_VideoSettingsService: VideoSettingsService
     private lateinit var m_NoRobotSettingsService: NoRobotSettingsService
     private var m_CreateGameSettingsService = CreateGameSettingsGlobal()
+    private lateinit var m_PlayersListService: PlayersListServiceGlobal
+
     private var mSelectedItem = 0
     private lateinit var m_DrawerLayout: DrawerLayout
     private lateinit var m_ProgressBar: ProgressBar
@@ -102,6 +105,8 @@ class MainActivity : AppCompatActivity() {
         m_CreateGameSettingsService.createPreferencesService()
 
         m_NoRobotSettingsService = NoRobotSettingsService()
+
+        m_PlayersListService.createService()
 
         m_DrawerLayout = findViewById(R.id.drawer_layout)
         mDrawerToggle = object : ActionBarDrawerToggle(this, m_DrawerLayout, R.string.drawer_open_content_description, R.string.drawer_closed_content_description) {
@@ -235,6 +240,7 @@ class MainActivity : AppCompatActivity() {
         m_MultiplayerPreferencesService.writePreferences()
         m_MainPreferencesService.writePreferences()
         m_VideoSettingsService.writePreferences()
+        m_PlayersListService.stopPolling()
         super.onDestroy()
         Log.d("Planes", "onDestroy")
     }
