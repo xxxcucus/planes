@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var m_VideoSettingsService: VideoSettingsService
     private lateinit var m_NoRobotSettingsService: NoRobotSettingsService
     private var m_CreateGameSettingsService = CreateGameSettingsGlobal()
-    private lateinit var m_PlayersListService: PlayersListServiceGlobal
+    private var m_PlayersListService = PlayersListServiceGlobal()
 
     private var mSelectedItem = 0
     private lateinit var m_DrawerLayout: DrawerLayout

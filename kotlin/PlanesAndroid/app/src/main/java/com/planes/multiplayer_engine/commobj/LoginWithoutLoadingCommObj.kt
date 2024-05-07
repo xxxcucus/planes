@@ -7,7 +7,7 @@ import retrofit2.Response
 
 class LoginWithoutLoadingCommObj(createObservable: () -> Observable<Response<LoginResponse>>, errorStrg: String, unknownError: String,
                    username: String, password: String,
-                   saveCredentials: (String, String, String) -> Unit,
+                   saveCredentials: (String, String, String, LoginResponse) -> Unit,
                    activity: FragmentActivity
 ):
 

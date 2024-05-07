@@ -9,5 +9,5 @@ class SimpleRequestCommObj<A>(createObservable: () -> Observable<Response<A>>, e
                            finalizeRequestSuccessful: () -> Unit, activity: FragmentActivity):
         BasisCommObj<A>(true, createObservable, errorStrg, unknownError, true, true,
             errorStrgNotLoggedIn, errorStrgNotConnected, false, "", "",
-            { a: String, _: String -> a }, doWhenSuccess, false, { _: String, _: String, _: String -> }, finalizeRequestSuccessful,
+            { a: String, _: String -> a }, doWhenSuccess, false, { _: String, _: String, _: String, _:A -> }, finalizeRequestSuccessful,
             { }, activity )

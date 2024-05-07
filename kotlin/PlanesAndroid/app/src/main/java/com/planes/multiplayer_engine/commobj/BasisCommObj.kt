@@ -40,7 +40,7 @@ open class BasisCommObj<A>(withLoadingAnimation: Boolean,
         shouldBeConnectedToGame: Boolean, errorStrgNotLoggedIn: String, errorStrgNotConnected: String,
         withCredentials: Boolean, username: String, password: String, userPasswordValidation: (String, String) -> String,
         doWhenSuccess: (A) -> String,
-        checkAuthorization: Boolean, saveCredentials: (String, String, String) -> Unit,
+        checkAuthorization: Boolean, saveCredentials: (String, String, String, A) -> Unit,
         finalizeRequestSuccessful: () -> Unit, finalizeRequestError: () -> Unit, activity: FragmentActivity) {
 
     private lateinit var m_RetrofitSubscription: Disposable
@@ -66,7 +66,7 @@ open class BasisCommObj<A>(withLoadingAnimation: Boolean,
     protected var m_Password: String
     private var m_CheckAuthorization: Boolean
     protected var m_UserPasswordValidation: (String, String) -> String
-    protected var m_SaveCredentials: (String, String, String) -> Unit
+    protected var m_SaveCredentials: (String, String, String, A) -> Unit
 
     protected var m_FinalizeRequestSuccessful: () -> Unit
     protected var m_FinalizeRequestError: () -> Unit
@@ -131,7 +131,7 @@ open class BasisCommObj<A>(withLoadingAnimation: Boolean,
 
     open fun finishedRequest(code: Int, jsonErrorString: String?, headrs: Headers, body: A?) {
         if (m_CheckAuthorization)
-            finishedRequestAuthorization(jsonErrorString, headrs)
+            finishedRequestAuthorization(jsonErrorString, headrs, body!!)
         else
             finishedRequestBody(jsonErrorString, body)
     }
@@ -150,13 +150,10 @@ open class BasisCommObj<A>(withLoadingAnimation: Boolean,
         finalizeRequest()
     }
 
-    private fun finishedRequestAuthorization(jsonErrorString: String?, headrs: Headers) {
+    private fun finishedRequestAuthorization(jsonErrorString: String?, headrs: Headers, body: A) {
         if (headrs["Authorization"] != null) {
             val authorizationHeader = headrs["Authorization"]
-            //TODO: should Bearer be removed from token?
-
-            m_SaveCredentials(m_UserName, m_Password, authorizationHeader!!)
-
+            m_SaveCredentials(m_UserName, m_Password, authorizationHeader!!, body)
         } else {
             m_RequestErrorString = Tools.parseJsonError(jsonErrorString, m_GenericErrorString, m_UnknownErrorString)
             m_RequestError = true

@@ -235,8 +235,9 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         return isTablet
     }
 
-    private fun saveCredentialsTokenExpired(username: String, password: String, authorizationHeader: String) {
+    private fun saveCredentialsTokenExpired(username: String, password: String, authorizationHeader: String, body: LoginResponse) {
         m_PlaneRound.setUserData(username, password, authorizationHeader)
+        m_PlaneRound.setUserId(body.m_Id.toLong())
     }
 
     private fun createObservableTokenExpired() : Observable<Response<LoginResponse>> {

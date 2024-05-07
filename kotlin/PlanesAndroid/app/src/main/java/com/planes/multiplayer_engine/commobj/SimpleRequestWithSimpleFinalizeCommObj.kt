@@ -13,7 +13,7 @@ class SimpleRequestWithSimpleFinalizeCommObj<A>(createObservable: () -> Observab
     BasisCommObj<A>(true, createObservable, errorStrg, unknownError, false, false,
         successMsg, "", false, "", "",
         { a: String, _: String -> a },
-        { "" }, false, { _: String, _: String, _: String -> },
+        { "" }, false, { _: String, _: String, _: String, _:A -> },
         { },
         { }, activity )
 {

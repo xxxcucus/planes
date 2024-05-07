@@ -2,6 +2,7 @@ package com.planes.android.login
 
 import com.planes.android.MultiplayerRoundInterface
 import com.planes.android.R
+import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.PlayersListResponse
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -12,10 +13,13 @@ import java.util.concurrent.TimeUnit
 
 class PlayersListService : IPlayersListService {
     private lateinit var m_PollPlayersListSubscription: Disposable
-    private lateinit var m_PlaneRound: MultiplayerRoundInterface
+    private var m_PlaneRound = MultiplayerRoundJava()
     private lateinit var m_PlayersList: List<String>
 
     override fun startPolling() {
+
+        m_PlaneRound.createPlanesRound()
+
         if (this::m_PollPlayersListSubscription.isInitialized)
             return
 

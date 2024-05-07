@@ -9,5 +9,5 @@ class SimpleRequestWithoutCredentialsCommObj<A>(createObservable: () -> Observab
                                 finalizeRequestError: () -> Unit, activity: FragmentActivity):
     BasisCommObj<A>(true, createObservable, errorStrg, unknownError, false, false,
         "", "", false, "", "",
-        { a: String, _: String -> a }, doWhenSuccess, false, { _: String, _: String, _: String -> }, finalizeRequestSuccessful,
+        { a: String, _: String -> a }, doWhenSuccess, false, { _: String, _: String, _: String, _:A -> }, finalizeRequestSuccessful,
         finalizeRequestError, activity )
