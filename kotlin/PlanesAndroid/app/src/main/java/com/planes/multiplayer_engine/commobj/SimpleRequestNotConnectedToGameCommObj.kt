@@ -10,5 +10,5 @@ class SimpleRequestNotConnectedToGameCommObj<A>(createObservable: () -> Observab
 ):
     BasisCommObj<A>(true, createObservable, errorStrg, unknownError, true, false,
         errorStrgNotLoggedIn, "", false, "", "",
-        { a: String, _: String -> a }, doWhenSuccess, false, { _: String, _: String, _: String, _:A -> }, finalizeRequestSuccessful,
+        { a: String, _: String -> a }, doWhenSuccess, false, { _: String, _: String, _: String, _:A? -> }, finalizeRequestSuccessful,
         { }, activity )

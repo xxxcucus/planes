@@ -10,5 +10,5 @@ class SimpleRequestWithoutLoadingCommObj<A>(createObservable: () -> Observable<R
     BasisCommObj<A>(
         false, createObservable, errorStrg, unknownError, true, true,
         errorStrgNotLoggedIn, errorStrgNotConnected, false, "", "",
-        { a: String, _: String -> a }, doWhenSuccess, false, { _: String, _: String, _: String, _:A -> },
+        { a: String, _: String -> a }, doWhenSuccess, false, { _: String, _: String, _: String, _:A? -> },
         finalizeRequestSuccessful, finalizeRequestError, activity )

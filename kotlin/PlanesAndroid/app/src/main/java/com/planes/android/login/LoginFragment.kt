@@ -105,9 +105,10 @@ class LoginFragment: Fragment() {
             m_LoginCommObj.disposeSubscription()
     }
 
-    fun saveCredentials(username: String, password: String, authorizationHeader: String, response: LoginResponse) {
+    fun saveCredentials(username: String, password: String, authorizationHeader: String, response: LoginResponse?) {
         m_MultiplayerRound.setUserData(username, password, authorizationHeader)
-        m_MultiplayerRound.setUserId(response.m_Id.toLong())
+        if (response != null)
+            m_MultiplayerRound.setUserId(response.m_Id.toLong())
         if (activity is MainActivity)
             (activity as MainActivity).showSaveCredentialsPopup(username, password)
         m_PlayersListService.startPolling()

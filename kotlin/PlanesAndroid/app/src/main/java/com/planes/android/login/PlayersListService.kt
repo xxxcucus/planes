@@ -50,7 +50,7 @@ class PlayersListService : IPlayersListService {
     fun reactToPlayersListInPolling(body: PlayersListResponse?) {
         if (body == null)
             return;
-        m_PlayersList = body.m_Users.map { user -> user.m_Username }
+        m_PlayersList = body.m_Usernames
     }
 
     override fun getPlayersList(): List<String> {

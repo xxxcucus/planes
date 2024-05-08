@@ -13,4 +13,4 @@ class RegisterCommObj(createObservable: () -> Observable<Response<RegistrationRe
     BasisCommObj<RegistrationResponse>(true, createObservable, errorStrg, unknownError, false,
         false, "", "", true, username, password, userPasswordValidation,
         doWhenSuccess, false,
-        { _: String, _:String, _: String, _:RegistrationResponse -> "" } , finalizeRequestSuccessful, { },activity)
+        { _: String, _:String, _: String, _:RegistrationResponse? -> "" } , finalizeRequestSuccessful, { },activity)

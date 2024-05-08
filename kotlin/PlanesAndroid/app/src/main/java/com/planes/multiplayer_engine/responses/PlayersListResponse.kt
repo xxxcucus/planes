@@ -4,6 +4,6 @@ import com.google.gson.annotations.SerializedName
 import java.util.Vector
 
 data class PlayersListResponse (
-    @SerializedName("users")
-    val m_Users: Vector<SingleUserResponse>
+    @SerializedName("usernames")
+    val m_Usernames: List<String>
 )
