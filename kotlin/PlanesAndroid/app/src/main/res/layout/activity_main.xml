@@ -41,6 +41,16 @@
         android:progressTint="?planesProgressBarColor"
         android:indeterminateTint="?planesProgressBarColor"
         android:visibility="invisible" />
+    <TextView
+        android:id="@+id/LoaderLabelBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:layout_alignParentBottom="true"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        style="@style/CustomTextViewStyle"
+        android:text="@string/loader_text"/>
     </RelativeLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
