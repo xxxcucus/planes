@@ -50,7 +50,8 @@
         android:textSize="20dp"
         android:textStyle="bold"
         style="@style/CustomTextViewStyle"
-        android:text="@string/loader_text"/>
+        android:text="@string/loader_text"
+        android:visibility="invisible"/>
     </RelativeLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"

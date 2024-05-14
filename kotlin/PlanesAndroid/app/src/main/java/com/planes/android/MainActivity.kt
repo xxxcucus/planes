@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
@@ -63,6 +64,7 @@ class MainActivity : AppCompatActivity() {
     private var mSelectedItem = 0
     private lateinit var m_DrawerLayout: DrawerLayout
     private lateinit var m_ProgressBar: ProgressBar
+    private lateinit var m_StaticProgressLabel: TextView
     private lateinit var m_MainLayout: LinearLayoutCompat
 
     //region life cycle
@@ -79,6 +81,8 @@ class MainActivity : AppCompatActivity() {
 
         m_ProgressBar = findViewById(R.id.ProgressBarBottom)
         m_ProgressBar.isIndeterminate = true
+
+        m_StaticProgressLabel = findViewById(R.id.LoaderLabelBottom)
 
         m_PlaneRound = PlanesRoundJava()
         (m_PlaneRound as PlanesRoundJava).createPlanesRound()
@@ -430,13 +434,26 @@ class MainActivity : AppCompatActivity() {
     //region progress bar
 
     fun startProgressDialog() {
-        m_ProgressBar.isVisible = true
+        if (!areSystemAnimationsEnabled())
+            m_StaticProgressLabel.isVisible = true
+        else
+            m_ProgressBar.isVisible = true
     }
 
     fun stopProgressDialog() {
-        m_ProgressBar.isVisible = false
+        if (!areSystemAnimationsEnabled())
+            m_StaticProgressLabel.isVisible = false
+        else
+            m_ProgressBar.isVisible = false
     }
 
+    private fun areSystemAnimationsEnabled(): Boolean {
+
+        val duration = Settings.Global.getFloat(getContentResolver(), Settings.Global.ANIMATOR_DURATION_SCALE, 1f)
+        val transition = Settings.Global.getFloat(getContentResolver(), Settings.Global.TRANSITION_ANIMATION_SCALE, 1f)
+
+        return duration != 0f && transition != 0f
+    }
     //endregion
 
     //region start fragments
