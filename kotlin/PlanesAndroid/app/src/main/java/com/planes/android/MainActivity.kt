@@ -4,6 +4,8 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.os.PowerManager
+import android.provider.Settings
 import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
@@ -66,6 +68,7 @@ class MainActivity : AppCompatActivity() {
     private var mSelectedItem = 0
     private lateinit var m_DrawerLayout: DrawerLayout
     private lateinit var m_ProgressBar: ProgressBar
+    private lateinit var m_StaticProgressLabel: TextView
     private lateinit var m_MainLayout: LinearLayoutCompat
 
     //region life cycle
@@ -82,6 +85,8 @@ class MainActivity : AppCompatActivity() {
 
         m_ProgressBar = findViewById(R.id.ProgressBarBottom)
         m_ProgressBar.isIndeterminate = true
+
+        m_StaticProgressLabel = findViewById(R.id.LoaderLabelBottom)
 
         m_PlaneRound = PlanesRoundJava()
         (m_PlaneRound as PlanesRoundJava).createPlanesRound()
@@ -436,13 +441,22 @@ class MainActivity : AppCompatActivity() {
     //region progress bar
 
     fun startProgressDialog() {
-        m_ProgressBar.isVisible = true
+        if (!areSystemAnimationsEnabled())
+            m_StaticProgressLabel.isVisible = true
+        else
+            m_ProgressBar.isVisible = true
     }
 
     fun stopProgressDialog() {
+        m_StaticProgressLabel.isVisible = false
         m_ProgressBar.isVisible = false
     }
 
+    private fun areSystemAnimationsEnabled(): Boolean {
+        val powerManager = getSystemService(POWER_SERVICE) as PowerManager
+        val powerSaveMode = powerManager.isPowerSaveMode
+        return !powerSaveMode
+    }
     //endregion
 
     //region start fragments
