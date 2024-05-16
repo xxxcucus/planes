@@ -2,29 +2,30 @@ package com.planes.android
 
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PowerManager
 import android.util.Log
 import android.view.View
 import android.widget.*
-import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.planes.android.creategame.CreateGameSettingsGlobal
 import com.planes.android.creategame.CreateGameStates
 import com.planes.android.preferences.MainPreferencesServiceGlobal
 import com.planes.multiplayer_engine.MultiplayerRoundJava
-import com.planes.multiplayer_engine.commobj.SimpleRequestWithoutCredentialsCommObj
 import com.planes.multiplayer_engine.responses.VersionResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
+
 class LoaderActivity : AppCompatActivity() {
 
     private var m_MainPreferencesService = MainPreferencesServiceGlobal()
     private lateinit var m_VerifyVersionCommObj: Disposable
     private lateinit var m_ProgressBar: ProgressBar
+    private lateinit var m_StaticProgressLabel: TextView
     var m_MultiplayerRound = MultiplayerRoundJava()
     var m_CreateGameSettingsService = CreateGameSettingsGlobal()
     private lateinit var m_MainLayout: RelativeLayout
@@ -43,6 +44,8 @@ class LoaderActivity : AppCompatActivity() {
 
         m_ProgressBar = findViewById(R.id.ProgressBarBottom)
         m_ProgressBar.isIndeterminate = true
+
+        m_StaticProgressLabel = findViewById(R.id.LoaderLabelBottom)
 
         var singlePlayerGameButton = findViewById(R.id.singleplayer) as Button
         var multiplayerGameButton = findViewById(R.id.multiplayer) as Button
@@ -81,11 +84,21 @@ class LoaderActivity : AppCompatActivity() {
     }
 
     fun startProgressDialog() {
-        m_ProgressBar.isVisible = true
+        if (!areSystemAnimationsEnabled())
+            m_StaticProgressLabel.isVisible = true
+        else
+            m_ProgressBar.isVisible = true
     }
 
     fun stopProgressDialog() {
-       m_ProgressBar.isVisible = false
+        m_StaticProgressLabel.isVisible = false
+        m_ProgressBar.isVisible = false
+    }
+
+    private fun areSystemAnimationsEnabled(): Boolean {
+        val powerManager = getSystemService(POWER_SERVICE) as PowerManager
+        val powerSaveMode = powerManager.isPowerSaveMode
+        return !powerSaveMode
     }
 
     fun checkServerVersion(body: VersionResponse?) {
@@ -93,7 +106,7 @@ class LoaderActivity : AppCompatActivity() {
 
         if (body == null) {
             onWarning(getString(R.string.unknownerror));
-        } else if (body!!.m_VersionString != m_MainPreferencesService.serverVersion) {
+        } else if (body.m_VersionString != m_MainPreferencesService.serverVersion) {
             val errorString = getString(R.string.server_version_error)
             onWarning(errorString)
         } else {

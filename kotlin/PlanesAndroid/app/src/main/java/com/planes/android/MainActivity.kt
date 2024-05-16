@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.os.PowerManager
 import android.provider.Settings
 import android.util.Log
 import android.util.TypedValue
@@ -441,18 +442,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun stopProgressDialog() {
-        if (!areSystemAnimationsEnabled())
-            m_StaticProgressLabel.isVisible = false
-        else
-            m_ProgressBar.isVisible = false
+        m_StaticProgressLabel.isVisible = false
+        m_ProgressBar.isVisible = false
     }
 
     private fun areSystemAnimationsEnabled(): Boolean {
-
-        val duration = Settings.Global.getFloat(getContentResolver(), Settings.Global.ANIMATOR_DURATION_SCALE, 1f)
-        val transition = Settings.Global.getFloat(getContentResolver(), Settings.Global.TRANSITION_ANIMATION_SCALE, 1f)
-
-        return duration != 0f && transition != 0f
+        val powerManager = getSystemService(POWER_SERVICE) as PowerManager
+        val powerSaveMode = powerManager.isPowerSaveMode
+        return !powerSaveMode
     }
     //endregion
 
