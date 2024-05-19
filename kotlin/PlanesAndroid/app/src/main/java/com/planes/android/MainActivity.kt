@@ -27,6 +27,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.planes.android.about.AboutFragment
+import com.planes.android.chat.ChatFragment
 import com.planes.android.creategame.CreateGameFragment
 import com.planes.android.creategame.CreateGameSettingsGlobal
 import com.planes.android.deleteuser.DeleteUserFragment
@@ -290,6 +291,7 @@ class MainActivity : AppCompatActivity() {
             ApplicationScreens.CreateGame.value -> R.id.nav_creategame
             ApplicationScreens.GameStats.value -> R.id.nav_game_status
             ApplicationScreens.DeleteUser.value -> R.id.nav_deleteuser
+            ApplicationScreens.Chat.value -> R.id.nav_chat
             else -> R.id.nav_game
         }
     }
@@ -529,6 +531,11 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_game_status -> {
                 newFragment = GameStatsFragment()
                 tag = ApplicationScreens.GameStats.toString()
+            }
+
+            R.id.nav_chat -> {
+                newFragment = ChatFragment()
+                tag = ApplicationScreens.Chat.toString()
             }
         }
 

@@ -19,7 +19,7 @@ class ChatFragment : Fragment() {
 
     private lateinit var m_SectionsList: List<ChatEntryModel>
     private lateinit var m_ChatAdapter: ChatAdapter
-    private lateinit var m_PlayersListService: PlayersListServiceGlobal
+    private var m_PlayersListService = PlayersListServiceGlobal()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -40,7 +40,7 @@ class ChatFragment : Fragment() {
         recyclerView.adapter = m_ChatAdapter
 
         if (activity is MainActivity) {
-            (activity as MainActivity).setActionBarTitle(getString(R.string.about))
+            (activity as MainActivity).setActionBarTitle(getString(R.string.chat))
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Chat)
             (activity as MainActivity).updateOptionsMenu()
         }
