@@ -24,6 +24,7 @@ class ChatFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         m_PlayersListService.createService()
+        m_PlayersListService.setChatFragmentUpdateFunction(::updateSectionsList)
         prepareSectionsList()
     }
 
@@ -56,5 +57,16 @@ class ChatFragment : Fragment() {
         m_SectionsList = playersList.map { entry -> ChatEntryModel(entry) }
         m_ChatAdapter = ChatAdapter(m_SectionsList)
         m_ChatAdapter.notifyDataSetChanged()
+    }
+
+    private fun updateSectionsList(playersList : List<String>) {
+        m_SectionsList = playersList.map { entry -> ChatEntryModel(entry) }
+        m_ChatAdapter.updateSections(m_SectionsList)
+        m_ChatAdapter.notifyDataSetChanged()
+    }
+
+    override fun onDetach () {
+        super.onDetach()
+        m_PlayersListService.deactivateUpdateOfChat()
     }
 }

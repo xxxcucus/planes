@@ -7,4 +7,8 @@ interface IPlayersListService {
     fun isPolling(): Boolean
 
     fun getPlayersList(): List<String>
+
+    fun setChatFragmentUpdateFunction(updateFunction: (List<String>)->Unit)
+
+    fun deactivateUpdateOfChat()
 }

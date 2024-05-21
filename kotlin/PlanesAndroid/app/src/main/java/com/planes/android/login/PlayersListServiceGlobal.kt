@@ -22,6 +22,14 @@ class PlayersListServiceGlobal : IPlayersListService {
         return global_Service!!.getPlayersList()
     }
 
+    override fun setChatFragmentUpdateFunction(updateFunction: (List<String>)->Unit) {
+        global_Service!!.setChatFragmentUpdateFunction(updateFunction)
+    }
+
+    override fun deactivateUpdateOfChat() {
+        global_Service!!.deactivateUpdateOfChat()
+    }
+
     companion object {
         private var global_Service: PlayersListService? = null
     }

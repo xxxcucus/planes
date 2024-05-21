@@ -15,6 +15,8 @@ class PlayersListService : IPlayersListService {
     private lateinit var m_PollPlayersListSubscription: Disposable
     private var m_PlaneRound = MultiplayerRoundJava()
     private lateinit var m_PlayersList: List<String>
+    private lateinit var m_ChatUpdateFunction: (List<String>) -> Unit
+    private var m_UpdateChat = false
 
     override fun startPolling() {
 
@@ -29,7 +31,7 @@ class PlayersListService : IPlayersListService {
                 .flatMap { m_PlaneRound.getPlayersList() }
                 //.doOnError { setReceiveOpponentPlanePositionsError(getString(R.string.error_plane_positions)) }
                 .retry()
-                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ data -> reactToPlayersListInPolling(data.body()) }
                 ) { }
     }
@@ -51,11 +53,22 @@ class PlayersListService : IPlayersListService {
         if (body == null)
             return;
         m_PlayersList = body.m_Usernames
+        if (m_UpdateChat)
+            m_ChatUpdateFunction(m_PlayersList)
     }
 
     override fun getPlayersList(): List<String> {
         if (!this::m_PlayersList.isInitialized)
             return emptyList<String>()
         return m_PlayersList
+    }
+
+    override fun setChatFragmentUpdateFunction(updateFunction: (List<String>)->Unit) {
+        m_UpdateChat = true
+        m_ChatUpdateFunction = updateFunction
+    }
+
+    override fun deactivateUpdateOfChat() {
+        m_UpdateChat = false
     }
 }

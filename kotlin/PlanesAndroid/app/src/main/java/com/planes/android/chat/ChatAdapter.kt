@@ -10,7 +10,7 @@ import com.planes.android.R
 
 
 class ChatAdapter(chatSectionsList: List<ChatEntryModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val m_SectionsList: List<ChatEntryModel> = chatSectionsList
+    private var m_SectionsList: List<ChatEntryModel> = chatSectionsList
 
     inner class MyViewHolder(view: View, context: Context) : RecyclerView.ViewHolder(view) {
         var m_PlayerName: TextView = view.findViewById(R.id.chat_player_name)
@@ -34,5 +34,9 @@ class ChatAdapter(chatSectionsList: List<ChatEntryModel>) : RecyclerView.Adapter
 
     override fun getItemCount(): Int {
         return m_SectionsList.size
+    }
+
+    fun updateSections(sectionsList : List<ChatEntryModel>) {
+        m_SectionsList = sectionsList
     }
 }
