@@ -28,7 +28,7 @@ class PlayersListService : IPlayersListService {
         m_PlaneRound.createPlanesRound()
         m_PollPlayersListSubscription =
             Observable.interval(30, TimeUnit.SECONDS, Schedulers.io())
-                .flatMap { m_PlaneRound.getPlayersList() }
+                .switchMap { m_PlaneRound.getPlayersList() }
                 //.doOnError { setReceiveOpponentPlanePositionsError(getString(R.string.error_plane_positions)) }
                 .retry()
                 .observeOn(AndroidSchedulers.mainThread())
