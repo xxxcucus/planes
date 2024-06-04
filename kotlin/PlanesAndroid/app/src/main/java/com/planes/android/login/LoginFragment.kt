@@ -25,14 +25,16 @@ class LoginFragment: Fragment() {
     lateinit var binding: FragmentLoginBinding
     private var m_Username = ""
     private var m_Password = ""
-    public var m_PreferencesService = MultiplayerPreferencesServiceGlobal()
-    public var m_MultiplayerRound = MultiplayerRoundJava()
+    private var m_PreferencesService = MultiplayerPreferencesServiceGlobal()
+    private var m_MultiplayerRound = MultiplayerRoundJava()
+    private var m_PlayersListService = PlayersListServiceGlobal()
     private lateinit var m_LoginCommObj: LoginCommObj
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         m_PreferencesService.createPreferencesService(context)
         m_MultiplayerRound.createPlanesRound()
+        m_PlayersListService.createService()
     }
 
     override fun onCreateView(
@@ -52,7 +54,7 @@ class LoginFragment: Fragment() {
         saveSettingsButton.setOnClickListener { performLogin() }
 
         val goToRegisterButton = binding.register
-        goToRegisterButton?.setOnClickListener { goToRegistration()}
+        goToRegisterButton.setOnClickListener { goToRegistration()}
 
         val hidePasswordCheckbox = binding.secureCheck
         hidePasswordCheckbox.setOnCheckedChangeListener { _, isChecked ->
@@ -103,15 +105,24 @@ class LoginFragment: Fragment() {
             m_LoginCommObj.disposeSubscription()
     }
 
-    fun saveCredentials(username: String, password: String, authorizationHeader: String) {
+    fun saveCredentials(username: String, password: String, authorizationHeader: String, response: LoginResponse?) {
         m_MultiplayerRound.setUserData(username, password, authorizationHeader)
+        if (response != null)
+            m_MultiplayerRound.setUserId(response.m_Id.toLong())
         if (activity is MainActivity)
             (activity as MainActivity).showSaveCredentialsPopup(username, password)
+        m_PlayersListService.startPolling()
+    }
+
+    fun saveUserId(response: LoginResponse): String {
+        m_MultiplayerRound.setUserId(response.m_Id.toLong())
+        return ""
     }
 
 
     fun finalizeLoginSuccessful() {
         binding.creategame.isEnabled = true
+
         if (activity is MainActivity)
             (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
     }

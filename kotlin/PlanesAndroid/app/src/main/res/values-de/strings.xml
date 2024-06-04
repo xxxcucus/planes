@@ -198,6 +198,6 @@
     <string name="error_deleteuser"> Fehler beim Nutzer Löschen</string>
 
     <string name="credits_website_title">Die Website des Projekts</string>
-    <string name="credits_website">Die Website die alle Informationen zum Projekt und Spiel ist https://xxxcucus.github.io/planes/.</string>
+    <string name="credits_website">Die Website die alle Informationen zum Projekt und Spiel enthält ist https://xxxcucus.github.io/planes/.</string>
     <string name="credits_website_button">Zu der Website des Projekts</string>
 </resources>

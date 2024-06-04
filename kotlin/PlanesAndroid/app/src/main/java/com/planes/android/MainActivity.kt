@@ -4,6 +4,8 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.os.PowerManager
+import android.provider.Settings
 import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
@@ -25,6 +27,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.planes.android.about.AboutFragment
+import com.planes.android.chat.ChatFragment
 import com.planes.android.creategame.CreateGameFragment
 import com.planes.android.creategame.CreateGameSettingsGlobal
 import com.planes.android.deleteuser.DeleteUserFragment
@@ -32,6 +35,7 @@ import com.planes.android.game.multiplayer.GameFragmentMultiplayer
 import com.planes.android.game.singleplayer.GameFragmentSinglePlayer
 import com.planes.android.gamestats.GameStatsFragment
 import com.planes.android.login.LoginFragment
+import com.planes.android.login.PlayersListServiceGlobal
 import com.planes.android.logout.LogoutFragment
 import com.planes.android.preferences.MainPreferencesServiceGlobal
 import com.planes.android.preferences.MultiplayerPreferencesServiceGlobal
@@ -60,9 +64,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var m_VideoSettingsService: VideoSettingsService
     private lateinit var m_NoRobotSettingsService: NoRobotSettingsService
     private var m_CreateGameSettingsService = CreateGameSettingsGlobal()
+    private var m_PlayersListService = PlayersListServiceGlobal()
+
     private var mSelectedItem = 0
     private lateinit var m_DrawerLayout: DrawerLayout
     private lateinit var m_ProgressBar: ProgressBar
+    private lateinit var m_StaticProgressLabel: TextView
     private lateinit var m_MainLayout: LinearLayoutCompat
 
     //region life cycle
@@ -79,6 +86,8 @@ class MainActivity : AppCompatActivity() {
 
         m_ProgressBar = findViewById(R.id.ProgressBarBottom)
         m_ProgressBar.isIndeterminate = true
+
+        m_StaticProgressLabel = findViewById(R.id.LoaderLabelBottom)
 
         m_PlaneRound = PlanesRoundJava()
         (m_PlaneRound as PlanesRoundJava).createPlanesRound()
@@ -102,6 +111,8 @@ class MainActivity : AppCompatActivity() {
         m_CreateGameSettingsService.createPreferencesService()
 
         m_NoRobotSettingsService = NoRobotSettingsService()
+
+        m_PlayersListService.createService()
 
         m_DrawerLayout = findViewById(R.id.drawer_layout)
         mDrawerToggle = object : ActionBarDrawerToggle(this, m_DrawerLayout, R.string.drawer_open_content_description, R.string.drawer_closed_content_description) {
@@ -235,6 +246,7 @@ class MainActivity : AppCompatActivity() {
         m_MultiplayerPreferencesService.writePreferences()
         m_MainPreferencesService.writePreferences()
         m_VideoSettingsService.writePreferences()
+        m_PlayersListService.stopPolling()
         super.onDestroy()
         Log.d("Planes", "onDestroy")
     }
@@ -279,6 +291,7 @@ class MainActivity : AppCompatActivity() {
             ApplicationScreens.CreateGame.value -> R.id.nav_creategame
             ApplicationScreens.GameStats.value -> R.id.nav_game_status
             ApplicationScreens.DeleteUser.value -> R.id.nav_deleteuser
+            ApplicationScreens.Chat.value -> R.id.nav_chat
             else -> R.id.nav_game
         }
     }
@@ -430,13 +443,22 @@ class MainActivity : AppCompatActivity() {
     //region progress bar
 
     fun startProgressDialog() {
-        m_ProgressBar.isVisible = true
+        if (!areSystemAnimationsEnabled())
+            m_StaticProgressLabel.isVisible = true
+        else
+            m_ProgressBar.isVisible = true
     }
 
     fun stopProgressDialog() {
+        m_StaticProgressLabel.isVisible = false
         m_ProgressBar.isVisible = false
     }
 
+    private fun areSystemAnimationsEnabled(): Boolean {
+        val powerManager = getSystemService(POWER_SERVICE) as PowerManager
+        val powerSaveMode = powerManager.isPowerSaveMode
+        return !powerSaveMode
+    }
     //endregion
 
     //region start fragments
@@ -509,6 +531,11 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_game_status -> {
                 newFragment = GameStatsFragment()
                 tag = ApplicationScreens.GameStats.toString()
+            }
+
+            R.id.nav_chat -> {
+                newFragment = ChatFragment()
+                tag = ApplicationScreens.Chat.toString()
             }
         }
 

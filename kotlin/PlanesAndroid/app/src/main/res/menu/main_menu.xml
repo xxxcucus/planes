@@ -38,6 +38,10 @@
             android:icon="@drawable/ic_baseline_video_library_24"
             android:title="@string/videos"/>
         <item
+            android:id="@+id/nav_chat"
+            android:icon="@drawable/ic_baseline_toc_24"
+            android:title="@string/chat"/>
+        <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_baseline_app_settings_alt_24"
             android:title="@string/options"/>

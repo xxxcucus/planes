@@ -235,8 +235,10 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         return isTablet
     }
 
-    private fun saveCredentialsTokenExpired(username: String, password: String, authorizationHeader: String) {
+    private fun saveCredentialsTokenExpired(username: String, password: String, authorizationHeader: String, body: LoginResponse?) {
         m_PlaneRound.setUserData(username, password, authorizationHeader)
+        if (body != null)
+            m_PlaneRound.setUserId(body.m_Id.toLong())
     }
 
     private fun createObservableTokenExpired() : Observable<Response<LoginResponse>> {
@@ -373,7 +375,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
         m_PollOpponentPositionsSubscription =
             Observable.interval(5, TimeUnit.SECONDS, Schedulers.io())
-                .flatMap { m_PlaneRound.acquireOpponentPlanePositions(acquireOpponentPlanePositionsRequest) }
+                .switchMap { m_PlaneRound.acquireOpponentPlanePositions(acquireOpponentPlanePositionsRequest) }
                 .doOnError { setReceiveOpponentPlanePositionsError(getString(R.string.error_plane_positions)) }
                 .retry()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -613,7 +615,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
 
         m_PollOpponentMovesSubscription =
             Observable.interval(5, TimeUnit.SECONDS, Schedulers.io())
-                .flatMap { buildSendMoveRequestInPolling() }
+                .switchMap { buildSendMoveRequestInPolling() }
                 .doOnError { setReceiveOpponentMovesError(getString(R.string.error_moves)) }
                 .retry()
                 .observeOn(AndroidSchedulers.mainThread())
