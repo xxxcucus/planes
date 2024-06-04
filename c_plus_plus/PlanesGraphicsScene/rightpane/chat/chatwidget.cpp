@@ -33,34 +33,15 @@ ChatWidget::ChatWidget(GlobalData* globalData, MultiplayerRound* multiround, QSe
     hLayout->addLayout(vLayout1);
     setLayout(hLayout);
 
-    connect(m_MultiRound, &MultiplayerRound::connectedToChat, this, &ChatWidget::subscribeToTopic);
     connect(m_MultiRound, &MultiplayerRound::chatMessageReceived, this, &ChatWidget::chatMessageReceived);
     connect(m_MultiRound, &MultiplayerRound::chatConnectionError, this, &ChatWidget::chatConnectionError);
     connect(m_PlayersListWidget, &PlayersListWidget::playerDoubleClicked, this, &ChatWidget::openChatWindow);
     //connect(m_PlayersListWidget, &PlayersListWidget::)
     connect(m_SendMessageButton, &QPushButton::clicked, this, &ChatWidget::sendMessageToPlayer);
-    m_MultiRound->connectToChat();
 }
 
 void ChatWidget::setActive(bool active) {
     m_PlayersListWidget->setActive(active);
-
-    if (!m_MultiRound->chatSocketConnected()) {
-        qDebug() << "Not connected to chat server";
-        return;
-    }
-
-    if (active) {
-        m_MultiRound->createChatConnection();
-        return;
-    }
-
-    m_MultiRound->destroyChatConnection();
-}
-
-void ChatWidget::subscribeToTopic() {
-    qDebug() << "Subscribe to topic";
-    m_MultiRound->subscribeToChatTopic();
 }
 
 void ChatWidget::openChatWindow(const QString& player) {

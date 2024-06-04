@@ -26,10 +26,9 @@ add_subdirectory(PlanesQML)
 add_subdirectory(singleround)
 add_subdirectory(multiround)
 add_subdirectory(bcrypt)
-add_subdirectory(stomp)
 add_subdirectory(tests/commobjtests)
 add_subdirectory(tests/singleroundtests)
-add_subdirectory(tests/stomptests)
+
 
 set(ROOT_PATH ${Qt6_DIR}/../../../)
 

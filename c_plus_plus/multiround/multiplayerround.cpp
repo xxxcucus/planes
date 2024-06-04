@@ -6,10 +6,10 @@
 #include "communicationtools.h"
 #include "viewmodels/newmoveviewmodel.h"
 #include "viewmodels/getopponentemovesviewmodel.h"
-#include "stompframecreator.h"
 
-MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo, StompClient* stompClient)
-    : AbstractPlaneRound(rows, cols, planeNo), m_ParentWidget(parentWidget), m_NetworkManager(networkManager), m_GlobalData(globalData), m_Settings(settings), m_GameInfo(gameInfo), m_StompClient(stompClient)
+
+MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo)
+    : AbstractPlaneRound(rows, cols, planeNo), m_ParentWidget(parentWidget), m_NetworkManager(networkManager), m_GlobalData(globalData), m_Settings(settings), m_GameInfo(gameInfo)
 {
     m_CreateGameObj = new CreateGameCommObj("/game/create", "creating game", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_CreateGameObj, &CreateGameCommObj::gameCreated, this, &MultiplayerRound::gameCreatedSlot);
@@ -377,70 +377,12 @@ void MultiplayerRound::deactivateUser() {
     m_DeactivateUserCommObj->makeRequest(m_GlobalData->m_UserData.m_UserName);
 }
 
-void MultiplayerRound::connectToChat() {
-    connect(m_StompClient, &StompClient::clientConnected, this, &MultiplayerRound::connectedToChatServer);
-    connect(m_StompClient, &StompClient::clientDisconnected, this, &MultiplayerRound::disconnectedFromChatServer);
-    connect(m_StompClient, &StompClient::connectedToChat, this, &MultiplayerRound::connectedToChat);
-    connect(m_StompClient, &StompClient::stompMessageReceived, this, &MultiplayerRound::chatMessageReceivedSlot);
-    connect(m_StompClient, &StompClient::communicationError, this, &MultiplayerRound::chatConnectionError);
-
-    m_StompClient->setUrl(m_Settings->value("multiplayer/chatserverpath").toString());
-    m_StompClient->connectToServer();
-}
-
-void MultiplayerRound::createChatConnection() {
-    StompFrameCreator stompFrameCreator;
-    auto connectFrame = stompFrameCreator.createConnectFrame("1.2", "", "", "", 10000, 10000);
-    m_StompClient->sendFrame(connectFrame);
-}
-
-void MultiplayerRound::destroyChatConnection() {
-    StompFrameCreator stompFrameCreator;
-    auto unsubscribeFrame = stompFrameCreator.createUnsubscribeFrame(1);
-    m_StompClient->sendFrame(unsubscribeFrame);
-
-    auto disconnectFrame = stompFrameCreator.createDisconnectFrame(1);
-    m_StompClient->sendFrame(disconnectFrame);
-}
-
-bool MultiplayerRound::chatSocketConnected() {
-    if (!m_StompClient->isClientConnectedToServer())
-        return false;
-
-    return true;
-}
-
-void MultiplayerRound::subscribeToChatTopic() {
-    if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        qDebug() << "No user logged in";
-        return;
-    }
-
-    StompFrameCreator stompFrameCreator;
-    QString topicName = QString("/topic/userChannel/%1").arg(m_GlobalData->m_UserData.m_UserName);
-    auto subscribeFrame = stompFrameCreator.createSubscribeFrame(1, topicName, "auto");
-    m_StompClient->sendFrame(subscribeFrame);
-    //TODO: error handling
-}
-
 void MultiplayerRound::sendMessageThroughChat(const QString& receiver, const QString& message) {
        if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         qDebug() << "No user logged in";
         return;
     }
 
-    StompFrameCreator stompFrameCreator;
-
-    QJsonObject jsonObject;
-    jsonObject.insert("senderUserName", QJsonValue::fromVariant(m_GlobalData->m_UserData.m_UserName));
-    jsonObject.insert("receiverUserName", QJsonValue::fromVariant(receiver));
-    jsonObject.insert("message", QJsonValue::fromVariant(message));
-    QJsonDocument doc(jsonObject);
-
-    auto publishFrame = stompFrameCreator.createSendTextFrame("/app/chat", doc.toJson());
-    qDebug() << "Sending " << doc.toJson();
-    m_StompClient->sendFrame(publishFrame);
-    //TODO: error handling
 }
 
 void MultiplayerRound::chatMessageReceivedSlot(const QString& message) {

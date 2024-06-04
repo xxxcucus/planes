@@ -86,7 +86,6 @@ add_library(libMultiRound SHARED
 target_link_libraries(libMultiRound
 	libSingleRound
     libbcrypt
-    libStomp
 	Qt6::Widgets
 	Qt6::Network
     Qt6::Core)

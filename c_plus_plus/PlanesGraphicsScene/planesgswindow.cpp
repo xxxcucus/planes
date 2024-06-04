@@ -1,5 +1,4 @@
 #include "planesgswindow.h"
-#include "stompclient.h"
 
 PlanesGSWindow::PlanesGSWindow(bool isMultiplayer, QWidget *parent) : QMainWindow(parent)
 {
@@ -12,8 +11,7 @@ PlanesGSWindow::PlanesGSWindow(bool isMultiplayer, QWidget *parent) : QMainWindo
 
     //builds the game object - the controller
     mRound = new PlaneRound(10, 10, 3);
-    m_StompClient = new StompClient();
-    m_MultiRound = new MultiplayerRound(10, 10, 3, this, m_NetworkManager, m_GlobalData, m_Settings, m_GameInfo, m_StompClient);
+    m_MultiRound = new MultiplayerRound(10, 10, 3, this, m_NetworkManager, m_GlobalData, m_Settings, m_GameInfo);
     if (isMultiplayer)
         m_MultiRound->testServerVersion();
 
@@ -30,5 +28,4 @@ PlanesGSWindow::~PlanesGSWindow() {
     delete m_GameInfo;
     delete m_Settings;
     delete m_NetworkManager;
-    delete m_StompClient;
 }

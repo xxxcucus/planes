@@ -34,7 +34,7 @@
 #include "communicationobjects/logoutcommobj.h"
 #include "communicationobjects/playerslistcommobj.h"
 #include "communicationobjects/deactivateusercommobj.h"
-#include "stompclient.h"
+
 
 class MULTIPLAYER_EXPORT MultiplayerRound : public QObject, public AbstractPlaneRound  {
     Q_OBJECT
@@ -71,8 +71,6 @@ private:
     
     std::vector<int> m_NotSentMoves;
     std::vector<int> m_ReceivedMoves;
-    
-    StompClient* m_StompClient = nullptr;
 
 private slots:    
     void connectedToGameSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId, bool resetGameScore);
@@ -124,7 +122,7 @@ signals:
     void chatConnectionError(const QString& error);
 
 public:
-    MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo, StompClient* stompClient);
+    MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo);
     virtual ~MultiplayerRound();
     void reset() override;
     virtual void initRound() override;
@@ -168,10 +166,6 @@ public:
     void requestLoggedInPlayers();
     void deactivateUser();
 
-    void connectToChat();
-    void createChatConnection();
-    void destroyChatConnection();
-    bool chatSocketConnected();
     void subscribeToChatTopic();
     void sendMessageThroughChat(const QString& receiver, const QString& message);
 

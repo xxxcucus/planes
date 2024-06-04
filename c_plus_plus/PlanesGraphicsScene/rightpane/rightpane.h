@@ -69,7 +69,6 @@ private:
 	QSettings* m_Settings; //TODO: to move planesgswindow
     GlobalData* m_GlobalData;
     QNetworkAccessManager* m_NetworkManager;
-    StompClient* m_StompClient;
     GameInfo* m_GameInfo;
     ChatWidget* m_ChatWidget;
     

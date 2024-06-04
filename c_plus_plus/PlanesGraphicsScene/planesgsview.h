@@ -56,7 +56,6 @@ private:
     QNetworkAccessManager* m_NetworkManager;
     GameInfo* m_GameInfo;
     QSettings* m_Settings;
-    StompClient* m_StompClient;
 };
 
 #endif // PLANESGSVIEW_H

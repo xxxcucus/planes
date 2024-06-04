@@ -8,7 +8,7 @@
 #include <QPushButton>
 #include <QSettings>
 #include <map>
-#include "stompclient.h"
+
 
 class ChatWidget : public QWidget {
     Q_OBJECT
@@ -18,7 +18,6 @@ public:
     void setActive(bool active);
 
 public slots:
-    void subscribeToTopic();
     void openChatWindow(const QString& player);
     void sendMessageToPlayer();
     void chatMessageReceived(const QString& sender, const QString& message);
