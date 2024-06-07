@@ -11,6 +11,8 @@ ChatWidget::ChatWidget(GlobalData* globalData, MultiplayerRound* multiround, QSe
     m_MessageLineEdit = new QLineEdit();
     m_SendMessageButton = new QPushButton("Send");
 
+    //TODO: QTabbedWidget, Players, Last Week's Players, Last Month's Players
+
     QHBoxLayout* hLayout = new QHBoxLayout();
     QVBoxLayout* vLayout2 = new QVBoxLayout();
     QLabel* playersLabel = new QLabel("Players");

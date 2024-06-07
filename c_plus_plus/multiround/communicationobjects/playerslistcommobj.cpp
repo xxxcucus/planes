@@ -4,8 +4,10 @@
 #include <QJsonArray>
 #include <QMessageBox>
 
+#include "viewmodels/getavailableusersviewmodel.h"
 
-bool PlayersListCommObj::makeRequest() {
+
+bool PlayersListCommObj::makeRequest(int lastLoginDay) {
     if (m_IsSinglePlayer) {
         //qDebug() << "makeRequestBasis in single player modus";
         return false;
@@ -20,7 +22,7 @@ bool PlayersListCommObj::makeRequest() {
         return false;
     }
 
-    m_RequestData = prepareViewModel().toJson();
+    m_RequestData = prepareViewModel(lastLoginDay).toJson();
 
     makeRequestBasis(true);
     return true;
@@ -55,9 +57,10 @@ void PlayersListCommObj::processResponse(const QJsonObject& retJson) {
     emit playersListReceived(playersList);
 }
 
-BasisRequestViewModel PlayersListCommObj::prepareViewModel() {
-    BasisRequestViewModel viewModel;
+BasisRequestViewModel PlayersListCommObj::prepareViewModel(int lastLoginDay) {
+    GetAvailableUsersViewModel viewModel;
     viewModel.m_UserId = m_GlobalData->m_UserData.m_UserId;
     viewModel.m_Username = m_GlobalData->m_UserData.m_UserName;
+    viewModel.m_LastLoginDay = lastLoginDay;
     return viewModel;
 }

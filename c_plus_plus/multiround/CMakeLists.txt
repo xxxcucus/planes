@@ -33,6 +33,7 @@ set(MULTIROUND_HEADR
 	viewmodels/sendwinnerviewmodel.h
 	viewmodels/unsentmovesviewmodel.h
 	viewmodels/deactivateuserviewmodel.h
+	viewmodels/getopponentemovesviewmodel.h
     communicationobjects/basiscommobj.h
     communicationobjects/creategamecommobj.h
     communicationobjects/refreshgamestatuscommobj.h

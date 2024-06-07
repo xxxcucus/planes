@@ -363,8 +363,8 @@ void MultiplayerRound::completeLogout() {
     emit logoutCompleted();
 }
 
-void MultiplayerRound::requestLoggedInPlayers() {
-    mPlayersListCommObj->makeRequest();
+void MultiplayerRound::requestLoggedInPlayers(int lastLoginDay) {
+    mPlayersListCommObj->makeRequest(lastLoginDay);
 }
 
 void MultiplayerRound::userDeactivatedSlot() {

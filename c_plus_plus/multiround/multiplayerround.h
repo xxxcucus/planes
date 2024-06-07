@@ -163,7 +163,7 @@ public:
     void addToReceivedList(int value);
 
     void testServerVersion();
-    void requestLoggedInPlayers();
+    void requestLoggedInPlayers(int lastLoginDay);
     void deactivateUser();
 
     void subscribeToChatTopic();

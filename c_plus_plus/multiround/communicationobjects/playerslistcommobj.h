@@ -17,7 +17,7 @@ public:
     PlayersListCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
         BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {}
 
-    bool makeRequest();
+    bool makeRequest(int lastLoginDay = 0);
     bool validateReply(const QJsonObject& retJson) override;
 
 protected:
@@ -31,7 +31,7 @@ signals:
 
 private:
     void processResponse(const QJsonObject& retJson);
-    BasisRequestViewModel prepareViewModel();
+    BasisRequestViewModel prepareViewModel(int lastLoginDay = 0);
 };
 
 //TODO:test
