@@ -5,6 +5,8 @@
 #include <QListWidget>
 #include "global/globaldata.h"
 #include <set>
+#include <vector>
+#include "viewmodels/userwithlastloginviewmodel.h"
 
 class PlayersListWidget: public QWidget {
     Q_OBJECT
@@ -15,7 +17,7 @@ public:
     void addPlayer(const QString& player);
 
 private slots:
-    void updatePlayers(const QStringList& players);
+    void updatePlayers(const std::vector<UserWithLastLoginViewModel>& players);
     void itemDoubleClicked(QListWidgetItem* item);
 
 signals:

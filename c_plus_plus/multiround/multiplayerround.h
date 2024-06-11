@@ -34,7 +34,8 @@
 #include "communicationobjects/logoutcommobj.h"
 #include "communicationobjects/playerslistcommobj.h"
 #include "communicationobjects/deactivateusercommobj.h"
-
+#include <vector>
+#include "viewmodels/userwithlastloginviewmodel.h"
 
 class MULTIPLAYER_EXPORT MultiplayerRound : public QObject, public AbstractPlaneRound  {
     Q_OBJECT
@@ -112,7 +113,7 @@ signals:
     
     void allMovesSent();
     void logoutCompleted();
-    void playersListReceived(const QStringList& playersList);
+    void playersListReceived(const std::vector<UserWithLastLoginViewModel>& playersList);
     void userDeactivated();
 
     void connectedToChatServer();

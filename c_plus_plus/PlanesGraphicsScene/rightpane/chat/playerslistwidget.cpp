@@ -18,7 +18,7 @@ PlayersListWidget::PlayersListWidget(GlobalData* globalData, MultiplayerRound* m
 
 }
 
-void PlayersListWidget::updatePlayers(const QStringList& players) {
+void PlayersListWidget::updatePlayers(const std::vector<UserWithLastLoginViewModel>& players) {
    if (m_PlayersListWidget->currentItem() != nullptr)
        m_CurrentItemText = m_PlayersListWidget->currentItem()->text();
    else
@@ -29,7 +29,8 @@ void PlayersListWidget::updatePlayers(const QStringList& players) {
     }
 
     m_PlayersListFromServer.clear();
-    for (QString player: players) {
+    for (UserWithLastLoginViewModel playerModel: players) {
+        QString player = playerModel.m_UserName;
         if (player != m_GlobalData->m_UserData.m_UserName) {
             m_PlayersListWidget->addItem(player);
             m_PlayersListFromServer.insert(player);
@@ -74,7 +75,7 @@ void PlayersListWidget::setActive(bool active) {
 
 void PlayersListWidget::sendPlayersRequest() {
     if (m_IsActive)
-        m_MultiplayerRound->requestLoggedInPlayers();
+        m_MultiplayerRound->requestLoggedInPlayers(90);
 }
 
 void PlayersListWidget::itemDoubleClicked(QListWidgetItem* item) {

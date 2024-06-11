@@ -5,7 +5,7 @@
 #include <QMessageBox>
 
 #include "viewmodels/getavailableusersviewmodel.h"
-
+#include "viewmodels/userwithlastloginviewmodel.h"
 
 bool PlayersListCommObj::makeRequest(int lastLoginDay) {
     if (m_IsSinglePlayer) {
@@ -44,14 +44,15 @@ void PlayersListCommObj::finishedRequest() {
 }
 
 void PlayersListCommObj::processResponse(const QJsonObject& retJson) {
-    QJsonValue playersObject = retJson.value("usernames");
+    QJsonValue playersObject = retJson.value("users");
     QJsonArray playersArray = playersObject.toArray();
 
-    QStringList playersList;
+    std::vector<UserWithLastLoginViewModel> playersList;
     for (int i = 0; i < playersArray.size(); i++) {
         QJsonValue playerValue = playersArray.at(i);
-        QString playerName = playerValue.toString();
-        playersList.append(playerName);
+        QJsonObject playerObject = playerValue.toObject();
+        UserWithLastLoginViewModel playerModel(playerObject);
+        playersList.push_back(playerModel);
     }
 
     emit playersListReceived(playersList);

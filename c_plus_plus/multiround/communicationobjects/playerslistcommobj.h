@@ -9,6 +9,8 @@
 
 #include "basiscommobj.h"
 #include "viewmodels/basisrequestviewmodel.h"
+#include "viewmodels/userwithlastloginviewmodel.h"
+#include <vector>
 
 class  MULTIPLAYER_EXPORT PlayersListCommObj : public BasisCommObj {
     Q_OBJECT
@@ -27,7 +29,7 @@ public slots:
     void finishedRequest() override;
 
 signals:
-    void playersListReceived(const QStringList& players);
+    void playersListReceived(const std::vector<UserWithLastLoginViewModel>& players);
 
 private:
     void processResponse(const QJsonObject& retJson);
