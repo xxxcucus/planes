@@ -29,7 +29,7 @@ bool PlayersListCommObj::makeRequest(int lastLoginDay) {
 }
 
 bool PlayersListCommObj::validateReply(const QJsonObject& retJson) {
-    if (!(retJson.contains("usernames")))
+    if (!(retJson.contains("users")))
         return false;
 
     return true;
