@@ -33,15 +33,22 @@ void PlayersListWidget::updatePlayers(const std::vector<UserWithLastLoginViewMod
         QString player = playerModel.m_UserName;
         if (player != m_GlobalData->m_UserData.m_UserName) {
             m_PlayersListWidget->addItem(player);
-            m_PlayersListFromServer.insert(player);
+            m_PlayersListFromServer.insert(playerModel);
         }
     }
 
-    for (QString player: m_PlayersList) {
-        if (m_PlayersListFromServer.find(player) != m_PlayersListFromServer.end())
+    for (UserWithLastLoginViewModel player: m_PlayersList) {
+        auto it = m_PlayersListFromServer.begin();
+        while (it != m_PlayersListFromServer.end()) {
+            if (it->m_UserName == player.m_UserName)
+                break;
+            it++;
+        }
+
+        if (it != m_PlayersListFromServer.end())
             continue;
-        if (player != m_GlobalData->m_UserData.m_UserName)
-            m_PlayersListWidget->addItem(player);
+        if (player.m_UserName != m_GlobalData->m_UserData.m_UserName)
+            m_PlayersListWidget->addItem(player.m_UserName);
     }
 
     //TODO: should one chat window be selected here ?
@@ -58,7 +65,9 @@ void PlayersListWidget::updatePlayers(const std::vector<UserWithLastLoginViewMod
 }
 
 void PlayersListWidget::addPlayer(const QString& player) {
-    auto res = m_PlayersList.insert(player);
+
+    UserWithLastLoginViewModel user(player);
+    auto res = m_PlayersList.insert(user);
     if (res.second)
         updatePlayersFromPlayersList();
 }
@@ -82,10 +91,10 @@ void PlayersListWidget::itemDoubleClicked(QListWidgetItem* item) {
     emit playerDoubleClicked(item->text());
 }
 
-void PlayersListWidget::updatePlayersList(const QStringList& players) {
+/*void PlayersListWidget::updatePlayersList(const QStringList& players) {
     for (QString player : players)
         m_PlayersList.insert(player);
-}
+}*/
 
 void PlayersListWidget::updatePlayersFromPlayersList() {
     while (m_PlayersListWidget->count() > 0) {
@@ -93,16 +102,24 @@ void PlayersListWidget::updatePlayersFromPlayersList() {
     }
 
     m_PlayersListFromServer.clear();
-    for (QString player: m_PlayersListFromServer) {
-        if (player != m_GlobalData->m_UserData.m_UserName) {
-            m_PlayersListWidget->addItem(player);
+    for (UserWithLastLoginViewModel player: m_PlayersListFromServer) {
+        if (player.m_UserName != m_GlobalData->m_UserData.m_UserName) {
+            m_PlayersListWidget->addItem(player.m_UserName);
         }
     }
 
-    for (QString player: m_PlayersList) {
-        if (m_PlayersListFromServer.find(player) != m_PlayersListFromServer.end())
+    for (UserWithLastLoginViewModel player: m_PlayersList) {
+        auto it = m_PlayersListFromServer.begin();
+        while (it != m_PlayersListFromServer.end()) {
+            if (it->m_UserName == player.m_UserName)
+                break;
+            it++;
+        }
+
+
+        if (it != m_PlayersListFromServer.end())
             continue;
-        if (player != m_GlobalData->m_UserData.m_UserName)
-            m_PlayersListWidget->addItem(player);
+        if (player.m_UserName != m_GlobalData->m_UserData.m_UserName)
+            m_PlayersListWidget->addItem(player.m_UserName);
     }
 }

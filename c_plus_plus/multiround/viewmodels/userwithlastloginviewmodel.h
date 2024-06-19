@@ -14,6 +14,16 @@ struct UserWithLastLoginViewModel {
         m_LastLogin = parseDateFromString(lastLoginString);
     }
 
+    explicit UserWithLastLoginViewModel(const QString& username) {
+        m_UserName = username;
+        m_LastLogin = QDateTime::currentDateTime();
+    }
+
+    UserWithLastLoginViewModel(const QString& username, const QDateTime& dateTime) {
+        m_UserName = username;
+        m_LastLogin = dateTime;
+    }
+
 private:
     QDateTime parseDateFromString(const QString& dateString) {
         QStringList dateElements = dateString.split(" ", Qt::SkipEmptyParts);
@@ -44,6 +54,18 @@ private:
         QDate retDate(year, month, day);
         QTime retTime(hour, minute, second);
         return QDateTime(retDate, retTime);
+    }
+
+    friend bool operator<(const UserWithLastLoginViewModel& user1, const UserWithLastLoginViewModel& user2) {
+        if (user1.m_UserName != user2.m_UserName) {
+            return user1.m_LastLogin < user2.m_LastLogin;
+        }
+
+        return user1.m_LastLogin < user2.m_LastLogin;
+    }
+
+    friend bool operator==(const UserWithLastLoginViewModel& user1, const UserWithLastLoginViewModel& user2) {
+        return user1.m_LastLogin == user2.m_LastLogin && user1.m_UserName == user2.m_UserName;
     }
 
 };

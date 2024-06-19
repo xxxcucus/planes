@@ -34,8 +34,8 @@ private:
     QListWidget* m_PlayersListWidget = nullptr;
     QTimer* m_RefreshPlayersListTimer = nullptr;
 
-    std::set<QString> m_PlayersList;
-    std::set<QString> m_PlayersListFromServer;
+    std::set<UserWithLastLoginViewModel> m_PlayersList;
+    std::set<UserWithLastLoginViewModel> m_PlayersListFromServer;
     QString m_CurrentItemText;
 
     bool m_IsActive = false;
