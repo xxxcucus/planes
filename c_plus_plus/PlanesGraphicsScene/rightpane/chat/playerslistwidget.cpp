@@ -20,44 +20,34 @@ PlayersListWidget::PlayersListWidget(GlobalData* globalData, MultiplayerRound* m
 
 void PlayersListWidget::updatePlayers(const std::vector<UserWithLastLoginViewModel>& players) {
    if (m_PlayersListWidget->currentItem() != nullptr)
-       m_CurrentItemText = m_PlayersListWidget->currentItem()->text();
+       m_CurrentPlayer = getPlayerFromEntryListWidget(m_PlayersListWidget->currentItem()->text());
    else
-       m_CurrentItemText = QString();
+       m_CurrentPlayer = QString();
 
-    while (m_PlayersListWidget->count() > 0) {
-        m_PlayersListWidget->takeItem(0);
-    }
+    emptyPlayersListWidget();
 
     m_PlayersListFromServer.clear();
     for (UserWithLastLoginViewModel playerModel: players) {
         QString player = playerModel.m_UserName;
         if (player != m_GlobalData->m_UserData.m_UserName) {
-            m_PlayersListWidget->addItem(player);
+            m_PlayersListWidget->addItem(buildPlayerEntryListWidget(playerModel));
             m_PlayersListFromServer.insert(playerModel);
         }
     }
 
     for (UserWithLastLoginViewModel player: m_PlayersList) {
-        auto it = m_PlayersListFromServer.begin();
-        while (it != m_PlayersListFromServer.end()) {
-            if (it->m_UserName == player.m_UserName)
-                break;
-            it++;
-        }
-
-        if (it != m_PlayersListFromServer.end())
+        if (findPlayerInPlayersMap(player, m_PlayersListFromServer))
             continue;
         if (player.m_UserName != m_GlobalData->m_UserData.m_UserName)
-            m_PlayersListWidget->addItem(player.m_UserName);
+            m_PlayersListWidget->addItem(buildPlayerEntryListWidget(player));
     }
 
-    //TODO: should one chat window be selected here ?
-    if (m_CurrentItemText.isEmpty())
+    if (m_CurrentPlayer.isEmpty())
         return;
 
     for (int i = 0; i < m_PlayersListWidget->count(); i++) {
         QListWidgetItem* item = m_PlayersListWidget->item(i);
-        if (item->text() == m_CurrentItemText) {
+        if (getPlayerFromEntryListWidget(item->text()) == m_CurrentPlayer) {
             m_PlayersListWidget->setCurrentItem(item);
             break;
         }
@@ -97,11 +87,8 @@ void PlayersListWidget::itemDoubleClicked(QListWidgetItem* item) {
 }*/
 
 void PlayersListWidget::updatePlayersFromPlayersList() {
-    while (m_PlayersListWidget->count() > 0) {
-        m_PlayersListWidget->takeItem(0);
-    }
+    emptyPlayersListWidget();
 
-    m_PlayersListFromServer.clear();
     for (UserWithLastLoginViewModel player: m_PlayersListFromServer) {
         if (player.m_UserName != m_GlobalData->m_UserData.m_UserName) {
             m_PlayersListWidget->addItem(player.m_UserName);
@@ -109,17 +96,49 @@ void PlayersListWidget::updatePlayersFromPlayersList() {
     }
 
     for (UserWithLastLoginViewModel player: m_PlayersList) {
-        auto it = m_PlayersListFromServer.begin();
-        while (it != m_PlayersListFromServer.end()) {
-            if (it->m_UserName == player.m_UserName)
-                break;
-            it++;
-        }
-
-
-        if (it != m_PlayersListFromServer.end())
+        if (findPlayerInPlayersMap(player, m_PlayersListFromServer))
             continue;
         if (player.m_UserName != m_GlobalData->m_UserData.m_UserName)
-            m_PlayersListWidget->addItem(player.m_UserName);
+            m_PlayersListWidget->addItem(buildPlayerEntryListWidget(player));
     }
+}
+
+bool PlayersListWidget::findPlayerInPlayersMap(const UserWithLastLoginViewModel& player, const std::set<UserWithLastLoginViewModel>& playersMap) {
+    auto it = playersMap.begin();
+    while (it != playersMap.end()) {
+        if (it->m_UserName == player.m_UserName)
+            break;
+        it++;
+    }
+
+    if (it != m_PlayersListFromServer.end())
+        return true;
+
+    return false;
+}
+
+void PlayersListWidget::emptyPlayersListWidget() {
+    while (m_PlayersListWidget->count() > 0) {
+        m_PlayersListWidget->takeItem(0);
+    }
+}
+
+QString PlayersListWidget::buildPlayerEntryListWidget(const UserWithLastLoginViewModel& player) {
+    QDateTime lastLogin = player.m_LastLogin;
+    QString status = "Online";
+
+    qint64 timeDiff = lastLogin.msecsTo(QDateTime::currentDateTime());
+    timeDiff = timeDiff / 1000;
+
+    if (timeDiff > 1800) //30 min
+        status = "Offline";
+
+    return QString("%1 %2").arg(player.m_UserName).arg(status);
+}
+
+QString PlayersListWidget::getPlayerFromEntryListWidget(const QString& entryText) {
+    QStringList tokens = entryText.split(" ", Qt::SkipEmptyParts);
+    if (tokens.size() > 1)
+        return tokens[0];
+    return QString();
 }
