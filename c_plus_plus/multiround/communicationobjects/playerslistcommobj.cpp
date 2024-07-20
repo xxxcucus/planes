@@ -58,7 +58,7 @@ void PlayersListCommObj::processResponse(const QJsonObject& retJson) {
     emit playersListReceived(playersList);
 }
 
-BasisRequestViewModel PlayersListCommObj::prepareViewModel(int lastLoginDay) {
+GetAvailableUsersViewModel PlayersListCommObj::prepareViewModel(int lastLoginDay) {
     GetAvailableUsersViewModel viewModel;
     viewModel.m_UserId = m_GlobalData->m_UserData.m_UserId;
     viewModel.m_Username = m_GlobalData->m_UserData.m_UserName;

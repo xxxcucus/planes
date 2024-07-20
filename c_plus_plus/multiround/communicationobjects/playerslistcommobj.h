@@ -9,6 +9,7 @@
 
 #include "basiscommobj.h"
 #include "viewmodels/basisrequestviewmodel.h"
+#include "viewmodels/getavailableusersviewmodel.h"
 #include "viewmodels/userwithlastloginviewmodel.h"
 #include <vector>
 
@@ -33,7 +34,7 @@ signals:
 
 private:
     void processResponse(const QJsonObject& retJson);
-    BasisRequestViewModel prepareViewModel(int lastLoginDay = 0);
+    GetAvailableUsersViewModel prepareViewModel(int lastLoginDay = 0);
 };
 
 //TODO:test

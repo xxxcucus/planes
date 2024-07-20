@@ -7,11 +7,11 @@
 #include <QJsonObject>
 
 struct GetAvailableUsersViewModel: public BasisRequestViewModel {
-    int m_LastLoginDay;
+    int m_LastLoginDay = 0;
 
     QJsonObject toJson() {
         QJsonObject retVal = BasisRequestViewModel::toJson();
-        retVal.insert("lastLoginDay", QString::number(m_LastLoginDay));
+        retVal.insert("lastLoginDay", m_LastLoginDay);
         return retVal;
     }
 };
