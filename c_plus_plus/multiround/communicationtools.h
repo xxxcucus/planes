@@ -16,7 +16,7 @@ public:
     static QNetworkReply* buildPostRequestWithAuth(const QString& routePath, const QString& serverPath, const QJsonObject& jsonObject, const QByteArray& authToken, QNetworkAccessManager* networkManager);
     static QJsonObject objectFromString(const QString& in);
     static void treatCommunicationError(const QString& actionName, QNetworkReply* reply, QWidget* parentWidget);
-    
+    static QDateTime parseDateFromString(const QString& dateString);
 };
 
 #endif

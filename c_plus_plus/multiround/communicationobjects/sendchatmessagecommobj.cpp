@@ -45,7 +45,7 @@ void SendChatMessageCommObj::processResponse(const QJsonObject& retJson) {
     //TODO:
 }
 
-ChatMessageRequestViewModel SendChatMessageCommObj::prepareViewModel(long int receiverId, const QString& message) {
+SendChatMessageViewModel SendChatMessageCommObj::prepareViewModel(long int receiverId, const QString& message) {
     QString shortenedMessage = message.left(m_MaxMessageLength);
 
     if (shortenedMessage.size() != message.size()) {
@@ -53,7 +53,7 @@ ChatMessageRequestViewModel SendChatMessageCommObj::prepareViewModel(long int re
         qDebug() << shortenedMessage;
     }
 
-    ChatMessageRequestViewModel viewModel;
+    SendChatMessageViewModel viewModel;
     viewModel.m_UserId = m_GlobalData->m_UserData.m_UserId;
     viewModel.m_Username = m_GlobalData->m_UserData.m_UserName;
     viewModel.m_ReceiverId = receiverId;

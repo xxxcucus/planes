@@ -6,7 +6,7 @@
 #include <QString>
 #include <QJsonObject>
 
-struct ChatMessageRequestViewModel: public BasisRequestViewModel {
+struct SendChatMessageViewModel: public BasisRequestViewModel {
     long int m_ReceiverId = 0;
     QString m_Message;
 

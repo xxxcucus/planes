@@ -34,7 +34,9 @@ set(MULTIROUND_HEADR
 	viewmodels/unsentmovesviewmodel.h
 	viewmodels/deactivateuserviewmodel.h
 	viewmodels/getopponentemovesviewmodel.h
-	viewmodels/chatmessagerequestviewmodel.h
+	viewmodels/sendchatmessageviewmodel.h
+	viewmodels/receivedchatmessageviewmodel.h
+	viewmodels/getchatmessagesviewmodel.h
     communicationobjects/basiscommobj.h
     communicationobjects/creategamecommobj.h
     communicationobjects/refreshgamestatuscommobj.h
@@ -54,6 +56,7 @@ set(MULTIROUND_HEADR
     communicationobjects/playerslistcommobj.h
     communicationobjects/deactivateusercommobj.h
     communicationobjects/sendchatmessagecommobj.h
+    communicationobjects/receivechatmessagescommobj.h
     communicationtools.h
     gameinfo.h)
 
@@ -79,6 +82,7 @@ set(MULTIROUND_SRCS
     communicationobjects/playerslistcommobj.cpp
     communicationobjects/deactivateusercommobj.cpp
     communicationobjects/sendchatmessagecommobj.cpp
+    communicationobjects/receivechatmessagescommobj.cpp
     )
 
 

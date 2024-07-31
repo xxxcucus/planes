@@ -9,7 +9,7 @@
 
 #include "basiscommobj.h"
 #include "viewmodels/basisrequestviewmodel.h"
-#include "viewmodels/chatmessagerequestviewmodel.h"
+#include "viewmodels/sendchatmessageviewmodel.h"
 
 
 class  MULTIPLAYER_EXPORT SendChatMessageCommObj : public BasisCommObj {
@@ -33,7 +33,7 @@ signals:
 
 private:
     void processResponse(const QJsonObject& retJson);
-    ChatMessageRequestViewModel prepareViewModel(long int receiverId, const QString& message);
+    SendChatMessageViewModel prepareViewModel(long int receiverId, const QString& message);
     const int m_MaxMessageLength = 128;
 };
 #endif
