@@ -34,6 +34,8 @@
 #include "communicationobjects/logoutcommobj.h"
 #include "communicationobjects/playerslistcommobj.h"
 #include "communicationobjects/deactivateusercommobj.h"
+#include "communicationobjects/receivechatmessagescommobj.h"
+#include "communicationobjects/sendchatmessagecommobj.h"
 #include <vector>
 #include "viewmodels/userwithlastloginviewmodel.h"
 
@@ -68,6 +70,8 @@ private:
     LogoutCommObj* m_LogoutCommObj;
     PlayersListCommObj* mPlayersListCommObj;
     DeactivateUserCommObj* m_DeactivateUserCommObj;
+    ReceiveChatMessagesCommObj* m_ReceiveChatMessagesCommObj;
+    SendChatMessageCommObj* m_SendChatMessageCommObj;
     
     
     std::vector<int> m_NotSentMoves;
@@ -90,7 +94,7 @@ private slots:
     void completeLogout();
     void userDeactivatedSlot();
     
-    void chatMessageReceivedSlot(const QString& jsonMessage);
+    void chatMessagesReceived(const std::vector<ReceivedChatMessageViewModel>& messages);
 
 signals:
     void opponentMoveGenerated(const GuessPoint& gp);
@@ -119,7 +123,7 @@ signals:
     void connectedToChatServer();
     void disconnectedFromChatServer();
     void connectedToChat();
-    void chatMessageReceived(const QString& sender, const QString& message);
+    void chatMessageReceived(const QString& sender, long int senderid, const QString& message);
     void chatConnectionError(const QString& error);
 
 public:
@@ -167,8 +171,8 @@ public:
     void requestLoggedInPlayers(int lastLoginDay);
     void deactivateUser();
 
-    void subscribeToChatTopic();
-    void sendMessageThroughChat(const QString& receiver, const QString& message);
+    void requestChatMessages();
+    void sendMessageThroughChat(const QString& receiver, long int receiverid, const QString& message);
 
 protected:
     MultiplayerRound() {}

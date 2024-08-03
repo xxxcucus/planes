@@ -67,6 +67,9 @@ void ChatWidget::openChatWindow(const QString& player) {
     m_ChatStackedWidget->addWidget(chatSession);
     m_ChatStackedWidget->setCurrentWidget(chatSession);
     m_CurrentReceiver = player;
+
+    //TODO: check that we do not get 0 here
+    m_CurrentReceiverId = m_PlayersListWidget->getPlayerId(player);
 }
 
 void ChatWidget::sendMessageToPlayer() {
@@ -80,12 +83,12 @@ void ChatWidget::sendMessageToPlayer() {
         return;
     }
 
-    m_MultiRound->sendMessageThroughChat(m_CurrentReceiver, message);
+    m_MultiRound->sendMessageThroughChat(m_CurrentReceiver, m_CurrentReceiverId, message);
     chatSession->append(QString("%1 : %2").arg(m_GlobalData->m_UserData.m_UserName).arg(message));
 }
 
-void ChatWidget::chatMessageReceived(const QString& sender, const QString& message) {
-    m_PlayersListWidget->addPlayer(sender);
+void ChatWidget::chatMessageReceived(const QString& sender, long int senderid, const QString& message) {
+    m_PlayersListWidget->addPlayer(sender, senderid);
 
     qDebug() << "Chat message received from " << sender;
     openChatWindow(sender);

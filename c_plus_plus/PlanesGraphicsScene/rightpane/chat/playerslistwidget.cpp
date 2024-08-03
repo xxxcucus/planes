@@ -12,8 +12,10 @@ PlayersListWidget::PlayersListWidget(GlobalData* globalData, MultiplayerRound* m
     setLayout(vLayout);
 
     m_RefreshPlayersListTimer = new QTimer(this);
+    m_GetChatMessagesTimer = new QTimer(this);
     connect(m_MultiplayerRound, &MultiplayerRound::playersListReceived, this, &PlayersListWidget::updatePlayers);
     connect(m_RefreshPlayersListTimer, &QTimer::timeout, this, &PlayersListWidget::sendPlayersRequest);
+    connect(m_GetChatMessagesTimer, &QTimer::timeout, this, &PlayersListWidget::requestChatMessages);
     connect(m_PlayersListWidget, &QListWidget::itemDoubleClicked, this, &PlayersListWidget::itemDoubleClicked);
 
 }
@@ -54,9 +56,9 @@ void PlayersListWidget::updatePlayers(const std::vector<UserWithLastLoginViewMod
     }
 }
 
-void PlayersListWidget::addPlayer(const QString& player) {
+void PlayersListWidget::addPlayer(const QString& player, long int playerid) {
 
-    UserWithLastLoginViewModel user(player);
+    UserWithLastLoginViewModel user(player, playerid);
     auto res = m_PlayersList.insert(user);
     if (res.second)
         updatePlayersFromPlayersList();
@@ -67,14 +69,21 @@ void PlayersListWidget::setActive(bool active) {
 
     if (active) {
         m_RefreshPlayersListTimer->start(5000);
+        m_GetChatMessagesTimer->start(5000);
     } else {
         m_RefreshPlayersListTimer->stop();
+        m_GetChatMessagesTimer->stop();
     }
 }
 
 void PlayersListWidget::sendPlayersRequest() {
     if (m_IsActive)
         m_MultiplayerRound->requestLoggedInPlayers(90);
+}
+
+void PlayersListWidget::requestChatMessages() {
+    if (m_IsActive)
+        m_MultiplayerRound->requestChatMessages();
 }
 
 void PlayersListWidget::itemDoubleClicked(QListWidgetItem* item) {
@@ -141,4 +150,18 @@ QString PlayersListWidget::getPlayerFromEntryListWidget(const QString& entryText
     if (tokens.size() > 1)
         return tokens[0];
     return QString();
+}
+
+long int PlayersListWidget::getPlayerId(const QString& player) {
+    for (auto p : m_PlayersList) {
+        if (p.m_UserName == player)
+            return p.m_UserId;
+    }
+
+    for (auto p : m_PlayersListFromServer) {
+        if (p.m_UserName == player)
+            return p.m_UserId;
+    }
+
+    return 0L;
 }

@@ -53,6 +53,10 @@ MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QWidget* par
     m_DeactivateUserCommObj = new DeactivateUserCommObj("/users/deactivate_user", "deactivating users", m_ParentWidget, m_NetworkManager,
     m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_DeactivateUserCommObj, &DeactivateUserCommObj::userDeactivated, this, &MultiplayerRound::userDeactivatedSlot);
+    m_SendChatMessageCommObj = new SendChatMessageCommObj("/chat/send_message", "sending chat message", m_ParentWidget, m_NetworkManager,
+    m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
+    m_ReceiveChatMessagesCommObj = new ReceiveChatMessagesCommObj("/chat/get_messages", "receiving chat messages", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
+    connect(m_ReceiveChatMessagesCommObj, &ReceiveChatMessagesCommObj::chatMessagesReceived, this, &MultiplayerRound::chatMessagesReceived);
     reset();
     initRound();
 }
@@ -377,28 +381,24 @@ void MultiplayerRound::deactivateUser() {
     m_DeactivateUserCommObj->makeRequest(m_GlobalData->m_UserData.m_UserName);
 }
 
-void MultiplayerRound::sendMessageThroughChat(const QString& receiver, const QString& message) {
+void MultiplayerRound::sendMessageThroughChat(const QString& receiver, long int receiverid, const QString& message) {
        if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         qDebug() << "No user logged in";
         return;
     }
-
+    m_SendChatMessageCommObj->makeRequest(receiverid, message);
 }
 
-void MultiplayerRound::chatMessageReceivedSlot(const QString& message) {
+void MultiplayerRound::requestChatMessages() {
+    m_ReceiveChatMessagesCommObj->makeRequest();
+}
 
-    QJsonObject jsonMessage = CommunicationTools::objectFromString(message);
-
-    if (jsonMessage.contains("senderUserName") && jsonMessage.contains("message") && jsonMessage.contains("receiverUserName")) {
-        QString receiverUserName = jsonMessage.value("receiverUserName").toString();
-        QString senderUserName = jsonMessage.value("senderUserName").toString();
-        QString message = jsonMessage.value("message").toString();
-        if (receiverUserName == m_GlobalData->m_UserData.m_UserName) {
-            emit chatMessageReceived(senderUserName, message);
+void MultiplayerRound::chatMessagesReceived(const std::vector<ReceivedChatMessageViewModel>& messages) {
+    for (auto m : messages) {
+        if (m.m_ReceiverName == m_GlobalData->m_UserData.m_UserName) {
+            emit chatMessageReceived(m.m_SenderName, m.m_SenderId, m.m_Message);
         } else {
             qDebug() << "Chat message not for me";
         }
     }
-
-
 }

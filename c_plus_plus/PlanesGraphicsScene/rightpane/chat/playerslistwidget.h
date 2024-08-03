@@ -14,17 +14,20 @@ class PlayersListWidget: public QWidget {
 public:
     PlayersListWidget(GlobalData* globalData, MultiplayerRound* mrd, QWidget *parent = 0);
     void setActive(bool active);
-    void addPlayer(const QString& player);
+    void addPlayer(const QString& player, long int playerid);
+    long int getPlayerId(const QString& player);
 
 private slots:
     void updatePlayers(const std::vector<UserWithLastLoginViewModel>& players);
     void itemDoubleClicked(QListWidgetItem* item);
+    void sendPlayersRequest();
+    void requestChatMessages();
 
 signals:
     void playerDoubleClicked(const QString& player);
 
 private:
-    void sendPlayersRequest();
+
     void updatePlayersList(const QStringList& players);
     void updatePlayersFromPlayersList();
     bool findPlayerInPlayersMap(const UserWithLastLoginViewModel& player, const std::set<UserWithLastLoginViewModel>& playersMap);
@@ -37,6 +40,7 @@ private:
     GlobalData* m_GlobalData = nullptr;
     QListWidget* m_PlayersListWidget = nullptr;
     QTimer* m_RefreshPlayersListTimer = nullptr;
+    QTimer* m_GetChatMessagesTimer = nullptr;
 
     //players added from initiating conversations
     std::set<UserWithLastLoginViewModel> m_PlayersList;

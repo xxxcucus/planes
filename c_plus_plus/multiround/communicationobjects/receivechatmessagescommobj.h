@@ -19,8 +19,8 @@ class MULTIPLAYER_EXPORT ReceiveChatMessagesCommObj : public BasisCommObj {
     Q_OBJECT
 
 public:
-    ReceiveChatMessagesCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData, MultiplayerRound* mrd):
-        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData), m_MultiRound(mrd) {}
+    ReceiveChatMessagesCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
+        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {}
 
     bool makeRequest();
     bool validateReply(const QJsonObject& retJson) override;
@@ -37,9 +37,6 @@ signals:
 private:
     GetChatMessagesViewModel prepareViewModel();
     void processResponse(const QJsonObject& retJson);
-
-protected:
-    MultiplayerRound* m_MultiRound;
 
 };
 

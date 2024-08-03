@@ -7,21 +7,25 @@
 
 struct UserWithLastLoginViewModel {
     QString m_UserName;
+    long int m_UserId = 0L;
     QDateTime m_LastLogin;
 
-    UserWithLastLoginViewModel(const QJsonObject& jsonObject) {
+    explicit UserWithLastLoginViewModel(const QJsonObject& jsonObject) {
         m_UserName = jsonObject.value("username").toString();
+        m_UserId = jsonObject.value("userid").toString().toLong();
         QString lastLoginString = jsonObject.value("lastLogin").toString();
         m_LastLogin = CommunicationTools::parseDateFromString(lastLoginString);
     }
 
-    explicit UserWithLastLoginViewModel(const QString& username) {
+    UserWithLastLoginViewModel(const QString& username, long int userid) {
         m_UserName = username;
+        m_UserId = userid;
         m_LastLogin = QDateTime::currentDateTime();
     }
 
-    UserWithLastLoginViewModel(const QString& username, const QDateTime& dateTime) {
+    UserWithLastLoginViewModel(const QString& username, long int userid, const QDateTime& dateTime) {
         m_UserName = username;
+        m_UserId = userid;
         m_LastLogin = dateTime;
     }
 
