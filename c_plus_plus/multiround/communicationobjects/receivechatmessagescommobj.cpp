@@ -29,7 +29,7 @@ bool ReceiveChatMessagesCommObj::makeRequest()
 
 GetChatMessagesViewModel ReceiveChatMessagesCommObj::prepareViewModel() {
     GetChatMessagesViewModel chatMessagesViewModel;
-    chatMessagesViewModel.m_UserId = m_GlobalData->m_GameData.m_UserId;
+    chatMessagesViewModel.m_UserId = m_GlobalData->m_UserData.m_UserId;
     chatMessagesViewModel.m_Username = m_GlobalData->m_UserData.m_UserName;
 
     return chatMessagesViewModel;
