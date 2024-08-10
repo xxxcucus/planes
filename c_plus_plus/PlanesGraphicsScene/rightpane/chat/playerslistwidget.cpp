@@ -87,7 +87,10 @@ void PlayersListWidget::requestChatMessages() {
 }
 
 void PlayersListWidget::itemDoubleClicked(QListWidgetItem* item) {
-    emit playerDoubleClicked(item->text());
+    QString playerAndStatus = item->text();
+    QStringList playerAndStatusParts = playerAndStatus.split(" ", Qt::SkipEmptyParts);
+    if (!playerAndStatus.isEmpty())
+        emit playerDoubleClicked(playerAndStatusParts[0]);
 }
 
 /*void PlayersListWidget::updatePlayersList(const QStringList& players) {
@@ -163,5 +166,6 @@ long int PlayersListWidget::getPlayerId(const QString& player) {
             return p.m_UserId;
     }
 
+    qDebug() << "GetPlayerId " << player << "id 0";
     return 0L;
 }

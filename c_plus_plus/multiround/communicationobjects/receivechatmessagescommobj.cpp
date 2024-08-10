@@ -64,8 +64,11 @@ void ReceiveChatMessagesCommObj::processResponse(const QJsonObject& retJson) {
             receivedMessage.m_ReceiverName = messageObject.value("receiverName").toString();
             receivedMessage.m_Message = messageObject.value("message").toString();
             receivedMessage.m_CreatedAt = CommunicationTools::parseDateFromString(messageObject.value("createdAt").toString());
+            receivedMessages.push_back(receivedMessage);
         }
     }
+
+    emit chatMessagesReceived(receivedMessages);
 }
 
 
