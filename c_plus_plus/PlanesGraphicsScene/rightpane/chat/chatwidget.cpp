@@ -11,8 +11,6 @@ ChatWidget::ChatWidget(GlobalData* globalData, MultiplayerRound* multiround, QSe
     m_MessageLineEdit = new QLineEdit();
     m_SendMessageButton = new QPushButton("Send");
 
-    //TODO: QTabbedWidget, Players, Last Week's Players, Last Month's Players
-
     QHBoxLayout* hLayout = new QHBoxLayout();
     QVBoxLayout* vLayout2 = new QVBoxLayout();
     QLabel* playersLabel = new QLabel("Players");
@@ -38,8 +36,9 @@ ChatWidget::ChatWidget(GlobalData* globalData, MultiplayerRound* multiround, QSe
     connect(m_MultiRound, &MultiplayerRound::chatMessageReceived, this, &ChatWidget::chatMessageReceived);
     connect(m_MultiRound, &MultiplayerRound::chatConnectionError, this, &ChatWidget::chatConnectionError);
     connect(m_PlayersListWidget, &PlayersListWidget::playerDoubleClicked, this, &ChatWidget::openChatWindow);
-    //connect(m_PlayersListWidget, &PlayersListWidget::)
     connect(m_SendMessageButton, &QPushButton::clicked, this, &ChatWidget::sendMessageToPlayer);
+
+    m_DatabaseService.openDb();
 }
 
 void ChatWidget::setActive(bool active) {

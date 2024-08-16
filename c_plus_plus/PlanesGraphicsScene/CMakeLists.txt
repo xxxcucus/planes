@@ -12,7 +12,8 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../stomp
 	${Qt6Widgets_INCLUDE_DIRS}
 	${Qt6Core_INCLUDE_DIRS}
-	${Qt6WebSockets_INCLUDE_DIRS})
+	${Qt6WebSockets_INCLUDE_DIRS}
+	${Qt6Sql_INCLUDE_DIRS})
 
 set(GS_SRCS 	
 	leftpane/leftpane.cpp
@@ -51,6 +52,7 @@ set(GS_SRCS
 	planesgsview.cpp
 	planesgswindow.cpp
 	statusbarwidget.cpp
+	databaseservice.cpp
 )
 
 set(GS_HEADR
@@ -89,6 +91,7 @@ set(GS_HEADR
 	planesgsview.h
 	planesgswindow.h
 	statusbarwidget.h
+	databaseservice.h
 )
 
 add_executable(PlanesGraphicsScene 
@@ -101,7 +104,8 @@ target_link_libraries(PlanesGraphicsScene
 	libbcrypt
 	Qt6::Widgets
 	Qt6::Core
-	Qt6::Network)
+	Qt6::Network
+	Qt6::Sql)
 
 
 install(TARGETS PlanesGraphicsScene DESTINATION bin)

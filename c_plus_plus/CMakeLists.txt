@@ -7,7 +7,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 
-find_package(Qt6 COMPONENTS Core Widgets Quick Network Test WebSockets)
+find_package(Qt6 COMPONENTS Core Widgets Quick Network Test WebSockets Sql)
 
 option(With_Asan "Compile with Address Sanitizer support" OFF)
 
@@ -52,6 +52,7 @@ if (NOT UNIX)
 	install(FILES ${ROOT_PATH}/bin/Qt6QuickDialogs2QuickImpl.dll DESTINATION bin)
 	install(FILES ${ROOT_PATH}/bin/Qt6QuickDialogs2Utils.dll DESTINATION bin)
 	install(FILES ${ROOT_PATH}/bin/Qt6WebSockets.dll DESTINATION bin)
+	install(FILES ${ROOT_PATH}/bin/Qt6Sql.dll DESTINATION bin)
 
 	install(FILES ${ROOT_PATH}/qml/QtQuick/qtquick2plugin.dll DESTINATION bin/QtQuick/)
     install(FILES ${ROOT_PATH}/qml/QtQuick/plugins.qmltypes DESTINATION bin/QtQuick/)
@@ -65,6 +66,7 @@ if (NOT UNIX)
 	install(DIRECTORY ${ROOT_PATH}/qml/QtQml DESTINATION bin)
 	install(FILES ${ROOT_PATH}/plugins/platforms/qwindows.dll DESTINATION bin/platforms)
 	install(DIRECTORY ${ROOT_PATH}/plugins/tls DESTINATION bin)
+	install(DIRECTORY ${ROOT_PATH}/plugins/sqldrivers DESTINATION bin)
 
 	install(FILES $ENV{OPENSSL_HOME}/bin/libcrypto-1_1-x64.dll DESTINATION bin)
 	install(FILES $ENV{OPENSSL_HOME}/bin/libssl-1_1-x64.dll DESTINATION  bin)
@@ -108,6 +110,7 @@ if (UNIX)
 	install(FILES ${ROOT_PATH}/lib/libQt6QuickDialogs2QuickImpl.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6QuickDialogs2Utils.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6WebSockets.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
+	install(FILES ${ROOT_PATH}/lib/libQt6Sql.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	
 
 	install(FILES ${ROOT_PATH}/lib/libQt6Widgets.so.${QT_MAJOR} DESTINATION lib)
@@ -131,7 +134,7 @@ if (UNIX)
 	install(FILES ${ROOT_PATH}/lib/libQt6QuickDialogs2Utils.so.${QT_MAJOR} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6QuickLayouts.so.${QT_MAJOR} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6WebSockets.so.${QT_MAJOR} DESTINATION lib)
-
+	install(FILES ${ROOT_PATH}/lib/libQt6Sql.so.${QT_MAJOR} DESTINATION lib)
 
 	install(FILES ${ROOT_PATH}/lib/libicuuc.so.56.1 DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libicudata.so.56.1 DESTINATION lib)
@@ -142,6 +145,7 @@ if (UNIX)
 	install(DIRECTORY ${ROOT_PATH}/plugins/platforms/ DESTINATION bin/platforms/)
 	install(DIRECTORY ${ROOT_PATH}/plugins/xcbglintegrations DESTINATION bin)
 	install(DIRECTORY ${ROOT_PATH}/plugins/tls DESTINATION bin)
+	install(FILES ${ROOT_PATH}/plugins/sqldrivers/libqsqlite.so DESTINATION bin/sqldrivers)
 
  	install(FILES ${ROOT_PATH}/qml/QtQuick/libqtquick2plugin.so DESTINATION bin/QtQuick/)
     install(FILES ${ROOT_PATH}/qml/QtQuick/plugins.qmltypes DESTINATION bin/QtQuick/)
@@ -157,7 +161,7 @@ if (UNIX)
 	install(FILES $ENV{OPENSSL_HOME}/libssl.so.3 DESTINATION  lib)
 	#install(FILES $ENV{OPENSSL_HOME}/libcrypto.so DESTINATION lib)
 	#install(FILES $ENV{OPENSSL_HOME}/libssl.so DESTINATION  lib)
-
+	install(FILES $ENV{SQLITE_HOME}/sqlite3 DESTINATION sqlite)
 	
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/PlanesWidget.sh PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ DESTINATION .)
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/PlanesGraphicsScene.sh PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ DESTINATION .)

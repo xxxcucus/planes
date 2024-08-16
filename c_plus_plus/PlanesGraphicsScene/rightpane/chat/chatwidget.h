@@ -2,6 +2,7 @@
 #define __CHAT_WIDGET_
 
 #include "playerslistwidget.h"
+#include "databaseservice.h"
 #include <QStackedWidget>
 #include <QTextEdit>
 #include <QLineEdit>
@@ -34,6 +35,8 @@ private:
     GlobalData* m_GlobalData = nullptr;
     MultiplayerRound* m_MultiRound = nullptr;
     QSettings* m_Settings = nullptr;
+
+    DatabaseService m_DatabaseService;
 };
 
 #endif
