@@ -63,10 +63,10 @@ but the "Start New Round" button should only be active at the end of one round. 
 61. Add credits to PlanesGraphicsScene - Juni 2021
 62. AdressSanitizer PlanesGraphicsScene
 63. Join function to create game and connect to game in a single button. - May 2021
-64. Send password as hash for PlanesGraphicsScene.
+64. Send password as hash for PlanesGraphicsScene. - ok
 65. Play tutorials videos in program window with Qt Multimedia.
-66. Add CMake variable for folder where the OpenSsl libraries are.
+66. Add CMake variable for folder where the OpenSsl libraries are. - ok
 67. Do not display a console window on Windows. - Juni 2021
-68. Show load animation at login and register
+68. Show load animation at login and register in desktop version
 69. Plane movement per touch in Android application. - ok 2023
 70. Score Fragment in Android Application. - ok 2023
