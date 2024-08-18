@@ -396,7 +396,7 @@ void MultiplayerRound::requestChatMessages() {
 void MultiplayerRound::chatMessagesReceived(const std::vector<ReceivedChatMessageViewModel>& messages) {
     for (auto m : messages) {
         if (m.m_ReceiverName == m_GlobalData->m_UserData.m_UserName) {
-            emit chatMessageReceived(m.m_SenderName, m.m_SenderId, m.m_Message);
+            emit chatMessageReceived(m);
         } else {
             qDebug() << "Chat message not for me";
         }

@@ -86,18 +86,24 @@ void ChatWidget::sendMessageToPlayer() {
     chatSession->append(QString("%1 : %2").arg(m_GlobalData->m_UserData.m_UserName).arg(message));
 }
 
-void ChatWidget::chatMessageReceived(const QString& sender, long int senderid, const QString& message) {
-    m_PlayersListWidget->addPlayer(sender, senderid);
+void ChatWidget::chatMessageReceived(const ReceivedChatMessageViewModel& message) {
+    m_PlayersListWidget->addPlayer(message.m_SenderName, message.m_SenderId);
 
-    qDebug() << "Chat message received from " << sender;
-    openChatWindow(sender);
+    qDebug() << "Chat message received from " << message.m_SenderName;
+    openChatWindow(message.m_SenderName);
     QTextEdit* chatSession = dynamic_cast<QTextEdit*>(m_ChatStackedWidget->currentWidget());
     if (chatSession == nullptr) {
         qDebug() << "Chat session is null";
         return;
     }
 
-    chatSession->append(QString("%1 : %2").arg(sender).arg(message));
+    chatSession->append(QString("%1 : %2").arg(message.m_SenderName).arg(message.m_Message));
+    bool saveOK = m_DatabaseService.addChatMessage(message);
+    if (saveOK) {
+        qDebug() << "Message saved to db";
+    } else {
+        qDebug() << "Error when saving message to db";
+    }
 }
 
 void ChatWidget::chatConnectionError(const QString& errorMessage) {

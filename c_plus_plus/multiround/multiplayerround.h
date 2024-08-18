@@ -123,7 +123,7 @@ signals:
     void connectedToChatServer();
     void disconnectedFromChatServer();
     void connectedToChat();
-    void chatMessageReceived(const QString& sender, long int senderid, const QString& message);
+    void chatMessageReceived(const ReceivedChatMessageViewModel& message);
     void chatConnectionError(const QString& error);
 
 public:

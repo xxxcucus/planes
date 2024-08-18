@@ -21,7 +21,7 @@ public:
 public slots:
     void openChatWindow(const QString& player);
     void sendMessageToPlayer();
-    void chatMessageReceived(const QString& sender, long int senderid, const QString& message);
+    void chatMessageReceived(const ReceivedChatMessageViewModel& message);
     void chatConnectionError(const QString& errorMessage);
 
 private:

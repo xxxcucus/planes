@@ -1,6 +1,7 @@
 #include <QtSql>
 #include <QSqlDatabase>
 #include <QCoreApplication>
+#include "viewmodels/receivedchatmessageviewmodel.h"
 
 class DatabaseService {
 
@@ -8,6 +9,8 @@ public:
     DatabaseService();
     ~DatabaseService();
     bool openDb();
+
+    bool addChatMessage(const ReceivedChatMessageViewModel& message);
 
 
 private:
