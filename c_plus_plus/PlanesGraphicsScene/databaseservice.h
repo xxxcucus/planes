@@ -11,6 +11,8 @@ public:
     bool openDb();
 
     bool addChatMessage(const ReceivedChatMessageViewModel& message);
+    bool deleteOldMessages(int daysBefore);
+    std::vector<ReceivedChatMessageViewModel> getMessages(const QString& username, long int userid);
 
 
 private:

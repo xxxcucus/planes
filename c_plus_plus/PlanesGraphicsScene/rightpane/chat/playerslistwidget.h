@@ -23,6 +23,7 @@ private slots:
     void sendPlayersRequest();
     void requestChatMessages();
 
+
 signals:
     void playerDoubleClicked(const QString& player);
 

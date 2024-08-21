@@ -15,7 +15,7 @@ struct UserWithLastLoginViewModel {
         m_UserId = jsonObject.value("userid").toString().toLong();
         QString lastLoginString = jsonObject.value("lastLogin").toString();
         m_LastLogin = CommunicationTools::parseDateFromString(lastLoginString);
-        qDebug() << "UserwithLastLogin created " << m_UserName << " " << m_UserId;
+        //qDebug() << "UserwithLastLogin created " << m_UserName << " " << m_UserId;
     }
 
     UserWithLastLoginViewModel(const QString& username, long int userid) {

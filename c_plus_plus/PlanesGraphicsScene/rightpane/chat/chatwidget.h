@@ -25,6 +25,9 @@ public slots:
     void chatConnectionError(const QString& errorMessage);
 
 private:
+    void addChatMessageFromDb(const ReceivedChatMessageViewModel& message);
+
+private:
     PlayersListWidget* m_PlayersListWidget = nullptr;
     std::map<QString, QTextEdit*> m_ChatSessions;
     QString m_CurrentReceiver;

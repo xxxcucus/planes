@@ -39,10 +39,27 @@ ChatWidget::ChatWidget(GlobalData* globalData, MultiplayerRound* multiround, QSe
     connect(m_SendMessageButton, &QPushButton::clicked, this, &ChatWidget::sendMessageToPlayer);
 
     m_DatabaseService.openDb();
+    m_DatabaseService.deleteOldMessages(90);
 }
 
 void ChatWidget::setActive(bool active) {
     m_PlayersListWidget->setActive(active);
+
+    if (active) {
+        qDebug() << "Read chat messages from db";
+        std::vector<ReceivedChatMessageViewModel> dbMessages = m_DatabaseService.getMessages(m_GlobalData->m_UserData.m_UserName, m_GlobalData->m_UserData.m_UserId);
+
+        for (ReceivedChatMessageViewModel m : dbMessages)
+            addChatMessageFromDb(m);
+    } else {
+        for (int i = m_ChatStackedWidget->count() - 1; i >= 0 ; i--) {
+            m_ChatStackedWidget->removeWidget(m_ChatStackedWidget->widget(i));
+        }
+        for (auto it = m_ChatSessions.begin(); it != m_ChatSessions.end(); it++) {
+            delete it->second;
+        }
+        m_ChatSessions.clear();
+    }
 }
 
 void ChatWidget::openChatWindow(const QString& player) {
@@ -104,6 +121,19 @@ void ChatWidget::chatMessageReceived(const ReceivedChatMessageViewModel& message
     } else {
         qDebug() << "Error when saving message to db";
     }
+}
+
+void ChatWidget::addChatMessageFromDb(const ReceivedChatMessageViewModel& message) {
+    m_PlayersListWidget->addPlayer(message.m_SenderName, message.m_SenderId);
+
+    openChatWindow(message.m_SenderName);
+    QTextEdit* chatSession = dynamic_cast<QTextEdit*>(m_ChatStackedWidget->currentWidget());
+    if (chatSession == nullptr) {
+        qDebug() << "Chat session is null";
+        return;
+    }
+
+    chatSession->append(QString("%1 : %2").arg(message.m_SenderName).arg(message.m_Message));
 }
 
 void ChatWidget::chatConnectionError(const QString& errorMessage) {

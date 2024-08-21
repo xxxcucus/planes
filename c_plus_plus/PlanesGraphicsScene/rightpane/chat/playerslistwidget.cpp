@@ -73,6 +73,9 @@ void PlayersListWidget::setActive(bool active) {
     } else {
         m_RefreshPlayersListTimer->stop();
         m_GetChatMessagesTimer->stop();
+        m_PlayersList.clear();
+        m_PlayersListFromServer.clear();
+        m_PlayersListWidget->clear();
     }
 }
 

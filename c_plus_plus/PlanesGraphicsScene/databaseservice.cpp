@@ -38,3 +38,46 @@ bool DatabaseService::addChatMessage(const ReceivedChatMessageViewModel& message
 
     return saveOK;
 }
+
+bool DatabaseService::deleteOldMessages(int daysBefore) {
+    QSqlQuery query(m_SqliteDb);
+    query.prepare("DELETE FROM ChatMessage WHERE created_at <= date('now',':days day')");
+    query.bindValue(":days", -daysBefore);
+
+    bool deleteOK = query.exec();
+    if (!deleteOK)
+        qDebug() << query.lastError();
+
+    return deleteOK;
+}
+
+std::vector<ReceivedChatMessageViewModel> DatabaseService::getMessages(const QString& username, long int userid) {
+    std::vector<ReceivedChatMessageViewModel> retVal;
+
+    QSqlQuery query(m_SqliteDb);
+    query.prepare("SELECT sender_id, sender_name, message, created_at FROM ChatMessage WHERE receiver_id = :id and receiver_name = :name ORDER BY created_at ASC");
+    query.bindValue(":id", (int)userid);
+    query.bindValue(":name", username);
+    query.exec();
+
+    while (query.next()) {
+        int sender_id = query.value(0).toInt();
+        QString sender_name = query.value(1).toString();
+        QString message = query.value(2).toString();
+        QDateTime dateTime = query.value(3).toDateTime();
+
+        qDebug() << sender_id << " " << sender_name << " " << message << " " << dateTime.toString();
+
+        ReceivedChatMessageViewModel viewModel;
+        viewModel.m_SenderId = sender_id;
+        viewModel.m_SenderName = sender_name;
+        viewModel.m_Message = message;
+        viewModel.m_CreatedAt = dateTime;
+        viewModel.m_ReceiverId = userid;
+        viewModel.m_ReceiverName = username;
+
+        retVal.push_back(viewModel);
+    }
+
+    return retVal;
+}
