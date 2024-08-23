@@ -101,8 +101,26 @@ void ChatWidget::sendMessageToPlayer() {
 
     m_MultiRound->sendMessageThroughChat(m_CurrentReceiver, m_CurrentReceiverId, message);
     chatSession->append(QString("%1 : %2").arg(m_GlobalData->m_UserData.m_UserName).arg(message));
+
+    ReceivedChatMessageViewModel messageViewModel;
+    messageViewModel.m_ReceiverId = m_CurrentReceiverId;
+    messageViewModel.m_ReceiverName = m_CurrentReceiver;
+    messageViewModel.m_SenderId = m_GlobalData->m_UserData.m_UserId;
+    messageViewModel.m_SenderName = m_GlobalData->m_UserData.m_UserName;
+    messageViewModel.m_Message = message;
+    messageViewModel.m_CreatedAt = QDateTime::currentDateTimeUtc();
+
+    bool saveOK = m_DatabaseService.addChatMessage(messageViewModel);
+    if (saveOK) {
+        qDebug() << "Message saved to db";
+    } else {
+        qDebug() << "Error when saving message to db";
+    }
+
+
 }
 
+//Message received from server
 void ChatWidget::chatMessageReceived(const ReceivedChatMessageViewModel& message) {
     m_PlayersListWidget->addPlayer(message.m_SenderName, message.m_SenderId);
 
@@ -114,6 +132,8 @@ void ChatWidget::chatMessageReceived(const ReceivedChatMessageViewModel& message
         return;
     }
 
+    //here write the time in local time (in server and database is utc)
+
     chatSession->append(QString("%1 : %2").arg(message.m_SenderName).arg(message.m_Message));
     bool saveOK = m_DatabaseService.addChatMessage(message);
     if (saveOK) {
@@ -124,14 +144,25 @@ void ChatWidget::chatMessageReceived(const ReceivedChatMessageViewModel& message
 }
 
 void ChatWidget::addChatMessageFromDb(const ReceivedChatMessageViewModel& message) {
-    m_PlayersListWidget->addPlayer(message.m_SenderName, message.m_SenderId);
 
-    openChatWindow(message.m_SenderName);
+    if (message.m_ReceiverId == m_GlobalData->m_UserData.m_UserId && message.m_ReceiverName == m_GlobalData->m_UserData.m_UserName)  {
+        //qDebug() << "Receiver " << message.m_ReceiverName;
+        //qDebug() << "Add player 1 " << message.m_SenderName;
+        m_PlayersListWidget->addPlayer(message.m_SenderName, message.m_SenderId);
+        openChatWindow(message.m_SenderName);
+    } else if (message.m_SenderId == m_GlobalData->m_UserData.m_UserId && message.m_SenderName == m_GlobalData->m_UserData.m_UserName ) {
+        //qDebug() << "Sender " << message.m_SenderName;
+        //qDebug() << "Add player 2 " << message.m_ReceiverName;
+        m_PlayersListWidget->addPlayer(message.m_ReceiverName, message.m_ReceiverId);
+        openChatWindow(message.m_ReceiverName);
+    }
     QTextEdit* chatSession = dynamic_cast<QTextEdit*>(m_ChatStackedWidget->currentWidget());
     if (chatSession == nullptr) {
         qDebug() << "Chat session is null";
         return;
     }
+
+    //TODO: write it in the chat session as local time
 
     chatSession->append(QString("%1 : %2").arg(message.m_SenderName).arg(message.m_Message));
 }

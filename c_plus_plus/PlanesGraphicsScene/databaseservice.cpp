@@ -19,11 +19,12 @@ bool DatabaseService::openDb() {
     return ok;
 }
 
+//TODO: use a recorder_id, recorder_name to differentiate between messages at different users on the same computer
 bool DatabaseService::addChatMessage(const ReceivedChatMessageViewModel& message) {
     //TODO: check if messages exist for the same username and other user id or the same user id and other user name
 
     QSqlQuery query(m_SqliteDb);
-    query.prepare("INSERT INTO ChatMessage (id, sender_id, sender_name, receiver_id, receiver_name, message, created_at) VALUES (0, :sender_id, :sender_name, :receiver_id, :receiver_name, :message, :createdAt)");
+    query.prepare("INSERT INTO ChatMessage (sender_id, sender_name, receiver_id, receiver_name, message, created_at) VALUES (:sender_id, :sender_name, :receiver_id, :receiver_name, :message, :createdAt)");
     query.bindValue(":sender_id", (int)message.m_SenderId);
     query.bindValue(":sender_name", message.m_SenderName);
     query.bindValue(":receiver_id", (int)message.m_ReceiverId);
@@ -55,7 +56,7 @@ std::vector<ReceivedChatMessageViewModel> DatabaseService::getMessages(const QSt
     std::vector<ReceivedChatMessageViewModel> retVal;
 
     QSqlQuery query(m_SqliteDb);
-    query.prepare("SELECT sender_id, sender_name, message, created_at FROM ChatMessage WHERE receiver_id = :id and receiver_name = :name ORDER BY created_at ASC");
+    query.prepare("SELECT sender_id, sender_name, message, created_at, receiver_id, receiver_name FROM ChatMessage WHERE (receiver_id = :id and receiver_name = :name) or (sender_id = :id and sender_name = :name) ORDER BY created_at ASC");
     query.bindValue(":id", (int)userid);
     query.bindValue(":name", username);
     query.exec();
@@ -65,16 +66,18 @@ std::vector<ReceivedChatMessageViewModel> DatabaseService::getMessages(const QSt
         QString sender_name = query.value(1).toString();
         QString message = query.value(2).toString();
         QDateTime dateTime = query.value(3).toDateTime();
+        QString receiver_name = query.value(5).toString();
+        int receiver_id = query.value(4).toInt();
 
-        qDebug() << sender_id << " " << sender_name << " " << message << " " << dateTime.toString();
+        //qDebug() << sender_id << " " << sender_name << " " << receiver_id << " " << receiver_name << " " << message << " " << dateTime.toString();
 
         ReceivedChatMessageViewModel viewModel;
         viewModel.m_SenderId = sender_id;
         viewModel.m_SenderName = sender_name;
         viewModel.m_Message = message;
         viewModel.m_CreatedAt = dateTime;
-        viewModel.m_ReceiverId = userid;
-        viewModel.m_ReceiverName = username;
+        viewModel.m_ReceiverId = receiver_id;
+        viewModel.m_ReceiverName = receiver_name;
 
         retVal.push_back(viewModel);
     }
