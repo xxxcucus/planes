@@ -10,7 +10,7 @@ public:
     ~DatabaseService();
     bool openDb();
 
-    bool addChatMessage(const ReceivedChatMessageViewModel& message);
+    bool addChatMessage(const ReceivedChatMessageViewModel& message, long int recorder_id, const QString& recorder_name);
     bool deleteOldMessages(int daysBefore);
     std::vector<ReceivedChatMessageViewModel> getMessages(const QString& username, long int userid);
 

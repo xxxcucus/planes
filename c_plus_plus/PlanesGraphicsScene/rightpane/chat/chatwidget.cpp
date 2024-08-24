@@ -110,7 +110,7 @@ void ChatWidget::sendMessageToPlayer() {
     messageViewModel.m_Message = message;
     messageViewModel.m_CreatedAt = QDateTime::currentDateTimeUtc();
 
-    bool saveOK = m_DatabaseService.addChatMessage(messageViewModel);
+    bool saveOK = m_DatabaseService.addChatMessage(messageViewModel, m_GlobalData->m_UserData.m_UserId, m_GlobalData->m_UserData.m_UserName);
     if (saveOK) {
         qDebug() << "Message saved to db";
     } else {
@@ -135,7 +135,7 @@ void ChatWidget::chatMessageReceived(const ReceivedChatMessageViewModel& message
     //here write the time in local time (in server and database is utc)
 
     chatSession->append(QString("%1 : %2").arg(message.m_SenderName).arg(message.m_Message));
-    bool saveOK = m_DatabaseService.addChatMessage(message);
+    bool saveOK = m_DatabaseService.addChatMessage(message, m_GlobalData->m_UserData.m_UserId, m_GlobalData->m_UserData.m_UserName);
     if (saveOK) {
         qDebug() << "Message saved to db";
     } else {

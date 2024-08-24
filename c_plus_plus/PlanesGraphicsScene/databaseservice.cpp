@@ -19,16 +19,16 @@ bool DatabaseService::openDb() {
     return ok;
 }
 
-//TODO: use a recorder_id, recorder_name to differentiate between messages at different users on the same computer
-bool DatabaseService::addChatMessage(const ReceivedChatMessageViewModel& message) {
-    //TODO: check if messages exist for the same username and other user id or the same user id and other user name
 
+bool DatabaseService::addChatMessage(const ReceivedChatMessageViewModel& message, long int recorder_id, const QString& recorder_name) {
     QSqlQuery query(m_SqliteDb);
-    query.prepare("INSERT INTO ChatMessage (sender_id, sender_name, receiver_id, receiver_name, message, created_at) VALUES (:sender_id, :sender_name, :receiver_id, :receiver_name, :message, :createdAt)");
+    query.prepare("INSERT INTO ChatMessage (sender_id, sender_name, receiver_id, receiver_name, recorder_id, recorder_name, message, created_at) VALUES (:sender_id, :sender_name, :receiver_id, :receiver_name, :recorder_id, :recorder_name, :message, :createdAt)");
     query.bindValue(":sender_id", (int)message.m_SenderId);
     query.bindValue(":sender_name", message.m_SenderName);
     query.bindValue(":receiver_id", (int)message.m_ReceiverId);
     query.bindValue(":receiver_name", message.m_ReceiverName);
+    query.bindValue(":recorder_id", (int)recorder_id);
+    query.bindValue(":recorder_name", recorder_name);
     query.bindValue(":message", message.m_Message);
     query.bindValue(":createdAt", message.m_CreatedAt);
 
@@ -56,7 +56,7 @@ std::vector<ReceivedChatMessageViewModel> DatabaseService::getMessages(const QSt
     std::vector<ReceivedChatMessageViewModel> retVal;
 
     QSqlQuery query(m_SqliteDb);
-    query.prepare("SELECT sender_id, sender_name, message, created_at, receiver_id, receiver_name FROM ChatMessage WHERE (receiver_id = :id and receiver_name = :name) or (sender_id = :id and sender_name = :name) ORDER BY created_at ASC");
+    query.prepare("SELECT sender_id, sender_name, message, created_at, receiver_id, receiver_name FROM ChatMessage WHERE ((receiver_id = :id and receiver_name = :name) or (sender_id = :id and sender_name = :name)) and recorder_id = :id and recorder_name = :name ORDER BY created_at ASC");
     query.bindValue(":id", (int)userid);
     query.bindValue(":name", username);
     query.exec();
