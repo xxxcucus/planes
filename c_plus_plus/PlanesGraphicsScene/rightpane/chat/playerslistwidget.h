@@ -7,6 +7,7 @@
 #include <set>
 #include <vector>
 #include "viewmodels/userwithlastloginviewmodel.h"
+#include "userwithstatuswidget.h"
 
 class PlayersListWidget: public QWidget {
     Q_OBJECT
@@ -33,8 +34,8 @@ private:
     void updatePlayersFromPlayersList();
     bool findPlayerInPlayersMap(const UserWithLastLoginViewModel& player, const std::set<UserWithLastLoginViewModel>& playersMap);
     void emptyPlayersListWidget();
-    QString buildPlayerEntryListWidget(const UserWithLastLoginViewModel& player);
-    QString getPlayerFromEntryListWidget(const QString& entryText);
+    UserWithStatusWidget* buildPlayerEntryListWidget(const UserWithLastLoginViewModel& player, int width);
+    QString getPlayerFromEntryListWidget(QListWidgetItem* item);
 
 private:
     MultiplayerRound* m_MultiplayerRound = nullptr;

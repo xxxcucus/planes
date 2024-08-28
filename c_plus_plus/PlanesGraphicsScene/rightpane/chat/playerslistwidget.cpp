@@ -22,7 +22,7 @@ PlayersListWidget::PlayersListWidget(GlobalData* globalData, MultiplayerRound* m
 
 void PlayersListWidget::updatePlayers(const std::vector<UserWithLastLoginViewModel>& players) {
    if (m_PlayersListWidget->currentItem() != nullptr)
-       m_CurrentPlayer = getPlayerFromEntryListWidget(m_PlayersListWidget->currentItem()->text());
+       m_CurrentPlayer = getPlayerFromEntryListWidget(m_PlayersListWidget->currentItem());
    else
        m_CurrentPlayer = QString();
 
@@ -32,7 +32,9 @@ void PlayersListWidget::updatePlayers(const std::vector<UserWithLastLoginViewMod
     for (UserWithLastLoginViewModel playerModel: players) {
         QString player = playerModel.m_UserName;
         if (player != m_GlobalData->m_UserData.m_UserName) {
-            m_PlayersListWidget->addItem(buildPlayerEntryListWidget(playerModel));
+            QListWidgetItem* item = new QListWidgetItem();
+            m_PlayersListWidget->addItem(item);
+            m_PlayersListWidget->setItemWidget(item, buildPlayerEntryListWidget(playerModel, m_PlayersListWidget->width()));
             m_PlayersListFromServer.insert(playerModel);
         }
     }
@@ -40,8 +42,11 @@ void PlayersListWidget::updatePlayers(const std::vector<UserWithLastLoginViewMod
     for (UserWithLastLoginViewModel player: m_PlayersList) {
         if (findPlayerInPlayersMap(player, m_PlayersListFromServer))
             continue;
-        if (player.m_UserName != m_GlobalData->m_UserData.m_UserName)
-            m_PlayersListWidget->addItem(buildPlayerEntryListWidget(player));
+        if (player.m_UserName != m_GlobalData->m_UserData.m_UserName) {
+            QListWidgetItem* item = new QListWidgetItem();
+            m_PlayersListWidget->addItem(item);
+            m_PlayersListWidget->setItemWidget(item, buildPlayerEntryListWidget(player, m_PlayersListWidget->width()));
+        }
     }
 
     if (m_CurrentPlayer.isEmpty())
@@ -49,7 +54,7 @@ void PlayersListWidget::updatePlayers(const std::vector<UserWithLastLoginViewMod
 
     for (int i = 0; i < m_PlayersListWidget->count(); i++) {
         QListWidgetItem* item = m_PlayersListWidget->item(i);
-        if (getPlayerFromEntryListWidget(item->text()) == m_CurrentPlayer) {
+        if (getPlayerFromEntryListWidget(item) == m_CurrentPlayer) {
             m_PlayersListWidget->setCurrentItem(item);
             break;
         }
@@ -106,15 +111,20 @@ void PlayersListWidget::updatePlayersFromPlayersList() {
 
     for (UserWithLastLoginViewModel player: m_PlayersListFromServer) {
         if (player.m_UserName != m_GlobalData->m_UserData.m_UserName) {
-            m_PlayersListWidget->addItem(player.m_UserName);
+            QListWidgetItem* item = new QListWidgetItem();
+            m_PlayersListWidget->addItem(item);
+            m_PlayersListWidget->setItemWidget(item, buildPlayerEntryListWidget(player, m_PlayersListWidget->width()));
         }
     }
 
     for (UserWithLastLoginViewModel player: m_PlayersList) {
         if (findPlayerInPlayersMap(player, m_PlayersListFromServer))
             continue;
-        if (player.m_UserName != m_GlobalData->m_UserData.m_UserName)
-            m_PlayersListWidget->addItem(buildPlayerEntryListWidget(player));
+        if (player.m_UserName != m_GlobalData->m_UserData.m_UserName) {
+            QListWidgetItem* item = new QListWidgetItem();
+            m_PlayersListWidget->addItem(item);
+            m_PlayersListWidget->setItemWidget(item, buildPlayerEntryListWidget(player, m_PlayersListWidget->width()));
+        }
     }
 }
 
@@ -138,24 +148,22 @@ void PlayersListWidget::emptyPlayersListWidget() {
     }
 }
 
-QString PlayersListWidget::buildPlayerEntryListWidget(const UserWithLastLoginViewModel& player) {
+UserWithStatusWidget* PlayersListWidget::buildPlayerEntryListWidget(const UserWithLastLoginViewModel& player, int width) {
     QDateTime lastLogin = player.m_LastLogin;
-    QString status = "Online";
+    bool online = true;
 
     qint64 timeDiff = lastLogin.msecsTo(QDateTime::currentDateTime());
     timeDiff = timeDiff / 1000;
 
     if (timeDiff > 1800) //30 min
-        status = "Offline";
+        online = false;
 
-    return QString("%1 %2").arg(player.m_UserName).arg(status);
+    return new UserWithStatusWidget(player.m_UserName, online, width);
 }
 
-QString PlayersListWidget::getPlayerFromEntryListWidget(const QString& entryText) {
-    QStringList tokens = entryText.split(" ", Qt::SkipEmptyParts);
-    if (tokens.size() > 1)
-        return tokens[0];
-    return QString();
+QString PlayersListWidget::getPlayerFromEntryListWidget(QListWidgetItem* item) {
+    UserWithStatusWidget* w = (UserWithStatusWidget*)m_PlayersListWidget->itemWidget(item);
+    return w->getName();
 }
 
 long int PlayersListWidget::getPlayerId(const QString& player) {

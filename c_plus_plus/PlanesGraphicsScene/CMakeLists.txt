@@ -46,6 +46,7 @@ set(GS_SRCS
 	rightpane/options/optionswindow.cpp
 	rightpane/chat/playerslistwidget.cpp
 	rightpane/chat/chatwidget.cpp
+	rightpane/chat/userwithstatuswidget.cpp
 	main.cpp
     animatedtextitem.cpp
     customhorizlayout.cpp
@@ -86,6 +87,7 @@ set(GS_HEADR
 	rightpane/options/optionswindow.h
 	rightpane/chat/playerslistwidget.h
 	rightpane/chat/chatwidget.h
+	rightpane/chat/userwithstatuswidget.h
 	customhorizlayout.h
 	animatedtextitem.h
 	planesgsview.h
