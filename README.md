@@ -36,7 +36,8 @@ For Android
 1. Download Planes.x.y.y_android.apk to the Download folder on your device.
 2. With the file explorer navigate to the saved .apk and open it.
 
-or get the app directly from Google Play Store: https://play.google.com/store/apps/details?id=com.planes.android
+or get the app directly from Google Play Store: https://play.google.com/store/apps/details?id=com.planes.android 
+or from F-Droid: https://f-droid.org/packages/com.planes.android/
 
 # compilation instructions
 
