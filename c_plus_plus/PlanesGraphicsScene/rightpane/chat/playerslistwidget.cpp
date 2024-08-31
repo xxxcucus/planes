@@ -32,10 +32,8 @@ void PlayersListWidget::updatePlayers(const std::vector<UserWithLastLoginViewMod
     for (UserWithLastLoginViewModel playerModel: players) {
         QString player = playerModel.m_UserName;
         if (player != m_GlobalData->m_UserData.m_UserName) {
-            QListWidgetItem* item = new QListWidgetItem();
-            m_PlayersListWidget->addItem(item);
-            m_PlayersListWidget->setItemWidget(item, buildPlayerEntryListWidget(playerModel, m_PlayersListWidget->width()));
-            m_PlayersListFromServer.insert(playerModel);
+            addPlayer(playerModel);
+            m_PlayersListFromServer.push_back(playerModel);
         }
     }
 
@@ -43,9 +41,7 @@ void PlayersListWidget::updatePlayers(const std::vector<UserWithLastLoginViewMod
         if (findPlayerInPlayersMap(player, m_PlayersListFromServer))
             continue;
         if (player.m_UserName != m_GlobalData->m_UserData.m_UserName) {
-            QListWidgetItem* item = new QListWidgetItem();
-            m_PlayersListWidget->addItem(item);
-            m_PlayersListWidget->setItemWidget(item, buildPlayerEntryListWidget(player, m_PlayersListWidget->width()));
+            addPlayer(player);
         }
     }
 
@@ -64,9 +60,13 @@ void PlayersListWidget::updatePlayers(const std::vector<UserWithLastLoginViewMod
 void PlayersListWidget::addPlayer(const QString& player, long int playerid) {
 
     UserWithLastLoginViewModel user(player, playerid);
-    auto res = m_PlayersList.insert(user);
-    if (res.second)
+    auto it = std::find_if(m_PlayersList.begin(), m_PlayersList.end(), [player, playerid](const UserWithLastLoginViewModel& usr) {
+        return usr.m_UserName == player && usr.m_UserId == playerid;
+    });
+    if (it == m_PlayersList.end())  {
+        m_PlayersList.push_back(user);
         updatePlayersFromPlayersList();
+    }
 }
 
 void PlayersListWidget::setActive(bool active) {
@@ -95,10 +95,9 @@ void PlayersListWidget::requestChatMessages() {
 }
 
 void PlayersListWidget::itemDoubleClicked(QListWidgetItem* item) {
-    QString playerAndStatus = item->text();
-    QStringList playerAndStatusParts = playerAndStatus.split(" ", Qt::SkipEmptyParts);
-    if (!playerAndStatus.isEmpty())
-        emit playerDoubleClicked(playerAndStatusParts[0]);
+        QString player = getPlayerFromEntryListWidget(item);
+        if (!player.trimmed().isEmpty())
+            emit playerDoubleClicked(player.trimmed());
 }
 
 /*void PlayersListWidget::updatePlayersList(const QStringList& players) {
@@ -111,9 +110,7 @@ void PlayersListWidget::updatePlayersFromPlayersList() {
 
     for (UserWithLastLoginViewModel player: m_PlayersListFromServer) {
         if (player.m_UserName != m_GlobalData->m_UserData.m_UserName) {
-            QListWidgetItem* item = new QListWidgetItem();
-            m_PlayersListWidget->addItem(item);
-            m_PlayersListWidget->setItemWidget(item, buildPlayerEntryListWidget(player, m_PlayersListWidget->width()));
+            addPlayer(player);
         }
     }
 
@@ -121,14 +118,12 @@ void PlayersListWidget::updatePlayersFromPlayersList() {
         if (findPlayerInPlayersMap(player, m_PlayersListFromServer))
             continue;
         if (player.m_UserName != m_GlobalData->m_UserData.m_UserName) {
-            QListWidgetItem* item = new QListWidgetItem();
-            m_PlayersListWidget->addItem(item);
-            m_PlayersListWidget->setItemWidget(item, buildPlayerEntryListWidget(player, m_PlayersListWidget->width()));
+            addPlayer(player);
         }
     }
 }
 
-bool PlayersListWidget::findPlayerInPlayersMap(const UserWithLastLoginViewModel& player, const std::set<UserWithLastLoginViewModel>& playersMap) {
+bool PlayersListWidget::findPlayerInPlayersMap(const UserWithLastLoginViewModel& player, const std::vector<UserWithLastLoginViewModel>& playersMap) {
     auto it = playersMap.begin();
     while (it != playersMap.end()) {
         if (it->m_UserName == player.m_UserName)
@@ -136,7 +131,7 @@ bool PlayersListWidget::findPlayerInPlayersMap(const UserWithLastLoginViewModel&
         it++;
     }
 
-    if (it != m_PlayersListFromServer.end())
+    if (it != playersMap.end())
         return true;
 
     return false;
@@ -179,4 +174,13 @@ long int PlayersListWidget::getPlayerId(const QString& player) {
 
     qDebug() << "GetPlayerId " << player << "id 0";
     return 0L;
+}
+
+void PlayersListWidget::addPlayer(const UserWithLastLoginViewModel& player) {
+    UserWithStatusWidget* widget = buildPlayerEntryListWidget(player, m_PlayersListWidget->width());
+    QListWidgetItem* item = new QListWidgetItem();
+    item->setSizeHint(widget->sizeHint());
+    m_PlayersListWidget->addItem(item);
+    m_PlayersListWidget->setItemWidget(item, widget);
+
 }

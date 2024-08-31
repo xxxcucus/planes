@@ -32,10 +32,11 @@ private:
 
     void updatePlayersList(const QStringList& players);
     void updatePlayersFromPlayersList();
-    bool findPlayerInPlayersMap(const UserWithLastLoginViewModel& player, const std::set<UserWithLastLoginViewModel>& playersMap);
+    bool findPlayerInPlayersMap(const UserWithLastLoginViewModel& player, const std::vector<UserWithLastLoginViewModel>& playersMap);
     void emptyPlayersListWidget();
     UserWithStatusWidget* buildPlayerEntryListWidget(const UserWithLastLoginViewModel& player, int width);
     QString getPlayerFromEntryListWidget(QListWidgetItem* item);
+    void addPlayer(const UserWithLastLoginViewModel& player);
 
 private:
     MultiplayerRound* m_MultiplayerRound = nullptr;
@@ -45,9 +46,9 @@ private:
     QTimer* m_GetChatMessagesTimer = nullptr;
 
     //players added from initiating conversations
-    std::set<UserWithLastLoginViewModel> m_PlayersList;
+    std::vector<UserWithLastLoginViewModel> m_PlayersList;
     //players added from the response to the request for the available users on server
-    std::set<UserWithLastLoginViewModel> m_PlayersListFromServer;
+    std::vector<UserWithLastLoginViewModel> m_PlayersListFromServer;
     QString m_CurrentPlayer;
 
     bool m_IsActive = false;

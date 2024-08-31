@@ -116,8 +116,6 @@ void ChatWidget::sendMessageToPlayer() {
     } else {
         qDebug() << "Error when saving message to db";
     }
-
-
 }
 
 //Message received from server

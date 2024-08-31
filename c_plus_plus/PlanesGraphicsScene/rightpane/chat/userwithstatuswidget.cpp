@@ -15,12 +15,14 @@ UserWithStatusWidget::UserWithStatusWidget(const QString& name, bool online, int
     hLayout->addWidget(nameLabel);
     hLayout->addStretch(4);
     hLayout->addWidget(onlineLabel);
+    //hLayout->setSizeConstraint(QLayout::SetFixedSize);
     setLayout(hLayout);
     QFont font("times", 24);
     QFontMetrics fm(font);
     int pixelsHigh = fm.height();
     setFixedHeight(pixelsHigh * 110 / 100);
     setFixedWidth(width);
+
 }
 
 QString UserWithStatusWidget::getName() const {
