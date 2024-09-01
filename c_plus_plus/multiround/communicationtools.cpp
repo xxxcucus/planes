@@ -2,6 +2,7 @@
 
 #include <QJsonDocument>
 #include <QMessageBox>
+#include <QTimeZone>
 
 
 //QString CommunicationTools::localTestServerPath = "https://planes.planes-android.com:8443/planesserver";
@@ -81,6 +82,7 @@ void CommunicationTools::treatCommunicationError(const QString& actionName, QNet
  * Parse QDateTime from format dd mm yyyy hh:mm:ss
  */
 QDateTime CommunicationTools::parseDateFromString(const QString& dateString) {
+        //qDebug() << "parseDateFromString " << dateString;
         QStringList dateElements = dateString.split(" ", Qt::SkipEmptyParts);
         int day = 0;
         int month = 0;
@@ -108,5 +110,5 @@ QDateTime CommunicationTools::parseDateFromString(const QString& dateString) {
 
         QDate retDate(year, month, day);
         QTime retTime(hour, minute, second);
-        return QDateTime(retDate, retTime);
+        return QDateTime(retDate, retTime, QTimeZone(QTimeZone::UTC));
     }

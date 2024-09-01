@@ -100,7 +100,7 @@ void ChatWidget::sendMessageToPlayer() {
     }
 
     m_MultiRound->sendMessageThroughChat(m_CurrentReceiver, m_CurrentReceiverId, message);
-    chatSession->append(QString("%1 : %2").arg(m_GlobalData->m_UserData.m_UserName).arg(message));
+    chatSession->append(QString("%1 : %2  : %3").arg(m_GlobalData->m_UserData.m_UserName).arg(message).arg(QDateTime::currentDateTime().toString()));
 
     ReceivedChatMessageViewModel messageViewModel;
     messageViewModel.m_ReceiverId = m_CurrentReceiverId;
@@ -132,7 +132,7 @@ void ChatWidget::chatMessageReceived(const ReceivedChatMessageViewModel& message
 
     //here write the time in local time (in server and database is utc)
 
-    chatSession->append(QString("%1 : %2").arg(message.m_SenderName).arg(message.m_Message));
+    chatSession->append(QString("%1 : %2  : %3").arg(message.m_SenderName).arg(message.m_Message).arg(message.m_CreatedAt.toLocalTime().toString()));
     bool saveOK = m_DatabaseService.addChatMessage(message, m_GlobalData->m_UserData.m_UserId, m_GlobalData->m_UserData.m_UserName);
     if (saveOK) {
         qDebug() << "Message saved to db";
@@ -160,9 +160,7 @@ void ChatWidget::addChatMessageFromDb(const ReceivedChatMessageViewModel& messag
         return;
     }
 
-    //TODO: write it in the chat session as local time
-
-    chatSession->append(QString("%1 : %2").arg(message.m_SenderName).arg(message.m_Message));
+    chatSession->append(QString("%1 : %2 : %3 ").arg(message.m_SenderName).arg(message.m_Message).arg(message.m_CreatedAt.toLocalTime().toString()));
 }
 
 void ChatWidget::chatConnectionError(const QString& errorMessage) {
