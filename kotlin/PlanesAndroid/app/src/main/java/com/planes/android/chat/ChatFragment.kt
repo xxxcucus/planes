@@ -13,6 +13,7 @@ import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
 import com.planes.android.login.PlayersListServiceGlobal
+import com.planes.multiplayer_engine.responses.UserWithLastLoginResponse
 
 
 class ChatFragment : Fragment() {
@@ -49,7 +50,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun prepareSectionsList() {
-        var playersList = emptyList<String>()
+        var playersList = emptyList<UserWithLastLoginResponse>()
         if (m_PlayersListService.isPolling()) {
             playersList = m_PlayersListService.getPlayersList()
         }
@@ -59,7 +60,7 @@ class ChatFragment : Fragment() {
         m_ChatAdapter.notifyDataSetChanged()
     }
 
-    private fun updateSectionsList(playersList : List<String>) {
+    private fun updateSectionsList(playersList : List<UserWithLastLoginResponse>) {
         m_SectionsList = playersList.map { entry -> ChatEntryModel(entry) }
         m_ChatAdapter.updateSections(m_SectionsList)
         m_ChatAdapter.notifyDataSetChanged()

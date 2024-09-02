@@ -352,6 +352,7 @@ class MainActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_game_status).isVisible = false
             menu.findItem(R.id.nav_creategame).isVisible = false
             menu.findItem(R.id.nav_deleteuser).isVisible = false
+            menu.findItem(R.id.nav_chat).isVisible = false
         }
         val header = navigationView.getHeaderView(0)
         val versionTextView = header.findViewById<TextView>(R.id.version_header)

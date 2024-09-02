@@ -5,5 +5,5 @@ import java.util.Vector
 
 data class PlayersListResponse (
     @SerializedName("usernames")
-    val m_Usernames: List<String>
+    val m_Usernames: List<UserWithLastLoginResponse>
 )

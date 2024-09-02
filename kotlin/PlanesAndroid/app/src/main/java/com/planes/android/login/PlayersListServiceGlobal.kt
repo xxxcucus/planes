@@ -1,5 +1,7 @@
 package com.planes.android.login
 
+import com.planes.multiplayer_engine.responses.UserWithLastLoginResponse
+
 class PlayersListServiceGlobal : IPlayersListService {
 
     override fun startPolling() {
@@ -18,11 +20,11 @@ class PlayersListServiceGlobal : IPlayersListService {
         return global_Service!!.isPolling()
     }
 
-    override fun getPlayersList(): List<String> {
+    override fun getPlayersList(): List<UserWithLastLoginResponse> {
         return global_Service!!.getPlayersList()
     }
 
-    override fun setChatFragmentUpdateFunction(updateFunction: (List<String>)->Unit) {
+    override fun setChatFragmentUpdateFunction(updateFunction: (List<UserWithLastLoginResponse>)->Unit) {
         global_Service!!.setChatFragmentUpdateFunction(updateFunction)
     }
 

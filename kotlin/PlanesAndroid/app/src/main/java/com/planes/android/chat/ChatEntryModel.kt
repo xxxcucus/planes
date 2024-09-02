@@ -1,14 +1,16 @@
 package com.planes.android.chat
 
-class ChatEntryModel(playerName: String) {
+import com.planes.multiplayer_engine.responses.UserWithLastLoginResponse
 
-    private var m_PlayerName: String
+class ChatEntryModel(player: UserWithLastLoginResponse) {
+
+    private var m_Player: UserWithLastLoginResponse
 
     init {
-        m_PlayerName = playerName
+        m_Player = player
     }
 
     fun getPlayerName(): String {
-        return m_PlayerName
+        return m_Player.m_UserName
     }
 }
