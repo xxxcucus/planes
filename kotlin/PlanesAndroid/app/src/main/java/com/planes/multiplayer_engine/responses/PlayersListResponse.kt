@@ -4,6 +4,6 @@ import com.google.gson.annotations.SerializedName
 import java.util.Vector
 
 data class PlayersListResponse (
-    @SerializedName("usernames")
+    @SerializedName("users")
     val m_Usernames: List<UserWithLastLoginResponse>
 )
