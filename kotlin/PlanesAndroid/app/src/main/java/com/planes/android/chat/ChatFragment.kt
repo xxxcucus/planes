@@ -13,6 +13,7 @@ import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
 import com.planes.android.login.PlayersListServiceGlobal
+import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.UserWithLastLoginResponse
 
 
@@ -21,11 +22,13 @@ class ChatFragment : Fragment() {
     private lateinit var m_SectionsList: List<ChatEntryModel>
     private lateinit var m_ChatAdapter: ChatAdapter
     private var m_PlayersListService = PlayersListServiceGlobal()
+    private var m_MultiplayerRound = MultiplayerRoundJava()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         m_PlayersListService.createService()
         m_PlayersListService.setChatFragmentUpdateFunction(::updateSectionsList)
+        m_MultiplayerRound.createPlanesRound()
         prepareSectionsList()
     }
 
@@ -60,7 +63,7 @@ class ChatFragment : Fragment() {
             playersList = m_PlayersListService.getPlayersList()
         }
 
-        m_SectionsList = playersList.map { entry -> ChatEntryModel(entry) }
+        m_SectionsList = transformUserListToChatModel(playersList)
         m_ChatAdapter = ChatAdapter(m_SectionsList)
         m_ChatAdapter.notifyDataSetChanged()
     }
@@ -71,13 +74,13 @@ class ChatFragment : Fragment() {
             playersList = m_PlayersListService.getPlayersList()
         }
 
-        m_SectionsList = playersList.map { entry -> ChatEntryModel(entry) }
+        m_SectionsList = transformUserListToChatModel(playersList)
         m_ChatAdapter.updateSections(m_SectionsList)
         m_ChatAdapter.notifyDataSetChanged()
     }
 
     private fun updateSectionsList(playersList : List<UserWithLastLoginResponse>) {
-        m_SectionsList = playersList.map { entry -> ChatEntryModel(entry) }
+        m_SectionsList = transformUserListToChatModel(playersList)
         m_ChatAdapter.updateSections(m_SectionsList)
         m_ChatAdapter.notifyDataSetChanged()
     }
@@ -85,5 +88,10 @@ class ChatFragment : Fragment() {
     override fun onDetach () {
         super.onDetach()
         m_PlayersListService.deactivateUpdateOfChat()
+    }
+
+    private fun transformUserListToChatModel(playersList: List<UserWithLastLoginResponse>) : List<ChatEntryModel> {
+        return playersList.filter{ entry -> entry.m_UserName != m_MultiplayerRound.getUsername()
+                && entry.m_UserId != m_MultiplayerRound.getUserId().toString()}.map { entry -> ChatEntryModel(entry) }
     }
 }
