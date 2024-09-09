@@ -112,6 +112,7 @@ class LogoutFragment: Fragment() {
 
         if (activity is MainActivity)
             (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
+
     }
 
     override fun onDetach () {

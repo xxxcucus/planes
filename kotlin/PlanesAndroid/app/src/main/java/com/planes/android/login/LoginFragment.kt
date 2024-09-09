@@ -112,6 +112,8 @@ class LoginFragment: Fragment() {
         if (activity is MainActivity)
             (activity as MainActivity).showSaveCredentialsPopup(username, password)
         m_PlayersListService.startPolling()
+        if (activity is MainActivity)
+            (activity as MainActivity).startChatFragment()
     }
 
     fun saveUserId(response: LoginResponse): String {

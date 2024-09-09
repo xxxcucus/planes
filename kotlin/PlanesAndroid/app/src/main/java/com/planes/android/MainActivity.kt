@@ -648,6 +648,11 @@ class MainActivity : AppCompatActivity() {
         setFragment(true, "FromGame")
     }
 
+    fun startChatFragment() {
+        mSelectedItem = R.id.nav_chat
+        setFragment(true, "FromLogin")
+    }
+
     /**
      * Enter multiplayer modus
      */

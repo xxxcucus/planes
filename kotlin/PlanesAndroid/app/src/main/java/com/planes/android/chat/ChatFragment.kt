@@ -29,6 +29,11 @@ class ChatFragment : Fragment() {
         prepareSectionsList()
     }
 
+    override fun onResume() {
+        super.onResume()
+        prepareSectionsListResume()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,6 +62,17 @@ class ChatFragment : Fragment() {
 
         m_SectionsList = playersList.map { entry -> ChatEntryModel(entry) }
         m_ChatAdapter = ChatAdapter(m_SectionsList)
+        m_ChatAdapter.notifyDataSetChanged()
+    }
+
+    private fun prepareSectionsListResume() {
+        var playersList = emptyList<UserWithLastLoginResponse>()
+        if (m_PlayersListService.isPolling()) {
+            playersList = m_PlayersListService.getPlayersList()
+        }
+
+        m_SectionsList = playersList.map { entry -> ChatEntryModel(entry) }
+        m_ChatAdapter.updateSections(m_SectionsList)
         m_ChatAdapter.notifyDataSetChanged()
     }
 

@@ -23,12 +23,12 @@ class PlayersListService : IPlayersListService {
 
         m_PlaneRound.createPlanesRound()
 
-        if (this::m_PollPlayersListSubscription.isInitialized)
+        if (this::m_PollPlayersListSubscription.isInitialized && !m_PollPlayersListSubscription.isDisposed)
             return
 
         m_PlaneRound.createPlanesRound()
         m_PollPlayersListSubscription =
-            Observable.interval(30, TimeUnit.SECONDS, Schedulers.io())
+            Observable.interval(1,30, TimeUnit.SECONDS, Schedulers.io())
                 .switchMap { m_PlaneRound.getPlayersList(90) }
                 //.doOnError { setReceiveOpponentPlanePositionsError(getString(R.string.error_plane_positions)) }
                 .retry()
@@ -47,7 +47,7 @@ class PlayersListService : IPlayersListService {
     }
 
     override fun isPolling(): Boolean {
-        return this::m_PollPlayersListSubscription.isInitialized
+        return !m_PollPlayersListSubscription.isDisposed && this::m_PollPlayersListSubscription.isInitialized
     }
 
     fun reactToPlayersListInPolling(body: PlayersListResponse?) {
