@@ -111,9 +111,6 @@ class LoginFragment: Fragment() {
             m_MultiplayerRound.setUserId(response.m_Id.toLong())
         if (activity is MainActivity)
             (activity as MainActivity).showSaveCredentialsPopup(username, password)
-        m_PlayersListService.startPolling()
-        if (activity is MainActivity)
-            (activity as MainActivity).startChatFragment()
     }
 
     fun saveUserId(response: LoginResponse): String {
@@ -127,6 +124,10 @@ class LoginFragment: Fragment() {
 
         if (activity is MainActivity)
             (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
+
+        m_PlayersListService.startPolling()
+        if (activity is MainActivity)
+            (activity as MainActivity).startChatFragment()
     }
 
     private fun createObservable() : Observable<Response<LoginResponse>> {

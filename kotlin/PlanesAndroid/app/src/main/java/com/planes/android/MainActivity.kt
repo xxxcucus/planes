@@ -323,6 +323,7 @@ class MainActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_game_status).isVisible = true
             menu.findItem(R.id.nav_creategame).isVisible = true
             menu.findItem(R.id.nav_deleteuser).isVisible = true
+            menu.findItem(R.id.nav_chat).isVisible = false
         }
 
         setUsernameDrawerMenuMultiplayer()
@@ -335,11 +336,15 @@ class MainActivity : AppCompatActivity() {
         val userTextView = header.findViewById<TextView>(R.id.user_header)
         versionTextView.text = getString(R.string.multiplayergame)
         userTextView.visibility = View.VISIBLE
+        val menu = navigationView.menu
         val username = m_MultiplayerRound.getUsername()
-        if (username.isEmpty())
+        if (username.isEmpty()) {
             userTextView.text = getString(R.string.nouser)
-        else
+            menu.findItem(R.id.nav_chat).isVisible = false
+        } else {
             userTextView.text = username
+            menu.findItem(R.id.nav_chat).isVisible = true
+        }
     }
 
     private fun setDrawerMenuSinglePlayer() {
