@@ -87,6 +87,9 @@ dependencies {
     implementation 'androidx.test.ext:junit-ktx:1.1.5'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 
+    implementation 'androidx.room:room-runtime:2.6.1'
+    kapt 'androidx.room:room-compiler:2.6.1'
+
     implementation 'junit:junit:4.13.2'
     implementation 'com.google.truth:truth:1.4.1'
 

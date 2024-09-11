@@ -117,8 +117,6 @@ class LoginFragment: Fragment() {
         m_MultiplayerRound.setUserId(response.m_Id.toLong())
         return ""
     }
-
-
     fun finalizeLoginSuccessful() {
         binding.creategame.isEnabled = true
 
