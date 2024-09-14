@@ -5,8 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
 
-@Entity(tableName = "ChatMessage")
-data class Chapter(
+@Entity(tableName = "ChatMessages")
+data class ChatMessage(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val m_Id: Int,
