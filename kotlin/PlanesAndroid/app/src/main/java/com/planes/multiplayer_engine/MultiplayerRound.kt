@@ -253,6 +253,10 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         )
     }
 
+    fun getChatMessages(): Observable<Response<ReceiveChatMessagesResponse>> {
+        return m_Service.getChatMessages(m_UserData.authToken, ReceiveChatMessagesRequest(m_UserData.userId.toString(), m_UserData.userName))
+    }
+
     fun setGameData(gameCreationResponse: CreateGameResponse) {
         val resetScore = gameCreationResponse.m_GameName != m_GameData.gameName
         m_GameData.setFromCreateGameResponse(gameCreationResponse)

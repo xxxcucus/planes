@@ -38,7 +38,7 @@ class PlayersListService : IPlayersListService {
     }
 
     override fun stopPolling() {
-        destroySubscription()
+            destroySubscription()
     }
 
     fun destroySubscription() {

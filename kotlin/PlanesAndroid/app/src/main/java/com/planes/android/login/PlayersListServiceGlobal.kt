@@ -12,8 +12,8 @@ class PlayersListServiceGlobal : IPlayersListService {
     }
 
     fun createService() {
-        if (PlayersListServiceGlobal.global_Service != null) return
-        PlayersListServiceGlobal.global_Service = PlayersListService()
+        if (global_Service != null) return
+        global_Service = PlayersListService()
     }
 
     override fun isPolling(): Boolean {
