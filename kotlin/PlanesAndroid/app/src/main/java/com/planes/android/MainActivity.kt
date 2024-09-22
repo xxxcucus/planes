@@ -28,6 +28,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.planes.android.about.AboutFragment
 import com.planes.android.chat.ChatFragment
+import com.planes.android.chat.DatabaseServiceGlobal
 import com.planes.android.creategame.CreateGameFragment
 import com.planes.android.creategame.CreateGameSettingsGlobal
 import com.planes.android.deleteuser.DeleteUserFragment
@@ -36,6 +37,7 @@ import com.planes.android.game.singleplayer.GameFragmentSinglePlayer
 import com.planes.android.gamestats.GameStatsFragment
 import com.planes.android.login.LoginFragment
 import com.planes.android.login.PlayersListServiceGlobal
+import com.planes.android.login.ReceiveChatMessagesServiceGlobal
 import com.planes.android.logout.LogoutFragment
 import com.planes.android.preferences.MainPreferencesServiceGlobal
 import com.planes.android.preferences.MultiplayerPreferencesServiceGlobal
@@ -65,6 +67,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var m_NoRobotSettingsService: NoRobotSettingsService
     private var m_CreateGameSettingsService = CreateGameSettingsGlobal()
     private var m_PlayersListService = PlayersListServiceGlobal()
+    private var m_DatabaseService = DatabaseServiceGlobal()
+    private var m_ReceiveChatMessagesService = ReceiveChatMessagesServiceGlobal()
 
     private var mSelectedItem = 0
     private lateinit var m_DrawerLayout: DrawerLayout
@@ -113,6 +117,8 @@ class MainActivity : AppCompatActivity() {
         m_NoRobotSettingsService = NoRobotSettingsService()
 
         m_PlayersListService.createService()
+        m_DatabaseService.createService(this)
+        m_ReceiveChatMessagesService.createService(m_DatabaseService)
 
         m_DrawerLayout = findViewById(R.id.drawer_layout)
         mDrawerToggle = object : ActionBarDrawerToggle(this, m_DrawerLayout, R.string.drawer_open_content_description, R.string.drawer_closed_content_description) {

@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
+import com.planes.android.chat.DatabaseServiceGlobal
 import com.planes.android.creategame.CreateGameSettingsGlobal
 import com.planes.android.creategame.CreateGameStates
 import com.planes.android.databinding.FragmentLogoutBinding
 import com.planes.android.login.PlayersListServiceGlobal
+import com.planes.android.login.ReceiveChatMessagesServiceGlobal
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.commobj.SimpleRequestNotConnectedToGameCommObj
 import com.planes.multiplayer_engine.responses.LogoutResponse
@@ -26,6 +28,8 @@ class LogoutFragment: Fragment() {
     private lateinit var m_LogoutCommObj: SimpleRequestNotConnectedToGameCommObj<LogoutResponse>
     private var m_MultiplayerRound = MultiplayerRoundJava()
     private var m_PlayersListService = PlayersListServiceGlobal()
+    private var m_DatabaseService = DatabaseServiceGlobal()
+    private var m_ReceiveChatMessagesService = ReceiveChatMessagesServiceGlobal()
     private var m_CreateGameSettingsService = CreateGameSettingsGlobal()
     private lateinit var m_Context: Context
 
@@ -35,6 +39,8 @@ class LogoutFragment: Fragment() {
         m_MultiplayerRound.createPlanesRound()
         m_CreateGameSettingsService.createPreferencesService()
         m_PlayersListService.createService()
+        m_DatabaseService.createService(context)
+        m_ReceiveChatMessagesService.createService(m_DatabaseService)
     }
 
     override fun onCreateView(
@@ -101,6 +107,7 @@ class LogoutFragment: Fragment() {
         m_CreateGameSettingsService.gameName = ""
 
         m_PlayersListService.stopPolling()
+        m_ReceiveChatMessagesService.stopPolling()
 
         if (!this::binding.isInitialized)
             return

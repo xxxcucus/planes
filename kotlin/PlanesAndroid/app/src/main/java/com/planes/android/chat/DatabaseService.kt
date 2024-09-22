@@ -25,7 +25,7 @@ class DatabaseService internal constructor(private val m_Context: Context) : IDa
         var m = message.m_Message
 
         val formatter = SimpleDateFormat("dd MM yyyy HH:mm:ss")
-        formatter.timeZone = TimeZone.getTimeZone("UTC");
+        formatter.timeZone = TimeZone.getTimeZone("GMT");
         var formattedDate = message.m_CreatedAt
         val date: Date = formatter.parse(formattedDate)
 
