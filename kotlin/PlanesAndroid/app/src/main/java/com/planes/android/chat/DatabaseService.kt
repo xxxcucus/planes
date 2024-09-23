@@ -17,7 +17,7 @@ class DatabaseService internal constructor(private val m_Context: Context) : IDa
         ).build()
     }
 
-    override fun addChatMessage(message: ChatMessageResponse, recorderId: Long, recorderName: String) {
+    override suspend fun addChatMessage(message: ChatMessageResponse, recorderId: Long, recorderName: String) {
         var senderId = message.m_SenderId.toLong()
         var senderName = message.m_SenderName
         var receiverId = message.m_ReceiverId.toLong()
@@ -27,11 +27,13 @@ class DatabaseService internal constructor(private val m_Context: Context) : IDa
         val formatter = SimpleDateFormat("dd MM yyyy HH:mm:ss")
         formatter.timeZone = TimeZone.getTimeZone("GMT");
         var formattedDate = message.m_CreatedAt
-        val date: Date = formatter.parse(formattedDate)
+        val date: Date? = formatter.parse(formattedDate)
 
+        if (date == null)
+            return
         var dao = db.chatDao()
 
-        dao.addChatMessage(senderId, senderName, m, date, receiverId, receiverName, recorderId, recorderName)
+        dao.addChatMessage(senderId, senderName, m, date!!, receiverId, receiverName, recorderId, recorderName)
     }
 
 }

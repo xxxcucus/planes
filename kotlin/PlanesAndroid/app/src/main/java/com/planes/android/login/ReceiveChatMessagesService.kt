@@ -8,6 +8,8 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
 
 class ReceiveChatMessagesService(databaseService: IDatabaseService) : IReceiveChatMessagesService {
@@ -56,8 +58,13 @@ class ReceiveChatMessagesService(databaseService: IDatabaseService) : IReceiveCh
             return;
         var chatMessages = body.m_Messages
 
-        for (message in chatMessages) {
-            m_DatabaseService.addChatMessage(message, m_PlaneRound.getUserId(), m_PlaneRound.getUsername())
+
+        runBlocking { // this: CoroutineScope
+            launch {
+                for (message in chatMessages) {
+                    m_DatabaseService.addChatMessage(message, m_PlaneRound.getUserId(), m_PlaneRound.getUsername())
+                }
+            }
         }
 
         if (m_UpdateChat)

@@ -12,7 +12,7 @@ class DatabaseServiceGlobal : IDatabaseService {
             return
         global_Service = DatabaseService(context)
     }
-    override fun addChatMessage(message: ChatMessageResponse, recorderId: Long, recorderName: String) {
+    override suspend fun addChatMessage(message: ChatMessageResponse, recorderId: Long, recorderName: String) {
         global_Service!!.addChatMessage(message, recorderId, recorderName)
     }
     companion object {
