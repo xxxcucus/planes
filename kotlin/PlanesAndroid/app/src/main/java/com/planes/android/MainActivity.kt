@@ -28,6 +28,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.planes.android.about.AboutFragment
 import com.planes.android.chat.ChatFragment
+import com.planes.android.chat.DatabaseServiceGlobal
 import com.planes.android.creategame.CreateGameFragment
 import com.planes.android.creategame.CreateGameSettingsGlobal
 import com.planes.android.deleteuser.DeleteUserFragment
@@ -36,6 +37,7 @@ import com.planes.android.game.singleplayer.GameFragmentSinglePlayer
 import com.planes.android.gamestats.GameStatsFragment
 import com.planes.android.login.LoginFragment
 import com.planes.android.login.PlayersListServiceGlobal
+import com.planes.android.login.ReceiveChatMessagesServiceGlobal
 import com.planes.android.logout.LogoutFragment
 import com.planes.android.preferences.MainPreferencesServiceGlobal
 import com.planes.android.preferences.MultiplayerPreferencesServiceGlobal
@@ -65,6 +67,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var m_NoRobotSettingsService: NoRobotSettingsService
     private var m_CreateGameSettingsService = CreateGameSettingsGlobal()
     private var m_PlayersListService = PlayersListServiceGlobal()
+    private var m_DatabaseService = DatabaseServiceGlobal()
+    private var m_ReceiveChatMessagesService = ReceiveChatMessagesServiceGlobal()
 
     private var mSelectedItem = 0
     private lateinit var m_DrawerLayout: DrawerLayout
@@ -113,6 +117,8 @@ class MainActivity : AppCompatActivity() {
         m_NoRobotSettingsService = NoRobotSettingsService()
 
         m_PlayersListService.createService()
+        m_DatabaseService.createService(this)
+        m_ReceiveChatMessagesService.createService(m_DatabaseService)
 
         m_DrawerLayout = findViewById(R.id.drawer_layout)
         mDrawerToggle = object : ActionBarDrawerToggle(this, m_DrawerLayout, R.string.drawer_open_content_description, R.string.drawer_closed_content_description) {
@@ -323,6 +329,7 @@ class MainActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_game_status).isVisible = true
             menu.findItem(R.id.nav_creategame).isVisible = true
             menu.findItem(R.id.nav_deleteuser).isVisible = true
+            menu.findItem(R.id.nav_chat).isVisible = false
         }
 
         setUsernameDrawerMenuMultiplayer()
@@ -335,11 +342,15 @@ class MainActivity : AppCompatActivity() {
         val userTextView = header.findViewById<TextView>(R.id.user_header)
         versionTextView.text = getString(R.string.multiplayergame)
         userTextView.visibility = View.VISIBLE
+        val menu = navigationView.menu
         val username = m_MultiplayerRound.getUsername()
-        if (username.isEmpty())
+        if (username.isEmpty()) {
             userTextView.text = getString(R.string.nouser)
-        else
+            menu.findItem(R.id.nav_chat).isVisible = false
+        } else {
             userTextView.text = username
+            menu.findItem(R.id.nav_chat).isVisible = true
+        }
     }
 
     private fun setDrawerMenuSinglePlayer() {
@@ -352,6 +363,7 @@ class MainActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_game_status).isVisible = false
             menu.findItem(R.id.nav_creategame).isVisible = false
             menu.findItem(R.id.nav_deleteuser).isVisible = false
+            menu.findItem(R.id.nav_chat).isVisible = false
         }
         val header = navigationView.getHeaderView(0)
         val versionTextView = header.findViewById<TextView>(R.id.version_header)
@@ -645,6 +657,11 @@ class MainActivity : AppCompatActivity() {
     fun startGameStatsFragment() {
         mSelectedItem = R.id.nav_game_status
         setFragment(true, "FromGame")
+    }
+
+    fun startChatFragment() {
+        mSelectedItem = R.id.nav_chat
+        setFragment(true, "FromLogin")
     }
 
     /**

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.planes.android.creategame.CreateGameSettingsGlobal
 import com.planes.android.creategame.CreateGameStates
+import com.planes.android.login.PlayersListServiceGlobal
 import com.planes.android.preferences.MainPreferencesServiceGlobal
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.VersionResponse
@@ -26,9 +27,10 @@ class LoaderActivity : AppCompatActivity() {
     private lateinit var m_VerifyVersionCommObj: Disposable
     private lateinit var m_ProgressBar: ProgressBar
     private lateinit var m_StaticProgressLabel: TextView
-    var m_MultiplayerRound = MultiplayerRoundJava()
-    var m_CreateGameSettingsService = CreateGameSettingsGlobal()
+    private var m_MultiplayerRound = MultiplayerRoundJava()
+    private var m_CreateGameSettingsService = CreateGameSettingsGlobal()
     private lateinit var m_MainLayout: RelativeLayout
+    private var m_PlayersListService = PlayersListServiceGlobal()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +52,8 @@ class LoaderActivity : AppCompatActivity() {
         var singlePlayerGameButton = findViewById(R.id.singleplayer) as Button
         var multiplayerGameButton = findViewById(R.id.multiplayer) as Button
 
+        m_PlayersListService.createService()
+
         singlePlayerGameButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 m_MainPreferencesService.multiplayerVersion = false;
@@ -57,6 +61,7 @@ class LoaderActivity : AppCompatActivity() {
                 m_MultiplayerRound.setUserData("", "", "")
                 m_MultiplayerRound.resetGameData()
                 m_MultiplayerRound.initRound()
+                m_PlayersListService.stopPolling()
                 m_CreateGameSettingsService.createGameState = CreateGameStates.NotSubmitted
                 val intent = Intent(this@LoaderActivity, MainActivity::class.java)
                 intent.putExtra("startScreen", ApplicationScreens.Game.value)
@@ -138,6 +143,10 @@ class LoaderActivity : AppCompatActivity() {
         stopProgressDialog()
         super.onStop()
         Log.d("Loader", "onStop")
+    }
+
+    fun stopMultiplayerServices() {
+        m_PlayersListService.stopPolling()
     }
 
 }

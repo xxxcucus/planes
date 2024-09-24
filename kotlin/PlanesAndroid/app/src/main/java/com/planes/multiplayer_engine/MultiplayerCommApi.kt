@@ -75,4 +75,7 @@ interface MultiplayerCommApi {
     @Headers("Content-Type: application/json")
     fun getPlayersList(@Header("Authorization") authorization: String, @Body request: PlayersListRequest): Observable<retrofit2.Response<PlayersListResponse>>
 
+    @POST("chat/get_messages")
+    @Headers("Content-Type: application/json")
+    fun getChatMessages(@Header("Authorization") authorization: String, @Body request: ReceiveChatMessagesRequest): Observable<retrofit2.Response<ReceiveChatMessagesResponse>>
 }

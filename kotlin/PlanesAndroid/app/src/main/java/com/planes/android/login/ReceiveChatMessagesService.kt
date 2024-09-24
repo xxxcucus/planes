@@ -1,0 +1,83 @@
+package com.planes.android.login
+
+import com.planes.android.chat.IDatabaseService
+import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.responses.ChatMessageResponse
+import com.planes.multiplayer_engine.responses.ReceiveChatMessagesResponse
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.util.concurrent.TimeUnit
+
+class ReceiveChatMessagesService(databaseService: IDatabaseService) : IReceiveChatMessagesService {
+    private lateinit var m_PollChatMessagesSubscription: Disposable
+    private var m_PlaneRound = MultiplayerRoundJava()
+    private lateinit var m_ChatUpdateFunction: (List<ChatMessageResponse>) -> Unit
+    private var m_UpdateChat = false
+    private var m_DatabaseService : IDatabaseService
+
+    init {
+        m_DatabaseService = databaseService
+    }
+
+    override fun startPolling() {
+
+        m_PlaneRound.createPlanesRound()
+
+        if (this::m_PollChatMessagesSubscription.isInitialized && !m_PollChatMessagesSubscription.isDisposed)
+            return
+
+        m_PlaneRound.createPlanesRound()
+        m_PollChatMessagesSubscription =
+            Observable.interval(1,30, TimeUnit.SECONDS, Schedulers.io())
+                .switchMap { m_PlaneRound.getChatMessages() }
+                .retry()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ data -> reactToChatMessagesInPolling(data.body()) }
+                ) { }
+    }
+
+    override fun stopPolling() {
+        destroySubscription()
+    }
+
+    fun destroySubscription() {
+        if (this::m_PollChatMessagesSubscription.isInitialized)
+            m_PollChatMessagesSubscription.dispose()
+    }
+
+    override fun isPolling(): Boolean {
+        return !m_PollChatMessagesSubscription.isDisposed && this::m_PollChatMessagesSubscription.isInitialized
+    }
+
+    fun reactToChatMessagesInPolling(body: ReceiveChatMessagesResponse?) {
+        if (body == null)
+            return;
+        var chatMessages = body.m_Messages
+
+
+        runBlocking { // this: CoroutineScope
+            launch {
+                for (message in chatMessages) {
+                    m_DatabaseService.addChatMessage(message, m_PlaneRound.getUserId(), m_PlaneRound.getUsername())
+                }
+            }
+        }
+
+        if (m_UpdateChat)
+            m_ChatUpdateFunction(chatMessages)
+    }
+
+
+    override fun setChatFragmentUpdateFunction(updateFunction: (List<ChatMessageResponse>)->Unit) {
+        m_UpdateChat = true
+        m_ChatUpdateFunction = updateFunction
+    }
+
+    override fun deactivateUpdateOfChat() {
+        m_UpdateChat = false
+    }
+}

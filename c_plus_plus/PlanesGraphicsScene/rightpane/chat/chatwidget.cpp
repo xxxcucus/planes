@@ -89,7 +89,7 @@ void ChatWidget::openChatWindow(const QString& player) {
 }
 
 void ChatWidget::sendMessageToPlayer() {
-    QString message = m_MessageLineEdit->text().trimmed();
+    QString message = m_MessageLineEdit->text().trimmed().left(128);
     if (message.isEmpty())
         return;
 

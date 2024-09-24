@@ -248,9 +248,13 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         )
     }
 
-    fun getPlayersList(): Observable<Response<PlayersListResponse>> {
-        return m_Service.getPlayersList(m_UserData.authToken, PlayersListRequest(m_UserData.userId.toString(), m_UserData.userName)
+    fun getPlayersList(lastLoginDay: Int): Observable<Response<PlayersListResponse>> {
+        return m_Service.getPlayersList(m_UserData.authToken, PlayersListRequest(m_UserData.userId.toString(), m_UserData.userName, lastLoginDay)
         )
+    }
+
+    fun getChatMessages(): Observable<Response<ReceiveChatMessagesResponse>> {
+        return m_Service.getChatMessages(m_UserData.authToken, ReceiveChatMessagesRequest(m_UserData.userId.toString(), m_UserData.userName))
     }
 
     fun setGameData(gameCreationResponse: CreateGameResponse) {

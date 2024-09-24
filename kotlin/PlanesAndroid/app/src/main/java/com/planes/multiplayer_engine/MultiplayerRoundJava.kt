@@ -405,8 +405,12 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
         return global_Round!!.startNewRound(gameId, userId, opponentId)
     }
 
-    override fun getPlayersList(): Observable<Response<PlayersListResponse>> {
-        return global_Round!!.getPlayersList()
+    override fun getPlayersList(lastLoginDay : Int): Observable<Response<PlayersListResponse>> {
+        return global_Round!!.getPlayersList(lastLoginDay)
+    }
+
+    override fun getChatMessages(): Observable<Response<ReceiveChatMessagesResponse>> {
+        return global_Round!!.getChatMessages()
     }
     override fun setRoundId(roundId: Long) {
         global_Round!!.setRoundId(roundId)

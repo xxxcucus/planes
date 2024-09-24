@@ -119,5 +119,7 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
 
     fun getReceivedMovesCount(): Int
 
-    fun getPlayersList(): Observable<Response<PlayersListResponse>>
+    fun getPlayersList(lastLoginDay : Int): Observable<Response<PlayersListResponse>>
+
+    fun getChatMessages(): Observable<Response<ReceiveChatMessagesResponse>>
 }

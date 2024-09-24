@@ -1,8 +1,10 @@
 package com.planes.android.login
 
+import com.planes.android.chat.IDatabaseService
+import com.planes.multiplayer_engine.responses.ChatMessageResponse
 import com.planes.multiplayer_engine.responses.UserWithLastLoginResponse
 
-class PlayersListServiceGlobal : IPlayersListService {
+class ReceiveChatMessagesServiceGlobal : IReceiveChatMessagesService {
 
     override fun startPolling() {
         global_Service!!.startPolling()
@@ -11,20 +13,16 @@ class PlayersListServiceGlobal : IPlayersListService {
         global_Service!!.stopPolling()
     }
 
-    fun createService() {
+    fun createService(databaseService: IDatabaseService) {
         if (global_Service != null) return
-        global_Service = PlayersListService()
+        global_Service = ReceiveChatMessagesService(databaseService)
     }
 
     override fun isPolling(): Boolean {
         return global_Service!!.isPolling()
     }
 
-    override fun getPlayersList(): List<UserWithLastLoginResponse> {
-        return global_Service!!.getPlayersList()
-    }
-
-    override fun setChatFragmentUpdateFunction(updateFunction: (List<UserWithLastLoginResponse>)->Unit) {
+    override fun setChatFragmentUpdateFunction(updateFunction: (List<ChatMessageResponse>)->Unit) {
         global_Service!!.setChatFragmentUpdateFunction(updateFunction)
     }
 
@@ -33,6 +31,6 @@ class PlayersListServiceGlobal : IPlayersListService {
     }
 
     companion object {
-        private var global_Service: PlayersListService? = null
+        private var global_Service: ReceiveChatMessagesService? = null
     }
 }

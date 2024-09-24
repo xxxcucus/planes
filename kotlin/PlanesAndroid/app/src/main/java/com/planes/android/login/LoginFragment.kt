@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
+import com.planes.android.chat.DatabaseServiceGlobal
 import com.planes.android.databinding.FragmentLoginBinding
 import com.planes.android.preferences.MultiplayerPreferencesServiceGlobal
 import com.planes.multiplayer_engine.MultiplayerRoundJava
@@ -28,6 +29,8 @@ class LoginFragment: Fragment() {
     private var m_PreferencesService = MultiplayerPreferencesServiceGlobal()
     private var m_MultiplayerRound = MultiplayerRoundJava()
     private var m_PlayersListService = PlayersListServiceGlobal()
+    private var m_DatabaseService = DatabaseServiceGlobal()
+    private var m_ReceiveChatMessagesService = ReceiveChatMessagesServiceGlobal()
     private lateinit var m_LoginCommObj: LoginCommObj
 
     override fun onAttach(context: Context) {
@@ -35,6 +38,8 @@ class LoginFragment: Fragment() {
         m_PreferencesService.createPreferencesService(context)
         m_MultiplayerRound.createPlanesRound()
         m_PlayersListService.createService()
+        m_DatabaseService.createService(context)
+        m_ReceiveChatMessagesService.createService(m_DatabaseService)
     }
 
     override fun onCreateView(
@@ -111,20 +116,23 @@ class LoginFragment: Fragment() {
             m_MultiplayerRound.setUserId(response.m_Id.toLong())
         if (activity is MainActivity)
             (activity as MainActivity).showSaveCredentialsPopup(username, password)
-        m_PlayersListService.startPolling()
     }
 
     fun saveUserId(response: LoginResponse): String {
         m_MultiplayerRound.setUserId(response.m_Id.toLong())
         return ""
     }
-
-
     fun finalizeLoginSuccessful() {
         binding.creategame.isEnabled = true
 
         if (activity is MainActivity)
             (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
+
+        m_PlayersListService.startPolling()
+        m_ReceiveChatMessagesService.startPolling()
+        if (activity is MainActivity)
+            (activity as MainActivity).startChatFragment()
+
     }
 
     private fun createObservable() : Observable<Response<LoginResponse>> {

@@ -14,6 +14,7 @@ class ChatAdapter(chatSectionsList: List<ChatEntryModel>) : RecyclerView.Adapter
 
     inner class MyViewHolder(view: View, context: Context) : RecyclerView.ViewHolder(view) {
         var m_PlayerName: TextView = view.findViewById(R.id.chat_player_name)
+        var m_PlayerStatus: TextView = view.findViewById(R.id.chat_player_status)
         var m_Context: Context = context
     }
 
@@ -30,6 +31,7 @@ class ChatAdapter(chatSectionsList: List<ChatEntryModel>) : RecyclerView.Adapter
         val section: ChatEntryModel = m_SectionsList[position]
         val holderView = holder as MyViewHolder
         holderView.m_PlayerName.text = section.getPlayerName()
+        holderView.m_PlayerStatus.text = if (section.isPlayerOnline()) "Online" else "Offline"
     }
 
     override fun getItemCount(): Int {
