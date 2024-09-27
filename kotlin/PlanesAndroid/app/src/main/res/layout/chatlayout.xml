@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -7,21 +8,29 @@
 
     <TextView
         android:id="@+id/chat_player_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:gravity="left"
+        android:layout_alignParentLeft="true"
         style="@style/CustomTextViewStyle" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/baseline_message_24"
+        android:layout_toRightOf="@+id/chat_player_name"
+        android:layout_toLeftOf="@+id/chat_player_status"
+        android:visibility="invisible">
+    </ImageView>
     <TextView
         android:id="@+id/chat_player_status"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:gravity="right"
+        android:layout_alignParentRight="true"
         android:text="Online"
         style="@style/CustomTextViewStyle" />
 </RelativeLayout>
