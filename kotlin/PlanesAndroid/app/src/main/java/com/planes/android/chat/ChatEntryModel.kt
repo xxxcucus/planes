@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 class ChatEntryModel(player: UserWithLastLoginResponse) {
 
     private var m_Player: UserWithLastLoginResponse
-    private var m_NewMessages = false
+    private var m_NewMessages = false //TODO
 
     init {
         m_Player = player

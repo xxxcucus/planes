@@ -36,4 +36,9 @@ class DatabaseService internal constructor(private val m_Context: Context) : IDa
         dao.addChatMessage(senderId, senderName, m, date!!, receiverId, receiverName, recorderId, recorderName)
     }
 
+    override suspend fun getMessages(username : String, userid : Long) : List<ChatMessage> {
+
+        var dao = db.chatDao()
+        return dao.getMessages(username, userid)
+    }
 }

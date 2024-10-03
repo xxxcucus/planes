@@ -13,6 +13,7 @@ import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
 import com.planes.android.login.PlayersListServiceGlobal
+import com.planes.android.login.ReceiveChatMessagesServiceGlobal
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.UserWithLastLoginResponse
 
@@ -22,12 +23,16 @@ class ChatFragment : Fragment() {
     private lateinit var m_SectionsList: List<ChatEntryModel>
     private lateinit var m_ChatAdapter: ChatAdapter
     private var m_PlayersListService = PlayersListServiceGlobal()
+    private var m_ReceivedChatMessagesService =  ReceiveChatMessagesServiceGlobal()
+    private var m_DatabaseService = DatabaseServiceGlobal()
     private var m_MultiplayerRound = MultiplayerRoundJava()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        m_DatabaseService.createService(context)
         m_PlayersListService.createService()
         m_PlayersListService.setChatFragmentUpdateFunction(::updateSectionsList)
+        m_ReceivedChatMessagesService.createService(m_DatabaseService)
         m_MultiplayerRound.createPlanesRound()
         prepareSectionsList()
     }
