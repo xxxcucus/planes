@@ -369,7 +369,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         disposeAllPollingSubscriptions()
 
         Tools.displayToast(getString(R.string.waiting_for_planes_positions), m_Context)
-        val acquireOpponentPlanePositionsRequest = buildAcquireOpponentPlanePositionsRequest(m_PlaneRound.getGameId(), m_PlaneRound.getUserId(), m_PlaneRound.getRoundId(),
+        val acquireOpponentPlanePositionsRequest = buildAcquireOpponentPlanePositionsRequest(m_PlaneRound.getGameId(), m_PlaneRound.getRoundId(), m_PlaneRound.getUserId(),
             m_PlaneRound.getOpponentId(), m_PlaneRound.getUsername())
 
 
