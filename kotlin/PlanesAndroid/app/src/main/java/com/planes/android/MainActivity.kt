@@ -243,6 +243,8 @@ class MainActivity : AppCompatActivity() {
         m_MultiplayerPreferencesService.writePreferences()
         m_MainPreferencesService.writePreferences()
         m_VideoSettingsService.writePreferences()
+        m_PlayersListService.stopPolling()
+        m_ReceiveChatMessagesService.stopPolling()
         super.onStop()
         Log.d("Planes", "onStop")
     }
@@ -253,10 +255,18 @@ class MainActivity : AppCompatActivity() {
         m_MainPreferencesService.writePreferences()
         m_VideoSettingsService.writePreferences()
         m_PlayersListService.stopPolling()
+        m_ReceiveChatMessagesService.stopPolling()
         super.onDestroy()
         Log.d("Planes", "onDestroy")
     }
 
+    public override fun onResume() {
+        super.onResume()
+        if (m_MainPreferencesService.multiplayerVersion && m_MultiplayerRound.isUserLoggedIn()) {
+            m_PlayersListService.startPolling()
+            m_ReceiveChatMessagesService.startPolling()
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
