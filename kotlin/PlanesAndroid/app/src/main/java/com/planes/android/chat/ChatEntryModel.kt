@@ -22,6 +22,10 @@ class ChatEntryModel(player: UserWithLastLoginResponse) {
         return m_Player.m_UserName
     }
 
+    fun getPlayerId(): Long {
+        return m_Player.m_UserId.toLong()
+    }
+
     fun isPlayerOnline(): Boolean {
         val formatter = SimpleDateFormat("dd MM yyyy HH:mm:ss")
         formatter.timeZone = TimeZone.getTimeZone("UTC");

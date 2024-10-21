@@ -33,6 +33,7 @@ class ChatFragment : Fragment() {
         m_PlayersListService.createService()
         m_PlayersListService.setChatFragmentUpdateFunction(::updateSectionsList)
         m_ReceivedChatMessagesService.createService(m_DatabaseService)
+        //m_ReceivedChatMessageService.setChatFragmentUpdateFunction TODO - to mark users for whom messages were received
         m_MultiplayerRound.createPlanesRound()
         prepareSectionsList()
     }
@@ -69,7 +70,7 @@ class ChatFragment : Fragment() {
         }
 
         m_SectionsList = transformUserListToChatModel(playersList)
-        m_ChatAdapter = ChatAdapter(m_SectionsList)
+        m_ChatAdapter = ChatAdapter(m_SectionsList, requireActivity())
         m_ChatAdapter.notifyDataSetChanged()
     }
 

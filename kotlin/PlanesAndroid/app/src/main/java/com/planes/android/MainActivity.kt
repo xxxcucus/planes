@@ -29,6 +29,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.planes.android.about.AboutFragment
 import com.planes.android.chat.ChatFragment
 import com.planes.android.chat.DatabaseServiceGlobal
+import com.planes.android.conversation.ConversationFragment
 import com.planes.android.creategame.CreateGameFragment
 import com.planes.android.creategame.CreateGameSettingsGlobal
 import com.planes.android.deleteuser.DeleteUserFragment
@@ -672,6 +673,22 @@ class MainActivity : AppCompatActivity() {
     fun startChatFragment() {
         mSelectedItem = R.id.nav_chat
         setFragment(true, "FromLogin")
+    }
+
+    fun startConversationFragment(userid : Long, username : String) {
+        mSelectedItem = R.id.nav_conversation
+
+        val bundle = Bundle()
+        bundle.putLong("conversation/userid", userid)
+        bundle.putString("conversation/username", username)
+        val newFragment = ConversationFragment()
+        newFragment.arguments = bundle
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_content, newFragment, ApplicationScreens.Conversation.toString())
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .addToBackStack("FromUsersList")
+            .commit()
     }
 
     /**

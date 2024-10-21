@@ -75,7 +75,7 @@ class PhotoAdapter(photosList: List<PhotoModel>) : RecyclerView.Adapter<PhotoAda
         holder.itemView.isSelected = m_SelectedPositions.contains(position)
         val photo: PhotoModel = m_PhotosList[position]
         holder.setPhoto(photo.m_ImageId)
-        holder.m_Position = position
+        holder.m_Position = holder.adapterPosition
     }
 
     override fun getItemCount(): Int {

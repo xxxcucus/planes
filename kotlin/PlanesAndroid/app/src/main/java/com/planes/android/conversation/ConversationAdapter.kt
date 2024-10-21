@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.planes.android.R
 
@@ -15,7 +16,7 @@ class ConversationAdapter(messagesList: List<ChatMessageModel>) : RecyclerView.A
         var m_Sender: TextView = view.findViewById(R.id.conversation_sender)
         var m_Message: TextView = view.findViewById(R.id.conversation_message)
         var m_Date: TextView = view.findViewById(R.id.conversation_timestamp)
-        var m_Context: Context = context
+        var m_Context: Context = context  //TODO: do I need this ?
     }
 
     override fun getItemViewType(position: Int): Int {

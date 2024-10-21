@@ -49,5 +49,8 @@
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_baseline_toc_24"
             android:title="@string/about"/>
+        <item
+            android:id="@+id/nav_conversation"
+            android:visible="false" />
     </group>
 </menu>

@@ -16,6 +16,7 @@ class ReceiveChatMessagesService(databaseService: IDatabaseService) : IReceiveCh
     private lateinit var m_PollChatMessagesSubscription: Disposable
     private var m_PlaneRound = MultiplayerRoundJava()
     private lateinit var m_ChatUpdateFunction: (List<ChatMessageResponse>) -> Unit
+    //TODO: conversationUpdateFunction to update current conversation if necessary
     private var m_UpdateChat = false
     private var m_DatabaseService : IDatabaseService
 

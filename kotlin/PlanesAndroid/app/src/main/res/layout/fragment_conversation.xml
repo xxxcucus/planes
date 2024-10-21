@@ -1,43 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="?planesBackgroundEndColor">
-
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_conversation"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:id="@+id/conversation_input"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/recycler_conversation"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInput_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/message_edittext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/ModifiedEditText"
-                android:hint="@string/inputmessage"
-                android:textSize="20dp"
-                android:text="" />
+        <EditText
+            android:id="@+id/message_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ModifiedEditText"
+            android:hint="@string/inputmessage"
+            android:textSize="20dp"
+            android:text="" />
         </com.google.android.material.textfield.TextInputLayout>
         <Button
             android:id="@+id/send_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textInput_message"
             android:text="@string/sendmessage"
             style="@style/ButtonColor"
-            android:textSize="10dp" />
-    </LinearLayout>
-
-</RelativeLayout>
+            android:textSize="20dp" />
+    </RelativeLayout>
+</FrameLayout>
