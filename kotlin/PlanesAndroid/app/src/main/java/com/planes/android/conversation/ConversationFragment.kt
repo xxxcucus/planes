@@ -63,7 +63,7 @@ class ConversationFragment: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_conversation, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_conversation1, container, false)
 
         val recyclerView: RecyclerView = rootView.findViewById(R.id.recycler_conversation)
         val mLayoutManager = LinearLayoutManager(activity)
