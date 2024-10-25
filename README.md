@@ -1,5 +1,6 @@
 # planes
-Variant of battleships game implemented with Qt, C++ for desktop and with Java and Kotlin for Android.
+Planes is a variant of battleships game implemented with Qt, C++ for desktop and with Java and Kotlin for Android.
+The current website of the project is : https://xxxcucus.github.io/planes/
 
 3 versions of the game of Planes are implemented with Qt: PlanesWidget, first naive version,
 PlanesGraphicsScene an implementation using QGraphicsScene,
