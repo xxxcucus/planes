@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,27 +8,44 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_conversation"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        app:layout_constraintBottom_toTopOf="@id/et"
+        app:layout_constraintBottom_toTopOf="@id/textInput_message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:itemCount="10" />
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/et"
-        android:layout_width="0dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInput_message"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="7dp"
-        android:layout_marginEnd="15dp"
-        android:imeOptions="actionDone"
-        android:inputType="number"
-        android:text="Hello"
+        app:layout_constraintBottom_toTopOf="@id/send_message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <EditText
+            android:id="@+id/message_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ModifiedEditText"
+            android:hint="@string/inputmessage"
+            android:maxLength="128"
+            android:textSize="20dp"
+            android:text="" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/send_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/sendmessage"
+        style="@style/ButtonColor"
+        android:textSize="20dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

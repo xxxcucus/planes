@@ -9,8 +9,8 @@ android {
         targetSdkVersion 34
         compileSdk 34
         multiDexEnabled true
-        versionCode 28
-        versionName "0.4.3.1"
+        versionCode 29
+        versionName "0.4.4"
     }
     compileOptions {
         // Flag to enable support for the new language APIs
@@ -72,14 +72,13 @@ android {
 dependencies {
 
 
-    implementation 'androidx.core:core-ktx:1.12.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.drawerlayout:drawerlayout:1.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
     implementation "androidx.multidex:multidex:2.0.1"
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -93,8 +92,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.12'
 
     implementation "org.mindrot:jbcrypt:0.4"
-    implementation 'androidx.test.ext:junit-ktx:1.1.5'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+    implementation 'androidx.test.ext:junit-ktx:1.2.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.2'
 
     implementation 'androidx.room:room-runtime:2.6.1'
     kapt 'androidx.room:room-compiler:2.6.1'
@@ -107,30 +106,30 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:5.10.0'
     testImplementation 'com.google.truth:truth:1.4.1'
-    testImplementation 'com.google.android.material:material:1.11.0'
+    testImplementation 'com.google.android.material:material:1.12.0'
     
 
     // Core library
-    androidTestImplementation "androidx.test:core:1.5.0"
+    androidTestImplementation "androidx.test:core:1.6.1"
 
     // AndroidJUnitRunner and JUnit Rules
-    androidTestImplementation "androidx.test:runner:1.5.2"
-    androidTestImplementation "androidx.test:rules:1.5.0"
-    androidTestImplementation 'com.google.android.material:material:1.11.0'
+    androidTestImplementation "androidx.test:runner:1.6.2"
+    androidTestImplementation "androidx.test:rules:1.6.1"
+    androidTestImplementation 'com.google.android.material:material:1.12.0'
 
     // Espresso dependencies
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.5.1"
-    androidTestImplementation "androidx.test.espresso:espresso-intents:3.5.1"
-    androidTestImplementation "androidx.test.espresso:espresso-accessibility:3.5.1"
-    androidTestImplementation "androidx.test.espresso:espresso-web:3.5.1"
-    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:3.5.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.6.1"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.6.1"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:3.6.1"
+    androidTestImplementation "androidx.test.espresso:espresso-accessibility:3.6.1"
+    androidTestImplementation "androidx.test.espresso:espresso-web:3.6.1"
+    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:3.6.1"
 
     // The following Espresso dependency can be either "implementation",
     // or "androidTestImplementation", depending on whether you want the
     // dependency to appear on your APK’"s compile classpath or the test APK
     // classpath.
-    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:3.5.1"
+    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:3.6.1"
 
     //androidTestImplementation 'androidx.annotation:annotation:1.7.1'
 
@@ -140,7 +139,7 @@ dependencies {
     androidTestImplementation 'com.google.truth:truth:1.4.1'
     androidTestImplementation 'org.hamcrest:hamcrest:2.2'
 
-    debugImplementation "androidx.fragment:fragment-testing:1.6.2"
+    debugImplementation "androidx.fragment:fragment-testing:1.8.4"
 
 }
 repositories {
