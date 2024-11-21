@@ -19,7 +19,7 @@ public:
     SendChatMessageCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
         BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {}
 
-    bool makeRequest(long int receiverId, const QString& message);
+    bool makeRequest(long int receiverId, const QString& message, long int messageId);
     bool validateReply(const QJsonObject& retJson) override;
 
 protected:
@@ -29,11 +29,11 @@ public slots:
     void finishedRequest() override;
 
 signals:
-
+    void messageSent(long int messageId);
 
 private:
     void processResponse(const QJsonObject& retJson);
-    SendChatMessageViewModel prepareViewModel(long int receiverId, const QString& message);
+    SendChatMessageViewModel prepareViewModel(long int receiverId, const QString& message, long int messageId);
     const int m_MaxMessageLength = 128;
 };
 #endif

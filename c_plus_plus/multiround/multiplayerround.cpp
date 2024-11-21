@@ -381,12 +381,12 @@ void MultiplayerRound::deactivateUser() {
     m_DeactivateUserCommObj->makeRequest(m_GlobalData->m_UserData.m_UserName);
 }
 
-void MultiplayerRound::sendMessageThroughChat(const QString& receiver, long int receiverid, const QString& message) {
+void MultiplayerRound::sendMessageThroughChat(const QString& receiver, long int receiverid, const QString& message, long int messageId) {
        if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         qDebug() << "No user logged in";
         return;
     }
-    m_SendChatMessageCommObj->makeRequest(receiverid, message);
+    m_SendChatMessageCommObj->makeRequest(receiverid, message, messageId);
 }
 
 void MultiplayerRound::requestChatMessages() {

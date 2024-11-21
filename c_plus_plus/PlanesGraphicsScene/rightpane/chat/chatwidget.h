@@ -40,6 +40,8 @@ private:
     QSettings* m_Settings = nullptr;
 
     DatabaseService m_DatabaseService;
+
+    long int m_MessageIndex = 0;
 };
 
 #endif

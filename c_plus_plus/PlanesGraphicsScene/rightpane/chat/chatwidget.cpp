@@ -99,7 +99,8 @@ void ChatWidget::sendMessageToPlayer() {
         return;
     }
 
-    m_MultiRound->sendMessageThroughChat(m_CurrentReceiver, m_CurrentReceiverId, message);
+    m_MultiRound->sendMessageThroughChat(m_CurrentReceiver, m_CurrentReceiverId, message, m_MessageIndex);
+    m_MessageIndex++;
     chatSession->append(QString("%1 : %2  : %3").arg(m_GlobalData->m_UserData.m_UserName).arg(message).arg(QDateTime::currentDateTime().toString()));
 
     ReceivedChatMessageViewModel messageViewModel;

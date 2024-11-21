@@ -172,7 +172,7 @@ public:
     void deactivateUser();
 
     void requestChatMessages();
-    void sendMessageThroughChat(const QString& receiver, long int receiverid, const QString& message);
+    void sendMessageThroughChat(const QString& receiver, long int receiverid, const QString& message, long int messageId);
 
 protected:
     MultiplayerRound() {}
