@@ -46,10 +46,13 @@ void SendChatMessageCommObj::finishedRequest() {
 
 void SendChatMessageCommObj::processResponse(const QJsonObject& retJson) {
     bool sent = retJson.value("sent").toBool();
-    bool messageId = retJson.value("messageId").toInt();
+    int messageId = retJson.value("messageId").toString().toInt();
+
+    qDebug() << retJson;
 
     if (sent) {
         emit messageSent(messageId);
+        qDebug() << "Message with id " << messageId << " was sent";
     }
 }
 
