@@ -19,6 +19,10 @@ class DatabaseServiceGlobal : IDatabaseService {
     override suspend fun getMessages(username : String, userid : Long) : List<ChatMessage> {
         return global_Service!!.getMessages(username, userid)
     }
+
+    override suspend fun getMessages(username : String, userid : Long, otherUsername: String, otherUserid: Long, recorderName: String, recorderId: Long) : List<ChatMessage> {
+        return  global_Service!!.getMessages(username, userid, otherUsername, otherUserid, recorderName, recorderId)
+    }
     companion object {
         private var global_Service: DatabaseService? = null
     }

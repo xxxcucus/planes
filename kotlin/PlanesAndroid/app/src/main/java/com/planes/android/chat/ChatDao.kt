@@ -16,4 +16,7 @@ interface ChatDao {
 
     @Query("SELECT id, sender_id, sender_name, message, created_at, receiver_id, receiver_name, recorder_id, recorder_name FROM ChatMessages WHERE ((receiver_id = :userid and receiver_name = :username) or (sender_id = :userid and sender_name = :username)) and recorder_id = :userid and recorder_name = :username ORDER BY created_at ASC")
     suspend fun getMessages(username: String, userid: Long) : List<ChatMessage>
+
+    @Query("SELECT id, sender_id, sender_name, message, created_at, receiver_id, receiver_name, recorder_id, recorder_name FROM ChatMessages WHERE ((receiver_id = :userid and receiver_name = :username and sender_id = :otherUserid and sender_name = :otherUsername) or (sender_id = :userid and sender_name = :username and receiver_id = :otherUserid and receiver_name = :otherUsername )) and recorder_id = :recorderId and recorder_name = :recorderName ORDER BY created_at ASC")
+    suspend fun getMessages(username: String, userid: Long, otherUsername: String, otherUserid: Long, recorderName: String, recorderId : Long) : List<ChatMessage>
 }

@@ -211,7 +211,7 @@
     
     <string name="chat">Chat</string>
     <string name="loader_text">Loading...</string>
-    <string name="conversation">Conversation</string>
+    <string name="conversation">Conversation with</string>
 
     <string name="inputmessage">Input Message</string>
     <string name="sendmessage">Send Message</string>

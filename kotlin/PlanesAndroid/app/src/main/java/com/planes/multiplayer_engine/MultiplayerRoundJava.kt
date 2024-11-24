@@ -412,6 +412,10 @@ class MultiplayerRoundJava : MultiplayerRoundInterface {
     override fun getChatMessages(): Observable<Response<ReceiveChatMessagesResponse>> {
         return global_Round!!.getChatMessages()
     }
+
+    override fun sendChatMessage(receiverId: Long, message: String): Observable<Response<SendChatMessageResponse>> {
+        return global_Round!!.sendChatMessage(receiverId, message)
+    }
     override fun setRoundId(roundId: Long) {
         global_Round!!.setRoundId(roundId)
     }

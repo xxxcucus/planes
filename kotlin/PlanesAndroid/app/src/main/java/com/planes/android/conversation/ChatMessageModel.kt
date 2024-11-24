@@ -1,6 +1,7 @@
 package com.planes.android.conversation
 
 import com.planes.android.chat.ChatMessage
+import com.planes.utils.DateTimeUtils
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Date
@@ -36,10 +37,7 @@ class ChatMessageModel(message: String, sentByMe: Boolean, sender: String, times
     }
 
     fun getTimestamp(): String {
-        val formatter = SimpleDateFormat("dd MM yyyy HH:mm:ss")
-        formatter.timeZone = TimeZone.getTimeZone("UTC");
-        var formattedDate = formatter.format(m_TimeStamp)
-        return formattedDate
+        return DateTimeUtils.getStringFromDate(m_TimeStamp)
     }
 
 }

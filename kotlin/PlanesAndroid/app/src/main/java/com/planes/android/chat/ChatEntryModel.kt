@@ -1,6 +1,7 @@
 package com.planes.android.chat
 
 import com.planes.multiplayer_engine.responses.UserWithLastLoginResponse
+import com.planes.utils.DateTimeUtils
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Date
@@ -27,11 +28,9 @@ class ChatEntryModel(player: UserWithLastLoginResponse) {
     }
 
     fun isPlayerOnline(): Boolean {
-        val formatter = SimpleDateFormat("dd MM yyyy HH:mm:ss")
-        formatter.timeZone = TimeZone.getTimeZone("UTC");
-        var formattedDate = m_Player.m_LastLogin
-        val date: Date = formatter.parse(formattedDate)
-
+        val date = DateTimeUtils.parseDate(m_Player.m_LastLogin)
+        if (date == null)
+            return false
         return getDateDiff(date, Date.from(Instant.now()), TimeUnit.MINUTES) < 30;
     }
     fun getDateDiff(date1: Date, date2: Date, timeUnit: TimeUnit): Long {

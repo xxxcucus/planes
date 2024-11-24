@@ -257,6 +257,9 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return m_Service.getChatMessages(m_UserData.authToken, ReceiveChatMessagesRequest(m_UserData.userId.toString(), m_UserData.userName))
     }
 
+    fun sendChatMessage(receiverId: Long, message: String): Observable<Response<SendChatMessageResponse>>  {
+        return m_Service.sendChatMessage(m_UserData.authToken, SendChatMessageRequest(receiverId.toString(), message, m_UserData.userId.toString(), m_UserData.userName))
+    }
     fun setGameData(gameCreationResponse: CreateGameResponse) {
         val resetScore = gameCreationResponse.m_GameName != m_GameData.gameName
         m_GameData.setFromCreateGameResponse(gameCreationResponse)
@@ -527,43 +530,6 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         }
 
     }
-
-    /*void MultiplayerRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pgr) {
-        if (m_State != AbstractPlaneRound::GameStages::Game) {
-            QMessageBox msgBox(m_ParentWidget);
-            msgBox.setText("Not ready to play game.\n You do not have the opponent's planes positions!");
-            msgBox.exec();
-
-            return;
-        }
-
-        //update the game statistics
-        if (updateGameStats(gp, false)) {
-            //add the player's guess to the list of guesses
-            //assume that the guess is different from the other guesses
-            m_playerGuessList.push_back(gp);
-            m_ComputerGrid->addGuess(gp);
-
-            //GuessPoint::Type guessResult =  m_ComputerGrid->getGuessResult(PlanesCommonTools::Coordinate2D(gp.m_row, gp.m_col));
-            m_PlayerMoveIndex++;
-            sendMove(gp, m_PlayerMoveIndex);
-        } else {
-            //qDebug() << "Player has already found all planes";
-        }
-
-        bool draw = false;
-        long int winnerId = 0;
-        bool isPlayerWinner = false;
-
-        if (!m_WinnerFound) {
-            if (checkRoundEnd(draw, winnerId, isPlayerWinner)) {
-                emit winnerSent(isPlayerWinner, draw);
-                sendWinner(draw, winnerId);
-            }
-            emit gameStatsUpdated(m_gameStats);
-        }
-    }*/
-
 
     private fun checkRoundEnd(): PlayerGuessReaction {
 

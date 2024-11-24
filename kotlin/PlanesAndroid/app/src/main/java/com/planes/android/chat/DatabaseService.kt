@@ -3,6 +3,7 @@ package com.planes.android.chat
 import android.content.Context
 import androidx.room.Room
 import com.planes.multiplayer_engine.responses.ChatMessageResponse
+import com.planes.utils.DateTimeUtils
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.TimeZone
@@ -24,10 +25,7 @@ class DatabaseService internal constructor(private val m_Context: Context) : IDa
         var receiverName = message.m_ReceiverName
         var m = message.m_Message
 
-        val formatter = SimpleDateFormat("dd MM yyyy HH:mm:ss")
-        formatter.timeZone = TimeZone.getTimeZone("GMT");
-        var formattedDate = message.m_CreatedAt
-        val date: Date? = formatter.parse(formattedDate)
+        val date = DateTimeUtils.parseDate(message.m_CreatedAt)
 
         if (date == null)
             return
@@ -40,5 +38,11 @@ class DatabaseService internal constructor(private val m_Context: Context) : IDa
 
         var dao = db.chatDao()
         return dao.getMessages(username, userid)
+    }
+
+    override suspend fun getMessages(username : String, userid : Long, otherUsername: String, otherUserid: Long, recorderName: String, recorderId: Long) : List<ChatMessage> {
+
+        var dao = db.chatDao()
+        return dao.getMessages(username, userid, otherUsername, otherUserid, recorderName, recorderId)
     }
 }
