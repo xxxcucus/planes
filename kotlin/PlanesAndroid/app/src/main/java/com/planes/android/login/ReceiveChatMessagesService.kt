@@ -16,8 +16,9 @@ class ReceiveChatMessagesService(databaseService: IDatabaseService) : IReceiveCh
     private lateinit var m_PollChatMessagesSubscription: Disposable
     private var m_PlaneRound = MultiplayerRoundJava()
     private lateinit var m_ChatUpdateFunction: (List<ChatMessageResponse>) -> Unit
-    //TODO: conversationUpdateFunction to update current conversation if necessary
+    private lateinit var m_ConversationUpdateFunction: (List<ChatMessageResponse>) -> Unit
     private var m_UpdateChat = false
+    private var m_UpdateConversation = false
     private var m_DatabaseService : IDatabaseService
 
     init {
@@ -70,6 +71,9 @@ class ReceiveChatMessagesService(databaseService: IDatabaseService) : IReceiveCh
 
         if (m_UpdateChat)
             m_ChatUpdateFunction(chatMessages)
+
+        if (m_UpdateConversation)
+            m_ConversationUpdateFunction(chatMessages)
     }
 
 
@@ -78,7 +82,16 @@ class ReceiveChatMessagesService(databaseService: IDatabaseService) : IReceiveCh
         m_ChatUpdateFunction = updateFunction
     }
 
+    override fun setConversationFragmentUpdateFunction(updateFunction: (List<ChatMessageResponse>)->Unit) {
+        m_UpdateConversation = true
+        m_ConversationUpdateFunction = updateFunction
+    }
+
     override fun deactivateUpdateOfChat() {
         m_UpdateChat = false
+    }
+
+    override fun deactivateUpdateOfConversation() {
+        m_UpdateConversation = false
     }
 }

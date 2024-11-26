@@ -123,5 +123,5 @@ interface MultiplayerRoundInterface: PlanesRoundInterface {
 
     fun getChatMessages(): Observable<Response<ReceiveChatMessagesResponse>>
 
-    fun sendChatMessage(receiverId: Long, message: String): Observable<Response<SendChatMessageResponse>>
+    fun sendChatMessage(receiverId: Long, message: String, messageId: Long): Observable<Response<SendChatMessageResponse>>
 }

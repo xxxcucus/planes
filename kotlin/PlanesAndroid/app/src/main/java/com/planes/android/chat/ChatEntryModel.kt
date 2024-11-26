@@ -27,6 +27,10 @@ class ChatEntryModel(player: UserWithLastLoginResponse) {
         return m_Player.m_UserId.toLong()
     }
 
+    fun setNewMessages(flag: Boolean) {
+        m_NewMessages = flag;
+    }
+
     fun isPlayerOnline(): Boolean {
         val date = DateTimeUtils.parseDate(m_Player.m_LastLogin)
         if (date == null)

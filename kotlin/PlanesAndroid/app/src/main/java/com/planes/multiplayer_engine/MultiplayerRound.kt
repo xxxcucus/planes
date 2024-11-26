@@ -257,8 +257,8 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return m_Service.getChatMessages(m_UserData.authToken, ReceiveChatMessagesRequest(m_UserData.userId.toString(), m_UserData.userName))
     }
 
-    fun sendChatMessage(receiverId: Long, message: String): Observable<Response<SendChatMessageResponse>>  {
-        return m_Service.sendChatMessage(m_UserData.authToken, SendChatMessageRequest(receiverId.toString(), message, m_UserData.userId.toString(), m_UserData.userName))
+    fun sendChatMessage(receiverId: Long, message: String, messageId: Long): Observable<Response<SendChatMessageResponse>>  {
+        return m_Service.sendChatMessage(m_UserData.authToken, SendChatMessageRequest(receiverId.toString(), message, messageId.toString(), m_UserData.userId.toString(), m_UserData.userName))
     }
     fun setGameData(gameCreationResponse: CreateGameResponse) {
         val resetScore = gameCreationResponse.m_GameName != m_GameData.gameName

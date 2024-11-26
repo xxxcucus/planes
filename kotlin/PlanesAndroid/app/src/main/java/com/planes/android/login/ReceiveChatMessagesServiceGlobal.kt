@@ -30,6 +30,14 @@ class ReceiveChatMessagesServiceGlobal : IReceiveChatMessagesService {
         global_Service!!.deactivateUpdateOfChat()
     }
 
+    override fun setConversationFragmentUpdateFunction(updateFunction: (List<ChatMessageResponse>)->Unit) {
+        global_Service!!.setConversationFragmentUpdateFunction(updateFunction)
+    }
+
+    override fun deactivateUpdateOfConversation() {
+        global_Service!!.deactivateUpdateOfConversation()
+    }
+
     companion object {
         private var global_Service: ReceiveChatMessagesService? = null
     }

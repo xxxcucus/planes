@@ -45,7 +45,7 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
     private lateinit var m_PollOpponentPositionsSubscription: Disposable
     private lateinit var m_PollOpponentMovesSubscription: Disposable
 
-    lateinit var m_Context: Context
+    private lateinit var m_Context: Context
 
     private var m_ReceiveOpponentPlanePositionsError: Boolean = false
     private var m_ReceiveOpponentPlanePositionsErrorString: String = ""

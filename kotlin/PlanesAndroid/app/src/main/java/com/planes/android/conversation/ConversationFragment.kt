@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
+import com.planes.android.Tools
 import com.planes.android.chat.ChatMessage
 import com.planes.android.chat.DatabaseServiceGlobal
 import com.planes.android.login.ReceiveChatMessagesServiceGlobal
@@ -30,6 +31,7 @@ import kotlinx.coroutines.runBlocking
 import retrofit2.Response
 import java.time.Instant
 import java.util.Date
+import java.util.function.Predicate
 
 class ConversationFragment: Fragment() {
 
@@ -40,8 +42,9 @@ class ConversationFragment: Fragment() {
     private var m_MultiplayerRound = MultiplayerRoundJava()
     private var m_UserId: Long = 0L
     private lateinit var m_Username: String
+    private var m_MessageIndex = 0L
+    private lateinit var m_Context: Context
 
-    //TODO: this should also work when the user is not connected to a game
     private lateinit var m_SendChatMessageCommObj: SimpleRequestNotConnectedToGameWithoutLoadingCommObj<SendChatMessageResponse>
 
     private lateinit var m_EditText: EditText
@@ -49,16 +52,17 @@ class ConversationFragment: Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        m_Context = context
         m_DatabaseService.createService(context)
         m_ReceivedChatMessagesService.createService(m_DatabaseService)
-        //m_ReceivedChatMessageService.setChatFragmentUpdateFunction TODO
+        m_ReceivedChatMessagesService.setConversationFragmentUpdateFunction(::updateConversationsWithResponses)
         m_MultiplayerRound.createPlanesRound()
         prepareMessagesList()
     }
 
     override fun onResume() {
         super.onResume()
-        //prepareMessagesListResume()
+        prepareMessagesList() //TODO: do I need this ?
     }
 
     override fun onDetach() {
@@ -92,6 +96,9 @@ class ConversationFragment: Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_conversation1, container, false)
 
         val sendMessageButton = rootView.findViewById(R.id.send_message) as Button
+        sendMessageButton.setOnClickListener {
+            sendMessage()
+        }
         m_EditText = rootView.findViewById(R.id.message_edittext)
 
         val recyclerView: RecyclerView = rootView.findViewById(R.id.recycler_conversation)
@@ -115,9 +122,7 @@ class ConversationFragment: Fragment() {
 
     private fun sendMessage() {
         val message = m_EditText.text.toString()
-
         var formattedDate = DateTimeUtils.getDateTimeNowAsString()
-
         val messageResponse = ChatMessageResponse(m_MultiplayerRound.getUserId().toString(), m_MultiplayerRound.getUsername(), m_UserId.toString(), m_Username, message, formattedDate)
 
         runBlocking { // this: CoroutineScope
@@ -137,7 +142,10 @@ class ConversationFragment: Fragment() {
         m_ConversationAdapter = ConversationAdapter(m_MessagesList)
         m_ConversationAdapter.notifyDataSetChanged()
 
-        //TODO: call the send message service
+        m_SendChatMessageCommObj = SimpleRequestNotConnectedToGameWithoutLoadingCommObj(::createObservableSendChatMessage,
+            getString(R.string.send_chat_message_error), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
+             ::receivedSendChatMessageResponse, ::finalizeSendChatMessageSuccess, ::finalizeSendChatMessageError,  requireActivity())
+        m_SendChatMessageCommObj.makeRequest()
     }
 
     private fun disposeSubscription() {
@@ -145,11 +153,48 @@ class ConversationFragment: Fragment() {
             m_SendChatMessageCommObj.disposeSubscription()
     }
 
-    private fun createObservableSendChatMessage(message: String) : Observable<Response<SendChatMessageResponse>> {
-        return m_MultiplayerRound.sendChatMessage(m_UserId, message)
+    private fun createObservableSendChatMessage() : Observable<Response<SendChatMessageResponse>> {
+        val message = m_EditText.text.toString()
+        m_MessageIndex++
+        m_NotSentMessagesList.add(Pair(m_MessageIndex, message))
+        return m_MultiplayerRound.sendChatMessage(m_UserId, message, m_MessageIndex)
     }
 
-    private fun sendChatMessageResponse(response: SendChatMessageResponse) {
-        
+    private fun receivedSendChatMessageResponse(response: SendChatMessageResponse): String {
+
+        if (response.m_Sent) {
+            m_NotSentMessagesList.removeIf{ x: Pair<Long, String> -> x.first == response.m_MessageId.toLong() }
+            return ""
+        }
+
+        var errorString = getString(R.string.chat_message_not_sent)
+        Tools.displayToast(errorString, m_Context)
+
+        return errorString
+    }
+
+    private fun finalizeSendChatMessageSuccess() {
+        //TODO: if necessary
+    }
+
+    private fun finalizeSendChatMessageError() {
+        //TODO: if necessary
+    }
+
+    private fun updateConversationsWithResponses(messages : List<ChatMessageResponse>) {
+        for (m in messages) {
+            if (m.m_SenderId.toLong() != m_UserId || m.m_SenderName != m_Username)
+                continue;
+            var msgDate = DateTimeUtils.parseDate(m.m_CreatedAt)
+            if (msgDate == null)
+                msgDate = Date.from(Instant.now())
+            val chatMessage = ChatMessage(0, m.m_SenderId.toInt(), m.m_SenderName, m_MultiplayerRound.getUserId().toInt(), m_MultiplayerRound.getUsername(),  m_MultiplayerRound.getUserId().toInt(), m_MultiplayerRound.getUsername(), m.m_Message, msgDate!!)
+            val chatMessageModel = ChatMessageModel(chatMessage, m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId())
+
+            m_MessagesList = m_MessagesList + chatMessageModel
+        }
+
+        m_ConversationAdapter = ConversationAdapter(m_MessagesList)
+        m_ConversationAdapter.notifyDataSetChanged()
     }
 }

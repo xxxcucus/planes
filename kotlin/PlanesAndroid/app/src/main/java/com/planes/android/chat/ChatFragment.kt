@@ -15,8 +15,8 @@ import com.planes.android.R
 import com.planes.android.login.PlayersListServiceGlobal
 import com.planes.android.login.ReceiveChatMessagesServiceGlobal
 import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.responses.ChatMessageResponse
 import com.planes.multiplayer_engine.responses.UserWithLastLoginResponse
-
 
 class ChatFragment : Fragment() {
 
@@ -33,7 +33,7 @@ class ChatFragment : Fragment() {
         m_PlayersListService.createService()
         m_PlayersListService.setChatFragmentUpdateFunction(::updateSectionsList)
         m_ReceivedChatMessagesService.createService(m_DatabaseService)
-        //m_ReceivedChatMessageService.setChatFragmentUpdateFunction TODO - to mark users for whom messages were received
+        m_ReceivedChatMessagesService.setChatFragmentUpdateFunction(::updateConversationsWithResponses)
         m_MultiplayerRound.createPlanesRound()
         prepareSectionsList()
     }
@@ -70,6 +70,7 @@ class ChatFragment : Fragment() {
         }
 
         m_SectionsList = transformUserListToChatModel(playersList)
+        //TODO: preserve new messages flag
         m_ChatAdapter = ChatAdapter(m_SectionsList, requireActivity())
         m_ChatAdapter.notifyDataSetChanged()
     }
@@ -81,6 +82,7 @@ class ChatFragment : Fragment() {
         }
 
         m_SectionsList = transformUserListToChatModel(playersList)
+        //TODO: preserve new messages flag
         m_ChatAdapter.updateSections(m_SectionsList)
         m_ChatAdapter.notifyDataSetChanged()
     }
@@ -99,5 +101,15 @@ class ChatFragment : Fragment() {
     private fun transformUserListToChatModel(playersList: List<UserWithLastLoginResponse>) : List<ChatEntryModel> {
         return playersList.filter{ entry -> entry.m_UserName != m_MultiplayerRound.getUsername()
                 && entry.m_UserId != m_MultiplayerRound.getUserId().toString()}.map { entry -> ChatEntryModel(entry) }
+    }
+
+    private fun updateConversationsWithResponses(messages : List<ChatMessageResponse>) {
+        for (s in m_SectionsList) {
+            for (m in messages) {
+                if (s.getPlayerId() == m.m_SenderId.toLong())
+                    s.setNewMessages(true)
+            }
+        }
+        m_ChatAdapter.notifyDataSetChanged()
     }
 }

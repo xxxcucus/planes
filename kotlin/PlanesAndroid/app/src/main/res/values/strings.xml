@@ -212,6 +212,8 @@
     <string name="chat">Chat</string>
     <string name="loader_text">Loading...</string>
     <string name="conversation">Conversation with</string>
+    <string name="send_chat_message_error"> Error when sending chat message</string>
+    <string name="chat_message_not_sent"> Chat message was not sent</string>
 
     <string name="inputmessage">Input Message</string>
     <string name="sendmessage">Send Message</string>

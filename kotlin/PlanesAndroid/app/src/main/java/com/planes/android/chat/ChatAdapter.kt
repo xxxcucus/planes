@@ -40,6 +40,7 @@ class ChatAdapter(chatSectionsList: List<ChatEntryModel>, activity: FragmentActi
             override fun onClick(view : View) {
                 var useridx = holderView.adapterPosition
                 var chatEntryModel = m_SectionsList[useridx]
+                m_SectionsList[useridx].setNewMessages(false)
                 (m_Activity as MainActivity).startConversationFragment(chatEntryModel.getPlayerId(), chatEntryModel.getPlayerName())
             }
         })

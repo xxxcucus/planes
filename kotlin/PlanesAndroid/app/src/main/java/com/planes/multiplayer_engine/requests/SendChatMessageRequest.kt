@@ -9,6 +9,9 @@ class SendChatMessageRequest (
     @SerializedName("message")
     val m_Message: String,
 
+    @SerializedName("messageId")
+    val m_MessageId: String,
+
     @SerializedName("userId")
     override var m_UserId: String,
 

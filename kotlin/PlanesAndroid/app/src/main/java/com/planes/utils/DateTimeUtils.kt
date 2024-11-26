@@ -11,7 +11,7 @@ class DateTimeUtils {
         fun  getDateTimeNowAsString(): String {
             val formatter = SimpleDateFormat("dd MM yyyy HH:mm:ss")
             formatter.timeZone = TimeZone.getTimeZone("UTC");
-            return formatter.format(Instant.now())
+            return formatter.format(Date.from(Instant.now()))
         }
 
         fun parseDate(formattedDate: String): Date? {
