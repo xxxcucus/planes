@@ -200,7 +200,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     fun getUserId(): Long {
-        return m_GameData.userId
+        return m_UserData.userId
     }
 
     fun getOpponentId(): Long {

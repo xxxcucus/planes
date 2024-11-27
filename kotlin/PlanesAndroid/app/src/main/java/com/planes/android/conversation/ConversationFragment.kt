@@ -68,6 +68,7 @@ class ConversationFragment: Fragment() {
     override fun onDetach() {
         super.onDetach()
         disposeSubscription()
+        m_ReceivedChatMessagesService.deactivateUpdateOfConversation()
     }
 
     private fun prepareMessagesList() {
@@ -75,10 +76,13 @@ class ConversationFragment: Fragment() {
         m_UserId = requireArguments().getLong("conversation/userid")
         m_Username = requireArguments().getString("conversation/username")!!
 
+        var ownUserId = m_MultiplayerRound.getUserId()
+        var ownUsername = m_MultiplayerRound.getUsername()
+
         var messagesFromDb : List<ChatMessage>? = null
         runBlocking { // this: CoroutineScope
             launch {
-                messagesFromDb = m_DatabaseService.getMessages(m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId(), m_Username, m_UserId, m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId() )
+                messagesFromDb = m_DatabaseService.getMessages(ownUsername, ownUserId , m_Username, m_UserId, ownUsername, ownUserId )
             }
         }
 
