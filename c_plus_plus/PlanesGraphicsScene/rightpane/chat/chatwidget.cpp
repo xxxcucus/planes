@@ -161,6 +161,7 @@ void ChatWidget::addChatMessageFromDb(const ReceivedChatMessageViewModel& messag
         return;
     }
 
+    //TODO: this does not work after logout and login
     chatSession->append(QString("%1 : %2 : %3 ").arg(message.m_SenderName).arg(message.m_Message).arg(message.m_CreatedAt.toLocalTime().toString()));
 }
 

@@ -35,8 +35,9 @@ import java.util.function.Predicate
 
 class ConversationFragment: Fragment() {
 
-    private lateinit var m_MessagesList: List<ChatMessageModel>
+    private lateinit var m_MessagesList: MutableList<ChatMessageModel>
     private lateinit var m_ConversationAdapter: ConversationAdapter
+    private lateinit var m_RecyclerView: RecyclerView
     private var m_ReceivedChatMessagesService =  ReceiveChatMessagesServiceGlobal()
     private var m_DatabaseService = DatabaseServiceGlobal()
     private var m_MultiplayerRound = MultiplayerRoundJava()
@@ -62,7 +63,7 @@ class ConversationFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
-        prepareMessagesList() //TODO: do I need this ?
+        prepareMessagesListResume()
     }
 
     override fun onDetach() {
@@ -93,6 +94,29 @@ class ConversationFragment: Fragment() {
         m_ConversationAdapter = ConversationAdapter(m_MessagesList)
         m_ConversationAdapter.notifyDataSetChanged()
     }
+
+    private fun prepareMessagesListResume() {
+
+        m_UserId = requireArguments().getLong("conversation/userid")
+        m_Username = requireArguments().getString("conversation/username")!!
+
+        var ownUserId = m_MultiplayerRound.getUserId()
+        var ownUsername = m_MultiplayerRound.getUsername()
+
+        var messagesFromDb : List<ChatMessage>? = null
+        runBlocking { // this: CoroutineScope
+            launch {
+                messagesFromDb = m_DatabaseService.getMessages(ownUsername, ownUserId , m_Username, m_UserId, ownUsername, ownUserId )
+            }
+        }
+
+        if (messagesFromDb == null)
+            return
+
+        m_MessagesList = transformMessagesListToConversationModel(messagesFromDb!!)
+        m_ConversationAdapter.updateSections(m_MessagesList)
+        m_ConversationAdapter.notifyDataSetChanged()
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -105,11 +129,12 @@ class ConversationFragment: Fragment() {
         }
         m_EditText = rootView.findViewById(R.id.message_edittext)
 
-        val recyclerView: RecyclerView = rootView.findViewById(R.id.recycler_conversation)
-        val mLayoutManager = LinearLayoutManager(activity)
-        recyclerView.layoutManager = mLayoutManager
-        recyclerView.itemAnimator = DefaultItemAnimator()
-        recyclerView.adapter = m_ConversationAdapter
+        m_RecyclerView = rootView.findViewById(R.id.recycler_conversation)
+        var mLayoutManager = LinearLayoutManager(activity)
+        m_RecyclerView.layoutManager = mLayoutManager
+        m_RecyclerView.itemAnimator = DefaultItemAnimator()
+        m_RecyclerView.adapter = m_ConversationAdapter
+        m_RecyclerView.scrollToPosition(m_MessagesList.size - 1)
 
         if (activity is MainActivity) {
             (activity as MainActivity).setActionBarTitle(getString(R.string.conversation) + " " + m_Username)
@@ -120,8 +145,8 @@ class ConversationFragment: Fragment() {
         return rootView
     }
 
-    private fun transformMessagesListToConversationModel(messagesList: List<ChatMessage>) : List<ChatMessageModel> {
-        return messagesList.map { entry -> ChatMessageModel(entry, m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId()) }
+    private fun transformMessagesListToConversationModel(messagesList: List<ChatMessage>) : MutableList<ChatMessageModel> {
+        return messagesList.map { entry -> ChatMessageModel(entry, m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId()) }.toMutableList()
     }
 
     private fun sendMessage() {
@@ -142,14 +167,16 @@ class ConversationFragment: Fragment() {
         val chatMessage = ChatMessage(0, m_MultiplayerRound.getUserId().toInt(), m_MultiplayerRound.getUsername(), m_UserId.toInt(), m_Username,  m_MultiplayerRound.getUserId().toInt(), m_MultiplayerRound.getUsername(), message, Date.from(Instant.now()))
         val chatMessageModel = ChatMessageModel(chatMessage, m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId())
 
-        m_MessagesList = m_MessagesList + chatMessageModel
-        m_ConversationAdapter = ConversationAdapter(m_MessagesList)
-        m_ConversationAdapter.notifyDataSetChanged()
+        m_MessagesList.add(chatMessageModel)
+        m_ConversationAdapter.updateSections(m_MessagesList)
+        m_RecyclerView.scrollToPosition(m_MessagesList.size - 1)
+
 
         m_SendChatMessageCommObj = SimpleRequestNotConnectedToGameWithoutLoadingCommObj(::createObservableSendChatMessage,
             getString(R.string.send_chat_message_error), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
              ::receivedSendChatMessageResponse, ::finalizeSendChatMessageSuccess, ::finalizeSendChatMessageError,  requireActivity())
         m_SendChatMessageCommObj.makeRequest()
+        m_EditText.setText("")
     }
 
     private fun disposeSubscription() {
@@ -186,6 +213,9 @@ class ConversationFragment: Fragment() {
     }
 
     private fun updateConversationsWithResponses(messages : List<ChatMessageResponse>) {
+        if (messages.isEmpty())
+            return
+
         for (m in messages) {
             if (m.m_SenderId.toLong() != m_UserId || m.m_SenderName != m_Username)
                 continue;
@@ -195,10 +225,10 @@ class ConversationFragment: Fragment() {
             val chatMessage = ChatMessage(0, m.m_SenderId.toInt(), m.m_SenderName, m_MultiplayerRound.getUserId().toInt(), m_MultiplayerRound.getUsername(),  m_MultiplayerRound.getUserId().toInt(), m_MultiplayerRound.getUsername(), m.m_Message, msgDate!!)
             val chatMessageModel = ChatMessageModel(chatMessage, m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId())
 
-            m_MessagesList = m_MessagesList + chatMessageModel
+            m_MessagesList.add(chatMessageModel)
         }
 
-        m_ConversationAdapter = ConversationAdapter(m_MessagesList)
-        m_ConversationAdapter.notifyDataSetChanged()
+        m_ConversationAdapter.updateSections(m_MessagesList)
+
     }
 }

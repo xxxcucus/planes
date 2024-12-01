@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.planes.android.R
 
 class ConversationAdapter(messagesList: List<ChatMessageModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var m_MessagesList: List<ChatMessageModel> = messagesList
+    private var m_MessagesList: MutableList<ChatMessageModel> = messagesList.toMutableList()
 
     inner class MyViewHolder(view: View, context: Context) : RecyclerView.ViewHolder(view) {
         var m_Sender: TextView = view.findViewById(R.id.conversation_sender)
@@ -19,9 +19,9 @@ class ConversationAdapter(messagesList: List<ChatMessageModel>) : RecyclerView.A
         var m_Context: Context = context  //TODO: do I need this ?
     }
 
-    override fun getItemViewType(position: Int): Int {
+    /*override fun getItemViewType(position: Int): Int {
         return 0
-    }
+    }*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.conversationlayout, parent, false)
@@ -40,7 +40,9 @@ class ConversationAdapter(messagesList: List<ChatMessageModel>) : RecyclerView.A
         return m_MessagesList.size
     }
 
-    fun updateSections(messagesList : List<ChatMessageModel>) {
-        m_MessagesList = messagesList
+    fun updateSections(messagesList : MutableList<ChatMessageModel>) {
+        m_MessagesList.clear()
+        m_MessagesList.addAll(messagesList)
+        notifyDataSetChanged()
     }
 }
