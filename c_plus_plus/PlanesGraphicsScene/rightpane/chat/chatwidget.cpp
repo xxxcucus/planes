@@ -59,6 +59,8 @@ void ChatWidget::setActive(bool active) {
             delete it->second;
         }
         m_ChatSessions.clear();
+        m_CurrentReceiverId = 0;
+        m_CurrentReceiver = "";
     }
 }
 
@@ -66,18 +68,18 @@ void ChatWidget::openChatWindow(const QString& player) {
     qDebug() << "Open chat window" << player;
 
     if (m_CurrentReceiver == player) {
-        //qDebug() << "You are in the correct chat window";
+        qDebug() << "You are in the correct chat window";
         return;
     }
 
     if (m_ChatSessions.find(player) != m_ChatSessions.end()) {
-        //qDebug() << "Getting chat window from list";
+        qDebug() << "Getting chat window from list";
         m_ChatStackedWidget->setCurrentWidget(m_ChatSessions[player]);
         m_CurrentReceiver = player;
         return;
     }
 
-    //qDebug() << "Creating chat window ";
+    qDebug() << "Creating chat window ";
     QTextEdit* chatSession = new QTextEdit();
     m_ChatSessions[player] = chatSession;
     m_ChatStackedWidget->addWidget(chatSession);

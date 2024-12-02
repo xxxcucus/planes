@@ -63,6 +63,7 @@ class ConversationFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
+        //TODO: to test this when the application goes into background or the fragment is closed
         prepareMessagesListResume()
     }
 
