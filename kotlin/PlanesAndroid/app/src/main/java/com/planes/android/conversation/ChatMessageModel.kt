@@ -37,7 +37,11 @@ class ChatMessageModel(message: String, sentByMe: Boolean, sender: String, times
     }
 
     fun getTimestamp(): String {
-        return DateTimeUtils.getStringFromDate(m_TimeStamp)
+        return DateTimeUtils.getStringFromDateLocal(m_TimeStamp)
+    }
+
+    fun isSentByMe(): Boolean {
+        return m_SentByMe
     }
 
 }

@@ -94,6 +94,7 @@ class ConversationFragment: Fragment() {
         m_MessagesList = transformMessagesListToConversationModel(messagesFromDb!!)
         m_ConversationAdapter = ConversationAdapter(m_MessagesList)
         m_ConversationAdapter.notifyDataSetChanged()
+        //m_RecyclerView.scrollToPosition(m_MessagesList.size - 1)
     }
 
     private fun prepareMessagesListResume() {
@@ -116,7 +117,7 @@ class ConversationFragment: Fragment() {
 
         m_MessagesList = transformMessagesListToConversationModel(messagesFromDb!!)
         m_ConversationAdapter.updateSections(m_MessagesList)
-        m_ConversationAdapter.notifyDataSetChanged()
+        m_RecyclerView.scrollToPosition(m_MessagesList.size - 1)
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -171,7 +172,6 @@ class ConversationFragment: Fragment() {
         m_MessagesList.add(chatMessageModel)
         m_ConversationAdapter.updateSections(m_MessagesList)
         m_RecyclerView.scrollToPosition(m_MessagesList.size - 1)
-
 
         m_SendChatMessageCommObj = SimpleRequestNotConnectedToGameWithoutLoadingCommObj(::createObservableSendChatMessage,
             getString(R.string.send_chat_message_error), getString(R.string.unknownerror), getString(R.string.validation_user_not_loggedin),
@@ -230,6 +230,7 @@ class ConversationFragment: Fragment() {
         }
 
         m_ConversationAdapter.updateSections(m_MessagesList)
+        m_RecyclerView.scrollToPosition(m_MessagesList.size - 1)
 
     }
 }
