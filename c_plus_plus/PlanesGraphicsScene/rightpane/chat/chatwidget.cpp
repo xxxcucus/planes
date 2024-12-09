@@ -76,6 +76,7 @@ void ChatWidget::openChatWindow(const QString& player) {
         qDebug() << "Getting chat window from list";
         m_ChatStackedWidget->setCurrentWidget(m_ChatSessions[player]);
         m_CurrentReceiver = player;
+        m_CurrentReceiverId = m_PlayersListWidget->getPlayerId(player);
         return;
     }
 
@@ -88,6 +89,8 @@ void ChatWidget::openChatWindow(const QString& player) {
 
     //TODO: check that we do not get 0 here
     m_CurrentReceiverId = m_PlayersListWidget->getPlayerId(player);
+    qDebug() << "Current receiver " << player;
+    qDebug() << "Current receiver id " << m_CurrentReceiverId;
 }
 
 void ChatWidget::sendMessageToPlayer() {

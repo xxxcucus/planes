@@ -163,13 +163,17 @@ QString PlayersListWidget::getPlayerFromEntryListWidget(QListWidgetItem* item) {
 
 long int PlayersListWidget::getPlayerId(const QString& player) {
     for (auto p : m_PlayersList) {
-        if (p.m_UserName == player)
+        if (p.m_UserName == player) {
+            qDebug() << "Player from players list " << player << "  " << p.m_UserId;
             return p.m_UserId;
+        }
     }
 
     for (auto p : m_PlayersListFromServer) {
-        if (p.m_UserName == player)
+        if (p.m_UserName == player) {
+            qDebug() << "Player from server " << player << " " << p.m_UserId;
             return p.m_UserId;
+        }
     }
 
     qDebug() << "GetPlayerId " << player << "id 0";
