@@ -12,7 +12,7 @@ class ConversationAdapter(messagesList: List<ChatMessageModel>) : RecyclerView.A
     private var m_MessagesList: MutableList<ChatMessageModel> = messagesList.toMutableList()
 
     inner class MyViewHolder(view: View, context: Context) : RecyclerView.ViewHolder(view) {
-        var m_Sender: TextView = view.findViewById(R.id.conversation_sender)
+        //var m_Sender: TextView = view.findViewById(R.id.conversation_sender)
         var m_Message: TextView = view.findViewById(R.id.conversation_message)
         var m_Date: TextView = view.findViewById(R.id.conversation_timestamp)
         var m_Context: Context = context  //TODO: do I need this ?
@@ -40,7 +40,7 @@ class ConversationAdapter(messagesList: List<ChatMessageModel>) : RecyclerView.A
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val message: ChatMessageModel = m_MessagesList[position]
         val holderView = holder as MyViewHolder
-        holderView.m_Sender.text = message.getSender()
+        //holderView.m_Sender.text = message.getSender()
         holderView.m_Message.text = message.getMessage()
         holderView.m_Date.text = message.getTimestamp()
     }

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="?planesBackgroundEndColor">
 
-    <TextView
+    <!--<TextView
         android:id="@+id/conversation_sender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
         android:textStyle="bold"
         android:layout_alignParentLeft="true"
         android:text=""
-        style="@style/CustomTextViewStyle" />
+        style="@style/CustomTextViewStyle" />-->
     <TextView
         android:id="@+id/conversation_message"
         android:layout_width="wrap_content"
@@ -24,7 +24,6 @@
         android:textSize="20dp"
         android:textStyle="bold"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/conversation_sender"
         android:text=""
         style="@style/CustomTextViewStyle" />
     <TextView
@@ -34,7 +33,7 @@
         android:layout_margin="10dip"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
         android:layout_below="@+id/conversation_message"
         android:text=""
         style="@style/CustomTextViewStyle" />
