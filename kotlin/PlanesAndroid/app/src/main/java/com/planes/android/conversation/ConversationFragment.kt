@@ -152,7 +152,9 @@ class ConversationFragment: Fragment() {
     }
 
     private fun sendMessage() {
-        val message = m_EditText.text.toString()
+        val message = m_EditText.text.toString().trim()
+        if (message.isEmpty())
+            return
         var formattedDate = DateTimeUtils.getDateTimeNowAsString()
         val messageResponse = ChatMessageResponse(m_MultiplayerRound.getUserId().toString(), m_MultiplayerRound.getUsername(), m_UserId.toString(), m_Username, message, formattedDate)
 

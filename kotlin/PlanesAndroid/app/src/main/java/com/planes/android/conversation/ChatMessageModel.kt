@@ -2,10 +2,8 @@ package com.planes.android.conversation
 
 import com.planes.android.chat.ChatMessage
 import com.planes.utils.DateTimeUtils
-import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Date
-import java.util.TimeZone
 
 class ChatMessageModel(message: String, sentByMe: Boolean, sender: String, timestamp: Date) {
     private var m_Message: String
@@ -36,8 +34,9 @@ class ChatMessageModel(message: String, sentByMe: Boolean, sender: String, times
         return m_Sender
     }
 
-    fun getTimestamp(): String {
-        return DateTimeUtils.getStringFromDateLocal(m_TimeStamp)
+    fun getTimestampWithUser(): String {
+        val user = if (m_SentByMe) "me" else m_Sender
+        return "( " + user + ": on " + DateTimeUtils.getStringFromDateLocal(m_TimeStamp) + " )"
     }
 
     fun isSentByMe(): Boolean {

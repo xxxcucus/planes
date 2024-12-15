@@ -54,6 +54,8 @@ import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.RegistrationResponse
 import com.planes.single_player_engine.GameStages
 import com.planes.single_player_engine.PlanesRoundJava
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 class MainActivity : AppCompatActivity() {
@@ -161,6 +163,14 @@ class MainActivity : AppCompatActivity() {
             setDrawerMenuMultiplayer()
         else
             setDrawerMenuSinglePlayer()
+
+        if (m_MainPreferencesService.multiplayerVersion) {
+            runBlocking { // this: CoroutineScope
+                launch {
+                    m_DatabaseService.deleteOldMessages(90)
+                }
+            }
+        }
 
         var withHistory = mSelectedItem != 0 && !fromIntent
 
@@ -648,7 +658,6 @@ class MainActivity : AppCompatActivity() {
         mSelectedItem = R.id.nav_register
         setFragment(true, "FromLogin")
     }
-
 
     fun startGameFragment() {
         mSelectedItem = R.id.nav_game

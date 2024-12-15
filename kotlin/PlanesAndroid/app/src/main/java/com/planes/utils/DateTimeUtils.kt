@@ -28,7 +28,7 @@ class DateTimeUtils {
         }
 
         fun getStringFromDateLocal(date: Date): String {
-            val formatter = SimpleDateFormat("dd MM yyyy HH:mm:ss")
+            val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
             val cal: Calendar = Calendar.getInstance()
             formatter.timeZone = cal.getTimeZone()
             return formatter.format(date)

@@ -45,4 +45,9 @@ class DatabaseService internal constructor(private val m_Context: Context) : IDa
         var dao = db.chatDao()
         return dao.getMessages(username, userid, otherUsername, otherUserid, recorderName, recorderId)
     }
+
+    override suspend fun deleteOldMessages(daysBefore: Int) {
+        var dao = db.chatDao()
+        return dao.deleteOldMessages(daysBefore)
+    }
 }

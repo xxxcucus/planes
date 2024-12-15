@@ -42,7 +42,7 @@ class ConversationAdapter(messagesList: List<ChatMessageModel>) : RecyclerView.A
         val holderView = holder as MyViewHolder
         //holderView.m_Sender.text = message.getSender()
         holderView.m_Message.text = message.getMessage()
-        holderView.m_Date.text = message.getTimestamp()
+        holderView.m_Date.text = message.getTimestampWithUser()
     }
 
     override fun getItemCount(): Int {
