@@ -24,6 +24,7 @@ class ChatFragment : Fragment() {
     private lateinit var m_ChatAdapter: ChatAdapter
     private var m_PlayersListService = PlayersListServiceGlobal()
     private var m_ReceivedChatMessagesService =  ReceiveChatMessagesServiceGlobal()
+    private var m_NewMessagesService = NewMessagesServiceGlobal()
     private var m_DatabaseService = DatabaseServiceGlobal()
     private var m_MultiplayerRound = MultiplayerRoundJava()
 
@@ -34,6 +35,7 @@ class ChatFragment : Fragment() {
         m_PlayersListService.setChatFragmentUpdateFunction(::updateSectionsList)
         m_ReceivedChatMessagesService.createService(m_DatabaseService)
         m_ReceivedChatMessagesService.setChatFragmentUpdateFunction(::updateConversationsWithResponses)
+        m_NewMessagesService.createService()
         m_MultiplayerRound.createPlanesRound()
         prepareSectionsList()
     }
@@ -69,9 +71,8 @@ class ChatFragment : Fragment() {
             playersList = m_PlayersListService.getPlayersList()
         }
 
-        m_SectionsList = transformUserListToChatModel(playersList)
-        //TODO: preserve new messages flag
-        m_ChatAdapter = ChatAdapter(m_SectionsList, requireActivity())
+        m_SectionsList = transformUserListToChatModel(playersList, emptyList())
+        m_ChatAdapter = ChatAdapter(m_NewMessagesService, m_SectionsList, requireActivity())
         m_ChatAdapter.notifyDataSetChanged()
     }
 
@@ -81,14 +82,13 @@ class ChatFragment : Fragment() {
             playersList = m_PlayersListService.getPlayersList()
         }
 
-        m_SectionsList = transformUserListToChatModel(playersList)
-        //TODO: preserve new messages flag
+        m_SectionsList = transformUserListToChatModel(playersList, m_SectionsList)
         m_ChatAdapter.updateSections(m_SectionsList)
         m_ChatAdapter.notifyDataSetChanged()
     }
 
     private fun updateSectionsList(playersList : List<UserWithLastLoginResponse>) {
-        m_SectionsList = transformUserListToChatModel(playersList)
+        m_SectionsList = transformUserListToChatModel(playersList, m_SectionsList)
         m_ChatAdapter.updateSections(m_SectionsList)
         m_ChatAdapter.notifyDataSetChanged()
     }
@@ -98,16 +98,28 @@ class ChatFragment : Fragment() {
         m_PlayersListService.deactivateUpdateOfChat()
     }
 
-    private fun transformUserListToChatModel(playersList: List<UserWithLastLoginResponse>) : List<ChatEntryModel> {
-        return playersList.filter{ entry -> entry.m_UserName != m_MultiplayerRound.getUsername()
+    private fun transformUserListToChatModel(playersList: List<UserWithLastLoginResponse>, oldPlayersList: List<ChatEntryModel>) : List<ChatEntryModel> {
+        var retVal = playersList.filter{ entry -> entry.m_UserName != m_MultiplayerRound.getUsername()
                 && entry.m_UserId != m_MultiplayerRound.getUserId().toString()}.map { entry -> ChatEntryModel(entry) }
+
+        for (entry in retVal) {
+            var sameInOldList = oldPlayersList.find { it.getPlayerId() == entry.getPlayerId() && it.getPlayerName() == entry.getPlayerName()}
+            if (sameInOldList != null) {
+                entry.setNewMessages(sameInOldList.areNewMessages())
+                m_NewMessagesService.setNewMessage(entry.getPlayerName(), sameInOldList.areNewMessages())
+            }
+        }
+
+        return retVal
     }
 
     private fun updateConversationsWithResponses(messages : List<ChatMessageResponse>) {
         for (s in m_SectionsList) {
             for (m in messages) {
-                if (s.getPlayerId() == m.m_SenderId.toLong())
+                if (s.getPlayerId() == m.m_SenderId.toLong()) {
                     s.setNewMessages(true)
+                    m_NewMessagesService.setNewMessage(s.getPlayerName(), true)
+                }
             }
         }
         m_ChatAdapter.notifyDataSetChanged()

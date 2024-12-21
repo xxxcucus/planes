@@ -16,6 +16,7 @@
         android:layout_alignParentLeft="true"
         style="@style/CustomTextViewStyle" />
     <ImageView
+        android:id="@+id/chat_new_messages"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/baseline_message_24"

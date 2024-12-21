@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 class ChatEntryModel(player: UserWithLastLoginResponse) {
 
     private var m_Player: UserWithLastLoginResponse
-    private var m_NewMessages = false //TODO
+    private var m_NewMessages = false
 
     init {
         m_Player = player
@@ -29,6 +29,10 @@ class ChatEntryModel(player: UserWithLastLoginResponse) {
 
     fun setNewMessages(flag: Boolean) {
         m_NewMessages = flag;
+    }
+
+    fun areNewMessages() : Boolean {
+        return m_NewMessages
     }
 
     fun isPlayerOnline(): Boolean {

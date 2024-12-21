@@ -4,21 +4,25 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.planes.android.MainActivity
 import com.planes.android.R
 
 
-class ChatAdapter(chatSectionsList: List<ChatEntryModel>, activity: FragmentActivity) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatAdapter(newMessagesService: INewMessagesService, chatSectionsList: List<ChatEntryModel>, activity: FragmentActivity) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var m_SectionsList: List<ChatEntryModel> = chatSectionsList
     private var m_Activity: FragmentActivity = activity
+    private var m_NewMessagesService: INewMessagesService = newMessagesService
 
     inner class MyViewHolder(view: View, context: Context) : RecyclerView.ViewHolder(view) {
         var m_PlayerName: TextView = view.findViewById(R.id.chat_player_name)
         var m_PlayerStatus: TextView = view.findViewById(R.id.chat_player_status)
+        var m_NewMessages: ImageView = view.findViewById(R.id.chat_new_messages)
         var m_Context: Context = context
     }
 
@@ -36,11 +40,14 @@ class ChatAdapter(chatSectionsList: List<ChatEntryModel>, activity: FragmentActi
         val holderView = holder as MyViewHolder
         holderView.m_PlayerName.text = section.getPlayerName()
         holderView.m_PlayerStatus.text = if (section.isPlayerOnline()) "Online" else "Offline"
+        val newMessageInService = m_NewMessagesService.getNewMessage(section.getPlayerName())
+        holderView.m_NewMessages.isVisible =  if (newMessageInService == null) section.areNewMessages() else newMessageInService
         holderView.m_PlayerName.setOnClickListener(object: View.OnClickListener {
             override fun onClick(view : View) {
                 var useridx = holderView.adapterPosition
                 var chatEntryModel = m_SectionsList[useridx]
                 m_SectionsList[useridx].setNewMessages(false)
+                m_NewMessagesService.setNewMessage(m_SectionsList[useridx].getPlayerName(), false)
                 (m_Activity as MainActivity).startConversationFragment(chatEntryModel.getPlayerId(), chatEntryModel.getPlayerName())
             }
         })
