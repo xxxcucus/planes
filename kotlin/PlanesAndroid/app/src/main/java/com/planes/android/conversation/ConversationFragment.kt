@@ -17,6 +17,7 @@ import com.planes.android.R
 import com.planes.android.Tools
 import com.planes.android.chat.ChatMessage
 import com.planes.android.chat.DatabaseServiceGlobal
+import com.planes.android.chat.NewMessagesServiceGlobal
 import com.planes.android.login.ReceiveChatMessagesServiceGlobal
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.commobj.SimpleRequestNotConnectedToGameWithoutLoadingCommObj
@@ -40,6 +41,7 @@ class ConversationFragment: Fragment() {
     private lateinit var m_RecyclerView: RecyclerView
     private var m_ReceivedChatMessagesService =  ReceiveChatMessagesServiceGlobal()
     private var m_DatabaseService = DatabaseServiceGlobal()
+    private var m_NewMessagesService = NewMessagesServiceGlobal()
     private var m_MultiplayerRound = MultiplayerRoundJava()
     private var m_UserId: Long = 0L
     private lateinit var m_Username: String
@@ -55,7 +57,8 @@ class ConversationFragment: Fragment() {
         super.onAttach(context)
         m_Context = context
         m_DatabaseService.createService(context)
-        m_ReceivedChatMessagesService.createService(m_DatabaseService)
+        m_NewMessagesService.createService()
+        m_ReceivedChatMessagesService.createService(m_DatabaseService, m_NewMessagesService)
         m_ReceivedChatMessagesService.setConversationFragmentUpdateFunction(::updateConversationsWithResponses)
         m_MultiplayerRound.createPlanesRound()
         prepareMessagesList()

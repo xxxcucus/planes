@@ -12,6 +12,7 @@ import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
 import com.planes.android.chat.DatabaseServiceGlobal
+import com.planes.android.chat.NewMessagesServiceGlobal
 import com.planes.android.databinding.FragmentLoginBinding
 import com.planes.android.preferences.MultiplayerPreferencesServiceGlobal
 import com.planes.multiplayer_engine.MultiplayerRoundJava
@@ -30,6 +31,7 @@ class LoginFragment: Fragment() {
     private var m_MultiplayerRound = MultiplayerRoundJava()
     private var m_PlayersListService = PlayersListServiceGlobal()
     private var m_DatabaseService = DatabaseServiceGlobal()
+    private var m_NewMessagesService = NewMessagesServiceGlobal()
     private var m_ReceiveChatMessagesService = ReceiveChatMessagesServiceGlobal()
     private lateinit var m_LoginCommObj: LoginCommObj
 
@@ -39,7 +41,8 @@ class LoginFragment: Fragment() {
         m_MultiplayerRound.createPlanesRound()
         m_PlayersListService.createService()
         m_DatabaseService.createService(context)
-        m_ReceiveChatMessagesService.createService(m_DatabaseService)
+        m_NewMessagesService.createService()
+        m_ReceiveChatMessagesService.createService(m_DatabaseService, m_NewMessagesService)
     }
 
     override fun onCreateView(

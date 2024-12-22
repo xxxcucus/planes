@@ -29,6 +29,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.planes.android.about.AboutFragment
 import com.planes.android.chat.ChatFragment
 import com.planes.android.chat.DatabaseServiceGlobal
+import com.planes.android.chat.NewMessagesServiceGlobal
 import com.planes.android.conversation.ConversationFragment
 import com.planes.android.creategame.CreateGameFragment
 import com.planes.android.creategame.CreateGameSettingsGlobal
@@ -71,6 +72,7 @@ class MainActivity : AppCompatActivity() {
     private var m_CreateGameSettingsService = CreateGameSettingsGlobal()
     private var m_PlayersListService = PlayersListServiceGlobal()
     private var m_DatabaseService = DatabaseServiceGlobal()
+    private var m_NewMessagesService = NewMessagesServiceGlobal()
     private var m_ReceiveChatMessagesService = ReceiveChatMessagesServiceGlobal()
 
     private var mSelectedItem = 0
@@ -121,7 +123,8 @@ class MainActivity : AppCompatActivity() {
 
         m_PlayersListService.createService()
         m_DatabaseService.createService(this)
-        m_ReceiveChatMessagesService.createService(m_DatabaseService)
+        m_NewMessagesService.createService()
+        m_ReceiveChatMessagesService.createService(m_DatabaseService, m_NewMessagesService)
 
         m_DrawerLayout = findViewById(R.id.drawer_layout)
         mDrawerToggle = object : ActionBarDrawerToggle(this, m_DrawerLayout, R.string.drawer_open_content_description, R.string.drawer_closed_content_description) {

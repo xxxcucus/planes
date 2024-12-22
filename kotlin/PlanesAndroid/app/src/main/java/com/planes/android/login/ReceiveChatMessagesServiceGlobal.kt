@@ -1,6 +1,7 @@
 package com.planes.android.login
 
 import com.planes.android.chat.IDatabaseService
+import com.planes.android.chat.INewMessagesService
 import com.planes.multiplayer_engine.responses.ChatMessageResponse
 import com.planes.multiplayer_engine.responses.UserWithLastLoginResponse
 
@@ -13,9 +14,9 @@ class ReceiveChatMessagesServiceGlobal : IReceiveChatMessagesService {
         global_Service!!.stopPolling()
     }
 
-    fun createService(databaseService: IDatabaseService) {
+    fun createService(databaseService: IDatabaseService, newMessagesService: INewMessagesService) {
         if (global_Service != null) return
-        global_Service = ReceiveChatMessagesService(databaseService)
+        global_Service = ReceiveChatMessagesService(databaseService, newMessagesService)
     }
 
     override fun isPolling(): Boolean {

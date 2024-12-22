@@ -33,9 +33,9 @@ class ChatFragment : Fragment() {
         m_DatabaseService.createService(context)
         m_PlayersListService.createService()
         m_PlayersListService.setChatFragmentUpdateFunction(::updateSectionsList)
-        m_ReceivedChatMessagesService.createService(m_DatabaseService)
-        m_ReceivedChatMessagesService.setChatFragmentUpdateFunction(::updateConversationsWithResponses)
         m_NewMessagesService.createService()
+        m_ReceivedChatMessagesService.createService(m_DatabaseService, m_NewMessagesService)
+        m_ReceivedChatMessagesService.setChatFragmentUpdateFunction(::updateConversationsWithResponses)
         m_MultiplayerRound.createPlanesRound()
         prepareSectionsList()
     }
@@ -107,6 +107,11 @@ class ChatFragment : Fragment() {
             if (sameInOldList != null) {
                 entry.setNewMessages(sameInOldList.areNewMessages())
                 m_NewMessagesService.setNewMessage(entry.getPlayerName(), sameInOldList.areNewMessages())
+            } else {
+                val newMessages = m_NewMessagesService.getNewMessage(entry.getPlayerName())
+                if (newMessages != null && newMessages!!) {
+                    entry.setNewMessages(true)
+                }
             }
         }
 

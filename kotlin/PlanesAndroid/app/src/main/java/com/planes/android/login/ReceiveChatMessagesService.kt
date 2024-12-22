@@ -1,6 +1,7 @@
 package com.planes.android.login
 
 import com.planes.android.chat.IDatabaseService
+import com.planes.android.chat.INewMessagesService
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.ChatMessageResponse
 import com.planes.multiplayer_engine.responses.ReceiveChatMessagesResponse
@@ -12,7 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
 
-class ReceiveChatMessagesService(databaseService: IDatabaseService) : IReceiveChatMessagesService {
+class ReceiveChatMessagesService(databaseService: IDatabaseService, newMesssagesService: INewMessagesService) : IReceiveChatMessagesService {
     private lateinit var m_PollChatMessagesSubscription: Disposable
     private var m_PlaneRound = MultiplayerRoundJava()
     private lateinit var m_ChatUpdateFunction: (List<ChatMessageResponse>) -> Unit
@@ -20,9 +21,11 @@ class ReceiveChatMessagesService(databaseService: IDatabaseService) : IReceiveCh
     private var m_UpdateChat = false
     private var m_UpdateConversation = false
     private var m_DatabaseService : IDatabaseService
+    private var m_NewMessagesService: INewMessagesService
 
     init {
         m_DatabaseService = databaseService
+        m_NewMessagesService = newMesssagesService
     }
 
     override fun startPolling() {
@@ -67,6 +70,10 @@ class ReceiveChatMessagesService(databaseService: IDatabaseService) : IReceiveCh
                     m_DatabaseService.addChatMessage(message, m_PlaneRound.getUserId(), m_PlaneRound.getUsername())
                 }
             }
+        }
+
+        for (message in chatMessages) {
+            m_NewMessagesService.setNewMessage(message.m_SenderName, true)
         }
 
         if (m_UpdateChat)
