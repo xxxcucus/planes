@@ -15,4 +15,8 @@ interface IReceiveChatMessagesService {
     fun setConversationFragmentUpdateFunction(updateFunction: (List<ChatMessageResponse>)->Unit)
 
     fun deactivateUpdateOfConversation()
+
+    fun setMainActivityUpdateFunction(updateFunction: ()->Unit)
+
+    fun deactivateUpdateOfMainActivity()
 }

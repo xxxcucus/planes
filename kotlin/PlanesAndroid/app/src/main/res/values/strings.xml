@@ -217,6 +217,7 @@
 
     <string name="inputmessage">Input Message</string>
     <string name="sendmessage">Send Message</string>
+    <string name="newmessages">New Messages</string>
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">
         com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>

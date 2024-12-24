@@ -19,8 +19,10 @@ class ReceiveChatMessagesService(databaseService: IDatabaseService, newMesssages
     private var m_PlaneRound = MultiplayerRoundJava()
     private lateinit var m_ChatUpdateFunction: (List<ChatMessageResponse>) -> Unit
     private lateinit var m_ConversationUpdateFunction: (List<ChatMessageResponse>) -> Unit
+    private lateinit var m_MainActivityUpdateFunction: () -> Unit
     private var m_UpdateChat = false
     private var m_UpdateConversation = false
+    private var m_UpdateMainActivity = false
     private var m_DatabaseService : IDatabaseService
     private var m_NewMessagesService: INewMessagesService
 
@@ -82,6 +84,9 @@ class ReceiveChatMessagesService(databaseService: IDatabaseService, newMesssages
 
         if (m_UpdateConversation)
             m_ConversationUpdateFunction(chatMessages)
+
+        if (m_UpdateMainActivity)
+            m_MainActivityUpdateFunction()
     }
 
 
@@ -95,6 +100,14 @@ class ReceiveChatMessagesService(databaseService: IDatabaseService, newMesssages
         m_ConversationUpdateFunction = updateFunction
     }
 
+    override fun setMainActivityUpdateFunction(updateFunction: ()->Unit) {
+        m_UpdateMainActivity = true
+        m_MainActivityUpdateFunction = updateFunction
+    }
+
+    override fun deactivateUpdateOfMainActivity() {
+        m_UpdateMainActivity = false
+    }
     override fun deactivateUpdateOfChat() {
         m_UpdateChat = false
     }

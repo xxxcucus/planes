@@ -39,6 +39,14 @@ class ReceiveChatMessagesServiceGlobal : IReceiveChatMessagesService {
         global_Service!!.deactivateUpdateOfConversation()
     }
 
+    override fun setMainActivityUpdateFunction(updateFunction: ()->Unit) {
+        global_Service!!.setMainActivityUpdateFunction(updateFunction)
+    }
+
+    override fun deactivateUpdateOfMainActivity() {
+        global_Service!!.deactivateUpdateOfMainActivity()
+    }
+
     companion object {
         private var global_Service: ReceiveChatMessagesService? = null
     }

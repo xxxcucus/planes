@@ -11,6 +11,7 @@ import com.planes.android.ApplicationScreens
 import com.planes.android.MainActivity
 import com.planes.android.R
 import com.planes.android.chat.DatabaseServiceGlobal
+import com.planes.android.chat.NewMessagesServiceGlobal
 import com.planes.android.creategame.CreateGameSettingsGlobal
 import com.planes.android.creategame.CreateGameStates
 import com.planes.android.databinding.FragmentLogoutBinding
@@ -29,6 +30,7 @@ class LogoutFragment: Fragment() {
     private var m_MultiplayerRound = MultiplayerRoundJava()
     private var m_PlayersListService = PlayersListServiceGlobal()
     private var m_DatabaseService = DatabaseServiceGlobal()
+    private var m_NewDatabaseServce = NewMessagesServiceGlobal()
     private var m_ReceiveChatMessagesService = ReceiveChatMessagesServiceGlobal()
     private var m_CreateGameSettingsService = CreateGameSettingsGlobal()
     private lateinit var m_Context: Context
@@ -40,7 +42,7 @@ class LogoutFragment: Fragment() {
         m_CreateGameSettingsService.createPreferencesService()
         m_PlayersListService.createService()
         m_DatabaseService.createService(context)
-        m_ReceiveChatMessagesService.createService(m_DatabaseService)
+        m_ReceiveChatMessagesService.createService(m_DatabaseService, m_NewDatabaseServce)
     }
 
     override fun onCreateView(
@@ -117,8 +119,10 @@ class LogoutFragment: Fragment() {
         binding.settingsData!!.m_Username = ""
         binding.invalidateAll()
 
-        if (activity is MainActivity)
+        if (activity is MainActivity) {
             (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
+            (activity as MainActivity).updateNewMessagesFlags()
+        }
 
     }
 

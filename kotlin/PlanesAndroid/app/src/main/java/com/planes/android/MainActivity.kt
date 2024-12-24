@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var m_ProgressBar: ProgressBar
     private lateinit var m_StaticProgressLabel: TextView
     private lateinit var m_MainLayout: LinearLayoutCompat
+    private lateinit var m_NewMessagesMenuItem: MenuItem
 
     //region life cycle
 
@@ -125,6 +126,7 @@ class MainActivity : AppCompatActivity() {
         m_DatabaseService.createService(this)
         m_NewMessagesService.createService()
         m_ReceiveChatMessagesService.createService(m_DatabaseService, m_NewMessagesService)
+        m_ReceiveChatMessagesService.setMainActivityUpdateFunction { updateNewMessagesFlags() }
 
         m_DrawerLayout = findViewById(R.id.drawer_layout)
         mDrawerToggle = object : ActionBarDrawerToggle(this, m_DrawerLayout, R.string.drawer_open_content_description, R.string.drawer_closed_content_description) {
@@ -235,6 +237,8 @@ class MainActivity : AppCompatActivity() {
                 m_PlaneRound.getGameStage() == GameStages.Game.value ) && mSelectedItem == R.id.nav_game
         menu.findItem(R.id.menu_show_stats).isVisible = isTablet() && (m_MultiplayerRound.getGameStage() == GameStages.Game.value)
                 && mSelectedItem == R.id.nav_game
+        m_NewMessagesMenuItem = menu.findItem(R.id.menu_newmessages)
+        updateNewMessagesFlags()
         return true
     }
 
@@ -270,6 +274,7 @@ class MainActivity : AppCompatActivity() {
         m_VideoSettingsService.writePreferences()
         m_PlayersListService.stopPolling()
         m_ReceiveChatMessagesService.stopPolling()
+        m_ReceiveChatMessagesService.deactivateUpdateOfMainActivity()
         super.onDestroy()
         Log.d("Planes", "onDestroy")
     }
@@ -279,6 +284,7 @@ class MainActivity : AppCompatActivity() {
         if (m_MainPreferencesService.multiplayerVersion && m_MultiplayerRound.isUserLoggedIn()) {
             m_PlayersListService.startPolling()
             m_ReceiveChatMessagesService.startPolling()
+            m_ReceiveChatMessagesService.setMainActivityUpdateFunction { updateNewMessagesFlags() }
         }
     }
 
@@ -755,5 +761,13 @@ class MainActivity : AppCompatActivity() {
 
     fun updateOptionsMenu() {
         invalidateOptionsMenu()
+    }
+
+    fun updateNewMessagesFlags() {
+        if (m_MultiplayerRound.isUserLoggedIn()) {
+            m_NewMessagesMenuItem.isVisible = m_NewMessagesService.areNewMessagesForPlayer(m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId())
+        } else {
+            m_NewMessagesMenuItem.isVisible = false
+        }
     }
 }

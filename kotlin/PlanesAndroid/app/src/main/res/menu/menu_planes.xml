@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu_newmessages"
+        android:icon="@drawable/baseline_message_24"
+        android:visible="false"
+        android:text="@string/newmessages"
+        app:showAsAction="ifRoom|withText"/>
     <item android:id="@+id/menu_cancel"
         android:icon="@drawable/baseline_close_24"
         android:visible="false"
@@ -14,5 +19,5 @@
     <item android:id="@+id/menu_help"
         android:icon="@android:drawable/ic_menu_help"
         android:text="@string/help"
-        app:showAsAction="ifRoom|withText" />
+        app:showAsAction="ifRoom|withText"/>
 </menu>
