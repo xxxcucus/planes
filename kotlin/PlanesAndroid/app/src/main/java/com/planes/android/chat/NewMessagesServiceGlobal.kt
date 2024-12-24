@@ -9,12 +9,12 @@ class NewMessagesServiceGlobal : INewMessagesService {
             return
         NewMessagesServiceGlobal.global_Service = NewMessagesService()
     }
-    override fun setNewMessage(player: String, value: Boolean) {
-        global_Service!!.setNewMessage(player, value)
+    override fun setNewMessage(messageIdent: NewMessageIdent, value: Boolean) {
+        global_Service!!.setNewMessage(messageIdent, value)
     }
 
-    override fun getNewMessage(player: String): Boolean? {
-       return global_Service!!.getNewMessage(player)
+    override fun getNewMessage(messageIdent: NewMessageIdent): Boolean? {
+       return global_Service!!.getNewMessage(messageIdent)
     }
     companion object {
         private var global_Service: NewMessagesService? = null

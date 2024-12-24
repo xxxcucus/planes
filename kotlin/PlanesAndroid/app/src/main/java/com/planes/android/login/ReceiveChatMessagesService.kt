@@ -2,6 +2,7 @@ package com.planes.android.login
 
 import com.planes.android.chat.IDatabaseService
 import com.planes.android.chat.INewMessagesService
+import com.planes.android.chat.NewMessageIdent
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.ChatMessageResponse
 import com.planes.multiplayer_engine.responses.ReceiveChatMessagesResponse
@@ -73,7 +74,7 @@ class ReceiveChatMessagesService(databaseService: IDatabaseService, newMesssages
         }
 
         for (message in chatMessages) {
-            m_NewMessagesService.setNewMessage(message.m_SenderName, true)
+            m_NewMessagesService.setNewMessage(NewMessageIdent(message.m_SenderName, message.m_SenderId.toLong(), m_PlaneRound.getUsername(), m_PlaneRound.getUserId()), true)
         }
 
         if (m_UpdateChat)

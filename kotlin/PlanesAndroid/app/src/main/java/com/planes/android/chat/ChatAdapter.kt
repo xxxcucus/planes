@@ -14,10 +14,12 @@ import com.planes.android.MainActivity
 import com.planes.android.R
 
 
-class ChatAdapter(newMessagesService: INewMessagesService, chatSectionsList: List<ChatEntryModel>, activity: FragmentActivity) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatAdapter(playerName: String, playerId: Long, newMessagesService: INewMessagesService, chatSectionsList: List<ChatEntryModel>, activity: FragmentActivity) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var m_SectionsList: List<ChatEntryModel> = chatSectionsList
     private var m_Activity: FragmentActivity = activity
     private var m_NewMessagesService: INewMessagesService = newMessagesService
+    private var m_PlayerName = playerName
+    private var m_PlayerId = playerId
 
     inner class MyViewHolder(view: View, context: Context) : RecyclerView.ViewHolder(view) {
         var m_PlayerName: TextView = view.findViewById(R.id.chat_player_name)
@@ -40,14 +42,14 @@ class ChatAdapter(newMessagesService: INewMessagesService, chatSectionsList: Lis
         val holderView = holder as MyViewHolder
         holderView.m_PlayerName.text = section.getPlayerName()
         holderView.m_PlayerStatus.text = if (section.isPlayerOnline()) "Online" else "Offline"
-        val newMessageInService = m_NewMessagesService.getNewMessage(section.getPlayerName())
+        val newMessageInService = m_NewMessagesService.getNewMessage(NewMessageIdent(section.getPlayerName(), section.getPlayerId(),m_PlayerName, m_PlayerId))
         holderView.m_NewMessages.isVisible =  if (newMessageInService == null) section.areNewMessages() else newMessageInService
         holderView.m_PlayerName.setOnClickListener(object: View.OnClickListener {
             override fun onClick(view : View) {
                 var useridx = holderView.adapterPosition
                 var chatEntryModel = m_SectionsList[useridx]
                 m_SectionsList[useridx].setNewMessages(false)
-                m_NewMessagesService.setNewMessage(m_SectionsList[useridx].getPlayerName(), false)
+                m_NewMessagesService.setNewMessage(NewMessageIdent(m_SectionsList[useridx].getPlayerName(), m_SectionsList[useridx].getPlayerId(), m_PlayerName, m_PlayerId), false)
                 (m_Activity as MainActivity).startConversationFragment(chatEntryModel.getPlayerId(), chatEntryModel.getPlayerName())
             }
         })

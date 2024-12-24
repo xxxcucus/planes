@@ -1,6 +1,6 @@
 package com.planes.android.chat
 
 interface INewMessagesService {
-    fun setNewMessage(player: String, value: Boolean)
-    fun getNewMessage(player: String): Boolean?
+    fun setNewMessage(messageIdent: NewMessageIdent, value: Boolean)
+    fun getNewMessage(messageIdent: NewMessageIdent): Boolean?
 }

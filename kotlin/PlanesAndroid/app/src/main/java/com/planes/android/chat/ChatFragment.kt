@@ -72,7 +72,7 @@ class ChatFragment : Fragment() {
         }
 
         m_SectionsList = transformUserListToChatModel(playersList, emptyList())
-        m_ChatAdapter = ChatAdapter(m_NewMessagesService, m_SectionsList, requireActivity())
+        m_ChatAdapter = ChatAdapter(m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId(), m_NewMessagesService, m_SectionsList, requireActivity())
         m_ChatAdapter.notifyDataSetChanged()
     }
 
@@ -106,9 +106,9 @@ class ChatFragment : Fragment() {
             var sameInOldList = oldPlayersList.find { it.getPlayerId() == entry.getPlayerId() && it.getPlayerName() == entry.getPlayerName()}
             if (sameInOldList != null) {
                 entry.setNewMessages(sameInOldList.areNewMessages())
-                m_NewMessagesService.setNewMessage(entry.getPlayerName(), sameInOldList.areNewMessages())
+                m_NewMessagesService.setNewMessage(NewMessageIdent(entry.getPlayerName(), entry.getPlayerId(), m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId()), sameInOldList.areNewMessages())
             } else {
-                val newMessages = m_NewMessagesService.getNewMessage(entry.getPlayerName())
+                val newMessages = m_NewMessagesService.getNewMessage(NewMessageIdent(entry.getPlayerName(), entry.getPlayerId(), m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId()))
                 if (newMessages != null && newMessages!!) {
                     entry.setNewMessages(true)
                 }
@@ -123,7 +123,7 @@ class ChatFragment : Fragment() {
             for (m in messages) {
                 if (s.getPlayerId() == m.m_SenderId.toLong()) {
                     s.setNewMessages(true)
-                    m_NewMessagesService.setNewMessage(s.getPlayerName(), true)
+                    m_NewMessagesService.setNewMessage(NewMessageIdent(s.getPlayerName(), s.getPlayerId(), m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId()), true)
                 }
             }
         }

@@ -2,15 +2,15 @@ package com.planes.android.chat
 
 class NewMessagesService : INewMessagesService {
 
-    private val m_NewMessagesStatus: HashMap<String, Boolean> = HashMap<String, Boolean>()
+    private val m_NewMessagesStatus: HashMap<NewMessageIdent, Boolean> = HashMap<NewMessageIdent, Boolean>()
 
-    override fun setNewMessage(player: String, value: Boolean) {
-        m_NewMessagesStatus.put(player, value)
+    override fun setNewMessage(messageIdent: NewMessageIdent, value: Boolean) {
+        m_NewMessagesStatus.put(messageIdent, value)
     }
 
-    override fun getNewMessage(player: String): Boolean? {
-        if (!m_NewMessagesStatus.containsKey(player))
+    override fun getNewMessage(messageIdent: NewMessageIdent): Boolean? {
+        if (!m_NewMessagesStatus.containsKey(messageIdent))
             return null
-        return m_NewMessagesStatus.get(player)
+        return m_NewMessagesStatus.get(messageIdent)
     }
 }
