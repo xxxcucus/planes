@@ -21,6 +21,13 @@ class NewMessagesServiceGlobal : INewMessagesService {
         return global_Service!!.areNewMessagesForPlayer(receiverName, receiverId)
     }
 
+    override fun resetFlags(newMessagesFlags: List<NewMessagesFlag>) {
+        return global_Service!!.resetFlags(newMessagesFlags)
+    }
+    override fun getNewMessagesFlags(): HashMap<NewMessageIdent, Boolean> {
+        return global_Service!!.getNewMessagesFlags()
+    }
+
     companion object {
         private var global_Service: NewMessagesService? = null
     }

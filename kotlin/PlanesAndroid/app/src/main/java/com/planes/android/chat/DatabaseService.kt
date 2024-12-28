@@ -50,4 +50,20 @@ class DatabaseService internal constructor(private val m_Context: Context) : IDa
         var dao = db.chatDao()
         return dao.deleteOldMessages(daysBefore)
     }
+
+    override suspend fun getNewMessagesFlags(): List<NewMessagesFlag> {
+        var dao = db.newMessagesDao()
+        return dao.getNewMessagesFlags()
+    }
+
+    override suspend fun updateNewMessagesFlags(senderName: String, senderId: Long, receiverName: String, receiverId: Long, newMessages: Boolean) {
+        var dao = db.newMessagesDao()
+
+        var flags = dao.findNewMessage(senderName, senderId, receiverName, receiverId)
+
+        if (flags.isEmpty())
+            dao.insertNewMessage(senderName, senderId, receiverName, receiverId, newMessages)
+        else
+            dao.updateNewMessage(senderName, senderId, receiverName, receiverId, newMessages)
+    }
 }

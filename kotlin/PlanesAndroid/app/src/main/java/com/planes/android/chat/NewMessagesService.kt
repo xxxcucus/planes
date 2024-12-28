@@ -23,4 +23,16 @@ class NewMessagesService : INewMessagesService {
 
         return false
     }
+
+    override fun resetFlags(newMessagesFlags: List<NewMessagesFlag>) {
+        m_NewMessagesStatus.clear()
+
+        for (newMessage in newMessagesFlags) {
+            m_NewMessagesStatus.put(NewMessageIdent(newMessage.m_SenderName, newMessage.m_SenderId.toLong(), newMessage.m_ReceiverName, newMessage.m_ReceiverId.toLong()), newMessage.m_NewMessages)
+        }
+    }
+
+    override fun getNewMessagesFlags(): HashMap<NewMessageIdent, Boolean> {
+        return m_NewMessagesStatus
+    }
 }

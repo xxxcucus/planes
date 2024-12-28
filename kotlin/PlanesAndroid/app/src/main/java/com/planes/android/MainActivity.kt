@@ -29,6 +29,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.planes.android.about.AboutFragment
 import com.planes.android.chat.ChatFragment
 import com.planes.android.chat.DatabaseServiceGlobal
+import com.planes.android.chat.NewMessagesFlag
 import com.planes.android.chat.NewMessagesServiceGlobal
 import com.planes.android.conversation.ConversationFragment
 import com.planes.android.creategame.CreateGameFragment
@@ -125,6 +126,7 @@ class MainActivity : AppCompatActivity() {
         m_PlayersListService.createService()
         m_DatabaseService.createService(this)
         m_NewMessagesService.createService()
+        readNewMessagesFlagsFromDatabase()
         m_ReceiveChatMessagesService.createService(m_DatabaseService, m_NewMessagesService)
         m_ReceiveChatMessagesService.setMainActivityUpdateFunction { updateNewMessagesFlags() }
 
@@ -263,6 +265,7 @@ class MainActivity : AppCompatActivity() {
         m_VideoSettingsService.writePreferences()
         m_PlayersListService.stopPolling()
         m_ReceiveChatMessagesService.stopPolling()
+        updateDatabaseFromNewMessagesFlags()
         super.onStop()
         Log.d("Planes", "onStop")
     }
@@ -275,6 +278,7 @@ class MainActivity : AppCompatActivity() {
         m_PlayersListService.stopPolling()
         m_ReceiveChatMessagesService.stopPolling()
         m_ReceiveChatMessagesService.deactivateUpdateOfMainActivity()
+        updateDatabaseFromNewMessagesFlags()
         super.onDestroy()
         Log.d("Planes", "onDestroy")
     }
@@ -768,6 +772,34 @@ class MainActivity : AppCompatActivity() {
             m_NewMessagesMenuItem.isVisible = m_NewMessagesService.areNewMessagesForPlayer(m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId())
         } else {
             m_NewMessagesMenuItem.isVisible = false
+        }
+    }
+
+    fun readNewMessagesFlagsFromDatabase() {
+        var newMessages: List<NewMessagesFlag> = emptyList()
+        runBlocking { // this: CoroutineScope
+            launch {
+                newMessages = m_DatabaseService.getNewMessagesFlags()
+            }
+        }
+        m_NewMessagesService.resetFlags(newMessages)
+    }
+
+    fun updateDatabaseFromNewMessagesFlags() {
+        var newMessagesStatus = m_NewMessagesService.getNewMessagesFlags()
+
+        for ((messageIdent, newMessages) in newMessagesStatus) {
+            runBlocking { // this: CoroutineScope
+                launch {
+                    m_DatabaseService.updateNewMessagesFlags(
+                        messageIdent.senderName,
+                        messageIdent.senderId,
+                        messageIdent.receiverName,
+                        messageIdent.receiverId,
+                        newMessages
+                    )
+                }
+            }
         }
     }
 }

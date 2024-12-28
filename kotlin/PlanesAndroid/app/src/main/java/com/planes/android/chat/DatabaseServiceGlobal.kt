@@ -27,6 +27,14 @@ class DatabaseServiceGlobal : IDatabaseService {
     override suspend fun deleteOldMessages(daysBefore: Int) {
         global_Service!!.deleteOldMessages(daysBefore)
     }
+
+    override suspend fun getNewMessagesFlags(): List<NewMessagesFlag> {
+        return global_Service!!.getNewMessagesFlags()
+    }
+
+    override suspend fun updateNewMessagesFlags(senderName: String, senderId: Long, receiverName: String, receiverId: Long, newMessages: Boolean) {
+        global_Service!!.updateNewMessagesFlags(senderName, senderId, receiverName, receiverId, newMessages)
+    }
     companion object {
         private var global_Service: DatabaseService? = null
     }
