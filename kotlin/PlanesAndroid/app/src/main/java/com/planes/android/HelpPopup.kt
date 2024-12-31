@@ -66,7 +66,16 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
                 else
                     popupView = inflater.inflate(R.layout.help_popup_novideo, null)
             }
+
             R.id.nav_videos -> {
+                popupView = inflater.inflate(R.layout.help_popup_novideo, null)
+            }
+
+            R.id.nav_chat -> {
+                popupView = inflater.inflate(R.layout.help_popup_novideo, null)
+            }
+
+            R.id.nav_conversation -> {
                 popupView = inflater.inflate(R.layout.help_popup_novideo, null)
             }
         }
@@ -89,8 +98,17 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
             R.id.nav_game -> {
                 showHelpGameFragment(multiplayerVersion, popupWindow)
             }
+
             R.id.nav_videos -> {
                 showHelpVideoFragment()
+            }
+
+            R.id.nav_chat -> {
+                showHelpChatFragment()
+            }
+
+            R.id.nav_conversation -> {
+                showHelpConversationFragment()
             }
         }
 
@@ -110,6 +128,7 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
                 m_HelpTitleTextView.text = m_Context.getString(R.string.game_not_started_stage)
                 m_HelpTextView.text = m_Context.getString(R.string.helptext_startnewgame_1)
             }
+
             GameStages.BoardEditing.value -> {
                 m_HelpTitleTextView.text = m_Context.getString(R.string.board_editing_stage)
 
@@ -125,14 +144,17 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
                 }
                 m_HelpButton!!.isEnabled = true
             }
+
             GameStages.Game.value -> {
                 m_HelpTitleTextView.text = m_Context.getString(R.string.game_stage)
 
                 m_HelpTextView.text = """
-                ${if (multiplayerVersion)
+                ${
+                    if (multiplayerVersion)
                         m_Context.getString(R.string.helptext_game_1_opponent)
                     else
-                        m_Context.getString(R.string.helptext_game_1)}
+                        m_Context.getString(R.string.helptext_game_1)
+                }
                 ${m_Context.getString(R.string.helptext_game_2)}
                 """.trimIndent()
                 m_HelpButton!!.setOnClickListener {
@@ -146,11 +168,24 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
     }
 
     private fun showHelpVideoFragment() {
-            m_HelpTitleTextView.text = m_Context.getString(R.string.videos)
-            m_HelpTextView.text = """
-                    ${m_Context.getString(R.string.helptext_videos1)}
-                    ${m_Context.getString(R.string.helptext_videos2)}
-                    ${m_Context.getString(R.string.helptext_videos3)}
-                    """.trimIndent()
-        }
+        m_HelpTitleTextView.text = m_Context.getString(R.string.videos)
+        m_HelpTextView.text = """
+                ${m_Context.getString(R.string.helptext_videos1)}
+                ${m_Context.getString(R.string.helptext_videos2)}
+                ${m_Context.getString(R.string.helptext_videos3)}
+                """.trimIndent()
     }
+
+    private fun showHelpChatFragment() {
+        m_HelpTitleTextView.text = m_Context.getString(R.string.chat)
+        m_HelpTextView.text = m_Context.getString(R.string.helptext_chat)
+    }
+
+    private fun showHelpConversationFragment() {
+        m_HelpTitleTextView.text = m_Context.getString(R.string.conversation)
+        m_HelpTextView.text = """
+                ${m_Context.getString(R.string.helptext_conversation1)}
+                ${m_Context.getString(R.string.helptext_conversation2)}
+                """.trimIndent()
+    }
+}

@@ -229,6 +229,9 @@ class MainActivity : AppCompatActivity() {
                     supportFragmentManager.findFragmentByTag(ApplicationScreens.Game.toString()) as GameFragmentSinglePlayer?
                 fragment?.cancelRound()
             }
+        } else if (id == R.id.menu_newmessages) {
+            mSelectedItem = R.id.nav_chat
+            setFragment(true, "FromOptionsMenu")
         }
 
         return super.onOptionsItemSelected(item)
@@ -332,6 +335,7 @@ class MainActivity : AppCompatActivity() {
             ApplicationScreens.GameStats.value -> R.id.nav_game_status
             ApplicationScreens.DeleteUser.value -> R.id.nav_deleteuser
             ApplicationScreens.Chat.value -> R.id.nav_chat
+            ApplicationScreens.Conversation.value ->R.id.nav_conversation
             else -> R.id.nav_game
         }
     }
