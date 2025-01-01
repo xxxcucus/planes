@@ -42,12 +42,6 @@ class GameStatsFragment: Fragment() {
             m_Context
         )
 
-        if (activity is MainActivity) {
-            (activity as MainActivity).setActionBarTitle(getString(R.string.game_stats))
-            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.GameStats)
-            (activity as MainActivity).updateOptionsMenu()
-        }
-
         val loginButton = binding.statusLogin
         loginButton.setOnClickListener { goToLoginScreen() }
 
@@ -73,6 +67,12 @@ class GameStatsFragment: Fragment() {
 
         if (gameStage != GameStages.Game && gameStage != GameStages.WaitForOpponentMoves && gameStage != GameStages.SendRemainingMoves) {
             binding.statusGamestats.isVisible = false
+        }
+
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.game_stats))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.GameStats)
+            (activity as MainActivity).updateOptionsMenu()
         }
 
         return binding.root

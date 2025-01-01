@@ -29,9 +29,12 @@ class AboutFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_about1, container, false)
+        return inflater.inflate(R.layout.fragment_about1, container, false)
+    }
 
-        val recyclerView: RecyclerView = rootView.findViewById(R.id.recycler_about)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val recyclerView: RecyclerView = view.findViewById(R.id.recycler_about)
         val mLayoutManager = LinearLayoutManager(activity)
         recyclerView.layoutManager = mLayoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
@@ -42,7 +45,6 @@ class AboutFragment : Fragment() {
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.About)
             (activity as MainActivity).updateOptionsMenu()
         }
-        return rootView
     }
 
     private fun prepareSectionsList() {

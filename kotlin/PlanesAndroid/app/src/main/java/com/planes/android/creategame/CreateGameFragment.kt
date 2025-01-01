@@ -54,12 +54,6 @@ class CreateGameFragment: Fragment() {
         binding = FragmentCreateGameBinding.inflate(inflater, container, false)
         binding.settingsData = CreateGameViewModel(m_CreateGameSettingsService.gameName)
 
-        if (activity is MainActivity) {
-            (activity as MainActivity).setActionBarTitle(getString(R.string.create_connectto_game))
-            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.CreateGame)
-            (activity as MainActivity).updateOptionsMenu()
-        }
-
         m_GameName = m_CreateGameSettingsService.gameName
 
         val createGameButton = binding.creategame
@@ -102,6 +96,12 @@ class CreateGameFragment: Fragment() {
         m_MainLayout = binding.rootCreategame
 
         reinitializeFromState()
+
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.create_connectto_game))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.CreateGame)
+            (activity as MainActivity).updateOptionsMenu()
+        }
 
         return binding.root
     }

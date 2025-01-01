@@ -52,12 +52,6 @@ class LoginFragment: Fragment() {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         binding.settingsData = LoginViewModel(m_Username, m_Password)
 
-        if (activity is MainActivity) {
-            (activity as MainActivity).setActionBarTitle(getString(R.string.login))
-            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Login)
-            (activity as MainActivity).updateOptionsMenu()
-        }
-
         val saveSettingsButton = binding.login
         saveSettingsButton.setOnClickListener { performLogin() }
 
@@ -82,6 +76,12 @@ class LoginFragment: Fragment() {
         createGameButton.isEnabled = !m_MultiplayerRound.getUsername().isEmpty()
         createGameButton.setOnClickListener {
             goToCreateGame()
+        }
+
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.login))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Login)
+            (activity as MainActivity).updateOptionsMenu()
         }
 
         return binding.root

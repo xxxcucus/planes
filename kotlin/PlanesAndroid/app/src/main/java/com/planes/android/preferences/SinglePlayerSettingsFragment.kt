@@ -48,13 +48,14 @@ class SinglePlayerSettingsFragment : Fragment() {
         m_InitialMultiplayerVersion = m_MainPreferencesService.multiplayerVersion
         binding.settingsData = SinglePlayerSettingsViewModel(m_InitialComputerSkill, m_InitialShowPlaneAfterKill, m_InitialMultiplayerVersion)
 
+        val saveSettingsButton = binding.optionsSavesettings
+        saveSettingsButton.setOnClickListener { writeToPreferencesService() }
+
         if (activity is MainActivity) {
             (activity as MainActivity).setActionBarTitle(getString(R.string.options))
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Preferences)
             (activity as MainActivity).updateOptionsMenu()
         }
-        val saveSettingsButton = binding.optionsSavesettings
-        saveSettingsButton.setOnClickListener { writeToPreferencesService() }
 
         return binding.root
     }

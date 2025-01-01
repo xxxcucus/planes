@@ -83,10 +83,15 @@ class NoRobotFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootview = inflater.inflate(R.layout.fragment_norobot, container, false)
-        val recyclerView: RecyclerView = rootview.findViewById(R.id.recyclerView)
+        return inflater.inflate(R.layout.fragment_norobot, container, false)
+    }
 
-        val questionTextView = rootview.findViewById(R.id.question_text) as TextView
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
+
+        val questionTextView = view.findViewById(R.id.question_text) as TextView
 
         val questionDogText = getString(R.string.norobot_dog)
         val questionCatText = getString(R.string.norobot_cat)
@@ -97,11 +102,11 @@ class NoRobotFragment : Fragment() {
         }
         questionTextView.text = getString(R.string.norobot_question, question)
 
-        val allmarkedButton = rootview.findViewById(R.id.allmarked_button) as Button
+        val allmarkedButton = view.findViewById(R.id.allmarked_button) as Button
         allmarkedButton.setOnClickListener { sendNoRobotData() }
 
         val mLayoutManager = if (isHorizontal()) StaggeredGridLayoutManager(3, 1)
-            else StaggeredGridLayoutManager(2, 1) //TODO to check tablets
+        else StaggeredGridLayoutManager(2, 1) //TODO to check tablets
         recyclerView.layoutManager = mLayoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = m_PhotosAdapter
@@ -111,10 +116,7 @@ class NoRobotFragment : Fragment() {
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.NoRobot)
             (activity as MainActivity).updateOptionsMenu()
         }
-
-        return  rootview
     }
-
 
     private fun preparePhotosList() {
         m_PhotosList = m_Images.map { imageid ->

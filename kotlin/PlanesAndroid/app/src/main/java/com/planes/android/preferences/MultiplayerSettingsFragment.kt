@@ -49,9 +49,7 @@ class MultiplayerSettingsFragment : Fragment() {
         m_InitialPassword = m_PreferencesService.password
         m_InitialMultiplayerVersion = m_MainPreferencesService.multiplayerVersion
         binding.settingsData = MultiplayerSettingsViewModel(m_InitialUsername, m_InitialPassword, m_InitialMultiplayerVersion)
-        (activity as MainActivity).setActionBarTitle(getString(R.string.options))
-        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Preferences)
-        (activity as MainActivity).updateOptionsMenu()
+
 
         val saveSettingsButton = binding.optionsSavesettings
         saveSettingsButton.setOnClickListener { writeToPreferencesService() }
@@ -62,6 +60,12 @@ class MultiplayerSettingsFragment : Fragment() {
                 isChecked
             )
         }
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.options))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Preferences)
+            (activity as MainActivity).updateOptionsMenu()
+        }
+
         return binding.root
     }
 

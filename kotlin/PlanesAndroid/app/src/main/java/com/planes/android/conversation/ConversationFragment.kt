@@ -126,15 +126,19 @@ class ConversationFragment: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_conversation1, container, false)
+        return inflater.inflate(R.layout.fragment_conversation1, container, false)
+    }
 
-        val sendMessageButton = rootView.findViewById(R.id.send_message) as Button
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val sendMessageButton = view.findViewById(R.id.send_message) as Button
         sendMessageButton.setOnClickListener {
             sendMessage()
         }
-        m_EditText = rootView.findViewById(R.id.message_edittext)
+        m_EditText = view.findViewById(R.id.message_edittext)
 
-        m_RecyclerView = rootView.findViewById(R.id.recycler_conversation)
+        m_RecyclerView = view.findViewById(R.id.recycler_conversation)
         var mLayoutManager = LinearLayoutManager(activity)
         m_RecyclerView.layoutManager = mLayoutManager
         m_RecyclerView.itemAnimator = DefaultItemAnimator()
@@ -146,8 +150,6 @@ class ConversationFragment: Fragment() {
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Conversation)
             (activity as MainActivity).updateOptionsMenu()
         }
-
-        return rootView
     }
 
     private fun transformMessagesListToConversationModel(messagesList: List<ChatMessage>) : MutableList<ChatMessageModel> {

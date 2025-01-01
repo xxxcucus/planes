@@ -42,56 +42,66 @@ class GameFragmentSinglePlayer : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_game_singleplayer, container, false)
 
-        m_PlanesLayout = rootView.findViewById<View>(R.id.planes_layout) as PlanesVerticalLayoutSinglePlayer
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.game))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Game)
+        }
+        return rootView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        m_PlanesLayout = view.findViewById<View>(R.id.planes_layout) as PlanesVerticalLayoutSinglePlayer
 
         var isTablet = false
-        val linearLayout = rootView.findViewById<View>(R.id.rootView) as LinearLayout
+        val linearLayout = view.findViewById<View>(R.id.rootView) as LinearLayout
         if (linearLayout.tag.toString().contains("tablet")) {
             isTablet = true
         }
         m_GameBoards = if (isTablet) {
-            val playerBoard = rootView.findViewById<View>(R.id.player_board) as GameBoardSinglePlayer
+            val playerBoard = view.findViewById<View>(R.id.player_board) as GameBoardSinglePlayer
             playerBoard.setGameSettings(m_PlaneRound, true)
             playerBoard.setPlayerBoard()
-            val computerBoard = rootView.findViewById<View>(R.id.computer_board) as GameBoardSinglePlayer
+            val computerBoard = view.findViewById<View>(R.id.computer_board) as GameBoardSinglePlayer
             computerBoard.setGameSettings(m_PlaneRound, true)
             computerBoard.setComputerBoard()
             GameBoardsAdapterSinglePlayer(playerBoard, computerBoard)
         } else {
-            val gameBoard = rootView.findViewById<View>(R.id.game_boards) as GameBoardSinglePlayer
+            val gameBoard = view.findViewById<View>(R.id.game_boards) as GameBoardSinglePlayer
             gameBoard.setGameSettings(m_PlaneRound, false)
             GameBoardsAdapterSinglePlayer(gameBoard)
         }
 
         //Board Editing Buttons
-        val doneButton = rootView.findViewById<View>(R.id.done_button) as Button
-        val rotateButton = rootView.findViewById<View>(R.id.rotate_button) as Button
-        val cancelBoardEditingButton = rootView.findViewById<View>(R.id.cancel_boardediting) as Button
-        val resetBoardButton = rootView.findViewById<View>(R.id.reset_board) as TwoLineTextButton
+        val doneButton = view.findViewById<View>(R.id.done_button) as Button
+        val rotateButton = view.findViewById<View>(R.id.rotate_button) as Button
+        val cancelBoardEditingButton = view.findViewById<View>(R.id.cancel_boardediting) as Button
+        val resetBoardButton = view.findViewById<View>(R.id.reset_board) as TwoLineTextButton
 
         //Game Stage
-        val statsTitle = rootView.findViewById<View>(R.id.stats_title_label) as ColouredSurfaceWithTwoLineText?
-        val viewComputerBoardButton1 = rootView.findViewById<View>(R.id.view_computer_board1) as TwoLineTextButtonWithState?
-        val movesLabel = rootView.findViewById<View>(R.id.moves_label) as ColouredSurfaceWithText?
-        val movesCount = rootView.findViewById<View>(R.id.moves_count) as ColouredSurfaceWithText?
-        val missesLabel = rootView.findViewById<View>(R.id.misses_label) as ColouredSurfaceWithText?
-        val missesCount = rootView.findViewById<View>(R.id.misses_count) as ColouredSurfaceWithText?
-        val hitsLabel = rootView.findViewById<View>(R.id.hits_label) as ColouredSurfaceWithText?
-        val hitsCount = rootView.findViewById<View>(R.id.hits_count) as ColouredSurfaceWithText?
-        val deadsLabel = rootView.findViewById<View>(R.id.dead_label) as ColouredSurfaceWithText?
-        val deadCount = rootView.findViewById<View>(R.id.dead_count) as ColouredSurfaceWithText?
-        val cancelGameButton = rootView.findViewById<View>(R.id.cancel_game) as Button?
+        val statsTitle = view.findViewById<View>(R.id.stats_title_label) as ColouredSurfaceWithTwoLineText?
+        val viewComputerBoardButton1 = view.findViewById<View>(R.id.view_computer_board1) as TwoLineTextButtonWithState?
+        val movesLabel = view.findViewById<View>(R.id.moves_label) as ColouredSurfaceWithText?
+        val movesCount = view.findViewById<View>(R.id.moves_count) as ColouredSurfaceWithText?
+        val missesLabel = view.findViewById<View>(R.id.misses_label) as ColouredSurfaceWithText?
+        val missesCount = view.findViewById<View>(R.id.misses_count) as ColouredSurfaceWithText?
+        val hitsLabel = view.findViewById<View>(R.id.hits_label) as ColouredSurfaceWithText?
+        val hitsCount = view.findViewById<View>(R.id.hits_count) as ColouredSurfaceWithText?
+        val deadsLabel = view.findViewById<View>(R.id.dead_label) as ColouredSurfaceWithText?
+        val deadCount = view.findViewById<View>(R.id.dead_count) as ColouredSurfaceWithText?
+        val cancelGameButton = view.findViewById<View>(R.id.cancel_game) as Button?
 
         //Start New Game Stage
-        val viewComputerBoardButton2 = rootView.findViewById<View>(R.id.view_computer_board2) as TwoLineTextButtonWithState
-        val startNewGameButton = rootView.findViewById<View>(R.id.start_new_game) as TwoLineTextButton
-        val computerWinsLabel = rootView.findViewById<View>(R.id.computer_wins_label) as ColouredSurfaceWithText
-        val computerWinsCount = rootView.findViewById<View>(R.id.computer_wins_count) as ColouredSurfaceWithText
-        val playerWinsLabel = rootView.findViewById<View>(R.id.player_wins_label) as ColouredSurfaceWithText
-        val playerWinsCount = rootView.findViewById<View>(R.id.player_wins_count) as ColouredSurfaceWithText
-        val winnerText = rootView.findViewById<View>(R.id.winner_textview) as ColouredSurfaceWithText
-        val drawsLabel = rootView.findViewById<View>(R.id.draws_label) as ColouredSurfaceWithText
-        val drawsCount = rootView.findViewById<View>(R.id.draws_count) as ColouredSurfaceWithText
+        val viewComputerBoardButton2 = view.findViewById<View>(R.id.view_computer_board2) as TwoLineTextButtonWithState
+        val startNewGameButton = view.findViewById<View>(R.id.start_new_game) as TwoLineTextButton
+        val computerWinsLabel = view.findViewById<View>(R.id.computer_wins_label) as ColouredSurfaceWithText
+        val computerWinsCount = view.findViewById<View>(R.id.computer_wins_count) as ColouredSurfaceWithText
+        val playerWinsLabel = view.findViewById<View>(R.id.player_wins_label) as ColouredSurfaceWithText
+        val playerWinsCount = view.findViewById<View>(R.id.player_wins_count) as ColouredSurfaceWithText
+        val winnerText = view.findViewById<View>(R.id.winner_textview) as ColouredSurfaceWithText
+        val drawsLabel = view.findViewById<View>(R.id.draws_label) as ColouredSurfaceWithText
+        val drawsCount = view.findViewById<View>(R.id.draws_count) as ColouredSurfaceWithText
 
         m_GameControls.setBoardEditingControls(doneButton, rotateButton, cancelBoardEditingButton, resetBoardButton)
         if (!isTablet) m_GameControls.setGameControls(statsTitle!!, viewComputerBoardButton1!!, movesLabel!!, movesCount!!,
@@ -103,12 +113,6 @@ class GameFragmentSinglePlayer : Fragment() {
         m_GameBoards.setGameControls(m_GameControls)
 
         reinitializeFromState()
-
-        if (activity is MainActivity) {
-            (activity as MainActivity).setActionBarTitle(getString(R.string.game))
-            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Game)
-        }
-        return rootView
     }
 
     override fun onGetLayoutInflater(savedInstanceState: Bundle?): LayoutInflater {

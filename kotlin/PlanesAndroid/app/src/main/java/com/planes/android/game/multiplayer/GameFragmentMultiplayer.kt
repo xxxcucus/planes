@@ -71,52 +71,55 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val rootView = inflater.inflate(R.layout.fragment_game_multiplayer, container, false)
+        return inflater.inflate(R.layout.fragment_game_multiplayer, container, false)
+    }
 
-        m_PlanesLayout = rootView.findViewById<View>(R.id.planes_layout) as PlanesVerticalLayoutMultiplayer
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        m_PlanesLayout = view.findViewById<View>(R.id.planes_layout) as PlanesVerticalLayoutMultiplayer
 
         var isTablet = false
-        val linearLayout = rootView.findViewById<View>(R.id.rootView) as LinearLayout
+        val linearLayout = view.findViewById<View>(R.id.rootView) as LinearLayout
         if (linearLayout.tag.toString().contains("tablet")) {
             isTablet = true
         }
         m_GameBoards = if (showTwoBoards(isTablet)) {
-            val playerBoard = rootView.findViewById<View>(R.id.player_board) as GameBoardMultiplayer
+            val playerBoard = view.findViewById<View>(R.id.player_board) as GameBoardMultiplayer
             playerBoard.setGameSettings(m_PlaneRound, true)
             playerBoard.setPlayerBoard()
-            val computerBoard = rootView.findViewById<View>(R.id.computer_board) as GameBoardMultiplayer
+            val computerBoard = view.findViewById<View>(R.id.computer_board) as GameBoardMultiplayer
             computerBoard.setGameSettings(m_PlaneRound, true)
             computerBoard.setComputerBoard()
             GameBoardsAdapterMultiplayer(playerBoard, computerBoard)
         } else {
-            val gameBoard = rootView.findViewById<View>(R.id.game_boards) as GameBoardMultiplayer
+            val gameBoard = view.findViewById<View>(R.id.game_boards) as GameBoardMultiplayer
             gameBoard.setGameSettings(m_PlaneRound, false)
             GameBoardsAdapterMultiplayer(gameBoard)
         }
 
         //Board Editing Buttons
-        val doneButton = rootView.findViewById<View>(R.id.done_button) as Button
-        val rotateButton = rootView.findViewById<View>(R.id.rotate_button) as Button
-        val cancelBoardEditingButton = rootView.findViewById<View>(R.id.cancel_boardediting) as Button
-        val resetBoardButton = rootView.findViewById<View>(R.id.reset_board) as TwoLineTextButton
+        val doneButton = view.findViewById<View>(R.id.done_button) as Button
+        val rotateButton = view.findViewById<View>(R.id.rotate_button) as Button
+        val cancelBoardEditingButton = view.findViewById<View>(R.id.cancel_boardediting) as Button
+        val resetBoardButton = view.findViewById<View>(R.id.reset_board) as TwoLineTextButton
 
         //Game Stage
-        val statsTitle = rootView.findViewById<View>(R.id.stats_title_label) as TwoLineTextButton?
-        val viewOpponentBoardButton1 = rootView.findViewById<View>(R.id.view_opponent_board1) as TwoLineTextButtonWithState?
-        val cancelGameButton = rootView.findViewById<View>(R.id.cancel_game) as TextButton?
-        val progressBarGameButton = rootView.findViewById<View>(R.id.ProgressBarGame) as ProgressBar?
+        val statsTitle = view.findViewById<View>(R.id.stats_title_label) as TwoLineTextButton?
+        val viewOpponentBoardButton1 = view.findViewById<View>(R.id.view_opponent_board1) as TwoLineTextButtonWithState?
+        val cancelGameButton = view.findViewById<View>(R.id.cancel_game) as TextButton?
+        val progressBarGameButton = view.findViewById<View>(R.id.ProgressBarGame) as ProgressBar?
 
         //Start New Game Stage
-        val viewComputerBoardButton2 = rootView.findViewById<View>(R.id.view_opponent_board2) as TwoLineTextButtonWithState
-        val startNewGameButton = rootView.findViewById<View>(R.id.start_new_game) as TwoLineTextButton
-        val computerWinsLabel = rootView.findViewById<View>(R.id.opponent_wins_label) as ColouredSurfaceWithText
-        val computerWinsCount = rootView.findViewById<View>(R.id.opponent_wins_count) as ColouredSurfaceWithText
-        val playerWinsLabel = rootView.findViewById<View>(R.id.player_wins_label) as ColouredSurfaceWithText
-        val playerWinsCount = rootView.findViewById<View>(R.id.player_wins_count) as ColouredSurfaceWithText
-        val winnerText = rootView.findViewById<View>(R.id.winner_textview) as ColouredSurfaceWithText
-        val drawsLabel = rootView.findViewById<View>(R.id.draws_label) as ColouredSurfaceWithText
-        val drawsCount = rootView.findViewById<View>(R.id.draws_count) as ColouredSurfaceWithText
+        val viewComputerBoardButton2 = view.findViewById<View>(R.id.view_opponent_board2) as TwoLineTextButtonWithState
+        val startNewGameButton = view.findViewById<View>(R.id.start_new_game) as TwoLineTextButton
+        val computerWinsLabel = view.findViewById<View>(R.id.opponent_wins_label) as ColouredSurfaceWithText
+        val computerWinsCount = view.findViewById<View>(R.id.opponent_wins_count) as ColouredSurfaceWithText
+        val playerWinsLabel = view.findViewById<View>(R.id.player_wins_label) as ColouredSurfaceWithText
+        val playerWinsCount = view.findViewById<View>(R.id.player_wins_count) as ColouredSurfaceWithText
+        val winnerText = view.findViewById<View>(R.id.winner_textview) as ColouredSurfaceWithText
+        val drawsLabel = view.findViewById<View>(R.id.draws_label) as ColouredSurfaceWithText
+        val drawsCount = view.findViewById<View>(R.id.draws_count) as ColouredSurfaceWithText
 
         m_GameControls.setBoardEditingControls(doneButton, rotateButton, cancelBoardEditingButton, resetBoardButton, ::doneClicked, ::cancelRound)
         if (!showTwoBoards(isTablet)) m_GameControls.setGameControls(statsTitle, viewOpponentBoardButton1, cancelGameButton, progressBarGameButton, ::cancelRound, ::showGameStats)
@@ -133,8 +136,8 @@ class GameFragmentMultiplayer : Fragment(), IGameFragmentMultiplayer {
         if (activity is MainActivity) {
             (activity as MainActivity).setActionBarTitle(getString(R.string.game))
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Game)
+            (activity as MainActivity).updateOptionsMenu()
         }
-        return rootView
     }
 
     override fun onGetLayoutInflater(savedInstanceState: Bundle?): LayoutInflater {

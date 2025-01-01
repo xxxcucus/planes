@@ -49,9 +49,12 @@ class ChatFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_chat, container, false)
+        return inflater.inflate(R.layout.fragment_chat, container, false)
+    }
 
-        val recyclerView: RecyclerView = rootView.findViewById(R.id.recycler_chat)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val recyclerView: RecyclerView = view.findViewById(R.id.recycler_chat)
         val mLayoutManager = LinearLayoutManager(activity)
         recyclerView.layoutManager = mLayoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
@@ -62,7 +65,6 @@ class ChatFragment : Fragment() {
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Chat)
             (activity as MainActivity).updateOptionsMenu()
         }
-        return rootView
     }
 
     private fun prepareSectionsList() {
@@ -96,6 +98,7 @@ class ChatFragment : Fragment() {
     override fun onDetach () {
         super.onDetach()
         m_PlayersListService.deactivateUpdateOfChat()
+        m_ReceivedChatMessagesService.deactivateUpdateOfChat()
     }
 
     private fun transformUserListToChatModel(playersList: List<UserWithLastLoginResponse>, oldPlayersList: List<ChatEntryModel>) : List<ChatEntryModel> {
@@ -124,6 +127,7 @@ class ChatFragment : Fragment() {
                 if (s.getPlayerId() == m.m_SenderId.toLong()) {
                     s.setNewMessages(true)
                     m_NewMessagesService.setNewMessage(NewMessageIdent(s.getPlayerName(), s.getPlayerId(), m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId()), true)
+                    break
                 }
             }
         }

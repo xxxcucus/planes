@@ -47,18 +47,17 @@ class DeleteUserFragment: Fragment() {
             username,
             m_Context
         )
+        val deleteUserButton = binding.deleteuser
+
+        deleteUserButton.setOnClickListener { performDeleteUser() }
+        if (username.isEmpty())
+            deleteUserButton.isEnabled = false
 
         if (activity is MainActivity) {
             (activity as MainActivity).setActionBarTitle(getString(R.string.delete_user))
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.DeleteUser)
             (activity as MainActivity).updateOptionsMenu()
         }
-
-        val deleteUserButton = binding.deleteuser
-
-        deleteUserButton.setOnClickListener { performDeleteUser() }
-        if (username.isEmpty())
-            deleteUserButton.isEnabled = false
 
         return binding.root
     }

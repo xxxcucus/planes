@@ -57,17 +57,17 @@ class LogoutFragment: Fragment() {
             m_Context
         )
 
-        if (activity is MainActivity) {
-            (activity as MainActivity).setActionBarTitle(getString(R.string.logout))
-            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Logout)
-            (activity as MainActivity).updateOptionsMenu()
-        }
-
         val logoutButton = binding.logout
 
         logoutButton.setOnClickListener { performLogout() }
         if (username.isEmpty())
             logoutButton.isEnabled = false
+
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.logout))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Logout)
+            (activity as MainActivity).updateOptionsMenu()
+        }
 
         return binding.root
     }
@@ -123,7 +123,6 @@ class LogoutFragment: Fragment() {
             (activity as MainActivity).setUsernameDrawerMenuMultiplayer()
             (activity as MainActivity).updateNewMessagesFlags()
         }
-
     }
 
     override fun onDetach () {

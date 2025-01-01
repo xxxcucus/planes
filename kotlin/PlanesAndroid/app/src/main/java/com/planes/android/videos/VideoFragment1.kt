@@ -39,21 +39,27 @@ class VideoFragment1 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var rootview = inflater.inflate(R.layout.fragment_videos1, container, false)
-        val recyclerView: RecyclerView = rootview.findViewById(R.id.recyclerView)
+        return inflater.inflate(R.layout.fragment_videos1, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
 
         var mLayoutManager = if (isHorizontal()) LinearLayoutManager(activity) else GridLayoutManager(activity,2)
         recyclerView.layoutManager = mLayoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = m_VideosAdapter
 
-        m_VideoView = rootview.findViewById(R.id.video_view)
+        m_VideoView = view.findViewById(R.id.video_view)
         initializeVideo()
-        (activity as MainActivity).setActionBarTitle(getString(R.string.videos))
-        (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Videos)
-        (activity as MainActivity).updateOptionsMenu()
 
-        return  rootview
+        if (activity is MainActivity) {
+            (activity as MainActivity).setActionBarTitle(getString(R.string.videos))
+            (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Videos)
+            (activity as MainActivity).updateOptionsMenu()
+        }
     }
 
     private fun prepareVideoList() {
