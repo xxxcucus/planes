@@ -52,6 +52,12 @@ class CreateGameFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCreateGameBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         binding.settingsData = CreateGameViewModel(m_CreateGameSettingsService.gameName)
 
         m_GameName = m_CreateGameSettingsService.gameName
@@ -102,8 +108,6 @@ class CreateGameFragment: Fragment() {
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.CreateGame)
             (activity as MainActivity).updateOptionsMenu()
         }
-
-        return binding.root
     }
 
     override fun onGetLayoutInflater(savedInstanceState: Bundle?): LayoutInflater {

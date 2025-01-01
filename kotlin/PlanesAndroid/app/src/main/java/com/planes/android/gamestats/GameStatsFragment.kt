@@ -31,6 +31,12 @@ class GameStatsFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentStatusBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         val username = m_MultiplayerRound.getUsername()
         val gameData = m_MultiplayerRound.getGameData()
         gameData.username = username
@@ -74,8 +80,6 @@ class GameStatsFragment: Fragment() {
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.GameStats)
             (activity as MainActivity).updateOptionsMenu()
         }
-
-        return binding.root
     }
 
     private fun goToLoginScreen() {

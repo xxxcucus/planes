@@ -43,6 +43,12 @@ class SinglePlayerSettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentOptionsSingleBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         m_InitialComputerSkill = m_PreferencesService.computerSkill
         m_InitialShowPlaneAfterKill = m_PreferencesService.showPlaneAfterKill
         m_InitialMultiplayerVersion = m_MainPreferencesService.multiplayerVersion
@@ -56,8 +62,6 @@ class SinglePlayerSettingsFragment : Fragment() {
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Preferences)
             (activity as MainActivity).updateOptionsMenu()
         }
-
-        return binding.root
     }
 
     override fun onGetLayoutInflater(savedInstanceState: Bundle?): LayoutInflater {

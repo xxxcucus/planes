@@ -45,6 +45,12 @@ class MultiplayerSettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentOptionsMultiBinding.inflate(inflater, container, false)  //TODO first parameter maybe inflater
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         m_InitialUsername = m_PreferencesService.username
         m_InitialPassword = m_PreferencesService.password
         m_InitialMultiplayerVersion = m_MainPreferencesService.multiplayerVersion
@@ -65,8 +71,6 @@ class MultiplayerSettingsFragment : Fragment() {
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Preferences)
             (activity as MainActivity).updateOptionsMenu()
         }
-
-        return binding.root
     }
 
     override fun onGetLayoutInflater(savedInstanceState: Bundle?): LayoutInflater {

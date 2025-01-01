@@ -36,6 +36,12 @@ class RegisterFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         binding.settingsData = RegisterViewModel(m_Username, m_Password)
 
         if (activity is MainActivity) {
@@ -53,8 +59,6 @@ class RegisterFragment: Fragment() {
                 isChecked
             )
         }
-
-        return binding.root
     }
 
     override fun onDetach () {

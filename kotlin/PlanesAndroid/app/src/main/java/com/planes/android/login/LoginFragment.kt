@@ -50,6 +50,12 @@ class LoginFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         binding.settingsData = LoginViewModel(m_Username, m_Password)
 
         val saveSettingsButton = binding.login
@@ -84,7 +90,6 @@ class LoginFragment: Fragment() {
             (activity as MainActivity).updateOptionsMenu()
         }
 
-        return binding.root
     }
 
     override fun onGetLayoutInflater(savedInstanceState: Bundle?): LayoutInflater {

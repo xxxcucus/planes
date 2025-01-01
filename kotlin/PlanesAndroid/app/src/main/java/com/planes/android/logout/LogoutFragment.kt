@@ -50,6 +50,12 @@ class LogoutFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLogoutBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         val username = m_MultiplayerRound.getUsername()
 
         binding.settingsData = LogoutViewModel(
@@ -68,8 +74,6 @@ class LogoutFragment: Fragment() {
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.Logout)
             (activity as MainActivity).updateOptionsMenu()
         }
-
-        return binding.root
     }
 
     override fun onGetLayoutInflater(savedInstanceState: Bundle?): LayoutInflater {

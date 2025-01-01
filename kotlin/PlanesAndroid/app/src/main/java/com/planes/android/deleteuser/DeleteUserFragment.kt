@@ -41,6 +41,12 @@ class DeleteUserFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentDeleteUserBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         val username = m_MultiplayerRound.getUsername()
 
         binding.settingsData = DeleteUserViewModel(
@@ -58,8 +64,6 @@ class DeleteUserFragment: Fragment() {
             (activity as MainActivity).setCurrentFragmentId(ApplicationScreens.DeleteUser)
             (activity as MainActivity).updateOptionsMenu()
         }
-
-        return binding.root
     }
 
     override fun onGetLayoutInflater(savedInstanceState: Bundle?): LayoutInflater {
