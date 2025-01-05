@@ -197,7 +197,6 @@
     <string name="reset_board1">Reset</string>
     <string name="reset_board2">Board</string>
     <string name="credits_othercontributions_1">Kontribusi lain dari: </string>
-    <string name="credits_othercontributions_2" translatable="false">Mihai Birau, Stefan Luchian, Dan Ilies, Stefan Cucu, Christian von der Ehe, Pascal Seeger, Mario Eduardo Zarate Caceres, Sebastian Jasiński, Albano Battistella.</string>
     <string name="credits_othercontributions_3">Kontribusi dari GitHub ada di daftar di Github Page projek ini. </string>
     <string name="helptext_game_1_opponent">Sentuh papan musuh untuk menebak dimana pesawat lawan berada.</string>
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->

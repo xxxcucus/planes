@@ -191,7 +191,6 @@
     <string name="reset_board1">Reseteaza</string>
     <string name="reset_board2">Tabla</string>
     <string name="credits_othercontributions_1">Urmatoarele persoane au mai contribuit la proiect:</string>
-    <string name="credits_othercontributions_2">Mihai Birau, Stefan Luchian, Dan Ilies, Stefan Cucu, Christian von der Ehe, Pascal Seeger, Mario Eduardo Zarate Caceres.</string>
     <string name="credits_othercontributions_3">Contributorii prin GitHub sunt listati in pagina de GitHub a proiectului.</string>
     <string name="helptext_game_1_opponent">Apasa pe tabla oponentului pentru a ghici unde se afla avioanele acestuia.</string>
 
@@ -211,6 +210,6 @@
     <string name="sendmessage">Trimite mesaj</string>
     <string name="newmessages">Mesaje noi</string>
     <string name="helptext_chat">Apasa pe un utilizator ca sa incepi o conversatie cu acel utilizator sau sa continui o conversatie mai veche.</string>
-    <string name="helptext_conversation1">Scrie mesajul in dialogul de la baza ecranului si apasa pe \'Trimite mesaj\' ca sa trimiti mesajul.</string>
+    <string name="helptext_conversation1">Scrie mesajul in dialogul de la baza ecranului si apasa pe \\\'Trimite mesaj\\\' ca sa trimiti mesajul.</string>
     <string name="helptext_conversation2">Poti sa trimiti mesaje si catre utilizatorii offline. Acestia le vor primi data viitoare cand se vor loga.</string>
 </resources>

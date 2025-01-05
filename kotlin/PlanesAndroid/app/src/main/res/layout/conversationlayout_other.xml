@@ -6,16 +6,6 @@
     android:layout_height="wrap_content"
     android:background="?planesBackgroundStartColor">
 
-    <!--<TextView
-        android:id="@+id/conversation_sender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dip"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:layout_alignParentRight="true"
-        android:text=""
-        style="@style/CustomTextViewStyle" />-->
     <TextView
         android:id="@+id/conversation_message"
         android:layout_width="wrap_content"
@@ -23,6 +13,7 @@
         android:layout_margin="10dip"
         android:textSize="20dp"
         android:layout_alignParentRight="true"
+        android:textIsSelectable="true"
         android:text=""
         style="@style/CustomTextViewStyle" />
     <TextView

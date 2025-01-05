@@ -219,7 +219,7 @@
     <string name="sendmessage">Send Message</string>
     <string name="newmessages">New Messages</string>
     <string name="helptext_chat">Tap on a user name to start a conversation with that user or continue an older conversation.</string>
-    <string name="helptext_conversation1">Input your message in the box at the bottom of the screen and click on "Send Message" to send a message.</string>
+    <string name="helptext_conversation1">Input your message in the box at the bottom of the screen and click on \'Send Message\' to send a message.</string>
     <string name="helptext_conversation2">You can also send messages to offline users. They will be delivered to the users when they login next time.</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
