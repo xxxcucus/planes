@@ -232,7 +232,7 @@ class MainActivity : AppCompatActivity() {
         } else if (id == R.id.menu_newmessages) {
             mSelectedItem = R.id.nav_chat
             setFragment(true, "FromOptionsMenu")
-        }
+        } 
 
         return super.onOptionsItemSelected(item)
     }
@@ -771,6 +771,7 @@ class MainActivity : AppCompatActivity() {
         invalidateOptionsMenu()
     }
 
+    //region chat
     fun updateNewMessagesFlags() {
         if (m_MultiplayerRound.isUserLoggedIn()) {
             m_NewMessagesMenuItem.isVisible = m_NewMessagesService.areNewMessagesForPlayer(m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId())
@@ -806,4 +807,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    //endregion chat
 }

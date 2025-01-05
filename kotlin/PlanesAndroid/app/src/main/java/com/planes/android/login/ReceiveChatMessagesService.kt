@@ -38,7 +38,6 @@ class ReceiveChatMessagesService(databaseService: IDatabaseService, newMesssages
         if (this::m_PollChatMessagesSubscription.isInitialized && !m_PollChatMessagesSubscription.isDisposed)
             return
 
-        m_PlaneRound.createPlanesRound()
         m_PollChatMessagesSubscription =
             Observable.interval(1,30, TimeUnit.SECONDS, Schedulers.io())
                 .switchMap { m_PlaneRound.getChatMessages() }
