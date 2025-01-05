@@ -196,6 +196,7 @@
     <string name="credits_graphics_content1">El logotipo del juego, los gráficos de la tienda y la ilustración de la pantalla de inicio fueron creados por Alexandru Vintilescu. Otros trabajos de Alex se pueden ver en   https://axa951.wixsite.com/portfolio</string>
     <string name="reset_board1">Restablecer</string>
     <string name="reset_board2">Tablero</string>
+    <string name="credits_othercontributions_2">Mihai Birau, Stefan Luchian, Dan Ilies, Stefan Cucu, Christian von der Ehe, Pascal Seeger, Mario Eduardo Zarate Caceres.</string>
     <string name="credits_othercontributions_3">Las contribuciones de GitHub se enumeran en la página de GitHub del proyecto. </string>
     <string name="helptext_game_1_opponent">Toque el tablero del oponente para adivinar dónde se podrían encontrar sus aviones.</string>
 

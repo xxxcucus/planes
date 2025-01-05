@@ -191,6 +191,7 @@
     <string name="reset_board1">Spielbrett</string>
     <string name="reset_board2">zurücksetzen</string>
     <string name="credits_othercontributions_1">Andere Beiträge zu dem Projekt sind von:</string>
+    <string name="credits_othercontributions_2">Mihai Birau, Stefan Luchian, Dan Ilies, Stefan Cucu, Christian von der Ehe, Pascal Seeger, Mario Eduardo Zarate Caceres.</string>
     <string name="credits_othercontributions_3">Beiträge via GitHub werden in der GitHub Seite des Projektes gelistet.</string>
     <string name="helptext_game_1_opponent">Felder des Gegnerspielfelds anklicken, um zu raten, wo die Flugzeuge des Gegners sind.</string>
     <string name="error_logout"> Fehler beim Ausloggen</string>
@@ -200,4 +201,15 @@
     <string name="credits_website_title">Die Website des Projekts</string>
     <string name="credits_website">Die Website die alle Informationen zum Projekt und Spiel enthält ist https://xxxcucus.github.io/planes/.</string>
     <string name="credits_website_button">Zu der Website des Projekts</string>
+    <string name="chat">Chat</string>
+    <string name="loader_text">Laden...</string>
+    <string name="conversation">Gespräch mit</string>
+    <string name="send_chat_message_error">Fehler bei Chatnachricht schreiben</string>
+    <string name="chat_message_not_sent">Chatnachricht nicht gesendet</string>
+    <string name="inputmessage">Schreib Nachricht</string>
+    <string name="sendmessage">Sende Nachricht</string>
+    <string name="newmessages">neue Nachrichten</string>
+    <string name="helptext_chat">Tippe auf einen Benutzername um ein Gespräch mit diesem Benutzer zu starten oder ein älteres Gespräch fortzusetzen</string>
+    <string name="helptext_conversation1">Schreibe deine Nachricht in die Box unten auf dem Bildschirm und drücke auf \'Nachricht Senden\' um die Nachricht zu senden</string>
+    <string name="helptext_conversation2">Du kannst auch eine Nachricht an einen Freund senden der offline ist. Die Nachricht wird gesendet wenn er sich das nächste Mal anmeldet.</string>
 </resources>

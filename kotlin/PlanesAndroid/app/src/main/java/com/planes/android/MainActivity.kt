@@ -232,7 +232,7 @@ class MainActivity : AppCompatActivity() {
         } else if (id == R.id.menu_newmessages) {
             mSelectedItem = R.id.nav_chat
             setFragment(true, "FromOptionsMenu")
-        } 
+        }
 
         return super.onOptionsItemSelected(item)
     }

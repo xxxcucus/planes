@@ -197,7 +197,7 @@
     <string name="reset_board1">Reset</string>
     <string name="reset_board2">Board</string>
     <string name="credits_othercontributions_1">Other contributions to the project are from: </string>
-    <string name="credits_othercontributions_2" translatable="false">Mihai Birau, Stefan Luchian, Dan Ilies, Stefan Cucu, Christian von der Ehe, Pascal Seeger, Mario Eduardo Zarate Caceres.</string>
+    <string name="credits_othercontributions_2">Mihai Birau, Stefan Luchian, Dan Ilies, Stefan Cucu, Christian von der Ehe, Pascal Seeger, Mario Eduardo Zarate Caceres.</string>
     <string name="credits_othercontributions_3">Contributions from GitHub are listed in the GitHub page of the project. </string>
     <string name="helptext_game_1_opponent">Touch on the opponent\'s board to guess where the opponent\'s planes are.</string>
 
@@ -212,8 +212,8 @@
     <string name="chat">Chat</string>
     <string name="loader_text">Loading...</string>
     <string name="conversation">Conversation with</string>
-    <string name="send_chat_message_error"> Error when sending chat message</string>
-    <string name="chat_message_not_sent"> Chat message was not sent</string>
+    <string name="send_chat_message_error">Error when sending chat message</string>
+    <string name="chat_message_not_sent">Chat message was not sent</string>
 
     <string name="inputmessage">Input Message</string>
     <string name="sendmessage">Send Message</string>

@@ -183,6 +183,7 @@
     <string name="credits_graphics_content1">Oyunun logosu, grafikleri ve yükleme illüstrasyonu Alexandru Vintilescu tarafından yapılmıştır. Alex\'in diğer işlerini https://axa951.wixsite.com/portfolio adresinden görebilirsiniz</string>
     <string name="reset_board1">Sıfırla</string>
     <string name="reset_board2">Tahta</string>
+    <string name="credits_othercontributions_2">Mihai Birau, Stefan Luchian, Dan Ilies, Stefan Cucu, Christian von der Ehe, Pascal Seeger, Mario Eduardo Zarate Caceres.</string>
     <string name="credits_othercontributions_3">GitHub\'dan gelen katkılar projenin GitHub sayfasında listelidir.</string>
     <string name="helptext_game_1_opponent">Rakibin uçaklarının yerini tahmin etmek için rakibin tahtasına dokunun.</string>
     <string name="drawer_open_content_description">Menüyü Aç</string>
