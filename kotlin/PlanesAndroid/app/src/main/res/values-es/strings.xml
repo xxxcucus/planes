@@ -206,5 +206,16 @@
     <string name="credits_website_title">Sitio web del proyecto</string>
     <string name="credits_website">El sitio web que resume toda la información sobre el juego y el proyecto es https://xxxcucus.github.io/planes/.</string>
     <string name="credits_website_button">Ir al sitio web del proyecto</string>
+    <string name="chat">Chat</string>
+    <string name="loader_text">Cargando...</string>
+    <string name="conversation">Conversación con</string>
+    <string name="send_chat_message_error">Error al enviar el mensaje de chat</string>
+    <string name="chat_message_not_sent">El mensaje de chat no fue enviado</string>
+    <string name="inputmessage">Escribir mensaje</string>
+    <string name="sendmessage">Enviar mensaje</string>
+    <string name="newmessages">Nuevo mensaje</string>
+    <string name="helptext_chat">Toca el nombre del usuario para iniciar una conversación o continuar una anterior.</string>
+    <string name="helptext_conversation1">Escribe tu mensaje en el cuadro de la parte inferior de la pantalla y haz click en \\\'Enviar mensaje\\\' para enviarlo.</string>
+    <string name="helptext_conversation2">También puedes enviar mensajes a usuarios que estén desconectados. Estos serán entregados cuando se conecten la siguiente vez.</string>
 
 </resources>
