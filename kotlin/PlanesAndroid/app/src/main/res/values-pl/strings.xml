@@ -209,7 +209,16 @@
     <string name="credits_website_title">Strona internetowa</string>
     <string name="credits_website">Strona internetowa zawierająca wszystkie informacje o grze i całości projektu: https://xxxcucus.github.io/planes/.</string>
     <string name="credits_website_button">Przejdź do strony internetowej</string>
-    <string name="chat">Chat</string>
+    <string name="chat">Czat</string>
+    <string name="loader_text">Wczytywanie...</string>
+    <string name="conversation">Rozmowa z</string>
+    <string name="send_chat_message_error">Błąd wysyłania wiadomości</string>
+    <string name="chat_message_not_sent">Wiadomość nie została wysłana</string>
+    <string name="inputmessage">Wpisz wiadomość</string>
+    <string name="sendmessage">Wyślij wiadomość</string>
+    <string name="newmessages">Nowe wiadomości</string>
+    <string name="helptext_chat">Naciśnij na nazwę użytkownika, aby rozpocząć z nim rozmowę lub kontynuować poprzednią rozmowę.</string>
+    <string name="helptext_conversation1">Wpisz swoją wiadomość w obszarze na dole ekranu i naciśnij \\\'Wyślij wiadomość\\\', aby wysłać wiadomość.</string>
 
 
 </resources>
