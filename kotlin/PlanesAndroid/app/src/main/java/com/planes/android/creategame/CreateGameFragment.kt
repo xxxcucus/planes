@@ -187,7 +187,6 @@ class CreateGameFragment: Fragment() {
             binding.ProgressBarCreateGame.isVisible = false
             binding.startPlaying.isEnabled = true
         }
-
     }
 
     private fun setCreateGameError(errorMsg: String) {

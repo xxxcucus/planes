@@ -6,11 +6,11 @@ android {
     defaultConfig {
         applicationId "com.planes.android"
         minSdkVersion 21
-        targetSdkVersion 34
-        compileSdk 34
+        targetSdkVersion 35
+        compileSdk 35
         multiDexEnabled true
-        versionCode 29
-        versionName "0.4.4"
+        versionCode 30
+        versionName "0.4.4.1"
     }
     compileOptions {
         // Flag to enable support for the new language APIs

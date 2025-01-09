@@ -17,7 +17,7 @@ class AboutFragment : Fragment() {
 
     private lateinit var m_SectionsList: List<AboutModel>
     private lateinit var m_AboutAdapter: AboutAdapter
-    public lateinit var m_Version: String
+    public var m_Version: String? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,7 +48,10 @@ class AboutFragment : Fragment() {
     }
 
     private fun prepareSectionsList() {
-        val version_section = AboutModel(getString(R.string.software_version_title),
+        var version_section = AboutModel("Version", "Software version is unknown", false, "Empty", "Empty")
+
+        if (m_Version != null)
+        version_section = AboutModel(getString(R.string.software_version_title),
             getString(R.string.software_version) + " " + m_Version, false, "Empty", "Empty")
         val software_section = AboutModel(getString(R.string.credits_software_title),
             getString(R.string.credits_software_content), true, getString(R.string.credits_software_button),
