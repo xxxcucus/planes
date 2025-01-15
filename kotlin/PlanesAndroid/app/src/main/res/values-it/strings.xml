@@ -189,5 +189,26 @@
     <string name="helptext_boardediting_3">Scorri il dito sul display per posizionare gli aerei</string>
     <string name="video_duration">Durata: %1$s</string>
     <string name="credits_othercontributions_1">Altri contributi al progetto provengono da:</string>
+    <string name="newuser_register">Nuovo utente? Registrati qui!</string>
+    <string name="helptext_game_3">Tocca a lungo per ruotare l\'aereo selezionato</string>
+    <string name="credits_othercontributions_3">I contributi da GitHub sono elencati nella pagina GitHub del progetto.</string>
+    <string name="helptext_game_1_opponent">Tocca la plancia di gioco dell\'avversario per indovinare dove si trovano gli suoi aeri.</string>
+    <string name="error_logout">Errore durante la disconnessione.</string>
+    <string name="delete_user">Elimina utente</string>
+    <string name="error_deleteuser">Errore durante l\'eliminazione dell\'utente.</string>
+    <string name="credits_website_title">Sito web del progetto</string>
+    <string name="credits_website">Il sito web che riassume tutte le informazioni sul gioco e sul progetto è https://xxxcucus.github.io/planes/.</string>
+    <string name="credits_website_button">Vai al sito web del progetto</string>
+    <string name="chat">Chat</string>
+    <string name="loader_text">Caricamento...</string>
+    <string name="conversation">Conversazione con</string>
+    <string name="send_chat_message_error">Errore durante l\'invio del messaggio di chat</string>
+    <string name="chat_message_not_sent">Il messaggio di chat non è stato inviato</string>
+    <string name="inputmessage">Inserisci messaggio</string>
+    <string name="sendmessage">Invia messaggio</string>
+    <string name="newmessages">Nuovi messaggi</string>
+    <string name="helptext_chat">Tocca un nome utente per iniziare una conversazione con quell\'utente o continuare una conversazione precedente.</string>
+    <string name="helptext_conversation1">Inserisci il tuo messaggio nella casella in fondo allo schermo e clicca su \"Invia messaggio\" per inviare un messaggio.</string>
+    <string name="helptext_conversation2">Puoi anche inviare messaggi agli utenti offline. Saranno inviati agli utenti quando effettueranno l\'accesso la prossima volta.</string>
 
 </resources>
