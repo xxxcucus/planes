@@ -219,6 +219,7 @@
     <string name="newmessages">Nowe wiadomości</string>
     <string name="helptext_chat">Naciśnij na nazwę użytkownika, aby rozpocząć z nim rozmowę lub kontynuować poprzednią rozmowę.</string>
     <string name="helptext_conversation1">Wpisz swoją wiadomość w obszarze na dole ekranu i naciśnij \\\'Wyślij wiadomość\\\', aby wysłać wiadomość.</string>
+    <string name="helptext_conversation2">Możesz również wysyłać wiadomości do niedostępnych użytkowników. Zostaną dostarczone do użytkowników przy ich następnym zalogowaniu.</string>
 
 
 </resources>

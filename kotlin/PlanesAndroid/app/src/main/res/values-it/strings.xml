@@ -210,5 +210,6 @@
     <string name="helptext_chat">Tocca un nome utente per iniziare una conversazione con quell\'utente o continuare una conversazione precedente.</string>
     <string name="helptext_conversation1">Inserisci il tuo messaggio nella casella in fondo allo schermo e clicca su \"Invia messaggio\" per inviare un messaggio.</string>
     <string name="helptext_conversation2">Puoi anche inviare messaggi agli utenti offline. Saranno inviati agli utenti quando effettueranno l\'accesso la prossima volta.</string>
+    <string name="credits_graphics_content1">Il logo del gioco, la grafica del negozio e l\'illustrazione del caricatore sono stati creati da Alexandru Vintilescu. Altri lavori di Alex possono essere visti su https://axa951.wixsite.com/portfolio</string>
 
 </resources>
