@@ -211,4 +211,5 @@
     <string name="helptext_chat">Tippe auf einen Benutzername um ein Gespräch mit diesem Benutzer zu starten oder ein älteres Gespräch fortzusetzen</string>
     <string name="helptext_conversation1">Schreibe deine Nachricht in die Box unten auf dem Bildschirm und drücke auf \'Nachricht Senden\' um die Nachricht zu senden</string>
     <string name="helptext_conversation2">Du kannst auch eine Nachricht an einen Freund senden der offline ist. Die Nachricht wird gesendet wenn er sich das nächste Mal anmeldet.</string>
+    <string name="already_registered_login">Schon registriert ? Login!</string>
 </resources>

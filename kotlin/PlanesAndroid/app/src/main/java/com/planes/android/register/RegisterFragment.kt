@@ -50,14 +50,19 @@ class RegisterFragment: Fragment() {
             (activity as MainActivity).updateOptionsMenu()
         }
 
-        val saveSettingsButton = binding.register
-        saveSettingsButton.setOnClickListener { performRegister() }
+        val registerButton = binding.register
+        registerButton.setOnClickListener { performRegister() }
 
         val hidePasswordCheckbox = binding.secureCheck
         hidePasswordCheckbox.setOnCheckedChangeListener { _, isChecked ->
             hideShowPassword(
                 isChecked
             )
+        }
+
+        val loginButton = binding.login
+        loginButton.setOnClickListener {
+            switchToLoginFragment()
         }
     }
 
@@ -103,6 +108,11 @@ class RegisterFragment: Fragment() {
                 InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
         }
         binding.invalidateAll()
+    }
+
+    private fun switchToLoginFragment() {
+        if (activity is MainActivity)
+            (activity as MainActivity).startLoginFragment("From register")
     }
 
     private fun hideLoading() {

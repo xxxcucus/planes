@@ -212,4 +212,5 @@
     <string name="helptext_chat">Apasa pe un utilizator ca sa incepi o conversatie cu acel utilizator sau sa continui o conversatie mai veche.</string>
     <string name="helptext_conversation1">Scrie mesajul in dialogul de la baza ecranului si apasa pe \\\'Trimite mesaj\\\' ca sa trimiti mesajul.</string>
     <string name="helptext_conversation2">Poti sa trimiti mesaje si catre utilizatorii offline. Acestia le vor primi data viitoare cand se vor loga.</string>
+    <string name="already_registered_login">Deja inregistrat ? Login!</string>
 </resources>

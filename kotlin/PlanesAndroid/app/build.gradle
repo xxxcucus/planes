@@ -9,8 +9,8 @@ android {
         targetSdkVersion 35
         compileSdk 35
         multiDexEnabled true
-        versionCode 30
-        versionName "0.4.4.1"
+        versionCode 31
+        versionName "0.4.4.2"
     }
     compileOptions {
         // Flag to enable support for the new language APIs
