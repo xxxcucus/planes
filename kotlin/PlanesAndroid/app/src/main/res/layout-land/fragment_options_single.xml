@@ -25,7 +25,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     android:text="@string/game_difficulty_options"
                     android:layout_marginTop="10dp"
@@ -42,7 +42,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         style="@style/CustomTextViewStyle"
                         android:text="@string/computer_skill"/>
                     <Spinner
@@ -63,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         style="@style/CustomTextViewStyle"
                         android:text="@string/show_plane_after_kill"/>
                     <Spinner
@@ -78,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     style="@style/CustomTextViewStyle"
                     android:layout_below="@id/options_showplaneafterkill"
@@ -93,7 +93,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         style="@style/CustomTextViewStyle"
                         android:text="@string/multiplayer_version"/>
                     <Spinner
@@ -107,7 +107,7 @@
                     android:id="@+id/options_savesettings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:text="@string/savesettings"
                     style="@style/ButtonColor"
                     android:layout_alignParentRight="true"

@@ -23,7 +23,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     style="@style/CustomTextViewStyle"
                     android:text="@={settingsData.m_LoginStatus}"/>
@@ -31,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                      style="@style/CustomTextViewStyle"
                     android:text="@={settingsData.m_UserName}"/>
             </LinearLayout>
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dip"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:layout_gravity="right"
                 style="@style/ButtonColor"
                 android:text="@string/login"/>
@@ -53,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     style="@style/CustomTextViewStyle"
                     android:textStyle="bold"
                     android:text="@={settingsData.m_ConnectStatus}"/>
@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     style="@style/CustomTextViewStyle"
                     android:text="@={settingsData.m_GameName}"/>
             </LinearLayout>
@@ -69,7 +69,7 @@
                 android:id="@+id/status_connect_to_game"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:layout_gravity="right"
                 android:layout_margin="10dip"
                 style="@style/ButtonColor"
@@ -85,7 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     style="@style/CustomTextViewStyle"
                     android:textStyle="bold"
                     android:text="@string/opponent_stats1"/>
@@ -94,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
                     style="@style/CustomTextViewStyle"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:text="@={settingsData.m_OpponentName}"/>
             </LinearLayout>
 
@@ -109,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     style="@style/CustomTextViewStyle"
                     android:textStyle="bold"
                     android:text="@string/current_round"/>
@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
                     style="@style/CustomTextViewStyle"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:text="@={settingsData.m_RoundId}"/>
             </LinearLayout>
             <LinearLayout
@@ -134,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
                     style="@style/CustomTextViewStyle"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     android:text="@string/round_status"/>
                 <TextView
@@ -142,7 +142,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
                     style="@style/CustomTextViewStyle"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:text="@={settingsData.m_GameStage}"/>
             </LinearLayout>
             <LinearLayout
@@ -156,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     style="@style/CustomTextViewStyle"
                     android:textStyle="bold"
                     android:text="@string/game_stats"/>
@@ -170,7 +170,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         style="@style/CustomTextViewStyle"
                         android:textStyle="bold"
                         android:text="@string/player_moves"/>
@@ -179,7 +179,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
                         style="@style/CustomTextViewStyle"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:text="@={settingsData.m_PlayerMoves}"/>
                 </LinearLayout>
                 <LinearLayout
@@ -195,7 +195,7 @@
                         android:layout_margin="10dip"
                         android:text="@string/player_misses"
                         style="@style/CustomTextViewStyle"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -204,7 +204,7 @@
                         android:layout_margin="10dip"
                         style="@style/CustomTextViewStyle"
                         android:text="@={settingsData.m_PlayerMisses}"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -217,7 +217,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         style="@style/CustomTextViewStyle"
                         android:textStyle="bold"
                         android:text="@string/player_hits"/>
@@ -226,7 +226,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
                         style="@style/CustomTextViewStyle"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:text="@={settingsData.m_PlayerHits}"/>
                 </LinearLayout>
                 <LinearLayout
@@ -239,7 +239,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         style="@style/CustomTextViewStyle"
                         android:textStyle="bold"
                         android:text="@string/player_dead"/>
@@ -248,7 +248,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
                         style="@style/CustomTextViewStyle"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:text="@={settingsData.m_PlayerDead}"/>
                 </LinearLayout>
                 <LinearLayout
@@ -262,7 +262,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         style="@style/CustomTextViewStyle"
                         android:textStyle="bold"
                         android:text="@string/opponent_moves"/>
@@ -271,7 +271,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
                         style="@style/CustomTextViewStyle"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:text="@={settingsData.m_OpponentMoves}"/>
                 </LinearLayout>
                 <LinearLayout
@@ -284,7 +284,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         style="@style/CustomTextViewStyle"
                         android:textStyle="bold"
                         android:text="@string/opponent_misses"/>
@@ -292,7 +292,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         style="@style/CustomTextViewStyle"
                         android:text="@={settingsData.m_OpponentMisses}"/>
                 </LinearLayout>
@@ -306,7 +306,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         style="@style/CustomTextViewStyle"
                         android:textStyle="bold"
                         android:text="@string/opponent_hits"/>
@@ -314,7 +314,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         style="@style/CustomTextViewStyle"
                         android:text="@={settingsData.m_OpponentHits}"/>
                 </LinearLayout>
@@ -328,7 +328,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         style="@style/CustomTextViewStyle"
                         android:textStyle="bold"
                         android:text="@string/opponent_dead"/>
@@ -337,7 +337,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
                         style="@style/CustomTextViewStyle"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:text="@={settingsData.m_OpponentDead}"/>
                 </LinearLayout>
             </LinearLayout>
@@ -352,7 +352,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     style="@style/CustomTextViewStyle"
                     android:textStyle="bold"
                     android:text="@string/game_score"/>
@@ -367,7 +367,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         style="@style/CustomTextViewStyle"
                         android:textStyle="bold"
                         android:text="@string/player_wins"/>
@@ -376,7 +376,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
                         style="@style/CustomTextViewStyle"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:text="@={settingsData.m_PlayerWins}"/>
                 </LinearLayout>
                 <LinearLayout
@@ -390,7 +390,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         style="@style/CustomTextViewStyle"
                         android:textStyle="bold"
                         android:text="@string/opponent_wins"/>
@@ -399,7 +399,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
                         style="@style/CustomTextViewStyle"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:text="@={settingsData.m_OpponentWins}"/>
                 </LinearLayout>
                 <LinearLayout
@@ -413,7 +413,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         style="@style/CustomTextViewStyle"
                         android:textStyle="bold"
                         android:text="@string/draws"/>
@@ -422,7 +422,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
                         style="@style/CustomTextViewStyle"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:text="@={settingsData.m_Draws}"/>
                 </LinearLayout>
             </LinearLayout>

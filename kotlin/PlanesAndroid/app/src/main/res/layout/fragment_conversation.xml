@@ -25,7 +25,7 @@ android:layout_height="match_parent">
             android:layout_height="wrap_content"
             style="@style/ModifiedEditText"
             android:hint="@string/inputmessage"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:text="" />
         </com.google.android.material.textfield.TextInputLayout>
         <Button
@@ -35,6 +35,6 @@ android:layout_height="match_parent">
             android:layout_below="@+id/textInput_message"
             android:text="@string/sendmessage"
             style="@style/ButtonColor"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
     </RelativeLayout>
 </FrameLayout>

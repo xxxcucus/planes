@@ -29,7 +29,7 @@
                     android:layout_margin="10dip"
                     android:text="@string/game_name"
                     style="@style/CustomTextViewStyle"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/gamename_edittext"
@@ -49,7 +49,7 @@
                 android:layout_alignLeft="@id/creategame_gamename"
                 android:text="@string/random_game_name"
                 style="@style/ButtonColor"
-                android:textSize="10dp" />
+                android:textSize="11sp" />
             <Button
                 android:id="@+id/creategame"
                 android:layout_width="wrap_content"

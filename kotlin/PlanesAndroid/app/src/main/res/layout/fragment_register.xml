@@ -24,7 +24,7 @@
                     android:layout_height="wrap_content"
                     style="@style/ModifiedEditText"
                     android:hint="@string/username"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:text="@={settingsData.m_Username}" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -39,7 +39,7 @@
                     android:inputType="textPassword"
                     android:hint="@string/password"
                     style="@style/ModifiedEditText"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:text="@={settingsData.m_Password}" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,12 +50,12 @@
                 android:checked="true"
                 android:layout_margin="10dip"
                 android:text="@string/hide_password"
-                android:textSize="10dp"/>
+                android:textSize="11sp"/>
             <Button
                 android:id="@+id/login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10dp"
+                android:textSize="11sp"
                 style="@style/ButtonColor"
                 android:text="@string/already_registered_login"/>
             <Button

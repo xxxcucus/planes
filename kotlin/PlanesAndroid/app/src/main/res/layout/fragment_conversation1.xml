@@ -32,7 +32,7 @@
             style="@style/ModifiedEditText"
             android:hint="@string/inputmessage"
             android:maxLength="128"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:text="" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -45,7 +45,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:text="@string/sendmessage"
         style="@style/ButtonColor"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -73,12 +73,12 @@
                 android:checked="true"
                 style="@style/CustomTextViewStyle"
                 android:text="@string/hide_password"
-                android:textSize="10dp" />
+                android:textSize="11sp" />
             <Button
                 android:id="@+id/login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10dp"
+                android:textSize="11sp"
                 android:layout_alignLeft="@id/secure_check"
                 android:layout_below="@id/secure_check"
                 style="@style/ButtonColor"

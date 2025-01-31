@@ -24,7 +24,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/ModifiedEditText"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:hint="@string/game_name"
                     android:text="@={settingsData.m_GameName}" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/random_game_name"
                 style="@style/ButtonColor"
-                android:textSize="10dp"/>
+                android:textSize="11sp"/>
             <Button
                 android:id="@+id/creategame"
                 android:layout_width="wrap_content"

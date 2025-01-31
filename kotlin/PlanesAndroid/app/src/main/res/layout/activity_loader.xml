@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:text="@string/singleplayergame"
             android:layout_centerHorizontal="true"
-            android:textSize="15dp"
+            android:textSize="15sp"
             style="@style/ButtonColor"/>
         <Button
             android:id="@+id/multiplayer"
@@ -33,7 +33,7 @@
             android:text="@string/multiplayergame"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/singleplayer"
-            android:textSize="15dp"
+            android:textSize="15sp"
             style="@style/ButtonColor"/>
         </RelativeLayout>
     <ProgressBar
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
         android:layout_gravity="bottom"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold"
         style="@style/CustomTextViewStyle"
         android:text="@string/loader_text"

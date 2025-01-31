@@ -76,7 +76,7 @@
                     android:checked="true"
                     style="@style/CustomTextViewStyle"
                     android:text="@string/hide_password"
-                    android:textSize="10dp" />
+                    android:textSize="11sp" />
 
                 <Button
                     android:id="@+id/credentials_preferences"
@@ -86,12 +86,12 @@
                     android:layout_alignLeft="@id/secure_check"
                     android:text="@string/credentials_preferences"
                     style="@style/ButtonColor"
-                    android:textSize="10dp" />
+                    android:textSize="11sp" />
                 <Button
                     android:id="@+id/register"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10dp"
+                    android:textSize="11sp"
                     android:layout_alignLeft="@id/secure_check"
                     android:layout_below="@id/credentials_preferences"
                     style="@style/ButtonColor"
@@ -111,7 +111,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/create_connectto_game"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     style="@style/ButtonColor"
                     android:enabled="false"
                     android:layout_below="@id/login"

@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 style="@style/ModifiedEditText"
                 android:hint="@string/username"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:text="@={settingsData.m_Username}" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -41,7 +41,7 @@
                 android:inputType="textPassword"
                 android:hint="@string/password"
                 style="@style/ModifiedEditText"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:text="@={settingsData.m_Password}" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,13 +61,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/credentials_preferences"
                 style="@style/ButtonColor"
-                android:textSize="10dp" />
+                android:textSize="10sp" />
 
             <Button
                 android:id="@+id/register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10dp"
+                android:textSize="11sp"
                 style="@style/ButtonColor"
                 android:text="@string/newuser_register"/>
 
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/submit"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 style="@style/ButtonColor"/>
         </LinearLayout>
 
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/create_connectto_game"
                 style="@style/ButtonColor"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:enabled="false"/>
         </LinearLayout>
     </RelativeLayout>
