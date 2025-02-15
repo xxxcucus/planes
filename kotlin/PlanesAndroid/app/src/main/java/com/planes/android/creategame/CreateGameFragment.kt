@@ -164,7 +164,15 @@ class CreateGameFragment: Fragment() {
            if (!body.m_Exists) {
                showCreateGamePopup()
            } else if (body.m_FirstPlayerName == body.m_SecondPlayerName) {
-               showConnectToGamePopup(body.m_FirstPlayerName)
+               if (body.m_FirstPlayerName == m_MultiplayerRound.getUsername()) {
+                   m_MultiplayerRound.setGameData(body)
+                   m_MultiplayerRound.setUserId(body.m_SecondPlayerId.toLong())
+                   setCreateGameSettings(CreateGameStates.GameCreated, body.m_GameName)
+                   m_GameName = body.m_GameName
+                   pollForGameConnection()
+               } else {
+                   showConnectToGamePopup(body.m_FirstPlayerName)
+               }
            } else {
                 m_CreateGameErrorString = getString(R.string.gamename_impossible)
                 m_CreateGameError = true
@@ -384,7 +392,6 @@ class CreateGameFragment: Fragment() {
                     .subscribe({ data -> reactToGameStatusInPolling(data.body()) }
                     ) { error -> error.localizedMessage?.let { setCreateGameError(it) } }
         }
-
     }
 
     private fun connectedToGame() {

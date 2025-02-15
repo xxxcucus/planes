@@ -51,7 +51,7 @@ class AboutFragment : Fragment() {
         var version_section = AboutModel("Version", "Software version is unknown", false, "Empty", "Empty")
 
         if (m_Version != null)
-        version_section = AboutModel(getString(R.string.software_version_title),
+            version_section = AboutModel(getString(R.string.software_version_title),
             getString(R.string.software_version) + " " + m_Version, false, "Empty", "Empty")
         val software_section = AboutModel(getString(R.string.credits_software_title),
             getString(R.string.credits_software_content), true, getString(R.string.credits_software_button),
