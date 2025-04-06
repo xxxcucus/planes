@@ -33,6 +33,81 @@ When a screen is selected, a Fragment of the Fragment Class corresponding to the
 
 \subsubsection { Activity }
 
-TODO: Life Cycle, Layout 
+Activity is a central class in an Android app. In an activity the appearance of the app is defined through an XML layout. Also the behaviour of the app as response to diverse events in the app life cycle is defined here.
+
+For example the layout of the Planes Android app is as follows:
+
+\begin{lstlisting}
+<?xml version="1.0" encoding="utf-8"?>
+	<androidx.drawerlayout.widget.DrawerLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/drawer_layout"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:fitsSystemWindows="true">
+		<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+			<androidx.appcompat.widget.LinearLayoutCompat
+				android:id="@+id/coordinator_id"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="vertical"
+				android:background="@drawable/background">
+				<com.google.android.material.appbar.AppBarLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+				<androidx.appcompat.widget.Toolbar
+				android:id="@+id/toolbar"
+				android:layout_width="match_parent"
+				android:layout_height="?attr/actionBarSize"
+				app:theme="@style/MyToolbarTheme"
+				app:layout_scrollFlags="enterAlways|scroll" />
+				</com.google.android.material.appbar.AppBarLayout>
+				<androidx.appcompat.widget.LinearLayoutCompat
+				android:id="@+id/main_content"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+			</androidx.appcompat.widget.LinearLayoutCompat>
+			<ProgressBar
+			android:id="@+id/ProgressBarBottom"
+			android:layout_width="350dp"
+			android:layout_centerInParent="true"
+			android:layout_height="350dp"
+			android:foregroundTint="?planesProgressBarColor"
+			android:progressTint="?planesProgressBarColor"
+			android:indeterminateTint="?planesProgressBarColor"
+			android:visibility="invisible" />
+			<TextView
+			android:id="@+id/LoaderLabelBottom"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dip"
+			android:layout_alignParentBottom="true"
+			android:textSize="20sp"
+			android:textStyle="bold"
+			style="@style/CustomTextViewStyle"
+			android:text="@string/loader_text"
+			android:visibility="invisible"/>
+		</RelativeLayout>
+	<com.google.android.material.navigation.NavigationView
+	android:id="@+id/nav_view"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_gravity="left"
+	android:background="@drawable/background"
+	app:menu="@menu/main_menu"
+	app:theme="@style/NavigationDrawerStyle"
+	app:headerLayout="@layout/nav_header"
+	/>
+	</androidx.drawerlayout.widget.DrawerLayout>
+\end{lstlisting}
+ 
+ TODO: explain the layouts
 
 \subsubsection { Fragment }
+
+\subsubsection { Application Lifecycle }

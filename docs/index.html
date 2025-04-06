@@ -85,6 +85,32 @@ h1, h2, h3, h4, h5, h6 {
 
       <p>A variation of the game specifies that when a cockpit was guessed all the grid squares corresponding
 	  to that plane are communicated to the player who made the correct guess.</p>
+	  
+	  <h1 class="w3-center">Algorithm</h1><br>
+	  <p>The algorithm of the computer playing the game is based on a sequence of decisions meant to guess a new cockpit position,
+	  find out about the real plane position for a guessed cockpit position, or simply gather more data.</p>
+	  <p>For guessing a new cockpit position a so-called choice map is created and updated with each made guess. This choice table 
+	  keeps for each plane position on the board how many sources of information confirm its existance. Planes positions which are
+	  already known as impossible are marked accordingly.</p>
+	  <p>Once a cockpit position is found an entry in a data structure called head data
+	  is created. This structure keeps for each cockpit and for each plane orientation with that cockpit position  a list of points on the plane which were 
+	  not already tested. In case one plane orientation for one found cockpit is found impossible this information is 
+	  saved accordingly.</p> 
+	  <p>In each step of the algorithm one of three possible methods to compute the next guess are chosen randomly (with set probabilities):</p>
+	  
+	  <ul>
+	  <li>choose the position in the choice map with the highest score</li>
+	  <li>choose a found cockpit for which the real plane position is not known and choose one of the positions in the list points not tested yet for the chosen cockpit</li>
+	  <li>chose a random point for which it does not have any info in the choice map</li>
+	  </ul>
+	  
+	  <p>After each guess, based on the received response from the player, update the choice map and the head data </p>
+	  
+	  <p>The probability for making the random point (the third method above) can be controlled by chosing the difficulty level in the Options screen of the app.
+	  If an easy difficulty level is chosen the probability for random guessing will be kept high, in an advanced difficulty level the probability
+	  for random guessing is low, the computer will act more based on the choice map and list of found cockpit positions.</p>
+	  
+	  </p>
     </div>
     
     <div class="w3-col l6 w3-padding-large">
