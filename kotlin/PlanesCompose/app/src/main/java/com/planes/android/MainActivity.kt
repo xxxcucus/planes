@@ -5,11 +5,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Menu
@@ -35,7 +38,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.planes.android.navigation.DrawerMenuItemGeneric
+import com.planes.android.navigation.PlanesNavigation
+import com.planes.android.navigation.PlanesScreens
 import com.planes.android.ui.theme.PlanesComposeTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -46,14 +54,15 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PlanesComposeTheme {
-                Screen(modifier = Modifier)
+                val navController = rememberNavController()
+                Screen(modifier = Modifier, navController = navController)
             }
         }
     }
 }
 
 @Composable
-fun Screen(modifier: Modifier) {
+fun Screen(modifier: Modifier, navController: NavHostController) {
     val drawerState = rememberDrawerState(
         initialValue = DrawerValue.Closed
     )
@@ -64,7 +73,7 @@ fun Screen(modifier: Modifier) {
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                DrawerContent()
+                DrawerContent(navController = navController)
             }
         },
         gesturesEnabled = true
@@ -87,77 +96,72 @@ fun Screen(modifier: Modifier) {
                 )
             }
         ) { padding ->
-            ScreenContent(modifier = Modifier.padding(padding))
+            ScreenContent(modifier = Modifier.padding(padding), navController = navController)
         }
     }
 }
 
 @Composable
-fun ScreenContent(modifier: Modifier) {
-
+fun ScreenContent(modifier: Modifier, navController: NavHostController) {
+    PlanesNavigation(navController)
 }
 
 @Composable
-fun DrawerContent(modifier: Modifier = Modifier) {
-    Text(text = "Text App",
-        fontSize = 24.sp,
-        modifier = Modifier.padding(16.dp))
+fun DrawerContent(modifier: Modifier = Modifier, navController: NavController) {
 
-    HorizontalDivider()
+    Column(
+        modifier = Modifier.padding(horizontal = 16.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
+        Text(
+            text = "Planes",
+            modifier = Modifier.padding(16.dp),
+            style = MaterialTheme.typography.titleLarge
+        )
 
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Default.Notifications,
-                contentDescription = "Navigation Icon",
-                modifier = Modifier.padding(start = 16.dp, end = 8.dp)
-                    .size(28.dp))
-        },
-        label = {
-            Text(text = "Item 1",
-                fontSize = 16.sp)
-        },
-        selected = false,
-        onClick = {
+        HorizontalDivider()
 
-        }
-    )
+        Text(
+            text = "Single Player Game",
+            modifier = Modifier.padding(16.dp),
+            style = MaterialTheme.typography.titleMedium
+        )
+        DrawerMenuItemGeneric("Game", {
+            navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
+        })
 
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Default.Notifications,
-                contentDescription = "Navigation Icon",
-                modifier = Modifier.padding(start = 16.dp, end = 8.dp)
-                    .size(28.dp))
-        },
-        label = {
-            Text(text = "Item 2",
-                fontSize = 16.sp)
-        },
-        selected = false,
-        onClick = {
+        DrawerMenuItemGeneric("Preferences", {
+            navController.navigate(route = PlanesScreens.SinglePlayerPreferences.name)
+        })
 
-        }
-    )
 
-    NavigationDrawerItem(
-        icon = {
-            Icon(
-                imageVector = Icons.Default.Notifications,
-                contentDescription = "Navigation Icon",
-                modifier = Modifier.padding(start = 16.dp, end = 8.dp)
-                    .size(28.dp))
-        },
-        label = {
-            Text(text = "Item 3",
-                fontSize = 16.sp)
-        },
-        selected = false,
-        onClick = {
+        Text(
+            text = "Multiplayer Game",
+            modifier = Modifier.padding(16.dp),
+            style = MaterialTheme.typography.titleMedium
+        )
+        DrawerMenuItemGeneric("Game", {
+            navController.navigate(route = PlanesScreens.MultiplayerGame.name)
+        })
 
-        }
-    )
+        DrawerMenuItemGeneric("Preferences", {
+            navController.navigate(route = PlanesScreens.MultiplayerPreferences.name)
+        })
+
+        Text(
+            text = "Info",
+            modifier = Modifier.padding(16.dp),
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        DrawerMenuItemGeneric("About", {
+            navController.navigate(route = PlanesScreens.Info.name)
+        })
+
+        DrawerMenuItemGeneric("Tutorials", {
+            navController.navigate(route = PlanesScreens.Tutorials.name)
+        })
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
