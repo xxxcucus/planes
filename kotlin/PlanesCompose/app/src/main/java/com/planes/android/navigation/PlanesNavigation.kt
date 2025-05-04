@@ -1,5 +1,6 @@
 package com.planes.android.navigation
 
+import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -18,6 +19,8 @@ import com.planes.android.singleplayergame.SinglePlayerGameScreen
 import com.planes.android.singleplayergamestatistics.SinglePlayerGameStatisticsScreen
 import com.planes.android.singleplayerpreferences.SinglePlayerPreferencesScreen
 import com.planes.android.video.VideoScreen
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun PlanesNavigation(navController: NavHostController) {

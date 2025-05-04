@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -73,7 +74,7 @@ fun Screen(modifier: Modifier, navController: NavHostController) {
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                DrawerContent(navController = navController)
+                DrawerContent(navController = navController, drawerScope = scope, drawerState = drawerState)
             }
         },
         gesturesEnabled = true
@@ -96,18 +97,25 @@ fun Screen(modifier: Modifier, navController: NavHostController) {
                 )
             }
         ) { padding ->
-            ScreenContent(modifier = Modifier.padding(padding), navController = navController)
+            ScreenContent(modifier = Modifier.padding(padding),
+                navController = navController)
         }
     }
 }
 
 @Composable
-fun ScreenContent(modifier: Modifier, navController: NavHostController) {
+fun ScreenContent(modifier: Modifier,
+                  navController: NavHostController
+) {
     PlanesNavigation(navController)
 }
 
 @Composable
-fun DrawerContent(modifier: Modifier = Modifier, navController: NavController) {
+fun DrawerContent(modifier: Modifier = Modifier,
+                  navController: NavController,
+                  drawerScope: CoroutineScope,
+                  drawerState: DrawerState,
+                  ) {
 
     Column(
         modifier = Modifier.padding(horizontal = 16.dp)
@@ -121,17 +129,51 @@ fun DrawerContent(modifier: Modifier = Modifier, navController: NavController) {
 
         HorizontalDivider()
 
+        DrawerMenuItemGeneric("Login", {
+            drawerScope.launch {
+                drawerState.close()
+            }
+            navController.navigate(route = PlanesScreens.Login.name)
+        })
+
+        DrawerMenuItemGeneric("Logout", {
+            drawerScope.launch {
+                drawerState.close()
+            }
+            navController.navigate(route = PlanesScreens.Logout.name)
+        })
+
+        DrawerMenuItemGeneric("Register", {
+            drawerScope.launch {
+                drawerState.close()
+            }
+            navController.navigate(route = PlanesScreens.Register.name)
+        })
+
         Text(
             text = "Single Player Game",
             modifier = Modifier.padding(16.dp),
             style = MaterialTheme.typography.titleMedium
         )
         DrawerMenuItemGeneric("Game", {
+            drawerScope.launch {
+                drawerState.close()
+            }
             navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
         })
 
         DrawerMenuItemGeneric("Preferences", {
+            drawerScope.launch {
+                drawerState.close()
+            }
             navController.navigate(route = PlanesScreens.SinglePlayerPreferences.name)
+        })
+
+        DrawerMenuItemGeneric("Game Statistics", {
+            drawerScope.launch {
+                drawerState.close()
+            }
+            navController.navigate(route = PlanesScreens.SinglePlayerGameStatistics.name)
         })
 
 
@@ -141,11 +183,24 @@ fun DrawerContent(modifier: Modifier = Modifier, navController: NavController) {
             style = MaterialTheme.typography.titleMedium
         )
         DrawerMenuItemGeneric("Game", {
+            drawerScope.launch {
+                drawerState.close()
+            }
             navController.navigate(route = PlanesScreens.MultiplayerGame.name)
         })
 
         DrawerMenuItemGeneric("Preferences", {
+            drawerScope.launch {
+                drawerState.close()
+            }
             navController.navigate(route = PlanesScreens.MultiplayerPreferences.name)
+        })
+
+        DrawerMenuItemGeneric("Game Statistics", {
+            drawerScope.launch {
+                drawerState.close()
+            }
+            navController.navigate(route = PlanesScreens.MultiplayerGameStatistics.name)
         })
 
         Text(
@@ -155,11 +210,24 @@ fun DrawerContent(modifier: Modifier = Modifier, navController: NavController) {
         )
 
         DrawerMenuItemGeneric("About", {
+            drawerScope.launch {
+                drawerState.close()
+            }
             navController.navigate(route = PlanesScreens.Info.name)
         })
 
         DrawerMenuItemGeneric("Tutorials", {
+            drawerScope.launch {
+                drawerState.close()
+            }
             navController.navigate(route = PlanesScreens.Tutorials.name)
+        })
+
+        DrawerMenuItemGeneric("Delete User", {
+            drawerScope.launch {
+                drawerState.close()
+            }
+            navController.navigate(route = PlanesScreens.DeleteUser.name)
         })
     }
 }

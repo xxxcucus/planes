@@ -9,12 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun AboutScreen(navController: NavController) {
 
     Column(modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center) {
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = "About Screen")
     }
 }
