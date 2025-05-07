@@ -13,7 +13,8 @@ enum class PlanesScreens {
     Login,
     Logout,
     Register,
-    DeleteUser;
+    DeleteUser,
+    Chat;
     companion object {
         fun fromRoute(route: String?) : PlanesScreens  =
             when(route?.substringBefore("/")) {
@@ -30,6 +31,7 @@ enum class PlanesScreens {
                 Logout.name -> Logout
                 Register.name -> Register
                 DeleteUser.name -> DeleteUser
+                Chat.name -> Chat
                 null -> Info
                 else -> throw IllegalArgumentException("Route $route is not recognized")
             }

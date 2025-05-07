@@ -150,6 +150,13 @@ fun DrawerContent(modifier: Modifier = Modifier,
             navController.navigate(route = PlanesScreens.Register.name)
         })
 
+        DrawerMenuItemGeneric("Chat", {
+            drawerScope.launch {
+                drawerState.close()
+            }
+            navController.navigate(route = PlanesScreens.Chat.name)
+        })
+
         Text(
             text = "Single Player Game",
             modifier = Modifier.padding(16.dp),

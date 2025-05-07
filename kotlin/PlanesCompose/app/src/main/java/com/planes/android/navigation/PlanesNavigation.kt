@@ -7,7 +7,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.planes.android.about.AboutEntryModel
 import com.planes.android.about.AboutScreen
+import com.planes.android.chat.ChatScreen
 import com.planes.android.deleteuser.DeleteUserScreen
 import com.planes.android.login.LoginScreen
 import com.planes.android.logout.LogoutScreen
@@ -47,7 +49,8 @@ fun PlanesNavigation(navController: NavHostController) {
             MultiplayerPreferencesScreen(navController = navController)
         }
         composable(PlanesScreens.Info.name) {
-            AboutScreen(navController = navController)
+            AboutScreen(navController = navController,
+                aboutEntryList = emptyList<AboutEntryModel>())
         }
         composable(PlanesScreens.Tutorials.name) {
             VideoScreen(navController = navController)
@@ -63,6 +66,9 @@ fun PlanesNavigation(navController: NavHostController) {
         }
         composable(PlanesScreens.DeleteUser.name) {
             DeleteUserScreen(navController = navController)
+        }
+        composable(PlanesScreens.Chat.name) {
+            ChatScreen(navController = navController)
         }
     }
 }
