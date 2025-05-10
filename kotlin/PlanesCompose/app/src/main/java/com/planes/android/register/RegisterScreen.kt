@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 
 @Composable
-fun RegisterScreen(navController: NavController) {
-    Column(modifier = Modifier.fillMaxSize(),
+fun RegisterScreen(modifier: Modifier, navController: NavController) {
+    Column(modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = "Register Screen")

@@ -1,13 +1,16 @@
 package com.planes.android.navigation
 
+import android.content.Context
 import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.planes.android.about.AboutEntryModel
+import com.planes.android.about.AboutEntryRepository
 import com.planes.android.about.AboutScreen
 import com.planes.android.chat.ChatScreen
 import com.planes.android.deleteuser.DeleteUserScreen
@@ -25,50 +28,50 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun PlanesNavigation(navController: NavHostController) {
+fun PlanesNavigation(modifier: Modifier, navController: NavHostController, context: Context) {
 
     NavHost(
         navController = navController,
         startDestination = PlanesScreens.Info.name) {
         composable(PlanesScreens.SinglePlayerGame.name) {
-           SinglePlayerGameScreen(navController = navController)
+           SinglePlayerGameScreen(modifier = modifier, navController = navController)
         }
         composable(PlanesScreens.SinglePlayerGameStatistics.name) {
-            SinglePlayerGameStatisticsScreen(navController = navController)
+            SinglePlayerGameStatisticsScreen(modifier = modifier, navController = navController)
         }
         composable(PlanesScreens.SinglePlayerPreferences.name) {
-            SinglePlayerPreferencesScreen(navController = navController)
+            SinglePlayerPreferencesScreen(modifier = modifier, navController = navController)
         }
         composable(PlanesScreens.MultiplayerGame.name) {
-            MultiplayerGameScreen(navController = navController)
+            MultiplayerGameScreen(modifier = modifier, navController = navController)
         }
         composable(PlanesScreens.MultiplayerGameStatistics.name) {
-            MultiplayerGameStatisticsScreen(navController = navController)
+            MultiplayerGameStatisticsScreen(modifier = modifier, navController = navController)
         }
         composable(PlanesScreens.MultiplayerPreferences.name) {
-            MultiplayerPreferencesScreen(navController = navController)
+            MultiplayerPreferencesScreen(modifier = modifier, navController = navController)
         }
         composable(PlanesScreens.Info.name) {
-            AboutScreen(navController = navController,
-                aboutEntryList = emptyList<AboutEntryModel>())
+            AboutScreen(modifier = modifier, navController = navController,
+                aboutEntryList = AboutEntryRepository.create("0.1", context = context))
         }
         composable(PlanesScreens.Tutorials.name) {
-            VideoScreen(navController = navController)
+            VideoScreen(modifier = modifier, navController = navController)
         }
         composable(PlanesScreens.Login.name) {
-            LoginScreen(navController = navController)
+            LoginScreen(modifier = modifier, navController = navController)
         }
         composable(PlanesScreens.Logout.name) {
-            LogoutScreen(navController = navController)
+            LogoutScreen(modifier = modifier, navController = navController)
         }
         composable(PlanesScreens.Register.name) {
-            RegisterScreen(navController = navController)
+            RegisterScreen(modifier = modifier, navController = navController)
         }
         composable(PlanesScreens.DeleteUser.name) {
-            DeleteUserScreen(navController = navController)
+            DeleteUserScreen(modifier = modifier, navController = navController)
         }
         composable(PlanesScreens.Chat.name) {
-            ChatScreen(navController = navController)
+            ChatScreen(modifier = modifier, navController = navController)
         }
     }
 }

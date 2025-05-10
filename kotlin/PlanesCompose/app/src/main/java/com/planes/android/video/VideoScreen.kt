@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 
 @Composable
-fun VideoScreen(navController: NavController) {
-    Column(modifier = Modifier.fillMaxSize(),
+fun VideoScreen(modifier: Modifier, navController: NavController) {
+    Column(modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = "Video Screen")

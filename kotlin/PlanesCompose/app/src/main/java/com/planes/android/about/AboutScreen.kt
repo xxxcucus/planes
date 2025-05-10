@@ -16,17 +16,18 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
-fun AboutScreen(navController: NavController,
+fun AboutScreen(modifier: Modifier,
+    navController: NavController,
                 aboutEntryList: List<AboutEntryModel>) {
 
-    Surface(modifier = Modifier,
+    Surface(modifier = modifier,
         color = MaterialTheme.colorScheme.background) {
         Column(modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center) {
             LazyColumn {
                 items(items = aboutEntryList) {
-                    AboutEntryRow(movie = it)
+                    AboutEntryRow(entry = it)
                 }
             }
         }

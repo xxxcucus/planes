@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 
 @Composable
-fun DeleteUserScreen(navController: NavController) {
-    Column(modifier = Modifier.fillMaxSize(),
+fun DeleteUserScreen(modifier: Modifier, navController: NavController) {
+    Column(modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = "Delete User Screen")

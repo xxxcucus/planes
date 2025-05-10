@@ -1,3 +1,232 @@
 <resources>
-    <string name="app_name">PlanesCompose</string>
+    <string name="app_name">Planes</string>
+    <string name="left_button">Left</string>
+    <string name="right_button">Right</string>
+    <string name="up_button">Up</string>
+    <string name="down_button">Down</string>
+    <string name="rotate_button">Rotate</string>
+    <string name="done_button">Done</string>
+    <string name="view_player_board">View Player Board</string>
+    <string name="view_player_board1">View</string>
+    <string name="view_player_board2">Player Board</string>
+    <string name="view_computer_board">View Computer Board</string>
+    <string name="view_computer_board1">View</string>
+    <string name="view_computer_board2">Computer Board</string>
+    <string name="player_stats">Player Stats</string>
+    <string name="player_stats1">Player</string>
+    <string name="player_stats2">Stats</string>
+    <string name="computer_stats">Computer Stats</string>
+    <string name="computer_stats1">Computer</string>
+    <string name="computer_stats2">Stats</string>
+    <string name="player_hits">Player Hits</string>
+    <string name="player_moves">Player Moves</string>
+    <string name="player_misses">Player Misses</string>
+    <string name="player_dead">Player Dead</string>
+    <string name="computer_hits">Computer Hits</string>
+    <string name="computer_moves">Computer Moves</string>
+    <string name="computer_misses">Computer Misses</string>
+    <string name="computer_dead">Computer Dead</string>
+    <string name="general_hits">Hits</string>
+    <string name="general_moves">Moves</string>
+    <string name="general_misses">Misses</string>
+    <string name="general_dead">Dead</string>
+    <string name="computer_winner">Computer Wins Round!</string>
+    <string name="player_winner">Player Wins Round!</string>
+    <string name="draw_result">Draw !</string>
+    <string name="start_new_game">Start New Game</string>
+    <string name="start_new_game1">Start</string>
+    <string name="start_new_game2">New Game</string>
+    <string name="computer_wins">Computer Wins</string>
+    <string name="player_wins">Player Wins</string>
+    <string name="draws">Draws</string>
+    <string name="help">Help</string>
+    <string name="board_editing_stage">Board Editing</string>
+    <string name="game_stage">Game</string>
+    <string name="game_not_started_stage">Start New Game</string>
+    <string name="credits">Credits</string>
+    <string name="credits_software_title">Software</string>
+    <string name="credits_software_content">This software was developed by Cristian Cucu and the complete source code can be found at www.github.com/xxxcucus/planes.</string>
+    <string name="credits_software_button">Go to Project\'s GitHub Page</string>
+    <string name="credits_graphics_title">Graphics</string>
+    <string name="credits_graphics_content">The logo of the game and the store graphics were created by Alexandru Vintilescu. Other work from Alex can be seen at https://axa951.wixsite.com/portfolio</string>
+    <string name="credits_graphics_button">Go to Alex\' Page</string>
+    <string name="helptext_startnewgame_1">Touch on the "Start New Game" button to start a new round.</string>
+    <string name="helptext_boardediting_1">Touch on the plane\'s body to select it.</string>
+    <string name="helptext_boardediting_2">Touch on the control buttons to position the selected plane."</string>
+    <string name="helptext_game_1">Touch on the computer\'s board to guess where the computer\'s planes are.</string>
+    <string name="helptext_game_2_without_emoji">X means target destroyed. Disc means nothing was hit. Rhombus means a hit.</string>
+    <string name="helptext_game_2">❌ means target destroyed.🔴 means nothing was hit.🔶 means a hit.</string>
+    <string name="popup_help_button_text">See Video</string>
+    <string name="game_difficulty_options">Game Difficulty Options</string>
+    <string name="computer_skill">Computer Skill</string>
+    <string-array name="computer_skills">
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Advanced</item>
+    </string-array>
+    <string name="show_plane_after_kill">Show Plane After Kill</string>
+    <string-array name="yesno_options">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+    <string name="options">Preferences</string>
+    <string name="warning_options_text">Cannot set option during the game.</string>
+    <string name="warning_options_title">Warning</string>
+    <string name="warning_options_button_text">OK</string>
+    <string name="othervideos">Other Videos</string>
+    <string name="singleplayertutorial">Single-Player Tutorial</string>
+    <string name="multiplayertutorial">Multi-Player Tutorial</string>
+    <string name="positioningplanestutorial">Positioning of Planes Tutorial</string>
+    <string name="guessingplanestutorial">Guessing of Planes Tutorial</string>
+
+    <string name="savesettings">Save Preferences</string>
+    <string name="game">Game</string>
+    <string name="videos">Videos</string>
+    <string name="about">About</string>
+    <string name="helptext_videos1">Touch on the playlist title to play video.</string>
+    <string name="helptext_videos2">Touch on the playlist title of the playing video to start video from beginning.</string>
+    <string name="helptext_videos3">Long touch on the playlist title to play video in the Youtube App. </string>
+    <string name="credits_othercontributions_title">Other Contributions</string>
+    <string name="credits_othercontributions">Other contributions to the project are from: Mihai Birau, Stefan Luchian, Dan Ilies, Stefan Cucu, Christian von der Ehe, Pascal Seeger, Mario Eduardo Zarate Caceres, Sebastian Jasiński, Albano Battistella.</string>
+    <string name="credits_tools_title">Tools</string>
+    <string name="credits_tools">We thank the company JetBrains for the free software licenses for tools used when programming the project.</string>
+    <string name="software_version_title">Version</string>
+    <string name="software_version">The current version of the software is </string>
+
+    <string name="multiplayer_options">Multiplayer Options </string>
+    <string name="multiplayer_version">Multiplayer Version</string>
+    <string name="security_options">Security Options</string>
+    <string name="username">User Name</string>
+    <string name="password">Password</string>
+    <string name="server_version_error">The server was updated. Please update the app in order to remain compatible.</string>
+    <string name="hide_password">Hide Password</string>
+    <string name="credentials_preferences">Use Credentials from Preferences</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="register">Register</string>
+    <string name="loginerror">Login Error</string>
+    <string name="registererror">Register Error</string>
+    <string name="submit">Submit</string>
+    <string name="nouser">No user logged in</string>
+    <string name="userloggedin"> Logged in as</string>
+    <string name="singleplayergame">Single Player Game</string>
+    <string name="multiplayergame">Multiplayer Game</string>
+    <string name="unknownerror"> Unknown Error</string>
+    <string name="loginsuccess"> Login Successful</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="savecredentials_question">Do you want to save the username and password in your Preferences ? You can reuse them with a simple touch next time when you login.</string>
+    <string name="validation_toolong_login_username"> User name longer as 30 characters.</string>
+    <string name="validation_toolong_login_password"> Password longer as 30 characters.</string>
+    <string name="validation_empty_login_username"> User name is empty.</string>
+    <string name="validation_empty_login_password"> Password is empty.</string>
+    <string name="validation_startsendswithempty_register_username"> User name starts or ends with empty spaces. </string>
+    <string name="validation_tooshort_register_username">" User name shorter as 5 characters. "</string>
+    <string name="validation_tooshort_register_password">" Password shorter as 5 characters. "</string>
+    <string name="unknown_registration_error"> Error when registering </string>
+    <string name="norobot_question">Mark all images corresponding to category: %1$s</string>
+    <string name="norobot_cat"> Cat </string>
+    <string name="norobot_dog"> Dog </string>
+    <string name="norobot_allmarked">All Marked!</string>
+    <string name="norobot_success"> User was created successfully! </string>
+    <string name="game_name"> Game Name </string>
+    <string name="random_game_name"> Generate random game name</string>
+    <string name="create_connectto_game">Create or Connect to Game</string>
+    <string name="connectto_game">Connect to Game</string>
+    <string name="create_game">Create Game</string>
+    <string name="validation_tooshort_gamename"> Game name shorter as 5 charachters </string>
+    <string name="validation_toolong_gamename"> Game name longer as 30 charachters </string>
+    <string name="validation_user_not_loggedin"> You have not yet logged in</string>
+    <string name="validation_not_connected_to_game"> You are not connected to a game</string>
+    <string name="creategame_error"> Error when creating game </string>
+    <string name="gamename_impossible"> It is not possible to create a game with this name</string>
+    <string name="creategame_possible"> You may create a new game with this name</string>
+    <string name="create_new_game"> Create New Game</string>
+    <string name="cancel"> Cancel</string>
+    <string name="connecttogame_possible"> You may connect to the game created by %1$s</string>
+    <string name="start_playing"> Start Playing</string>
+    <string name="game_created"> Game created. Waiting for opponent to connect.</string>
+    <string name="connected_togame"> Connected to game.</string>
+    <string name="not_connected_togame"> Not connected to a game.</string>
+    <string name="opponent_connected_togame"> Opponent is connected to game</string>
+    <string name="game_stats">Game Stats</string>
+    <string name="game_stats1">Game</string>
+    <string name="game_stats2">Stats</string>
+    <string name="sendplanepositions_error"> Error when sending plane positions </string>
+    <string name="invalid_plane_orientation"> Invalid plane orientation</string>
+    <string name="error_init_opponent_board">" Error when initializing opponent board"</string>
+    <string name="waiting_for_planes_positions"> Planes positions were sent. Waiting for opponent planes positions...</string>
+    <string name="error_game_connection"> Error when waiting for opponent to connect to the game</string>
+    <string name="error_plane_positions"> Error when waiting for opponent plane positions.</string>
+    <string name="plane_positions_received"> Opponent planes positions were received.</string>
+    <string name="sendwinner_error"> Error when sending winner.</string>
+    <string name="sendmove_error"> Error when sending own move</string>
+    <string name="roundcancelled_opponent"> Round was cancelled by opponent</string>
+    <string name="error_cancelround"> Error when cancelling round</string>
+    <string name="waiting_for_moves"> You have guessed all planes. Waiting for opponent moves to see who won...</string>
+    <string name="sending_remaining_moves">Round ended. Sending remaining moves to opponent ..</string>
+    <string name="error_moves"> Error when waiting for opponent moves.</string>
+    <string name="error_startnewround"> Error when starting a new round.</string>
+    <string name="round_cancelled">The round was cancelled </string>
+    <string name="version_error"> Error when receiving server version </string>
+    <string name="multiplayer_not_available"> Multiplayer version ist not available in this Android version.</string>
+
+    <string name="view_opponent_board">View Opponent Board</string>
+    <string name="view_opponent_board1">View</string>
+    <string name="view_opponent_board2">Opponent Board</string>
+    <string name="opponent_stats">Opponent Stats</string>
+    <string name="opponent_stats1">Opponent</string>
+    <string name="opponent_stats2">Stats</string>
+    <string name="opponent_hits">Opponent Hits</string>
+    <string name="opponent_moves">Opponent Moves</string>
+    <string name="opponent_misses">Opponent Misses</string>
+    <string name="opponent_dead">Opponent Dead</string>
+    <string name="opponent_winner">Opponent Wins Round!</string>
+    <string name="opponent_wins">Opponent Wins</string>
+
+    <string name="game_score">Game Score</string>
+    <string name="round_status">Round Status</string>
+    <string name="current_round">Current Round</string>
+
+    <string name="helptext_boardediting_3">Swipe on the display to position the planes."</string>
+    <string name="video_duration">Duration: %1$s</string>
+
+    <string name="newuser_register">New User? Register Here!</string>
+    <string name="helptext_game_3">Long touch to rotate the selected plane.</string>
+    <string name="credits_graphics_content1">The logo of the game, the store graphics and the loader illustration were created by Alexandru Vintilescu. Other work from Alex can be seen at https://axa951.wixsite.com/portfolio</string>
+    <string name="reset_board1">Reset</string>
+    <string name="reset_board2">Board</string>
+    <string name="credits_othercontributions_1">Other contributions to the project are from: </string>
+    <string name="credits_othercontributions_2" translatable="false">Mihai Birau, Stefan Luchian, Dan Ilies, Stefan Cucu, Christian von der Ehe, Pascal Seeger, Mario Eduardo Zarate Caceres.</string>
+    <string name="credits_othercontributions_3">Contributions from GitHub are listed in the GitHub page of the project. </string>
+    <string name="helptext_game_1_opponent">Touch on the opponent\'s board to guess where the opponent\'s planes are.</string>
+
+    <string name="error_logout"> Error when logging out.</string>
+    <string name="delete_user"> Delete User</string>
+    <string name="error_deleteuser"> Error when deleting user.</string>
+
+    <string name="credits_website_title">Project Website</string>
+    <string name="credits_website">The website summarizing all the informations about the game and the project is https://xxxcucus.github.io/planes/.</string>
+    <string name="credits_website_button">Go to Project\'s Website</string>
+    
+    <string name="chat">Chat</string>
+    <string name="loader_text">Loading...</string>
+    <string name="conversation">Conversation with</string>
+    <string name="send_chat_message_error">Error when sending chat message</string>
+    <string name="chat_message_not_sent">Chat message was not sent</string>
+
+    <string name="inputmessage">Input Message</string>
+    <string name="sendmessage">Send Message</string>
+    <string name="newmessages">New Messages</string>
+    <string name="helptext_chat">Tap on a user name to start a conversation with that user or continue an older conversation.</string>
+    <string name="helptext_conversation1">Input your message in the box at the bottom of the screen and click on \'Send Message\' to send a message.</string>
+    <string name="helptext_conversation2">You can also send messages to offline users. They will be delivered to the users when they login next time.</string>
+
+    <string name="already_registered_login">Already registered ? Login!</string>
+
+    <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
+    <string name="appbar_scrolling_view_behavior" translatable="false">
+        com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="drawer_open_content_description">Open Menu</string>
+    <string name="drawer_closed_content_description">Close Menu</string>
 </resources>
