@@ -34,6 +34,9 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -69,6 +72,10 @@ fun Screen(modifier: Modifier, navController: NavHostController) {
         initialValue = DrawerValue.Closed
     )
 
+    val currentScreenState = remember {
+        mutableStateOf("About")
+    }
+
     val scope = rememberCoroutineScope()
 
     ModalNavigationDrawer(
@@ -94,21 +101,23 @@ fun Screen(modifier: Modifier, navController: NavHostController) {
                                     close()
                             }
                         }
-                    }
+                    },
+                    currentScreenName = currentScreenState.value
                 )
             }
         ) { padding ->
             ScreenContent(modifier = Modifier.padding(padding),
+                currentScreenState = currentScreenState,
                 navController = navController)
         }
     }
 }
 
 @Composable
-fun ScreenContent(modifier: Modifier,
+fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
                   navController: NavHostController
 ) {
-    PlanesNavigation(modifier = modifier, navController, context = LocalContext.current)
+    PlanesNavigation(modifier = modifier, currentScreenState, navController, context = LocalContext.current)
 }
 
 @Composable
@@ -243,7 +252,8 @@ fun DrawerContent(modifier: Modifier = Modifier,
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(modifier: Modifier = Modifier,
-    onOpenDrawer: () -> Unit = {}
+    onOpenDrawer: () -> Unit = {},
+    currentScreenName: String
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -259,7 +269,7 @@ fun TopBar(modifier: Modifier = Modifier,
                     .size(28.dp))
         },
         title = {
-            Text(text = "Screen Name")
+            Text(text = currentScreenName)
         },
         actions = {
             Icon(
@@ -276,8 +286,3 @@ fun TopBar(modifier: Modifier = Modifier,
     )
 }
 
-@Preview
-@Composable
-fun TestTopBar() {
-    TopBar()
-}

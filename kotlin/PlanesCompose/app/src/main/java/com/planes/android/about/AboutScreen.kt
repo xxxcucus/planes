@@ -10,15 +10,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.currentCompositionErrors
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.planes.android.navigation.PlanesScreens
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
-fun AboutScreen(modifier: Modifier,
+fun AboutScreen(modifier: Modifier, currentScreenState: MutableState<String>,
     navController: NavController,
                 aboutEntryList: List<AboutEntryModel>) {
+
+    currentScreenState.value = PlanesScreens.Info.name
 
     Surface(modifier = modifier,
         color = MaterialTheme.colorScheme.background) {

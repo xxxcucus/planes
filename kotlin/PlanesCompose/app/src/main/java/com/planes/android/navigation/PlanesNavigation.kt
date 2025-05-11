@@ -3,6 +3,7 @@ package com.planes.android.navigation
 import android.content.Context
 import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -28,50 +29,51 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun PlanesNavigation(modifier: Modifier, navController: NavHostController, context: Context) {
+fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String>,
+                     navController: NavHostController, context: Context) {
 
     NavHost(
         navController = navController,
         startDestination = PlanesScreens.Info.name) {
         composable(PlanesScreens.SinglePlayerGame.name) {
-           SinglePlayerGameScreen(modifier = modifier, navController = navController)
+           SinglePlayerGameScreen(modifier = modifier, currentScreenState, navController = navController)
         }
         composable(PlanesScreens.SinglePlayerGameStatistics.name) {
-            SinglePlayerGameStatisticsScreen(modifier = modifier, navController = navController)
+            SinglePlayerGameStatisticsScreen(modifier = modifier, currentScreenState, navController = navController)
         }
         composable(PlanesScreens.SinglePlayerPreferences.name) {
-            SinglePlayerPreferencesScreen(modifier = modifier, navController = navController)
+            SinglePlayerPreferencesScreen(modifier = modifier, currentScreenState, navController = navController)
         }
         composable(PlanesScreens.MultiplayerGame.name) {
-            MultiplayerGameScreen(modifier = modifier, navController = navController)
+            MultiplayerGameScreen(modifier = modifier, currentScreenState, navController = navController)
         }
         composable(PlanesScreens.MultiplayerGameStatistics.name) {
-            MultiplayerGameStatisticsScreen(modifier = modifier, navController = navController)
+            MultiplayerGameStatisticsScreen(modifier = modifier, currentScreenState, navController = navController)
         }
         composable(PlanesScreens.MultiplayerPreferences.name) {
-            MultiplayerPreferencesScreen(modifier = modifier, navController = navController)
+            MultiplayerPreferencesScreen(modifier = modifier, currentScreenState, navController = navController)
         }
         composable(PlanesScreens.Info.name) {
-            AboutScreen(modifier = modifier, navController = navController,
+            AboutScreen(modifier = modifier, currentScreenState, navController = navController,
                 aboutEntryList = AboutEntryRepository.create("0.1", context = context))
         }
         composable(PlanesScreens.Tutorials.name) {
-            VideoScreen(modifier = modifier, navController = navController)
+            VideoScreen(modifier = modifier, currentScreenState, navController = navController)
         }
         composable(PlanesScreens.Login.name) {
-            LoginScreen(modifier = modifier, navController = navController)
+            LoginScreen(modifier = modifier, currentScreenState, navController = navController)
         }
         composable(PlanesScreens.Logout.name) {
-            LogoutScreen(modifier = modifier, navController = navController)
+            LogoutScreen(modifier = modifier, currentScreenState, navController = navController)
         }
         composable(PlanesScreens.Register.name) {
-            RegisterScreen(modifier = modifier, navController = navController)
+            RegisterScreen(modifier = modifier, currentScreenState, navController = navController)
         }
         composable(PlanesScreens.DeleteUser.name) {
-            DeleteUserScreen(modifier = modifier, navController = navController)
+            DeleteUserScreen(modifier = modifier, currentScreenState, navController = navController)
         }
         composable(PlanesScreens.Chat.name) {
-            ChatScreen(modifier = modifier, navController = navController)
+            ChatScreen(modifier = modifier, currentScreenState, navController = navController)
         }
     }
 }
