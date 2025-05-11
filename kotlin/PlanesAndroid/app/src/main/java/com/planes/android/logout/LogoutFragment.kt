@@ -25,15 +25,15 @@ import retrofit2.Response
 
 
 class LogoutFragment: Fragment() {
-    private lateinit var binding: FragmentLogoutBinding
+    lateinit var binding: FragmentLogoutBinding
     private lateinit var m_LogoutCommObj: SimpleRequestNotConnectedToGameCommObj<LogoutResponse>
-    private var m_MultiplayerRound = MultiplayerRoundJava()
+    var m_MultiplayerRound = MultiplayerRoundJava()
     private var m_PlayersListService = PlayersListServiceGlobal()
     private var m_DatabaseService = DatabaseServiceGlobal()
     private var m_NewDatabaseServce = NewMessagesServiceGlobal()
     private var m_ReceiveChatMessagesService = ReceiveChatMessagesServiceGlobal()
-    private var m_CreateGameSettingsService = CreateGameSettingsGlobal()
-    private lateinit var m_Context: Context
+    var m_CreateGameSettingsService = CreateGameSettingsGlobal()
+    lateinit var m_Context: Context
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

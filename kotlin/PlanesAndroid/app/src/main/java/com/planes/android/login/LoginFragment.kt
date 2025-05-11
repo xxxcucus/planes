@@ -27,8 +27,8 @@ class LoginFragment: Fragment() {
     lateinit var binding: FragmentLoginBinding
     private var m_Username = ""
     private var m_Password = ""
-    private var m_PreferencesService = MultiplayerPreferencesServiceGlobal()
-    private var m_MultiplayerRound = MultiplayerRoundJava()
+    var m_PreferencesService = MultiplayerPreferencesServiceGlobal()
+    var m_MultiplayerRound = MultiplayerRoundJava()
     private var m_PlayersListService = PlayersListServiceGlobal()
     private var m_DatabaseService = DatabaseServiceGlobal()
     private var m_NewMessagesService = NewMessagesServiceGlobal()

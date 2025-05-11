@@ -85,7 +85,7 @@ class LoginFragmentTest {
             initialState = Lifecycle.State.RESUMED
         )
         fragmentScenario.onFragment { fragment ->
-            fragment.saveCredentials("testUsername", "testPassword", "testAuthToken")
+            fragment.saveCredentials("testUsername", "testPassword", "testAuthToken", null)
             Truth.assertThat(fragment.m_MultiplayerRound.getUsername() == "testUsername").isTrue()
             Truth.assertThat(fragment.m_MultiplayerRound.getPassword() == "testPassword").isTrue()
             Truth.assertThat(fragment.m_MultiplayerRound.getAuthToken() == "testAuthToken").isTrue()

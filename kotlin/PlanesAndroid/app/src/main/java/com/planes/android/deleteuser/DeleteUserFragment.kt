@@ -21,12 +21,12 @@ import io.reactivex.Observable
 import retrofit2.Response
 
 class DeleteUserFragment: Fragment() {
-    private lateinit var binding: FragmentDeleteUserBinding
-    private lateinit var m_DeleteUserCommObj: SimpleRequestNotConnectedToGameCommObj<DeleteUserResponse>
-    private var m_MultiplayerRound = MultiplayerRoundJava()
-    private var m_PlayersListService = PlayersListServiceGlobal()
-    private var m_CreateGameSettingsService = CreateGameSettingsGlobal()
-    private lateinit var m_Context: Context
+    lateinit var binding: FragmentDeleteUserBinding
+    lateinit var m_DeleteUserCommObj: SimpleRequestNotConnectedToGameCommObj<DeleteUserResponse>
+    var m_MultiplayerRound = MultiplayerRoundJava()
+    var m_PlayersListService = PlayersListServiceGlobal()
+    var m_CreateGameSettingsService = CreateGameSettingsGlobal()
+    lateinit var m_Context: Context
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
