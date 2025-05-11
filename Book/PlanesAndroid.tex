@@ -33,7 +33,7 @@ When a screen is selected, a Fragment of the Fragment Class corresponding to the
 
 \subsubsection { Activity }
 
-Activity is a central class in an Android app. In an activity the appearance of the app is defined through an XML layout. Also the behaviour of the app as response to diverse events in the app life cycle is defined here.
+Activity is a central class in an Android app. In an activity the appearance of the app is defined through an XML layout. Also the behaviour of the app as response to variouse events in the app life cycle are defined in the activity.
 
 For example the layout of the Planes Android app is as follows:
 
@@ -110,9 +110,62 @@ This xml defines the layout as a special type of layout: DrawerLayout. This incl
 
 \subsubsection { Life Cycle }
 
-\begin{tikzpicture}
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, 
+minimum height=1cm, text centered, draw=black, fill=red!30]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{comment} = [rectangle, minimum width=3cm, minimum height=1cm, text centered,
+text width=4cm, draw=white, fill=white]
+\tikzstyle{arrow} = [thick,->,>=stealth]
 
-\draw (0, 0) rectangle (4, 4);
+\begin{figure}
+	\caption{Activity Life Cycle diagram as it is presented on the Android developer pages}
+	\label{fig:activity_life_cycle}
+	\centering
+		\begin{tikzpicture}[node distance=1.5cm]
+			\node (start) [startstop] {Activity launched};
+			\node (onCreate) [process, below of=start] {onCreate()};
+			\node (onStart) [process, below of=onCreate] {onStart()};
+			\node (onResume) [process, below of=onStart] {onResume()};
+			\node (running) [startstop, below of=onResume] {Activity running};
+			\node (commentOnPause) [comment, below of= running] {Another activity comes into the foreground};
+			\node (onPause) [process, below of=commentOnPause] {onPause()};
+			\node (commentOnStop) [comment, below of= onPause] {The activity is no longer visible};
+			\node (onStop) [process, below of=commentOnStop] {onStop()};
+			\node (commentOnDestroy) [comment, below of= onStop] {The activity is finishing or being destroyed by the system};
+			\node (onDestroy) [process, below of=commentOnDestroy] {onDestroy()};
+			\node (end) [startstop, below of=onDestroy] {Activitiy shut down};
+			\node (onRestart) [process, right of=onStart, xshift=4cm] {onRestart()};
+			\node (commentOnRestart) [comment, right of= onStop, xshift=4cm] {User navigates to the activity};
+			\node (commentOnPauseRight) [comment, right of= onPause, xshift=2cm] {User returns to the activity};
+			\node (commentOnPauseLeft) [comment, left of= onPause, xshift=-4cm] {Apps with higher priority need memory};
+			\node (commentOnResumeLeft) [comment, left of= onResume, xshift=-4cm] {User navigates to the activity};
+			\node (killed) [startstop, left of = running, xshift=-4cm] {App process killed};
+			
+			\draw [arrow] (start) -- (onCreate);
+			\draw [arrow] (onCreate) -- (onStart);
+			\draw [arrow] (onStart) -- (onResume);
+			\draw [arrow] (onResume) -- (running);
+			\draw [arrow] (running) -- (commentOnPause);
+			\draw [arrow] (commentOnPause)  -- (onPause);
+			\draw [arrow] (onPause) -- (commentOnStop);
+			\draw [arrow] (commentOnStop) -- (onStop);
+			\draw [arrow] (onStop) -- (commentOnDestroy);
+			\draw [arrow] (commentOnDestroy) -- (onDestroy);
+			\draw [arrow] (onDestroy) -- (end);
+			\draw [arrow] (onRestart) -- (onStart);
+			\draw [arrow] (onStop) -- (commentOnRestart);
+			\draw [arrow] (commentOnRestart) -- (onRestart);
+			\draw [arrow] (onPause) -- (commentOnPauseRight);
+			\draw [arrow] (commentOnPauseRight) |- (onResume);
+			\draw [arrow] (onPause) -> (commentOnPauseLeft);
+			\draw [arrow] (onStop) -| (commentOnPauseLeft);
+			\draw [arrow] (commentOnPauseLeft) -> (killed);
+			\draw [arrow] (killed) -> (commentOnResumeLeft);
+			\draw [arrow]  (commentOnResumeLeft) |- (onCreate);
+			
+		\end{tikzpicture}
 
-\end{tikzpicture}
+\end{figure}
+
+In figure \ref{fig:activity_life_cycle} one can see how various functions of the activity class are called depending in which state is the activity in following interaction with the user or with the Android operating system. The programmer has the possibilty to override these functions in order to customize the behaviour of the application.
 \subsubsection { Fragment }
