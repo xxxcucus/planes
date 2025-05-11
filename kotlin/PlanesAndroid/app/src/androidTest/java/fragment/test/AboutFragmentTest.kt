@@ -14,7 +14,7 @@ class AboutFragmentTest {
     @Test
     fun testOnAttach() {
         var fragmentScenario = launchFragment<AboutFragment>(
-            initialState = Lifecycle.State.INITIALIZED
+            initialState = Lifecycle.State.CREATED
         )
         fragmentScenario.onFragment { fragment ->
             Truth.assertThat(fragment.m_Version).isNotNull()
