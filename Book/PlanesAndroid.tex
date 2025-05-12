@@ -29,6 +29,37 @@ For the Multiplayer App more screens are available:
 
 When a screen is selected, a Fragment of the Fragment Class corresponding to the screen is loaded into the main layout of the application. The XML layout of the application is shown in \ref{drawer_layout}.
 
+To exemplify how a new screen is loaded into the Drawer Layout I show the following function ( \ref{start_norobot_fragment}).
+
+\begin{lstlisting} [caption = {Switch Screen Example},label=start_norobot_fragment]
+	fun startNoRobotFragment(regResp : RegistrationResponse) {
+		
+		mSelectedItem = R.id.nav_norobot  
+		
+		val newFragment = NoRobotFragment()
+		val bundle = Bundle()
+		bundle.putString("norobot/requestid", regResp.m_Id)
+		bundle.putString("norobot/question", regResp.m_Question)
+		val images =  arrayOf(regResp.m_ImageId_1, regResp.m_ImageId_2, regResp.m_ImageId_3, regResp.m_ImageId_4, regResp.m_ImageId_5,
+		regResp.m_ImageId_6, regResp.m_ImageId_7, regResp.m_ImageId_8, regResp.m_ImageId_9)
+		bundle.putSerializable("norobot/images", images)
+		val selection = arrayOf(false, false, false, false, false, false, false, false, false)
+		bundle.putSerializable("norobot/selection", selection)
+		
+		newFragment.arguments = bundle
+		
+		supportFragmentManager.beginTransaction()
+		.replace(R.id.main_content, newFragment, ApplicationScreens.NoRobot.toString())
+		.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+		.addToBackStack("FromRegister")
+		.commit()
+		
+	}
+	
+\end{lstlisting}
+
+This code shows the preparation for the start of the fragment called NoRobotFragment, which is the validation window to determine that the user is human. In the variable bundle the parameters that are to be given to the fragment are prepared. The actual switch of the screen is the call supportFragmentManager.beginTransaction(). Specifying R.id.main\_content defines where in the Drawer Layout should the new screen be displayed.  
+
 \subsection { Android Concepts }
 
 \subsubsection { Activity }
@@ -137,7 +168,7 @@ text width=4cm, draw=white, fill=white]
 			\node (end) [startstop, below of=onDestroy] {Activitiy shut down};
 			\node (onRestart) [process, right of=onStart, xshift=4cm] {onRestart()};
 			\node (commentOnRestart) [comment, right of= onStop, xshift=4cm] {User navigates to the activity};
-			\node (commentOnPauseRight) [comment, right of= onPause, xshift=2cm] {User returns to the activity};
+			\node (commentOnPauseRight) [comment, right of= onPause, xshift=2.5cm] {User returns to the activity};
 			\node (commentOnPauseLeft) [comment, left of= onPause, xshift=-4cm] {Apps with higher priority need memory};
 			\node (commentOnResumeLeft) [comment, left of= onResume, xshift=-4cm] {User navigates to the activity};
 			\node (killed) [startstop, left of = running, xshift=-4cm] {App process killed};
@@ -169,4 +200,93 @@ text width=4cm, draw=white, fill=white]
 \end{figure}
 
 In figure \ref{fig:activity_life_cycle} one can see how various functions of the activity class are called depending in which state is the activity in following interaction with the user or with the Android operating system. The programmer has the possibilty to override these functions in order to customize the behaviour of the application.
+
+In the following I will exemplify some of the methods as they are implemented in the Planes App. 
+
+\begin{lstlisting} [caption = {onStop() life-cycle method},label=onStop_Android]
+	override fun onStop() {
+		m_SinglePlayerPreferencesService.writePreferences()
+		m_MultiplayerPreferencesService.writePreferences()
+		m_MainPreferencesService.writePreferences()
+		m_VideoSettingsService.writePreferences()
+		m_PlayersListService.stopPolling()
+		m_ReceiveChatMessagesService.stopPolling()
+		updateDatabaseFromNewMessagesFlags()
+		super.onStop()
+		Log.d("Planes", "onStop")
+	}
+\end{lstlisting}
+
+In the onStop() method different screen configurations are saved in the so-called preferences of the app through calls of the method writePreferences(). The polling for the list of active players is stopped as well. The ROOM database is also updated with the information about the new messages.
+
+\begin{lstlisting} [caption = {onResume() life-cycle method},label=onResume_Android]
+	public override fun onResume() {
+		super.onResume()
+		if (m_MainPreferencesService.multiplayerVersion && m_MultiplayerRound.isUserLoggedIn()) {
+			m_PlayersListService.startPolling()
+			m_ReceiveChatMessagesService.startPolling()
+			m_ReceiveChatMessagesService.setMainActivityUpdateFunction { updateNewMessagesFlags() }
+		}
+	}
+\end{lstlisting}
+
+In the onResume() method several configurations are made only for the the case when the user plays the multiplayer version and it is loogged in. These are:
+
+\begin{itemize}
+	\item Start polling for players' status
+	\item Start polling for chat messages
+	\item Configure the update of the main screen when receiving chat messages
+	\item Update new messages flags on the top bar of the app
+\end{itemize}
+
+
 \subsubsection { Fragment }
+
+\section{PlanesCompose}
+
+Following new developments of Android development libraries I am porting the project to a new technology: JetPack Compose. 
+
+\subsection{Navigation}
+
+The basis of the application is the navigation. Here I wish to keep the drawer navigation. 
+The navigation drawer and main screen content are defined as follows (\ref{drawer_compose})
+
+\begin{lstlisting}  [caption = {Drawer Navigation in Jetpack Compose},label=drawer_compose]
+	ModalNavigationDrawer(
+	drawerState = drawerState,
+	drawerContent = {
+		ModalDrawerSheet {
+			DrawerContent(navController = navController,
+			drawerScope = scope,
+			drawerState = drawerState)
+		}
+	},
+	gesturesEnabled = true
+	) {
+		Scaffold(
+		topBar = {
+			TopBar(
+			modifier = Modifier.padding(30.dp)
+			.height(100.dp).fillMaxWidth(),
+			onOpenDrawer = {
+				scope.launch {
+					drawerState.apply {
+						if (isClosed)
+						open()
+						else
+						close()
+					}
+				}
+			},
+			currentScreenName = currentScreenState.value
+			)
+		}
+		) { padding ->
+			ScreenContent(modifier = Modifier.padding(padding),
+			currentScreenState = currentScreenState,
+			navController = navController)
+		}
+	}
+\end{lstlisting}
+
+Under the drawer\_content variable the design of the drawer view is defined. Under the ending lambda of the ModalNavigationDrawer composable the layout of the application screen is defined. 

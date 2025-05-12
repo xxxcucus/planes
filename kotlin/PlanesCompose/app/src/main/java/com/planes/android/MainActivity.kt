@@ -82,7 +82,9 @@ fun Screen(modifier: Modifier, navController: NavHostController) {
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                DrawerContent(navController = navController, drawerScope = scope, drawerState = drawerState)
+                DrawerContent(navController = navController,
+                    drawerScope = scope,
+                    drawerState = drawerState)
             }
         },
         gesturesEnabled = true
@@ -117,7 +119,9 @@ fun Screen(modifier: Modifier, navController: NavHostController) {
 fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
                   navController: NavHostController
 ) {
-    PlanesNavigation(modifier = modifier, currentScreenState, navController, context = LocalContext.current)
+    PlanesNavigation(modifier = modifier,
+        currentScreenState, navController,
+        context = LocalContext.current)
 }
 
 @Composable
