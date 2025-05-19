@@ -29,7 +29,7 @@ For the Multiplayer App more screens are available:
 
 When a screen is selected, a Fragment of the Fragment Class corresponding to the screen is loaded into the main layout of the application. The XML layout of the application is shown in \ref{drawer_layout}.
 
-To exemplify how a new screen is loaded into the Drawer Layout I show the following function ( \ref{start_norobot_fragment}).
+To exemplify how a new screen is loaded onto the screen I show the following function ( \ref{start_norobot_fragment}).
 
 \begin{lstlisting} [caption = {Switch Screen Example},label=start_norobot_fragment]
 	fun startNoRobotFragment(regResp : RegistrationResponse) {
@@ -138,7 +138,7 @@ For example the layout of the Planes Android app is as follows:
 	</androidx.drawerlayout.widget.DrawerLayout>
 \end{lstlisting}
  
-This xml defines the layout as a special type of layout: DrawerLayout. This includes the NavigationView which is the part of the layout which appears when clicking on the Hamburger button and allows the navigation to the different screens of the app. The content of the main activity screen is contained inside a RelativeLayout. In this layout are included a general use Progress Bar which is normally disabled but appears when different network calls are being made. The RelativeLayout of the main screen contains the toolbar of the app and a placeholder for the different screens marked with the id main\_content.
+This xml defines the layout as a special type of layout: DrawerLayout. This includes the NavigationView which is the part of the layout which appears when clicking on the Hamburger button and allows the navigation to the different screens of the app. The content of the main activity screen is contained inside a RelativeLayout. In this layout are included a general use Progress Bar which is normally disabled but appears when different network calls are being made, the toolbar of the app and a placeholder for the different screens marked with the id main\_content.
 
 \subsubsection { Life Cycle }
 
@@ -289,4 +289,277 @@ The navigation drawer and main screen content are defined as follows (\ref{drawe
 	}
 \end{lstlisting}
 
-Under the drawer\_content variable the design of the drawer view is defined. Under the ending lambda of the ModalNavigationDrawer composable the layout of the application screen is defined. 
+The design of the drawer is definedUnder the drawer\_content variable. The layout of the application screen is defined under the ending lambda of the ModalNavigationDrawer composable . 
+
+In listing \ref{drawer_layout__compose} the structure of the drawer is shown. Probably this is not the final code for the drawer but the principle will stay the same. So the drawer is a Column layout in which screen names are stacked one under another. The screen names are grouped in sections and a HorizontalDivider is shown between sections .
+
+\begin{lstlisting} [caption = {Drawer View},label=drawer_layout__compose]
+	@Composable
+	fun DrawerContent(modifier: Modifier = Modifier,
+	navController: NavController,
+	drawerScope: CoroutineScope,
+	drawerState: DrawerState,
+	) {
+		
+		Column(
+		modifier = Modifier.padding(horizontal = 16.dp)
+		.verticalScroll(rememberScrollState())
+		) {
+			Text(
+			text = "Planes",
+			modifier = Modifier.padding(16.dp),
+			style = MaterialTheme.typography.titleLarge
+			)
+			
+			HorizontalDivider()
+			
+			DrawerMenuItemGeneric("Login", {
+				drawerScope.launch {
+					drawerState.close()
+				}
+				navController.navigate(route = PlanesScreens.Login.name)
+			})
+			
+			DrawerMenuItemGeneric("Logout", {
+				drawerScope.launch {
+					drawerState.close()
+				}
+				navController.navigate(route = PlanesScreens.Logout.name)
+			})
+			
+			DrawerMenuItemGeneric("Register", {
+				drawerScope.launch {
+					drawerState.close()
+				}
+				navController.navigate(route = PlanesScreens.Register.name)
+			})
+			
+			DrawerMenuItemGeneric("Chat", {
+				drawerScope.launch {
+					drawerState.close()
+				}
+				navController.navigate(route = PlanesScreens.Chat.name)
+			})
+			
+			Text(
+			text = "Single Player Game",
+			modifier = Modifier.padding(16.dp),
+			style = MaterialTheme.typography.titleMedium
+			)
+			DrawerMenuItemGeneric("Game", {
+				drawerScope.launch {
+					drawerState.close()
+				}
+				navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
+			})
+			
+			DrawerMenuItemGeneric("Preferences", {
+				drawerScope.launch {
+					drawerState.close()
+				}
+				navController.navigate(route = PlanesScreens.SinglePlayerPreferences.name)
+			})
+			
+			DrawerMenuItemGeneric("Game Statistics", {
+				drawerScope.launch {
+					drawerState.close()
+				}
+				navController.navigate(route = PlanesScreens.SinglePlayerGameStatistics.name)
+			})
+			
+			
+			Text(
+			text = "Multiplayer Game",
+			modifier = Modifier.padding(16.dp),
+			style = MaterialTheme.typography.titleMedium
+			)
+			DrawerMenuItemGeneric("Game", {
+				drawerScope.launch {
+					drawerState.close()
+				}
+				navController.navigate(route = PlanesScreens.MultiplayerGame.name)
+			})
+			
+			DrawerMenuItemGeneric("Preferences", {
+				drawerScope.launch {
+					drawerState.close()
+				}
+				navController.navigate(route = PlanesScreens.MultiplayerPreferences.name)
+			})
+			
+			DrawerMenuItemGeneric("Game Statistics", {
+				drawerScope.launch {
+					drawerState.close()
+				}
+				navController.navigate(route = PlanesScreens.MultiplayerGameStatistics.name)
+			})
+			
+			Text(
+			text = "Info",
+			modifier = Modifier.padding(16.dp),
+			style = MaterialTheme.typography.titleMedium
+			)
+			
+			DrawerMenuItemGeneric("About", {
+				drawerScope.launch {
+					drawerState.close()
+				}
+				navController.navigate(route = PlanesScreens.Info.name)
+			})
+			
+			DrawerMenuItemGeneric("Tutorials", {
+				drawerScope.launch {
+					drawerState.close()
+				}
+				navController.navigate(route = PlanesScreens.Tutorials.name)
+			})
+			
+			DrawerMenuItemGeneric("Delete User", {
+				drawerScope.launch {
+					drawerState.close()
+				}
+				navController.navigate(route = PlanesScreens.DeleteUser.name)
+			})
+		}
+	}
+\end{lstlisting}
+
+Each screen name is represented by an element of the composable DrawerMenuItemGeneric which receive parameters the screen name and a lambda function that it is to be called when the screen name is clicked. The call navController.navigate() makes the screen transition. It corresponds to the supportFragmentManager.beginTransaction() from \ref{start_norobot_fragment}.
+
+\subsection{Main Screen}
+
+The structure of the application screen is also defined in listing \ref{drawer_compose} which is the definition of the drawer navigation. This is defined with a Scaffold composable composed of a top bar together with the content of the screen.
+
+\begin{lstlisting} [caption = {Main Screen Layout},label=main_screen]
+	Scaffold(
+	topBar = {
+		TopBar(
+		modifier = Modifier.padding(30.dp)
+		.height(100.dp).fillMaxWidth(),
+		onOpenDrawer = {
+			scope.launch {
+				drawerState.apply {
+					if (isClosed)
+					open()
+					else
+					close()
+				}
+			}
+		},
+		currentScreenName = currentScreenState.value
+		)
+	}
+	) { padding ->
+		ScreenContent(modifier = Modifier.padding(padding),
+		currentScreenState = currentScreenState,
+		navController = navController)
+	}
+\end{lstlisting} 
+
+TopBar is defined as follows:
+
+\begin{lstlisting}  [caption = {Top Bar},label=top_bar]
+	TopBar(modifier: Modifier = Modifier,
+	onOpenDrawer: () -> Unit = {},
+	currentScreenName: String
+	) {
+		TopAppBar(
+		colors = TopAppBarDefaults.topAppBarColors(
+		containerColor = MaterialTheme.colorScheme.surfaceVariant
+		),
+		navigationIcon = {
+			Icon(
+			imageVector = Icons.Default.Menu,
+			contentDescription = "Navigation Icon",
+			modifier = Modifier.clickable {
+				onOpenDrawer()
+			}. padding(start = 16.dp, end = 8.dp)
+			.size(28.dp))
+		},
+		title = {
+			Text(text = currentScreenName)
+		},
+		actions = {
+			Icon(
+			imageVector = Icons.Default.AccountBox,
+			contentDescription = "Navigation Icon",
+			modifier = Modifier.padding(start = 16.dp, end = 8.dp).size(28.dp)
+			)
+			Icon(
+			imageVector = Icons.Default.Notifications,
+			contentDescription = "Navigation Icon",
+			modifier = Modifier.padding(start = 16.dp, end = 8.dp)
+			.size(28.dp))
+		}
+		)
+	}
+	
+\end{lstlisting}
+
+This uses the predefined composable TopAppBar which receives as parameters a navigation icon (the Hamburger button), the title displayed as well as actions which can be added to this bar to be called from everywhere in the app. The variable currentScreenName is defined such that when a new screen is shown the title of the screen is displayed in the top bar.
+
+The ScreenContent composable defines the changing content of the main screen as follows:
+
+\begin{lstlisting}
+	@Composable
+	fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
+	navController: NavHostController
+	) {
+		PlanesNavigation(modifier = modifier,
+		currentScreenState, navController,
+		context = LocalContext.current)
+	}
+\end{lstlisting}
+
+PlanesNavigation is a composable that associates to the application screen names composable functions representing the respective screens.
+
+\begin{lstlisting}
+	@Composable
+	fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String>,
+	navController: NavHostController, context: Context) {
+		
+		NavHost(
+		navController = navController,
+		startDestination = PlanesScreens.Info.name) {
+			composable(PlanesScreens.SinglePlayerGame.name) {
+				SinglePlayerGameScreen(modifier = modifier, currentScreenState, navController = navController)
+			}
+			composable(PlanesScreens.SinglePlayerGameStatistics.name) {
+				SinglePlayerGameStatisticsScreen(modifier = modifier, currentScreenState, navController = navController)
+			}
+			composable(PlanesScreens.SinglePlayerPreferences.name) {
+				SinglePlayerPreferencesScreen(modifier = modifier, currentScreenState, navController = navController)
+			}
+			composable(PlanesScreens.MultiplayerGame.name) {
+				MultiplayerGameScreen(modifier = modifier, currentScreenState, navController = navController)
+			}
+			composable(PlanesScreens.MultiplayerGameStatistics.name) {
+				MultiplayerGameStatisticsScreen(modifier = modifier, currentScreenState, navController = navController)
+			}
+			composable(PlanesScreens.MultiplayerPreferences.name) {
+				MultiplayerPreferencesScreen(modifier = modifier, currentScreenState, navController = navController)
+			}
+			composable(PlanesScreens.Info.name) {
+				AboutScreen(modifier = modifier, currentScreenState, navController = navController,
+				aboutEntryList = AboutEntryRepository.create("0.1", context = context))
+			}
+			composable(PlanesScreens.Tutorials.name) {
+				VideoScreen(modifier = modifier, currentScreenState, navController = navController)
+			}
+			composable(PlanesScreens.Login.name) {
+				LoginScreen(modifier = modifier, currentScreenState, navController = navController)
+			}
+			composable(PlanesScreens.Logout.name) {
+				LogoutScreen(modifier = modifier, currentScreenState, navController = navController)
+			}
+			composable(PlanesScreens.Register.name) {
+				RegisterScreen(modifier = modifier, currentScreenState, navController = navController)
+			}
+			composable(PlanesScreens.DeleteUser.name) {
+				DeleteUserScreen(modifier = modifier, currentScreenState, navController = navController)
+			}
+			composable(PlanesScreens.Chat.name) {
+				ChatScreen(modifier = modifier, currentScreenState, navController = navController)
+			}
+		}
+\end{lstlisting}
