@@ -55,6 +55,7 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
         }
         composable(PlanesScreens.Info.name) {
             AboutScreen(modifier = modifier, currentScreenState, navController = navController,
+                context = context,
                 aboutEntryList = AboutEntryRepository.create("0.1", context = context))
         }
         composable(PlanesScreens.Tutorials.name) {

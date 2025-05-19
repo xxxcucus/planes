@@ -1,5 +1,6 @@
 package com.planes.android.about
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun AboutScreen(modifier: Modifier, currentScreenState: MutableState<String>,
-    navController: NavController,
+                context: Context, navController: NavController,
                 aboutEntryList: List<AboutEntryModel>) {
 
     currentScreenState.value = PlanesScreens.Info.name
@@ -32,7 +33,7 @@ fun AboutScreen(modifier: Modifier, currentScreenState: MutableState<String>,
             verticalArrangement = Arrangement.Center) {
             LazyColumn {
                 items(items = aboutEntryList) {
-                    AboutEntryRow(entry = it)
+                    AboutEntryRow(entry = it, context)
                 }
             }
         }

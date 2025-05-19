@@ -22,6 +22,10 @@ class AboutEntryModel(title: String, text: String,
         return m_TextButton
     }
 
+    fun hasButton(): Boolean {
+        return m_ButtonPresent;
+    }
+
     fun getLinkButton(): String {
         return m_LinkButton
     }
