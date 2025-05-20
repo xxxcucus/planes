@@ -140,11 +140,12 @@ For example the layout of the Planes Android app is as follows:
  
 This xml defines the layout as a special type of layout: DrawerLayout. This includes the NavigationView which is the part of the layout which appears when clicking on the Hamburger button and allows the navigation to the different screens of the app. The content of the main activity screen is contained inside a RelativeLayout. In this layout are included a general use Progress Bar which is normally disabled but appears when different network calls are being made, the toolbar of the app and a placeholder for the different screens marked with the id main\_content.
 
-\subsubsection { Life Cycle }
+\subsubsection { Activity Life Cycle }
 
 \tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, 
 minimum height=1cm, text centered, draw=black, fill=red!30]
 \tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{processb} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
 \tikzstyle{comment} = [rectangle, minimum width=3cm, minimum height=1cm, text centered,
 text width=4cm, draw=white, fill=white]
 \tikzstyle{arrow} = [thick,->,>=stealth]
@@ -241,6 +242,50 @@ In the onResume() method several configurations are made only for the the case w
 
 
 \subsubsection { Fragment }
+
+Fragments represent a reusable portion of the UI. They are defined by their own layout files and have their own life cycle. They are hosted inside another fragment or an activity.
+
+\subsubsection { Fragment Life Cycle }
+
+\begin{figure}
+	\caption{Fragment Life Cycle diagram as it is presented on the Android developer pages}
+	\label{fig:fragment_life_cycle}
+	\centering
+	\begin{tikzpicture}[node distance=1.5cm]
+		\node (onCreate) [processb] {onCreate()};
+		\node (onCreateView) [processb, below of=onCreate] {onCreateView()};
+		\node (onViewCreated) [processb, below of=onCreateView] {onViewCreated()};
+		\node (onViewStateRestored) [processb, below of=onViewCreated] {onViewStateRestored()};
+		\node (onStart) [processb, below of=onViewStateRestored] {onStart()};
+		\node (onResume) [processb, below of= onStart] { onResume() };
+		\node (onPause) [process, below of=onResume] {onResume()};
+		\node (onStop) [process, below of= onPause] {onStop()};
+		\node (onSaveInstanceState) [process, below of=onStop] {onSaveInstanceState()};
+		\node (onDestroyView) [process, below of= onSaveInstanceState] {onDestroyView()};
+		\node (onDestroy) [process, below of=onDestroyView] {onDestroy()};
+		
+		\node (ccreated) [comment, left of = onCreateView, xshift = -4cm] {CREATED};
+		\node (cstarted) [comment, left of = onStart, xshift = -4cm] {STARTED};
+		\node (cresumed) [comment, left of = onResume, xshift = -4cm] {RESUMED};
+		\node (cstarted1) [comment, left of = onPause, xshift = -4cm] {STARTED};
+		\node (ccreated1) [comment, left of = onSaveInstanceState, xshift = -4cm] {CREATED};
+		\node (cdestroyed) [comment, left of = onDestroy, xshift = -4cm] {DESTROYED};
+		
+		\draw [arrow] (onCreate) -- (onCreateView);
+		\draw [arrow] (onCreateView) -- (onViewCreated);
+		\draw [arrow] (onViewCreated) -- (onViewStateRestored);
+		\draw [arrow] (onViewStateRestored) -- (onStart);
+		\draw [arrow] (onStart) -- (onResume);
+		\draw [arrow] (onResume) -- (onPause);
+		\draw [arrow] (onPause) -- (onStop);
+		\draw [arrow] (onStop) -- (onSaveInstanceState);
+		\draw [arrow] (onSaveInstanceState) -- (onDestroyView);
+		\draw [arrow] (onDestroyView) -- (onDestroy);
+	
+	\end{tikzpicture}
+	
+\end{figure}
+
 
 \section{PlanesCompose}
 
