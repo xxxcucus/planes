@@ -8,6 +8,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
@@ -27,7 +28,8 @@ fun AboutEntryRow(entry: AboutEntryModel, context: Context) {
         Text(text = entry.getText(),
             style = MaterialTheme.typography.bodyMedium)
         if (entry.hasButton()) {
-            Button(onClick = {
+            Button(modifier = Modifier.align(Alignment.End),
+                onClick = {
                 uriHandler.openUri(entry.getLinkButton())
             }) {
                 Text(text = entry.getTextButton())
