@@ -58,7 +58,228 @@ To exemplify how a new screen is loaded onto the screen I show the following fun
 	
 \end{lstlisting}
 
-This code shows the preparation for the start of the fragment called NoRobotFragment, which is the validation window to determine that the user is human. In the variable bundle the parameters that are to be given to the fragment are prepared. The actual switch of the screen is the call supportFragmentManager.beginTransaction(). Specifying R.id.main\_content defines where in the Drawer Layout should the new screen be displayed.  
+This code shows the preparation for the start of the fragment called NoRobotFragment, which is the validation window to determine that the user is human. In the variable bundle the parameters that are to be given to the fragment are prepared. The actual switch of the screen is the call supportFragmentManager.beginTransaction(). Specifying R.id.main\_content defines where in the Drawer Layout should the new screen be displayed. 
+
+\subsection {Info Screen} 
+
+The Info screen is implemented in the AboutFragment class. It makes use of a RecyclerView which is a type of ListView optimized for large number of elements.
+
+The RecyclerView displays a few items each of them having a title, a content text as well as a button. The basis data model class is AboutModel.
+
+\begin{lstlisting}
+	class AboutModel(title: String,
+	 text: String, buttonPresent: Boolean,
+	  textButton: String, linkButton: String) {
+		
+		private var m_Title: String
+		private var m_Text: String
+		private var m_ButtonPresent: Boolean
+		private var m_TextButton: String
+		private var m_LinkButton: String
+		
+		init {
+			m_Title = title
+			m_Text = text
+			m_ButtonPresent = buttonPresent
+			m_TextButton = textButton
+			m_LinkButton = linkButton
+		}
+		
+		fun getTitle(): String {
+			return m_Title
+		}
+		
+		fun getText(): String {
+			return m_Text
+		}
+		
+		fun getTextButton(): String {
+			return m_TextButton
+		}
+		
+		fun getLinkButton(): String {
+			return m_LinkButton
+		}
+	}
+\end{lstlisting}
+
+Using this model a data repository with text information is constructed as follows:
+
+\begin{lstlisting}
+	private fun prepareSectionsList() {
+		var version_section = AboutModel("Version", "Software version is unknown", false, "Empty", "Empty")
+		
+		if (m_Version != null)
+		version_section = AboutModel(getString(R.string.software_version_title),
+		getString(R.string.software_version) + " " + m_Version, false, "Empty", "Empty")
+		val software_section = AboutModel(getString(R.string.credits_software_title),
+		getString(R.string.credits_software_content), true, getString(R.string.credits_software_button),
+		"https://www.github.com/xxxcucus/planes")
+		val graphics_section = AboutModel(getString(R.string.credits_graphics_title),
+		getString(R.string.credits_graphics_content1), true, getString(R.string.credits_graphics_button),
+		"https://axa951.wixsite.com/portfolio")
+		
+		val otherContributionText = """
+		${getString(R.string.credits_othercontributions_1)}
+		${getString(R.string.credits_othercontributions_2)}
+		${getString(R.string.credits_othercontributions_3)}
+		""".trimIndent()
+		val others_section = AboutModel(getString(R.string.credits_othercontributions_title),
+		otherContributionText, false, "Empty", "Empty")
+		val website_section = AboutModel(getString(R.string.credits_website_title), getString(R.string.credits_website), true,
+		getString(R.string.credits_website_button), "https://xxxcucus.github.io/planes/")
+		val tools_section = AboutModel(getString(R.string.credits_tools_title),
+		getString(R.string.credits_tools), false, "Empty", "Empty")
+		
+		m_SectionsList = arrayListOf(version_section, software_section, graphics_section, others_section, website_section, tools_section)
+		m_AboutAdapter = AboutAdapter(m_SectionsList)
+		m_AboutAdapter.notifyDataSetChanged()
+	}
+\end{lstlisting}
+
+Each item in the RecyclerView is displayed according to a layout which can be of two types: with button:
+
+\begin{lstlisting}
+	<?xml version="1.0" encoding="utf-8"?>
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:background="?planesBackgroundEndColor">
+	
+	<TextView
+	android:id="@+id/about_section_title"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_margin="10dip"
+	android:textSize="20sp"
+	android:textStyle="bold"
+	style="@style/CustomTextViewStyle"
+	android:text="@string/help"/>
+	<TextView
+	android:id="@+id/about_section_text"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_margin="10dip"
+	android:layout_below="@+id/about_section_title"
+	style="@style/CustomTextViewStyle"
+	android:textSize="15sp"/>
+	
+	<Button
+	android:id="@+id/about_section_button"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:textSize="15sp"
+	android:layout_alignParentRight="true"
+	android:layout_margin="10dip"
+	style="@style/ButtonColor"
+	android:text="@string/popup_help_button_text"
+	android:layout_below="@+id/about_section_text"
+	android:gravity="right"/>
+	
+	</RelativeLayout>
+\end{lstlisting}
+
+or without button:
+
+\begin{lstlisting}
+	<?xml version="1.0" encoding="utf-8"?>
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="?planesBackgroundEndColor">
+	
+	<TextView
+	android:id="@+id/about_section_title"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_margin="10dip"
+	android:textSize="20sp"
+	android:textStyle="bold"
+	style="@style/CustomTextViewStyle"
+	android:text="@string/help"/>
+	<TextView
+	android:id="@+id/about_section_text"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_margin="10dip"
+	android:layout_below="@+id/about_section_title"
+	style="@style/CustomTextViewStyle"
+	android:textSize="15sp"/>
+	</RelativeLayout>
+\end{lstlisting}
+
+Finally to bind the data with the RecvclerView display a so called Adapter class is needed:
+
+\begin{lstlisting}
+	class AboutAdapter(aboutSectionsList: List<AboutModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+		private val m_SectionsList: List<AboutModel> = aboutSectionsList
+		
+		
+		inner class MyViewHolderWithButton(view: View, context: Context) : RecyclerView.ViewHolder(view) {
+			var m_Title: TextView = view.findViewById(R.id.about_section_title)
+			var m_Text: TextView = view.findViewById(R.id.about_section_text)
+			var m_Button: Button = view.findViewById(R.id.about_section_button)
+			private var m_ButtonLink: String = ""
+			var m_Context: Context = context
+			
+			init {
+				m_Button.setOnClickListener { Tools.openLink(m_Context, m_ButtonLink) }
+			}
+			
+			fun setButtonLink(link: String) {
+				m_ButtonLink = link
+			}
+		}
+		
+		inner class MyViewHolderWithoutButton(view: View) : RecyclerView.ViewHolder(view) {
+			var m_Title: TextView = view.findViewById(R.id.about_section_title)
+			var m_Text: TextView = view.findViewById(R.id.about_section_text)
+		}
+		
+		override fun getItemViewType(position: Int): Int {
+			if (position == 1 || position == 2 || position == 4)
+			return 0
+			return 1
+		}
+		
+		override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+			val itemView: View = if (viewType == 0)
+			LayoutInflater.from(parent.context).inflate(R.layout.aboutlayout, parent, false)
+			else
+			LayoutInflater.from(parent.context).inflate(R.layout.aboutlayout1, parent, false)
+			
+			return when (viewType) {
+				0 -> MyViewHolderWithButton(itemView, parent.context)
+				else -> MyViewHolderWithoutButton(itemView)
+			}
+		}
+		
+		override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+			val section: AboutModel = m_SectionsList[position]
+			
+			when(holder.itemViewType) {
+				0 -> {
+					val holderwithButton = holder as MyViewHolderWithButton
+					holderwithButton.m_Title.text = section.getTitle()
+					holderwithButton.m_Text.text = section.getText()
+					holderwithButton.m_Button.text = section.getTextButton()
+					holderwithButton.setButtonLink(section.getLinkButton())
+				}
+				else -> {
+					val holderwithoutButton = holder as MyViewHolderWithoutButton
+					holderwithoutButton.m_Title.text = section.getTitle()
+					holderwithoutButton.m_Text.text = section.getText()
+				}
+			}
+		}
+		
+		override fun getItemCount(): Int {
+			return m_SectionsList.size
+		}
+	}
+\end{lstlisting}
 
 \subsection { Android Concepts }
 
@@ -286,6 +507,51 @@ Fragments represent a reusable portion of the UI. They are defined by their own 
 	
 \end{figure}
 
+I am listing below a few life cycle methods from the CreateGameFragment which corresponds to the screen where the user connects to the game.
+
+\begin{lstlisting}
+	override fun onDetach () {
+		super.onDetach()
+		hideLoading()
+		if (this::m_RefreshGameStatusSubscription.isInitialized)
+		m_RefreshGameStatusSubscription.dispose()
+		if (this::m_CreateGameSubscription.isInitialized)
+		m_CreateGameSubscription.dispose()
+		if (this::m_ConnectToGameSubscription.isInitialized)
+		m_ConnectToGameSubscription.dispose()
+		if (this::m_PollForOpponentSubscription.isInitialized)
+		m_PollForOpponentSubscription.dispose()
+	}
+\end{lstlisting}
+
+In the method onDetach() corresponding to the fragment being removed from the containing fragment or activity I am disposing network call objects. I am also hiding the loader animation corresponding to the user waiting for the opponent to connect to the game. 
+
+\begin{lstlisting}
+	 override fun onResume() {
+		super.onResume()
+		reinitializeFromState()
+	}
+\end{lstlisting}
+
+\begin{lstlisting}
+	private fun reinitializeFromState() {
+		when(m_CreateGameSettingsService.createGameState) {
+			CreateGameStates.NotSubmitted -> {
+				binding.ProgressBarCreateGame.isVisible = false
+				binding.startPlaying.isEnabled = false
+			}
+			CreateGameStates.Submitted -> {
+				binding.ProgressBarCreateGame.isVisible = false
+				binding.startPlaying.isEnabled = false
+				checkGameStatus()
+			}
+			CreateGameStates.GameCreated -> { pollForGameConnection() }
+			CreateGameStates.ConnectedToGame -> { connectedToGame() }
+		}
+	}
+\end{lstlisting}
+
+In the onResume() method the method reinitializeFromState() is called. This resets the screen to the state it had before being destroyed.
 
 \section{PlanesCompose}
 
