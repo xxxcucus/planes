@@ -139,7 +139,7 @@ Using this model a data repository with text information is constructed as follo
 
 Each item in the RecyclerView is displayed according to a layout which can be of two types: with button:
 
-\begin{lstlisting}
+\begin{lstlisting} [caption = {Layout with button for InfoScreen},label=layout_button_info_screen]
 	<?xml version="1.0" encoding="utf-8"?>
 	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
@@ -182,7 +182,7 @@ Each item in the RecyclerView is displayed according to a layout which can be of
 
 or without button:
 
-\begin{lstlisting}
+\begin{lstlisting}  [caption = {Layout without button for InfoScreen},label=layout_with_button_info_screen]
 	<?xml version="1.0" encoding="utf-8"?>
 	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
@@ -874,3 +874,63 @@ PlanesNavigation is a composable that associates to the application screen names
 			}
 		}
 \end{lstlisting}
+
+\subsection{Info Screen}
+
+In this version of the Planes App the contents of the info screen is the same as in the PlanesAndroid app. But the JetPackCompose framework does not offer a Recycler View anymore. Let's see how the functionality is replicated in this case.
+
+A data model class is used which is identical to the one used for the Recycler View. I only gave it a different name: AboutEntryModel. The method for creating the data repository is the same, it is only integrated in the companion object of a class called AboutEntryRepository. 
+
+The layout for one entry in the About Screen is now created with a composable function.
+
+\begin{lstlisting}
+	fun AboutEntryRow(entry: AboutEntryModel, context: Context) {
+		
+		val uriHandler = LocalUriHandler.current
+		
+		Column(modifier = Modifier.padding(4.dp).
+		fillMaxWidth())
+		{
+			Text(text = entry.getTitle(),
+			style = MaterialTheme.typography.titleMedium)
+			Text(text = entry.getText(),
+			style = MaterialTheme.typography.bodyMedium)
+			if (entry.hasButton()) {
+				Button(modifier = Modifier.align(Alignment.End),
+				onClick = {
+					uriHandler.openUri(entry.getLinkButton())
+				}) {
+					Text(text = entry.getTextButton())
+				}
+			}
+		}
+	}
+\end{lstlisting}
+
+The difference from \ref{layout_button_info_screen} and \ref{layout_with_button_info_screen} is that a single construct is needed to create the layout. This is possible through the if command in the AboutEntryRow composable.
+
+Finally to glue everything together a LazyColumn composable is used as follows:
+
+\begin{lstlisting}
+	fun AboutScreen(modifier: Modifier, currentScreenState: MutableState<String>,
+	context: Context, navController: NavController,
+	aboutEntryList: List<AboutEntryModel>) {
+		
+		currentScreenState.value = PlanesScreens.Info.name
+		
+		Surface(modifier = modifier,
+		color = MaterialTheme.colorScheme.background) {
+			Column(modifier = Modifier.fillMaxWidth(),
+			horizontalAlignment = Alignment.CenterHorizontally,
+			verticalArrangement = Arrangement.Center) {
+				LazyColumn {
+					items(items = aboutEntryList) {
+						AboutEntryRow(entry = it, context)
+					}
+				}
+			}
+		}
+	}
+\end{lstlisting}
+
+I personally prefer the implementation in JetPackCompose as it is simpler and eleganter.
