@@ -72,7 +72,7 @@ class AboutFragment : Fragment() {
         val tools_section = AboutModel(getString(R.string.credits_tools_title),
             getString(R.string.credits_tools), false, "Empty", "Empty")
 
-        m_SectionsList = arrayListOf(version_section, software_section, graphics_section, others_section, website_section, tools_section)
+        m_SectionsList = arrayListOf(version_section, software_section, graphics_section, others_section, website_section)
         m_AboutAdapter = AboutAdapter(m_SectionsList)
         m_AboutAdapter.notifyDataSetChanged()
     }
