@@ -33,7 +33,7 @@ class AboutEntryRepository {
             val tools_section = AboutEntryModel(getString(context, R.string.credits_tools_title),
                 getString(context, R.string.credits_tools), false, "Empty", "Empty")
 
-            return listOf(version_section, software_section, graphics_section, others_section, website_section, tools_section)
+            return listOf(version_section, software_section, graphics_section, others_section, website_section)
         }
     }
 }
