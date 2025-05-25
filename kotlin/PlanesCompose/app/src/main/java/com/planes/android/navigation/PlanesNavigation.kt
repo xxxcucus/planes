@@ -24,6 +24,7 @@ import com.planes.android.register.RegisterScreen
 import com.planes.android.singleplayergame.SinglePlayerGameScreen
 import com.planes.android.singleplayergamestatistics.SinglePlayerGameStatisticsScreen
 import com.planes.android.singleplayerpreferences.SinglePlayerPreferencesScreen
+import com.planes.android.video.VideoModelRepository
 import com.planes.android.video.VideoScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -59,7 +60,8 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                 aboutEntryList = AboutEntryRepository.create("0.1", context = context))
         }
         composable(PlanesScreens.Tutorials.name) {
-            VideoScreen(modifier = modifier, currentScreenState, navController = navController)
+            VideoScreen(modifier = modifier, currentScreenState, navController = navController,
+                videoModelList = VideoModelRepository.create(context = context))
         }
         composable(PlanesScreens.Login.name) {
             LoginScreen(modifier = modifier, currentScreenState, navController = navController)

@@ -12,6 +12,7 @@ androidxNavigation = "2.9.0"
 
 ksp = "2.1.20-2.0.0"
 hilt = "2.56.2"
+androidx_media3 = '1.7.1'
 
 
 [libraries]
@@ -32,6 +33,9 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 
+androidx_media3_exoplayer      = { module = "androidx.media3:media3-exoplayer",      version.ref = "androidx_media3" }
+androidx_media3_exoplayer_dash = { module = "androidx.media3:media3-exoplayer-dash", version.ref = "androidx_media3" }
+androidx_media3_ui             = { module = "androidx.media3:media3-ui",   version.ref = "androidx_media3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
