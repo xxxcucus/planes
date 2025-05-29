@@ -47,6 +47,9 @@ import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 
+//TODO: stop video player when leaving screen. save state in view model
+//TODO: when rotating screen stop player/ do not create another player
+
 @Composable
 fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                 navController: NavController, videoModelList: List<VideoModel>) {
@@ -65,12 +68,12 @@ fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
         when (configuration.orientation) {
             Configuration.ORIENTATION_PORTRAIT -> {
 
-                Column() {
+                Column(verticalArrangement = Arrangement.spacedBy(-50.dp)) {
                     VideoPlayer(currentVideoState.value)
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
-                        verticalArrangement = Arrangement.spacedBy(0.dp),
-                        horizontalArrangement = Arrangement.spacedBy(0.dp),
+                        verticalArrangement = Arrangement.spacedBy(-100.dp),
+                        horizontalArrangement = Arrangement.spacedBy(1.dp),
                         contentPadding = PaddingValues(1.dp)
                     ) {
                         items(items = videoModelList) { entry ->
@@ -79,7 +82,7 @@ fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                 modifier.height(100.dp).width(100.dp).padding(1.dp).
                                 clickable {
                                     currentVideoState.value = entry.getVideoId()
-                                }.wrapContentHeight(),
+                                },
                                 shape = RectangleShape,
                                 colors = CardDefaults.cardColors(
                                     containerColor = MaterialTheme.colorScheme.surfaceVariant
@@ -89,8 +92,7 @@ fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     modifier = Modifier.fillMaxSize()) {
                                     Text(
-                                        modifier = Modifier.wrapContentSize()
-                                            .align(Alignment.CenterHorizontally),
+                                        modifier = Modifier.align(Alignment.CenterHorizontally),
                                         text = entry.getVideoName()
                                     )
                                 }
@@ -100,12 +102,10 @@ fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                     }
                 }
             }
-
-
             else -> {
                 Row() {
                     LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(0.dp),
+                        verticalArrangement = Arrangement.spacedBy(-100.dp),
                         contentPadding = PaddingValues(
                             top = 1.dp,
                             bottom = 1.dp
@@ -114,8 +114,7 @@ fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                         items(items = videoModelList) { entry ->
 
                             Card(
-                                modifier.height(100.dp).width(200.dp).padding(1.dp).
-                                clickable {
+                                modifier.height(100.dp).width(200.dp).padding(1.dp).clickable {
                                     currentVideoState.value = entry.getVideoId()
                                 }.wrapContentHeight(),
                                 shape = RectangleShape,
@@ -123,23 +122,24 @@ fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                     containerColor = MaterialTheme.colorScheme.surfaceVariant
                                 )
                             ) {
-                                Column(verticalArrangement = Arrangement.Center,
+                                Column(
+                                    verticalArrangement = Arrangement.Center,
                                     horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = Modifier.fillMaxSize()) {
+                                    modifier = Modifier.fillMaxSize()
+                                ) {
                                     Text(
-                                        modifier = Modifier.wrapContentSize()
-                                            .align(Alignment.CenterHorizontally),
+                                        modifier = Modifier.align(Alignment.CenterHorizontally),
                                         text = entry.getVideoName()
                                     )
                                 }
                             }
                         }
                     }
+
                     VideoPlayer(currentVideoState.value)
                 }
             }
         }
-
     }
 }
 
@@ -183,7 +183,7 @@ fun VideoPlayer(videoId : Int) {
                             + context.packageName + "/" + videoId)
                 player.setMediaItem(MediaItem.fromUri(uriSource))
                 player.prepare()
-                player.playWhenReady = true
+                //player.playWhenReady = true
 
             }
         },
