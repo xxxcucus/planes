@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -96,7 +97,6 @@ fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                         text = entry.getVideoName()
                                     )
                                 }
-
                             }
                         }
                     }
@@ -104,33 +104,36 @@ fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
             }
             else -> {
                 Row() {
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(-100.dp),
-                        contentPadding = PaddingValues(
-                            top = 1.dp,
-                            bottom = 1.dp
-                        )
-                    ) {
-                        items(items = videoModelList) { entry ->
+                    Column(verticalArrangement = Arrangement.spacedBy(-50.dp)) {
+                        Spacer(modifier = Modifier)
+                        LazyColumn(
+                            verticalArrangement = Arrangement.spacedBy(-100.dp),
+                            contentPadding = PaddingValues(
+                                top = 1.dp,
+                                bottom = 1.dp
+                            )
+                        ) {
+                            items(items = videoModelList) { entry ->
 
-                            Card(
-                                modifier.height(100.dp).width(200.dp).padding(1.dp).clickable {
-                                    currentVideoState.value = entry.getVideoId()
-                                }.wrapContentHeight(),
-                                shape = RectangleShape,
-                                colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.surfaceVariant
-                                )
-                            ) {
-                                Column(
-                                    verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = Modifier.fillMaxSize()
-                                ) {
-                                    Text(
-                                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                                        text = entry.getVideoName()
+                                Card(
+                                    modifier.height(100.dp).width(200.dp).padding(1.dp).clickable {
+                                        currentVideoState.value = entry.getVideoId()
+                                    }.wrapContentHeight(),
+                                    shape = RectangleShape,
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = MaterialTheme.colorScheme.surfaceVariant
                                     )
+                                ) {
+                                    Column(
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        modifier = Modifier.fillMaxSize()
+                                    ) {
+                                        Text(
+                                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                                            text = entry.getVideoName()
+                                        )
+                                    }
                                 }
                             }
                         }
