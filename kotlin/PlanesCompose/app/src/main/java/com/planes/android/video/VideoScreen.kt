@@ -69,72 +69,33 @@ fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
         when (configuration.orientation) {
             Configuration.ORIENTATION_PORTRAIT -> {
 
-                Column(verticalArrangement = Arrangement.spacedBy(-50.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(1.dp)) {
                     VideoPlayer(currentVideoState.value)
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
-                        verticalArrangement = Arrangement.spacedBy(-100.dp),
+                        verticalArrangement = Arrangement.spacedBy(1.dp),
                         horizontalArrangement = Arrangement.spacedBy(1.dp),
                         contentPadding = PaddingValues(1.dp)
                     ) {
                         items(items = videoModelList) { entry ->
-
-                            Card(
-                                modifier.height(100.dp).width(100.dp).padding(1.dp).
-                                clickable {
-                                    currentVideoState.value = entry.getVideoId()
-                                },
-                                shape = RectangleShape,
-                                colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.surfaceVariant
-                                )
-                            ) {
-                                Column(verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = Modifier.fillMaxSize()) {
-                                    Text(
-                                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                                        text = entry.getVideoName()
-                                    )
-                                }
-                            }
+                            VideoButton(entry, currentVideoState, Modifier.width(200.dp).height(100.dp))
                         }
                     }
                 }
             }
             else -> {
                 Row() {
-                    Column(verticalArrangement = Arrangement.spacedBy(-50.dp)) {
+                    Column(verticalArrangement = Arrangement.spacedBy(1.dp)) {
                         Spacer(modifier = Modifier)
                         LazyColumn(
-                            verticalArrangement = Arrangement.spacedBy(-100.dp),
+                            verticalArrangement = Arrangement.spacedBy(1.dp),
                             contentPadding = PaddingValues(
                                 top = 1.dp,
                                 bottom = 1.dp
                             )
                         ) {
                             items(items = videoModelList) { entry ->
-
-                                Card(
-                                    modifier.height(100.dp).width(200.dp).padding(1.dp).clickable {
-                                        currentVideoState.value = entry.getVideoId()
-                                    }.wrapContentHeight(),
-                                    shape = RectangleShape,
-                                    colors = CardDefaults.cardColors(
-                                        containerColor = MaterialTheme.colorScheme.surfaceVariant
-                                    )
-                                ) {
-                                    Column(
-                                        verticalArrangement = Arrangement.Center,
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        modifier = Modifier.fillMaxSize()
-                                    ) {
-                                        Text(
-                                            modifier = Modifier.align(Alignment.CenterHorizontally),
-                                            text = entry.getVideoName()
-                                        )
-                                    }
-                                }
+                                VideoButton(entry, currentVideoState, Modifier.width(200.dp).height(100.dp))
                             }
                         }
                     }
