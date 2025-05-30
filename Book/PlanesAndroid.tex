@@ -60,7 +60,7 @@ To exemplify how a new screen is loaded onto the screen I show the following fun
 
 This code shows the preparation for the start of the fragment called NoRobotFragment, which is the validation window to determine that the user is human. In the variable bundle the parameters that are to be given to the fragment are prepared. The actual switch of the screen is the call supportFragmentManager.beginTransaction(). Specifying R.id.main\_content defines where in the Drawer Layout should the new screen be displayed. 
 
-\subsection {Info Screen} 
+\subsection {Info Screen} \label {info_screen}
 
 The Info screen is implemented in the AboutFragment class. It makes use of a RecyclerView which is a type of ListView optimized for large number of elements.
 
@@ -280,6 +280,121 @@ Finally to bind the data with the RecvclerView display a so called Adapter class
 		}
 	}
 \end{lstlisting}
+
+\subsection {Video Screen}
+
+For the Video Screen there are two layouts corresponding to portrait and landscape orientations of the screen.
+
+For the portrait orientation:
+
+\begin{lstlisting}
+	<?xml version="1.0" encoding="utf-8"?>
+	<androidx.appcompat.widget.LinearLayoutCompat
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@drawable/background">
+	
+	<VideoView
+	android:id="@+id/video_view"
+	android:layout_height="match_parent"
+	android:layout_width="match_parent" />
+	
+	<androidx.recyclerview.widget.RecyclerView
+	android:id="@+id/recyclerView"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent" />
+	
+	</androidx.appcompat.widget.LinearLayoutCompat>
+\end{lstlisting}
+
+Here we have on top the video player and beneath it a RecyclerView that contains the buttons controlling which video is to be played.
+
+For the landscape orientation:
+
+\begin{lstlisting}
+	<?xml version="1.0" encoding="utf-8"?>
+	<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@drawable/background">
+	
+	<androidx.recyclerview.widget.RecyclerView
+	android:id="@+id/recyclerView"
+	android:layout_width="200dp"
+	android:layout_height="match_parent"
+	android:layout_alignParentLeft="true"
+	android:layout_alignParentTop="true" />
+	<androidx.appcompat.widget.LinearLayoutCompat
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:layout_gravity="center_vertical"
+	android:layout_toRightOf="@+id/recyclerView"
+	android:layout_alignParentRight="true">
+	<VideoView
+	android:id="@+id/video_view"
+	android:layout_height="match_parent"
+	android:layout_width="match_parent"
+	android:layout_gravity="center_horizontal"/>
+	</androidx.appcompat.widget.LinearLayoutCompat>
+	
+	</RelativeLayout>
+\end{lstlisting}
+
+Here we have a vertical RecyclerView on the left side and the video player on the right side of the screen.
+
+The two Recycler View for the two screen orientations have the same ids. In code a single Recycler View object is created, but depending on orientation a different layout manager is used:
+
+\begin{lstlisting}
+	val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
+	var mLayoutManager = if (isHorizontal()) LinearLayoutManager(activity) else GridLayoutManager(activity,2)
+	recyclerView.layoutManager = mLayoutManager
+	recyclerView.itemAnimator = DefaultItemAnimator()
+	recyclerView.adapter = m_VideosAdapter
+\end{lstlisting}
+
+The Recycler View is similar to the one in section \ref{info_screen} only it defines as layout for item a Button with the name of the video on it. Click on the button changes the video to be played, rewinds a video to its beginning or starts the video on YouTube.
+
+Interesting are for this screen the different fragment life cycle methods implementations:
+
+\begin{lstlisting}
+	override fun onStart() {
+		super.onStart()
+		if (m_CurrentPositionInVideo != 0)
+		m_VideoView!!.seekTo(m_CurrentPositionInVideo)
+		
+		m_VideoView!!.start()
+	}
+	
+	override fun onResume() {
+		super.onResume()
+		if (!m_VideoView!!.isPlaying) {
+			if (m_CurrentPositionInVideo != 0)
+			m_VideoView!!.seekTo(m_CurrentPositionInVideo)
+			
+			m_VideoView!!.start()
+		}
+	}
+	
+	override fun onPause() {
+		super.onPause()
+		m_VideoView!!.pause()
+		m_CurrentPositionInVideo = m_VideoView!!.currentPosition
+		m_MovieList[m_CurrentVideo].setCurrentPosition(m_CurrentPositionInVideo)
+		writeToVideoSettingsService()
+	}
+	
+	override fun onStop() {
+		m_VideoView!!.pause()
+		super.onStop()
+	}
+\end{lstlisting}
+
+In the onStop() implementation the video playback is stopped. In the onPause() implementation the current position in the video is saved. In the onResume() method the video is started where it was interrupted. 
 
 \subsection { Android Concepts }
 
@@ -600,7 +715,7 @@ The navigation drawer and main screen content are defined as follows (\ref{drawe
 	}
 \end{lstlisting}
 
-The design of the drawer is definedUnder the drawer\_content variable. The layout of the application screen is defined under the ending lambda of the ModalNavigationDrawer composable . 
+The design of the drawer is defined under the drawer\_content variable. The layout of the application screen is defined under the ending lambda of the ModalNavigationDrawer composable . 
 
 In listing \ref{drawer_layout__compose} the structure of the drawer is shown. Probably this is not the final code for the drawer but the principle will stay the same. So the drawer is a Column layout in which screen names are stacked one under another. The screen names are grouped in sections and a HorizontalDivider is shown between sections .
 
