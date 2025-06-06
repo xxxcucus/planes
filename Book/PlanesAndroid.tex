@@ -1049,3 +1049,142 @@ Finally to glue everything together a LazyColumn composable is used as follows:
 \end{lstlisting}
 
 I personally prefer the implementation in JetPackCompose as it is simpler and eleganter.
+
+\subsection {Video Screen}
+
+For the video screen I am using the Exoplayer library. The definition of the player is as follows:
+
+\begin{lstlisting}
+	fun VideoPlayer(videoId : Int) {
+		val context = LocalContext.current
+		
+		val exoPlayer = remember(context) {
+			ExoPlayer.Builder(context).build().apply {
+				val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(context, DefaultHttpDataSource.Factory())
+				val uriSource = Uri.parse(
+				"android.resource://"
+				+ context.packageName + "/" + videoId)
+				val source = ProgressiveMediaSource.Factory(dataSourceFactory)
+				.createMediaSource(
+				MediaItem.fromUri(uriSource))
+				this.setMediaSource(source)
+				this.prepare()
+			}
+		}
+		
+		
+		AndroidView(
+		factory = { ctxt ->
+			PlayerView(ctxt).apply {
+				player = exoPlayer
+				layoutParams = ViewGroup.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT
+				)
+			}
+		},
+		update = { pview ->
+			pview.apply {
+				val player = this.player!!
+				val uriSource = Uri.parse(
+				"android.resource://"
+				+ context.packageName + "/" + videoId)
+				player.setMediaItem(MediaItem.fromUri(uriSource))
+				player.prepare()
+				//player.playWhenReady = true
+				
+			}
+		},
+		onReset = { pview ->
+			pview.player = null
+		}
+		)
+\end{lstlisting}
+
+The composable function receives as parameter the videoId and initializes the player with the video defined by this id. 
+
+To define the layout of the video buttons which allow navigating to different tutorial videos I am using at first a helper function which defines the VideoButton.
+
+\begin{lstlisting}
+	fun VideoButton(entry: VideoModel, currentVideoState: MutableState<Int>, modifier: Modifier) {
+		Card(
+		modifier.padding(1.dp).clickable {
+			currentVideoState.value = entry.getVideoId()
+		}.wrapContentHeight(),
+		shape = RectangleShape,
+		colors = CardDefaults.cardColors(
+		containerColor = MaterialTheme.colorScheme.surfaceVariant
+		)
+		) {
+			Column(
+			verticalArrangement = Arrangement.Center,
+			horizontalAlignment = Alignment.CenterHorizontally,
+			modifier = Modifier.fillMaxSize()
+			) {
+				Text(
+				modifier = Modifier.align(Alignment.CenterHorizontally),
+				text = entry.getVideoName()
+				)
+			}
+		}
+	}
+\end{lstlisting}
+
+Then the layout of these buttons is defined with the composable LazyVerticalGrid, for portrait orientation, and with the composable LazyColumn, for landscape orientation.
+
+\begin{lstlisting}
+fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
+navController: NavController, videoModelList: List<VideoModel>) {
+	
+	currentScreenState.value = PlanesScreens.Tutorials.name
+	val configuration = LocalConfiguration.current
+	val currentVideoState = remember {
+		mutableStateOf(R.raw.guessing)
+	}
+	
+	Column(
+	modifier = modifier,
+	verticalArrangement = Arrangement.Center,
+	horizontalAlignment = Alignment.CenterHorizontally
+	) {
+	when (configuration.orientation) {
+		Configuration.ORIENTATION_PORTRAIT -> {
+			
+		Column(verticalArrangement = Arrangement.spacedBy(1.dp)) {
+			VideoPlayer(currentVideoState.value)
+			LazyVerticalGrid(
+			columns = GridCells.Fixed(2),
+			verticalArrangement = Arrangement.spacedBy(1.dp),
+			horizontalArrangement = Arrangement.spacedBy(1.dp),
+			contentPadding = PaddingValues(1.dp)
+			) {
+				items(items = videoModelList) { entry ->
+					VideoButton(entry, currentVideoState, Modifier.width(200.dp).height(100.dp))
+				}
+			}
+		}
+		}
+		else -> {
+			Row() {
+			Column(verticalArrangement = Arrangement.spacedBy(1.dp)) {
+				Spacer(modifier = Modifier)
+				LazyColumn(
+				verticalArrangement = Arrangement.spacedBy(1.dp),
+				contentPadding = PaddingValues(
+				top = 1.dp,
+				bottom = 1.dp
+				)
+				) {
+					items(items = videoModelList) { entry ->
+						VideoButton(entry, currentVideoState, Modifier.width(200.dp).height(100.dp))
+					}
+				}
+			}
+			
+			VideoPlayer(currentVideoState.value)
+			}
+		}
+	}
+}
+}
+\end{lstlisting}
