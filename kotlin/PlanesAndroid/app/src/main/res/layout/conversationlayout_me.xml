@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
         android:textSize="20sp"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:textIsSelectable="true"
         android:text=""
         style="@style/CustomTextViewStyle" />
@@ -23,7 +23,7 @@
         android:layout_margin="10dip"
         android:textSize="15sp"
         android:textStyle="italic"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/conversation_message"
         android:text=""
         style="@style/CustomTextViewStyle" />

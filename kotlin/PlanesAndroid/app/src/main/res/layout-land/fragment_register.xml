@@ -27,7 +27,7 @@
                     android:layout_margin="10dip"
                     android:text="@string/username"
                     style="@style/CustomTextViewStyle"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/username_edittext"
@@ -52,7 +52,7 @@
                     android:layout_margin="10dip"
                     android:text="@string/password"
                     style="@style/CustomTextViewStyle"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/password_edittext"
@@ -69,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/login_password"
-                android:layout_alignLeft="@id/login_password"
+                android:layout_alignStart="@id/login_password"
                 android:checked="true"
                 style="@style/CustomTextViewStyle"
                 android:text="@string/hide_password"
@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="11sp"
-                android:layout_alignLeft="@id/secure_check"
+                android:layout_alignStart="@id/secure_check"
                 android:layout_below="@id/secure_check"
                 style="@style/ButtonColor"
                 android:text="@string/already_registered_login"/>
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/submit"
                 style="@style/ButtonColor"
-                android:layout_alignLeft="@id/secure_check"
+                android:layout_alignStart="@id/secure_check"
                 android:layout_below="@id/login"/>
         </RelativeLayout>
     </RelativeLayout>

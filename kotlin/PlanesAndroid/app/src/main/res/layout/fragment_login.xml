@@ -26,6 +26,7 @@
                 android:layout_height="wrap_content"
                 style="@style/ModifiedEditText"
                 android:hint="@string/username"
+                android:inputType="text"
                 android:textSize="20sp"
                 android:text="@={settingsData.m_Username}" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -53,7 +54,7 @@
                 android:checked="true"
                 android:text="@string/hide_password"
                 style="@style/CustomTextViewStyle"
-                android:textSize="10dp" />
+                android:textSize="11sp" />
 
             <Button
                 android:id="@+id/credentials_preferences"
@@ -61,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/credentials_preferences"
                 style="@style/ButtonColor"
-                android:textSize="10sp" />
+                android:textSize="11sp" />
 
             <Button
                 android:id="@+id/register"
@@ -84,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:orientation="horizontal">
             <Button
                 android:id="@+id/creategame"

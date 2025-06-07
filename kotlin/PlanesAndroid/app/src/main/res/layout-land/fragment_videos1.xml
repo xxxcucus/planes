@@ -10,15 +10,15 @@
         android:id="@+id/recyclerView"
         android:layout_width="200dp"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
     <androidx.appcompat.widget.LinearLayoutCompat
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:layout_toRightOf="@+id/recyclerView"
-        android:layout_alignParentRight="true">
+        android:layout_toEndOf="@+id/recyclerView"
+        android:layout_alignParentEnd="true">
         <VideoView
             android:id="@+id/video_view"
             android:layout_height="match_parent"

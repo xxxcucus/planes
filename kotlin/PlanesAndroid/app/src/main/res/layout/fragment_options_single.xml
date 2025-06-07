@@ -2,7 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="settingsData" type="com.planes.android.preferences.SinglePlayerSettingsViewModel"/>
+        <variable name="settingsData"
+            type="com.planes.android.preferences.SinglePlayerSettingsViewModel"/>
     </data>
 
     <LinearLayout
@@ -42,6 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
+                    android:minHeight="48dp"
                     app:currentSkill="@={settingsData.m_ComputerSkill}"/>
             </LinearLayout>
             <LinearLayout
@@ -60,6 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
+                    android:minHeight="48dp"
                     app:showPlaneAfterKill="@={settingsData.m_ShowPlaneAfterKill}"/>
             </LinearLayout>
             <TextView
@@ -86,6 +89,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
+                    android:minHeight="48dp"
                     app:multiplayerVersion="@={settingsData.m_MultiplayerVersion}"/>
             </LinearLayout>
             <Button
@@ -95,7 +99,7 @@
                 android:textSize="15sp"
                 style="@style/ButtonColor"
                 android:text="@string/savesettings"
-                android:layout_gravity="right"/>
+                android:layout_gravity="end"/>
         </LinearLayout>
     </LinearLayout>
 </layout>

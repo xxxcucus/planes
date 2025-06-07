@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_margin="10dip"
         android:text="@string/create_new_game"
         style="@style/ButtonColor"
@@ -44,6 +44,6 @@
         android:text="@string/cancel"
         style="@style/ButtonColor"
         android:layout_below="@+id/creategame_text"
-        android:layout_toLeftOf="@+id/createnewgame_button" />
+        android:layout_toStartOf="@+id/createnewgame_button" />
 
 </RelativeLayout>

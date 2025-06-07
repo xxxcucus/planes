@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     namespace "com.planes.android"
@@ -61,7 +62,7 @@ android {
     }
 
 
-    apply plugin: 'kotlin-kapt'
+
 
     kapt {
         correctErrorTypes = true
@@ -102,6 +103,8 @@ dependencies {
     implementation 'junit:junit:4.13.2'
     implementation 'com.google.truth:truth:1.4.1'
 
+    implementation("androidx.activity:activity:1.10.1")
+    implementation("androidx.activity:activity-ktx:1.10.1")
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:5.10.0'

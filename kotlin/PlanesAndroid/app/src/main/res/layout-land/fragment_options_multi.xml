@@ -2,7 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="settingsData" type="com.planes.android.preferences.MultiplayerSettingsViewModel"/>
+        <variable name="settingsData"
+            type="com.planes.android.preferences.MultiplayerSettingsViewModel"/>
     </data>
     <ScrollView
         android:layout_width="fill_parent"
@@ -59,12 +60,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/options_username"
-                    android:layout_alignParentLeft="true">
+                    android:layout_alignParentStart="true">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         style="@style/CustomTextViewStyle"
                         android:text="@string/password"/>
                     <EditText
@@ -73,6 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dip"
                         android:inputType="textPassword"
+                        android:hint="@string/password"
                         style="@style/CustomTextViewStyle"
                         android:text="@={settingsData.m_Password}"/>
                 </LinearLayout>
@@ -84,7 +86,7 @@
                     android:text="@string/hide_password"
                     style="@style/CustomTextViewStyle"
                     android:layout_below="@id/options_password"
-                    android:layout_marginLeft="30dp"/>
+                    android:layout_marginStart="30dp"/>
                 <TextView
                     android:id="@+id/multiplayer_title"
                     android:layout_width="wrap_content"
@@ -122,7 +124,7 @@
                     android:textSize="15sp"
                     android:text="@string/savesettings"
                     style="@style/ButtonColor"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_below="@id/options_multiplayer"/>
             </RelativeLayout>
         </LinearLayout>

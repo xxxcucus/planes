@@ -26,9 +26,9 @@
                 android:id="@+id/logout_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/logout_state"
+                android:layout_toEndOf="@+id/logout_state"
                 android:textSize="20sp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 style="@style/CustomTextViewStyle"
                 android:text="@={settingsData.m_Username}" />
             <Button
@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/logout_username"
-                android:layout_alignRight="@+id/logout_username"
+                android:layout_alignEnd="@+id/logout_username"
                 style="@style/ButtonColor"
                 android:text="@string/logout"/>
         </RelativeLayout>

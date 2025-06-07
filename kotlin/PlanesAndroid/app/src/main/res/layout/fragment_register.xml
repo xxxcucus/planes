@@ -24,6 +24,7 @@
                     android:layout_height="wrap_content"
                     style="@style/ModifiedEditText"
                     android:hint="@string/username"
+                    android:inputType="text"
                     android:textSize="20sp"
                     android:text="@={settingsData.m_Username}" />
             </com.google.android.material.textfield.TextInputLayout>

@@ -13,6 +13,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -86,6 +87,7 @@ class MainActivity : AppCompatActivity() {
     //region life cycle
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //enableEdgeToEdge();
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

@@ -27,7 +27,7 @@
                     android:layout_margin="10dip"
                     android:text="@string/username"
                     style="@style/CustomTextViewStyle"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/username_edittext"
@@ -52,7 +52,7 @@
                     android:layout_margin="10dip"
                     android:text="@string/password"
                     style="@style/CustomTextViewStyle"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/password_edittext"
@@ -69,27 +69,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/login_password"
-                android:layout_alignLeft="@id/login_password"
+                android:layout_alignStart="@id/login_password"
                 android:checked="true"
                 style="@style/CustomTextViewStyle"
                 android:text="@string/hide_password"
-                android:textSize="10dp" />
+                android:textSize="11sp" />
 
             <Button
                 android:id="@+id/credentials_preferences"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/secure_check"
-                android:layout_alignLeft="@id/secure_check"
+                android:layout_alignStart="@id/secure_check"
                 android:text="@string/credentials_preferences"
                 style="@style/ButtonColor"
-                android:textSize="10dp" />
+                android:textSize="11sp" />
             <Button
                 android:id="@+id/register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:layout_alignLeft="@id/secure_check"
+                android:textSize="11sp"
+                android:layout_alignStart="@id/secure_check"
                 android:layout_below="@id/credentials_preferences"
                 style="@style/ButtonColor"
                 android:text="@string/newuser_register"/>
@@ -98,21 +98,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/submit"
-                android:layout_alignLeft="@id/secure_check"
+                android:layout_alignStart="@id/secure_check"
                 android:layout_below="@id/register"
                 style="@style/ButtonColor"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 />
             <Button
                 android:id="@+id/creategame"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/create_connectto_game"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 style="@style/ButtonColor"
                 android:enabled="false"
                 android:layout_below="@id/login"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentEnd="true"/>
 
         </RelativeLayout>
     </RelativeLayout>

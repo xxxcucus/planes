@@ -26,6 +26,7 @@
                     style="@style/ModifiedEditText"
                     android:textSize="20sp"
                     android:hint="@string/game_name"
+                    android:inputType="text"
                     android:text="@={settingsData.m_GameName}" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -48,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:orientation="horizontal">
             <ProgressBar
                 android:id="@+id/ProgressBarCreateGame"

@@ -41,7 +41,7 @@
                     android:layout_margin="10dip"
                     android:textSize="20sp"
                     style="@style/ButtonColor"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:text="@string/login"/>
             </LinearLayout>
             <LinearLayout
@@ -69,7 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:layout_margin="10dip"
                     style="@style/ButtonColor"
                     android:text="@string/connectto_game"/>
@@ -202,7 +202,7 @@
                         android:layout_margin="10dip"
                         android:text="@={settingsData.m_PlayerMisses}"
                         style="@style/CustomTextViewStyle"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <LinearLayout

@@ -2,7 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="settingsData" type="com.planes.android.preferences.MultiplayerSettingsViewModel"/>
+        <variable name="settingsData"
+            type="com.planes.android.preferences.MultiplayerSettingsViewModel"/>
     </data>
 
     <LinearLayout
@@ -42,6 +43,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
+                    android:hint="@string/username"
+                    android:minHeight="48dp"
                     style="@style/CustomTextViewStyle"
                     android:text="@={settingsData.m_Username}"/>
             </LinearLayout>
@@ -62,6 +65,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
                     android:inputType="textPassword"
+                    android:hint="@string/password"
+                    android:minHeight="48dp"
                     style="@style/CustomTextViewStyle"
                     android:text="@={settingsData.m_Password}"/>
             </LinearLayout>
@@ -71,9 +76,10 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/hide_password"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
+                android:minHeight="48dp"
                 style="@style/CustomTextViewStyle"
-                android:layout_marginLeft="30dp"/>
+                android:layout_marginStart="30dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,6 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dip"
+                    android:minHeight="48dp"
                     style="@style/CustomTextViewStyle"
                     app:multiplayerVersion="@={settingsData.m_MultiplayerVersion}"/>
             </LinearLayout>
@@ -108,7 +115,7 @@
                 android:textSize="15sp"
                 style="@style/ButtonColor"
                 android:text="@string/savesettings"
-                android:layout_gravity="right"/>
+                android:layout_gravity="end"/>
         </LinearLayout>
     </LinearLayout>
 </layout>

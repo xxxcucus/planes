@@ -22,7 +22,7 @@
         android:textSize="20sp"
         android:text="@string/norobot_allmarked"
         style="@style/ButtonColor"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:layout_margin="10dp"
         />
 
