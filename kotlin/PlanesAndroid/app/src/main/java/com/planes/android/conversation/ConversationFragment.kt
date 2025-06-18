@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,18 +22,16 @@ import com.planes.android.chat.NewMessagesServiceGlobal
 import com.planes.android.login.ReceiveChatMessagesServiceGlobal
 import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.commobj.SimpleRequestNotConnectedToGameWithoutLoadingCommObj
-import com.planes.multiplayer_engine.commobj.SimpleRequestWithoutLoadingCommObj
 import com.planes.multiplayer_engine.responses.ChatMessageResponse
 import com.planes.multiplayer_engine.responses.SendChatMessageResponse
-import com.planes.multiplayer_engine.responses.SendNotSentMovesResponse
 import com.planes.utils.DateTimeUtils
 import io.reactivex.Observable
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 import java.time.Instant
 import java.util.Date
-import java.util.function.Predicate
 
 class ConversationFragment: Fragment() {
 
@@ -85,19 +84,25 @@ class ConversationFragment: Fragment() {
         var ownUsername = m_MultiplayerRound.getUsername()
 
         var messagesFromDb : List<ChatMessage>? = null
-        runBlocking { // this: CoroutineScope
-            launch {
-                messagesFromDb = m_DatabaseService.getMessages(ownUsername, ownUserId , m_Username, m_UserId, ownUsername, ownUserId )
+
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            messagesFromDb = m_DatabaseService.getMessages(
+                ownUsername,
+                ownUserId,
+                m_Username,
+                m_UserId,
+                ownUsername,
+                ownUserId
+            )
+
+            withContext(Dispatchers.Main) {
+                m_MessagesList = transformMessagesListToConversationModel(messagesFromDb!!)
+                m_ConversationAdapter = ConversationAdapter(m_MessagesList)
+                m_ConversationAdapter.notifyDataSetChanged()
             }
+            //m_RecyclerView.scrollToPosition(m_MessagesList.size - 1)
         }
-
-        if (messagesFromDb == null)
-            return
-
-        m_MessagesList = transformMessagesListToConversationModel(messagesFromDb!!)
-        m_ConversationAdapter = ConversationAdapter(m_MessagesList)
-        m_ConversationAdapter.notifyDataSetChanged()
-        //m_RecyclerView.scrollToPosition(m_MessagesList.size - 1)
     }
 
     private fun prepareMessagesListResume() {
@@ -109,18 +114,23 @@ class ConversationFragment: Fragment() {
         var ownUsername = m_MultiplayerRound.getUsername()
 
         var messagesFromDb : List<ChatMessage>? = null
-        runBlocking { // this: CoroutineScope
-            launch {
-                messagesFromDb = m_DatabaseService.getMessages(ownUsername, ownUserId , m_Username, m_UserId, ownUsername, ownUserId )
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            messagesFromDb = m_DatabaseService.getMessages(
+                ownUsername,
+                ownUserId,
+                m_Username,
+                m_UserId,
+                ownUsername,
+                ownUserId
+            )
+
+            withContext(Dispatchers.Main) {
+                m_MessagesList = transformMessagesListToConversationModel(messagesFromDb!!)
+                m_ConversationAdapter.updateSections(m_MessagesList)
+                m_RecyclerView.scrollToPosition(m_MessagesList.size - 1)
             }
         }
-
-        if (messagesFromDb == null)
-            return
-
-        m_MessagesList = transformMessagesListToConversationModel(messagesFromDb!!)
-        m_ConversationAdapter.updateSections(m_MessagesList)
-        m_RecyclerView.scrollToPosition(m_MessagesList.size - 1)
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -161,17 +171,16 @@ class ConversationFragment: Fragment() {
         if (message.isEmpty())
             return
         var formattedDate = DateTimeUtils.getDateTimeNowAsString()
+
         val messageResponse = ChatMessageResponse(m_MultiplayerRound.getUserId().toString(), m_MultiplayerRound.getUsername(), m_UserId.toString(), m_Username, message, formattedDate)
 
-        runBlocking { // this: CoroutineScope
-            launch {
-                m_DatabaseService.addChatMessage(
-                    messageResponse,
-                    m_MultiplayerRound.getUserId(),
-                    m_MultiplayerRound.getUsername()
-                )
-            }
-        }
+
+        m_DatabaseService.addChatMessage(
+            messageResponse,
+            m_MultiplayerRound.getUserId(),
+            m_MultiplayerRound.getUsername()
+        )
+
 
         val chatMessage = ChatMessage(0, m_MultiplayerRound.getUserId().toInt(), m_MultiplayerRound.getUsername(), m_UserId.toInt(), m_Username,  m_MultiplayerRound.getUserId().toInt(), m_MultiplayerRound.getUsername(), message, Date.from(Instant.now()))
         val chatMessageModel = ChatMessageModel(chatMessage, m_MultiplayerRound.getUsername(), m_MultiplayerRound.getUserId())

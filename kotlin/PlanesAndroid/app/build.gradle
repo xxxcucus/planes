@@ -100,6 +100,11 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.6.1'
     implementation 'androidx.room:room-ktx:2.6.1'
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.22")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.0")
+
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.1")
+
     implementation 'junit:junit:4.13.2'
     implementation 'com.google.truth:truth:1.4.1'
 

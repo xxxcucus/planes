@@ -12,7 +12,7 @@ class DatabaseServiceGlobal : IDatabaseService {
             return
         global_Service = DatabaseService(context)
     }
-    override suspend fun addChatMessage(message: ChatMessageResponse, recorderId: Long, recorderName: String) {
+    override  fun addChatMessage(message: ChatMessageResponse, recorderId: Long, recorderName: String) {
         global_Service!!.addChatMessage(message, recorderId, recorderName)
     }
 
@@ -24,7 +24,7 @@ class DatabaseServiceGlobal : IDatabaseService {
         return  global_Service!!.getMessages(username, userid, otherUsername, otherUserid, recorderName, recorderId)
     }
 
-    override suspend fun deleteOldMessages(daysBefore: Int) {
+    override  fun deleteOldMessages(daysBefore: Int) {
         global_Service!!.deleteOldMessages(daysBefore)
     }
 
@@ -32,10 +32,11 @@ class DatabaseServiceGlobal : IDatabaseService {
         return global_Service!!.getNewMessagesFlags()
     }
 
-    override suspend fun updateNewMessagesFlags(senderName: String, senderId: Long, receiverName: String, receiverId: Long, newMessages: Boolean) {
+    override  fun updateNewMessagesFlags(senderName: String, senderId: Long, receiverName: String, receiverId: Long, newMessages: Boolean) {
         global_Service!!.updateNewMessagesFlags(senderName, senderId, receiverName, receiverId, newMessages)
     }
     companion object {
+        //TODO: warning
         private var global_Service: DatabaseService? = null
     }
 }

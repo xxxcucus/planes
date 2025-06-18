@@ -25,6 +25,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.planes.android.about.AboutFragment
@@ -57,8 +58,9 @@ import com.planes.multiplayer_engine.MultiplayerRoundJava
 import com.planes.multiplayer_engine.responses.RegistrationResponse
 import com.planes.single_player_engine.GameStages
 import com.planes.single_player_engine.PlanesRoundJava
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity() {
@@ -174,14 +176,10 @@ class MainActivity : AppCompatActivity() {
             setDrawerMenuSinglePlayer()
 
         if (m_MainPreferencesService.multiplayerVersion) {
-            runBlocking { // this: CoroutineScope
-                launch {
-                    m_DatabaseService.deleteOldMessages(90)
-                }
-            }
+            m_DatabaseService.deleteOldMessages(90)
         }
 
-        var withHistory = mSelectedItem != 0 && !fromIntent
+        val withHistory = mSelectedItem != 0 && !fromIntent
 
         if (mSelectedItem == 0) {
             mSelectedItem = R.id.nav_game
@@ -784,31 +782,29 @@ class MainActivity : AppCompatActivity() {
 
     fun readNewMessagesFlagsFromDatabase() {
         var newMessages: List<NewMessagesFlag> = emptyList()
-        runBlocking { // this: CoroutineScope
-            launch {
-                newMessages = m_DatabaseService.getNewMessagesFlags()
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            newMessages = m_DatabaseService.getNewMessagesFlags()
+            withContext(Dispatchers.Main) {
+                m_NewMessagesService.resetFlags(newMessages)
             }
         }
-        m_NewMessagesService.resetFlags(newMessages)
     }
 
     fun updateDatabaseFromNewMessagesFlags() {
         var newMessagesStatus = m_NewMessagesService.getNewMessagesFlags()
 
         for ((messageIdent, newMessages) in newMessagesStatus) {
-            runBlocking { // this: CoroutineScope
-                launch {
-                    m_DatabaseService.updateNewMessagesFlags(
-                        messageIdent.senderName,
-                        messageIdent.senderId,
-                        messageIdent.receiverName,
-                        messageIdent.receiverId,
-                        newMessages
-                    )
-                }
-            }
+            m_DatabaseService.updateNewMessagesFlags(
+                messageIdent.senderName,
+                messageIdent.senderId,
+                messageIdent.receiverName,
+                messageIdent.receiverId,
+                newMessages
+            )
         }
     }
+
 
     //endregion chat
 }

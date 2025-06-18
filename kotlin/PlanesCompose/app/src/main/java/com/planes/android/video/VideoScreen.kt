@@ -4,34 +4,24 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.view.ViewGroup
 import androidx.annotation.OptIn
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -110,10 +100,8 @@ fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 @OptIn(UnstableApi::class)
 @Composable
 fun VideoPlayer(videoId : Int) {
-    // This is the official way to access current context from Composable functions
     val context = LocalContext.current
 
-    // Do not recreate the player everytime this Composable commits
     val exoPlayer = remember(context) {
         ExoPlayer.Builder(context).build().apply {
             val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(context, DefaultHttpDataSource.Factory())
@@ -142,6 +130,7 @@ fun VideoPlayer(videoId : Int) {
         update = { pview ->
             pview.apply {
                 val player = this.player!!
+                //player.stop()
                 val uriSource = Uri.parse(
                     "android.resource://"
                             + context.packageName + "/" + videoId)
