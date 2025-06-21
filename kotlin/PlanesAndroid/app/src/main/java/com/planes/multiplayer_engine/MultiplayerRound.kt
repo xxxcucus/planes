@@ -90,36 +90,34 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         //communication part
         HTTP_LOGGING_INTERCEPTOR.level = HttpLoggingInterceptor.Level.NONE
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            val spec = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
-                .tlsVersions(TlsVersion.TLS_1_2)
-                .cipherSuites(
-                    CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
-                    CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
-                    CipherSuite.TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
-                )
-                .build()
-            val okHttpClient = OkHttpClient.Builder()
-                .connectTimeout(OK_HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(OK_HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(OK_HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
-                .callTimeout(OK_HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
-                .followSslRedirects(true)
-                .retryOnConnectionFailure(true)
-                .followRedirects(true)
-                //.addInterceptor(HTTP_HEADERS)
-                //.addInterceptor(HTTP_LOGGING_INTERCEPTOR)
-                .connectionSpecs(Collections.singletonList(spec))
-                .build()
+        val spec = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+            .tlsVersions(TlsVersion.TLS_1_2)
+            .cipherSuites(
+                CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+                CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+                CipherSuite.TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+            )
+            .build()
+        val okHttpClient = OkHttpClient.Builder()
+            .connectTimeout(OK_HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(OK_HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(OK_HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
+            .callTimeout(OK_HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
+            .followSslRedirects(true)
+            .retryOnConnectionFailure(true)
+            .followRedirects(true)
+            //.addInterceptor(HTTP_HEADERS)
+            //.addInterceptor(HTTP_LOGGING_INTERCEPTOR)
+            .connectionSpecs(Collections.singletonList(spec))
+            .build()
 
-            val retrofit = Retrofit.Builder()
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .baseUrl("https://planes.planes-android.com:8443/planesserver/")
-                .build()
-            m_Service = retrofit.create((MultiplayerCommApi::class.java))
-        }
+        val retrofit = Retrofit.Builder()
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .baseUrl("https://planes.planes-android.com:8443/planesserver/")
+            .build()
+        m_Service = retrofit.create((MultiplayerCommApi::class.java))
 
         //game part
         m_rowNo = rowNo
