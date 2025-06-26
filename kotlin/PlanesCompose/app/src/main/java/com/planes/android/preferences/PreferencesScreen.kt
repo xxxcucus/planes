@@ -1,4 +1,4 @@
-package com.planes.android.singleplayerpreferences
+package com.planes.android.preferences
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,30 +8,27 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.getString
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 
 @Composable
-fun SinglePlayerPreferencesScreen(modifier: Modifier,
+fun PreferencesScreen(modifier: Modifier,
                                   currentScreenState: MutableState<String>,
                                   navController: NavController,
-                                  optionsViewModel: SinglePlayerPreferencesViewModel = viewModel()
+                                  optionsViewModel: PreferencesViewModel = viewModel()
 ) {
 
-    currentScreenState.value = PlanesScreens.SinglePlayerPreferences.name
+    currentScreenState.value = PlanesScreens.Preferences.name
 
     Column(modifier = modifier.fillMaxSize().padding(start = 15.dp),
         verticalArrangement = Arrangement.Top,
@@ -98,6 +95,27 @@ fun SinglePlayerPreferencesScreen(modifier: Modifier,
                         modifier = Modifier.padding(start = 15.dp))
                 }
             }
+        }
+
+
+        Row(modifier = Modifier.padding(15.dp),
+            horizontalArrangement = Arrangement.Start) {
+            Text(text = stringResource(R.string.username))
+            TextField(if (optionsViewModel.getUserName() != null) optionsViewModel.getUserName()!! else "",
+                onValueChange = {
+                    optionsViewModel.setUserName(it)
+                },
+                modifier = Modifier.padding(start = 10.dp))
+        }
+
+        Row(modifier = Modifier.padding(15.dp),
+            horizontalArrangement = Arrangement.Start) {
+            Text(text = stringResource(R.string.password))
+            TextField(if (optionsViewModel.getPassword() != null) optionsViewModel.getPassword()!! else "",
+                onValueChange = {
+                    optionsViewModel.setPassword(it)
+                },
+                modifier = Modifier.padding(start = 10.dp))
         }
 
     }

@@ -132,7 +132,8 @@ fun DrawerContent(modifier: Modifier = Modifier,
                   drawerScope: CoroutineScope,
                   drawerState: DrawerState,
                   ) {
-
+//TODO: to leave a single preferences screen
+    //TODO: to eliminate Single Player Game and Multiplayer Game sections from the drawer
     Column(
         modifier = Modifier.padding(horizontal = 16.dp)
             .verticalScroll(rememberScrollState())
@@ -173,26 +174,16 @@ fun DrawerContent(modifier: Modifier = Modifier,
             navController.navigate(route = PlanesScreens.Chat.name)
         })
 
-        Text(
-            text = "Single Player Game",
-            modifier = Modifier.padding(16.dp),
-            style = MaterialTheme.typography.titleMedium
-        )
-        DrawerMenuItemGeneric("Game", {
+        DrawerMenuItemGeneric("Single Player Game", {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
         })
 
-        DrawerMenuItemGeneric("Preferences", {
-            drawerScope.launch {
-                drawerState.close()
-            }
-            navController.navigate(route = PlanesScreens.SinglePlayerPreferences.name)
-        })
 
-        DrawerMenuItemGeneric("Game Statistics", {
+
+        DrawerMenuItemGeneric("Single Player Game Statistics", {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -200,26 +191,14 @@ fun DrawerContent(modifier: Modifier = Modifier,
         })
 
 
-        Text(
-            text = "Multiplayer Game",
-            modifier = Modifier.padding(16.dp),
-            style = MaterialTheme.typography.titleMedium
-        )
-        DrawerMenuItemGeneric("Game", {
+        DrawerMenuItemGeneric("Multiplayer Game", {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.MultiplayerGame.name)
         })
 
-        DrawerMenuItemGeneric("Preferences", {
-            drawerScope.launch {
-                drawerState.close()
-            }
-            navController.navigate(route = PlanesScreens.MultiplayerPreferences.name)
-        })
-
-        DrawerMenuItemGeneric("Game Statistics", {
+        DrawerMenuItemGeneric("Multiplayer Game Statistics", {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -244,6 +223,13 @@ fun DrawerContent(modifier: Modifier = Modifier,
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.Tutorials.name)
+        })
+
+        DrawerMenuItemGeneric("Preferences", {
+            drawerScope.launch {
+                drawerState.close()
+            }
+            navController.navigate(route = PlanesScreens.Preferences.name)
         })
 
         DrawerMenuItemGeneric("Delete User", {

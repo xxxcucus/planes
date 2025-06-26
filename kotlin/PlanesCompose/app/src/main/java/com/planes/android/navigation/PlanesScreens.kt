@@ -2,10 +2,8 @@ package com.planes.android.navigation
 
 enum class PlanesScreens {
     SinglePlayerGame,
-    SinglePlayerPreferences,
     SinglePlayerGameStatistics,
     MultiplayerGame,
-    MultiplayerPreferences,
     MultiplayerGameStatistics,
     MultiplayerConnectToGame,
     Info,
@@ -14,17 +12,17 @@ enum class PlanesScreens {
     Logout,
     Register,
     DeleteUser,
-    Chat;
+    Chat,
+    Preferences;
     companion object {
         fun fromRoute(route: String?) : PlanesScreens  =
             when(route?.substringBefore("/")) {
                 Info.name -> Info
                 Tutorials.name -> Tutorials
                 SinglePlayerGame.name -> SinglePlayerGame
-                SinglePlayerPreferences.name -> SinglePlayerPreferences
+                Preferences.name -> Preferences
                 SinglePlayerGameStatistics.name -> SinglePlayerGameStatistics
                 MultiplayerGame.name -> MultiplayerGame
-                MultiplayerPreferences.name -> MultiplayerPreferences
                 MultiplayerGameStatistics.name -> MultiplayerGameStatistics
                 MultiplayerConnectToGame.name -> MultiplayerConnectToGame
                 Login.name -> Login
