@@ -15,7 +15,6 @@ import com.planes.android.login.LoginScreen
 import com.planes.android.logout.LogoutScreen
 import com.planes.android.multiplayergame.MultiplayerGameScreen
 import com.planes.android.multiplayergamestatistics.MultiplayerGameStatisticsScreen
-import com.planes.android.multiplayerpreferences.MultiplayerPreferencesScreen
 import com.planes.android.register.RegisterScreen
 import com.planes.android.singleplayergame.SinglePlayerGameScreen
 import com.planes.android.singleplayergamestatistics.SinglePlayerGameStatisticsScreen
