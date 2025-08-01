@@ -3,15 +3,12 @@ package com.planes.android.preferences
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
-class PreferencesViewModel (private val computerSkill: Int = 2,
-                            private val showPlaneAfterKill: Boolean = false,
-                            private val username: String? = null,
-                            private val password: String? = null): ViewModel() {
+class PreferencesViewModel (): ViewModel() {
 
-    private val m_ComputerSkill = mutableStateOf(computerSkill)
-    private val m_ShowPlaneAfterKill = mutableStateOf(showPlaneAfterKill)
-    private val m_UserName = mutableStateOf(username)
-    private val m_Password = mutableStateOf(password)
+    private val m_ComputerSkill = mutableStateOf(2)
+    private val m_ShowPlaneAfterKill = mutableStateOf(false)
+    private val m_UserName = mutableStateOf<String?>(null)
+    private val m_Password = mutableStateOf<String?>(null)
 
     fun getComputerSkill(): Int {
         return m_ComputerSkill.value
