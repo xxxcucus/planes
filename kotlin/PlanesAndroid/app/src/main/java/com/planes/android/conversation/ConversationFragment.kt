@@ -28,6 +28,7 @@ import com.planes.utils.DateTimeUtils
 import io.reactivex.Observable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 import java.time.Instant
@@ -86,23 +87,26 @@ class ConversationFragment: Fragment() {
         var messagesFromDb : List<ChatMessage>? = null
 
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            messagesFromDb = m_DatabaseService.getMessages(
-                ownUsername,
-                ownUserId,
-                m_Username,
-                m_UserId,
-                ownUsername,
-                ownUserId
-            )
-
-            withContext(Dispatchers.Main) {
-                m_MessagesList = transformMessagesListToConversationModel(messagesFromDb!!)
-                m_ConversationAdapter = ConversationAdapter(m_MessagesList)
-                m_ConversationAdapter.notifyDataSetChanged()
+        runBlocking {
+            launch {
+                messagesFromDb = m_DatabaseService.getMessages(
+                    ownUsername,
+                    ownUserId,
+                    m_Username,
+                    m_UserId,
+                    ownUsername,
+                    ownUserId
+                )
             }
-            //m_RecyclerView.scrollToPosition(m_MessagesList.size - 1)
         }
+
+        if (messagesFromDb != null) {
+            m_MessagesList = transformMessagesListToConversationModel(messagesFromDb!!)
+            m_ConversationAdapter = ConversationAdapter(m_MessagesList)
+            m_ConversationAdapter.notifyDataSetChanged()
+
+        }
+            //m_RecyclerView.scrollToPosition(m_MessagesList.size - 1)
     }
 
     private fun prepareMessagesListResume() {
@@ -115,21 +119,23 @@ class ConversationFragment: Fragment() {
 
         var messagesFromDb : List<ChatMessage>? = null
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            messagesFromDb = m_DatabaseService.getMessages(
-                ownUsername,
-                ownUserId,
-                m_Username,
-                m_UserId,
-                ownUsername,
-                ownUserId
-            )
-
-            withContext(Dispatchers.Main) {
-                m_MessagesList = transformMessagesListToConversationModel(messagesFromDb!!)
-                m_ConversationAdapter.updateSections(m_MessagesList)
-                m_RecyclerView.scrollToPosition(m_MessagesList.size - 1)
+        runBlocking {
+            launch {
+                messagesFromDb = m_DatabaseService.getMessages(
+                    ownUsername,
+                    ownUserId,
+                    m_Username,
+                    m_UserId,
+                    ownUsername,
+                    ownUserId
+                )
             }
+        }
+
+        if (messagesFromDb != null) {
+            m_MessagesList = transformMessagesListToConversationModel(messagesFromDb!!)
+            m_ConversationAdapter.updateSections(m_MessagesList)
+            m_RecyclerView.scrollToPosition(m_MessagesList.size - 1)
         }
     }
     override fun onCreateView(
