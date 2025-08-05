@@ -54,7 +54,8 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
         val inflater =
             m_Context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        var popupView = View(m_Context);
+        var popupView = View(m_Context)
+        var created = true
 
         when (m_CurFragment) {
             R.id.nav_game -> {
@@ -78,7 +79,13 @@ class HelpPopup(context: Context, mainLayout: LinearLayoutCompat, curFragment: I
             R.id.nav_conversation -> {
                 popupView = inflater.inflate(R.layout.help_popup_novideo, null)
             }
+
+            else -> created = false
         }
+
+
+        if (!created)
+            return
 
         // create the popup window
         val width = LinearLayout.LayoutParams.WRAP_CONTENT
