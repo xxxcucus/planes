@@ -10,8 +10,8 @@ android {
         targetSdkVersion 36
         compileSdk 36
         multiDexEnabled true
-        versionCode 32
-        versionName "0.4.4.3"
+        versionCode 33
+        versionName "0.4.4.4"
     }
     compileOptions {
         // Flag to enable support for the new language APIs
