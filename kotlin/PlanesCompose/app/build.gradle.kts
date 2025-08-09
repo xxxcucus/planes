@@ -61,6 +61,9 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.datastore.preferences)
+
+
 
     //implementation ("com.google.android.exoplayer:exoplayer:2.19.1")
 

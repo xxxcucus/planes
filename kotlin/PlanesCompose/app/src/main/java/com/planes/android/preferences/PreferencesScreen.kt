@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.planes.android.R
@@ -25,7 +26,7 @@ import com.planes.android.navigation.PlanesScreens
 fun PreferencesScreen(modifier: Modifier,
                                   currentScreenState: MutableState<String>,
                                   navController: NavController,
-                                  optionsViewModel: PreferencesViewModel = viewModel()
+                                  optionsViewModel: PreferencesViewModel = hiltViewModel()
 ) {
 
     currentScreenState.value = PlanesScreens.Preferences.name
@@ -101,7 +102,7 @@ fun PreferencesScreen(modifier: Modifier,
         Row(modifier = Modifier.padding(15.dp),
             horizontalArrangement = Arrangement.Start) {
             Text(text = stringResource(R.string.username))
-            TextField(if (optionsViewModel.getUserName() != null) optionsViewModel.getUserName()!! else "",
+            TextField(value = optionsViewModel.getUserName(),
                 onValueChange = {
                     optionsViewModel.setUserName(it)
                 },
@@ -111,7 +112,7 @@ fun PreferencesScreen(modifier: Modifier,
         Row(modifier = Modifier.padding(15.dp),
             horizontalArrangement = Arrangement.Start) {
             Text(text = stringResource(R.string.password))
-            TextField(if (optionsViewModel.getPassword() != null) optionsViewModel.getPassword()!! else "",
+            TextField(value = optionsViewModel.getPassword(),
                 onValueChange = {
                     optionsViewModel.setPassword(it)
                 },
