@@ -4,6 +4,9 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -19,12 +22,14 @@ import com.planes.android.register.RegisterScreen
 import com.planes.android.singleplayergame.SinglePlayerGameScreen
 import com.planes.android.singleplayergamestatistics.SinglePlayerGameStatisticsScreen
 import com.planes.android.preferences.PreferencesScreen
+import com.planes.android.preferences.PreferencesViewModel
 import com.planes.android.video.VideoModelRepository
 import com.planes.android.video.VideoScreen
 
 @Composable
 fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String>,
-                     navController: NavHostController, context: Context) {
+                     navController: NavHostController, context: Context,
+                     optionsViewModel: PreferencesViewModel = hiltViewModel()) {
 
     NavHost(
         navController = navController,
@@ -36,7 +41,7 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
             SinglePlayerGameStatisticsScreen(modifier = modifier, currentScreenState, navController = navController)
         }
         composable(PlanesScreens.Preferences.name) {
-            PreferencesScreen(modifier = modifier, currentScreenState, navController = navController)
+            PreferencesScreen(modifier = modifier, currentScreenState, navController = navController, optionsViewModel = optionsViewModel)
         }
         composable(PlanesScreens.MultiplayerGame.name) {
             MultiplayerGameScreen(modifier = modifier, currentScreenState, navController = navController)
