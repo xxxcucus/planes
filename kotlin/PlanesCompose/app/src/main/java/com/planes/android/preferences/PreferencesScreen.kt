@@ -1,5 +1,6 @@
 package com.planes.android.preferences
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,12 +25,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
@@ -37,6 +41,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
+import com.planes.android.widgets.CheckBoxOption
 
 @Composable
 fun PreferencesScreen(modifier: Modifier,
@@ -54,69 +59,38 @@ fun PreferencesScreen(modifier: Modifier,
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start) {
 
-
         val computerSkillsArray = stringArrayResource(R.array.computer_skills)
 
-        Row(modifier = Modifier.padding(15.dp),
-            horizontalArrangement = Arrangement.Start) {
+        Column(modifier = Modifier.padding(start = 15.dp, top = 10.dp))  {
+
             Text(text = stringResource(R.string.computer_skill))
-            Column(modifier = Modifier.padding(start = 15.dp, top = 10.dp))  {
-                Row(modifier = Modifier.padding(start = 10.dp)) {
-                    RadioButton(selected = optionsViewModel.getComputerSkill() == 0,
-                        onClick = {
-                            optionsViewModel.setComputerSkill(0)
-                    },
-                        modifier = Modifier.size(10.dp))
-                    Text(text = computerSkillsArray[0],
-                        modifier = Modifier.padding(start = 15.dp))
-                }
-                Row(modifier = Modifier.padding(start = 10.dp)) {
-                    RadioButton(selected = optionsViewModel.getComputerSkill() == 1,
-                        onClick = {
-                            optionsViewModel.setComputerSkill(1)
-                    },
-                        modifier = Modifier.size(10.dp))
-                    Text(text = computerSkillsArray[1],
-                        modifier = Modifier.padding(start = 15.dp))
-                }
-                Row(modifier = Modifier.padding(start = 10.dp)) {
-                    RadioButton(selected = optionsViewModel.getComputerSkill() == 2,
-                        onClick = {
-                            optionsViewModel.setComputerSkill(2)
-                    },
-                        modifier = Modifier.size(10.dp))
-                    Text(text = computerSkillsArray[2],
-                        modifier = Modifier.padding(start = 15.dp))
-                }
-            }
+
+            CheckBoxOption(text = computerSkillsArray[0],
+                optionsViewModel.getComputerSkill() == 0,
+                        {optionsViewModel.setComputerSkill(0)})
+            CheckBoxOption(text = computerSkillsArray[1],
+                optionsViewModel.getComputerSkill() == 1,
+                        {optionsViewModel.setComputerSkill(1)})
+            CheckBoxOption(text = computerSkillsArray[2],
+                optionsViewModel.getComputerSkill() == 2,
+                        {optionsViewModel.setComputerSkill(2)})
+
         }
 
-        Row(modifier = Modifier.padding(15.dp),
-            horizontalArrangement = Arrangement.Start) {
+
+        val yesNoOptionsArray = stringArrayResource(R.array.yesno_options)
+        Column(modifier = Modifier.padding(start = 15.dp, top = 10.dp)) {
+
             Text(text = stringResource(R.string.show_plane_after_kill))
-            val yesNoOptionsArray = stringArrayResource(R.array.yesno_options)
-            Column(modifier = Modifier.padding(start = 15.dp, top = 10.dp)) {
-                Row(modifier = Modifier.padding(start = 10.dp)) {
-                    RadioButton(selected = optionsViewModel.getShowPlaneAfterKill(),
-                        onClick = {
-                            optionsViewModel.setShowPlaneAfterKill(true)
-                        },
-                        modifier = Modifier.size(10.dp))
-                    Text(text = yesNoOptionsArray[0],
-                        modifier = Modifier.padding(start = 15.dp))
-                }
-                Row(modifier = Modifier.padding(start = 10.dp)) {
-                    RadioButton(selected = !optionsViewModel.getShowPlaneAfterKill(),
-                        onClick = {
-                            optionsViewModel.setShowPlaneAfterKill(false)
-                        },
-                        modifier = Modifier.size(10.dp))
-                    Text(text = yesNoOptionsArray[1],
-                        modifier = Modifier.padding(start = 15.dp))
-                }
-            }
-        }
 
+            CheckBoxOption(text = yesNoOptionsArray[0],
+                optionsViewModel.getShowPlaneAfterKill(),
+                {optionsViewModel.setShowPlaneAfterKill(true)})
+            CheckBoxOption(text = yesNoOptionsArray[1],
+                !optionsViewModel.getShowPlaneAfterKill(),
+                {optionsViewModel.setShowPlaneAfterKill(false)})
+
+        }
 
         Row(modifier = Modifier.padding(15.dp),
             horizontalArrangement = Arrangement.Start) {
