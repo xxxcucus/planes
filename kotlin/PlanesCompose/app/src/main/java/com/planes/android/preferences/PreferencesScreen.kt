@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
@@ -42,6 +44,7 @@ import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.widgets.CheckBoxOption
+import com.planes.android.widgets.CommonTextField
 
 @Composable
 fun PreferencesScreen(modifier: Modifier,
@@ -52,10 +55,12 @@ fun PreferencesScreen(modifier: Modifier,
 
 
     currentScreenState.value = PlanesScreens.Preferences.name
+    val scrollState = rememberScrollState()
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    Column(modifier = modifier.fillMaxSize().padding(start = 15.dp),
+    Column(modifier = modifier.fillMaxSize().padding(start = 15.dp).
+    verticalScroll(state = scrollState),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start) {
 
@@ -63,7 +68,8 @@ fun PreferencesScreen(modifier: Modifier,
 
         Column(modifier = Modifier.padding(start = 15.dp, top = 10.dp))  {
 
-            Text(text = stringResource(R.string.computer_skill))
+            Text(text = stringResource(R.string.computer_skill),
+                modifier = Modifier.padding(start = 15.dp))
 
             CheckBoxOption(text = computerSkillsArray[0],
                 optionsViewModel.getComputerSkill() == 0,
@@ -81,7 +87,8 @@ fun PreferencesScreen(modifier: Modifier,
         val yesNoOptionsArray = stringArrayResource(R.array.yesno_options)
         Column(modifier = Modifier.padding(start = 15.dp, top = 10.dp)) {
 
-            Text(text = stringResource(R.string.show_plane_after_kill))
+            Text(text = stringResource(R.string.show_plane_after_kill),
+                modifier = Modifier.padding(start = 15.dp))
 
             CheckBoxOption(text = yesNoOptionsArray[0],
                 optionsViewModel.getShowPlaneAfterKill(),
@@ -126,35 +133,3 @@ fun PreferencesScreen(modifier: Modifier,
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CommonTextField(modifier: Modifier,
-                    optionsViewModel: PreferencesViewModel,
-                    valueReadLambda: @Composable (PreferencesViewModel)->String,
-                    valueWriteLambda: (PreferencesViewModel, String)->Unit,
-                    placeholder: String,
-                    keyboardType: KeyboardType,
-                    imeAction: ImeAction,
-                    onAction: KeyboardActions = KeyboardActions.Default
-) {
-    OutlinedTextField(
-        value = valueReadLambda.invoke(optionsViewModel),
-        onValueChange = {
-            valueWriteLambda.invoke(optionsViewModel, it)
-        } ,
-        label = {
-            Text(text = placeholder)
-        },
-        maxLines = 1,
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
-        keyboardActions = KeyboardActions.Default,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Color.Blue,
-            cursorColor = Color.Black
-        ),
-        shape = RoundedCornerShape(15.dp),
-        //modifier = Modifier.fillMaxWidth().padding(start = 10.dp, end = 10.dp)
-        modifier = modifier
-    )
-}
