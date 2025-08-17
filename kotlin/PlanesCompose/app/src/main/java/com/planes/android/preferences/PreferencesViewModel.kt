@@ -1,10 +1,7 @@
 package com.planes.android.preferences
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
+
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -14,8 +11,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,18 +26,6 @@ class PreferencesViewModel @Inject constructor(
         val USERNAME = stringPreferencesKey("username")
         val PASSWORD = stringPreferencesKey("password")
     }
-
-    private val _ComputerSkill1 = MutableStateFlow(2)
-    val m_ComputerSkill1: StateFlow<Int> = _ComputerSkill1
-
-    private val _ShowPlaneAfterKill1 = MutableStateFlow(false)
-    val m_ShowPlaneAfterKill1: StateFlow<Boolean> = _ShowPlaneAfterKill1
-
-    private val _UserName1 = MutableStateFlow("")
-    val m_UserName1 : StateFlow<String> = _UserName1
-
-    private val _Password1 = MutableStateFlow("")
-    val m_Password1 : StateFlow<String> = _Password1
 
     private var m_ComputerSkill = mutableStateOf(2)
     private var m_ShowPlaneAfterKill = mutableStateOf(false)
@@ -105,56 +88,6 @@ class PreferencesViewModel @Inject constructor(
         }
     }
 
-    /*
-    @Composable
-    fun getComputerSkill(): Int {
-        return m_ComputerSkill1.collectAsState().value
-    }
-    fun setComputerSkill(value: Int) {
-        viewModelScope.launch {
-            dataStore.edit { prefs ->
-                prefs[COMPUTER_SKILL] = value
-            }
-        }
-    }
-
-    @Composable
-    fun getShowPlaneAfterKill(): Boolean {
-        return m_ShowPlaneAfterKill1.collectAsState().value
-    }
-    fun setShowPlaneAfterKill(value: Boolean) {
-        viewModelScope.launch {
-            dataStore.edit { prefs ->
-                prefs[SHOW_PLANE] = value
-            }
-        }
-    }
-
-    @Composable
-    fun getUserName(): String {
-        return m_UserName1.collectAsState().value
-    }
-
-    fun setUserName(value: String) {
-        viewModelScope.launch {
-            dataStore.edit { prefs ->
-                prefs[USERNAME] = value
-            }
-        }
-    }
-
-    @Composable
-    fun getPassword(): String {
-        return m_Password1.collectAsState().value
-    }
-
-    fun setPassword(value: String) {
-        viewModelScope.launch {
-            dataStore.edit { prefs ->
-                prefs[PASSWORD] = value
-            }
-        }
-    }*/
 
     init {
         updateFields()
@@ -170,11 +103,6 @@ class PreferencesViewModel @Inject constructor(
                     password = prefs[PASSWORD] ?: "")
 
             }.collect { userprefs ->
-                _ComputerSkill1.value = userprefs.computerSkill
-                _ShowPlaneAfterKill1.value = userprefs.showPlaneAfterKill
-                _UserName1.value = userprefs.userName
-                _Password1.value = userprefs.password
-
                 m_ComputerSkill.value = userprefs.computerSkill
                 m_ShowPlaneAfterKill.value = userprefs.showPlaneAfterKill
                 m_UserName.value = userprefs.userName

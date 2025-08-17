@@ -396,6 +396,160 @@ Interesting are for this screen the different fragment life cycle methods implem
 
 In the onStop() implementation the video playback is stopped. In the onPause() implementation the current position in the video is saved. In the onResume() method the video is started where it was interrupted. 
 
+\subsection{Preferences Screen}
+
+There are two preferences screens inside the app one for the single player modus and another one for the multiplayer modus. 
+
+The layout for vertical screen orientation is as follows:
+
+\begin{lstlisting}
+	<?xml version="1.0" encoding="utf-8"?>
+	<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+		<data>
+		<variable name="settingsData"
+		type="com.planes.android.preferences.SinglePlayerSettingsViewModel"/>
+		</data>
+	
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@drawable/background"
+		android:id="@+id/options_layout">
+		
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:background="?planesBackgroundEndColor"
+			android:layout_margin="10dip">
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="10dip"
+				android:textSize="20sp"
+				android:textStyle="bold"
+				style="@style/CustomTextViewStyle"
+				android:text="@string/game_difficulty_options"/>
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_margin="10dip"
+					android:textSize="20sp"
+					style="@style/CustomTextViewStyle"
+					android:text="@string/computer_skill"/>
+				<Spinner
+					android:id="@+id/computer_skill_spinner"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="10dip"
+					android:minHeight="48dp"
+					app:currentSkill="@={settingsData.m_ComputerSkill}"/>
+			</LinearLayout>
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="20sp"
+					android:layout_margin="10dip"
+					style="@style/CustomTextViewStyle"
+					android:text="@string/show_plane_after_kill"/>
+				<Spinner
+					android:id="@+id/show_plane_after_kill"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="10dip"
+					android:minHeight="48dp"
+					app:showPlaneAfterKill="@={settingsData.m_ShowPlaneAfterKill}"/>
+			</LinearLayout>
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="10dip"
+				android:textSize="20sp"
+				android:textStyle="bold"
+				style="@style/CustomTextViewStyle"
+				android:text="@string/multiplayer_options"/>
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_margin="10dip"
+					android:textSize="20sp"
+					style="@style/CustomTextViewStyle"
+					android:text="@string/multiplayer_version"/>
+				<Spinner
+					android:id="@+id/multiplayer_spinner"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="10dip"
+					android:minHeight="48dp"
+					app:multiplayerVersion="@={settingsData.m_MultiplayerVersion}"/>
+			</LinearLayout>
+			<Button
+				android:id="@+id/options_savesettings"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textSize="15sp"
+				style="@style/ButtonColor"
+				android:text="@string/savesettings"
+				android:layout_gravity="end"/>
+		</LinearLayout>
+	</LinearLayout>
+	</layout>
+	
+\end{lstlisting}
+
+Here the three options for the game difficulty, whether to show the plane after being destroyed and whether to swtich to multiplayer game or not are being given with Spinner views. The data are stored in a View Model with a so-called view model binding. This is configured at the beginning of the layout with the key words "variable name". The variable in this case is called settingsData of the type SinglePlayerSettingsViewModel. The fields that are being updated directly by the spinner through the view model binding are defined with the tags "app:currentSkill", "app:showPlaneAfterKill", "app:multiplayerVersion". 
+
+The view model class looks as follows:
+
+\begin{lstlisting} [caption = {Preferences View Model},label=pref_view_model1]
+	class SinglePlayerSettingsViewModel(var computerSkill: Int, var showPlaneAfterKill: Boolean, var multiplayerVersion: Boolean) : ViewModel() {
+		
+		var m_ComputerSkill: Int = 0
+		var m_ShowPlaneAfterKill: Boolean = false
+		var m_MultiplayerVersion: Boolean = false
+		
+		init {
+			m_ComputerSkill = computerSkill
+			m_ShowPlaneAfterKill = showPlaneAfterKill
+			m_MultiplayerVersion = multiplayerVersion
+		}
+	}
+\end{lstlisting}
+
+These preferences are persisted through a service called SinglePlayerPreferencesService. This service serves as interface to the shared preferences feature of Android. Persisting the view model occurs as follows:
+
+\begin{lstlisting} [caption = {Persisting Preferences},label=pres_prefs1]
+	override fun readPreferences() {
+		val sp_gamedifficulty = m_Context.getSharedPreferences("gamedifficulty",
+		Context.MODE_PRIVATE)
+		computerSkill = sp_gamedifficulty.getInt("computerskill", 2)
+		showPlaneAfterKill = sp_gamedifficulty.getBoolean("showkilledplane", false)
+	}
+	
+	override fun writePreferences() {
+		val sp_gamedifficulty = m_Context.getSharedPreferences("gamedifficulty",
+		Context.MODE_PRIVATE).edit()
+		sp_gamedifficulty.putInt("computerskill", computerSkill)
+		sp_gamedifficulty.putBoolean("showkilledplane", showPlaneAfterKill)
+		sp_gamedifficulty.apply()
+	}
+	
+\end{lstlisting}
+
 \subsection { Android Concepts }
 
 \subsubsection { Activity }
@@ -1187,4 +1341,247 @@ navController: NavController, videoModelList: List<VideoModel>) {
 	}
 }
 }
+\end{lstlisting}
+
+\subsection{Preferences Screen}
+
+The preferences screen is defined as a composable function which takes a view model as parameter:
+
+\begin{lstlisting}
+	
+	fun PreferencesScreen(modifier: Modifier,
+	currentScreenState: MutableState<String>,
+	navController: NavController,
+	optionsViewModel: PreferencesViewModel
+	) {
+		
+		
+		currentScreenState.value = PlanesScreens.Preferences.name
+		val scrollState = rememberScrollState()
+		
+		val keyboardController = LocalSoftwareKeyboardController.current
+		
+		Column(modifier = modifier.fillMaxSize().padding(start = 15.dp).
+		verticalScroll(state = scrollState),
+		verticalArrangement = Arrangement.Top,
+		horizontalAlignment = Alignment.Start) {
+			
+			val computerSkillsArray = stringArrayResource(R.array.computer_skills)
+			
+			Column(modifier = Modifier.padding(start = 15.dp, top = 10.dp))  {
+				
+				Text(text = stringResource(R.string.computer_skill),
+				modifier = Modifier.padding(start = 15.dp))
+				
+				CheckBoxOption(text = computerSkillsArray[0],
+				optionsViewModel.getComputerSkill() == 0,
+				{optionsViewModel.setComputerSkill(0)})
+				CheckBoxOption(text = computerSkillsArray[1],
+				optionsViewModel.getComputerSkill() == 1,
+				{optionsViewModel.setComputerSkill(1)})
+				CheckBoxOption(text = computerSkillsArray[2],
+				optionsViewModel.getComputerSkill() == 2,
+				{optionsViewModel.setComputerSkill(2)})
+				
+			}
+			
+			
+			val yesNoOptionsArray = stringArrayResource(R.array.yesno_options)
+			Column(modifier = Modifier.padding(start = 15.dp, top = 10.dp)) {
+				
+				Text(text = stringResource(R.string.show_plane_after_kill),
+				modifier = Modifier.padding(start = 15.dp))
+				
+				CheckBoxOption(text = yesNoOptionsArray[0],
+				optionsViewModel.getShowPlaneAfterKill(),
+				{optionsViewModel.setShowPlaneAfterKill(true)})
+				CheckBoxOption(text = yesNoOptionsArray[1],
+				!optionsViewModel.getShowPlaneAfterKill(),
+				{optionsViewModel.setShowPlaneAfterKill(false)})
+				
+			}
+			
+			
+			CommonTextField(modifier = Modifier.padding(15.dp),
+			optionsViewModel,
+			{ prefs ->  prefs.getUserName()},
+			{ prefs, str -> prefs.setUserName(str)},
+			onAction = KeyboardActions {
+				keyboardController?.hide()
+			},
+			keyboardType = KeyboardType.Text,
+			imeAction = ImeAction.Default,
+			placeholder = stringResource(R.string.username))
+			
+			
+			
+			CommonTextField(
+			modifier = Modifier.padding(15.dp),
+			optionsViewModel,
+			{ prefs -> prefs.getPassword() },
+			{ prefs, str -> prefs.setPassword(str) },
+			onAction = KeyboardActions {
+				keyboardController?.hide()
+			},
+			keyboardType = KeyboardType.Text,
+			imeAction = ImeAction.Default,
+			placeholder = stringResource(R.string.password)
+			)
+			
+		}
+\end{lstlisting}
+
+The persistence of the preferences is implemented inside the view model class:
+
+\begin{lstlisting}
+class PreferencesViewModel @Inject constructor(
+private val dataStore: DataStore<Preferences>
+): ViewModel() {
+	
+	private companion object {
+		val COMPUTER_SKILL = intPreferencesKey("computer_skill")
+		val SHOW_PLANE = booleanPreferencesKey("show_plane")
+		val USERNAME = stringPreferencesKey("username")
+		val PASSWORD = stringPreferencesKey("password")
+	}
+	
+	private var m_ComputerSkill = mutableStateOf(2)
+	private var m_ShowPlaneAfterKill = mutableStateOf(false)
+	private var m_UserName = mutableStateOf("")
+	private var m_Password = mutableStateOf("")
+	
+	fun getComputerSkill(): Int {
+		return m_ComputerSkill.value
+	}
+	
+	fun setComputerSkill(value: Int) {
+		m_ComputerSkill.value = value
+		
+		viewModelScope.launch {
+			dataStore.edit { prefs ->
+				prefs[COMPUTER_SKILL] = value
+			}
+		}
+	}
+	
+	fun getShowPlaneAfterKill() : Boolean {
+		return m_ShowPlaneAfterKill.value
+	}
+	
+	fun setShowPlaneAfterKill(value: Boolean) {
+		m_ShowPlaneAfterKill.value = value
+		
+		viewModelScope.launch {
+			dataStore.edit { prefs ->
+				prefs[SHOW_PLANE] = value
+			}
+		}
+	}
+	
+	fun getUserName(): String {
+		return m_UserName.value
+	}
+	
+	fun setUserName(value: String) {
+		m_UserName.value = value
+		
+		viewModelScope.launch {
+			dataStore.edit { prefs ->
+				prefs[USERNAME] = value
+			}
+		}
+	}
+	
+	fun getPassword(): String {
+		return m_Password.value
+	}
+	
+	fun setPassword(value: String) {
+		m_Password.value = value
+		
+		viewModelScope.launch {
+			dataStore.edit { prefs ->
+				prefs[PASSWORD] = value
+			}
+		}
+	}
+	
+	
+	init {
+		updateFields()
+	}
+	
+	private fun updateFields() {
+		viewModelScope.launch {
+			dataStore.data.map { prefs ->
+				UserPreferences(
+				computerSkill = prefs[COMPUTER_SKILL] ?: 2,
+				showPlaneAfterKill = prefs[SHOW_PLANE] ?: false,
+				userName = prefs[USERNAME] ?: "",
+				password = prefs[PASSWORD] ?: "")
+				
+			}.collect { userprefs ->
+				
+				m_ComputerSkill.value = userprefs.computerSkill
+				m_ShowPlaneAfterKill.value = userprefs.showPlaneAfterKill
+				m_UserName.value = userprefs.userName
+				m_Password.value = userprefs.password
+			}
+			
+		}
+	}
+	
+	fun savePreferences() {
+		viewModelScope.launch {
+			dataStore.edit { prefs ->
+				prefs[COMPUTER_SKILL] = m_ComputerSkill.value
+				prefs[SHOW_PLANE] = m_ShowPlaneAfterKill.value
+				prefs[USERNAME] = m_UserName.value
+				prefs[PASSWORD] = m_Password.value
+			}
+		}
+	}
+	
+}
+\end{lstlisting}
+
+This view model is not a simple data class like the implementation in \ref{pref_view_model1}. It derives from ViewModel and it is injected into the composables with dependency injection. It keeps its state when screen orientation is changed for example. 
+
+The view model is connected to the composable defining the preference screen where it is given as parameter. In order for it to work smoothly with input methods like typing of username and password it keeps the preferences elements into MutableState<> variables. When the user inputs values these are saved into the MutableState<> variables, but at the same time they are persisted into a Data Store that is meant to keep the settings beyound stopping of the app. The data store is a modern alternative to the shared preferences used in \ref{pres_prefs1}
+
+This is implemented for example in this method:
+
+\begin{lstlisting}
+	fun setShowPlaneAfterKill(value: Boolean) {
+		m_ShowPlaneAfterKill.value = value
+		
+		viewModelScope.launch {
+			dataStore.edit { prefs ->
+				prefs[SHOW_PLANE] = value
+			}
+		}
+	}
+\end{lstlisting}
+
+m\_ShowPlaneAfterKill is a MutableState<Boolean> variable which keeps the user option during the functioning of the application. Every time the user changes something this change is persisted through a background task to the data store. When the preferences value are required in the Preferences Screen they are delivered directly from the MutableState<> variables.
+
+When the view model is first instantiated the values from the data store are read into the MutableState<> variables:
+
+\begin{lstlisting}
+	private fun updateFields() {
+		viewModelScope.launch {
+			dataStore.data.map { prefs ->
+				UserPreferences(
+				computerSkill = prefs[COMPUTER_SKILL] ?: 2,
+				showPlaneAfterKill = prefs[SHOW_PLANE] ?: false,
+				userName = prefs[USERNAME] ?: "",
+				password = prefs[PASSWORD] ?: "")
+			}.collect { userprefs ->
+				m_ComputerSkill.value = userprefs.computerSkill
+				m_ShowPlaneAfterKill.value = userprefs.showPlaneAfterKill
+				m_UserName.value = userprefs.userName
+				m_Password.value = userprefs.password
+			}	
+		}
+	}
 \end{lstlisting}

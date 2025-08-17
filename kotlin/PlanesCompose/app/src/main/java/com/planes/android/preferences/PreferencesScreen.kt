@@ -99,36 +99,33 @@ fun PreferencesScreen(modifier: Modifier,
 
         }
 
-        Row(modifier = Modifier.padding(15.dp),
-            horizontalArrangement = Arrangement.Start) {
-            CommonTextField(modifier = Modifier.padding(start = 10.dp),
-                optionsViewModel,
-                { prefs ->  prefs.getUserName()},
-                { prefs, str -> prefs.setUserName(str)},
-                onAction = KeyboardActions {
-                    keyboardController?.hide()
-                },
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Default,
-                placeholder = stringResource(R.string.username))
-        }
-        
-        Row(modifier = Modifier.padding(15.dp),
-            horizontalArrangement = Arrangement.Start) {
-            CommonTextField(
-                modifier = Modifier.padding(start = 10.dp),
-                optionsViewModel,
-                { prefs -> prefs.getPassword() },
-                { prefs, str -> prefs.setPassword(str) },
-                onAction = KeyboardActions {
-                    keyboardController?.hide()
-                },
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Default,
-                placeholder = stringResource(R.string.password)
-            )
 
-        }
+        CommonTextField(modifier = Modifier.padding(15.dp),
+            optionsViewModel,
+            { prefs ->  prefs.getUserName()},
+            { prefs, str -> prefs.setUserName(str)},
+            onAction = KeyboardActions {
+                keyboardController?.hide()
+            },
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Default,
+            placeholder = stringResource(R.string.username))
+
+        
+
+        CommonTextField(
+            modifier = Modifier.padding(15.dp),
+            optionsViewModel,
+            { prefs -> prefs.getPassword() },
+            { prefs, str -> prefs.setPassword(str) },
+            onAction = KeyboardActions {
+                keyboardController?.hide()
+            },
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Default,
+            placeholder = stringResource(R.string.password)
+        )
+
     }
 }
 
