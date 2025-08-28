@@ -1,5 +1,6 @@
 package com.planes.android.singleplayergame
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.util.Pair
@@ -57,6 +58,14 @@ class PlaneGridViewModel() : ViewModel() {
 
     fun getPlaneNo(): Int {
         return m_planeNo
+    }
+
+    fun isComputer():Boolean {
+        return m_isComputer.value
+    }
+
+    fun getAnnotation(idx: Int): Int {
+        return m_listPlanePointsAnnotations[idx] //TODO: overflow
     }
 
     //constructor
@@ -138,6 +147,7 @@ class PlaneGridViewModel() : ViewModel() {
                 if (!isOnPlane.first) {
                     m_listPlanePoints.add(qp.clone() as Coordinate2D)
                     m_listPlanePointsAnnotations.add(annotation)
+                    //Log.d("Planes", "added point at ${qp.x}, ${qp.y} with annotation $annotation")
                 } else {
                     returnValue = false
                     m_listPlanePointsAnnotations[isOnPlane.second] = m_listPlanePointsAnnotations[isOnPlane.second] or annotation
@@ -272,7 +282,10 @@ class PlaneGridViewModel() : ViewModel() {
             val pos = generateRandomNumber(listPossiblePositions.size)
             val pl = listPossiblePositions[pos]
             //save the selected plane
-            if (savePlane(pl)) count++
+            if (savePlane(pl)) {
+                count++
+                Log.d("Planes", "Saved plane ${pl.col()} vs ${pl.row()} " )
+            }
         } //while
         return true
     }

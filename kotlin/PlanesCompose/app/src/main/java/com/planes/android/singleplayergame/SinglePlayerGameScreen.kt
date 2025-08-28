@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -32,6 +33,7 @@ import androidx.compose.ui.graphics.PaintingStyle.Companion.Stroke
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -54,7 +56,10 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
         squareSizeDp = screenHeightDp / planesGridViewModel.getRowNo()
     }
 
-    //Log.d("Planes", "screen $screenWidthDp $screenHeightDp square size $squareSizeDp")
+    //TODO: to optimize for horizontal layout
+    val squareSizePx = with(LocalDensity.current) { squareSizeDp.dp.toPx() }
+
+    Log.d("Planes", "planes no ${planesGridViewModel.getPlaneNo()}")
 
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
         LazyVerticalGrid(
@@ -63,10 +68,8 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
             columns = GridCells.Fixed(planesGridViewModel.getColNo()),
             modifier = modifier.fillMaxHeight()
         ) {
-            items(planesGridViewModel.getRowNo() * planesGridViewModel.getColNo()) {
-                Canvas(modifier = Modifier.size(squareSizeDp.dp)) {
-                    drawRect(color = Color.Blue, style = Stroke(width = 3f))
-                }
+            items(planesGridViewModel.getRowNo() * planesGridViewModel.getColNo()) { index ->
+                DrawBoardSquare(index, squareSizeDp, squareSizePx, planesGridViewModel)
             }
         }
     } else {
@@ -76,10 +79,8 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
             rows = GridCells.Fixed(planesGridViewModel.getRowNo()),
             modifier = modifier.fillMaxWidth()
         ) {
-            items(planesGridViewModel.getRowNo() * planesGridViewModel.getColNo()) {
-                Canvas(modifier = Modifier.size(squareSizeDp.dp)) {
-                    drawRect(color = Color.Blue, style = Stroke(width = 3f))
-                }
+            items(planesGridViewModel.getRowNo() * planesGridViewModel.getColNo()) { index ->
+                DrawBoardSquare(index, squareSizeDp, squareSizePx, planesGridViewModel)
             }
         }
     }
@@ -90,4 +91,35 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
 
 }
 
+@Composable
+fun DrawBoardSquare(index: Int, squareSizeDp: Int, squareSizePx: Float, planesGridViewModel: PlaneGridViewModel) {
+    val row = index / planesGridViewModel.getColNo()
+    val col = index % planesGridViewModel.getColNo()
+
+    val pointOnPlane = planesGridViewModel.isPointOnPlane(col, row)
+    if (!pointOnPlane.first)
+        GridSquare(squareSizeDp, squareSizePx, Color.Blue)
+    else {
+        val annotation = planesGridViewModel.getAnnotation(pointOnPlane.second)
+        val planesIdx = planesGridViewModel.decodeAnnotation(annotation)
+        if (planesIdx.size == 1) {
+            GridSquare(
+                planesGridViewModel.isComputer(),
+                if (planesIdx[0] < 0) -2 else planesIdx[0] + 1,
+                squareSizeDp,
+                squareSizePx,
+                Color.Blue
+            )
+            Log.d("Planes", "plane ${planesIdx[0]}")
+        } else {
+            GridSquare(
+                planesGridViewModel.isComputer(),
+                -1,
+                squareSizeDp,
+                squareSizePx,
+                Color.Blue
+            )
+        }
+    }
+}
 
