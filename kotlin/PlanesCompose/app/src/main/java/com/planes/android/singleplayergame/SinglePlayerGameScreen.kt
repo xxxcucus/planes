@@ -1,37 +1,34 @@
 package com.planes.android.singleplayergame
 
 import android.content.res.Configuration
-import android.content.res.Configuration.ORIENTATION_LANDSCAPE
-import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.util.Log
-import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PaintingStyle.Companion.Stroke
-import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
@@ -56,20 +53,62 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
         squareSizeDp = screenHeightDp / planesGridViewModel.getRowNo()
     }
 
+    val buttonHeightDp = (screenHeightDp - planesGridViewModel.getColNo() * squareSizeDp - 100) / 4
+    //val buttonHeightDp = 100
+    val buttonWidthDp = 100
+
     //TODO: to optimize for horizontal layout
     val squareSizePx = with(LocalDensity.current) { squareSizeDp.dp.toPx() }
 
-    Log.d("Planes", "planes no ${planesGridViewModel.getPlaneNo()}")
+    //Log.d("Planes", "planes no ${planesGridViewModel.getPlaneNo()}")
 
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-        LazyVerticalGrid(
-            horizontalArrangement = Arrangement.Center,
-            verticalArrangement = Arrangement.Top,
-            columns = GridCells.Fixed(planesGridViewModel.getColNo()),
-            modifier = modifier.fillMaxHeight()
-        ) {
-            items(planesGridViewModel.getRowNo() * planesGridViewModel.getColNo()) { index ->
-                DrawBoardSquare(index, squareSizeDp, squareSizePx, planesGridViewModel)
+        Column() {
+            LazyVerticalGrid(
+                horizontalArrangement = Arrangement.Center,
+                verticalArrangement = Arrangement.Top,
+                columns = GridCells.Fixed(planesGridViewModel.getColNo()),
+                userScrollEnabled = false,
+                modifier = modifier.pointerInput(Unit) {
+
+                    detectHorizontalDragGestures { offset, dragAmount ->
+                        Log.d("Planes","Horizonzal drag $offset $dragAmount")
+                        if (dragAmount > 30.0f)
+                            planesGridViewModel.movePlaneRight(0)
+                        else if (dragAmount < -30.0f)
+                            planesGridViewModel.movePlaneLeft(0)
+                    }
+                    detectVerticalDragGestures { offset, dragAmount ->
+                        Log.d("Planes","Vertical drag $offset $dragAmount")
+                        if (dragAmount > 30.0f)
+                            planesGridViewModel.movePlaneDownwards(0)
+                        else if (dragAmount < -30.0f)
+                            planesGridViewModel.movePlaneUpwards(0)
+                    }
+
+                }
+            ) {
+                items(planesGridViewModel.getRowNo() * planesGridViewModel.getColNo()) { index ->
+                    BoardSquare(index, squareSizeDp, squareSizePx, planesGridViewModel)
+                }
+            }
+
+            GameButton(title = "Left", planesGridViewModel,
+                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)) { viewModel ->
+                viewModel.movePlaneLeft(0)
+            }
+            GameButton(title = "Right", planesGridViewModel,
+                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
+                ) { viewModel ->
+                viewModel.movePlaneRight(0)
+            }
+            GameButton(title = "Up", planesGridViewModel,
+                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)) { viewModel ->
+                viewModel.movePlaneUpwards(0)
+            }
+            GameButton(title = "Down", planesGridViewModel,
+                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)) { viewModel ->
+                viewModel.movePlaneDownwards(0)
             }
         }
     } else {
@@ -80,7 +119,7 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
             modifier = modifier.fillMaxWidth()
         ) {
             items(planesGridViewModel.getRowNo() * planesGridViewModel.getColNo()) { index ->
-                DrawBoardSquare(index, squareSizeDp, squareSizePx, planesGridViewModel)
+                BoardSquare(index, squareSizeDp, squareSizePx, planesGridViewModel)
             }
         }
     }
@@ -92,7 +131,7 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
 }
 
 @Composable
-fun DrawBoardSquare(index: Int, squareSizeDp: Int, squareSizePx: Float, planesGridViewModel: PlaneGridViewModel) {
+fun BoardSquare(index: Int, squareSizeDp: Int, squareSizePx: Float, planesGridViewModel: PlaneGridViewModel) {
     val row = index / planesGridViewModel.getColNo()
     val col = index % planesGridViewModel.getColNo()
 
@@ -105,15 +144,17 @@ fun DrawBoardSquare(index: Int, squareSizeDp: Int, squareSizePx: Float, planesGr
         if (planesIdx.size == 1) {
             GridSquare(
                 planesGridViewModel.isComputer(),
+                planesGridViewModel.getSelectedPlane(),
                 if (planesIdx[0] < 0) -2 else planesIdx[0] + 1,
                 squareSizeDp,
                 squareSizePx,
                 Color.Blue
             )
-            Log.d("Planes", "plane ${planesIdx[0]}")
+            //Log.d("Planes", "plane ${planesIdx[0]}")
         } else {
             GridSquare(
                 planesGridViewModel.isComputer(),
+                planesGridViewModel.getSelectedPlane(),
                 -1,
                 squareSizeDp,
                 squareSizePx,
@@ -123,3 +164,28 @@ fun DrawBoardSquare(index: Int, squareSizeDp: Int, squareSizePx: Float, planesGr
     }
 }
 
+@Composable
+fun GameButton(title: String, planesGridViewModel: PlaneGridViewModel,
+               modifier: Modifier,
+               onClick: (PlaneGridViewModel) -> Unit) {
+    Card(
+        modifier = modifier.padding(1.dp).clickable {
+            onClick.invoke(planesGridViewModel)
+        },
+        shape = RectangleShape,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        )
+    ) {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally//,
+            //modifier = Modifier.fillMaxSize()
+        ) {
+            Text(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                text = title
+            )
+        }
+    }
+}

@@ -23,29 +23,31 @@ fun GridSquare(widthDp: Int, widthPx: Float, backgroundColor: Color) {
 }
 
 @Composable
-fun GridSquare(isComputer: Boolean, annotation: Int, widthDp: Int, widthPx: Float, backgroundColor: Color) {
+fun GridSquare(isComputer: Boolean,
+               selectedPlane: Int,
+               annotation: Int,
+               widthDp: Int, widthPx: Float,
+               backgroundColor: Color) {
     Canvas(modifier = Modifier.width(widthDp.dp).height(widthDp.dp)) {
         val selected = 0
 
         val planeOverlapColor = Color.Red
-        var squareColor = planeOverlapColor
+        var squareColor = backgroundColor
         val cockpitColor = Color.Blue
         val selectedPlaneColor = Color.Black
-        val firstPlaneColor = Color(40, 40, 40)
-        val secondPlaneColor = Color(80, 80, 80)
-        val thirdPlaneColor = Color(120, 120, 120)
+        val firstPlaneColor = Color(80, 80, 80)
+        val secondPlaneColor = Color(120, 120, 120)
+        val thirdPlaneColor = Color(160, 160, 160)
 
-        Log.d("Planes", "Annotation $annotation")
+        //Log.d("Planes", "Annotation $annotation")
         //if (isComputer) {
             if (annotation == -1) {
                 squareColor = planeOverlapColor
             } else if (annotation == -2) {
                 squareColor = cockpitColor
-            } else if (annotation == 0) {
+            } else if (annotation == selectedPlane + 1) {
                 squareColor = selectedPlaneColor
-            } /*else if (annotation - 1 == 0 ) {
-                squareColor = selectedPlaneColor
-            }*/ else if (annotation == 1) {
+            } else if (annotation == 1) {
                 squareColor = firstPlaneColor
             } else if (annotation == 2) {
                 squareColor = secondPlaneColor

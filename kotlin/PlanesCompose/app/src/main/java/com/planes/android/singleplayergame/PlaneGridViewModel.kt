@@ -23,6 +23,7 @@ class PlaneGridViewModel() : ViewModel() {
     //number of planes
     private var m_planeNo: Int = 3
     private var m_isComputer = mutableStateOf(false)
+    private val m_SelectedPlane = mutableStateOf(0)
 
     //list of plane objects for the grid
     private var m_planeList = mutableStateListOf<Plane>()
@@ -66,6 +67,10 @@ class PlaneGridViewModel() : ViewModel() {
 
     fun getAnnotation(idx: Int): Int {
         return m_listPlanePointsAnnotations[idx] //TODO: overflow
+    }
+
+    fun getSelectedPlane() : Int {
+        return m_SelectedPlane.value
     }
 
     //constructor
@@ -284,7 +289,7 @@ class PlaneGridViewModel() : ViewModel() {
             //save the selected plane
             if (savePlane(pl)) {
                 count++
-                Log.d("Planes", "Saved plane ${pl.col()} vs ${pl.row()} " )
+                //Log.d("Planes", "Saved plane ${pl.col()} vs ${pl.row()} " )
             }
         } //while
         return true
