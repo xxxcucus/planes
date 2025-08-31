@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -57,6 +58,10 @@ fun GridSquare(isComputer: Boolean,
 
         //}
 
-        drawRect(color = squareColor, style = Fill)
+        drawRect(brush = Brush.linearGradient(
+            colors = listOf(squareColor, Color(0xFF81C784)), // dark to light green
+            start = Offset.Zero,
+            end = Offset(size.width, size.height)
+        ), style = Fill)
     }
 }

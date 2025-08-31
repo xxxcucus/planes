@@ -3,11 +3,13 @@ package com.planes.android.singleplayergame
 import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.pointer.pointerInput
@@ -35,12 +38,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.planes.android.navigation.PlanesScreens
+import java.time.Period
+import java.util.Date
+import kotlin.math.abs
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                            navController: NavController,
-                           planesGridViewModel: PlaneGridViewModel = viewModel()) {
+                           planesGridViewModel: PlaneGridViewModel) {
 
     currentScreenState.value = PlanesScreens.SinglePlayerGame.name
 
@@ -55,10 +61,15 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
 
     val buttonHeightDp = (screenHeightDp - planesGridViewModel.getColNo() * squareSizeDp - 100) / 4
     //val buttonHeightDp = 100
-    val buttonWidthDp = 100
+    val buttonWidthDp = 200
 
     //TODO: to optimize for horizontal layout
     val squareSizePx = with(LocalDensity.current) { squareSizeDp.dp.toPx() }
+    val swipeThresh = 20.0f
+    val consecSwipeThresh = 100
+    var swipeLengthX = 0.0f
+    var swipeLengthY = 0.0f
+    var curTime = Date()
 
     //Log.d("Planes", "planes no ${planesGridViewModel.getPlaneNo()}")
 
@@ -70,22 +81,15 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
                 columns = GridCells.Fixed(planesGridViewModel.getColNo()),
                 userScrollEnabled = false,
                 modifier = modifier.pointerInput(Unit) {
-
-                    detectHorizontalDragGestures { offset, dragAmount ->
-                        Log.d("Planes","Horizonzal drag $offset $dragAmount")
-                        if (dragAmount > 30.0f)
-                            planesGridViewModel.movePlaneRight(0)
-                        else if (dragAmount < -30.0f)
-                            planesGridViewModel.movePlaneLeft(0)
-                    }
-                    detectVerticalDragGestures { offset, dragAmount ->
-                        Log.d("Planes","Vertical drag $offset $dragAmount")
-                        if (dragAmount > 30.0f)
-                            planesGridViewModel.movePlaneDownwards(0)
-                        else if (dragAmount < -30.0f)
-                            planesGridViewModel.movePlaneUpwards(0)
-                    }
-
+                    detectDragGestures(
+                        onDrag = { _, dragAmount ->
+                            val tripleVal = treatSwipeVertical(swipeThresh, consecSwipeThresh, swipeLengthX,
+                                swipeLengthY, squareSizePx, curTime, dragAmount, planesGridViewModel)
+                            swipeLengthX = tripleVal.first
+                            swipeLengthY = tripleVal.second
+                            curTime = tripleVal.third
+                        }
+                    )
                 }
             ) {
                 items(planesGridViewModel.getRowNo() * planesGridViewModel.getColNo()) { index ->
@@ -112,14 +116,28 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
             }
         }
     } else {
-        LazyHorizontalGrid(
-            horizontalArrangement = Arrangement.Start,
-            verticalArrangement = Arrangement.Center,
-            rows = GridCells.Fixed(planesGridViewModel.getRowNo()),
-            modifier = modifier.fillMaxWidth()
-        ) {
-            items(planesGridViewModel.getRowNo() * planesGridViewModel.getColNo()) { index ->
-                BoardSquare(index, squareSizeDp, squareSizePx, planesGridViewModel)
+        Row() {
+            LazyHorizontalGrid(
+                horizontalArrangement = Arrangement.Start,
+                verticalArrangement = Arrangement.Center,
+                rows = GridCells.Fixed(planesGridViewModel.getRowNo()),
+                userScrollEnabled = false,
+                modifier = modifier.pointerInput(Unit) {
+                    detectDragGestures(
+                        onDrag = { _, dragAmount ->
+                            val tripleVal = treatSwipeHorizontal(
+                                swipeThresh, consecSwipeThresh, swipeLengthX,
+                                swipeLengthY, squareSizePx, curTime, dragAmount, planesGridViewModel
+                            )
+                            swipeLengthX = tripleVal.first
+                            swipeLengthY = tripleVal.second
+                            curTime = tripleVal.third
+                        })
+                    }
+            ) {
+                items(planesGridViewModel.getRowNo() * planesGridViewModel.getColNo()) { index ->
+                    BoardSquare(index, squareSizeDp, squareSizePx, planesGridViewModel)
+                }
             }
         }
     }
@@ -188,4 +206,88 @@ fun GameButton(title: String, planesGridViewModel: PlaneGridViewModel,
             )
         }
     }
+}
+
+
+fun treatSwipeVertical(swipeThresh: Float, consecSwipeThresh: Int,
+               swipeLengthX: Float, swipeLengthY: Float,
+               squareSizePx: Float,
+               curTime: Date, dragAmount: Offset,
+               planesGridViewModel: PlaneGridViewModel) : Triple<Float, Float, Date> {
+    val t = Date()
+    val diff = -curTime.time + t.time
+    if (diff < consecSwipeThresh) {
+        Log.i("Tag", "Dragged $diff ms")
+        return Triple(swipeLengthX + dragAmount.x, swipeLengthY + dragAmount.y, curTime)
+    }
+
+    if (abs(swipeLengthX) > abs(swipeLengthY)) {
+
+        val steps = (abs(swipeLengthX) / squareSizePx).toInt()
+        Log.i("Tag", "Dragged ${abs(swipeLengthX)} $steps $squareSizePx")
+        //val steps = 0
+        if (swipeLengthX > swipeThresh) {
+            for (i in 0..<steps)
+                planesGridViewModel.movePlaneRight(0)
+        } else if (swipeLengthX < -swipeThresh) {
+            for (i in 0..<steps)
+                planesGridViewModel.movePlaneLeft(0)
+        }
+    } else {
+
+        val steps = (abs(swipeLengthY) / squareSizePx).toInt()
+        Log.i("Tag", "Dragged ${abs(swipeLengthY)} $steps $squareSizePx")
+        //val steps = 0
+        if (swipeLengthY > swipeThresh) {
+            for (i in 0..<steps)
+                planesGridViewModel.movePlaneDownwards(0)
+        } else if (swipeLengthY < -swipeThresh) {
+            for (i in 0..<steps)
+                planesGridViewModel.movePlaneUpwards(0)
+        }
+    }
+
+    return Triple(0.0f, 0.0f, t)
+}
+
+
+fun treatSwipeHorizontal(swipeThresh: Float, consecSwipeThresh: Int,
+                       swipeLengthX: Float, swipeLengthY: Float,
+                       squareSizePx: Float,
+                       curTime: Date, dragAmount: Offset,
+                       planesGridViewModel: PlaneGridViewModel) : Triple<Float, Float, Date> {
+    val t = Date()
+    val diff = -curTime.time + t.time
+    if (diff < consecSwipeThresh) {
+        Log.i("Tag", "Dragged $diff ms")
+        return Triple(swipeLengthX + dragAmount.x, swipeLengthY + dragAmount.y, curTime)
+    }
+
+    if (abs(swipeLengthX) > abs(swipeLengthY)) {
+
+        val steps = (abs(swipeLengthX) / squareSizePx).toInt()
+        Log.i("Tag", "Dragged ${abs(swipeLengthX)} $steps $squareSizePx")
+        //val steps = 0
+        if (swipeLengthX > swipeThresh) {
+            for (i in 0..<steps)
+                planesGridViewModel.movePlaneDownwards(0)
+        } else if (swipeLengthX < -swipeThresh) {
+            for (i in 0..<steps)
+                planesGridViewModel.movePlaneUpwards(0)
+        }
+    } else {
+
+        val steps = (abs(swipeLengthY) / squareSizePx).toInt()
+        Log.i("Tag", "Dragged ${abs(swipeLengthY)} $steps $squareSizePx")
+        //val steps = 0
+        if (swipeLengthY > swipeThresh) {
+            for (i in 0..<steps)
+                planesGridViewModel.movePlaneRight(0)
+        } else if (swipeLengthY < -swipeThresh) {
+            for (i in 0..<steps)
+                planesGridViewModel.movePlaneLeft(0)
+        }
+    }
+
+    return Triple(0.0f, 0.0f, t)
 }

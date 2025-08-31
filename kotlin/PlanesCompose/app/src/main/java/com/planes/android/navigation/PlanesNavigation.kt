@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,6 +24,7 @@ import com.planes.android.singleplayergame.SinglePlayerGameScreen
 import com.planes.android.singleplayergamestatistics.SinglePlayerGameStatisticsScreen
 import com.planes.android.preferences.PreferencesScreen
 import com.planes.android.preferences.PreferencesViewModel
+import com.planes.android.singleplayergame.PlaneGridViewModel
 import com.planes.android.video.VideoModelRepository
 import com.planes.android.video.VideoScreen
 
@@ -31,11 +33,13 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                      navController: NavHostController, context: Context,
                      optionsViewModel: PreferencesViewModel = hiltViewModel()) {
 
+    val planesGridViewModel: PlaneGridViewModel = viewModel()
+
     NavHost(
         navController = navController,
         startDestination = PlanesScreens.Info.name) {
         composable(PlanesScreens.SinglePlayerGame.name) {
-           SinglePlayerGameScreen(modifier = modifier, currentScreenState, navController = navController)
+           SinglePlayerGameScreen(modifier = modifier, currentScreenState, navController = navController, planesGridViewModel)
         }
         composable(PlanesScreens.SinglePlayerGameStatistics.name) {
             SinglePlayerGameStatisticsScreen(modifier = modifier, currentScreenState, navController = navController)
