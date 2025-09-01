@@ -2,6 +2,7 @@ package com.planes.android.singleplayergame
 
 import android.util.Log
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -28,8 +29,13 @@ fun GridSquare(isComputer: Boolean,
                selectedPlane: Int,
                annotation: Int,
                widthDp: Int, widthPx: Float,
-               backgroundColor: Color) {
-    Canvas(modifier = Modifier.width(widthDp.dp).height(widthDp.dp)) {
+               backgroundColor: Color,
+               index: Int,
+               onClick: (Int) -> Unit) {
+    Canvas(modifier = Modifier.width(widthDp.dp).height(widthDp.dp).
+            clickable {
+                onClick.invoke(index)
+            }) {
         val selected = 0
 
         val planeOverlapColor = Color.Red

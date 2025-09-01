@@ -3,6 +3,7 @@ package com.planes.android.singleplayergame
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.Color
 import androidx.core.util.Pair
 import androidx.lifecycle.ViewModel
 import com.planes.singleplayerengine.Coordinate2D
@@ -71,6 +72,20 @@ class PlaneGridViewModel() : ViewModel() {
 
     fun getSelectedPlane() : Int {
         return m_SelectedPlane.value
+    }
+
+    fun setSelectedPlane(row: Int, col: Int) {
+        val pointOnPlane = isPointOnPlane(col, row)
+        if (pointOnPlane.first) {
+            val annotation = getAnnotation(pointOnPlane.second)
+            val planesIdx = decodeAnnotation(annotation)
+            if (!planesIdx.isEmpty()) {
+                if (planesIdx[0] >= 0)
+                    m_SelectedPlane.value = planesIdx[0]
+                else
+                    m_SelectedPlane.value = -planesIdx[0] - 1
+            }
+        }
     }
 
     //constructor

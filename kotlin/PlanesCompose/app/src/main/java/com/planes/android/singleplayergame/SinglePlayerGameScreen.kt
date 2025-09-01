@@ -93,26 +93,31 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
                 }
             ) {
                 items(planesGridViewModel.getRowNo() * planesGridViewModel.getColNo()) { index ->
-                    BoardSquare(index, squareSizeDp, squareSizePx, planesGridViewModel)
+                    BoardSquare(index, squareSizeDp, squareSizePx, planesGridViewModel) {
+                        val row = index / planesGridViewModel.getColNo()
+                        val col = index % planesGridViewModel.getColNo()
+
+                        planesGridViewModel.setSelectedPlane(row, col)
+                    }
                 }
             }
 
             GameButton(title = "Left", planesGridViewModel,
                 modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)) { viewModel ->
-                viewModel.movePlaneLeft(0)
+                viewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
             }
             GameButton(title = "Right", planesGridViewModel,
                 modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
                 ) { viewModel ->
-                viewModel.movePlaneRight(0)
+                viewModel.movePlaneRight(planesGridViewModel.getSelectedPlane())
             }
             GameButton(title = "Up", planesGridViewModel,
                 modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)) { viewModel ->
-                viewModel.movePlaneUpwards(0)
+                viewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
             }
             GameButton(title = "Down", planesGridViewModel,
                 modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)) { viewModel ->
-                viewModel.movePlaneDownwards(0)
+                viewModel.movePlaneDownwards(planesGridViewModel.getSelectedPlane())
             }
         }
     } else {
@@ -136,7 +141,12 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
                     }
             ) {
                 items(planesGridViewModel.getRowNo() * planesGridViewModel.getColNo()) { index ->
-                    BoardSquare(index, squareSizeDp, squareSizePx, planesGridViewModel)
+                    BoardSquare(index, squareSizeDp, squareSizePx, planesGridViewModel) {
+                        val row = index / planesGridViewModel.getColNo()
+                        val col = index % planesGridViewModel.getColNo()
+
+                        planesGridViewModel.setSelectedPlane(row, col)
+                    }
                 }
             }
         }
@@ -149,7 +159,9 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
 }
 
 @Composable
-fun BoardSquare(index: Int, squareSizeDp: Int, squareSizePx: Float, planesGridViewModel: PlaneGridViewModel) {
+fun BoardSquare(index: Int, squareSizeDp: Int, squareSizePx: Float,
+                planesGridViewModel: PlaneGridViewModel,
+                onClick: (Int) -> Unit) {
     val row = index / planesGridViewModel.getColNo()
     val col = index % planesGridViewModel.getColNo()
 
@@ -161,22 +173,26 @@ fun BoardSquare(index: Int, squareSizeDp: Int, squareSizePx: Float, planesGridVi
         val planesIdx = planesGridViewModel.decodeAnnotation(annotation)
         if (planesIdx.size == 1) {
             GridSquare(
-                planesGridViewModel.isComputer(),
-                planesGridViewModel.getSelectedPlane(),
-                if (planesIdx[0] < 0) -2 else planesIdx[0] + 1,
-                squareSizeDp,
-                squareSizePx,
-                Color.Blue
+                isComputer = planesGridViewModel.isComputer(),
+                selectedPlane = planesGridViewModel.getSelectedPlane(),
+                annotation = if (planesIdx[0] < 0) -2 else planesIdx[0] + 1,
+                widthDp = squareSizeDp,
+                widthPx = squareSizePx,
+                backgroundColor = Color.Blue,
+                index = index,
+                onClick = onClick
             )
             //Log.d("Planes", "plane ${planesIdx[0]}")
         } else {
             GridSquare(
-                planesGridViewModel.isComputer(),
-                planesGridViewModel.getSelectedPlane(),
-                -1,
-                squareSizeDp,
-                squareSizePx,
-                Color.Blue
+                isComputer = planesGridViewModel.isComputer(),
+                selectedPlane = planesGridViewModel.getSelectedPlane(),
+                annotation = -1,
+                widthDp = squareSizeDp,
+                widthPx = squareSizePx,
+                backgroundColor = Color.Blue,
+                index = index,
+                onClick = onClick
             )
         }
     }
@@ -228,10 +244,10 @@ fun treatSwipeVertical(swipeThresh: Float, consecSwipeThresh: Int,
         //val steps = 0
         if (swipeLengthX > swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneRight(0)
+                planesGridViewModel.movePlaneRight(planesGridViewModel.getSelectedPlane())
         } else if (swipeLengthX < -swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneLeft(0)
+                planesGridViewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
         }
     } else {
 
@@ -240,10 +256,10 @@ fun treatSwipeVertical(swipeThresh: Float, consecSwipeThresh: Int,
         //val steps = 0
         if (swipeLengthY > swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneDownwards(0)
+                planesGridViewModel.movePlaneDownwards(planesGridViewModel.getSelectedPlane())
         } else if (swipeLengthY < -swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneUpwards(0)
+                planesGridViewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
         }
     }
 
