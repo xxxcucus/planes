@@ -34,9 +34,11 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import java.time.Period
 import java.util.Date
@@ -59,9 +61,18 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
         squareSizeDp = screenHeightDp / planesGridViewModel.getRowNo()
     }
 
-    val buttonHeightDp = (screenHeightDp - planesGridViewModel.getColNo() * squareSizeDp - 100) / 4
+    var buttonHeightDp = (screenHeightDp - planesGridViewModel.getColNo() * squareSizeDp - 100) / 4
+
+    if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        buttonHeightDp = screenHeightDp / 4
+    }
+
     //val buttonHeightDp = 100
-    val buttonWidthDp = 200
+    var buttonWidthDp = screenWidthDp / 3
+
+    if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        buttonWidthDp = (screenWidthDp - planesGridViewModel.getColNo() * squareSizeDp - 100) / 4
+    }
 
     //TODO: to optimize for horizontal layout
     val squareSizePx = with(LocalDensity.current) { squareSizeDp.dp.toPx() }
@@ -102,26 +113,48 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
                 }
             }
 
-            GameButton(title = "Left", planesGridViewModel,
-                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)) { viewModel ->
-                viewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
-            }
-            GameButton(title = "Right", planesGridViewModel,
-                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
-                ) { viewModel ->
-                viewModel.movePlaneRight(planesGridViewModel.getSelectedPlane())
-            }
-            GameButton(title = "Up", planesGridViewModel,
-                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)) { viewModel ->
-                viewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
-            }
-            GameButton(title = "Down", planesGridViewModel,
-                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)) { viewModel ->
-                viewModel.movePlaneDownwards(planesGridViewModel.getSelectedPlane())
+            Column(modifier = Modifier.fillMaxHeight(),
+                verticalArrangement = Arrangement.Center) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    GameButton(
+                        title = stringResource(R.string.rotate_button), planesGridViewModel,
+                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
+                    ) { viewModel ->
+                        viewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
+                    }
+                    GameButton(
+                        title = stringResource(R.string.done_button), planesGridViewModel,
+                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
+                    ) { viewModel ->
+                        viewModel.movePlaneRight(planesGridViewModel.getSelectedPlane())
+                    }
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    GameButton(
+                        title = stringResource(R.string.cancel), planesGridViewModel,
+                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
+                    ) { viewModel ->
+                        viewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
+                    }
+                    GameButton(
+                        title = stringResource(R.string.reset_board1) + " " + stringResource(R.string.reset_board2),
+                        planesGridViewModel,
+                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
+                    ) { viewModel ->
+                        viewModel.movePlaneDownwards(planesGridViewModel.getSelectedPlane())
+                    }
+                }
             }
         }
     } else {
-        Row() {
+        Row(modifier = Modifier.fillMaxWidth()) {
             LazyHorizontalGrid(
                 horizontalArrangement = Arrangement.Start,
                 verticalArrangement = Arrangement.Center,
@@ -149,6 +182,24 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
                     }
                 }
             }
+
+
+            GameButton(
+                title = stringResource(R.string.rotate_button), planesGridViewModel,
+                modifier = Modifier.width(100.dp).height(50.dp)
+            ) { viewModel ->
+                viewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
+            }
+
+            GameButton(
+                title = stringResource(R.string.cancel), planesGridViewModel,
+                modifier = Modifier.width(100.dp).height(50.dp)
+            ) { viewModel ->
+                viewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
+            }
+
+
+
         }
     }
 
@@ -213,8 +264,8 @@ fun GameButton(title: String, planesGridViewModel: PlaneGridViewModel,
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally//,
-            //modifier = Modifier.fillMaxSize()
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize()
         ) {
             Text(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
