@@ -58,7 +58,8 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
     var squareSizeDp = screenWidthDp / planesGridViewModel.getColNo()
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        squareSizeDp = screenHeightDp / planesGridViewModel.getRowNo()
+        //100 is topBar height
+        squareSizeDp = (screenHeightDp - 70) / planesGridViewModel.getRowNo()
     }
 
     var buttonHeightDp = (screenHeightDp - planesGridViewModel.getColNo() * squareSizeDp - 100) / 4
@@ -154,7 +155,7 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
             }
         }
     } else {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(/*modifier = Modifier.fillMaxWidth()*/) {
             LazyHorizontalGrid(
                 horizontalArrangement = Arrangement.Start,
                 verticalArrangement = Arrangement.Center,
@@ -183,23 +184,49 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
                 }
             }
 
+            //Text(text = "This is a test")
+            Row(modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center) {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxHeight()
+                ) {
+                    GameButton(
+                        title = stringResource(R.string.rotate_button), planesGridViewModel,
+                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
+                    ) { viewModel ->
+                        viewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
+                    }
 
-            GameButton(
-                title = stringResource(R.string.rotate_button), planesGridViewModel,
-                modifier = Modifier.width(100.dp).height(50.dp)
-            ) { viewModel ->
-                viewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
+                    GameButton(
+                        title = stringResource(R.string.cancel), planesGridViewModel,
+                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
+                    ) { viewModel ->
+                        viewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
+                    }
+                }
+
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxHeight()
+                ) {
+                    GameButton(
+                        title = stringResource(R.string.done_button), planesGridViewModel,
+                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
+                    ) { viewModel ->
+                        viewModel.movePlaneRight(planesGridViewModel.getSelectedPlane())
+                    }
+
+                    GameButton(
+                        title = stringResource(R.string.reset_board1) + " " + stringResource(R.string.reset_board2),
+                        planesGridViewModel,
+                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
+                    ) { viewModel ->
+                        viewModel.movePlaneDownwards(planesGridViewModel.getSelectedPlane())
+                    }
+
+                }
             }
-
-            GameButton(
-                title = stringResource(R.string.cancel), planesGridViewModel,
-                modifier = Modifier.width(100.dp).height(50.dp)
-            ) { viewModel ->
-                viewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
-            }
-
-
-
         }
     }
 
@@ -337,10 +364,10 @@ fun treatSwipeHorizontal(swipeThresh: Float, consecSwipeThresh: Int,
         //val steps = 0
         if (swipeLengthX > swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneDownwards(0)
+                planesGridViewModel.movePlaneDownwards(planesGridViewModel.getSelectedPlane())
         } else if (swipeLengthX < -swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneUpwards(0)
+                planesGridViewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
         }
     } else {
 
@@ -349,10 +376,10 @@ fun treatSwipeHorizontal(swipeThresh: Float, consecSwipeThresh: Int,
         //val steps = 0
         if (swipeLengthY > swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneRight(0)
+                planesGridViewModel.movePlaneRight(planesGridViewModel.getSelectedPlane())
         } else if (swipeLengthY < -swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneLeft(0)
+                planesGridViewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
         }
     }
 

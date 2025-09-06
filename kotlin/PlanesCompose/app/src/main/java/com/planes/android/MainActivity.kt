@@ -94,8 +94,8 @@ fun Screen(modifier: Modifier, navController: NavHostController) {
         Scaffold(
             topBar = {
                 TopBar(
-                    modifier = Modifier.padding(30.dp)
-                        .height(100.dp).fillMaxWidth(),
+                    modifier = Modifier.padding(0.dp)
+                        .height(70.dp).fillMaxWidth(),
                     onOpenDrawer = {
                         scope.launch {
                             drawerState.apply {
@@ -132,8 +132,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
                   drawerScope: CoroutineScope,
                   drawerState: DrawerState,
                   ) {
-//TODO: to leave a single preferences screen
-    //TODO: to eliminate Single Player Game and Multiplayer Game sections from the drawer
+
     Column(
         modifier = Modifier.padding(horizontal = 16.dp)
             .verticalScroll(rememberScrollState())
@@ -248,6 +247,7 @@ fun TopBar(modifier: Modifier = Modifier,
     currentScreenName: String
 ) {
     TopAppBar(
+        modifier = modifier,
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
