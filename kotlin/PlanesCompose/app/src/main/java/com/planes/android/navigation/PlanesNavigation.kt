@@ -32,13 +32,13 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                      navController: NavHostController, context: Context,
                      optionsViewModel: PreferencesViewModel = hiltViewModel()) {
 
-    val planesGridViewModel: PlaneGridViewModel = viewModel()
+    val playerGridViewModel: PlaneGridViewModel = viewModel()
 
     NavHost(
         navController = navController,
         startDestination = PlanesScreens.Info.name) {
         composable(PlanesScreens.SinglePlayerGame.name) {
-           BoardEditingScreen(modifier = modifier, currentScreenState, topBarHeight, navController = navController, planesGridViewModel)
+           BoardEditingScreen(modifier = modifier, currentScreenState, topBarHeight, navController = navController, playerGridViewModel)
         }
         composable(PlanesScreens.SinglePlayerGameStatistics.name) {
             SinglePlayerGameStatisticsScreen(modifier = modifier, currentScreenState, navController = navController)

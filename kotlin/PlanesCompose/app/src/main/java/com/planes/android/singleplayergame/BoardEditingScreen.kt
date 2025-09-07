@@ -45,21 +45,21 @@ import kotlin.math.abs
 fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                        topBarHeight: MutableState<Int>,
                        navController: NavController,
-                       planesGridViewModel: PlaneGridViewModel) {
+                       playerGridViewModel: PlaneGridViewModel) {
 
     currentScreenState.value = PlanesScreens.SinglePlayerGame.name
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp
     val screenHeightDp = configuration.screenHeightDp
-    var squareSizeDp = screenWidthDp / planesGridViewModel.getColNo()
+    var squareSizeDp = screenWidthDp / playerGridViewModel.getColNo()
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
         //100 is topBar height
-        squareSizeDp = (screenHeightDp - topBarHeight.value) / planesGridViewModel.getRowNo()
+        squareSizeDp = (screenHeightDp - topBarHeight.value) / playerGridViewModel.getRowNo()
     }
 
-    var buttonHeightDp = (screenHeightDp - planesGridViewModel.getColNo() * squareSizeDp - 100) / 4
+    var buttonHeightDp = (screenHeightDp - playerGridViewModel.getColNo() * squareSizeDp - 100) / 4
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
         buttonHeightDp = screenHeightDp / 4
@@ -69,7 +69,7 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
     var buttonWidthDp = screenWidthDp / 3
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        buttonWidthDp = (screenWidthDp - planesGridViewModel.getColNo() * squareSizeDp - 100) / 4
+        buttonWidthDp = (screenWidthDp - playerGridViewModel.getColNo() * squareSizeDp - 100) / 4
     }
 
     //TODO: to optimize for horizontal layout
@@ -87,13 +87,13 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
             LazyVerticalGrid(
                 horizontalArrangement = Arrangement.Center,
                 verticalArrangement = Arrangement.Top,
-                columns = GridCells.Fixed(planesGridViewModel.getColNo()),
+                columns = GridCells.Fixed(playerGridViewModel.getColNo()),
                 userScrollEnabled = false,
                 modifier = modifier.pointerInput(Unit) {
                     detectDragGestures(
                         onDrag = { _, dragAmount ->
                             val tripleVal = treatSwipeVertical(swipeThresh, consecSwipeThresh, swipeLengthX,
-                                swipeLengthY, squareSizePx, curTime, dragAmount, planesGridViewModel)
+                                swipeLengthY, squareSizePx, curTime, dragAmount, playerGridViewModel)
                             swipeLengthX = tripleVal.first
                             swipeLengthY = tripleVal.second
                             curTime = tripleVal.third
@@ -101,12 +101,12 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                     )
                 }
             ) {
-                items(planesGridViewModel.getRowNo() * planesGridViewModel.getColNo()) { index ->
-                    BoardSquare(index, squareSizeDp, squareSizePx, planesGridViewModel, true) {
-                        val row = index / planesGridViewModel.getColNo()
-                        val col = index % planesGridViewModel.getColNo()
+                items(playerGridViewModel.getRowNo() * playerGridViewModel.getColNo()) { index ->
+                    BoardSquare(index, squareSizeDp, squareSizePx, playerGridViewModel, true) {
+                        val row = index / playerGridViewModel.getColNo()
+                        val col = index % playerGridViewModel.getColNo()
 
-                        planesGridViewModel.setSelectedPlane(col, row)
+                        playerGridViewModel.setSelectedPlane(col, row)
                     }
                 }
             }
@@ -118,13 +118,13 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     GameButton(
-                        title = stringResource(R.string.rotate_button), planesGridViewModel,
+                        title = stringResource(R.string.rotate_button), playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
                     ) { viewModel ->
-                        viewModel.rotatePlane(planesGridViewModel.getSelectedPlane())
+                        viewModel.rotatePlane(playerGridViewModel.getSelectedPlane())
                     }
                     GameButton(
-                        title = stringResource(R.string.done_button), planesGridViewModel,
+                        title = stringResource(R.string.done_button), playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
                     ) {
                     }
@@ -135,13 +135,13 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     GameButton(
-                        title = stringResource(R.string.cancel), planesGridViewModel,
+                        title = stringResource(R.string.cancel), playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
                     ) {
                     }
                     GameButton(
                         title = stringResource(R.string.reset_board1) + " " + stringResource(R.string.reset_board2),
-                        planesGridViewModel,
+                        playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
                     ) { viewModel ->
                         viewModel.initGrid()
@@ -154,14 +154,14 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
             LazyHorizontalGrid(
                 horizontalArrangement = Arrangement.Start,
                 verticalArrangement = Arrangement.Center,
-                rows = GridCells.Fixed(planesGridViewModel.getRowNo()),
+                rows = GridCells.Fixed(playerGridViewModel.getRowNo()),
                 userScrollEnabled = false,
                 modifier = modifier.pointerInput(Unit) {
                     detectDragGestures(
                         onDrag = { _, dragAmount ->
                             val tripleVal = treatSwipeHorizontal(
                                 swipeThresh, consecSwipeThresh, swipeLengthX,
-                                swipeLengthY, squareSizePx, curTime, dragAmount, planesGridViewModel
+                                swipeLengthY, squareSizePx, curTime, dragAmount, playerGridViewModel
                             )
                             swipeLengthX = tripleVal.first
                             swipeLengthY = tripleVal.second
@@ -169,12 +169,12 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                         })
                     }
             ) {
-                items(planesGridViewModel.getRowNo() * planesGridViewModel.getColNo()) { index ->
-                    BoardSquare(index, squareSizeDp, squareSizePx, planesGridViewModel, false) {
-                        val row = index / planesGridViewModel.getColNo()
-                        val col = index % planesGridViewModel.getColNo()
+                items(playerGridViewModel.getRowNo() * playerGridViewModel.getColNo()) { index ->
+                    BoardSquare(index, squareSizeDp, squareSizePx, playerGridViewModel, false) {
+                        val row = index / playerGridViewModel.getColNo()
+                        val col = index % playerGridViewModel.getColNo()
 
-                        planesGridViewModel.setSelectedPlane(row, col)
+                        playerGridViewModel.setSelectedPlane(row, col)
                     }
                 }
             }
@@ -188,14 +188,14 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                 ) {
                     Spacer(modifier = Modifier.height(topBarHeight.value.dp))
                     GameButton(
-                        title = stringResource(R.string.rotate_button), planesGridViewModel,
+                        title = stringResource(R.string.rotate_button), playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
                     ) { viewModel ->
-                        viewModel.rotatePlane(planesGridViewModel.getSelectedPlane())
+                        viewModel.rotatePlane(playerGridViewModel.getSelectedPlane())
                     }
 
                     GameButton(
-                        title = stringResource(R.string.cancel), planesGridViewModel,
+                        title = stringResource(R.string.cancel), playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
                     ) {
                     }
@@ -207,14 +207,14 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                 ) {
                     Spacer(modifier = Modifier.height(topBarHeight.value.dp))
                     GameButton(
-                        title = stringResource(R.string.done_button), planesGridViewModel,
+                        title = stringResource(R.string.done_button), playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
                     ) {
                     }
 
                     GameButton(
                         title = stringResource(R.string.reset_board1) + " " + stringResource(R.string.reset_board2),
-                        planesGridViewModel,
+                        playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
                     ) { viewModel ->
                         viewModel.initGrid()
