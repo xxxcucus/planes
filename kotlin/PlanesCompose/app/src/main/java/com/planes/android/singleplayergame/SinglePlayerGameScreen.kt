@@ -114,7 +114,7 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
                 }
             }
 
-            Column(modifier = Modifier.fillMaxHeight(),
+            Column(modifier = Modifier.fillMaxHeight(0.8f),
                 verticalArrangement = Arrangement.Center) {
                 Row(
                     horizontalArrangement = Arrangement.Center,
@@ -185,11 +185,11 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
             }
 
             //Text(text = "This is a test")
-            Row(modifier = Modifier.fillMaxWidth(),
+            Row(modifier = Modifier.fillMaxWidth(0.8f),
                 horizontalArrangement = Arrangement.Center) {
                 Column(
                     verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxHeight()
+                    modifier = modifier.fillMaxHeight()
                 ) {
                     GameButton(
                         title = stringResource(R.string.rotate_button), planesGridViewModel,
@@ -208,7 +208,7 @@ fun SinglePlayerGameScreen(modifier: Modifier, currentScreenState: MutableState<
 
                 Column(
                     verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxHeight()
+                    modifier = modifier.fillMaxHeight()
                 ) {
                     GameButton(
                         title = stringResource(R.string.done_button), planesGridViewModel,

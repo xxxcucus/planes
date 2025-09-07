@@ -511,7 +511,7 @@ The layout for vertical screen orientation for the single player modus is as fol
 	
 \end{lstlisting}
 
-Here the three options for the game difficulty, whether to show the plane after being destroyed and whether to switch to multiplayer game or not are being given with Spinner views. The data are stored in a View Model with a so-called view model binding. This is configured at the beginning of the layout with the key words "variable name". The variable in this case is called settingsData of the type SinglePlayerSettingsViewModel. The fields that are being updated directly by the spinner through the view model binding are defined with the tags "app:currentSkill", "app:showPlaneAfterKill", "app:multiplayerVersion". 
+Here the three options for the game difficulty, whether to show the plane after being destroyed and whether to switch to multiplayer game or not are being input with Spinner views. The data are stored in a View Model with a so-called view model binding. This is configured at the beginning of the layout with the key words "variable name". The variable in this case is called settingsData of the type SinglePlayerSettingsViewModel. The fields that are being updated directly by the spinner through the view model binding are defined with the tags "app:currentSkill", "app:showPlaneAfterKill", "app:multiplayerVersion". 
 
 The corresponding view model class looks as follows:
 
@@ -1551,7 +1551,7 @@ This view model is not a simple data class like the implementation in \ref{pref_
 
 The view model is connected to the composable (PreferencesScreen) defining the preference screen where it is given as parameter (optionsViewModel). In order for it to work smoothly with input methods like typing of username and password, it keeps the preferences elements into MutableState variables. MutableState variables are state holding variables whose change can be tracked by JetPack Compose. When the value change occurs some composable functions will be recomputed to update the interface.
 
-In addition to saving inputs into the MutableState variables, they are persisted into a Data Store that is meant to keep the settings beyound stopping of the app. The data store is a newer alternative to the shared preferences used in \ref{pres_prefs1}
+In addition to saving inputs into the MutableState variables, they are persisted into a Data Store that is meant to keep the settings beyond stopping of the app. The data store is a newer alternative to the shared preferences used in \ref{pres_prefs1}
 
 This is implemented for example in this method:
 
@@ -1567,7 +1567,7 @@ This is implemented for example in this method:
 	}
 \end{lstlisting}
 
-m\_ShowPlaneAfterKill is a MutableState variable which keeps the user option during the functioning of the application. Every time the user changes this options, this change is persisted through a coroutine (a kind of lightweight background job) to the data store. When the preferences value are required in the Preferences Screen they are delivered directly from the MutableState variables.
+m\_ShowPlaneAfterKill is a MutableState variable which keeps the user option during the functioning of the application. Every time the user changes these options, this change is persisted through a coroutine (a kind of lightweight background job) to the data store. When the preferences value are required in the Preferences Screen they are delivered directly from the MutableState variables.
 
 When the view model is first instantiated the values from the data store are read into the MutableState variables:
 
