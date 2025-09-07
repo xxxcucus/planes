@@ -78,6 +78,10 @@ fun Screen(modifier: Modifier, navController: NavHostController) {
         mutableStateOf("About")
     }
 
+    val topBarHeight = remember {
+        mutableStateOf(70)
+    }
+
     val scope = rememberCoroutineScope()
 
     ModalNavigationDrawer(
@@ -95,7 +99,7 @@ fun Screen(modifier: Modifier, navController: NavHostController) {
             topBar = {
                 TopBar(
                     modifier = Modifier.padding(0.dp)
-                        .height(70.dp).fillMaxWidth(),
+                        .height(topBarHeight.value.dp).fillMaxWidth(),
                     onOpenDrawer = {
                         scope.launch {
                             drawerState.apply {
@@ -112,6 +116,7 @@ fun Screen(modifier: Modifier, navController: NavHostController) {
         ) { padding ->
             ScreenContent(modifier = Modifier.padding(padding),
                 currentScreenState = currentScreenState,
+                topBarHeight = topBarHeight,
                 navController = navController)
         }
     }
@@ -119,10 +124,11 @@ fun Screen(modifier: Modifier, navController: NavHostController) {
 
 @Composable
 fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
+                  topBarHeight: MutableState<Int>,
                   navController: NavHostController
 ) {
     PlanesNavigation(modifier = modifier,
-        currentScreenState, navController,
+        currentScreenState, topBarHeight, navController,
         context = LocalContext.current)
 }
 

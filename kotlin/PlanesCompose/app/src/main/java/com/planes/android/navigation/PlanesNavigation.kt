@@ -5,8 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -20,7 +18,7 @@ import com.planes.android.logout.LogoutScreen
 import com.planes.android.multiplayergame.MultiplayerGameScreen
 import com.planes.android.multiplayergamestatistics.MultiplayerGameStatisticsScreen
 import com.planes.android.register.RegisterScreen
-import com.planes.android.singleplayergame.SinglePlayerGameScreen
+import com.planes.android.singleplayergame.BoardEditingScreen
 import com.planes.android.singleplayergamestatistics.SinglePlayerGameStatisticsScreen
 import com.planes.android.preferences.PreferencesScreen
 import com.planes.android.preferences.PreferencesViewModel
@@ -30,6 +28,7 @@ import com.planes.android.video.VideoScreen
 
 @Composable
 fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String>,
+                     topBarHeight: MutableState<Int>,
                      navController: NavHostController, context: Context,
                      optionsViewModel: PreferencesViewModel = hiltViewModel()) {
 
@@ -39,7 +38,7 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
         navController = navController,
         startDestination = PlanesScreens.Info.name) {
         composable(PlanesScreens.SinglePlayerGame.name) {
-           SinglePlayerGameScreen(modifier = modifier, currentScreenState, navController = navController, planesGridViewModel)
+           BoardEditingScreen(modifier = modifier, currentScreenState, topBarHeight, navController = navController, planesGridViewModel)
         }
         composable(PlanesScreens.SinglePlayerGameStatistics.name) {
             SinglePlayerGameStatisticsScreen(modifier = modifier, currentScreenState, navController = navController)
