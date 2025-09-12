@@ -119,13 +119,15 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                 ) {
                     GameButton(
                         title = stringResource(R.string.rotate_button), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
+                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                        enabled = true
                     ) { viewModel ->
                         viewModel.rotatePlane(playerGridViewModel.getSelectedPlane())
                     }
                     GameButton(
                         title = stringResource(R.string.done_button), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
+                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                        enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
                     ) {
                     }
                 }
@@ -136,13 +138,15 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                 ) {
                     GameButton(
                         title = stringResource(R.string.cancel), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
+                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                        enabled = true
                     ) {
                     }
                     GameButton(
                         title = stringResource(R.string.reset_board1) + " " + stringResource(R.string.reset_board2),
                         playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
+                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                        enabled = true
                     ) { viewModel ->
                         viewModel.initGrid()
                     }
@@ -189,14 +193,16 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                     Spacer(modifier = Modifier.height(topBarHeight.value.dp))
                     GameButton(
                         title = stringResource(R.string.rotate_button), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
+                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                        enabled = true
                     ) { viewModel ->
                         viewModel.rotatePlane(playerGridViewModel.getSelectedPlane())
                     }
 
                     GameButton(
                         title = stringResource(R.string.cancel), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
+                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                        enabled = true
                     ) {
                     }
                 }
@@ -208,14 +214,16 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                     Spacer(modifier = Modifier.height(topBarHeight.value.dp))
                     GameButton(
                         title = stringResource(R.string.done_button), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
+                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                        enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
                     ) {
                     }
 
                     GameButton(
                         title = stringResource(R.string.reset_board1) + " " + stringResource(R.string.reset_board2),
                         playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp)
+                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                        enabled = true
                     ) { viewModel ->
                         viewModel.initGrid()
                     }
@@ -270,14 +278,20 @@ fun BoardSquare(index: Int, squareSizeDp: Int, squareSizePx: Float,
 @Composable
 fun GameButton(title: String, planesGridViewModel: PlaneGridViewModel,
                modifier: Modifier,
-               onClick: (PlaneGridViewModel) -> Unit) {
+               enabled: Boolean,
+               onClick: (PlaneGridViewModel) -> Unit
+               ) {
+    val color = if (enabled) MaterialTheme.colorScheme.surfaceVariant
+                    else MaterialTheme.colorScheme.secondary
+
     Card(
         modifier = modifier.padding(1.dp).clickable {
-            onClick.invoke(planesGridViewModel)
+            if (enabled)
+                onClick.invoke(planesGridViewModel)
         },
         shape = RectangleShape,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = color
         )
     ) {
         Column(

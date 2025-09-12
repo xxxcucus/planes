@@ -1,9 +1,7 @@
 package com.planes.android.singleplayergame
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.Color
 import androidx.core.util.Pair
 import androidx.lifecycle.ViewModel
 import com.planes.singleplayerengine.Coordinate2D
@@ -36,7 +34,7 @@ class PlaneGridViewModel() : ViewModel() {
     private var m_PlanesOverlap = mutableStateOf(false)
 
     //whether a plane is outside of the grid
-    var isPlaneOutsideGrid = mutableStateOf(false)
+    var m_IsPlaneOutsideGrid = mutableStateOf(false)
 
     ///for QML
     private var m_listPlanePointsAnnotations = mutableStateListOf<Int>()
@@ -153,14 +151,14 @@ class PlaneGridViewModel() : ViewModel() {
         m_listPlanePoints.clear()
         m_listPlanePointsAnnotations.clear()
         var returnValue = true
-        isPlaneOutsideGrid.value = false
+        m_IsPlaneOutsideGrid.value = false
         for (i in m_planeList.indices) {
             val pl = m_planeList[i]
             val ppi = PlanePointIterator(pl)
             var isHead = true
             while (ppi.hasNext()) {
                 val qp = ppi.next()
-                if (!isPointInGrid(qp)) isPlaneOutsideGrid.value = true
+                if (!isPointInGrid(qp)) m_IsPlaneOutsideGrid.value = true
                 ///compute the point's annotation
                 val annotation = generateAnnotation(i, isHead)
                 val isOnPlane = isPointOnPlane(qp.x(), qp.y())
@@ -227,6 +225,10 @@ class PlaneGridViewModel() : ViewModel() {
 
     fun doPlanesOverlap(): Boolean {
         return m_PlanesOverlap.value
+    }
+
+    fun isPlaneOutsideGrid(): Boolean {
+        return m_IsPlaneOutsideGrid.value
     }
 
     private fun isPointInGrid(qp: Coordinate2D): Boolean {
