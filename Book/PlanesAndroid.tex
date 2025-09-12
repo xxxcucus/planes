@@ -552,6 +552,10 @@ These preferences are persisted through a service called SinglePlayerPreferences
 
 The service is created as a singleton and exist through the whole lifetime of the application.
 
+\subsection{Game Screen}
+
+
+
 \subsection { Android Concepts }
 
 \subsubsection { Activity }
@@ -823,6 +827,59 @@ In the method onDetach() corresponding to the fragment being removed from the co
 \end{lstlisting}
 
 In the onResume() method the method reinitializeFromState() is called. This resets the screen to the state it had before being destroyed.
+
+\subsection{Custom Views}
+
+Most of the elements that appear in the XML Layout are derived from the class View, the basis of the hierarchy of displayable elements. In some cases it is required to create custom views. I will give now one from the PlanesAndroid application.
+
+In order to achieve this mostly it is required to override the methods onDraw() and onMeasure().
+
+\begin{lstlisting}
+	public override fun onDraw(canvas: Canvas) {
+		m_Paint.color = m_BackgroundColor
+		canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), m_Paint)
+		m_Paint.color = m_ForegroundColor
+		drawTextFitToSizeOneLine(m_Text, m_TextSize, canvas, m_Paint, width, height)
+	}
+\end{lstlisting}
+
+The onDraw() method has a Canvas parameter which allows drawing onto. In this case a Rect is drawn with the specified background color along with a text with the specified foreground color. 
+
+\begin{lstlisting}
+	 override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+		val lp = layoutParams as PlanesVerticalLayoutParams
+		if (!this::m_Text.isInitialized) m_Text = lp.getText()
+		m_BackgroundColor = lp.getBackgroundColor().defaultColor
+		m_ForegroundColor = lp.getForegroundColor().defaultColor
+		val measuredHeight = measureHeightOneLineText(heightMeasureSpec, m_Paint, m_Text)
+		val measuredWidth = measureWidthOneLineText(widthMeasureSpec, m_Paint, m_Text)
+		setMeasuredDimension(measuredWidth, measuredHeight)
+	}
+\end{lstlisting}
+
+In the onMeasure() method the layout parameters of the view are being read: the background color, the foreground color and the text to be displayed.
+
+\begin{lstlisting}
+	fun measureHeightOneLineText(measureSpec: Int, paint: Paint, text: String): Int {
+		View.MeasureSpec.getMode(measureSpec)
+		val specSize = View.MeasureSpec.getSize(measureSpec)
+		var resultHeight = 10
+		paint.textSize = 20f
+		val bounds = Rect()
+		paint.getTextBounds(text, 0, text.length, bounds)
+		if (bounds.height() > resultHeight) resultHeight = bounds.height()
+		if (specSize > resultHeight) resultHeight = specSize
+		return resultHeight
+	}
+\end{lstlisting}
+
+The height of the View is being calculated in the function measureHeightOneLineText() as follows: first the size of the text is being determined from the paint object, if it is bigger than the minimum dimension of 10 than this is considered as the intermediary height of the View, further more if the specificated height is still bigger than this intermediary value, the specified height is taken as the View's height.
+
+A similar reasoning is used for determining the View's width. Finally with the help of the function setMeasuredDimension() the calculated dimensions of the View are set.
+
+\subsection {Custom Layouts}
+
+
 
 \section{PlanesCompose}
 
