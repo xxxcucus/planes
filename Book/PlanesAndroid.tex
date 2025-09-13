@@ -879,7 +879,137 @@ A similar reasoning is used for determining the View's width. Finally with the h
 
 \subsection {Custom Layouts}
 
+When creating a custom layout one derives from ViewGroup, which is the basis class for layouts in AndroidXML.
 
+One needs to override the method onLayout which receives as parameters the position (left, right, bottom, top). The method is triggered after the ViewGroup was placed inside the parent ViewGroup and is responsible for laying out its children.
+
+In PlanesAndroid I use a custom layout for the game board(s) along with the control buttons for the game (which are different at different game stages). This layout is different depending on the game stage. There are three game stages: board editing, game, game not started.
+
+This is a longer function so I will present it in two parts. In the first part a preprocessing is performed:
+
+\begin{lstlisting}
+	for (i in 0 until count) {
+		val child = getChildAt(i)
+		if (child is GameBoardSinglePlayer) {
+			m_GameBoards.add(child)
+		} else {
+			val lp = child.layoutParams as PlanesVerticalLayoutParams
+			if (!(lp.m_Row == 0 || lp.m_Col == 0 || lp.m_GameStage == -1)) {
+				if (!m_GameControls.containsKey(lp.m_GameStage)) {
+					m_GameControls[lp.m_GameStage] = ArrayList()
+					m_GameControlsMaxRow[lp.m_GameStage] = 0
+					m_GameControlsMaxCol[lp.m_GameStage] = 0
+				}
+				val viewsForGameStage = m_GameControls[lp.m_GameStage]!!
+				if (lp.m_GameStage != m_GameStage.value) {
+					child.visibility = GONE
+				} else {
+					child.visibility = VISIBLE
+				}
+				viewsForGameStage.add(child)
+				val maxRow = m_GameControlsMaxRow[lp.m_GameStage]!!
+				val rowspan = if (lp.m_RowSpan != 0) lp.m_RowSpan - 1 else 0
+				val colspan = if (lp.m_ColSpan != 0) lp.m_ColSpan - 1 else 0
+				if (lp.m_Row + rowspan > maxRow)
+				m_GameControlsMaxRow[lp.m_GameStage] = lp.m_Row + rowspan
+				val maxCol = m_GameControlsMaxCol[lp.m_GameStage]!!
+				if (lp.m_Col + colspan > maxCol)
+				m_GameControlsMaxCol[lp.m_GameStage] = lp.m_Col + colspan
+			}
+		}
+	}
+\end{lstlisting}
+
+The children of the layout are being read. If the child is a game board then it is added to the list of GameBoards. If the child is not a game board then it is a button/ control surface of the game controls. The game controls are added to an array list corresponding to the game stage. One also saves in a hash map the maximum row positions and maximum col positions for each game stage.
+
+In the second part of the function the positioning of the layout children is being performed. I am only going to show the positioning for the board editing stage of the game.
+
+\begin{lstlisting}
+	if (m_Tablet) {
+		if (m_Vertical) {
+			setPlayerBoardPosition(0, 0, layoutWidth, layoutHeight / 2, true)
+			setGameControlsPositions(0, layoutHeight / 2, layoutWidth, layoutHeight)
+		} else {
+			setPlayerBoardPosition(0, 0, layoutWidth / 2, layoutHeight, true)
+			setGameControlsPositions(layoutWidth / 2, 0, layoutWidth, layoutHeight)
+		}
+	} else {
+		if (m_Vertical) {
+			setFirstBoardPosition(0, 0, layoutWidth, layoutWidth)
+			setGameControlsPositions(0, layoutWidth, layoutWidth, layoutHeight)
+		} else {
+			setFirstBoardPosition(0, 0, layoutHeight, layoutHeight)
+			setGameControlsPositions(layoutHeight, 0, layoutWidth, layoutHeight)
+		}
+	}
+\end{lstlisting}
+
+The functions for laying out the boards look like this:
+
+\begin{lstlisting}
+	private fun setPlayerBoardPosition(left: Int, top: Int, right: Int, bottom: Int, hideOthers: Boolean) {
+		for (board in m_GameBoards) {
+			if (board.isPlayer()) {
+				board.layout(left, top, right, bottom)
+				board.visibility = VISIBLE
+			} else {
+				if (hideOthers) board.visibility = GONE else board.visibility = VISIBLE
+			}
+		}
+	}
+\end{lstlisting}
+
+The boards are again custom layouts which only make the placement and display of the planes and guesses in a grid format in the given coordinates.
+
+The function for laying out the game controls looks like:
+
+\begin{lstlisting}
+
+	private fun setGameControlsPositions(left: Int, top: Int, right: Int, bottom: Int) {
+		if (!m_GameControlsMaxRow.containsKey(m_GameStage.value))
+		return
+		
+		val maxRow = m_GameControlsMaxRow[m_GameStage.value]!!
+		val maxCol = m_GameControlsMaxCol[m_GameStage.value]!!
+		val stepX = (right - left) / (maxCol + 2)
+		val stepY = (bottom - top) / (maxRow + 2)
+		var currentOptimalTextSize = 100
+		
+		//compute text size
+		for (view in m_GameControls[m_GameStage.value]!!) {
+			if (view !is ViewWithText) continue
+			val lp = view.layoutParams as PlanesVerticalLayoutParams
+			val rowspan = if (lp.m_RowSpan != 0) lp.m_RowSpan else 1
+			val colspan = if (lp.m_ColSpan != 0) lp.m_ColSpan else 1
+			val heightMeasureSpec = MeasureSpec.makeMeasureSpec(rowspan * stepY, MeasureSpec.UNSPECIFIED)
+			val widthMeasureSpec = MeasureSpec.makeMeasureSpec(colspan * stepX, MeasureSpec.UNSPECIFIED)
+			view.measure(widthMeasureSpec, heightMeasureSpec)
+			val actualWidth = view.measuredWidth
+			val actualHeight = view.measuredHeight
+			currentOptimalTextSize = (view as ViewWithText).getOptimalTextSize(currentOptimalTextSize, actualWidth - m_GridSpacing, actualHeight - m_GridSpacing)
+		}
+		
+		//layout
+		for (view in m_GameControls[m_GameStage.value]!!) {
+			val lp = view.layoutParams as PlanesVerticalLayoutParams
+			val rowspan = if (lp.m_RowSpan != 0) lp.m_RowSpan else 1
+			val colspan = if (lp.m_ColSpan != 0) lp.m_ColSpan else 1
+			val heightMeasureSpec = MeasureSpec.makeMeasureSpec(rowspan * stepY, MeasureSpec.UNSPECIFIED)
+			val widthMeasureSpec = MeasureSpec.makeMeasureSpec(colspan * stepX, MeasureSpec.UNSPECIFIED)
+			view.measure(widthMeasureSpec, heightMeasureSpec)
+			val actualWidth = view.measuredWidth - m_GridSpacing
+			val actualHeight = view.measuredHeight - m_GridSpacing
+			val viewCenterX = left + lp.m_Col * stepX + colspan * stepX / 2
+			val viewCenterY = top + lp.m_Row * stepY + rowspan * stepY / 2
+			if (view is ViewWithText) (view as ViewWithText).setTextSize(currentOptimalTextSize)
+			view.layout(viewCenterX - actualWidth / 2, viewCenterY - actualHeight / 2, viewCenterX + actualWidth / 2, viewCenterY + actualHeight / 2)
+			
+		}
+	}
+
+\end{lstlisting}
+
+The game controls views were alreadysaved in the hash map m\_GameControls. They are positioned in a grid like fashion where the row, col, rowspan, colspan are given in the xml layout. To compute the discrete steps in x and y direction the maxrows and maxcols for the given game stage are used (They were computed in the preprocessing step). The view.measure() function is called to get the actual width and height of the view. The view center position is computed from the discrete steps in the x and y directions. Based on these information the view is being layed out with the help of the function view.layout().
 
 \section{PlanesCompose}
 
