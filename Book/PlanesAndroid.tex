@@ -554,6 +554,7 @@ The service is created as a singleton and exist through the whole lifetime of th
 
 \subsection{Game Screen}
 
+The Game Fragment uses as layout a custom layout with custom views (see \ref{custom_layouts} and \ref{custom_views}).
 
 
 \subsection { Android Concepts }
@@ -828,7 +829,7 @@ In the method onDetach() corresponding to the fragment being removed from the co
 
 In the onResume() method the method reinitializeFromState() is called. This resets the screen to the state it had before being destroyed.
 
-\subsection{Custom Views}
+\subsection{Custom Views} \label{custom_views}
 
 Most of the elements that appear in the XML Layout are derived from the class View, the basis of the hierarchy of displayable elements. In some cases it is required to create custom views. I will give now one from the PlanesAndroid application.
 
@@ -877,7 +878,7 @@ The height of the View is being calculated in the function measureHeightOneLineT
 
 A similar reasoning is used for determining the View's width. Finally with the help of the function setMeasuredDimension() the calculated dimensions of the View are set.
 
-\subsection {Custom Layouts}
+\subsection {Custom Layouts} \label{custom_layouts}
 
 When creating a custom layout one derives from ViewGroup, which is the basis class for layouts in AndroidXML.
 
