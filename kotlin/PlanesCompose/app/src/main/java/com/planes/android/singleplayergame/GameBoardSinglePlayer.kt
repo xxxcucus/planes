@@ -48,8 +48,6 @@ fun gameBoardSinglePlayerMeasurePolicy(): MeasurePolicy =
                     maxY = placeable.height
                 }
             }
-
-
         }
     }
 

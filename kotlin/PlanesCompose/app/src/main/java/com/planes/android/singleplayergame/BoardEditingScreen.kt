@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
@@ -55,7 +56,8 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
     var squareSizeDp = screenWidthDp / playerGridViewModel.getColNo()
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        squareSizeDp = (screenHeightDp - topBarHeight.value) / playerGridViewModel.getRowNo()
+        //squareSizeDp = (screenHeightDp - topBarHeight.value) / playerGridViewModel.getRowNo()
+        squareSizeDp = screenHeightDp / playerGridViewModel.getRowNo()
     }
 
     var buttonHeightDp = (screenHeightDp - playerGridViewModel.getColNo() * squareSizeDp - 100) / 4
@@ -77,38 +79,26 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
     var swipeLengthY = 0.0f
     var curTime = Date()
 
+    var boardSizeDp = squareSizeDp * 10
+
     //Log.d("Planes", "planes no ${planesGridViewModel.getPlaneNo()}")
 
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
         Column() {
-            /*LazyVerticalGrid(
-                horizontalArrangement = Arrangement.Center,
-                verticalArrangement = Arrangement.Top,
-                columns = GridCells.Fixed(playerGridViewModel.getColNo()),
-                userScrollEnabled = false,
-                modifier = modifier.pointerInput(Unit) {
-                    detectDragGestures(
-                        onDrag = { _, dragAmount ->
-                            val tripleVal = treatSwipeVertical(swipeThresh, consecSwipeThresh, swipeLengthX,
-                                swipeLengthY, squareSizePx, curTime, dragAmount, playerGridViewModel)
-                            swipeLengthX = tripleVal.first
-                            swipeLengthY = tripleVal.second
-                            curTime = tripleVal.third
-                        }
-                    )
-                }
-            ) {
-                items(playerGridViewModel.getRowNo() * playerGridViewModel.getColNo()) { index ->
-                    BoardSquare(index, squareSizeDp, squareSizePx, playerGridViewModel, true) {
-                        val row = index / playerGridViewModel.getColNo()
-                        val col = index % playerGridViewModel.getColNo()
 
-                        playerGridViewModel.setSelectedPlane(col, row)
-                    }
-                }
-            }*/
-            val boardSize = squareSizeDp * 10
-           GameBoardSinglePlayer(modifier = Modifier.padding(top = topBarHeight.value.dp).width(boardSize.dp).height(boardSize.dp)) {
+           GameBoardSinglePlayer(modifier = Modifier.padding(top = topBarHeight.value.dp)
+               .width(boardSizeDp.dp).height(boardSizeDp.dp)
+               .pointerInput(Unit) {
+                   detectDragGestures(
+                       onDrag = { _, dragAmount ->
+                           val tripleVal = treatSwipeVertical(swipeThresh, consecSwipeThresh, swipeLengthX,
+                               swipeLengthY, squareSizePx, curTime, dragAmount, playerGridViewModel)
+                           swipeLengthX = tripleVal.first
+                           swipeLengthY = tripleVal.second
+                           curTime = tripleVal.third
+                       }
+                   )
+               }) {
                for (index in 0..99)
                    BoardSquare(index, squareSizeDp, squareSizePx, playerGridViewModel, true) {
                        val row = index / playerGridViewModel.getColNo()
@@ -118,7 +108,7 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                    }
            }
 
-            Column(modifier = Modifier.height(screenHeightDp.dp - boardSize.dp),
+            Column(modifier = Modifier.height(screenHeightDp.dp - boardSizeDp.dp),
                 verticalArrangement = Arrangement.Center) {
                 Row(
                    horizontalArrangement = Arrangement.Center,
@@ -162,12 +152,10 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
         }
     } else {
         Row() {
-            LazyHorizontalGrid(
-                horizontalArrangement = Arrangement.Start,
-                verticalArrangement = Arrangement.Center,
-                rows = GridCells.Fixed(playerGridViewModel.getRowNo()),
-                userScrollEnabled = false,
-                modifier = modifier.pointerInput(Unit) {
+
+            GameBoardSinglePlayer(modifier = Modifier.padding(top = topBarHeight.value.dp)
+                .width(boardSizeDp.dp).height(boardSizeDp.dp)
+                .pointerInput(Unit) {
                     detectDragGestures(
                         onDrag = { _, dragAmount ->
                             val tripleVal = treatSwipeHorizontal(
@@ -178,26 +166,23 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                             swipeLengthY = tripleVal.second
                             curTime = tripleVal.third
                         })
-                    }
-            ) {
-                items(playerGridViewModel.getRowNo() * playerGridViewModel.getColNo()) { index ->
-                    BoardSquare(index, squareSizeDp, squareSizePx, playerGridViewModel, false) {
+                }) {
+                for (index in 0..99)
+                    BoardSquare(index, squareSizeDp, squareSizePx, playerGridViewModel, true) {
                         val row = index / playerGridViewModel.getColNo()
                         val col = index % playerGridViewModel.getColNo()
 
                         playerGridViewModel.setSelectedPlane(row, col)
                     }
-                }
             }
 
-            //Text(text = "This is a test")
-            Row(modifier = Modifier.fillMaxWidth(0.8f),
+            Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center) {
                 Column(
                     verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxHeight()
+                    modifier = Modifier.fillMaxHeight().width(buttonWidthDp.dp)
+                        .padding(top = topBarHeight.value.dp)
                 ) {
-                    Spacer(modifier = Modifier.height(topBarHeight.value.dp))
                     GameButton(
                         title = stringResource(R.string.rotate_button), playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
@@ -216,7 +201,7 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
 
                 Column(
                     verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxHeight()
+                    modifier = Modifier.fillMaxHeight().width(buttonWidthDp.dp)
                 ) {
                     Spacer(modifier = Modifier.height(topBarHeight.value.dp))
                     GameButton(
@@ -237,6 +222,7 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                 }
             }
         }
+
     }
 }
 
