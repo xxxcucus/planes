@@ -60,7 +60,9 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
         squareSizeDp = screenHeightDp / playerGridViewModel.getRowNo()
     }
 
-    var buttonHeightDp = (screenHeightDp - playerGridViewModel.getColNo() * squareSizeDp - 100) / 4
+    var boardSizeDp = squareSizeDp * playerGridViewModel.getRowNo()
+
+    var buttonHeightDp = (screenHeightDp - boardSizeDp) / 4
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
         buttonHeightDp = screenHeightDp / 4
@@ -69,7 +71,7 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
     var buttonWidthDp = screenWidthDp / 3
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        buttonWidthDp = (screenWidthDp - playerGridViewModel.getColNo() * squareSizeDp - 100) / 4
+        buttonWidthDp = (screenWidthDp - boardSizeDp) / 3
     }
 
     val squareSizePx = with(LocalDensity.current) { squareSizeDp.dp.toPx() }
@@ -79,14 +81,15 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
     var swipeLengthY = 0.0f
     var curTime = Date()
 
-    var boardSizeDp = squareSizeDp * 10
+
 
     //Log.d("Planes", "planes no ${planesGridViewModel.getPlaneNo()}")
 
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
         Column() {
 
-           GameBoardSinglePlayer(modifier = Modifier.padding(top = topBarHeight.value.dp)
+           GameBoardSinglePlayer(playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
+               modifier = Modifier.padding(top = topBarHeight.value.dp)
                .width(boardSizeDp.dp).height(boardSizeDp.dp)
                .pointerInput(Unit) {
                    detectDragGestures(
@@ -153,7 +156,8 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
     } else {
         Row() {
 
-            GameBoardSinglePlayer(modifier = Modifier.padding(top = topBarHeight.value.dp)
+            GameBoardSinglePlayer(playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
+                modifier = Modifier.padding(top = topBarHeight.value.dp)
                 .width(boardSizeDp.dp).height(boardSizeDp.dp)
                 .pointerInput(Unit) {
                     detectDragGestures(
