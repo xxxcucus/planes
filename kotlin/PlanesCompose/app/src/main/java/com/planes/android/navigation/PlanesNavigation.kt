@@ -22,6 +22,8 @@ import com.planes.android.singleplayergame.BoardEditingScreen
 import com.planes.android.singleplayergamestatistics.SinglePlayerGameStatisticsScreen
 import com.planes.android.preferences.PreferencesScreen
 import com.planes.android.preferences.PreferencesViewModel
+import com.planes.android.singleplayergame.GameNotStartedScreen
+import com.planes.android.singleplayergame.GameScreen
 import com.planes.android.singleplayergame.PlaneGridViewModel
 import com.planes.android.video.VideoModelRepository
 import com.planes.android.video.VideoScreen
@@ -33,12 +35,19 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                      optionsViewModel: PreferencesViewModel = hiltViewModel()) {
 
     val playerGridViewModel: PlaneGridViewModel = viewModel()
+    val computerGridViewModel: PlaneGridViewModel = viewModel()
 
     NavHost(
         navController = navController,
         startDestination = PlanesScreens.Info.name) {
         composable(PlanesScreens.SinglePlayerGame.name) {
-           BoardEditingScreen(modifier = modifier, currentScreenState, topBarHeight, navController = navController, playerGridViewModel)
+           GameScreen(modifier = modifier, currentScreenState, topBarHeight, navController = navController, playerGridViewModel, computerGridViewModel)
+        }
+        composable(PlanesScreens.SinglePlayerBoardEditing.name) {
+            BoardEditingScreen(modifier = modifier, currentScreenState, topBarHeight, navController = navController, playerGridViewModel)
+        }
+        composable(PlanesScreens.SinglePlayerGameNotStarted.name) {
+            GameNotStartedScreen(modifier = modifier, currentScreenState, topBarHeight, navController = navController, playerGridViewModel, computerGridViewModel)
         }
         composable(PlanesScreens.SinglePlayerGameStatistics.name) {
             SinglePlayerGameStatisticsScreen(modifier = modifier, currentScreenState, navController = navController)

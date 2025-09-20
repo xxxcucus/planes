@@ -41,7 +41,6 @@ import com.planes.android.navigation.PlanesScreens
 import java.util.Date
 import kotlin.math.abs
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                        topBarHeight: MutableState<Int>,
@@ -80,8 +79,6 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
     var swipeLengthX = 0.0f
     var swipeLengthY = 0.0f
     var curTime = Date()
-
-
 
     //Log.d("Planes", "planes no ${planesGridViewModel.getPlaneNo()}")
 
@@ -229,81 +226,6 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
 
     }
 }
-
-@Composable
-fun BoardSquare(index: Int, squareSizeDp: Int, squareSizePx: Float,
-                planesGridViewModel: PlaneGridViewModel, isHoriz: Boolean,
-                onClick: (Int) -> Unit) {
-    val row = index / planesGridViewModel.getColNo()
-    val col = index % planesGridViewModel.getColNo()
-
-    var pointOnPlane = planesGridViewModel.isPointOnPlane(col, row)
-    if (isHoriz)
-        pointOnPlane = planesGridViewModel.isPointOnPlane(row, col)
-    if (!pointOnPlane.first)
-        GridSquare(squareSizeDp, squareSizePx, Color.Blue)
-    else {
-        val annotation = planesGridViewModel.getAnnotation(pointOnPlane.second)
-        val planesIdx = planesGridViewModel.decodeAnnotation(annotation)
-        if (planesIdx.size == 1) {
-            GridSquare(
-                isComputer = planesGridViewModel.isComputer(),
-                selectedPlane = planesGridViewModel.getSelectedPlane(),
-                annotation = if (planesIdx[0] < 0) -2 else planesIdx[0] + 1,
-                widthDp = squareSizeDp,
-                widthPx = squareSizePx,
-                backgroundColor = Color.Blue,
-                index = index,
-                onClick = onClick
-            )
-            //Log.d("Planes", "plane ${planesIdx[0]}")
-        } else {
-            GridSquare(
-                isComputer = planesGridViewModel.isComputer(),
-                selectedPlane = planesGridViewModel.getSelectedPlane(),
-                annotation = -1,
-                widthDp = squareSizeDp,
-                widthPx = squareSizePx,
-                backgroundColor = Color.Blue,
-                index = index,
-                onClick = onClick
-            )
-        }
-    }
-}
-
-@Composable
-fun GameButton(title: String, planesGridViewModel: PlaneGridViewModel,
-               modifier: Modifier,
-               enabled: Boolean,
-               onClick: (PlaneGridViewModel) -> Unit
-               ) {
-    val color = if (enabled) MaterialTheme.colorScheme.surfaceVariant
-                    else MaterialTheme.colorScheme.secondary
-
-    Card(
-        modifier = modifier.padding(1.dp).clickable {
-            if (enabled)
-                onClick.invoke(planesGridViewModel)
-        },
-        shape = RectangleShape,
-        colors = CardDefaults.cardColors(
-            containerColor = color
-        )
-    ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Text(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = title
-            )
-        }
-    }
-}
-
 
 fun treatSwipeVertical(swipeThresh: Float, consecSwipeThresh: Int,
                swipeLengthX: Float, swipeLengthY: Float,

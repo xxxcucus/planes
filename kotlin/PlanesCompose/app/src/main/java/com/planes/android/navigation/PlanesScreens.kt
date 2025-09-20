@@ -1,7 +1,9 @@
 package com.planes.android.navigation
 
 enum class PlanesScreens {
+    SinglePlayerBoardEditing,
     SinglePlayerGame,
+    SinglePlayerGameNotStarted,
     SinglePlayerGameStatistics,
     MultiplayerGame,
     MultiplayerGameStatistics,
@@ -20,6 +22,8 @@ enum class PlanesScreens {
                 Info.name -> Info
                 Tutorials.name -> Tutorials
                 SinglePlayerGame.name -> SinglePlayerGame
+                SinglePlayerBoardEditing.name -> SinglePlayerBoardEditing
+                SinglePlayerGameNotStarted.name -> SinglePlayerGameNotStarted
                 Preferences.name -> Preferences
                 SinglePlayerGameStatistics.name -> SinglePlayerGameStatistics
                 MultiplayerGame.name -> MultiplayerGame
