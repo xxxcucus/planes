@@ -22,9 +22,11 @@ import com.planes.android.singleplayergame.BoardEditingScreen
 import com.planes.android.singleplayergamestatistics.SinglePlayerGameStatisticsScreen
 import com.planes.android.preferences.PreferencesScreen
 import com.planes.android.preferences.PreferencesViewModel
+import com.planes.android.singleplayergame.ComputerGridViewModel
 import com.planes.android.singleplayergame.GameNotStartedScreen
 import com.planes.android.singleplayergame.GameScreen
 import com.planes.android.singleplayergame.PlaneGridViewModel
+import com.planes.android.singleplayergame.PlayerGridViewModel
 import com.planes.android.video.VideoModelRepository
 import com.planes.android.video.VideoScreen
 
@@ -34,8 +36,9 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                      navController: NavHostController, context: Context,
                      optionsViewModel: PreferencesViewModel = hiltViewModel()) {
 
-    val playerGridViewModel: PlaneGridViewModel = viewModel()
-    val computerGridViewModel: PlaneGridViewModel = viewModel()
+    val playerGridViewModel: PlayerGridViewModel = viewModel()
+    val computerGridViewModel: ComputerGridViewModel = viewModel()
+
 
     NavHost(
         navController = navController,

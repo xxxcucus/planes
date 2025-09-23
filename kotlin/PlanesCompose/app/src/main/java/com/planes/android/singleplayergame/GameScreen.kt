@@ -8,11 +8,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 
 
@@ -39,26 +43,63 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
     var boardSizeDp = squareSizeDp * playerGridViewModel.getRowNo()
     val squareSizePx = with(LocalDensity.current) { squareSizeDp.dp.toPx() }
 
+    var buttonHeightDp = (screenHeightDp - boardSizeDp) / 4
+
+    if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        buttonHeightDp = screenHeightDp / 4
+    }
+
+    var buttonWidthDp = screenWidthDp / 3
+
+    if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        buttonWidthDp = (screenWidthDp - boardSizeDp) / 3
+    }
+
+    val playerBoard = remember {
+        mutableStateOf(false)
+    }
+
+    val gameBoardViewModel = if (playerBoard.value) playerGridViewModel else computerGridViewModel
+
+    val titleOtherBoard = if (playerBoard.value) stringResource(R.string.view_computer_board)
+    else stringResource(R.string.view_player_board)
+
     //Log.d("Planes", "planes no ${planesGridViewModel.getPlaneNo()}")
 
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
         Column() {
-            GameBoardSinglePlayer(playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
+            GameBoardSinglePlayer(gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
                 modifier = Modifier.padding(top = topBarHeight.value.dp)
                     .width(boardSizeDp.dp).height(boardSizeDp.dp)) {
                 for (index in 0..99)
-                    BoardSquare(index, squareSizeDp, squareSizePx, playerGridViewModel, true, ) {
+                    BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, gameBoardViewModel, true ) {
                     }
                 }
+
+            GameButton(
+                title = titleOtherBoard, gameBoardViewModel,
+                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                enabled = true
+            ) {
+                playerBoard.value = !playerBoard.value
+            }
             }
         } else {
         Row() {
-            GameBoardSinglePlayer(playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
+            GameBoardSinglePlayer(gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
                 modifier = Modifier.padding(top = topBarHeight.value.dp)
                     .width(boardSizeDp.dp).height(boardSizeDp.dp)) {
                 for (index in 0..99)
-                    BoardSquare(index, squareSizeDp, squareSizePx, playerGridViewModel, true) {
+                    BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, gameBoardViewModel, true) {
                     }
+            }
+
+            GameButton(
+                title = titleOtherBoard, gameBoardViewModel,
+                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                enabled = true
+            ) {
+                playerBoard.value = !playerBoard.value
             }
         }
     }

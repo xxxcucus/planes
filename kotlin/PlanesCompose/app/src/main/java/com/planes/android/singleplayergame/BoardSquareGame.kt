@@ -1,0 +1,49 @@
+package com.planes.android.singleplayergame
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+
+@Composable
+fun BoardSquareGame(index: Int, squareSizeDp: Int, squareSizePx: Float,
+                            planesGridViewModel: PlaneGridViewModel, isHoriz: Boolean,
+                            onClick: (Int) -> Unit) {
+    val row = index / planesGridViewModel.getColNo()
+    val col = index % planesGridViewModel.getColNo()
+
+    var pointOnPlane = planesGridViewModel.isPointOnPlane(col, row)
+    if (isHoriz)
+        pointOnPlane = planesGridViewModel.isPointOnPlane(row, col)
+    if (!pointOnPlane.first)
+        GridSquareBoardEditing(squareSizeDp, squareSizePx, Color.Blue)
+    else {
+        val annotation = planesGridViewModel.getAnnotation(pointOnPlane.second)
+        val planesIdx = planesGridViewModel.decodeAnnotation(annotation)
+        var guess = planesGridViewModel.getGuessAtPosition(col, row)
+        if (isHoriz)
+            guess = planesGridViewModel.getGuessAtPosition(row, col)
+        if (planesIdx.size == 1) {
+            GridSquareGame(
+                isComputer = planesGridViewModel.isComputer(),
+                annotation = if (planesIdx[0] < 0) -2 else planesIdx[0] + 1,
+                guess = guess,
+                widthDp = squareSizeDp,
+                widthPx = squareSizePx,
+                backgroundColor = Color.Blue,
+                index = index,
+                onClick = onClick
+            )
+            //Log.d("Planes", "plane ${planesIdx[0]}")
+        } else {
+            GridSquareGame(
+                isComputer = planesGridViewModel.isComputer(),
+                annotation = -1,
+                guess = guess,
+                widthDp = squareSizeDp,
+                widthPx = squareSizePx,
+                backgroundColor = Color.Blue,
+                index = index,
+                onClick = onClick
+            )
+        }
+    }
+}

@@ -183,7 +183,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
             drawerScope.launch {
                 drawerState.close()
             }
-            navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
+            navController.navigate(route = PlanesScreens.SinglePlayerBoardEditing.name)
         })
 
 

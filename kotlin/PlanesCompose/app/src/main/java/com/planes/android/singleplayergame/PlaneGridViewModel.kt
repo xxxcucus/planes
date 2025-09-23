@@ -1,5 +1,6 @@
 package com.planes.android.singleplayergame
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.util.Pair
@@ -14,14 +15,14 @@ import com.planes.singleplayerengine.Type
 import java.util.Vector
 
 //TODO: HiltViewModel
-class PlaneGridViewModel() : ViewModel() {
+open class PlaneGridViewModel(isComputer: Boolean) : ViewModel() {
 
     //number of rows and columns
     private var m_rowNo: Int = 10
     private var m_colNo: Int = 10
     //number of planes
     private var m_planeNo: Int = 3
-    private var m_isComputer = mutableStateOf(false)
+    private var m_isComputer = mutableStateOf(isComputer)
     private val m_SelectedPlane = mutableStateOf(0)
 
     //list of plane objects for the grid
@@ -47,6 +48,25 @@ class PlaneGridViewModel() : ViewModel() {
     //00010000 - belonging to plane 3
     //00100000 - head of plane 3
     private var guesses = mutableStateListOf<GuessPoint>()
+
+    fun isGuessAtPosition(row: Int, col: Int) : Boolean {
+        val guessList = guesses.toList()
+        val filteredList = guessList.filter {
+            it.row == row && it.col == col
+        }
+        return filteredList.isNotEmpty()
+    }
+
+    fun getGuessAtPosition(row: Int, col: Int): GuessPoint? {
+        val guessList = guesses.toList()
+        val filteredList = guessList.filter {
+            it.row == row && it.col == col
+        }
+        if (filteredList.isNotEmpty())
+            return filteredList.first()
+
+        return null
+    }
 
     fun getRowNo(): Int {
         return m_rowNo;
@@ -306,7 +326,7 @@ class PlaneGridViewModel() : ViewModel() {
             //save the selected plane
             if (savePlane(pl)) {
                 count++
-                //Log.d("Planes", "Saved plane ${pl.col()} vs ${pl.row()} " )
+                Log.d("Planes", "Saved plane ${pl.col()} vs ${pl.row()} " )
             }
         } //while
         return true
