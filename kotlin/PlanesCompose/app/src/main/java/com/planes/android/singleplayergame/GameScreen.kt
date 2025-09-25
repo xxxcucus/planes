@@ -1,8 +1,11 @@
 package com.planes.android.singleplayergame
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -43,16 +46,16 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
     var boardSizeDp = squareSizeDp * playerGridViewModel.getRowNo()
     val squareSizePx = with(LocalDensity.current) { squareSizeDp.dp.toPx() }
 
-    var buttonHeightDp = (screenHeightDp - boardSizeDp) / 4
+    var refButtonHeightDp = (screenHeightDp - boardSizeDp) / 4
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        buttonHeightDp = screenHeightDp / 4
+        refButtonHeightDp = screenHeightDp / 4
     }
 
-    var buttonWidthDp = screenWidthDp / 3
+    var refButtonWidthDp = screenWidthDp / 3
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        buttonWidthDp = (screenWidthDp - boardSizeDp) / 3
+        refButtonWidthDp = (screenWidthDp - boardSizeDp) / 3
     }
 
     val playerBoard = remember {
@@ -63,27 +66,99 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
     val titleOtherBoard = if (playerBoard.value) stringResource(R.string.view_computer_board)
     else stringResource(R.string.view_player_board)
+    val titleStats = if (playerBoard.value) stringResource(R.string.computer_stats)
+    else stringResource(R.string.player_stats)
 
     //Log.d("Planes", "planes no ${planesGridViewModel.getPlaneNo()}")
 
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
         Column() {
-            GameBoardSinglePlayer(gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
+            GameBoardSinglePlayer(
+                gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
                 modifier = Modifier.padding(top = topBarHeight.value.dp)
-                    .width(boardSizeDp.dp).height(boardSizeDp.dp)) {
+                    .width(boardSizeDp.dp).height(boardSizeDp.dp)
+            ) {
                 for (index in 0..99)
-                    BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, gameBoardViewModel, true ) {
+                    BoardSquareBoardEditing(
+                        index,
+                        squareSizeDp,
+                        squareSizePx,
+                        gameBoardViewModel,
+                        true
+                    ) {
+                    }
+            }
+
+            Column(modifier = Modifier.height(screenHeightDp.dp - boardSizeDp.dp),
+                verticalArrangement = Arrangement.Center) {
+                Row(horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.height(refButtonHeightDp.dp / 2).fillMaxWidth()) {
+                    Spacer(
+                        modifier = Modifier.width(refButtonWidthDp.dp)
+                            .height(refButtonHeightDp.dp / 2)
+                    )
+                    GameButton(
+                        title = titleStats, gameBoardViewModel,
+                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
+                        enabled = true
+                    ) {
+
                     }
                 }
+                Row(horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.height(refButtonHeightDp.dp).fillMaxWidth()) {
+                    GameButton(
+                        title = titleOtherBoard, gameBoardViewModel,
+                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
+                        enabled = true
+                    ) {
+                        playerBoard.value = !playerBoard.value
+                    }
+                    Column() {
+                        GameButton(
+                            title = stringResource(R.string.general_moves), gameBoardViewModel,
+                            modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp / 2),
+                            enabled = true
+                        ) {
 
-            GameButton(
-                title = titleOtherBoard, gameBoardViewModel,
-                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                enabled = true
-            ) {
-                playerBoard.value = !playerBoard.value
+                        }
+                        GameButton(
+                            title = stringResource(R.string.general_misses), gameBoardViewModel,
+                            modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp / 2),
+                            enabled = true
+                        ) {
+
+                        }
+                    }
+                }
+                Row(horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.height(refButtonHeightDp.dp).fillMaxWidth()) {
+                    GameButton(
+                        title = stringResource(R.string.cancel), gameBoardViewModel,
+                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
+                        enabled = true
+                    ) {
+
+                    }
+                    Column() {
+                        GameButton(
+                            title = stringResource(R.string.general_hits), gameBoardViewModel,
+                            modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp / 2),
+                            enabled = true
+                        ) {
+
+                        }
+                        GameButton(
+                            title = stringResource(R.string.general_dead), gameBoardViewModel,
+                            modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp / 2),
+                            enabled = true
+                        ) {
+
+                        }
+                    }
+                }
             }
-            }
+        }
         } else {
         Row() {
             GameBoardSinglePlayer(gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
@@ -96,7 +171,7 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
             GameButton(
                 title = titleOtherBoard, gameBoardViewModel,
-                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
                 enabled = true
             ) {
                 playerBoard.value = !playerBoard.value
