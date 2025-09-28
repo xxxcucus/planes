@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
@@ -58,6 +60,7 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
         refButtonWidthDp = (screenWidthDp - boardSizeDp) / 3
     }
 
+    //TODO: remember this after screen rotation
     val playerBoard = remember {
         mutableStateOf(false)
     }
@@ -140,7 +143,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                     ) {
 
                     }
-                    Column() {
+                    Column(modifier = Modifier.fillMaxHeight(),
+                        verticalArrangement = Arrangement.Center
+                        ) {
                         GameButton(
                             title = stringResource(R.string.general_hits), gameBoardViewModel,
                             modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp / 2),
@@ -161,22 +166,100 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
         }
         } else {
         Row() {
-            GameBoardSinglePlayer(gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
+            GameBoardSinglePlayer(
+                gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
                 modifier = Modifier.padding(top = topBarHeight.value.dp)
-                    .width(boardSizeDp.dp).height(boardSizeDp.dp)) {
+                    .width(boardSizeDp.dp).height(boardSizeDp.dp)
+            ) {
                 for (index in 0..99)
-                    BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, gameBoardViewModel, true) {
+                    BoardSquareBoardEditing(
+                        index,
+                        squareSizeDp,
+                        squareSizePx,
+                        gameBoardViewModel,
+                        true
+                    ) {
                     }
             }
 
-            GameButton(
-                title = titleOtherBoard, gameBoardViewModel,
-                modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
-                enabled = true
+            Row(modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
             ) {
-                playerBoard.value = !playerBoard.value
+                Column(modifier = Modifier.padding(top = topBarHeight.value.dp)
+                    .height(boardSizeDp.dp)
+                    .width(refButtonWidthDp.dp),
+                    verticalArrangement = Arrangement.Center) {
+                    Spacer(
+                        modifier = Modifier.width(refButtonWidthDp.dp)
+                            .height(refButtonHeightDp.dp / 2))
+                    GameButton(
+                        title = titleOtherBoard, gameBoardViewModel,
+                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
+                        enabled = true
+                    ) {
+                        playerBoard.value = !playerBoard.value
+                    }
+                    GameButton(
+                        title = stringResource(R.string.cancel), gameBoardViewModel,
+                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
+                        enabled = true
+                    ) {
+
+                    }
+                }
+
+                Column(modifier = Modifier.padding(top = topBarHeight.value.dp)
+                    .height(boardSizeDp.dp)
+                    .width(refButtonWidthDp.dp),
+                    verticalArrangement = Arrangement.Center) {
+                    GameButton(
+                        title = titleStats, gameBoardViewModel,
+                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp / 2),
+                        enabled = true
+                    ) {
+
+                    }
+                    Column() {
+                        GameButton(
+                            title = stringResource(R.string.general_moves), gameBoardViewModel,
+                            modifier = Modifier.width(refButtonWidthDp.dp)
+                                .height(refButtonHeightDp.dp / 2),
+                            enabled = true
+                        ) {
+
+                        }
+                        GameButton(
+                            title = stringResource(R.string.general_misses), gameBoardViewModel,
+                            modifier = Modifier.width(refButtonWidthDp.dp)
+                                .height(refButtonHeightDp.dp / 2),
+                            enabled = true
+                        ) {
+
+                        }
+                    }
+
+                    Column() {
+                        GameButton(
+                            title = stringResource(R.string.general_hits), gameBoardViewModel,
+                            modifier = Modifier.width(refButtonWidthDp.dp)
+                                .height(refButtonHeightDp.dp / 2),
+                            enabled = true
+                        ) {
+
+                        }
+                        GameButton(
+                            title = stringResource(R.string.general_dead), gameBoardViewModel,
+                            modifier = Modifier.width(refButtonWidthDp.dp)
+                                .height(refButtonHeightDp.dp / 2),
+                            enabled = true
+                        ) {
+
+                        }
+                    }
+                }
             }
         }
+
     }
 }
 
