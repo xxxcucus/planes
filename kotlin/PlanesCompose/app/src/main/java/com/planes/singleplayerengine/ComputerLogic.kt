@@ -198,7 +198,7 @@ class ComputerLogic(//gets the number of rows
     }
 
     //make choice in find head mode
-    public fun makeChoiceFindHeadMode(): Pair<Boolean, Coordinate2D> {
+    fun makeChoiceFindHeadMode(): Pair<Boolean, Coordinate2D> {
         val maxPos = Vector<Int>()
 
         //computes the point on the m_choices table
@@ -225,7 +225,7 @@ class ComputerLogic(//gets the number of rows
     }
 
     //make choice in find plane position mode
-    public fun makeChoiceFindPositionMode(): Pair<Boolean, Coordinate2D> {
+    fun makeChoiceFindPositionMode(): Pair<Boolean, Coordinate2D> {
         //chose randomly a head data from the list
         //and choose randomly an orientation which is not discarded
         //select a point which was not selected from this orientation
@@ -261,7 +261,7 @@ class ComputerLogic(//gets the number of rows
     }
 
     //make a random choice
-    public fun makeChoiceRandomMode(): Pair<Boolean, Coordinate2D> {
+    fun makeChoiceRandomMode(): Pair<Boolean, Coordinate2D> {
         //find a random point which has zero score in the choice map
         val idx = generateRandomNumber(m_maxChoiceNo)
 
@@ -320,7 +320,7 @@ class ComputerLogic(//gets the number of rows
     }
 
     //updates the choices with info about a dead guess
-    public fun updateChoiceMapDeadInfo(row: Int, col: Int) {
+    fun updateChoiceMapDeadInfo(row: Int, col: Int) {
         //do nothing as everything is done in the updateHeadData function
         //the decision to chose a plane is made in the
         //updateHeadData function
@@ -328,7 +328,7 @@ class ComputerLogic(//gets the number of rows
     }
 
     //updates the choices with info about a hit guess
-    public fun updateChoiceMapHitInfo(row: Int, col: Int) {
+    fun updateChoiceMapHitInfo(row: Int, col: Int) {
         //for all the plane positions that are valid and that contain the
         //current position increment their score
         m_pipi.reset()
@@ -350,7 +350,7 @@ class ComputerLogic(//gets the number of rows
     }
 
     //updates the choices with info about a miss guess
-    public fun updateChoiceMapMissInfo(row: Int, col: Int) {
+    fun updateChoiceMapMissInfo(row: Int, col: Int) {
         //discard all plane positions that contain this point
         m_pipi.reset()
         while (m_pipi.hasNext()) {
@@ -371,7 +371,7 @@ class ComputerLogic(//gets the number of rows
     }
 
     //updates the choices with the info about a found plane
-    public fun updateChoiceMapPlaneData(pl: Plane) {
+    fun updateChoiceMapPlaneData(pl: Plane) {
         //interprets a plane as a list of miss guesses
         //updates the choice map with this list of guesses
         //and appends the guesses to the list of guesses

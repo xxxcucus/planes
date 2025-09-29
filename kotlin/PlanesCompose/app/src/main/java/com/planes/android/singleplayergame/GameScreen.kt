@@ -82,7 +82,7 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                     .width(boardSizeDp.dp).height(boardSizeDp.dp)
             ) {
                 for (index in 0..99)
-                    BoardSquareBoardEditing(
+                    BoardSquareGame(
                         index,
                         squareSizeDp,
                         squareSizePx,
@@ -172,7 +172,7 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                     .width(boardSizeDp.dp).height(boardSizeDp.dp)
             ) {
                 for (index in 0..99)
-                    BoardSquareBoardEditing(
+                    BoardSquareGame(
                         index,
                         squareSizeDp,
                         squareSizePx,
