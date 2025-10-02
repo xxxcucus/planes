@@ -29,16 +29,18 @@ import com.planes.android.singleplayergame.PlaneGridViewModel
 import com.planes.android.singleplayergame.PlayerGridViewModel
 import com.planes.android.video.VideoModelRepository
 import com.planes.android.video.VideoScreen
+import com.planes.singleplayerengine.PlanesRoundInterface
+import javax.inject.Inject
 
 @Composable
 fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String>,
                      topBarHeight: MutableState<Int>,
-                     navController: NavHostController, context: Context,
+                     navController: NavHostController,
+                     context: Context,
                      optionsViewModel: PreferencesViewModel = hiltViewModel()) {
 
-    val playerGridViewModel: PlayerGridViewModel = viewModel()
-    val computerGridViewModel: ComputerGridViewModel = viewModel()
-
+    val playerGridViewModel: PlayerGridViewModel = hiltViewModel()
+    val computerGridViewModel: ComputerGridViewModel = hiltViewModel()
 
     NavHost(
         navController = navController,

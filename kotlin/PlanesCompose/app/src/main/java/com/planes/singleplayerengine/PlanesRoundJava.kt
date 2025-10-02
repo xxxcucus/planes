@@ -1,16 +1,15 @@
 package com.planes.singleplayerengine
 
 import androidx.core.util.Pair
-import com.planes.android.PlanesRoundInterface
 
 class PlanesRoundJava : PlanesRoundInterface {
     //creates the PlaneRound object in the game engine
     //must be called a single time
-    override fun createPlanesRound() {
+    /*override fun createPlanesRound() {
         if (global_Round != null) return
         global_Round = PlaneRound(10, 10, 3)
         global_Round!!.initRound()
-    }
+    }*/
 
     //show the planes
     override fun getRowNo(): Int {
@@ -25,29 +24,29 @@ class PlanesRoundJava : PlanesRoundInterface {
         return global_Round!!.getPlaneNo()
     }
 
-    override fun getPlaneSquareType(i: Int, j: Int, isComputer: Int): Int {
-        return global_Round!!.getPlaneSquareType(i, j, isComputer > 0)
+    override fun getPlaneSquareType(i: Int, j: Int, isComputer: Boolean): Int {
+        return global_Round!!.getPlaneSquareType(i, j, isComputer)
     }
 
     //edit the board
-    override fun movePlaneLeft(idx: Int): Int {
-        return if (global_Round!!.movePlaneLeft(idx)) 1 else 0
+    override fun movePlaneLeft(idx: Int): Boolean {
+        return global_Round!!.movePlaneLeft(idx)
     }
 
-    override fun movePlaneRight(idx: Int): Int {
-        return if (global_Round!!.movePlaneRight(idx)) 1 else 0
+    override fun movePlaneRight(idx: Int): Boolean {
+        return global_Round!!.movePlaneRight(idx)
     }
 
-    override fun movePlaneUpwards(idx: Int): Int {
-        return if (global_Round!!.movePlaneUpwards(idx)) 1 else 0
+    override fun movePlaneUpwards(idx: Int): Boolean {
+        return global_Round!!.movePlaneUpwards(idx)
     }
 
-    override fun movePlaneDownwards(idx: Int): Int {
-        return if (global_Round!!.movePlaneDownwards(idx)) 1 else 0
+    override fun movePlaneDownwards(idx: Int): Boolean {
+        return global_Round!!.movePlaneDownwards(idx)
     }
 
-    override fun rotatePlane(idx: Int): Int {
-        return if (global_Round!!.rotatePlane(idx)) 1 else 0
+    override fun rotatePlane(idx: Int): Boolean {
+        return global_Round!!.rotatePlane(idx)
     }
 
     override fun doneClicked() {
@@ -55,7 +54,7 @@ class PlanesRoundJava : PlanesRoundInterface {
     }
 
     //play the game
-    override fun playerGuessAlreadyMade(row: Int, col: Int): Int {
+    override fun playerGuessAlreadyMade(row: Int, col: Int): Boolean {
         return global_Round!!.playerGuessAlreadyMade(row, col)
     }
 

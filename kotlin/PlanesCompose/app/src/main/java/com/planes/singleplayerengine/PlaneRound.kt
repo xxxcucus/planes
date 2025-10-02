@@ -1,9 +1,16 @@
 package com.planes.singleplayerengine
 
 import androidx.core.util.Pair
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import java.util.*
+import javax.inject.Inject
 
-class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
+class PlaneRound @AssistedInject constructor(
+    @Assisted("rowNo") rowNo: Int,
+    @Assisted("colNo") colNo: Int,
+    @Assisted("planeNo") planeNo: Int) : PlanesRoundInterface {
 
     //whether the computer or the player moves first
     private var m_isComputerFirst = false
@@ -30,6 +37,17 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
     private var m_planeNo = 3
     private var m_RoundOptions: PlaneRoundOptions
 
+    private var m_GuessResult = Type.Miss
+    private var m_PlayerGuessReaction = PlayerGuessReaction()
+
+    @AssistedFactory
+    interface Factory {
+        fun createPlaneRound(
+            @Assisted("rowNo") rowNo: Int,
+            @Assisted("colNo") colNo: Int,
+            @Assisted("planeNo") planeNo: Int): PlaneRound
+    }
+
     init {
         m_rowNo = rowNo
         m_colNo = colNo
@@ -50,7 +68,7 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     //initializes a new round
-    fun initRound() {
+    override fun initRound() {
         m_PlayerGrid.initGrid()
         m_ComputerGrid.initGrid()
         m_State = GameStages.BoardEditing
@@ -59,6 +77,7 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
         m_computerGuessList.clear()
         m_gameStats.reset()
         m_computerLogic.reset()
+        m_PlayerGuessReaction.m_GameStats.reset()
     }
 
     //switches to the state GameNotStarted
@@ -74,7 +93,7 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
 
-    fun cancelRound() {
+    override fun cancelRound() {
         m_State = GameStages.GameNotStarted
         m_RoundEndState = RoundEndStatus.Cancelled
     }
@@ -83,7 +102,7 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
      * @param gp - the player's guess together with its evaluation
      * Plays a step in the game, as triggered by the player's guess gp.
      */
-    private fun playerGuess(gp: GuessPoint): PlayerGuessReaction {
+    override fun playerGuess(gp: GuessPoint): PlayerGuessReaction {
         val pgr = PlayerGuessReaction()
         if (m_State !== GameStages.Game) return pgr
         if (m_isComputerFirst) {
@@ -93,7 +112,7 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
             updateGameStatsAndGuessListPlayer(gp)
             updateGameStatsAndReactionComputer(pgr)
         }
-        val roundEndsResult = roundEnds()
+        val roundEndsResult = checkIfRoundEnds()
         if (roundEndsResult.first || roundEndsResult.second) {
             if (roundEndsResult.first && roundEndsResult.second) {
                 m_gameStats.addDrawResult()
@@ -116,18 +135,26 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
      * @param row, col - coordinates of player's guess
      * Check if a guess was already made at this position.
      */
-    fun playerGuessAlreadyMade(row: Int, col: Int): Int {
+    override fun playerGuessAlreadyMade(row: Int, col: Int): Boolean {
         for (guess in m_playerGuessList) {
-            if (guess.row() == col && guess.col() == row) return 1
+            if (guess.row() == col && guess.col() == row)
+                return true
         }
-        return 0
+        return false
     }
+
+    override fun playerGuess(row: Int, col: Int) {
+        val result = playerGuessIncomplete(row, col)
+        m_GuessResult = result.first
+        m_PlayerGuessReaction = result.second
+    }
+
 
     /**
      * @param row, col - coordinates of player's guess
      * Plays a step in the game, as triggered by the the player's guess coordinates.
      */
-    fun playerGuessIncomplete(row: Int, col: Int): Pair<Type, PlayerGuessReaction> {
+    override fun playerGuessIncomplete(row: Int, col: Int): Pair<Type, PlayerGuessReaction> {
         val qp = Coordinate2D(col, row)
         val guessRes = m_ComputerGrid.getGuessResult(qp)
         val gp = GuessPoint(qp.x(), qp.y(), guessRes)
@@ -135,10 +162,70 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return Pair(guessRes, pgr)
     }
 
+    override fun playerGuess_IsDraw(): Boolean {
+        return m_PlayerGuessReaction.m_IsDraw
+    }
+
+    override fun playerGuess_IsPlayerWinner(): Boolean {
+        return m_PlayerGuessReaction.m_isPlayerWinner
+    }
+
+    override fun playerGuess_ComputerMoveGenerated(): Boolean {
+        return m_PlayerGuessReaction.m_ComputerMoveGenerated
+    }
+
+    override fun playerGuess_StatNoPlayerMoves(): Int {
+        return m_PlayerGuessReaction.m_GameStats.playerMoves()
+    }
+
+    override fun playerGuess_StatNoPlayerHits(): Int {
+        return m_PlayerGuessReaction.m_GameStats.playerHits()
+    }
+
+    override fun playerGuess_StatNoPlayerMisses(): Int {
+        return m_PlayerGuessReaction.m_GameStats.playerMisses()
+    }
+
+    override fun playerGuess_StatNoPlayerDead(): Int {
+        return m_PlayerGuessReaction.m_GameStats.playerDead()
+    }
+
+    override fun playerGuess_StatNoPlayerWins(): Int {
+        return m_PlayerGuessReaction.m_GameStats.playerWins()
+    }
+
+    override fun playerGuess_StatNoComputerMoves(): Int {
+        return m_PlayerGuessReaction.m_GameStats.computerMoves()
+    }
+
+    override fun playerGuess_StatNoComputerHits(): Int {
+        return m_PlayerGuessReaction.m_GameStats.computerHits()
+    }
+
+    override fun playerGuess_StatNoComputerMisses(): Int {
+        return m_PlayerGuessReaction.m_GameStats.computerMisses()
+    }
+
+    override fun playerGuess_StatNoComputerDead(): Int {
+        return m_PlayerGuessReaction.m_GameStats.computerDead()
+    }
+
+    override fun playerGuess_StatNoComputerWins(): Int {
+        return m_PlayerGuessReaction.m_GameStats.computerWins()
+    }
+
+    override fun playerGuess_StatNoDraws(): Int {
+        return m_PlayerGuessReaction.m_GameStats.draws()
+    }
+
+    override fun playerGuess_RoundEnds(): Boolean {
+        return m_PlayerGuessReaction.m_RoundEnds
+    }
+
     /**
      * Rotate the plane and return false if the current plane configuration is valid.
      */
-    fun rotatePlane(idx: Int): Boolean {
+    override fun rotatePlane(idx: Int): Boolean {
         m_PlayerGrid.rotatePlane(idx)
         return !(m_PlayerGrid.doPlanesOverlap() || m_PlayerGrid.isPlaneOutsideGrid)
     }
@@ -146,7 +233,7 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
     /**
      * Move the plane left and return false if the current plane configuration is valid.
      */
-    fun movePlaneLeft(idx: Int): Boolean {
+    override fun movePlaneLeft(idx: Int): Boolean {
         m_PlayerGrid.movePlaneLeft(idx)
         return !(m_PlayerGrid.doPlanesOverlap() || m_PlayerGrid.isPlaneOutsideGrid)
     }
@@ -154,7 +241,7 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
     /**
      * Move the plane right and return false if the current plane configuration is valid.
      */
-    fun movePlaneRight(idx: Int): Boolean {
+    override fun movePlaneRight(idx: Int): Boolean {
         m_PlayerGrid.movePlaneRight(idx)
         return !(m_PlayerGrid.doPlanesOverlap() || m_PlayerGrid.isPlaneOutsideGrid)
     }
@@ -162,7 +249,7 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
     /**
      * Move the plane upwards and return false if the current plane configuration is valid.
      */
-    fun movePlaneUpwards(idx: Int): Boolean {
+    override fun movePlaneUpwards(idx: Int): Boolean {
         m_PlayerGrid.movePlaneUpwards(idx)
         return !(m_PlayerGrid.doPlanesOverlap() || m_PlayerGrid.isPlaneOutsideGrid)
     }
@@ -170,24 +257,28 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
     /**
      * Move the plane downwards and return false if the current plane configuration is valid.
      */
-    fun movePlaneDownwards(idx: Int): Boolean {
+    override fun movePlaneDownwards(idx: Int): Boolean {
         m_PlayerGrid.movePlaneDownwards(idx)
         return !(m_PlayerGrid.doPlanesOverlap() || m_PlayerGrid.isPlaneOutsideGrid)
+    }
+
+    override fun doneClicked() {
+        return doneEditing()
     }
 
     fun doneEditing() {
         m_State = GameStages.Game
     }
 
-    fun getRowNo(): Int {
+    override fun getRowNo(): Int {
         return m_rowNo
     }
 
-    fun getColNo(): Int {
+    override fun getColNo(): Int {
         return m_colNo
     }
 
-    fun getPlaneNo(): Int {
+    override fun getPlaneNo(): Int {
         return m_planeNo
     }
 
@@ -197,7 +288,7 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
 	0 - is not on plane
 	i - plane but not head
     */
-    fun getPlaneSquareType(row: Int, col: Int, isComputer: Boolean): Int {
+    override fun getPlaneSquareType(row: Int, col: Int, isComputer: Boolean): Int {
         val isOnPlane: Pair<Boolean, Int>
         if (isComputer) {
             isOnPlane = m_ComputerGrid.isPointOnPlane(row, col)
@@ -225,11 +316,43 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
         return 0
     }
 
-    fun getPlayerGuessesNo(): Int {
+    override fun roundEnds(isComputerWinner: Boolean, isDraw: Boolean) {
+        setRoundEnd(isComputerWinner, isDraw)
+    }
+
+    override fun getPlayerGuessesNo(): Int {
         return m_playerGuessList.size
     }
-    fun getComputerGuessesNo(): Int {
+    override fun getComputerGuessesNo(): Int {
         return m_computerGuessList.size
+    }
+
+    override fun getPlayerGuessRow(idx: Int): Int {
+        return getPlayerGuess(idx).row()
+    }
+
+    override fun getPlayerGuessType(idx: Int): Int {
+        return getPlayerGuess(idx).type().value
+    }
+
+    override fun getPlayerGuessCol(idx: Int): Int {
+        return getPlayerGuess(idx).col()
+    }
+
+    override fun getComputerGuessRow(idx: Int): Int {
+        return getComputerGuess(idx).row()
+    }
+
+    override fun getComputerGuessCol(idx: Int): Int {
+        return getComputerGuess(idx).col()
+    }
+
+    override fun getComputerGuessType(idx: Int): Int {
+        return getComputerGuess(idx).type().value
+    }
+
+    override fun getGameStage(): Int {
+        return getCurrentStage()
     }
 
     fun getPlayerGuess(idx: Int): GuessPoint {
@@ -282,7 +405,7 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
     /**
      * Sets the computer skill. When this is during a game reject the change.
      */
-    fun setComputerSkill(computerSkill: Int): Boolean {
+    override fun setComputerSkill(computerSkill: Int): Boolean {
         if (m_State === GameStages.Game) return false
         m_RoundOptions.m_ComputerSkillLevel = computerSkill
         return true
@@ -291,21 +414,21 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
     /**
      * Sets the computer skill. When this is during a game reject the change.
      */
-    fun setShowPlaneAfterKill(showPlane: Boolean): Boolean {
+    override fun setShowPlaneAfterKill(showPlane: Boolean): Boolean {
         if (m_State === GameStages.Game) return false
         m_RoundOptions.m_ShowPlaneAfterKill = showPlane
         return true
     }
 
-    fun getComputerSkill(): Int {
+    override fun getComputerSkill(): Int {
         return m_RoundOptions.m_ComputerSkillLevel
     }
 
-    fun getShowPlaneAfterKill(): Boolean {
+    override fun getShowPlaneAfterKill(): Boolean {
         return m_RoundOptions.m_ShowPlaneAfterKill
     }
 
-    fun getRoundEndStatus(): Int {
+    override fun getRoundEndStatus(): Int {
         return m_RoundEndState.value
     }
 
@@ -350,7 +473,7 @@ class PlaneRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     //check to see if there is a winner
-    private fun roundEnds(): Pair<Boolean, Boolean> {
+    private fun checkIfRoundEnds(): Pair<Boolean, Boolean> {
         val computerFinished = enoughGuesses(m_PlayerGrid, m_computerGuessList)
         val playerFinished = enoughGuesses(m_ComputerGrid, m_playerGuessList)
         return Pair.create(playerFinished, computerFinished)

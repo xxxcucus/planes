@@ -11,11 +11,16 @@ import com.planes.singleplayerengine.Orientation
 import com.planes.singleplayerengine.Plane
 import com.planes.singleplayerengine.Plane.PlaneStatic.generateRandomNumber
 import com.planes.singleplayerengine.PlanePointIterator
+import com.planes.singleplayerengine.PlaneRound
+import com.planes.singleplayerengine.PlanesRoundInterface
 import com.planes.singleplayerengine.Type
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Vector
+import javax.inject.Inject
 
-//TODO: HiltViewModel
-open class PlaneGridViewModel(isComputer: Boolean) : ViewModel() {
+
+open class PlaneGridViewModel(planeRound: PlanesRoundInterface,
+                                                  isComputer: Boolean) : ViewModel() {
 
     //number of rows and columns
     private var m_rowNo: Int = 10
@@ -39,6 +44,8 @@ open class PlaneGridViewModel(isComputer: Boolean) : ViewModel() {
 
     ///for QML
     private var m_listPlanePointsAnnotations = mutableStateListOf<Int>()
+
+    private var  m_PlaneRound: PlanesRoundInterface = planeRound
 
     //the following annotations should exist
     //00000001 - belonging to plane 1
@@ -109,6 +116,7 @@ open class PlaneGridViewModel(isComputer: Boolean) : ViewModel() {
     //constructor
     init {
         initGrid()
+        //TODO: read the grid values from planeRound
     }
 
     //initializes the grid - open for tests
@@ -146,6 +154,7 @@ open class PlaneGridViewModel(isComputer: Boolean) : ViewModel() {
 
     //resets the plane grid
     fun resetGrid() {
+        //TODO: make the changes in m_PlaneRound and only possible for player
         m_planeList.clear()
         m_listPlanePointsAnnotations.clear()
         m_listPlanePoints.clear()

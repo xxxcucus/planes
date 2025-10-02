@@ -1,32 +1,29 @@
-package com.planes.android
+package com.planes.singleplayerengine
 
 import androidx.core.util.Pair
-import com.planes.singleplayerengine.GuessPoint
-import com.planes.singleplayerengine.PlayerGuessReaction
-import com.planes.singleplayerengine.Type
 
 //TODO: to move in common
 interface PlanesRoundInterface {
     //creates the PlaneRound object in the game engine
     //must be called a single time
-    fun createPlanesRound()
+    //fun createPlanesRound()
 
     //show the planes
     fun getRowNo(): Int
     fun getColNo(): Int
     fun getPlaneNo(): Int
-    fun getPlaneSquareType(i: Int, j: Int, isComputer: Int): Int
+    fun getPlaneSquareType(i: Int, j: Int, isComputer: Boolean): Int
 
     //edit the board
-    fun movePlaneLeft(idx: Int): Int
-    fun movePlaneRight(idx: Int): Int
-    fun movePlaneUpwards(idx: Int): Int
-    fun movePlaneDownwards(idx: Int): Int
-    fun rotatePlane(idx: Int): Int
+    fun movePlaneLeft(idx: Int): Boolean
+    fun movePlaneRight(idx: Int): Boolean
+    fun movePlaneUpwards(idx: Int): Boolean
+    fun movePlaneDownwards(idx: Int): Boolean
+    fun rotatePlane(idx: Int): Boolean
     fun doneClicked()
 
     //play the game
-    fun playerGuessAlreadyMade(row: Int, col: Int): Int
+    fun playerGuessAlreadyMade(row: Int, col: Int): Boolean
     fun playerGuess(row: Int, col: Int)
     fun playerGuess(gp: GuessPoint): PlayerGuessReaction
     fun playerGuessIncomplete(row: Int, col: Int): Pair<Type, PlayerGuessReaction>

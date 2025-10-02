@@ -53,7 +53,7 @@ fun PreferencesScreen(modifier: Modifier,
                       optionsViewModel: PreferencesViewModel
 ) {
 
-
+    //TODO: to change the settings in the PlaneRound object
     currentScreenState.value = PlanesScreens.Preferences.name
     val scrollState = rememberScrollState()
 
