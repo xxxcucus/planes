@@ -38,8 +38,8 @@ class PlanesRoundJava : PlanesRoundInterface {
         global_Round!!.setPlayerPlanes(planes)
     }
 
-    override fun getPlaneSquareType(i: Int, j: Int, isComputer: Boolean): Int {
-        return global_Round!!.getPlaneSquareType(i, j, isComputer)
+    override fun getPlaneSquareType(row: Int, col: Int, isComputer: Boolean): Int {
+        return global_Round!!.getPlaneSquareType(row, col, isComputer)
     }
 
     //edit the board
@@ -192,7 +192,7 @@ class PlanesRoundJava : PlanesRoundInterface {
         return global_Round!!.getComputerGuess(idx).type().value
     }
 
-    override fun getGameStage(): Int {
+    override fun getGameStage(): GameStages {
         return global_Round!!.getCurrentStage()
     }
 

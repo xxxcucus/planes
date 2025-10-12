@@ -37,10 +37,10 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                      topBarHeight: MutableState<Int>,
                      navController: NavHostController,
                      context: Context,
-                     optionsViewModel: PreferencesViewModel = hiltViewModel()) {
+                     optionsViewModel: PreferencesViewModel,
+                     playerGridViewModel: PlayerGridViewModel,
+                     computerGridViewModel: ComputerGridViewModel) {
 
-    val playerGridViewModel: PlayerGridViewModel = hiltViewModel()
-    val computerGridViewModel: ComputerGridViewModel = hiltViewModel()
 
     NavHost(
         navController = navController,

@@ -43,13 +43,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.planes.android.navigation.DrawerMenuItemGeneric
 import com.planes.android.navigation.PlanesNavigation
 import com.planes.android.navigation.PlanesScreens
+import com.planes.android.preferences.PreferencesViewModel
+import com.planes.android.singleplayergame.ComputerGridViewModel
+import com.planes.android.singleplayergame.PlayerGridViewModel
 import com.planes.android.ui.theme.PlanesComposeTheme
+import com.planes.singleplayerengine.GameStages
 import com.planes.singleplayerengine.PlaneRound
 import com.planes.singleplayerengine.PlanesRoundInterface
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,6 +68,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             PlanesComposeTheme {
                 val navController = rememberNavController()
@@ -74,6 +80,11 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Screen(modifier: Modifier, navController: NavHostController) {
+
+    val playerGridViewModel: PlayerGridViewModel = hiltViewModel()
+    val computerGridViewModel: ComputerGridViewModel = hiltViewModel()
+    val optionsViewModel: PreferencesViewModel = hiltViewModel()
+
     val drawerState = rememberDrawerState(
         initialValue = DrawerValue.Closed
     )
@@ -92,9 +103,12 @@ fun Screen(modifier: Modifier, navController: NavHostController) {
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                DrawerContent(navController = navController,
+                DrawerContent(
+                    navController = navController,
                     drawerScope = scope,
-                    drawerState = drawerState)
+                    drawerState = drawerState,
+                    playerGridViewModel = playerGridViewModel
+                )
             }
         },
         gesturesEnabled = true
@@ -121,7 +135,10 @@ fun Screen(modifier: Modifier, navController: NavHostController) {
             ScreenContent(modifier = Modifier.padding(padding),
                 currentScreenState = currentScreenState,
                 topBarHeight = topBarHeight,
-                navController = navController)
+                navController = navController,
+                optionsViewModel,
+                playerGridViewModel,
+                computerGridViewModel)
         }
     }
 }
@@ -129,11 +146,17 @@ fun Screen(modifier: Modifier, navController: NavHostController) {
 @Composable
 fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
                   topBarHeight: MutableState<Int>,
-                  navController: NavHostController
+                  navController: NavHostController,
+                  optionsViewModel: PreferencesViewModel,
+                  playerGridViewModel: PlayerGridViewModel,
+                  computerGridViewModel: ComputerGridViewModel
 ) {
     PlanesNavigation(modifier = modifier,
         currentScreenState, topBarHeight, navController,
-        context = LocalContext.current)
+        context = LocalContext.current,
+        optionsViewModel,
+        playerGridViewModel,
+        computerGridViewModel)
 }
 
 @Composable
@@ -141,6 +164,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
                   navController: NavController,
                   drawerScope: CoroutineScope,
                   drawerState: DrawerState,
+                  playerGridViewModel: PlayerGridViewModel
                   ) {
 
     Column(
@@ -187,7 +211,13 @@ fun DrawerContent(modifier: Modifier = Modifier,
             drawerScope.launch {
                 drawerState.close()
             }
-            navController.navigate(route = PlanesScreens.SinglePlayerBoardEditing.name)
+
+            if (playerGridViewModel.getGameStage() == GameStages.BoardEditing)
+                navController.navigate(route = PlanesScreens.SinglePlayerBoardEditing.name)
+            else if (playerGridViewModel.getGameStage() == GameStages.Game)
+                navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
+            else
+                navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
         })
 
 

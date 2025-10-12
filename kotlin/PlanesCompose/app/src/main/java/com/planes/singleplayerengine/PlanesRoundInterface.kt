@@ -61,7 +61,7 @@ interface PlanesRoundInterface {
     fun getComputerGuessRow(idx: Int): Int
     fun getComputerGuessCol(idx: Int): Int
     fun getComputerGuessType(idx: Int): Int
-    fun getGameStage(): Int
+    fun getGameStage(): GameStages
 
     //game options
     fun setComputerSkill(skill: Int): Boolean

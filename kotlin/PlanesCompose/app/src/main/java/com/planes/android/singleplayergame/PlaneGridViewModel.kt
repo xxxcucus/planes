@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.core.util.Pair
 import androidx.lifecycle.ViewModel
 import com.planes.singleplayerengine.Coordinate2D
+import com.planes.singleplayerengine.GameStages
 import com.planes.singleplayerengine.GuessPoint
 import com.planes.singleplayerengine.Orientation
 import com.planes.singleplayerengine.Plane
@@ -85,6 +86,14 @@ open class PlaneGridViewModel(planeRound: PlanesRoundInterface,
 
     fun getPlaneNo(): Int {
         return m_planeNo
+    }
+
+    fun getGameStage(): GameStages {
+        return m_PlaneRound.getGameStage()
+    }
+
+    fun doneEditing() {
+        m_PlaneRound.doneClicked()
     }
 
     fun isComputer():Boolean {

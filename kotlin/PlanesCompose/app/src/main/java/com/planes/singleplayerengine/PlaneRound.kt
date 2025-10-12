@@ -363,7 +363,7 @@ class PlaneRound @AssistedInject constructor(
         return getComputerGuess(idx).type().value
     }
 
-    override fun getGameStage(): Int {
+    override fun getGameStage(): GameStages {
         return getCurrentStage()
     }
 
@@ -375,8 +375,8 @@ class PlaneRound @AssistedInject constructor(
         return if (idx < 0 || idx >= m_computerGuessList.size) GuessPoint(-1, -1, Type.Miss) else m_computerGuessList[idx].clone() as GuessPoint
     }
 
-    fun getCurrentStage(): Int {
-        return m_State.value
+    fun getCurrentStage(): GameStages {
+        return m_State
     }
 
     //update game statistics
