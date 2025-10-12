@@ -112,6 +112,7 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                         enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
                     ) {
+                        playerGridViewModel.updatePlanesToPlaneRound()
                         navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
                     }
                 }
@@ -197,6 +198,7 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                         enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
                     ) {
+                        playerGridViewModel.updatePlanesToPlaneRound()
                         navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
                     }
 

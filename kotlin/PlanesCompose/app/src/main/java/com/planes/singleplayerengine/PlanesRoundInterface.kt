@@ -1,6 +1,7 @@
 package com.planes.singleplayerengine
 
 import androidx.core.util.Pair
+import java.util.Vector
 
 //TODO: to move in common
 interface PlanesRoundInterface {
@@ -12,7 +13,11 @@ interface PlanesRoundInterface {
     fun getRowNo(): Int
     fun getColNo(): Int
     fun getPlaneNo(): Int
-    fun getPlaneSquareType(i: Int, j: Int, isComputer: Boolean): Int
+    fun getPlaneSquareType(row: Int, col: Int, isComputer: Boolean): Int
+
+    fun getPlayerPlanes(): Vector<Plane>
+    fun getComputerPlanes(): Vector<Plane>
+    fun setPlayerPlanes(planes: Vector<Plane>)
 
     //edit the board
     fun movePlaneLeft(idx: Int): Boolean
@@ -65,5 +70,6 @@ interface PlanesRoundInterface {
     fun getShowPlaneAfterKill(): Boolean
 
     fun getRoundEndStatus(): Int
+
 
 }

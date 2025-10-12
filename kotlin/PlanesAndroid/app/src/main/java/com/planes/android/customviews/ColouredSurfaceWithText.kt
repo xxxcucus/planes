@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.TransitionDrawable
 import android.util.AttributeSet
 import android.view.View
 import com.planes.android.customviews.CanvasPaintUtilities.Functions.computeOptimalTextSizeOneLine
@@ -11,6 +13,7 @@ import com.planes.android.customviews.CanvasPaintUtilities.Functions.drawTextFit
 import com.planes.android.customviews.CanvasPaintUtilities.Functions.measureHeightOneLineText
 import com.planes.android.customviews.CanvasPaintUtilities.Functions.measureWidthOneLineText
 import com.planes.android.game.common.PlanesVerticalLayoutParams
+import androidx.core.graphics.drawable.toDrawable
 
 class ColouredSurfaceWithText : View, ViewWithText {
     private lateinit var m_Paint: Paint
@@ -51,7 +54,6 @@ class ColouredSurfaceWithText : View, ViewWithText {
     }
 
     public override fun onDraw(canvas: Canvas) {
-        //TODO: draw the surface in the colour specified
         m_Paint.color = m_BackgroundColor
         canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), m_Paint)
         m_Paint.color = m_ForegroundColor

@@ -282,6 +282,18 @@ class PlaneRound @AssistedInject constructor(
         return m_planeNo
     }
 
+    override fun getPlayerPlanes(): Vector<Plane> {
+        return m_PlayerGrid.getPlanes();
+    }
+
+    override fun getComputerPlanes(): Vector<Plane> {
+        return m_ComputerGrid.getPlanes();
+    }
+
+    override fun setPlayerPlanes(planes: Vector<Plane>) {
+        m_PlayerGrid.setPlanes(planes)
+    }
+
     /*
 	-2 - plane head
 	-1 - plane intersection
@@ -405,18 +417,18 @@ class PlaneRound @AssistedInject constructor(
     /**
      * Sets the computer skill. When this is during a game reject the change.
      */
-    override fun setComputerSkill(computerSkill: Int): Boolean {
+    override fun setComputerSkill(skill: Int): Boolean {
         if (m_State === GameStages.Game) return false
-        m_RoundOptions.m_ComputerSkillLevel = computerSkill
+        m_RoundOptions.m_ComputerSkillLevel = skill
         return true
     }
 
     /**
      * Sets the computer skill. When this is during a game reject the change.
      */
-    override fun setShowPlaneAfterKill(showPlane: Boolean): Boolean {
+    override fun setShowPlaneAfterKill(show: Boolean): Boolean {
         if (m_State === GameStages.Game) return false
-        m_RoundOptions.m_ShowPlaneAfterKill = showPlane
+        m_RoundOptions.m_ShowPlaneAfterKill = show
         return true
     }
 

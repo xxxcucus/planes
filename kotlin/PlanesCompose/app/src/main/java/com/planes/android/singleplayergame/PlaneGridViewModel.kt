@@ -27,7 +27,7 @@ open class PlaneGridViewModel(planeRound: PlanesRoundInterface,
     private var m_colNo: Int = 10
     //number of planes
     private var m_planeNo: Int = 3
-    private var m_isComputer = mutableStateOf(isComputer)
+    private var m_isComputer = isComputer
     private val m_SelectedPlane = mutableStateOf(0)
 
     //list of plane objects for the grid
@@ -88,7 +88,7 @@ open class PlaneGridViewModel(planeRound: PlanesRoundInterface,
     }
 
     fun isComputer():Boolean {
-        return m_isComputer.value
+        return m_isComputer
     }
 
     fun getAnnotation(idx: Int): Int {
@@ -115,8 +115,10 @@ open class PlaneGridViewModel(planeRound: PlanesRoundInterface,
 
     //constructor
     init {
-        initGrid()
-        //TODO: read the grid values from planeRound
+        resetGrid()
+        initGridFromPlaneRound()
+        //compute list of plane points - needed for the guessing process
+        computePlanePointsList()
     }
 
     //initializes the grid - open for tests
@@ -125,6 +127,15 @@ open class PlaneGridViewModel(planeRound: PlanesRoundInterface,
         initGridByAutomaticGeneration()
         //compute list of plane points - needed for the guessing process
         computePlanePointsList()
+    }
+
+    fun updatePlanesToPlaneRound() {
+        if (!m_isComputer) {
+            val vplanes = Vector<Plane>()
+            for (i in 0 .. m_planeNo - 1)
+                vplanes.add(m_planeList[i])
+            m_PlaneRound.setPlayerPlanes(vplanes)
+        }
     }
 
     //searches a plane in the list of planes
@@ -339,6 +350,18 @@ open class PlaneGridViewModel(planeRound: PlanesRoundInterface,
             }
         } //while
         return true
+    }
+
+    private fun initGridFromPlaneRound() {
+
+        var planes = m_PlaneRound.getPlayerPlanes()
+
+        if (m_isComputer) {
+            planes = m_PlaneRound.getComputerPlanes()
+        }
+
+        for (i in 0..m_planeNo - 1)
+            savePlane(planes[i])
     }
 
     fun initGridByUser(plane1_x: Int, plane1_y: Int, plane1_orient: Orientation,

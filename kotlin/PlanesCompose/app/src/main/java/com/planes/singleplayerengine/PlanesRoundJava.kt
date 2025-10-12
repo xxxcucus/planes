@@ -1,7 +1,9 @@
 package com.planes.singleplayerengine
 
 import androidx.core.util.Pair
+import java.util.Vector
 
+//TODO: to delete this class
 class PlanesRoundJava : PlanesRoundInterface {
     //creates the PlaneRound object in the game engine
     //must be called a single time
@@ -22,6 +24,18 @@ class PlanesRoundJava : PlanesRoundInterface {
 
     override fun getPlaneNo(): Int {
         return global_Round!!.getPlaneNo()
+    }
+
+    override fun getPlayerPlanes(): Vector<Plane> {
+        return global_Round!!.getPlayerPlanes()
+    }
+
+    override fun getComputerPlanes(): Vector<Plane> {
+        return global_Round!!.getComputerPlanes()
+    }
+
+    override fun setPlayerPlanes(planes: Vector<Plane>) {
+        global_Round!!.setPlayerPlanes(planes)
     }
 
     override fun getPlaneSquareType(i: Int, j: Int, isComputer: Boolean): Int {
