@@ -65,6 +65,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    @Inject lateinit var planeRound: PlanesRoundInterface
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -72,18 +74,23 @@ class MainActivity : ComponentActivity() {
         setContent {
             PlanesComposeTheme {
                 val navController = rememberNavController()
-                Screen(modifier = Modifier, navController = navController)
+                Screen(modifier = Modifier,
+                    navController = navController,
+                    planeRound = planeRound)
             }
         }
     }
 }
 
 @Composable
-fun Screen(modifier: Modifier, navController: NavHostController) {
+fun Screen(modifier: Modifier,
+           navController: NavHostController,
+           planeRound: PlanesRoundInterface) {
 
     val playerGridViewModel: PlayerGridViewModel = hiltViewModel()
     val computerGridViewModel: ComputerGridViewModel = hiltViewModel()
     val optionsViewModel: PreferencesViewModel = hiltViewModel()
+
 
     val drawerState = rememberDrawerState(
         initialValue = DrawerValue.Closed
@@ -107,7 +114,7 @@ fun Screen(modifier: Modifier, navController: NavHostController) {
                     navController = navController,
                     drawerScope = scope,
                     drawerState = drawerState,
-                    playerGridViewModel = playerGridViewModel
+                    planeRound = planeRound
                 )
             }
         },
@@ -164,7 +171,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
                   navController: NavController,
                   drawerScope: CoroutineScope,
                   drawerState: DrawerState,
-                  playerGridViewModel: PlayerGridViewModel
+                  planeRound: PlanesRoundInterface
                   ) {
 
     Column(
@@ -212,9 +219,9 @@ fun DrawerContent(modifier: Modifier = Modifier,
                 drawerState.close()
             }
 
-            if (playerGridViewModel.getGameStage() == GameStages.BoardEditing)
+            if (planeRound.getGameStage() == GameStages.BoardEditing)
                 navController.navigate(route = PlanesScreens.SinglePlayerBoardEditing.name)
-            else if (playerGridViewModel.getGameStage() == GameStages.Game)
+            else if (planeRound.getGameStage() == GameStages.Game)
                 navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
             else
                 navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)

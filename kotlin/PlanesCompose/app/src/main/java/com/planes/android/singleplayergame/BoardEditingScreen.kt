@@ -114,6 +114,7 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                     ) {
                         playerGridViewModel.updatePlanesToPlaneRound()
                         playerGridViewModel.doneEditing()
+                        navController.popBackStack()
                         navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
                     }
                 }
@@ -201,6 +202,7 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                     ) {
                         playerGridViewModel.updatePlanesToPlaneRound()
                         playerGridViewModel.doneEditing()
+                        navController.popBackStack()
                         navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
                     }
 
