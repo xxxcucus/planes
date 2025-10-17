@@ -20,6 +20,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
@@ -30,8 +32,8 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                        topBarHeight: MutableState<Int>,
                        navController: NavController,
                        playerGridViewModel: PlaneGridViewModel,
-                       computerGridViewModel: PlaneGridViewModel
-                        ) {
+                       computerGridViewModel: PlaneGridViewModel,
+                        gameStatsViewModel: GameStatsViewModel = hiltViewModel()                        ) {
 
     currentScreenState.value = PlanesScreens.SinglePlayerGame.name
 
@@ -59,6 +61,7 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
         refButtonWidthDp = (screenWidthDp - boardSizeDp) / 3
     }
+
 
     //TODO: remember this after screen rotation
     val playerBoard = remember {
@@ -118,19 +121,42 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                         playerBoard.value = !playerBoard.value
                     }
                     Column() {
-                        GameButton(
-                            title = stringResource(R.string.general_moves), gameBoardViewModel,
-                            modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp / 2),
-                            enabled = true
-                        ) {
+                        Row() {
+                            GameButton(
+                                title = stringResource(R.string.general_moves), gameBoardViewModel,
+                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
+                                    .height(refButtonHeightDp.dp / 2),
+                                enabled = true
+                            ) {
+
+                            }
+                            StatsValueField(value = if (playerBoard.value)
+                                gameStatsViewModel.getComputerMoves()
+                            else
+                                gameStatsViewModel.getPlayerMoves(),
+                                enabled = true,
+                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
+                                    .height(refButtonHeightDp.dp / 2))
 
                         }
-                        GameButton(
-                            title = stringResource(R.string.general_misses), gameBoardViewModel,
-                            modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp / 2),
-                            enabled = true
-                        ) {
 
+                        Row() {
+                            GameButton(
+                                title = stringResource(R.string.general_misses), gameBoardViewModel,
+                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
+                                    .height(refButtonHeightDp.dp / 2),
+                                enabled = true
+                            ) {
+
+                            }
+
+                            StatsValueField(value = if (playerBoard.value)
+                                gameStatsViewModel.getComputerMisses()
+                            else
+                                gameStatsViewModel.getPlayerMisses(),
+                                enabled = true,
+                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
+                                    .height(refButtonHeightDp.dp / 2))
                         }
                     }
                 }
@@ -146,19 +172,43 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                     Column(modifier = Modifier.fillMaxHeight(),
                         verticalArrangement = Arrangement.Center
                         ) {
-                        GameButton(
-                            title = stringResource(R.string.general_hits), gameBoardViewModel,
-                            modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp / 2),
-                            enabled = true
-                        ) {
 
+                        Row() {
+                            GameButton(
+                                title = stringResource(R.string.general_hits), gameBoardViewModel,
+                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
+                                    .height(refButtonHeightDp.dp / 2),
+                                enabled = true
+                            ) {
+
+                            }
+
+                            StatsValueField(value = if (playerBoard.value)
+                                gameStatsViewModel.getComputerHits()
+                            else
+                                gameStatsViewModel.getPlayerHits(),
+                                enabled = true,
+                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
+                                    .height(refButtonHeightDp.dp / 2))
                         }
-                        GameButton(
-                            title = stringResource(R.string.general_dead), gameBoardViewModel,
-                            modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp / 2),
-                            enabled = true
-                        ) {
 
+                        Row() {
+                            GameButton(
+                                title = stringResource(R.string.general_dead), gameBoardViewModel,
+                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
+                                    .height(refButtonHeightDp.dp / 2),
+                                enabled = true
+                            ) {
+
+                            }
+
+                            StatsValueField(value = if (playerBoard.value)
+                                gameStatsViewModel.getComputerDead()
+                            else
+                                gameStatsViewModel.getPlayerDead(),
+                                enabled = true,
+                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
+                                    .height(refButtonHeightDp.dp / 2))
                         }
                     }
                 }
@@ -220,40 +270,77 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                     }
                     Column() {
-                        GameButton(
-                            title = stringResource(R.string.general_moves), gameBoardViewModel,
-                            modifier = Modifier.width(refButtonWidthDp.dp)
-                                .height(refButtonHeightDp.dp / 2),
-                            enabled = true
-                        ) {
+                        Row() {
+                            GameButton(
+                                title = stringResource(R.string.general_moves), gameBoardViewModel,
+                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
+                                    .height(refButtonHeightDp.dp / 2),
+                                enabled = true
+                            ) {
 
+                            }
+                            StatsValueField(value = if (playerBoard.value)
+                                gameStatsViewModel.getComputerMoves()
+                            else
+                                gameStatsViewModel.getPlayerMoves(),
+                                enabled = true,
+                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
+                                    .height(refButtonHeightDp.dp / 2))
                         }
-                        GameButton(
-                            title = stringResource(R.string.general_misses), gameBoardViewModel,
-                            modifier = Modifier.width(refButtonWidthDp.dp)
-                                .height(refButtonHeightDp.dp / 2),
-                            enabled = true
-                        ) {
 
+                        Row() {
+                            GameButton(
+                                title = stringResource(R.string.general_misses), gameBoardViewModel,
+                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
+                                    .height(refButtonHeightDp.dp / 2),
+                                enabled = true
+                            ) {
+
+                            }
+                            StatsValueField(value = if (playerBoard.value)
+                                gameStatsViewModel.getComputerMisses()
+                            else
+                                gameStatsViewModel.getPlayerMisses(),
+                                enabled = true,
+                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
+                                    .height(refButtonHeightDp.dp / 2))
                         }
                     }
 
                     Column() {
-                        GameButton(
-                            title = stringResource(R.string.general_hits), gameBoardViewModel,
-                            modifier = Modifier.width(refButtonWidthDp.dp)
-                                .height(refButtonHeightDp.dp / 2),
-                            enabled = true
-                        ) {
+                        Row() {
+                            GameButton(
+                                title = stringResource(R.string.general_hits), gameBoardViewModel,
+                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
+                                    .height(refButtonHeightDp.dp / 2),
+                                enabled = true
+                            ) {
 
+                            }
+                            StatsValueField(value = if (playerBoard.value)
+                                gameStatsViewModel.getComputerHits()
+                            else
+                                gameStatsViewModel.getPlayerHits(),
+                                enabled = true,
+                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
+                                    .height(refButtonHeightDp.dp / 2))
                         }
-                        GameButton(
-                            title = stringResource(R.string.general_dead), gameBoardViewModel,
-                            modifier = Modifier.width(refButtonWidthDp.dp)
-                                .height(refButtonHeightDp.dp / 2),
-                            enabled = true
-                        ) {
+                        Row() {
+                            GameButton(
+                                title = stringResource(R.string.general_dead), gameBoardViewModel,
+                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
+                                    .height(refButtonHeightDp.dp / 2),
+                                enabled = true
+                            ) {
 
+                            }
+                            StatsValueField(value = if (playerBoard.value)
+                                gameStatsViewModel.getComputerDead()
+                            else
+                                gameStatsViewModel.getPlayerDead(),
+                                enabled = true,
+                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
+                                    .height(refButtonHeightDp.dp / 2))
                         }
                     }
                 }
