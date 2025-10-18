@@ -13,37 +13,49 @@ fun BoardSquareGame(index: Int, squareSizeDp: Int, squareSizePx: Float,
     var pointOnPlane = planesGridViewModel.isPointOnPlane(col, row)
     if (isHoriz)
         pointOnPlane = planesGridViewModel.isPointOnPlane(row, col)
-    if (!pointOnPlane.first)
-        GridSquareBoardEditing(squareSizeDp, squareSizePx, Color.Blue)
+
+    var guess = planesGridViewModel.getGuessAtPosition(col, row)
+    if (isHoriz)
+        guess = planesGridViewModel.getGuessAtPosition(row, col)
+
+   if (!pointOnPlane.first)
+       GridSquareGame(
+           isComputer = planesGridViewModel.isComputer(),
+           annotation = 0,
+           guess = guess,
+           widthDp = squareSizeDp,
+           widthPx = squareSizePx,
+           backgroundColor = Color.White,
+           index = index,
+           onClick = onClick
+       )
     else {
-        val annotation = planesGridViewModel.getAnnotation(pointOnPlane.second)
-        val planesIdx = planesGridViewModel.decodeAnnotation(annotation)
-        var guess = planesGridViewModel.getGuessAtPosition(col, row)
-        if (isHoriz)
-            guess = planesGridViewModel.getGuessAtPosition(row, col)
-        if (planesIdx.size == 1) {
-            GridSquareGame(
-                isComputer = planesGridViewModel.isComputer(),
-                annotation = if (planesIdx[0] < 0) -2 else planesIdx[0] + 1,
-                guess = guess,
-                widthDp = squareSizeDp,
-                widthPx = squareSizePx,
-                backgroundColor = Color.Blue,
-                index = index,
-                onClick = onClick
-            )
-            //Log.d("Planes", "plane ${planesIdx[0]}")
-        } else {
-            GridSquareGame(
-                isComputer = planesGridViewModel.isComputer(),
-                annotation = -1,
-                guess = guess,
-                widthDp = squareSizeDp,
-                widthPx = squareSizePx,
-                backgroundColor = Color.Blue,
-                index = index,
-                onClick = onClick
-            )
-        }
-    }
+       val annotation = planesGridViewModel.getAnnotation(pointOnPlane.second)
+       val planesIdx = planesGridViewModel.decodeAnnotation(annotation)
+
+       if (planesIdx.size == 1) {
+           GridSquareGame(
+               isComputer = planesGridViewModel.isComputer(),
+               annotation = if (planesIdx[0] < 0) -2 else planesIdx[0] + 1,
+               guess = guess,
+               widthDp = squareSizeDp,
+               widthPx = squareSizePx,
+               backgroundColor = Color.Blue,
+               index = index,
+               onClick = onClick
+           )
+           //Log.d("Planes", "plane ${planesIdx[0]}")
+       } else {
+           GridSquareGame(
+               isComputer = planesGridViewModel.isComputer(),
+               annotation = -1,
+               guess = guess,
+               widthDp = squareSizeDp,
+               widthPx = squareSizePx,
+               backgroundColor = Color.Blue,
+               index = index,
+               onClick = onClick
+           )
+       }
+   }
 }
