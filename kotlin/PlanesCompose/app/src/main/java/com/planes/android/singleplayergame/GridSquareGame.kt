@@ -25,8 +25,8 @@ fun GridSquareGame(isComputer: Boolean,
                    backgroundColor: Color,
                    index: Int,
                    onClick: (Int) -> Unit) {
-    Canvas(modifier = Modifier.width(widthDp.dp).height(widthDp.dp).
-    clickable {
+
+    Canvas(modifier = Modifier.width(widthDp.dp).height(widthDp.dp).clickable {
         onClick.invoke(index)
     }) {
 
@@ -43,7 +43,7 @@ fun GridSquareGame(isComputer: Boolean,
             squareColor = planeOverlapColor
         } else if (annotation == -2) {
             squareColor = cockpitColor
-        }  else if (annotation == 1) {
+        } else if (annotation == 1) {
             squareColor = firstPlaneColor
         } else if (annotation == 2) {
             squareColor = secondPlaneColor
@@ -55,13 +55,16 @@ fun GridSquareGame(isComputer: Boolean,
 
         if (annotation != 0)
             drawPlaneBoardSquareBackground(size.width, squareColor, this)
-        else
+        else {
             drawNonPlaneBoardSquareBackground(size.width, squareColor, this)
+        }
 
         if (guess != null) {
             drawPlaneBoardSquareGuess(size.width, guess, this)
         }
     }
+
+
 }
 
 fun drawPlaneBoardSquareBackground(dim: Float,
@@ -110,7 +113,7 @@ fun drawPlaneBoardSquareGuess(dim: Float, guess: GuessPoint, drawScope: DrawScop
         drawScope.drawPath(
             path = path,
             color = Color.Red,
-            style = Stroke(width = 4f)
+            style = Fill
         )
     }
 

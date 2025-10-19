@@ -176,8 +176,8 @@ class PlanesRoundJava : PlanesRoundInterface {
         return global_Round!!.getPlayerGuess(idx).col()
     }
 
-    override fun getPlayerGuessType(idx: Int): Int {
-        return global_Round!!.getPlayerGuess(idx).type().value
+    override fun getPlayerGuessType(idx: Int): Type {
+        return global_Round!!.getPlayerGuess(idx).type()
     }
 
     override fun getComputerGuessesNo(): Int {
@@ -192,8 +192,17 @@ class PlanesRoundJava : PlanesRoundInterface {
         return global_Round!!.getComputerGuess(idx).col()
     }
 
-    override fun getComputerGuessType(idx: Int): Int {
-        return global_Round!!.getComputerGuess(idx).type().value
+    override fun getComputerGuessType(idx: Int): Type {
+        return global_Round!!.getComputerGuess(idx).type()
+    }
+
+    override fun getLastComputerGuess(): GuessPoint? {
+        val guessNo = getComputerGuessesNo()
+        if (guessNo == 0)
+            return null
+        return GuessPoint(getComputerGuessRow(guessNo - 1),
+            getComputerGuessCol(guessNo - 1),
+            getComputerGuessType(guessNo - 1))
     }
 
     override fun getGameStage(): GameStages {
