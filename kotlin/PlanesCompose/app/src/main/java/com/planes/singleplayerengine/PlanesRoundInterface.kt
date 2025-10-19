@@ -47,6 +47,7 @@ interface PlanesRoundInterface {
     fun playerGuess_StatNoComputerDead(): Int
     fun playerGuess_StatNoComputerWins(): Int
     fun playerGuess_StatNoDraws(): Int
+    fun playerGuess_GuessResult(): Type
     fun roundEnds(isComputerWinner: Boolean, isDraw : Boolean)
     fun initRound()
 

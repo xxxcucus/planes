@@ -150,6 +150,10 @@ class PlaneRound @AssistedInject constructor(
     }
 
 
+    override fun playerGuess_GuessResult(): Type {
+        return m_GuessResult
+    }
+
     /**
      * @param row, col - coordinates of player's guess
      * Plays a step in the game, as triggered by the the player's guess coordinates.

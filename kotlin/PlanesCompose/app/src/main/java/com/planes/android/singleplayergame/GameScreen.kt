@@ -1,6 +1,7 @@
 package com.planes.android.singleplayergame
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,15 +26,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
+import com.planes.singleplayerengine.GuessPoint
+import com.planes.singleplayerengine.PlanesRoundInterface
 
 
 @Composable
 fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                        topBarHeight: MutableState<Int>,
                        navController: NavController,
+                       planeRound: PlanesRoundInterface,
                        playerGridViewModel: PlaneGridViewModel,
                        computerGridViewModel: PlaneGridViewModel,
-                        gameStatsViewModel: GameStatsViewModel = hiltViewModel()                        ) {
+                        gameStatsViewModel: GameStatsViewModel) {
 
     currentScreenState.value = PlanesScreens.SinglePlayerGame.name
 
@@ -92,6 +96,18 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                         gameBoardViewModel,
                         true
                     ) {
+                        if (gameBoardViewModel.isComputer()) {
+                            val row = index / gameBoardViewModel.getColNo()
+                            val col = index % gameBoardViewModel.getColNo()
+
+                            Log.d("Planes", "Guess at $row and $col")
+
+                            if (!planeRound.playerGuessAlreadyMade(col, row)) {
+                                planeRound.playerGuess(col, row)
+                                val gp = GuessPoint(row, col, planeRound.playerGuess_GuessResult())
+                                gameBoardViewModel.addGuess(gp)
+                            }
+                        }
                     }
             }
 
@@ -214,7 +230,7 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                 }
             }
         }
-        } else {
+        } else {  //landscape
         Row() {
             GameBoardSinglePlayer(
                 gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
@@ -229,6 +245,18 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                         gameBoardViewModel,
                         true
                     ) {
+                        if (gameBoardViewModel.isComputer()) {
+                            val row = index / gameBoardViewModel.getColNo()
+                            val col = index % gameBoardViewModel.getColNo()
+
+                            Log.d("Planes", "Guess at $row and $col")
+
+                            if (!planeRound.playerGuessAlreadyMade(col, row)) {
+                                planeRound.playerGuess(col, row)
+                                val gp = GuessPoint(row, col, planeRound.playerGuess_GuessResult())
+                                gameBoardViewModel.addGuess(gp)
+                            }
+                        }
                     }
             }
 

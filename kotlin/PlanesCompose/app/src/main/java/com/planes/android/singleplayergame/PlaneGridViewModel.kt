@@ -370,7 +370,9 @@ open class PlaneGridViewModel(planeRound: PlanesRoundInterface,
         }
 
         for (i in 0..m_planeNo - 1)
-            savePlane(planes[i])
+            if (savePlane(planes[i])) {
+                Log.d("Planes", "Saved plane ${planes[i].col()} vs ${planes[i].row()} " )
+            }
     }
 
     fun initGridByUser(plane1_x: Int, plane1_y: Int, plane1_orient: Orientation,

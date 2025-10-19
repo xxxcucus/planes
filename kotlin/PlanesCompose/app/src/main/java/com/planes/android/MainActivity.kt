@@ -52,6 +52,7 @@ import com.planes.android.navigation.PlanesNavigation
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.preferences.PreferencesViewModel
 import com.planes.android.singleplayergame.ComputerGridViewModel
+import com.planes.android.singleplayergame.GameStatsViewModel
 import com.planes.android.singleplayergame.PlayerGridViewModel
 import com.planes.android.ui.theme.PlanesComposeTheme
 import com.planes.singleplayerengine.GameStages
@@ -90,7 +91,7 @@ fun Screen(modifier: Modifier,
     val playerGridViewModel: PlayerGridViewModel = hiltViewModel()
     val computerGridViewModel: ComputerGridViewModel = hiltViewModel()
     val optionsViewModel: PreferencesViewModel = hiltViewModel()
-
+    val gameStatsViewModel: GameStatsViewModel = hiltViewModel()
 
     val drawerState = rememberDrawerState(
         initialValue = DrawerValue.Closed
@@ -143,9 +144,11 @@ fun Screen(modifier: Modifier,
                 currentScreenState = currentScreenState,
                 topBarHeight = topBarHeight,
                 navController = navController,
+                planeRound,
                 optionsViewModel,
                 playerGridViewModel,
-                computerGridViewModel)
+                computerGridViewModel,
+                gameStatsViewModel)
         }
     }
 }
@@ -154,16 +157,20 @@ fun Screen(modifier: Modifier,
 fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
                   topBarHeight: MutableState<Int>,
                   navController: NavHostController,
+                  planeRound: PlanesRoundInterface,
                   optionsViewModel: PreferencesViewModel,
                   playerGridViewModel: PlayerGridViewModel,
-                  computerGridViewModel: ComputerGridViewModel
+                  computerGridViewModel: ComputerGridViewModel,
+                  gameStatsViewModel: GameStatsViewModel
 ) {
     PlanesNavigation(modifier = modifier,
         currentScreenState, topBarHeight, navController,
         context = LocalContext.current,
+        planeRound,
         optionsViewModel,
         playerGridViewModel,
-        computerGridViewModel)
+        computerGridViewModel,
+        gameStatsViewModel)
 }
 
 @Composable

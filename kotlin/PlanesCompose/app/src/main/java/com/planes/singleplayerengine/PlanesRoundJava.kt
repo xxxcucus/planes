@@ -78,6 +78,10 @@ class PlanesRoundJava : PlanesRoundInterface {
         global_Player_Guess_Reaction = result.second
     }
 
+    override fun playerGuess_GuessResult(): Type {
+        return global_Guess_Result
+    }
+
     override fun playerGuess(gp: GuessPoint): PlayerGuessReaction {
         TODO("Not yet implemented")
     }

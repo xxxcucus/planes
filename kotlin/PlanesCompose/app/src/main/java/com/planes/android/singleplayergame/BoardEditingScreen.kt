@@ -140,7 +140,7 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                 }
             }
         }
-    } else {
+    } else {  //landscape
         Row() {
 
             GameBoardSinglePlayer(playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
@@ -163,7 +163,7 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                         val row = index / playerGridViewModel.getColNo()
                         val col = index % playerGridViewModel.getColNo()
 
-                        playerGridViewModel.setSelectedPlane(row, col)
+                        playerGridViewModel.setSelectedPlane(col, row)
                     }
             }
 

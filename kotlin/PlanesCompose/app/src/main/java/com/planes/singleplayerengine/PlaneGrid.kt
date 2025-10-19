@@ -1,5 +1,6 @@
 package com.planes.singleplayerengine
 
+import android.util.Log
 import androidx.core.util.Pair
 import com.planes.singleplayerengine.Plane.PlaneStatic.generateRandomNumber
 import java.util.*
@@ -270,7 +271,10 @@ class PlaneGrid(//gets the size of the grid
             val pos = generateRandomNumber(listPossiblePositions.size)
             val pl = listPossiblePositions[pos]
             //save the selected plane
-            if (savePlane(pl)) count++
+            if (savePlane(pl)) {
+                count++
+                Log.d("Planes", "PlaneGrid: plane at ${pl.row} and ${pl.col}")
+            }
         } //while
         return true
     }
