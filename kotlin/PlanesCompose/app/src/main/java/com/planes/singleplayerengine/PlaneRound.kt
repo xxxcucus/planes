@@ -218,6 +218,14 @@ class PlaneRound @AssistedInject constructor(
         return m_PlayerGuessReaction.m_GameStats.computerWins()
     }
 
+    override fun playerGuess_StatLastComputeUpdate(): Type {
+        return m_PlayerGuessReaction.m_GameStats.lastComputerUpdated()
+    }
+
+    override fun playerGuess_StatLastPlayerUpdate(): Type {
+        return m_PlayerGuessReaction.m_GameStats.lastPlayerUpdated()
+    }
+
     override fun playerGuess_StatNoDraws(): Int {
         return m_PlayerGuessReaction.m_GameStats.draws()
     }

@@ -3,6 +3,7 @@ package com.planes.android.singleplayergame
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.planes.singleplayerengine.PlanesRoundInterface
+import com.planes.singleplayerengine.Type
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -16,6 +17,8 @@ class GameStatsViewModel  @Inject constructor(planeRound: PlanesRoundInterface):
     var m_computerHits = mutableStateOf(0)
     var m_computerDead = mutableStateOf(0)
     var m_computerMisses = mutableStateOf(0)
+    var m_lastComputerUpdate = mutableStateOf(Type.Miss)
+    var m_lastPlayerUpdate = mutableStateOf(Type.Miss)
 
     //keeps the score
     var m_playerWins = mutableStateOf(0)
@@ -33,11 +36,14 @@ class GameStatsViewModel  @Inject constructor(planeRound: PlanesRoundInterface):
         m_computerMoves.value = m_PlaneRound.playerGuess_StatNoComputerMoves()
         m_computerHits.value = m_PlaneRound.playerGuess_StatNoComputerHits()
         m_computerDead.value = m_PlaneRound.playerGuess_StatNoComputerDead()
-        m_computerMisses.value = m_PlaneRound.playerGuess_StatNoComputerDead()
+        m_computerMisses.value = m_PlaneRound.playerGuess_StatNoComputerMisses()
 
         m_playerWins.value = m_PlaneRound.playerGuess_StatNoPlayerWins()
         m_computerWins.value = m_PlaneRound.playerGuess_StatNoComputerWins()
         m_draws.value = m_PlaneRound.playerGuess_StatNoDraws()
+
+        m_lastComputerUpdate.value = m_PlaneRound.playerGuess_StatLastComputeUpdate()
+        m_lastPlayerUpdate.value = m_PlaneRound.playerGuess_StatLastPlayerUpdate()
     }
 
     fun setPlayerMoves(moves: Int) {
@@ -126,5 +132,13 @@ class GameStatsViewModel  @Inject constructor(planeRound: PlanesRoundInterface):
     
     fun getDraws() : Int {
         return m_draws.value
+    }
+
+    fun getLastComputerMove(): Type {
+        return m_lastComputerUpdate.value
+    }
+
+    fun getLastPlayerMove(): Type {
+        return m_lastPlayerUpdate.value
     }
 }

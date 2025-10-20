@@ -12,6 +12,9 @@ class GameStatistics {
     var m_computerDead = 0
     var m_computerMisses = 0
 
+    var m_lastComputerUpdated = Type.Miss
+    var m_lastPlayerUpdated = Type.Miss
+
     //keeps the score
     var m_playerWins = 0
     var m_computerWins = 0
@@ -57,6 +60,10 @@ class GameStatistics {
         return m_playerMisses
     }
 
+    fun lastPlayerUpdated(): Type {
+        return m_lastPlayerUpdated
+    }
+
     fun computerMoves(): Int {
         return m_computerMoves
     }
@@ -71,6 +78,10 @@ class GameStatistics {
 
     fun computerMisses(): Int {
         return m_computerMisses
+    }
+
+    fun lastComputerUpdated(): Type {
+        return m_lastComputerUpdated
     }
 
     fun playerWins(): Int {
@@ -90,14 +101,34 @@ class GameStatistics {
     fun updateStats(gp: GuessPoint, isComputer: Boolean) {
         if (isComputer) {
             m_computerMoves++
-            if (gp.type() === Type.Dead) m_computerDead++
-            if (gp.type() === Type.Hit) m_computerHits++
-            if (gp.type() === Type.Miss) m_computerMisses++
+            if (gp.type() === Type.Dead) {
+                m_lastComputerUpdated = Type.Dead
+                m_computerDead++
+            }
+            if (gp.type() === Type.Hit) {
+                m_lastComputerUpdated = Type.Hit
+                m_computerHits++
+            }
+
+            if (gp.type() === Type.Miss) {
+                m_lastComputerUpdated = Type.Miss
+                m_computerMisses++
+            }
         } else {
             m_playerMoves++
-            if (gp.type() === Type.Dead) m_playerDead++
-            if (gp.type() === Type.Hit) m_playerHits++
-            if (gp.type() === Type.Miss) m_playerMisses++
+            if (gp.type() === Type.Dead) {
+                m_lastPlayerUpdated = Type.Dead
+                m_playerDead++
+            }
+            if (gp.type() === Type.Hit) {
+                m_lastPlayerUpdated = Type.Hit
+                m_playerHits++
+            }
+
+            if (gp.type() === Type.Miss) {
+                m_lastPlayerUpdated = Type.Miss
+                m_playerMisses++
+            }
         }
     }
 

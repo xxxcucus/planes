@@ -150,6 +150,14 @@ class PlanesRoundJava : PlanesRoundInterface {
         return global_Player_Guess_Reaction.m_GameStats.draws()
     }
 
+    override fun playerGuess_StatLastComputeUpdate(): Type {
+        return global_Player_Guess_Reaction.m_GameStats.lastComputerUpdated()
+    }
+
+    override fun playerGuess_StatLastPlayerUpdate(): Type {
+        return global_Player_Guess_Reaction.m_GameStats.lastPlayerUpdated()
+    }
+
     override fun roundEnds(isComputerWinner: Boolean, isDraw: Boolean) {
         global_Round!!.setRoundEnd(isComputerWinner, isDraw)
     }

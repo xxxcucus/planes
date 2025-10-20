@@ -15,19 +15,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.singleplayerengine.GuessPoint
 import com.planes.singleplayerengine.PlanesRoundInterface
+import com.planes.singleplayerengine.Type
 
 
 @Composable
@@ -76,7 +74,7 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
     val titleOtherBoard = if (playerBoard.value) stringResource(R.string.view_computer_board)
     else stringResource(R.string.view_player_board)
-    val titleStats = if (playerBoard.value) stringResource(R.string.computer_stats)
+    val titleStats = if (!playerBoard.value) stringResource(R.string.computer_stats)
     else stringResource(R.string.player_stats)
 
     //Log.d("Planes", "planes no ${planesGridViewModel.getPlaneNo()}")
@@ -112,10 +110,17 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                 if (cgp != null) {
                                     playerGridViewModel.addGuess(cgp)
                                 }
+
+                                gameStatsViewModel.updateFromPlaneRound()
                             }
                         }
                     }
             }
+
+            val lastMove = if (!playerBoard.value)
+                gameStatsViewModel.getLastComputerMove()
+            else
+                gameStatsViewModel.getLastPlayerMove()
 
             Column(modifier = Modifier.height(screenHeightDp.dp - boardSizeDp.dp),
                 verticalArrangement = Arrangement.Center) {
@@ -152,13 +157,14 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                             ) {
 
                             }
-                            StatsValueField(value = if (playerBoard.value)
+                            StatsValueField(value = if (!playerBoard.value)
                                 gameStatsViewModel.getComputerMoves()
                             else
                                 gameStatsViewModel.getPlayerMoves(),
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 4)
-                                    .height(refButtonHeightDp.dp / 2))
+                                    .height(refButtonHeightDp.dp / 2),
+                                hot = false)
 
                         }
 
@@ -172,13 +178,16 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                             }
 
-                            StatsValueField(value = if (playerBoard.value)
+                            val hotMisses = lastMove == Type.Miss
+
+                            StatsValueField(value = if (!playerBoard.value)
                                 gameStatsViewModel.getComputerMisses()
                             else
                                 gameStatsViewModel.getPlayerMisses(),
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 4)
-                                    .height(refButtonHeightDp.dp / 2))
+                                    .height(refButtonHeightDp.dp / 2),
+                                hot = hotMisses)
                         }
                     }
                 }
@@ -205,13 +214,16 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                             }
 
-                            StatsValueField(value = if (playerBoard.value)
+                            val hotHits = lastMove == Type.Hit
+
+                            StatsValueField(value = if (!playerBoard.value)
                                 gameStatsViewModel.getComputerHits()
                             else
                                 gameStatsViewModel.getPlayerHits(),
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 4)
-                                    .height(refButtonHeightDp.dp / 2))
+                                    .height(refButtonHeightDp.dp / 2),
+                                hot = hotHits)
                         }
 
                         Row() {
@@ -224,13 +236,16 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                             }
 
-                            StatsValueField(value = if (playerBoard.value)
+                            val hotDead = lastMove == Type.Dead
+
+                            StatsValueField(value = if (!playerBoard.value)
                                 gameStatsViewModel.getComputerDead()
                             else
                                 gameStatsViewModel.getPlayerDead(),
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 4)
-                                    .height(refButtonHeightDp.dp / 2))
+                                    .height(refButtonHeightDp.dp / 2),
+                                hot = hotDead)
                         }
                     }
                 }
@@ -266,10 +281,17 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                 if (cgp != null) {
                                     playerGridViewModel.addGuess(cgp)
                                 }
+
+                                gameStatsViewModel.updateFromPlaneRound()
                             }
                         }
                     }
             }
+
+            val lastMove = if (!playerBoard.value)
+                gameStatsViewModel.getLastComputerMove()
+            else
+                gameStatsViewModel.getLastPlayerMove()
 
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
@@ -318,13 +340,14 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                             ) {
 
                             }
-                            StatsValueField(value = if (playerBoard.value)
+                            StatsValueField(value = if (!playerBoard.value)
                                 gameStatsViewModel.getComputerMoves()
                             else
                                 gameStatsViewModel.getPlayerMoves(),
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 4)
-                                    .height(refButtonHeightDp.dp / 2))
+                                    .height(refButtonHeightDp.dp / 2),
+                                hot = false)
                         }
 
                         Row() {
@@ -336,13 +359,17 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                             ) {
 
                             }
-                            StatsValueField(value = if (playerBoard.value)
+
+                            val hotMisses = lastMove == Type.Miss
+
+                            StatsValueField(value = if (!playerBoard.value)
                                 gameStatsViewModel.getComputerMisses()
                             else
                                 gameStatsViewModel.getPlayerMisses(),
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 4)
-                                    .height(refButtonHeightDp.dp / 2))
+                                    .height(refButtonHeightDp.dp / 2),
+                                hot = hotMisses)
                         }
                     }
 
@@ -356,13 +383,17 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                             ) {
 
                             }
-                            StatsValueField(value = if (playerBoard.value)
+
+                            val hotHits = lastMove == Type.Hit
+
+                            StatsValueField(value = if (!playerBoard.value)
                                 gameStatsViewModel.getComputerHits()
                             else
                                 gameStatsViewModel.getPlayerHits(),
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 4)
-                                    .height(refButtonHeightDp.dp / 2))
+                                    .height(refButtonHeightDp.dp / 2),
+                                hot = hotHits)
                         }
                         Row() {
                             GameButton(
@@ -373,13 +404,17 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                             ) {
 
                             }
-                            StatsValueField(value = if (playerBoard.value)
+
+                            val hotDead = lastMove == Type.Dead
+
+                            StatsValueField(value = if (!playerBoard.value)
                                 gameStatsViewModel.getComputerDead()
                             else
                                 gameStatsViewModel.getPlayerDead(),
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 4)
-                                    .height(refButtonHeightDp.dp / 2))
+                                    .height(refButtonHeightDp.dp / 2),
+                                hot = hotDead)
                         }
                     }
                 }
