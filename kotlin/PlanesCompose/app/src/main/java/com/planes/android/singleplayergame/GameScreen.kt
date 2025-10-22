@@ -178,12 +178,15 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                             }
 
-                            val hotMisses = lastMove == Type.Miss
 
-                            StatsValueField(value = if (!playerBoard.value)
+                            val misses = if (!playerBoard.value)
                                 gameStatsViewModel.getComputerMisses()
                             else
-                                gameStatsViewModel.getPlayerMisses(),
+                                gameStatsViewModel.getPlayerMisses()
+
+                            val hotMisses = (lastMove == Type.Miss) && (misses > 0)
+
+                            StatsValueField(value = misses,
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 4)
                                     .height(refButtonHeightDp.dp / 2),
@@ -214,12 +217,14 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                             }
 
-                            val hotHits = lastMove == Type.Hit
-
-                            StatsValueField(value = if (!playerBoard.value)
+                            val hits = if (!playerBoard.value)
                                 gameStatsViewModel.getComputerHits()
                             else
-                                gameStatsViewModel.getPlayerHits(),
+                                gameStatsViewModel.getPlayerHits()
+
+                            val hotHits = (lastMove == Type.Hit) && (hits > 0)
+
+                            StatsValueField(value = hits,
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 4)
                                     .height(refButtonHeightDp.dp / 2),
@@ -236,12 +241,14 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                             }
 
-                            val hotDead = lastMove == Type.Dead
-
-                            StatsValueField(value = if (!playerBoard.value)
+                            val dead = if (!playerBoard.value)
                                 gameStatsViewModel.getComputerDead()
                             else
-                                gameStatsViewModel.getPlayerDead(),
+                                gameStatsViewModel.getPlayerDead()
+
+                            val hotDead = (lastMove == Type.Dead) && (dead > 0)
+
+                            StatsValueField(value = dead,
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 4)
                                     .height(refButtonHeightDp.dp / 2),
@@ -360,12 +367,14 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                             }
 
-                            val hotMisses = lastMove == Type.Miss
-
-                            StatsValueField(value = if (!playerBoard.value)
+                            val misses = if (!playerBoard.value)
                                 gameStatsViewModel.getComputerMisses()
                             else
-                                gameStatsViewModel.getPlayerMisses(),
+                                gameStatsViewModel.getPlayerMisses()
+
+                            val hotMisses = (lastMove == Type.Miss) && (misses > 0)
+
+                            StatsValueField(value = misses,
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 4)
                                     .height(refButtonHeightDp.dp / 2),
@@ -384,12 +393,14 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                             }
 
-                            val hotHits = lastMove == Type.Hit
-
-                            StatsValueField(value = if (!playerBoard.value)
+                            val hits = if (!playerBoard.value)
                                 gameStatsViewModel.getComputerHits()
                             else
-                                gameStatsViewModel.getPlayerHits(),
+                                gameStatsViewModel.getPlayerHits()
+
+                            val hotHits = (lastMove == Type.Hit) && (hits > 0)
+
+                            StatsValueField(value = hits,
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 4)
                                     .height(refButtonHeightDp.dp / 2),
@@ -405,12 +416,14 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                             }
 
-                            val hotDead = lastMove == Type.Dead
-
-                            StatsValueField(value = if (!playerBoard.value)
+                            val dead = if (!playerBoard.value)
                                 gameStatsViewModel.getComputerDead()
                             else
-                                gameStatsViewModel.getPlayerDead(),
+                                gameStatsViewModel.getPlayerDead()
+
+                            val hotDead = (lastMove == Type.Dead) && (dead > 0)
+
+                            StatsValueField(value = dead,
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 4)
                                     .height(refButtonHeightDp.dp / 2),
