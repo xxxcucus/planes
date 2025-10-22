@@ -46,8 +46,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                 modifier = Modifier.padding(top = topBarHeight.value.dp)
                     .width(boardSizeDp.dp).height(boardSizeDp.dp)) {
                 for (index in 0..99)
-                    BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, playerGridViewModel, true) {
-                    }
+                    BoardSquareGameNotStarted(index, squareSizeDp, squareSizePx, playerGridViewModel)
             }
         }
     } else {
@@ -56,8 +55,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                 modifier = Modifier.padding(top = topBarHeight.value.dp)
                     .width(boardSizeDp.dp).height(boardSizeDp.dp)) {
                 for (index in 0..99)
-                    BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, playerGridViewModel, true) {
-                    }
+                    BoardSquareGameNotStarted(index, squareSizeDp, squareSizePx, playerGridViewModel)
             }
         }
     }

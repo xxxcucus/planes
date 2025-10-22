@@ -5,14 +5,13 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 fun BoardSquareBoardEditing(index: Int, squareSizeDp: Int, squareSizePx: Float,
-                            planesGridViewModel: PlaneGridViewModel, isHoriz: Boolean,
+                            planesGridViewModel: PlaneGridViewModel,
                             onClick: (Int) -> Unit) {
     val row = index / planesGridViewModel.getColNo()
     val col = index % planesGridViewModel.getColNo()
 
     var pointOnPlane = planesGridViewModel.isPointOnPlane(col, row)
-    if (isHoriz)
-        pointOnPlane = planesGridViewModel.isPointOnPlane(row, col)
+
     if (!pointOnPlane.first)
         GridSquareBoardEditing(squareSizeDp, squareSizePx, Color.Blue)
     else {

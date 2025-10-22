@@ -91,8 +91,7 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                         index,
                         squareSizeDp,
                         squareSizePx,
-                        gameBoardViewModel,
-                        true
+                        gameBoardViewModel
                     ) {
                         if (gameBoardViewModel.isComputer()) {
                             val row = index / gameBoardViewModel.getColNo()
@@ -100,9 +99,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                             Log.d("Planes", "Guess at $row and $col")
 
-                            if (!planeRound.playerGuessAlreadyMade(col, row)) {
-                                planeRound.playerGuess(col, row)
-                                val pgp = GuessPoint(row, col, planeRound.playerGuess_GuessResult())
+                            if (!planeRound.playerGuessAlreadyMade(row, col)) {
+                                planeRound.playerGuess(row, col)
+                                val pgp = GuessPoint(col, row, planeRound.playerGuess_GuessResult())
                                 gameBoardViewModel.addGuess(pgp)
 
                                 val cgp = planeRound.getLastComputerGuess()
@@ -270,8 +269,7 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                         index,
                         squareSizeDp,
                         squareSizePx,
-                        gameBoardViewModel,
-                        true
+                        gameBoardViewModel
                     ) {
                         if (gameBoardViewModel.isComputer()) {
                             val row = index / gameBoardViewModel.getColNo()
@@ -279,9 +277,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                             Log.d("Planes", "Guess at $row and $col")
 
-                            if (!planeRound.playerGuessAlreadyMade(col, row)) {
-                                planeRound.playerGuess(col, row)
-                                val gp = GuessPoint(row, col, planeRound.playerGuess_GuessResult())
+                            if (!planeRound.playerGuessAlreadyMade(row, col)) {
+                                planeRound.playerGuess(row, col)
+                                val gp = GuessPoint(col, row, planeRound.playerGuess_GuessResult())
                                 gameBoardViewModel.addGuess(gp)
 
                                 val cgp = planeRound.getLastComputerGuess()

@@ -86,11 +86,11 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                    )
                }) {
                for (index in 0..99)
-                   BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, playerGridViewModel, true) {
+                   BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, playerGridViewModel) {
                        val row = index / playerGridViewModel.getColNo()
                        val col = index % playerGridViewModel.getColNo()
 
-                       playerGridViewModel.setSelectedPlane(col, row)
+                       playerGridViewModel.setSelectedPlane(row, col)
                    }
            }
 
@@ -159,11 +159,11 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                         })
                 }) {
                 for (index in 0..99)
-                    BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, playerGridViewModel, true) {
+                    BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, playerGridViewModel) {
                         val row = index / playerGridViewModel.getColNo()
                         val col = index % playerGridViewModel.getColNo()
 
-                        playerGridViewModel.setSelectedPlane(col, row)
+                        playerGridViewModel.setSelectedPlane(row, col)
                     }
             }
 
@@ -240,11 +240,11 @@ fun treatSwipeVertical(swipeThresh: Float, consecSwipeThresh: Int,
         //val steps = 0
         if (swipeLengthX > swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneDownwards(planesGridViewModel.getSelectedPlane())
+                planesGridViewModel.movePlaneRight(planesGridViewModel.getSelectedPlane())
             //down
         } else if (swipeLengthX < -swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
+                planesGridViewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
             //up
         }
     } else {
@@ -254,11 +254,11 @@ fun treatSwipeVertical(swipeThresh: Float, consecSwipeThresh: Int,
         //val steps = 0
         if (swipeLengthY > swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneRight(planesGridViewModel.getSelectedPlane())
+                planesGridViewModel.movePlaneDownwards(planesGridViewModel.getSelectedPlane())
             //right
         } else if (swipeLengthY < -swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
+                planesGridViewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
             //left
         }
     }
@@ -286,10 +286,10 @@ fun treatSwipeHorizontal(swipeThresh: Float, consecSwipeThresh: Int,
         //val steps = 0
         if (swipeLengthX > swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneDownwards(planesGridViewModel.getSelectedPlane())
+                planesGridViewModel.movePlaneRight(planesGridViewModel.getSelectedPlane())
         } else if (swipeLengthX < -swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
+                planesGridViewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
         }
     } else {
 
@@ -298,10 +298,10 @@ fun treatSwipeHorizontal(swipeThresh: Float, consecSwipeThresh: Int,
         //val steps = 0
         if (swipeLengthY > swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneRight(planesGridViewModel.getSelectedPlane())
+                planesGridViewModel.movePlaneDownwards(planesGridViewModel.getSelectedPlane())
         } else if (swipeLengthY < -swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
+                planesGridViewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
         }
     }
 
