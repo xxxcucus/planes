@@ -110,6 +110,11 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                     playerGridViewModel.addGuess(cgp)
                                 }
 
+                                if (planeRound.playerGuess_RoundEnds()) {
+                                    navController.popBackStack()
+                                    navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
+                                }
+
                                 gameStatsViewModel.updateFromPlaneRound()
                             }
                         }
@@ -285,6 +290,11 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                 val cgp = planeRound.getLastComputerGuess()
                                 if (cgp != null) {
                                     playerGridViewModel.addGuess(cgp)
+                                }
+
+                                if (planeRound.playerGuess_RoundEnds()) {
+                                    navController.popBackStack()
+                                    navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
                                 }
 
                                 gameStatsViewModel.updateFromPlaneRound()
