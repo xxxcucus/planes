@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -91,15 +92,14 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                         playerBoard.value = !playerBoard.value
                     }
                     Column() {
-                        Row() {
-                            GameButton(
-                                title = stringResource(R.string.computer_winner), gameBoardViewModel,
-                                modifier = Modifier.width(refButtonWidthDp.dp)
-                                    .height(refButtonHeightDp.dp / 2),
-                                enabled = true
-                            ) {
 
-                            }
+                        GameButton(
+                            title = stringResource(R.string.computer_winner), gameBoardViewModel,
+                            modifier = Modifier.width(refButtonWidthDp.dp)
+                                .height(refButtonHeightDp.dp / 2),
+                            enabled = true
+                        ) {
+
                         }
 
                         Row() {
@@ -167,15 +167,106 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                     }
                 }
             }
-
         }
-    } else {
+    } else { //landscape
         Row() {
             GameBoardSinglePlayer(gameBoardViewModel.getRowNo(), playerGridViewModel.getColNo(),
                 modifier = Modifier.padding(top = topBarHeight.value.dp)
                     .width(boardSizeDp.dp).height(boardSizeDp.dp)) {
                 for (index in 0..99)
                     BoardSquareGameNotStarted(index, squareSizeDp, squareSizePx, playerGridViewModel)
+            }
+
+            Row(modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Column(
+                    modifier = Modifier.padding(top = topBarHeight.value.dp)
+                        .height(boardSizeDp.dp)
+                        .width(refButtonWidthDp.dp),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    GameButton(
+                        title = titleOtherBoard, gameBoardViewModel,
+                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
+                        enabled = true
+                    ) {
+                        playerBoard.value = !playerBoard.value
+                    }
+                    GameButton(
+                        title = stringResource(R.string.start_new_game), gameBoardViewModel,
+                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
+                        enabled = true
+                    ) {
+                        //TODO:
+                    }
+                }
+
+                Column( Modifier.padding(top = topBarHeight.value.dp)
+                    .height(boardSizeDp.dp)
+                    .width(refButtonWidthDp.dp),
+                    verticalArrangement = Arrangement.Center) {
+
+                    GameButton(
+                        title = stringResource(R.string.computer_winner), gameBoardViewModel,
+                        modifier = Modifier.width(refButtonWidthDp.dp)
+                            .height(refButtonHeightDp.dp / 2),
+                        enabled = true
+                    ) {
+
+                    }
+
+                    Row() {
+                        GameButton(
+                            title = stringResource(R.string.computer_wins), gameBoardViewModel,
+                            modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
+                                .height(refButtonHeightDp.dp / 2),
+                            enabled = true
+                        ) {
+
+                        }
+
+                        StatsValueField(value = planeRound.playerGuess_StatNoComputerWins(),
+                            enabled = true,
+                            modifier = Modifier.width(refButtonWidthDp.dp / 4)
+                                .height(refButtonHeightDp.dp / 2),
+                            hot = false)
+                    }
+
+                    Row() {
+                        GameButton(
+                            title = stringResource(R.string.player_wins), gameBoardViewModel,
+                            modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
+                                .height(refButtonHeightDp.dp / 2),
+                            enabled = true
+                        ) {
+
+                        }
+
+                        StatsValueField(value = planeRound.playerGuess_StatNoPlayerWins(),
+                            enabled = true,
+                            modifier = Modifier.width(refButtonWidthDp.dp / 4)
+                                .height(refButtonHeightDp.dp / 2),
+                            hot = false)
+                    }
+
+                    Row() {
+                        GameButton(
+                            title = stringResource(R.string.draws), gameBoardViewModel,
+                            modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
+                                .height(refButtonHeightDp.dp / 2),
+                            enabled = true
+                        ) {
+
+                        }
+
+                        StatsValueField(value = planeRound.playerGuess_StatNoDraws(),
+                            enabled = true,
+                            modifier = Modifier.width(refButtonWidthDp.dp / 4)
+                                .height(refButtonHeightDp.dp / 2),
+                            hot = false)
+                    }
+                }
             }
         }
     }
