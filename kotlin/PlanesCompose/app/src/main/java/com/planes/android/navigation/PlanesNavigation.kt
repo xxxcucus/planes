@@ -57,7 +57,7 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
         composable(PlanesScreens.SinglePlayerBoardEditing.name) {
             BoardEditingScreen(modifier = modifier,
                 currentScreenState, topBarHeight, navController = navController,
-                playerGridViewModel)
+                planeRound, playerGridViewModel)
         }
         composable(PlanesScreens.SinglePlayerGameNotStarted.name) {
             GameNotStartedScreen(modifier = modifier,

@@ -124,9 +124,12 @@ open class PlaneGridViewModel(planeRound: PlanesRoundInterface,
 
     //constructor
     init {
+        resetFromPlaneRound()
+    }
+
+    fun resetFromPlaneRound() {
         resetGrid()
         initGridFromPlaneRound()
-        //compute list of plane points - needed for the guessing process
         computePlanePointsList()
     }
 

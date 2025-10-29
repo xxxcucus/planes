@@ -92,7 +92,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                         playerBoard.value = !playerBoard.value
                     }
                     Column() {
-
+                        //TODO: update winner text
                         GameButton(
                             title = stringResource(R.string.computer_winner), gameBoardViewModel,
                             modifier = Modifier.width(refButtonWidthDp.dp)
@@ -128,7 +128,11 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                         modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
-                        //TODO:
+                        planeRound.initRound()
+                        playerGridViewModel.resetFromPlaneRound()
+                        computerGridViewModel.resetFromPlaneRound()
+                        navController.popBackStack()
+                        navController.navigate(route = PlanesScreens.SinglePlayerBoardEditing.name)
                     }
                     Column() {
                         Row() {
@@ -198,7 +202,11 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                         modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
-                        //TODO:
+                        planeRound.initRound()
+                        playerGridViewModel.resetFromPlaneRound()
+                        computerGridViewModel.resetFromPlaneRound()
+                        navController.popBackStack()
+                        navController.navigate(route = PlanesScreens.SinglePlayerBoardEditing.name)
                     }
                 }
 

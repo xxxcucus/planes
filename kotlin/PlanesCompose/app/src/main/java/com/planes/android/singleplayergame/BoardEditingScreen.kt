@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
+import com.planes.singleplayerengine.PlanesRoundInterface
 import java.util.Date
 import kotlin.math.abs
 
@@ -31,6 +32,7 @@ import kotlin.math.abs
 fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                        topBarHeight: MutableState<Int>,
                        navController: NavController,
+                       planeRound: PlanesRoundInterface,
                        playerGridViewModel: PlaneGridViewModel) {
 
     currentScreenState.value = PlanesScreens.SinglePlayerGame.name
@@ -128,6 +130,9 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                         enabled = true
                     ) {
+                        planeRound.cancelRound()
+                        navController.popBackStack()
+                        navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
                     }
                     GameButton(
                         title = stringResource(R.string.reset_board1) + " " + stringResource(R.string.reset_board2),
@@ -187,6 +192,9 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                         enabled = true
                     ) {
+                        planeRound.cancelRound()
+                        navController.popBackStack()
+                        navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
                     }
                 }
 
