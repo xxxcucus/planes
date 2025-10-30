@@ -587,6 +587,11 @@ class MainActivity : AppCompatActivity() {
                 newFragment = ChatFragment()
                 tag = ApplicationScreens.Chat.toString()
             }
+
+            else -> {
+                newFragment = AboutFragment()
+                tag = ApplicationScreens.About.toString()
+            }
         }
 
         if (mSelectedItem != 0) {
