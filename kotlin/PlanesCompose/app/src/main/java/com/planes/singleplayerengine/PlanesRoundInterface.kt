@@ -73,7 +73,6 @@ interface PlanesRoundInterface {
     fun getComputerSkill(): Int
     fun getShowPlaneAfterKill(): Boolean
 
-    fun getRoundEndStatus(): Int
-
+    fun getRoundEndStatus(): RoundEndStatus
 
 }

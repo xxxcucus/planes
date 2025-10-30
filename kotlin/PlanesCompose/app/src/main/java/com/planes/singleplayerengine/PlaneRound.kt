@@ -78,6 +78,7 @@ class PlaneRound @AssistedInject constructor(
         m_gameStats.reset()
         m_computerLogic.reset()
         m_PlayerGuessReaction.m_GameStats.reset()
+        m_RoundEndState = RoundEndStatus.Cancelled
     }
 
     //switches to the state GameNotStarted
@@ -461,8 +462,8 @@ class PlaneRound @AssistedInject constructor(
         return m_RoundOptions.m_ShowPlaneAfterKill
     }
 
-    override fun getRoundEndStatus(): Int {
-        return m_RoundEndState.value
+    override fun getRoundEndStatus(): RoundEndStatus {
+        return m_RoundEndState
     }
 
     private fun updateGameStatsAndGuessListPlayer(gp: GuessPoint) {

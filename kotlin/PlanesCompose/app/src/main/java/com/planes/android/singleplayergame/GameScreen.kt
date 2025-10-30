@@ -111,6 +111,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                 }
 
                                 if (planeRound.playerGuess_RoundEnds()) {
+                                    val computerWinner = !planeRound.playerGuess_IsPlayerWinner()
+                                    val isDraw = planeRound.playerGuess_IsDraw()
+                                    planeRound.roundEnds(computerWinner, isDraw)
                                     navController.popBackStack()
                                     navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
                                 }
@@ -293,6 +296,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                 }
 
                                 if (planeRound.playerGuess_RoundEnds()) {
+                                    val computerWinner = !planeRound.playerGuess_IsPlayerWinner()
+                                    val isDraw = planeRound.playerGuess_IsDraw()
+                                    planeRound.roundEnds(computerWinner, isDraw)
                                     navController.popBackStack()
                                     navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
                                 }

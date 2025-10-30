@@ -233,7 +233,7 @@ class PlanesRoundJava : PlanesRoundInterface {
         return global_Round!!.getShowPlaneAfterKill()
     }
 
-    override fun getRoundEndStatus(): Int {
+    override fun getRoundEndStatus(): RoundEndStatus {
         return global_Round!!.getRoundEndStatus()
     }
 

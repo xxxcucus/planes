@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.singleplayerengine.PlanesRoundInterface
+import com.planes.singleplayerengine.RoundEndStatus
 import com.planes.singleplayerengine.Type
 
 @Composable
@@ -92,9 +93,16 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                         playerBoard.value = !playerBoard.value
                     }
                     Column() {
-                        //TODO: update winner text
+
+                        var winnerTitle = stringResource(R.string.computer_winner)
+                        when(planeRound.getRoundEndStatus()) {
+                            RoundEndStatus.PlayerWins -> winnerTitle = stringResource(R.string.player_wins)
+                            RoundEndStatus.ComputerWins -> winnerTitle = stringResource(R.string.computer_winner)
+                            RoundEndStatus.Draw -> winnerTitle = stringResource(R.string.draw_result)
+                            RoundEndStatus.Cancelled -> winnerTitle = stringResource(R.string.round_cancelled)
+                        }
                         GameButton(
-                            title = stringResource(R.string.computer_winner), gameBoardViewModel,
+                            title = winnerTitle, gameBoardViewModel,
                             modifier = Modifier.width(refButtonWidthDp.dp)
                                 .height(refButtonHeightDp.dp / 2),
                             enabled = true
@@ -215,8 +223,16 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                     .width(refButtonWidthDp.dp),
                     verticalArrangement = Arrangement.Center) {
 
+                    var winnerTitle = stringResource(R.string.computer_winner)
+                    when(planeRound.getRoundEndStatus()) {
+                        RoundEndStatus.PlayerWins -> winnerTitle = stringResource(R.string.player_wins)
+                        RoundEndStatus.ComputerWins -> winnerTitle = stringResource(R.string.computer_winner)
+                        RoundEndStatus.Draw -> winnerTitle = stringResource(R.string.draw_result)
+                        RoundEndStatus.Cancelled -> winnerTitle = stringResource(R.string.round_cancelled)
+                    }
+
                     GameButton(
-                        title = stringResource(R.string.computer_winner), gameBoardViewModel,
+                        title = winnerTitle, gameBoardViewModel,
                         modifier = Modifier.width(refButtonWidthDp.dp)
                             .height(refButtonHeightDp.dp / 2),
                         enabled = true
