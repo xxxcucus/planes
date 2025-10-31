@@ -135,7 +135,7 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                         navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
                     }
                     GameButton(
-                        title = stringResource(R.string.reset_board1) + " " + stringResource(R.string.reset_board2),
+                        title = stringResource(R.string.reset_board1) + "\n" + stringResource(R.string.reset_board2),
                         playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                         enabled = true
@@ -215,7 +215,7 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                     }
 
                     GameButton(
-                        title = stringResource(R.string.reset_board1) + " " + stringResource(R.string.reset_board2),
+                        title = stringResource(R.string.reset_board1) + "\n" + stringResource(R.string.reset_board2),
                         playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                         enabled = true
@@ -225,7 +225,6 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                 }
             }
         }
-
     }
 }
 

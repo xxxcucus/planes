@@ -4,7 +4,6 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,7 +22,6 @@ import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.singleplayerengine.PlanesRoundInterface
 import com.planes.singleplayerengine.RoundEndStatus
-import com.planes.singleplayerengine.Type
 
 @Composable
 fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<String>,
@@ -69,16 +67,16 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
 
     val gameBoardViewModel = if (playerBoard.value) playerGridViewModel else computerGridViewModel
 
-    val titleOtherBoard = if (playerBoard.value) stringResource(R.string.view_computer_board)
-    else stringResource(R.string.view_player_board)
+    val titleOtherBoard = if (playerBoard.value) stringResource(R.string.view_computer_board1) + "\n" + stringResource(R.string.view_computer_board2);
+    else stringResource(R.string.view_player_board1) + "\n" + stringResource(R.string.view_player_board2)
 
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
         Column() {
-            GameBoardSinglePlayer(gameBoardViewModel.getRowNo(), playerGridViewModel.getColNo(),
+            GameBoardSinglePlayer(gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
                 modifier = Modifier.padding(top = topBarHeight.value.dp)
                     .width(boardSizeDp.dp).height(boardSizeDp.dp)) {
                 for (index in 0..99)
-                    BoardSquareGameNotStarted(index, squareSizeDp, squareSizePx, playerGridViewModel)
+                    BoardSquareGameNotStarted(index, squareSizeDp, squareSizePx, gameBoardViewModel)
             }
 
             Column(modifier = Modifier.height(screenHeightDp.dp - boardSizeDp.dp),
@@ -87,7 +85,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                     modifier = Modifier.height(refButtonHeightDp.dp).fillMaxWidth()) {
                     GameButton(
                         title = titleOtherBoard, gameBoardViewModel,
-                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
+                        modifier = Modifier.width(refButtonWidthDp.dp * 2 / 3).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
                         playerBoard.value = !playerBoard.value
@@ -103,7 +101,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                         }
                         GameButton(
                             title = winnerTitle, gameBoardViewModel,
-                            modifier = Modifier.width(refButtonWidthDp.dp)
+                            modifier = Modifier.width(refButtonWidthDp.dp * 4 / 3)
                                 .height(refButtonHeightDp.dp / 2),
                             enabled = true
                         ) {
@@ -113,7 +111,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                         Row() {
                             GameButton(
                                 title = stringResource(R.string.computer_wins), gameBoardViewModel,
-                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
+                                modifier = Modifier.width(refButtonWidthDp.dp)
                                     .height(refButtonHeightDp.dp / 2),
                                 enabled = true
                             ) {
@@ -122,7 +120,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
 
                             StatsValueField(value = planeRound.playerGuess_StatNoComputerWins(),
                                 enabled = true,
-                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
+                                modifier = Modifier.width(refButtonWidthDp.dp / 3)
                                     .height(refButtonHeightDp.dp / 2),
                                 hot = false)
                         }
@@ -132,8 +130,8 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                 Row(horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.height(refButtonHeightDp.dp).fillMaxWidth()) {
                     GameButton(
-                        title = stringResource(R.string.start_new_game), gameBoardViewModel,
-                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
+                        title = stringResource(R.string.start_new_game1) + "\n" + stringResource(R.string.start_new_game2), gameBoardViewModel,
+                        modifier = Modifier.width(refButtonWidthDp.dp * 2 / 3).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
                         planeRound.initRound()
@@ -146,7 +144,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                         Row() {
                             GameButton(
                                 title = stringResource(R.string.player_wins), gameBoardViewModel,
-                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
+                                modifier = Modifier.width(refButtonWidthDp.dp)
                                     .height(refButtonHeightDp.dp / 2),
                                 enabled = true
                             ) {
@@ -155,7 +153,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
 
                             StatsValueField(value = planeRound.playerGuess_StatNoPlayerWins(),
                                 enabled = true,
-                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
+                                modifier = Modifier.width(refButtonWidthDp.dp / 3)
                                     .height(refButtonHeightDp.dp / 2),
                                 hot = false)
                         }
@@ -163,7 +161,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                         Row() {
                             GameButton(
                                 title = stringResource(R.string.draws), gameBoardViewModel,
-                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
+                                modifier = Modifier.width(refButtonWidthDp.dp)
                                     .height(refButtonHeightDp.dp / 2),
                                 enabled = true
                             ) {
@@ -172,7 +170,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
 
                             StatsValueField(value = planeRound.playerGuess_StatNoDraws(),
                                 enabled = true,
-                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
+                                modifier = Modifier.width(refButtonWidthDp.dp / 3)
                                     .height(refButtonHeightDp.dp / 2),
                                 hot = false)
                         }
@@ -182,11 +180,11 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
         }
     } else { //landscape
         Row() {
-            GameBoardSinglePlayer(gameBoardViewModel.getRowNo(), playerGridViewModel.getColNo(),
+            GameBoardSinglePlayer(gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
                 modifier = Modifier.padding(top = topBarHeight.value.dp)
                     .width(boardSizeDp.dp).height(boardSizeDp.dp)) {
                 for (index in 0..99)
-                    BoardSquareGameNotStarted(index, squareSizeDp, squareSizePx, playerGridViewModel)
+                    BoardSquareGameNotStarted(index, squareSizeDp, squareSizePx, gameBoardViewModel)
             }
 
             Row(modifier = Modifier.fillMaxWidth(),
@@ -195,19 +193,19 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                 Column(
                     modifier = Modifier.padding(top = topBarHeight.value.dp)
                         .height(boardSizeDp.dp)
-                        .width(refButtonWidthDp.dp),
+                        .width(refButtonWidthDp.dp * 2 / 3),
                     verticalArrangement = Arrangement.Center
                 ) {
                     GameButton(
                         title = titleOtherBoard, gameBoardViewModel,
-                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
+                        modifier = Modifier.width(refButtonWidthDp.dp * 2 / 3).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
                         playerBoard.value = !playerBoard.value
                     }
                     GameButton(
-                        title = stringResource(R.string.start_new_game), gameBoardViewModel,
-                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
+                        title = stringResource(R.string.start_new_game1) + "\n" + stringResource(R.string.start_new_game2), gameBoardViewModel,
+                        modifier = Modifier.width(refButtonWidthDp.dp * 2 / 3).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
                         planeRound.initRound()
@@ -220,7 +218,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
 
                 Column( Modifier.padding(top = topBarHeight.value.dp)
                     .height(boardSizeDp.dp)
-                    .width(refButtonWidthDp.dp),
+                    .width(refButtonWidthDp.dp * 4 / 3),
                     verticalArrangement = Arrangement.Center) {
 
                     var winnerTitle = stringResource(R.string.computer_winner)
@@ -233,7 +231,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
 
                     GameButton(
                         title = winnerTitle, gameBoardViewModel,
-                        modifier = Modifier.width(refButtonWidthDp.dp)
+                        modifier = Modifier.width(refButtonWidthDp.dp * 4 / 3)
                             .height(refButtonHeightDp.dp / 2),
                         enabled = true
                     ) {
@@ -243,7 +241,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                     Row() {
                         GameButton(
                             title = stringResource(R.string.computer_wins), gameBoardViewModel,
-                            modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
+                            modifier = Modifier.width(refButtonWidthDp.dp)
                                 .height(refButtonHeightDp.dp / 2),
                             enabled = true
                         ) {
@@ -252,7 +250,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
 
                         StatsValueField(value = planeRound.playerGuess_StatNoComputerWins(),
                             enabled = true,
-                            modifier = Modifier.width(refButtonWidthDp.dp / 4)
+                            modifier = Modifier.width(refButtonWidthDp.dp / 3)
                                 .height(refButtonHeightDp.dp / 2),
                             hot = false)
                     }
@@ -260,7 +258,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                     Row() {
                         GameButton(
                             title = stringResource(R.string.player_wins), gameBoardViewModel,
-                            modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
+                            modifier = Modifier.width(refButtonWidthDp.dp)
                                 .height(refButtonHeightDp.dp / 2),
                             enabled = true
                         ) {
@@ -269,7 +267,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
 
                         StatsValueField(value = planeRound.playerGuess_StatNoPlayerWins(),
                             enabled = true,
-                            modifier = Modifier.width(refButtonWidthDp.dp / 4)
+                            modifier = Modifier.width(refButtonWidthDp.dp / 3)
                                 .height(refButtonHeightDp.dp / 2),
                             hot = false)
                     }
@@ -277,7 +275,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                     Row() {
                         GameButton(
                             title = stringResource(R.string.draws), gameBoardViewModel,
-                            modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
+                            modifier = Modifier.width(refButtonWidthDp.dp)
                                 .height(refButtonHeightDp.dp / 2),
                             enabled = true
                         ) {
@@ -286,7 +284,7 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
 
                         StatsValueField(value = planeRound.playerGuess_StatNoDraws(),
                             enabled = true,
-                            modifier = Modifier.width(refButtonWidthDp.dp / 4)
+                            modifier = Modifier.width(refButtonWidthDp.dp / 3)
                                 .height(refButtonHeightDp.dp / 2),
                             hot = false)
                     }

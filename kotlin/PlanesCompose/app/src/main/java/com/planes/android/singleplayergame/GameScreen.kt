@@ -27,7 +27,6 @@ import com.planes.singleplayerengine.GuessPoint
 import com.planes.singleplayerengine.PlanesRoundInterface
 import com.planes.singleplayerengine.Type
 
-
 @Composable
 fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                        topBarHeight: MutableState<Int>,
@@ -72,8 +71,8 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
     val gameBoardViewModel = if (playerBoard.value) playerGridViewModel else computerGridViewModel
 
-    val titleOtherBoard = if (playerBoard.value) stringResource(R.string.view_computer_board)
-    else stringResource(R.string.view_player_board)
+    val titleOtherBoard = if (playerBoard.value) stringResource(R.string.view_computer_board1) + "\n" + stringResource(R.string.view_computer_board2);
+    else stringResource(R.string.view_player_board1) + "\n" + stringResource(R.string.view_player_board2)
     val titleStats = if (!playerBoard.value) stringResource(R.string.computer_stats)
     else stringResource(R.string.player_stats)
 
@@ -447,7 +446,6 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                 }
             }
         }
-
     }
 }
 
