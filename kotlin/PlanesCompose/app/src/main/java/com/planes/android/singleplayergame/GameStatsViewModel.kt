@@ -46,6 +46,18 @@ class GameStatsViewModel  @Inject constructor(planeRound: PlanesRoundInterface):
         m_lastPlayerUpdate.value = m_PlaneRound.playerGuess_StatLastPlayerUpdate()
     }
 
+    fun resetRoundStats() {
+        setPlayerMoves(0)
+        setPlayerHits(0)
+        setPlayerDead(0)
+        setPlayerMisses(0)
+
+        setComputerMoves(0)
+        setComputerHits(0)
+        setComputerDead(0)
+        setComputerMisses(0)
+    }
+
     fun setPlayerMoves(moves: Int) {
         m_playerMoves.value = moves
     }

@@ -113,11 +113,12 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                     val computerWinner = !planeRound.playerGuess_IsPlayerWinner()
                                     val isDraw = planeRound.playerGuess_IsDraw()
                                     planeRound.roundEnds(computerWinner, isDraw)
+                                    gameStatsViewModel.resetRoundStats()
                                     navController.popBackStack()
                                     navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
+                                } else {
+                                    gameStatsViewModel.updateFromPlaneRound()
                                 }
-
-                                gameStatsViewModel.updateFromPlaneRound()
                             }
                         }
                     }
@@ -298,11 +299,12 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                     val computerWinner = !planeRound.playerGuess_IsPlayerWinner()
                                     val isDraw = planeRound.playerGuess_IsDraw()
                                     planeRound.roundEnds(computerWinner, isDraw)
+                                    gameStatsViewModel.resetRoundStats()
                                     navController.popBackStack()
                                     navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
+                                } else {
+                                    gameStatsViewModel.updateFromPlaneRound()
                                 }
-
-                                gameStatsViewModel.updateFromPlaneRound()
                             }
                         }
                     }
