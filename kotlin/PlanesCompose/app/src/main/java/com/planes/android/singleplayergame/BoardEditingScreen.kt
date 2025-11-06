@@ -102,15 +102,15 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                    horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.height(buttonHeightDp.dp).fillMaxWidth()
                 ) {
-                    GameButton(
-                        title = stringResource(R.string.rotate_button), playerGridViewModel,
+                    OneLineGameButton(
+                        textLine = stringResource(R.string.rotate_button), playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                         enabled = true
                     ) { viewModel ->
                         viewModel.rotatePlane(playerGridViewModel.getSelectedPlane())
                     }
-                    GameButton(
-                        title = stringResource(R.string.done_button), playerGridViewModel,
+                    OneLineGameButton(
+                        textLine = stringResource(R.string.done_button), playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                         enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
                     ) {
@@ -125,8 +125,8 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                    horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.height(buttonHeightDp.dp).fillMaxWidth()
                 ) {
-                    GameButton(
-                        title = stringResource(R.string.cancel), playerGridViewModel,
+                    OneLineGameButton(
+                        textLine = stringResource(R.string.cancel), playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                         enabled = true
                     ) {
@@ -134,8 +134,9 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                         navController.popBackStack()
                         navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
                     }
-                    GameButton(
-                        title = stringResource(R.string.reset_board1) + "\n" + stringResource(R.string.reset_board2),
+                    TwoLineGameButton(
+                        textLine1 = stringResource(R.string.reset_board1),
+                        textLine2 = stringResource(R.string.reset_board2),
                         playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                         enabled = true
@@ -179,16 +180,16 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                     modifier = Modifier.fillMaxHeight().width(buttonWidthDp.dp)
                         .padding(top = topBarHeight.value.dp)
                 ) {
-                    GameButton(
-                        title = stringResource(R.string.rotate_button), playerGridViewModel,
+                    OneLineGameButton(
+                        textLine = stringResource(R.string.rotate_button), playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                         enabled = true
                     ) { viewModel ->
                         viewModel.rotatePlane(playerGridViewModel.getSelectedPlane())
                     }
 
-                    GameButton(
-                        title = stringResource(R.string.cancel), playerGridViewModel,
+                    OneLineGameButton(
+                        textLine = stringResource(R.string.cancel), playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                         enabled = true
                     ) {
@@ -203,8 +204,8 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                     modifier = Modifier.fillMaxHeight().width(buttonWidthDp.dp)
                 ) {
                     Spacer(modifier = Modifier.height(topBarHeight.value.dp))
-                    GameButton(
-                        title = stringResource(R.string.done_button), playerGridViewModel,
+                    OneLineGameButton(
+                        textLine = stringResource(R.string.done_button), playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                         enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
                     ) {
@@ -214,8 +215,9 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                         navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
                     }
 
-                    GameButton(
-                        title = stringResource(R.string.reset_board1) + "\n" + stringResource(R.string.reset_board2),
+                    TwoLineGameButton(
+                        textLine1 = stringResource(R.string.reset_board1),
+                        textLine2 = stringResource(R.string.reset_board2),
                         playerGridViewModel,
                         modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                         enabled = true

@@ -67,8 +67,8 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
 
     val gameBoardViewModel = if (playerBoard.value) playerGridViewModel else computerGridViewModel
 
-    val titleOtherBoard = if (playerBoard.value) stringResource(R.string.view_computer_board1) + "\n" + stringResource(R.string.view_computer_board2);
-    else stringResource(R.string.view_player_board1) + "\n" + stringResource(R.string.view_player_board2)
+    val titleOtherBoard1 = if (playerBoard.value) stringResource(R.string.view_computer_board1) else stringResource(R.string.view_player_board1)
+    val titleOtherBoard2 = if (playerBoard.value) stringResource(R.string.view_computer_board2) else stringResource(R.string.view_player_board2)
 
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
         Column() {
@@ -83,8 +83,10 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                 verticalArrangement = Arrangement.Center) {
                 Row(horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.height(refButtonHeightDp.dp).fillMaxWidth()) {
-                    GameButton(
-                        title = titleOtherBoard, gameBoardViewModel,
+                    TwoLineGameButton(
+                        textLine1 = titleOtherBoard1,
+                        textLine2 = titleOtherBoard2,
+                        gameBoardViewModel,
                         modifier = Modifier.width(refButtonWidthDp.dp * 2 / 3).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
@@ -94,13 +96,13 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
 
                         var winnerTitle = stringResource(R.string.computer_winner)
                         when(planeRound.getRoundEndStatus()) {
-                            RoundEndStatus.PlayerWins -> winnerTitle = stringResource(R.string.player_wins)
+                            RoundEndStatus.PlayerWins -> winnerTitle = stringResource(R.string.player_winner)
                             RoundEndStatus.ComputerWins -> winnerTitle = stringResource(R.string.computer_winner)
                             RoundEndStatus.Draw -> winnerTitle = stringResource(R.string.draw_result)
                             RoundEndStatus.Cancelled -> winnerTitle = stringResource(R.string.round_cancelled)
                         }
-                        GameButton(
-                            title = winnerTitle, gameBoardViewModel,
+                        OneLineGameButton(
+                            textLine = winnerTitle, gameBoardViewModel,
                             modifier = Modifier.width(refButtonWidthDp.dp * 4 / 3)
                                 .height(refButtonHeightDp.dp / 2),
                             enabled = true
@@ -109,8 +111,8 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                         }
 
                         Row() {
-                            GameButton(
-                                title = stringResource(R.string.computer_wins), gameBoardViewModel,
+                            OneLineGameButton(
+                                textLine = stringResource(R.string.computer_wins), gameBoardViewModel,
                                 modifier = Modifier.width(refButtonWidthDp.dp)
                                     .height(refButtonHeightDp.dp / 2),
                                 enabled = true
@@ -129,8 +131,10 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
 
                 Row(horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.height(refButtonHeightDp.dp).fillMaxWidth()) {
-                    GameButton(
-                        title = stringResource(R.string.start_new_game1) + "\n" + stringResource(R.string.start_new_game2), gameBoardViewModel,
+                    TwoLineGameButton(
+                        textLine1 = stringResource(R.string.start_new_game1),
+                        textLine2 = stringResource(R.string.start_new_game2),
+                        gameBoardViewModel,
                         modifier = Modifier.width(refButtonWidthDp.dp * 2 / 3).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
@@ -142,8 +146,8 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                     }
                     Column() {
                         Row() {
-                            GameButton(
-                                title = stringResource(R.string.player_wins), gameBoardViewModel,
+                            OneLineGameButton(
+                                textLine = stringResource(R.string.player_wins), gameBoardViewModel,
                                 modifier = Modifier.width(refButtonWidthDp.dp)
                                     .height(refButtonHeightDp.dp / 2),
                                 enabled = true
@@ -159,8 +163,8 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                         }
 
                         Row() {
-                            GameButton(
-                                title = stringResource(R.string.draws), gameBoardViewModel,
+                            OneLineGameButton(
+                                textLine = stringResource(R.string.draws), gameBoardViewModel,
                                 modifier = Modifier.width(refButtonWidthDp.dp)
                                     .height(refButtonHeightDp.dp / 2),
                                 enabled = true
@@ -196,15 +200,19 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                         .width(refButtonWidthDp.dp * 2 / 3),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    GameButton(
-                        title = titleOtherBoard, gameBoardViewModel,
+                    TwoLineGameButton(
+                        textLine1 = titleOtherBoard1,
+                        textLine2 = titleOtherBoard2,
+                        gameBoardViewModel,
                         modifier = Modifier.width(refButtonWidthDp.dp * 2 / 3).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
                         playerBoard.value = !playerBoard.value
                     }
-                    GameButton(
-                        title = stringResource(R.string.start_new_game1) + "\n" + stringResource(R.string.start_new_game2), gameBoardViewModel,
+                    TwoLineGameButton(
+                        textLine1 = stringResource(R.string.start_new_game1),
+                        textLine2 = stringResource(R.string.start_new_game2),
+                        gameBoardViewModel,
                         modifier = Modifier.width(refButtonWidthDp.dp * 2 / 3).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
@@ -229,8 +237,8 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                         RoundEndStatus.Cancelled -> winnerTitle = stringResource(R.string.round_cancelled)
                     }
 
-                    GameButton(
-                        title = winnerTitle, gameBoardViewModel,
+                    OneLineGameButton(
+                        textLine = winnerTitle, gameBoardViewModel,
                         modifier = Modifier.width(refButtonWidthDp.dp * 4 / 3)
                             .height(refButtonHeightDp.dp / 2),
                         enabled = true
@@ -239,8 +247,8 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                     }
 
                     Row() {
-                        GameButton(
-                            title = stringResource(R.string.computer_wins), gameBoardViewModel,
+                        OneLineGameButton(
+                            textLine = stringResource(R.string.computer_wins), gameBoardViewModel,
                             modifier = Modifier.width(refButtonWidthDp.dp)
                                 .height(refButtonHeightDp.dp / 2),
                             enabled = true
@@ -256,8 +264,8 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                     }
 
                     Row() {
-                        GameButton(
-                            title = stringResource(R.string.player_wins), gameBoardViewModel,
+                        OneLineGameButton(
+                            textLine = stringResource(R.string.player_wins), gameBoardViewModel,
                             modifier = Modifier.width(refButtonWidthDp.dp)
                                 .height(refButtonHeightDp.dp / 2),
                             enabled = true
@@ -273,8 +281,8 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
                     }
 
                     Row() {
-                        GameButton(
-                            title = stringResource(R.string.draws), gameBoardViewModel,
+                        OneLineGameButton(
+                            textLine = stringResource(R.string.draws), gameBoardViewModel,
                             modifier = Modifier.width(refButtonWidthDp.dp)
                                 .height(refButtonHeightDp.dp / 2),
                             enabled = true

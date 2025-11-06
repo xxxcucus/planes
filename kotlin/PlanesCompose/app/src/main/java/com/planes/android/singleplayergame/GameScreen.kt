@@ -71,8 +71,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
     val gameBoardViewModel = if (playerBoard.value) playerGridViewModel else computerGridViewModel
 
-    val titleOtherBoard = if (playerBoard.value) stringResource(R.string.view_computer_board1) + "\n" + stringResource(R.string.view_computer_board2);
-    else stringResource(R.string.view_player_board1) + "\n" + stringResource(R.string.view_player_board2)
+    val titleOtherBoard1 = if (playerBoard.value) stringResource(R.string.view_computer_board1) else stringResource(R.string.view_player_board1)
+    val titleOtherBoard2 = if (playerBoard.value) stringResource(R.string.view_computer_board2) else stringResource(R.string.view_player_board2)
+
     val titleStats = if (!playerBoard.value) stringResource(R.string.computer_stats)
     else stringResource(R.string.player_stats)
 
@@ -137,8 +138,8 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                         modifier = Modifier.width(refButtonWidthDp.dp)
                             .height(refButtonHeightDp.dp / 2)
                     )
-                    GameButton(
-                        title = titleStats, gameBoardViewModel,
+                    OneLineGameButton(
+                        textLine = titleStats, gameBoardViewModel,
                         modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
@@ -147,8 +148,10 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                 }
                 Row(horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.height(refButtonHeightDp.dp).fillMaxWidth()) {
-                    GameButton(
-                        title = titleOtherBoard, gameBoardViewModel,
+                    TwoLineGameButton(
+                        textLine1 = titleOtherBoard1,
+                        textLine2 = titleOtherBoard2,
+                        gameBoardViewModel,
                         modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
@@ -156,8 +159,8 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                     }
                     Column() {
                         Row() {
-                            GameButton(
-                                title = stringResource(R.string.general_moves), gameBoardViewModel,
+                            OneLineGameButton(
+                                textLine = stringResource(R.string.general_moves), gameBoardViewModel,
                                 modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
                                     .height(refButtonHeightDp.dp / 2),
                                 enabled = true
@@ -176,8 +179,8 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                         }
 
                         Row() {
-                            GameButton(
-                                title = stringResource(R.string.general_misses), gameBoardViewModel,
+                            OneLineGameButton(
+                                textLine = stringResource(R.string.general_misses), gameBoardViewModel,
                                 modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
                                     .height(refButtonHeightDp.dp / 2),
                                 enabled = true
@@ -203,8 +206,8 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                 }
                 Row(horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.height(refButtonHeightDp.dp).fillMaxWidth()) {
-                    GameButton(
-                        title = stringResource(R.string.cancel), gameBoardViewModel,
+                    OneLineGameButton(
+                        textLine = stringResource(R.string.cancel), gameBoardViewModel,
                         modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
@@ -215,8 +218,8 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                         ) {
 
                         Row() {
-                            GameButton(
-                                title = stringResource(R.string.general_hits), gameBoardViewModel,
+                            OneLineGameButton(
+                                textLine = stringResource(R.string.general_hits), gameBoardViewModel,
                                 modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
                                     .height(refButtonHeightDp.dp / 2),
                                 enabled = true
@@ -239,8 +242,8 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                         }
 
                         Row() {
-                            GameButton(
-                                title = stringResource(R.string.general_dead), gameBoardViewModel,
+                            OneLineGameButton(
+                                textLine = stringResource(R.string.general_dead), gameBoardViewModel,
                                 modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
                                     .height(refButtonHeightDp.dp / 2),
                                 enabled = true
@@ -325,15 +328,17 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                     Spacer(
                         modifier = Modifier.width(refButtonWidthDp.dp)
                             .height(refButtonHeightDp.dp / 2))
-                    GameButton(
-                        title = titleOtherBoard, gameBoardViewModel,
+                    TwoLineGameButton(
+                        textLine1 = titleOtherBoard1,
+                        textLine2 = titleOtherBoard2,
+                        gameBoardViewModel,
                         modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
                         playerBoard.value = !playerBoard.value
                     }
-                    GameButton(
-                        title = stringResource(R.string.cancel), gameBoardViewModel,
+                    OneLineGameButton(
+                        textLine = stringResource(R.string.cancel), gameBoardViewModel,
                         modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
@@ -345,8 +350,8 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                     .height(boardSizeDp.dp)
                     .width(refButtonWidthDp.dp),
                     verticalArrangement = Arrangement.Center) {
-                    GameButton(
-                        title = titleStats, gameBoardViewModel,
+                    OneLineGameButton(
+                        textLine = titleStats, gameBoardViewModel,
                         modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp / 2),
                         enabled = true
                     ) {
@@ -354,8 +359,8 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                     }
                     Column() {
                         Row() {
-                            GameButton(
-                                title = stringResource(R.string.general_moves), gameBoardViewModel,
+                            OneLineGameButton(
+                                textLine = stringResource(R.string.general_moves), gameBoardViewModel,
                                 modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
                                     .height(refButtonHeightDp.dp / 2),
                                 enabled = true
@@ -373,8 +378,8 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                         }
 
                         Row() {
-                            GameButton(
-                                title = stringResource(R.string.general_misses), gameBoardViewModel,
+                            OneLineGameButton(
+                                textLine = stringResource(R.string.general_misses), gameBoardViewModel,
                                 modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
                                     .height(refButtonHeightDp.dp / 2),
                                 enabled = true
@@ -399,8 +404,8 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                     Column() {
                         Row() {
-                            GameButton(
-                                title = stringResource(R.string.general_hits), gameBoardViewModel,
+                            OneLineGameButton(
+                                textLine = stringResource(R.string.general_hits), gameBoardViewModel,
                                 modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
                                     .height(refButtonHeightDp.dp / 2),
                                 enabled = true
@@ -422,8 +427,8 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                 hot = hotHits)
                         }
                         Row() {
-                            GameButton(
-                                title = stringResource(R.string.general_dead), gameBoardViewModel,
+                            OneLineGameButton(
+                                textLine = stringResource(R.string.general_dead), gameBoardViewModel,
                                 modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
                                     .height(refButtonHeightDp.dp / 2),
                                 enabled = true
