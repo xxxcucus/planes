@@ -93,6 +93,9 @@ fun Screen(modifier: Modifier,
     val optionsViewModel: PreferencesViewModel = hiltViewModel()
     val gameStatsViewModel: GameStatsViewModel = hiltViewModel()
 
+    planeRound.setComputerSkill(optionsViewModel.getComputerSkill())
+    planeRound.setShowPlaneAfterKill(optionsViewModel.getShowPlaneAfterKill())
+
     val drawerState = rememberDrawerState(
         initialValue = DrawerValue.Closed
     )

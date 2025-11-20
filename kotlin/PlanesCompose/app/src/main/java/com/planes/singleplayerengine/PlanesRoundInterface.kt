@@ -66,6 +66,7 @@ interface PlanesRoundInterface {
     fun getComputerGuessType(idx: Int): Type
     fun getLastComputerGuess(): GuessPoint?
     fun getGameStage(): GameStages
+    fun getShowPlaneAfterKillGuess(): Vector<GuessPoint>
 
     //game options
     fun setComputerSkill(skill: Int): Boolean

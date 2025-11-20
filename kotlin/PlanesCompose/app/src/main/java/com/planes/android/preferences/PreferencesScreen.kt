@@ -45,12 +45,14 @@ import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.widgets.CheckBoxOption
 import com.planes.android.widgets.CommonTextField
+import com.planes.singleplayerengine.PlanesRoundInterface
 
 @Composable
 fun PreferencesScreen(modifier: Modifier,
                       currentScreenState: MutableState<String>,
                       navController: NavController,
-                      optionsViewModel: PreferencesViewModel
+                      optionsViewModel: PreferencesViewModel,
+                      planeRound: PlanesRoundInterface
 ) {
 
     //TODO: to change the settings in the PlaneRound object
@@ -73,13 +75,22 @@ fun PreferencesScreen(modifier: Modifier,
 
             CheckBoxOption(text = computerSkillsArray[0],
                 optionsViewModel.getComputerSkill() == 0,
-                        {optionsViewModel.setComputerSkill(0)})
+                        {
+                            optionsViewModel.setComputerSkill(0)
+                            planeRound.setComputerSkill(0)
+                        })
             CheckBoxOption(text = computerSkillsArray[1],
                 optionsViewModel.getComputerSkill() == 1,
-                        {optionsViewModel.setComputerSkill(1)})
+                        {
+                            optionsViewModel.setComputerSkill(1)
+                            planeRound.setComputerSkill(1)
+                        })
             CheckBoxOption(text = computerSkillsArray[2],
                 optionsViewModel.getComputerSkill() == 2,
-                        {optionsViewModel.setComputerSkill(2)})
+                        {
+                            optionsViewModel.setComputerSkill(2)
+                            planeRound.setComputerSkill(2)
+                        })
 
         }
 
@@ -92,10 +103,16 @@ fun PreferencesScreen(modifier: Modifier,
 
             CheckBoxOption(text = yesNoOptionsArray[0],
                 optionsViewModel.getShowPlaneAfterKill(),
-                {optionsViewModel.setShowPlaneAfterKill(true)})
+                {
+                    optionsViewModel.setShowPlaneAfterKill(true)
+                    planeRound.setShowPlaneAfterKill(true)
+                })
             CheckBoxOption(text = yesNoOptionsArray[1],
                 !optionsViewModel.getShowPlaneAfterKill(),
-                {optionsViewModel.setShowPlaneAfterKill(false)})
+                {
+                    optionsViewModel.setShowPlaneAfterKill(false)
+                    planeRound.setShowPlaneAfterKill(false)
+                })
 
         }
 

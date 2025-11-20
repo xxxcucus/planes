@@ -25,6 +25,7 @@ class PlaneRound @AssistedInject constructor(
     //the list of guesses for computer and player
     private var m_computerGuessList: Vector<GuessPoint>
     private var m_playerGuessList: Vector<GuessPoint>
+    private var m_ShowPlaneAfterKillGuessList: Vector<GuessPoint>
 
     //the computer's strategy
     private var m_computerLogic: ComputerLogic
@@ -61,6 +62,7 @@ class PlaneRound @AssistedInject constructor(
         m_computerLogic = ComputerLogic(m_rowNo, m_colNo, m_planeNo)
         m_computerGuessList = Vector()
         m_playerGuessList = Vector()
+        m_ShowPlaneAfterKillGuessList = Vector()
         m_gameStats = GameStatistics()
         m_RoundOptions = PlaneRoundOptions()
         reset()
@@ -385,6 +387,10 @@ class PlaneRound @AssistedInject constructor(
             getComputerGuessType(guessNo - 1))
     }
 
+    override fun getShowPlaneAfterKillGuess(): Vector<GuessPoint> {
+        return m_ShowPlaneAfterKillGuessList
+    }
+
     override fun getGameStage(): GameStages {
         return getCurrentStage()
     }
@@ -478,10 +484,13 @@ class PlaneRound @AssistedInject constructor(
             if (pos < 0) return
             val planePointsResult = m_ComputerGrid.getPlanePoints(pos)
             val planePoints = planePointsResult.second
+            m_ShowPlaneAfterKillGuessList.clear()
             for (i in planePoints.indices) {
                 val gp1 = GuessPoint(planePoints[i].x(), planePoints[i].y(), Type.Hit)
                 if (!m_playerGuessList.contains(gp1)) {
+                    //TODO: save these guess points so that the gui can access them
                     m_playerGuessList.add(gp1.clone() as GuessPoint)
+                    m_ShowPlaneAfterKillGuessList.add(gp1.clone() as GuessPoint)
                     m_ComputerGrid.addGuess(gp1)
                 }
             }

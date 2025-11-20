@@ -103,6 +103,13 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                 planeRound.playerGuess(row, col)
                                 val pgp = GuessPoint(col, row, planeRound.playerGuess_GuessResult())
                                 gameBoardViewModel.addGuess(pgp)
+                                if (planeRound.playerGuess_GuessResult() == Type.Dead
+                                    && planeRound.getShowPlaneAfterKill()) {
+                                    val listGp = planeRound.getShowPlaneAfterKillGuess()
+                                    listGp.forEach {
+                                        gameBoardViewModel.addGuess(it)
+                                    }
+                                }
 
                                 val cgp = planeRound.getLastComputerGuess()
 
@@ -292,6 +299,13 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                 planeRound.playerGuess(row, col)
                                 val gp = GuessPoint(col, row, planeRound.playerGuess_GuessResult())
                                 gameBoardViewModel.addGuess(gp)
+                                if (planeRound.playerGuess_GuessResult() == Type.Dead
+                                    && planeRound.getShowPlaneAfterKill()) {
+                                    val listGp = planeRound.getShowPlaneAfterKillGuess()
+                                    listGp.forEach {
+                                        gameBoardViewModel.addGuess(it)
+                                    }
+                                }
 
                                 val cgp = planeRound.getLastComputerGuess()
                                 if (cgp != null) {

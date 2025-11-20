@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.isUnspecified
 fun AutoResizedText(
     text: String,
     modifier: Modifier = Modifier,
-    style: TextStyle = MaterialTheme.typography.bodyMedium,
+    style: TextStyle = MaterialTheme.typography.bodyLarge,
     color: Color = style.color
     ) {
 
@@ -29,7 +29,7 @@ fun AutoResizedText(
         mutableStateOf(false)
     }
 
-    val defaultFontSize = MaterialTheme.typography.bodyMedium.fontSize
+    val defaultFontSize = MaterialTheme.typography.bodyLarge.fontSize
 
     Text( text = text,
         color = color,

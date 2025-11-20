@@ -213,6 +213,10 @@ class PlanesRoundJava : PlanesRoundInterface {
             getComputerGuessType(guessNo - 1))
     }
 
+    override fun getShowPlaneAfterKillGuess(): Vector<GuessPoint> {
+        return global_Round!!.getShowPlaneAfterKillGuess()
+    }
+
     override fun getGameStage(): GameStages {
         return global_Round!!.getCurrentStage()
     }

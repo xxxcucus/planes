@@ -66,10 +66,13 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                 playerGridViewModel, computerGridViewModel)
         }
         composable(PlanesScreens.SinglePlayerGameStatistics.name) {
-            SinglePlayerGameStatisticsScreen(modifier = modifier, currentScreenState, navController = navController)
+            SinglePlayerGameStatisticsScreen(modifier = modifier, currentScreenState,
+                navController = navController)
         }
         composable(PlanesScreens.Preferences.name) {
-            PreferencesScreen(modifier = modifier, currentScreenState, navController = navController, optionsViewModel = optionsViewModel)
+            PreferencesScreen(modifier = modifier, currentScreenState,
+                navController = navController, optionsViewModel = optionsViewModel,
+                planeRound = planeRound)
         }
         composable(PlanesScreens.MultiplayerGame.name) {
             MultiplayerGameScreen(modifier = modifier, currentScreenState, navController = navController)
