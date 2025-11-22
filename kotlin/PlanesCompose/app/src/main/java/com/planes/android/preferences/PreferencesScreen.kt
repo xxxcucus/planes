@@ -55,7 +55,6 @@ fun PreferencesScreen(modifier: Modifier,
                       planeRound: PlanesRoundInterface
 ) {
 
-    //TODO: to change the settings in the PlaneRound object
     currentScreenState.value = PlanesScreens.Preferences.name
     val scrollState = rememberScrollState()
 
@@ -63,8 +62,8 @@ fun PreferencesScreen(modifier: Modifier,
 
     Column(modifier = modifier.fillMaxSize().padding(start = 15.dp).
     verticalScroll(state = scrollState),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.Start) {
+        verticalArrangement = Arrangement.SpaceEvenly,
+        horizontalAlignment = Alignment.CenterHorizontally) {
 
         val computerSkillsArray = stringArrayResource(R.array.computer_skills)
 

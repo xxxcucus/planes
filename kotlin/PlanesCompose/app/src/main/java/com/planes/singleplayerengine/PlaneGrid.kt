@@ -273,7 +273,7 @@ class PlaneGrid(//gets the size of the grid
             //save the selected plane
             if (savePlane(pl)) {
                 count++
-                Log.d("Planes", "PlaneGrid: plane at ${pl.row} and ${pl.col}")
+                //Log.d("Planes", "PlaneGrid: plane at ${pl.row} and ${pl.col}")
             }
         } //while
         return true

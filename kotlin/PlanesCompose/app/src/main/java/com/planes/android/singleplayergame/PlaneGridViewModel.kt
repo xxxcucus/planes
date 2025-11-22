@@ -358,7 +358,7 @@ open class PlaneGridViewModel(planeRound: PlanesRoundInterface,
             //save the selected plane
             if (savePlane(pl)) {
                 count++
-                Log.d("Planes", "Saved plane ${pl.col()} vs ${pl.row()} " )
+                //Log.d("Planes", "Saved plane ${pl.col()} vs ${pl.row()} " )
             }
         } //while
         return true
@@ -374,7 +374,7 @@ open class PlaneGridViewModel(planeRound: PlanesRoundInterface,
 
         for (i in 0..m_planeNo - 1)
             if (savePlane(planes[i])) {
-                Log.d("Planes", "Saved plane ${planes[i].col()} vs ${planes[i].row()} " )
+                //Log.d("Planes", "Saved plane ${planes[i].col()} vs ${planes[i].row()} " )
             }
     }
 
