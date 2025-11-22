@@ -218,7 +218,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                         modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
-
+                        planeRound.cancelRound()
+                        navController.popBackStack()
+                        navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
                     }
                     Column(modifier = Modifier.fillMaxHeight(),
                         verticalArrangement = Arrangement.Center
@@ -356,7 +358,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                         modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
-
+                        planeRound.cancelRound()
+                        navController.popBackStack()
+                        navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
                     }
                 }
 
