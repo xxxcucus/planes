@@ -187,7 +187,7 @@ class GameBoardMultiplayer : GridLayout, GameBoardInterface {
         }
     }
 
-    public fun updateBoards() {
+    private fun updateBoards() {
         // draw the squares background
         for (i in 0 until m_GRows + 2 * m_Padding) {
             for (j in 0 until m_GCols + 2 * m_Padding) {

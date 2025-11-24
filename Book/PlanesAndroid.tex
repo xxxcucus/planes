@@ -554,8 +554,129 @@ The service is created as a singleton and exist through the whole lifetime of th
 
 \subsection{Game Screen}
 
-The Game Fragment uses as layout a custom layout with custom views (see \ref{custom_layouts} and \ref{custom_views}).
+The Game Fragment uses as layout a custom layout with custom views. The main concepts are explained in the following sections: \ref{custom_layouts} and \ref{custom_views}.
 
+In the following I will describe how the GameBoard is created. This is also a custom layout with the following onLayout method:
+
+\begin{lstlisting}
+	
+override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+	val lp = layoutParams as PlanesVerticalLayoutParams
+	m_GuessColor = lp.getGuessColor().defaultColor
+	m_FirstPlaneColor = lp.getFirstPlaneColor().defaultColor
+	m_SecondPlaneColor = lp.getSecondPlaneColor().defaultColor
+	m_ThirdPlaneColor = lp.getThirdPlaneColor().defaultColor
+	m_SelectedPlaneColor = lp.getSelectedPlaneColor().defaultColor
+	m_CockpitColor = lp.getCockpitColor().defaultColor
+	m_BoardColor = lp.getBoardColor().defaultColor
+	m_PlaneOverlapColor = lp.getPlaneOverlapColor().defaultColor
+	
+	// These are the far left and right edges in which we are performing layout.
+	val leftPos = paddingLeft
+	val rightPos = right - left - paddingRight
+	
+	// These are the top and bottom edges in which we are performing layout.
+	val topPos = paddingTop
+	val bottomPos = bottom - top - paddingBottom
+	val spacing = 0
+	val newWidth = (min(bottomPos - topPos, rightPos - leftPos) - spacing) / (m_GRows + 2 * m_Padding)
+	m_GridSquareSize = newWidth
+	var verticalOffset = 0
+	var horizontalOffset = 0
+	if (bottomPos - topPos > rightPos - leftPos) {
+		verticalOffset = (bottomPos - topPos - rightPos + leftPos) / 2
+	} else {
+		horizontalOffset = (rightPos - leftPos - bottomPos + topPos) / 2
+	}
+	val count = childCount
+	for (i in 0 until count) {
+		val child = getChildAt(i) as GridSquare
+		child.width = newWidth
+		// Log.d("Planes", "Set width " + i);
+		val childLeft = leftPos + horizontalOffset + spacing / 2 + child.getColNo() * newWidth
+		val childTop = topPos + verticalOffset + spacing / 2 + child.getRowNo() * newWidth
+		val childRight = leftPos + horizontalOffset + spacing / 2 + child.getColNo() * newWidth + newWidth
+		val childBottom = topPos + verticalOffset + spacing / 2 + child.getRowNo() * newWidth + newWidth
+		child.layout(childLeft, childTop, childRight, childBottom)
+	}
+	updateBoards()
+}	
+	
+\end{lstlisting}
+
+In this function the cells of the board are being placed in the layout. In order to do that the offsets of their positions are first calculated as well as the size of the cells. Then the position of the single cell is calculated using the row and col coordinates stored in the cell themselves (of the GridSquare class).
+
+The initialization of the cells of the board is being done in the init method of the class as follows:
+
+\begin{lstlisting}
+	private fun init(context: Context) {
+		
+		val gridSize = 1
+		rowCount = m_GRows + 2 * m_Padding
+		columnCount = m_GCols + 2 * m_Padding
+		m_GridSquares = HashMap()
+		for (i in 0 until m_GRows + 2 * m_Padding) {
+			for (j in 0 until m_GCols + 2 * m_Padding) {
+				val gs = GridSquare(context, gridSize)
+				if (i < m_Padding || i >= m_GRows + m_Padding || j < m_Padding || j >= m_GCols + m_Padding) gs.setBackgroundColor(
+				Color.YELLOW) else gs.setBackgroundColor(resources.getColor(
+				R.color.aqua
+				))
+				gs.setGuessColor(m_GuessColor)
+				gs.setGuess(-1)
+				gs.setRowCount(m_GRows + 2 * m_Padding)
+				gs.setColCount(m_GCols + 2 * m_Padding)
+				gs.setRow(i)
+				gs.setColumn(j)
+				gs.setParent(this)
+				val params = LayoutParams(spec(i, 1), spec(j, 1))
+				addView(gs, params)
+				val position = PositionBoardPane(i, j)
+				m_GridSquares[position] = gs
+			}
+		}
+	}
+\end{lstlisting}
+
+To display the information inside the cells according to the game model the function updateBoards() is used:
+
+\begin{lstlisting}
+	private fun updateBoards() {
+		// draw the squares background
+		for (i in 0 until m_GRows + 2 * m_Padding) {
+			for (j in 0 until m_GCols + 2 * m_Padding) {
+				val c = m_GridSquares[PositionBoardPane(i, j)]
+				c!!.setGuess(-1)
+				c.setBackgroundColor(computeSquareBackgroundColor(i, j))
+				c.invalidate()
+			}
+		} // display background of square; double for loop
+		
+		val count = if (m_IsComputer) m_MultiplayerRound.getPlayerGuessesNo() else m_MultiplayerRound.getComputerGuessesNo()
+		println("$count guesses")
+		for (i in 0 until count) {
+			var row: Int
+			var col: Int
+			var type: Int
+			if (m_IsComputer) {
+				row = m_MultiplayerRound.getPlayerGuessRow(i)
+				col = m_MultiplayerRound.getPlayerGuessCol(i)
+				type = m_MultiplayerRound.getPlayerGuessType(i)
+			} else {
+				row = m_MultiplayerRound.getComputerGuessRow(i)
+				col = m_MultiplayerRound.getComputerGuessCol(i)
+				type = m_MultiplayerRound.getComputerGuessType(i)
+			}
+			val c = m_GridSquares[PositionBoardPane(row + m_Padding, col + m_Padding)]
+			// System.out.println("Guess type " + type);
+			c!!.setGuess(type)
+			c!!.setGuessColor(m_GuessColor)
+			c.invalidate()
+		}
+	}
+\end{lstlisting}
+
+The control buttons of the game are also contained inside a custom layout - please see \ref{custom_layouts}. In the next version of the Android App these are not created in a custom layout anymore. Three versions of the controls are created with JetpackCompose for each of the different 3 screens of the game, this corresponds to a better app architecture. Only the game boards remain defined as custom layouts (TODO: add ref)
 
 \subsection { Android Concepts }
 
@@ -1778,7 +1899,184 @@ When the view model is first instantiated the values from the data store are rea
 	}
 \end{lstlisting}
 
+\subsection {Game Screen}
+
+The game against the computer was refactored following clean code rules into three screens: board editing, game, and new game start. Whereas in the PlanesAndroid app the graphics were implemented in a monolith custom layout, in this version we use three screens. The game controls are implemented in Jetpack Compose directly, no custom layut is necessary. I am giving below the example of the board editing screen in the portrait screen orientation:
+
+\begin{lstlisting}
+Column(modifier = Modifier.height(screenHeightDp.dp - boardSizeDp.dp),
+	verticalArrangement = Arrangement.Center) {
+		Row(
+		horizontalArrangement = Arrangement.Center,
+		modifier = Modifier.height(buttonHeightDp.dp).fillMaxWidth()
+		) {
+			OneLineGameButton(
+			textLine = stringResource(R.string.rotate_button), playerGridViewModel,
+			modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+			enabled = true
+			) { viewModel ->
+				viewModel.rotatePlane(playerGridViewModel.getSelectedPlane())
+			}
+			OneLineGameButton(
+			textLine = stringResource(R.string.done_button), playerGridViewModel,
+			modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+			enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
+			) {
+				playerGridViewModel.updatePlanesToPlaneRound()
+				playerGridViewModel.doneEditing()
+				navController.popBackStack()
+				navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
+			}
+		}
+		
+		Row(
+		horizontalArrangement = Arrangement.Center,
+		modifier = Modifier.height(buttonHeightDp.dp).fillMaxWidth()
+		) {
+			OneLineGameButton(
+			textLine = stringResource(R.string.cancel), playerGridViewModel,
+			modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+			enabled = true
+			) {
+				planeRound.cancelRound()
+				navController.popBackStack()
+				navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
+			}
+			TwoLineGameButton(
+			textLine1 = stringResource(R.string.reset_board1),
+			textLine2 = stringResource(R.string.reset_board2),
+			playerGridViewModel,
+			modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+			enabled = true
+			) { viewModel ->
+				viewModel.initGrid()
+			}
+		}
+	}
+	
+\end{lstlisting}
+
+The game board uses a custom layout as defined in section \ref{custom_layouts_compose}. The code to display is as follows (for the game not started screen):
+
+\begin{lstlisting}
+	GameBoardSinglePlayer(gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
+	modifier = Modifier.padding(top = topBarHeight.value.dp)
+	.width(boardSizeDp.dp).height(boardSizeDp.dp)) {
+		for (index in 0..99)
+		BoardSquareGameNotStarted(index, squareSizeDp, squareSizePx, gameBoardViewModel)
+	}
+\end{lstlisting}
+
+The function to display the single cell depending on the piece it contains and on which guess was made is as follows:
+
+\begin{lstlisting}
+	@Composable
+	fun BoardSquareGameNotStarted(index: Int, squareSizeDp: Int, squareSizePx: Float,
+	planesGridViewModel: PlaneGridViewModel) {
+		val row = index / planesGridViewModel.getColNo()
+		val col = index % planesGridViewModel.getColNo()
+		
+		val pointOnPlane = planesGridViewModel.isPointOnPlane(col, row)
+		
+		val guess = planesGridViewModel.getGuessAtPosition(col, row)
+		
+		if (!pointOnPlane.first)
+		GridSquareGameNotStarted(
+		isComputer = planesGridViewModel.isComputer(),
+		annotation = 0,
+		guess = guess,
+		widthDp = squareSizeDp,
+		widthPx = squareSizePx,
+		backgroundColor = Color.White,
+		index = index
+		)
+		else {
+			val annotation = planesGridViewModel.getAnnotation(pointOnPlane.second)
+			val planesIdx = planesGridViewModel.decodeAnnotation(annotation)
+			
+			if (planesIdx.size == 1) {
+				GridSquareGameNotStarted(
+				isComputer = planesGridViewModel.isComputer(),
+				annotation = if (planesIdx[0] < 0) -2 else planesIdx[0] + 1,
+				guess = guess,
+				widthDp = squareSizeDp,
+				widthPx = squareSizePx,
+				backgroundColor = Color.Blue,
+				index = index
+				)
+				//Log.d("Planes", "plane ${planesIdx[0]}")
+			} else {
+				GridSquareGameNotStarted(
+				isComputer = planesGridViewModel.isComputer(),
+				annotation = -1,
+				guess = guess,
+				widthDp = squareSizeDp,
+				widthPx = squareSizePx,
+				backgroundColor = Color.Blue,
+				index = index
+				)
+			}
+		}
+	}
+\end{lstlisting}
+
+
 \subsection { Android Concepts }
 
 \subsubsection { Composable Functions }
 \subsubsection { Coroutines }
+
+\subsubsection {Custom layouts} \label{custom_layouts_compose}
+
+In the PlanesCompose App we use a custom layout for displaying the game board. Essential for defining a custom layout is defining a so-called MeasurePolicy. This defines the space allocated to the children of the layout as well as their position inside the layout. Here below is the concrete implementation of the GameBoardSinglePlayer. It is only a call to the Layout composable with three parameters: modifier, content and measurePolicy. 
+The gameBoardSinglePlayerMeasurePolicy defines how the layout children are placed in the layout. It receives a list of measurables and constraints, calls the function measure on each measurable to calculate the maximum size it is allowed to have, then calls the function layout to place the measurables (children) in the layout.  
+
+\begin{lstlisting}
+	@Composable
+	fun GameBoardSinglePlayer(rows: Int, cols: Int, modifier: Modifier = Modifier,
+	content: @Composable () -> Unit) {
+		Layout(
+		modifier = modifier,
+		content = content,
+		measurePolicy = gameBoardSinglePlayerMeasurePolicy(rows, cols)
+		)
+	}
+	
+	fun gameBoardSinglePlayerMeasurePolicy(rows: Int, cols: Int): MeasurePolicy =
+	MeasurePolicy { measurables, constraints ->
+		val placeables = measurables.map { measurable ->
+			measurable.measure(constraints.copy(
+			maxWidth = constraints.maxWidth / cols,
+			maxHeight = constraints.maxHeight / rows,
+			minWidth = constraints.maxWidth / cols,
+			minHeight = constraints.maxHeight / rows))
+		}
+		
+		
+		layout(constraints.maxWidth, constraints.maxHeight) {
+			var yPos = 0
+			var xPos = 0
+			var maxY = 0
+			
+			placeables.forEachIndexed { index, placeable ->
+				//if (xPos + placeable.width >= constraints.maxWidth) {
+					if (index % cols == 0) {
+						xPos = 0
+						yPos += maxY
+						maxY = 0
+					}
+					
+					placeable.placeRelative(
+					x = xPos,
+					y = yPos
+					)
+					
+					xPos += placeable.width
+					
+					if (maxY < placeable.height) {
+						maxY = placeable.height
+					}
+				}
+			}
+		}
+	\end{lstlisting}
