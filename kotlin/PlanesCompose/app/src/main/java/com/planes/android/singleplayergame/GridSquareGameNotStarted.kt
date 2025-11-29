@@ -1,13 +1,20 @@
 package com.planes.android.singleplayergame
 
+import android.view.animation.OvershootInterpolator
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.planes.singleplayerengine.GuessPoint
+import kotlinx.coroutines.delay
 
 @Composable
 fun GridSquareGameNotStarted(isComputer: Boolean,
@@ -17,7 +24,34 @@ fun GridSquareGameNotStarted(isComputer: Boolean,
                    backgroundColor: Color,
                    index: Int) {
 
-    Canvas(modifier = Modifier.width(widthDp.dp).height(widthDp.dp)) {
+    val scale = remember {
+        Animatable(1f)
+    }
+
+    LaunchedEffect(key1 = guess == null || !guess.isDead ) {
+        if (guess != null && guess.isDead) {
+            scale.animateTo(
+                targetValue = (1.0 - scale.value).toFloat(),
+                animationSpec = tween(
+                    durationMillis = 800,
+                    easing = {
+                        OvershootInterpolator(1f).getInterpolation(it)
+                    })
+            )
+            scale.animateTo(
+                targetValue = (1.0 - scale.value).toFloat(),
+                animationSpec = tween(
+                    durationMillis = 800,
+                    easing = {
+                        OvershootInterpolator(1f).getInterpolation(it)
+                    })
+            )
+        }
+
+        delay(2000L)
+    }
+    Canvas(modifier = Modifier.width(widthDp.dp).height(widthDp.dp)
+        .scale(scale.value)) {
 
         val planeOverlapColor = Color.Red
         var squareColor = backgroundColor

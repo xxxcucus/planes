@@ -952,9 +952,9 @@ In the onResume() method the method reinitializeFromState() is called. This rese
 
 \subsection{Custom Views} \label{custom_views}
 
-Most of the elements that appear in the XML Layout are derived from the class View, the basis of the hierarchy of displayable elements. In some cases it is required to create custom views. I will give now one from the PlanesAndroid application.
+Most of the elements that appear in the XML Layout are derived from the class View, the basis of the hierarchy of displayable elements. In some cases it is required to create custom views. As an example I will sketch the implementation of the view ColouredSurfaceWithText which is one of the game control buttons.
 
-In order to achieve this mostly it is required to override the methods onDraw() and onMeasure().
+Essential to creating a custom view is to override the methods onDraw() and onMeasure() of the View.
 
 \begin{lstlisting}
 	public override fun onDraw(canvas: Canvas) {
@@ -979,7 +979,7 @@ The onDraw() method has a Canvas parameter which allows drawing onto. In this ca
 	}
 \end{lstlisting}
 
-In the onMeasure() method the layout parameters of the view are being read: the background color, the foreground color and the text to be displayed.
+In the onMeasure() method the layout parameters of the view are being read: the background color, the foreground color and the text to be displayed and based on that the size of the view is being calculated.
 
 \begin{lstlisting}
 	fun measureHeightOneLineText(measureSpec: Int, paint: Paint, text: String): Int {
@@ -995,7 +995,7 @@ In the onMeasure() method the layout parameters of the view are being read: the 
 	}
 \end{lstlisting}
 
-The height of the View is being calculated in the function measureHeightOneLineText() as follows: first the size of the text is being determined from the paint object, if it is bigger than the minimum dimension of 10 than this is considered as the intermediary height of the View, further more if the specificated height is still bigger than this intermediary value, the specified height is taken as the View's height.
+The height of the View is being calculated in the function measureHeightOneLineText() as follows: first the size of the text is being determined from the paint object, if it is bigger than the minimum dimension of 10 than this is considered as the intermediary height of the View, further more if the specified height is still bigger than this intermediary value, the specified height is taken as the View's height.
 
 A similar reasoning is used for determining the View's width. Finally with the help of the function setMeasuredDimension() the calculated dimensions of the View are set.
 
@@ -1131,7 +1131,7 @@ The function for laying out the game controls looks like:
 
 \end{lstlisting}
 
-The game controls views were alreadysaved in the hash map m\_GameControls. They are positioned in a grid like fashion where the row, col, rowspan, colspan are given in the xml layout. To compute the discrete steps in x and y direction the maxrows and maxcols for the given game stage are used (They were computed in the preprocessing step). The view.measure() function is called to get the actual width and height of the view. The view center position is computed from the discrete steps in the x and y directions. Based on these information the view is being layed out with the help of the function view.layout().
+The game controls views were already saved in the hash map m\_GameControls. They are positioned in a grid like fashion where the row, col, rowspan, colspan are given in the xml layout. To compute the discrete steps in x and y direction the maxrows and maxcols for the given game stage are used (They were computed in the preprocessing step). The view.measure() function is called to get the actual width and height of the view. The view center position is computed from the discrete steps in the x and y directions. Based on these information the view is being layed out with the help of the function view.layout().
 
 \section{PlanesCompose}
 
@@ -1901,7 +1901,7 @@ When the view model is first instantiated the values from the data store are rea
 
 \subsection {Game Screen}
 
-The game against the computer was refactored following clean code rules into three screens: board editing, game, and new game start. Whereas in the PlanesAndroid app the graphics were implemented in a monolith custom layout, in this version we use three screens. The game controls are implemented in Jetpack Compose directly, no custom layut is necessary. I am giving below the example of the board editing screen in the portrait screen orientation:
+The game against the computer was refactored following clean code rules into three screens: board editing, game, and new game start. Whereas in the PlanesAndroid app the graphics were implemented in a monolith custom layout, in this version we use three screens. The game controls are implemented in Jetpack Compose directly, no custom layout is necessary. I am giving below the example of the board editing screen in the portrait screen orientation:
 
 \begin{lstlisting}
 Column(modifier = Modifier.height(screenHeightDp.dp - boardSizeDp.dp),
