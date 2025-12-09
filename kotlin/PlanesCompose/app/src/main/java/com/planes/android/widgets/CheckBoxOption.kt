@@ -18,7 +18,7 @@ fun CheckBoxOption(text: String,
                    selected: Boolean,
                    onClickAction: () -> Unit) {
     Text(text = text,
-        modifier = Modifier.padding(start = 15.dp, end = 15.dp).fillMaxWidth(fraction = 0.75f).
+        modifier = Modifier./*padding(start = 15.dp, end = 15.dp).*/fillMaxWidth(fraction = 0.75f).
         border(width = 4.dp, color = if (selected)  Color.Blue else Color.Transparent,
             shape = RoundedCornerShape(15.dp)
         ).clip(

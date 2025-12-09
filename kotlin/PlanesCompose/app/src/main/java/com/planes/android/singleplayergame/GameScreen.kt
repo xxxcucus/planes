@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
@@ -64,8 +65,7 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
     }
 
 
-    //TODO: remember this after screen rotation
-    val playerBoard = remember {
+    val playerBoard = rememberSaveable {
         mutableStateOf(false)
     }
 

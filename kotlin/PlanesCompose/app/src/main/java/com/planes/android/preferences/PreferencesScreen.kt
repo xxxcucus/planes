@@ -25,6 +25,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,6 +46,7 @@ import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.widgets.CheckBoxOption
 import com.planes.android.widgets.CommonTextField
+import com.planes.android.widgets.PasswordInputField
 import com.planes.singleplayerengine.PlanesRoundInterface
 
 @Composable
@@ -70,7 +72,7 @@ fun PreferencesScreen(modifier: Modifier,
         Column(modifier = Modifier.padding(start = 15.dp, top = 10.dp))  {
 
             Text(text = stringResource(R.string.computer_skill),
-                modifier = Modifier.padding(start = 15.dp))
+                modifier = Modifier.align(alignment = Alignment.CenterHorizontally))
 
             CheckBoxOption(text = computerSkillsArray[0],
                 optionsViewModel.getComputerSkill() == 0,
@@ -98,7 +100,7 @@ fun PreferencesScreen(modifier: Modifier,
         Column(modifier = Modifier.padding(start = 15.dp, top = 10.dp)) {
 
             Text(text = stringResource(R.string.show_plane_after_kill),
-                modifier = Modifier.padding(start = 15.dp))
+                modifier = Modifier.align(alignment = Alignment.CenterHorizontally))
 
             CheckBoxOption(text = yesNoOptionsArray[0],
                 optionsViewModel.getShowPlaneAfterKill(),
@@ -129,7 +131,10 @@ fun PreferencesScreen(modifier: Modifier,
 
         
 
-        CommonTextField(
+        val passwordVisibility = rememberSaveable {
+            mutableStateOf(false)
+        }
+        PasswordInputField(
             modifier = Modifier.padding(15.dp),
             optionsViewModel,
             { prefs -> prefs.getPassword() },
@@ -139,7 +144,8 @@ fun PreferencesScreen(modifier: Modifier,
             },
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Default,
-            placeholder = stringResource(R.string.password)
+            placeholder = stringResource(R.string.password),
+            passwordVisibility = passwordVisibility
         )
 
     }
