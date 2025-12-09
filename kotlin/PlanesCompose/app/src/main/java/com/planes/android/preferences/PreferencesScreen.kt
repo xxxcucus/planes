@@ -1,52 +1,31 @@
 package com.planes.android.preferences
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.widgets.CheckBoxOption
-import com.planes.android.widgets.CommonTextField
-import com.planes.android.widgets.PasswordInputField
+import com.planes.android.widgets.CommonTextFieldWithPreferencesViewModel
+import com.planes.android.widgets.PasswordInputFieldWithPreferencesViewModel
 import com.planes.singleplayerengine.PlanesRoundInterface
 
 @Composable
@@ -118,7 +97,7 @@ fun PreferencesScreen(modifier: Modifier,
         }
 
 
-        CommonTextField(modifier = Modifier.padding(15.dp),
+        CommonTextFieldWithPreferencesViewModel(modifier = Modifier.padding(15.dp),
             optionsViewModel,
             { prefs ->  prefs.getUserName()},
             { prefs, str -> prefs.setUserName(str)},
@@ -134,7 +113,7 @@ fun PreferencesScreen(modifier: Modifier,
         val passwordVisibility = rememberSaveable {
             mutableStateOf(false)
         }
-        PasswordInputField(
+        PasswordInputFieldWithPreferencesViewModel(
             modifier = Modifier.padding(15.dp),
             optionsViewModel,
             { prefs -> prefs.getPassword() },

@@ -8,7 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -24,15 +23,15 @@ import androidx.compose.ui.unit.dp
 import com.planes.android.preferences.PreferencesViewModel
 
 @Composable
-fun PasswordInputField(modifier: Modifier,
-                       optionsViewModel: PreferencesViewModel,
-                       valueReadLambda: @Composable (PreferencesViewModel)->String,
-                       valueWriteLambda: (PreferencesViewModel, String)->Unit,
-                       placeholder: String,
-                       passwordVisibility: MutableState<Boolean>,
-                       keyboardType: KeyboardType,
-                       imeAction: ImeAction,
-                       onAction: KeyboardActions = KeyboardActions.Default
+fun PasswordInputFieldWithPreferencesViewModel(modifier: Modifier,
+                                               optionsViewModel: PreferencesViewModel,
+                                               valueReadLambda: @Composable (PreferencesViewModel)->String,
+                                               valueWriteLambda: (PreferencesViewModel, String)->Unit,
+                                               placeholder: String,
+                                               passwordVisibility: MutableState<Boolean>,
+                                               keyboardType: KeyboardType,
+                                               imeAction: ImeAction,
+                                               onAction: KeyboardActions = KeyboardActions.Default
 ) {
     val visualTransformation = if (passwordVisibility.value) VisualTransformation.None
     else PasswordVisualTransformation()
