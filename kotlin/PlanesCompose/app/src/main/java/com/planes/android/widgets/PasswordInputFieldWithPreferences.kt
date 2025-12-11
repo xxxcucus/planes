@@ -23,15 +23,15 @@ import androidx.compose.ui.unit.dp
 import com.planes.android.preferences.PreferencesViewModel
 
 @Composable
-fun PasswordInputFieldWithPreferencesViewModel(modifier: Modifier,
-                                               optionsViewModel: PreferencesViewModel,
-                                               valueReadLambda: @Composable (PreferencesViewModel)->String,
-                                               valueWriteLambda: (PreferencesViewModel, String)->Unit,
-                                               placeholder: String,
-                                               passwordVisibility: MutableState<Boolean>,
-                                               keyboardType: KeyboardType,
-                                               imeAction: ImeAction,
-                                               onAction: KeyboardActions = KeyboardActions.Default
+fun PasswordInputFieldWithPreferences(modifier: Modifier,
+                                      optionsViewModel: PreferencesViewModel,
+                                      valueReadLambda: @Composable (PreferencesViewModel)->String,
+                                      valueWriteLambda: (PreferencesViewModel, String)->Unit,
+                                      placeholder: String,
+                                      passwordVisibility: MutableState<Boolean>,
+                                      keyboardType: KeyboardType,
+                                      imeAction: ImeAction,
+                                      onAction: KeyboardActions = KeyboardActions.Default
 ) {
     val visualTransformation = if (passwordVisibility.value) VisualTransformation.None
     else PasswordVisualTransformation()

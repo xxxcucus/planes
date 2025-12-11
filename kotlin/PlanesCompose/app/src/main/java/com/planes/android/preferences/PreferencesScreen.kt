@@ -25,7 +25,7 @@ import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.widgets.CheckBoxOption
 import com.planes.android.widgets.CommonTextFieldWithPreferencesViewModel
-import com.planes.android.widgets.PasswordInputFieldWithPreferencesViewModel
+import com.planes.android.widgets.PasswordInputFieldWithPreferences
 import com.planes.singleplayerengine.PlanesRoundInterface
 
 @Composable
@@ -113,7 +113,7 @@ fun PreferencesScreen(modifier: Modifier,
         val passwordVisibility = rememberSaveable {
             mutableStateOf(false)
         }
-        PasswordInputFieldWithPreferencesViewModel(
+        PasswordInputFieldWithPreferences(
             modifier = Modifier.padding(15.dp),
             optionsViewModel,
             { prefs -> prefs.getPassword() },
