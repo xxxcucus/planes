@@ -63,6 +63,12 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.datastore.preferences)
 
+    implementation(libs.retrofit)
+    implementation(libs.gson)
+    implementation(libs.retrofit.gson)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.okhttp)
+
     //implementation ("com.google.android.exoplayer:exoplayer:2.19.1")
 
     testImplementation(libs.junit)

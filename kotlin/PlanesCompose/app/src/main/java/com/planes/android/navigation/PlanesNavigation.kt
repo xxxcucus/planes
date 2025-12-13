@@ -9,27 +9,27 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.planes.android.about.AboutEntryRepository
-import com.planes.android.about.AboutScreen
-import com.planes.android.chat.ChatScreen
-import com.planes.android.deleteuser.DeleteUserScreen
-import com.planes.android.login.LoginScreen
-import com.planes.android.logout.LogoutScreen
-import com.planes.android.multiplayergame.MultiplayerGameScreen
-import com.planes.android.multiplayergamestatistics.MultiplayerGameStatisticsScreen
-import com.planes.android.register.RegisterScreen
-import com.planes.android.singleplayergame.BoardEditingScreen
-import com.planes.android.singleplayergamestatistics.SinglePlayerGameStatisticsScreen
-import com.planes.android.preferences.PreferencesScreen
-import com.planes.android.preferences.PreferencesViewModel
-import com.planes.android.singleplayergame.ComputerGridViewModel
-import com.planes.android.singleplayergame.GameNotStartedScreen
-import com.planes.android.singleplayergame.GameScreen
-import com.planes.android.singleplayergame.GameStatsViewModel
-import com.planes.android.singleplayergame.PlaneGridViewModel
-import com.planes.android.singleplayergame.PlayerGridViewModel
-import com.planes.android.video.VideoModelRepository
-import com.planes.android.video.VideoScreen
+import com.planes.android.screens.about.AboutEntryRepository
+import com.planes.android.screens.about.AboutScreen
+import com.planes.android.screens.chat.ChatScreen
+import com.planes.android.screens.deleteuser.DeleteUserScreen
+import com.planes.android.screens.login.LoginScreen
+import com.planes.android.screens.logout.LogoutScreen
+import com.planes.android.screens.multiplayergame.MultiplayerGameScreen
+import com.planes.android.screens.multiplayergamestatistics.MultiplayerGameStatisticsScreen
+import com.planes.android.screens.register.RegisterScreen
+import com.planes.android.screens.singleplayergame.BoardEditingScreen
+import com.planes.android.screens.singleplayergamestatistics.SinglePlayerGameStatisticsScreen
+import com.planes.android.screens.preferences.PreferencesScreen
+import com.planes.android.screens.preferences.PreferencesViewModel
+import com.planes.android.screens.singleplayergame.ComputerGridViewModel
+import com.planes.android.screens.singleplayergame.GameNotStartedScreen
+import com.planes.android.screens.singleplayergame.GameScreen
+import com.planes.android.screens.singleplayergame.GameStatsViewModel
+import com.planes.android.screens.singleplayergame.PlaneGridViewModel
+import com.planes.android.screens.singleplayergame.PlayerGridViewModel
+import com.planes.android.screens.video.VideoModelRepository
+import com.planes.android.screens.video.VideoScreen
 import com.planes.singleplayerengine.PlanesRoundInterface
 import javax.inject.Inject
 
@@ -42,7 +42,8 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                      optionsViewModel: PreferencesViewModel,
                      playerGridViewModel: PlayerGridViewModel,
                      computerGridViewModel: ComputerGridViewModel,
-                     gameStatsViewModel: GameStatsViewModel) {
+                     gameStatsViewModel: GameStatsViewModel
+) {
 
 
     NavHost(

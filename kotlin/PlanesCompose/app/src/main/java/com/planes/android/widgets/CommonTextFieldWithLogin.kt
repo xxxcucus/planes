@@ -14,18 +14,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.planes.android.login.LoginViewModel
-import com.planes.android.preferences.PreferencesViewModel
+import com.planes.android.screens.login.LoginViewModel
+import com.planes.android.screens.preferences.PreferencesViewModel
 
 @Composable
 fun CommonTextFieldWithLogin(modifier: Modifier,
-         loginViewModel: LoginViewModel,
-         valueReadLambda: @Composable (LoginViewModel)->String,
-         valueWriteLambda: (LoginViewModel, String)->Unit,
-         placeholder: String,
-         keyboardType: KeyboardType,
-         imeAction: ImeAction,
-         onAction: KeyboardActions = KeyboardActions.Default
+                             loginViewModel: LoginViewModel,
+                             valueReadLambda: @Composable (LoginViewModel)->String,
+                             valueWriteLambda: (LoginViewModel, String)->Unit,
+                             placeholder: String,
+                             keyboardType: KeyboardType,
+                             imeAction: ImeAction,
+                             onAction: KeyboardActions = KeyboardActions.Default
 ) {
     OutlinedTextField(
         value = valueReadLambda.invoke(loginViewModel),

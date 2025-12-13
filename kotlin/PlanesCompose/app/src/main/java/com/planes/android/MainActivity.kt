@@ -50,10 +50,10 @@ import androidx.navigation.compose.rememberNavController
 import com.planes.android.navigation.DrawerMenuItemGeneric
 import com.planes.android.navigation.PlanesNavigation
 import com.planes.android.navigation.PlanesScreens
-import com.planes.android.preferences.PreferencesViewModel
-import com.planes.android.singleplayergame.ComputerGridViewModel
-import com.planes.android.singleplayergame.GameStatsViewModel
-import com.planes.android.singleplayergame.PlayerGridViewModel
+import com.planes.android.screens.preferences.PreferencesViewModel
+import com.planes.android.screens.singleplayergame.ComputerGridViewModel
+import com.planes.android.screens.singleplayergame.GameStatsViewModel
+import com.planes.android.screens.singleplayergame.PlayerGridViewModel
 import com.planes.android.ui.theme.PlanesComposeTheme
 import com.planes.singleplayerengine.GameStages
 import com.planes.singleplayerengine.PlaneRound

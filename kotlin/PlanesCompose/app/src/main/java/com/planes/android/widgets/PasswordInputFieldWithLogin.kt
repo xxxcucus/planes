@@ -16,19 +16,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.planes.android.login.LoginViewModel
-import com.planes.android.preferences.PreferencesViewModel
+import com.planes.android.screens.login.LoginViewModel
+import com.planes.android.screens.preferences.PreferencesViewModel
 
 @Composable
 fun PasswordInputFieldWithLogin(modifier: Modifier,
-       loginViewModel: LoginViewModel,
-       valueReadLambda: @Composable (LoginViewModel)->String,
-       valueWriteLambda: (LoginViewModel, String)->Unit,
-       placeholder: String,
-       passwordVisibility: MutableState<Boolean>,
-       keyboardType: KeyboardType,
-       imeAction: ImeAction,
-       onAction: KeyboardActions = KeyboardActions.Default
+                                loginViewModel: LoginViewModel,
+                                valueReadLambda: @Composable (LoginViewModel)->String,
+                                valueWriteLambda: (LoginViewModel, String)->Unit,
+                                placeholder: String,
+                                passwordVisibility: MutableState<Boolean>,
+                                keyboardType: KeyboardType,
+                                imeAction: ImeAction,
+                                onAction: KeyboardActions = KeyboardActions.Default
 ) {
     val visualTransformation = if (passwordVisibility.value) VisualTransformation.None
     else PasswordVisualTransformation()

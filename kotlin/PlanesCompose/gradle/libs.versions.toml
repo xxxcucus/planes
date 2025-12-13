@@ -18,6 +18,10 @@ androidxHiltNavigationCompose = "1.2.0"
 hiltExt = "1.2.0"
 datastore = "1.1.1"
 
+retrofit-version = "2.10.0"
+gson-version = "2.9.0"
+okhttp = "5.0.0-alpha.10"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -47,6 +51,12 @@ hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.r
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit-version" }
+retrofit-gson = { module = "com.squareup.retrofit2:converter-gson", name = "retrofit-gson", version.ref = "retrofit-version" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson-version" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
