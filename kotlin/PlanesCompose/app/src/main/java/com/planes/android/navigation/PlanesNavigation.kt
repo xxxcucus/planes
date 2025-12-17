@@ -14,6 +14,7 @@ import com.planes.android.screens.about.AboutScreen
 import com.planes.android.screens.chat.ChatScreen
 import com.planes.android.screens.deleteuser.DeleteUserScreen
 import com.planes.android.screens.login.LoginScreen
+import com.planes.android.screens.login.LoginViewModel
 import com.planes.android.screens.logout.LogoutScreen
 import com.planes.android.screens.multiplayergame.MultiplayerGameScreen
 import com.planes.android.screens.multiplayergamestatistics.MultiplayerGameStatisticsScreen
@@ -42,7 +43,8 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                      optionsViewModel: PreferencesViewModel,
                      playerGridViewModel: PlayerGridViewModel,
                      computerGridViewModel: ComputerGridViewModel,
-                     gameStatsViewModel: GameStatsViewModel
+                     gameStatsViewModel: GameStatsViewModel,
+                     loginViewModel: LoginViewModel
 ) {
 
 
@@ -91,7 +93,8 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                 videoModelList = VideoModelRepository.create(context = context))
         }
         composable(PlanesScreens.Login.name) {
-            LoginScreen(modifier = modifier, currentScreenState, navController = navController)
+            LoginScreen(modifier = modifier, currentScreenState, navController = navController,
+                loginViewModel)
         }
         composable(PlanesScreens.Logout.name) {
             LogoutScreen(modifier = modifier, currentScreenState, navController = navController)

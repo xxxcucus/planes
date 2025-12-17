@@ -50,6 +50,7 @@ import androidx.navigation.compose.rememberNavController
 import com.planes.android.navigation.DrawerMenuItemGeneric
 import com.planes.android.navigation.PlanesNavigation
 import com.planes.android.navigation.PlanesScreens
+import com.planes.android.screens.login.LoginViewModel
 import com.planes.android.screens.preferences.PreferencesViewModel
 import com.planes.android.screens.singleplayergame.ComputerGridViewModel
 import com.planes.android.screens.singleplayergame.GameStatsViewModel
@@ -92,6 +93,7 @@ fun Screen(modifier: Modifier,
     val computerGridViewModel: ComputerGridViewModel = hiltViewModel()
     val optionsViewModel: PreferencesViewModel = hiltViewModel()
     val gameStatsViewModel: GameStatsViewModel = hiltViewModel()
+    val loginViewModel: LoginViewModel = hiltViewModel()
 
     planeRound.setComputerSkill(optionsViewModel.getComputerSkill())
     planeRound.setShowPlaneAfterKill(optionsViewModel.getShowPlaneAfterKill())
@@ -151,7 +153,8 @@ fun Screen(modifier: Modifier,
                 optionsViewModel,
                 playerGridViewModel,
                 computerGridViewModel,
-                gameStatsViewModel)
+                gameStatsViewModel,
+                loginViewModel)
         }
     }
 }
@@ -164,7 +167,8 @@ fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
                   optionsViewModel: PreferencesViewModel,
                   playerGridViewModel: PlayerGridViewModel,
                   computerGridViewModel: ComputerGridViewModel,
-                  gameStatsViewModel: GameStatsViewModel
+                  gameStatsViewModel: GameStatsViewModel,
+                  loginViewModel: LoginViewModel
 ) {
     PlanesNavigation(modifier = modifier,
         currentScreenState, topBarHeight, navController,
@@ -173,7 +177,8 @@ fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
         optionsViewModel,
         playerGridViewModel,
         computerGridViewModel,
-        gameStatsViewModel)
+        gameStatsViewModel,
+        loginViewModel)
 }
 
 @Composable

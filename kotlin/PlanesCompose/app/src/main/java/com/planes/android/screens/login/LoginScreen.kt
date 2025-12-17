@@ -8,6 +8,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -31,7 +32,7 @@ import com.planes.android.widgets.PasswordInputFieldWithLogin
 @Composable
 fun LoginScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                 navController: NavController,
-                loginViewModel: LoginViewModel = viewModel<LoginViewModel>()) {
+                loginViewModel: LoginViewModel) {
 
     currentScreenState.value = PlanesScreens.Login.name
     val scrollState = rememberScrollState()
@@ -40,6 +41,11 @@ fun LoginScreen(modifier: Modifier, currentScreenState: MutableState<String>,
     Column(modifier = modifier.fillMaxSize().verticalScroll(state = scrollState),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
+
+        Text(text = stringResource(R.string.login),
+            modifier = Modifier.padding(15.dp),
+            style = MaterialTheme.typography.titleMedium)
+
         CommonTextFieldWithLogin(modifier = Modifier.padding(15.dp),
             loginViewModel,
             { login ->  login.getUserName()},
@@ -55,6 +61,7 @@ fun LoginScreen(modifier: Modifier, currentScreenState: MutableState<String>,
         val passwordVisibility = rememberSaveable {
             mutableStateOf(false)
         }
+
         PasswordInputFieldWithLogin(
             modifier = Modifier.padding(15.dp),
             loginViewModel,
@@ -71,7 +78,7 @@ fun LoginScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
         Button(modifier = Modifier.padding(15.dp),
             onClick = {
-
+                loginViewModel.login()
             }) {
             Text(text = stringResource(R.string.submit))
         }
