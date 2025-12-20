@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.okhttp)
+    implementation(libs.bcrypt)
 
     //implementation ("com.google.android.exoplayer:exoplayer:2.19.1")
 

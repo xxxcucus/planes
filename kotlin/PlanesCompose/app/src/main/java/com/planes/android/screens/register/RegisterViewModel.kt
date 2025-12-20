@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.mindrot.jbcrypt.BCrypt
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,6 +21,7 @@ class RegisterViewModel @Inject constructor(private val repository: PlanesUserRe
 
     private var m_PendingUserName = mutableStateOf<String?>(null)
     private var m_PendingUserId = mutableStateOf<String?>(null)
+    private var m_Question = mutableStateOf<String?>(null)
     private var m_NoRobotImage1 = mutableStateOf<String?>(null)
     private var m_NoRobotImage2 = mutableStateOf<String?>(null)
     private var m_NoRobotImage3 = mutableStateOf<String?>(null)
@@ -29,6 +31,8 @@ class RegisterViewModel @Inject constructor(private val repository: PlanesUserRe
     private var m_NoRobotImage7 = mutableStateOf<String?>(null)
     private var m_NoRobotImage8 = mutableStateOf<String?>(null)
     private var m_NoRobotImage9 = mutableStateOf<String?>(null)
+
+    private var m_Error = mutableStateOf<String?>(null)
 
     fun getUserName(): String {
         return m_UserName.value
@@ -70,15 +74,26 @@ class RegisterViewModel @Inject constructor(private val repository: PlanesUserRe
         m_PendingUserName.value = value
     }
 
+    fun getError(): String? {
+        return m_Error.value
+    }
+
+    fun setError(value: String?) {
+        m_Error.value = value
+    }
+
     fun register() {
         viewModelScope.launch {
             m_Loading.value = true
+            m_Error.value = null
             val result = withContext(Dispatchers.IO) {
-                repository.register(getUserName(), getPassword())
+                val bchash = BCrypt.hashpw(getPassword(), BCrypt.gensalt())
+                repository.register(getUserName(), bchash)
             }
-            m_Loading.value = result.loading!!
+
             if (result.data == null) {
                 Log.d("PlaneCompose", "Register error ${result.e}")
+                m_Error.value = result.e
             } else {
                 m_PendingUserId.value = result.data?.m_Id
                 m_PendingUserName.value = result.data?.m_Username
@@ -92,8 +107,11 @@ class RegisterViewModel @Inject constructor(private val repository: PlanesUserRe
                 m_NoRobotImage8.value = result.data?.m_ImageId_8
                 m_NoRobotImage9.value = result.data?.m_ImageId_9
 
+                m_Question.value = result.data?.m_Question
+
                 Log.d("PlanesCompose", "Registration request successfull with id ${getPendingUserId()}, username ${getPendingUsername()} ")
             }
+            m_Loading.value = result.loading!!
         }
     }
 }

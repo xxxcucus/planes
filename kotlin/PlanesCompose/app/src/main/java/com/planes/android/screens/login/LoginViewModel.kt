@@ -22,6 +22,7 @@ class LoginViewModel @Inject constructor(private val repository: PlanesUserRepos
     private var m_LoggedInUserId = mutableStateOf<String?>(null)
     private var m_LoggedInUsername = mutableStateOf<String?>(null)
     private var m_LoggedInToken = mutableStateOf<String?>(null)
+    private var m_Error = mutableStateOf<String?>(null)
 
     fun getUserName(): String {
         return m_UserName.value
@@ -71,15 +72,25 @@ class LoginViewModel @Inject constructor(private val repository: PlanesUserRepos
         m_LoggedInToken.value = value
     }
 
+    fun getError(): String? {
+        return m_Error.value
+    }
+
+    fun setError(value: String?) {
+        m_Error.value = value
+    }
+
     fun login() {
         viewModelScope.launch {
             m_Loading.value = true
+            m_Error.value = null
             val result = withContext(Dispatchers.IO) {
                 repository.login(getUserName(), getPassword())
             }
-            m_Loading.value = result.loading!!
+
             if (result.data == null) {
-                Log.d("PlaneCompose", "Login error ${result.e}")
+                Log.d("PlanesCompose", "Login error ${result.e}")
+                m_Error.value = result.e
             } else {
                 m_LoggedInUserId.value = result.data?.m_Id
                 m_LoggedInUsername.value = result.data?.m_Username
@@ -87,6 +98,7 @@ class LoginViewModel @Inject constructor(private val repository: PlanesUserRepos
 
                 Log.d("PlanesCompose", "Login successfull with id ${getLoggedInUserId()}, username ${getLoggedInUsername()} and token ${getLoggedInToken()}")
             }
+            m_Loading.value = result.loading!!
         }
     }
 }
