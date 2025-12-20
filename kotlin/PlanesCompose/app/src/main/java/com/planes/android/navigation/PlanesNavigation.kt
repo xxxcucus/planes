@@ -18,11 +18,13 @@ import com.planes.android.screens.login.LoginViewModel
 import com.planes.android.screens.logout.LogoutScreen
 import com.planes.android.screens.multiplayergame.MultiplayerGameScreen
 import com.planes.android.screens.multiplayergamestatistics.MultiplayerGameStatisticsScreen
+import com.planes.android.screens.norobot.NoRobotScreen
 import com.planes.android.screens.register.RegisterScreen
 import com.planes.android.screens.singleplayergame.BoardEditingScreen
 import com.planes.android.screens.singleplayergamestatistics.SinglePlayerGameStatisticsScreen
 import com.planes.android.screens.preferences.PreferencesScreen
 import com.planes.android.screens.preferences.PreferencesViewModel
+import com.planes.android.screens.register.RegisterViewModel
 import com.planes.android.screens.singleplayergame.ComputerGridViewModel
 import com.planes.android.screens.singleplayergame.GameNotStartedScreen
 import com.planes.android.screens.singleplayergame.GameScreen
@@ -44,7 +46,8 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                      playerGridViewModel: PlayerGridViewModel,
                      computerGridViewModel: ComputerGridViewModel,
                      gameStatsViewModel: GameStatsViewModel,
-                     loginViewModel: LoginViewModel
+                     loginViewModel: LoginViewModel,
+                     registerViewModel: RegisterViewModel
 ) {
 
 
@@ -100,7 +103,12 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
             LogoutScreen(modifier = modifier, currentScreenState, navController = navController)
         }
         composable(PlanesScreens.Register.name) {
-            RegisterScreen(modifier = modifier, currentScreenState, navController = navController)
+            RegisterScreen(modifier = modifier, currentScreenState, navController = navController,
+                registerViewModel)
+        }
+        composable(PlanesScreens.NoRobot.name) {
+            NoRobotScreen(modifier = modifier, currentScreenState, navController = navController,
+                registerViewModel)
         }
         composable(PlanesScreens.DeleteUser.name) {
             DeleteUserScreen(modifier = modifier, currentScreenState, navController = navController)

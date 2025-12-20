@@ -13,6 +13,7 @@ enum class PlanesScreens {
     Login,
     Logout,
     Register,
+    NoRobot,
     DeleteUser,
     Chat,
     Preferences;
