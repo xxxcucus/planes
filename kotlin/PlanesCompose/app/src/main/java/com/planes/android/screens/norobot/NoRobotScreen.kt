@@ -1,26 +1,93 @@
 package com.planes.android.screens.norobot
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
+import com.planes.android.screens.about.AboutEntryRow
 import com.planes.android.screens.register.RegisterViewModel
 
 @Composable
 fun NoRobotScreen(modifier: Modifier, currentScreenState: MutableState<String>,
-                 navController: NavController, registerViewModel: RegisterViewModel
+                 navController: NavController, noRobotViewModel: NoRobotViewModel
 ) {
     currentScreenState.value = PlanesScreens.NoRobot.name
+
+    /*val noRobotEntries = remember {
+        noRobotViewModel.getImages()
+    }*/
+
+    val configuration = LocalConfiguration.current
+    val screenWidthDp = configuration.screenWidthDp
+    val screenHeightDp = configuration.screenHeightDp
+    var squareSizeDp = screenWidthDp / 2
+
+    if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        //squareSizeDp = (screenHeightDp - topBarHeight.value) / playerGridViewModel.getRowNo()
+        squareSizeDp = screenHeightDp / 2
+    }
 
     Column(modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = "No Robot Screen")
+
+
+        Text(
+            text = LocalContext.current.getString(
+                R.string.norobot_question,
+                noRobotViewModel.getQuestion()
+            )
+        )
+        Button(
+            modifier = Modifier,
+            onClick = {
+                //TODO
+            }) {
+            Text(text = stringResource(R.string.norobot_allmarked))
+        }
+
+        if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            LazyVerticalGrid(
+                modifier = Modifier,
+                columns = GridCells.Adaptive(minSize = squareSizeDp.dp)
+            ) {
+                itemsIndexed(items = noRobotViewModel.getImages()) { index, item ->
+                    NoRobotEntryRow(noRobotViewModel, index, squareSizeDp,false)
+                }
+            }
+        } else {
+            LazyHorizontalGrid(
+                modifier = Modifier,
+                rows = GridCells.Adaptive(minSize = squareSizeDp.dp)
+            ) {
+                itemsIndexed(items = noRobotViewModel.getImages()) { index, item ->
+                    NoRobotEntryRow(noRobotViewModel, index, squareSizeDp, true)
+                }
+            }
+        }
     }
 }

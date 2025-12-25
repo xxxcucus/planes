@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.planes.android.repository.PlanesUserRepository
+import com.planes.android.screens.norobot.PhotoModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -82,6 +83,14 @@ class RegisterViewModel @Inject constructor(private val repository: PlanesUserRe
         m_Error.value = value
     }
 
+    fun getQuestion(): String? {
+        return m_Question.value
+    }
+
+    fun setQuestion(value: String?) {
+        m_Question.value = value
+    }
+
     fun register() {
         viewModelScope.launch {
             m_Loading.value = true
@@ -113,5 +122,46 @@ class RegisterViewModel @Inject constructor(private val repository: PlanesUserRe
             }
             m_Loading.value = result.loading!!
         }
+    }
+
+    fun noRobotDataAvailable() : Boolean {
+        if (m_PendingUserId.value == null || m_PendingUserName.value == null)
+            return false
+
+        if (m_NoRobotImage1.value == null || m_NoRobotImage2.value == null
+            || m_NoRobotImage3.value == null)
+            return false
+
+        if (m_NoRobotImage4.value == null || m_NoRobotImage5.value == null
+            || m_NoRobotImage6.value == null)
+            return false
+
+        if (m_NoRobotImage7.value == null || m_NoRobotImage8.value == null
+            || m_NoRobotImage9.value == null)
+            return false
+
+        if (m_Question.value == null)
+            return false
+
+        return true
+    }
+
+    fun getPhotoItems(): List<String> {
+        if (!noRobotDataAvailable())
+            return emptyList<String>()
+
+        val retVal = mutableListOf<String>()
+
+        retVal.add(m_NoRobotImage1.value!!)
+        retVal.add(m_NoRobotImage2.value!!)
+        retVal.add(m_NoRobotImage3.value!!)
+        retVal.add(m_NoRobotImage4.value!!)
+        retVal.add(m_NoRobotImage5.value!!)
+        retVal.add(m_NoRobotImage6.value!!)
+        retVal.add(m_NoRobotImage7.value!!)
+        retVal.add(m_NoRobotImage8.value!!)
+        retVal.add(m_NoRobotImage9.value!!)
+
+        return retVal
     }
 }

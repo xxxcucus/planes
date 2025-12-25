@@ -51,6 +51,7 @@ import com.planes.android.navigation.DrawerMenuItemGeneric
 import com.planes.android.navigation.PlanesNavigation
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.screens.login.LoginViewModel
+import com.planes.android.screens.norobot.NoRobotViewModel
 import com.planes.android.screens.preferences.PreferencesViewModel
 import com.planes.android.screens.register.RegisterViewModel
 import com.planes.android.screens.singleplayergame.ComputerGridViewModel
@@ -96,6 +97,7 @@ fun Screen(modifier: Modifier,
     val gameStatsViewModel: GameStatsViewModel = hiltViewModel()
     val loginViewModel: LoginViewModel = hiltViewModel()
     val registerViewModel: RegisterViewModel = hiltViewModel()
+    val noRobotViewModel: NoRobotViewModel = hiltViewModel()
 
     planeRound.setComputerSkill(optionsViewModel.getComputerSkill())
     planeRound.setShowPlaneAfterKill(optionsViewModel.getShowPlaneAfterKill())
@@ -157,7 +159,8 @@ fun Screen(modifier: Modifier,
                 computerGridViewModel,
                 gameStatsViewModel,
                 loginViewModel,
-                registerViewModel)
+                registerViewModel,
+                noRobotViewModel)
         }
     }
 }
@@ -172,7 +175,8 @@ fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
                   computerGridViewModel: ComputerGridViewModel,
                   gameStatsViewModel: GameStatsViewModel,
                   loginViewModel: LoginViewModel,
-                  registerViewModel: RegisterViewModel
+                  registerViewModel: RegisterViewModel,
+                  noRobotViewModel: NoRobotViewModel
 ) {
     PlanesNavigation(modifier = modifier,
         currentScreenState, topBarHeight, navController,
@@ -183,7 +187,8 @@ fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
         computerGridViewModel,
         gameStatsViewModel,
         loginViewModel,
-        registerViewModel)
+        registerViewModel,
+        noRobotViewModel)
 }
 
 @Composable

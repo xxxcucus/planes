@@ -19,6 +19,7 @@ import com.planes.android.screens.logout.LogoutScreen
 import com.planes.android.screens.multiplayergame.MultiplayerGameScreen
 import com.planes.android.screens.multiplayergamestatistics.MultiplayerGameStatisticsScreen
 import com.planes.android.screens.norobot.NoRobotScreen
+import com.planes.android.screens.norobot.NoRobotViewModel
 import com.planes.android.screens.register.RegisterScreen
 import com.planes.android.screens.singleplayergame.BoardEditingScreen
 import com.planes.android.screens.singleplayergamestatistics.SinglePlayerGameStatisticsScreen
@@ -47,7 +48,8 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                      computerGridViewModel: ComputerGridViewModel,
                      gameStatsViewModel: GameStatsViewModel,
                      loginViewModel: LoginViewModel,
-                     registerViewModel: RegisterViewModel
+                     registerViewModel: RegisterViewModel,
+                     noRobotViewModel: NoRobotViewModel
 ) {
 
 
@@ -104,11 +106,11 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
         }
         composable(PlanesScreens.Register.name) {
             RegisterScreen(modifier = modifier, currentScreenState, navController = navController,
-                registerViewModel)
+                registerViewModel, noRobotViewModel)
         }
         composable(PlanesScreens.NoRobot.name) {
             NoRobotScreen(modifier = modifier, currentScreenState, navController = navController,
-                registerViewModel)
+                noRobotViewModel)
         }
         composable(PlanesScreens.DeleteUser.name) {
             DeleteUserScreen(modifier = modifier, currentScreenState, navController = navController)
