@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.planes.android.repository.PlanesUserRepository
-import com.planes.android.screens.norobot.PhotoModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,7 +20,7 @@ class RegisterViewModel @Inject constructor(private val repository: PlanesUserRe
     private var m_Loading = mutableStateOf(false)
 
     private var m_PendingUserName = mutableStateOf<String?>(null)
-    private var m_PendingUserId = mutableStateOf<String?>(null)
+    private var m_PendingRequestId = mutableStateOf<String?>(null)
     private var m_Question = mutableStateOf<String?>(null)
     private var m_NoRobotImage1 = mutableStateOf<String?>(null)
     private var m_NoRobotImage2 = mutableStateOf<String?>(null)
@@ -59,12 +58,12 @@ class RegisterViewModel @Inject constructor(private val repository: PlanesUserRe
         m_Loading.value = value
     }
 
-    fun getPendingUserId(): String? {
-        return m_PendingUserId.value
+    fun getPendingRequestId(): String? {
+        return m_PendingRequestId.value
     }
 
-    fun setPendingUserId(value: String?) {
-        m_PendingUserId.value = value
+    fun setPendingRequestId(value: String?) {
+        m_PendingRequestId.value = value
     }
 
     fun getPendingUsername(): String? {
@@ -104,7 +103,7 @@ class RegisterViewModel @Inject constructor(private val repository: PlanesUserRe
                 Log.d("PlaneCompose", "Register error ${result.e}")
                 m_Error.value = result.e
             } else {
-                m_PendingUserId.value = result.data?.m_Id
+                m_PendingRequestId.value = result.data?.m_Id
                 m_PendingUserName.value = result.data?.m_Username
                 m_NoRobotImage1.value = result.data?.m_ImageId_1
                 m_NoRobotImage2.value = result.data?.m_ImageId_2
@@ -118,14 +117,14 @@ class RegisterViewModel @Inject constructor(private val repository: PlanesUserRe
 
                 m_Question.value = result.data?.m_Question
 
-                Log.d("PlanesCompose", "Registration request successfull with id ${getPendingUserId()}, username ${getPendingUsername()} ")
+                Log.d("PlanesCompose", "Registration request successfull with id ${getPendingRequestId()}, username ${getPendingUsername()} ")
             }
             m_Loading.value = result.loading!!
         }
     }
 
     fun noRobotDataAvailable() : Boolean {
-        if (m_PendingUserId.value == null || m_PendingUserName.value == null)
+        if (m_PendingRequestId.value == null || m_PendingUserName.value == null)
             return false
 
         if (m_NoRobotImage1.value == null || m_NoRobotImage2.value == null

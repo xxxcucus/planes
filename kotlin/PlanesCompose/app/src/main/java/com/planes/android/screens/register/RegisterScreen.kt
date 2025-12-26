@@ -49,6 +49,7 @@ fun RegisterScreen(modifier: Modifier, currentScreenState: MutableState<String>,
         mutableStateOf(false)
     }
 
+    //TODO: validation
 
     Column(modifier = modifier.fillMaxSize().verticalScroll(state = scrollState),
         verticalArrangement = Arrangement.Center,
@@ -157,6 +158,7 @@ fun RegisterScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                     noRobotViewModel.setImages(noRobotEntries)
                     noRobotViewModel.setQuestion(registerViewModel.getQuestion())
+                    noRobotViewModel.setRequestId(registerViewModel.getPendingRequestId())
 
                     navController.navigate(PlanesScreens.NoRobot.name)
                 }

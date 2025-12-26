@@ -1,6 +1,7 @@
 package com.planes.android.screens.norobot
 
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +18,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -51,10 +53,13 @@ fun NoRobotScreen(modifier: Modifier, currentScreenState: MutableState<String>,
         squareSizeDp = screenHeightDp / 2
     }
 
+    val submitClickedState = remember {
+        mutableStateOf(false)
+    }
+
     Column(modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
-
 
         Text(
             text = LocalContext.current.getString(
@@ -65,9 +70,42 @@ fun NoRobotScreen(modifier: Modifier, currentScreenState: MutableState<String>,
         Button(
             modifier = Modifier,
             onClick = {
-                //TODO
+                submitClickedState.value = true
+                noRobotViewModel.noRobotRequest()
             }) {
             Text(text = stringResource(R.string.norobot_allmarked))
+        }
+
+        if (submitClickedState.value && noRobotViewModel.getLoading()) {
+            Text(text = stringResource(R.string.loader_text))
+        } else if (submitClickedState.value) {
+            val error = noRobotViewModel.getError()
+
+            if (error == null) {
+
+                if (!noRobotViewModel.responseAvailable()) {
+                    Toast.makeText(
+                        LocalContext.current,
+                        "No data available", //TODO
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+
+                    Toast.makeText(
+                        LocalContext.current,
+                        stringResource(R.string.norobot_success),
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    navController.navigate(PlanesScreens.Login.name)
+                }
+            } else {
+                Toast.makeText(
+                    LocalContext.current,
+                    noRobotViewModel.getError(),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
         if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {

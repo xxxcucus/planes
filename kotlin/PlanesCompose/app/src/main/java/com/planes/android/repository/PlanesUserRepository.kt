@@ -5,9 +5,11 @@ import com.google.gson.JsonParser
 import com.planes.android.data.DataOrError
 import com.planes.android.network.user.PlanesUserApi
 import com.planes.android.network.user.requests.LoginRequest
+import com.planes.android.network.user.requests.NoRobotRequest
 import com.planes.android.network.user.requests.RegistrationRequest
 import com.planes.android.network.user.responses.LoginResponse
 import com.planes.android.network.user.responses.LoginResponseWithAuthorization
+import com.planes.android.network.user.responses.NoRobotResponse
 import com.planes.android.network.user.responses.RegistrationResponse
 import javax.inject.Inject
 
@@ -29,6 +31,19 @@ class PlanesUserRepository @Inject constructor(private val api: PlanesUserApi) {
 
     suspend fun register(username: String, password: String): DataOrError<RegistrationResponse> {
         val response = api.register(RegistrationRequest(username, password))
+
+        if (response.isSuccessful) {
+            return DataOrError(response.body(),false, null)
+        } else {
+            val errorString = response.errorBody()?.string() ?: return DataOrError(null, false, null)
+            val message = JsonParser.parseString(errorString).asJsonObject["message"].asString
+            val status = response.code()
+            return DataOrError(null, false, "Error $message with status code $status")
+        }
+    }
+
+    suspend fun noRobotRequest(request: NoRobotRequest): DataOrError<NoRobotResponse> {
+        val response = api.norobot(request)
 
         if (response.isSuccessful) {
             return DataOrError(response.body(),false, null)
