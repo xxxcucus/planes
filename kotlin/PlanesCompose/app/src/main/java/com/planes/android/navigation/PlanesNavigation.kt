@@ -114,7 +114,8 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                 noRobotViewModel)
         }
         composable(PlanesScreens.DeleteUser.name) {
-            DeleteUserScreen(modifier = modifier, currentScreenState, navController = navController)
+            DeleteUserScreen(modifier = modifier, currentScreenState, navController = navController,
+                loginViewModel)
         }
         composable(PlanesScreens.Chat.name) {
             ChatScreen(modifier = modifier, currentScreenState, navController = navController)

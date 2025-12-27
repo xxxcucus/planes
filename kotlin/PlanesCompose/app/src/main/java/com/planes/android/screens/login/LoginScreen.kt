@@ -41,7 +41,7 @@ fun LoginScreen(modifier: Modifier, currentScreenState: MutableState<String>,
     val scrollState = rememberScrollState()
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    val submitClickedState = remember {
+    val submitClickedState = rememberSaveable {
         mutableStateOf(false)
     }
 

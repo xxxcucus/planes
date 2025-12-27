@@ -32,7 +32,7 @@ class PlanesUserRepository @Inject constructor(private val api: PlanesUserApi) {
     }
 
     suspend fun logout(authorization: String, username: String, userid: String): DataOrError<LogoutResponse> {
-        val response = api.logout(authorization, LogoutRequest(username, userid))
+        val response = api.logout(authorization, LogoutRequest(userid, username))
 
         if (response.isSuccessful) {
             return DataOrError(response.body(), false, null)

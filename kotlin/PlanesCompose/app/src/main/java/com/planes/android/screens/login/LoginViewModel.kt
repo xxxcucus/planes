@@ -56,7 +56,7 @@ class LoginViewModel @Inject constructor(private val repository: PlanesUserRepos
         m_LoggedInUserId.value = value
     }
 
-    fun getLoggedInUsername(): String? {
+    fun getLoggedInUserName(): String? {
         return m_LoggedInUsername.value
     }
 
@@ -96,7 +96,7 @@ class LoginViewModel @Inject constructor(private val repository: PlanesUserRepos
                 m_LoggedInUsername.value = result.data?.m_Username
                 m_LoggedInToken.value = result.data?.m_Authorization
 
-                Log.d("PlanesCompose", "Login successfull with id ${getLoggedInUserId()}, username ${getLoggedInUsername()} and token ${getLoggedInToken()}")
+                Log.d("PlanesCompose", "Login successfull with id ${getLoggedInUserId()}, username ${getLoggedInUserName()} and token ${getLoggedInToken()}")
             }
             m_Loading.value = result.loading!!
         }
@@ -119,8 +119,9 @@ class LoginViewModel @Inject constructor(private val repository: PlanesUserRepos
         viewModelScope.launch {
             m_Loading.value = true
             m_Error.value = null
+            Log.d("PlanesCompose", "Logout  ${getLoggedInToken()}, ${getLoggedInUserName()}, ${getLoggedInUserId()}")
             val result = withContext(Dispatchers.IO) {
-                repository.login(getUserName(), getPassword())
+                repository.logout(getLoggedInToken()!!, getLoggedInUserName()!!, getLoggedInUserId()!!)
             }
 
             if (result.data == null) {

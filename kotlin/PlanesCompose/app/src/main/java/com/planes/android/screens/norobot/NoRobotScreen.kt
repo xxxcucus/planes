@@ -53,7 +53,7 @@ fun NoRobotScreen(modifier: Modifier, currentScreenState: MutableState<String>,
         squareSizeDp = screenHeightDp / 2
     }
 
-    val submitClickedState = remember {
+    val submitClickedState = rememberSaveable {
         mutableStateOf(false)
     }
 

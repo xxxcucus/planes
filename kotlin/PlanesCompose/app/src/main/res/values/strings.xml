@@ -225,6 +225,7 @@
     <string name="already_registered_login">Already registered ? Login!</string>
 
     <string name="logoutsuccess"> Logout Successful</string>
+    <string name="deletesuccess"> User Delete Successful</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">

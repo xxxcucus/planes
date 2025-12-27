@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -28,7 +29,7 @@ fun LogoutScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 ) {
     currentScreenState.value = PlanesScreens.Logout.name
 
-    val submitClickedState = remember {
+    val submitClickedState = rememberSaveable {
         mutableStateOf(false)
     }
 
@@ -39,7 +40,7 @@ fun LogoutScreen(modifier: Modifier, currentScreenState: MutableState<String>,
         if (!loginViewModel.isLoggedIn()) {
             Text(text = stringResource(R.string.nouser))
         } else {
-            Text(text = stringResource(R.string.userloggedin) + " " + loginViewModel.getLoggedInUsername())
+            Text(text = stringResource(R.string.userloggedin) + " " + loginViewModel.getLoggedInUserName())
         }
 
         Button(modifier = Modifier.padding(15.dp),
