@@ -101,4 +101,39 @@ class LoginViewModel @Inject constructor(private val repository: PlanesUserRepos
             m_Loading.value = result.loading!!
         }
     }
+
+    fun isLoggedIn(): Boolean {
+        if (m_LoggedInUserId.value == null)
+            return false
+
+        if (m_LoggedInUsername.value == null)
+            return false
+
+        if (m_LoggedInToken.value == null)
+            return false
+
+        return true
+    }
+
+    fun logout() {
+        viewModelScope.launch {
+            m_Loading.value = true
+            m_Error.value = null
+            val result = withContext(Dispatchers.IO) {
+                repository.login(getUserName(), getPassword())
+            }
+
+            if (result.data == null) {
+                Log.d("PlanesCompose", "Logout error ${result.e}")
+                m_Error.value = result.e
+            } else {
+                m_LoggedInUserId.value = null
+                m_LoggedInUsername.value = null
+                m_LoggedInToken.value = null
+
+                Log.d("PlanesCompose", "Logout successfull")
+            }
+            m_Loading.value = result.loading!!
+        }
+    }
 }

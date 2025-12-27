@@ -102,7 +102,8 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                 loginViewModel)
         }
         composable(PlanesScreens.Logout.name) {
-            LogoutScreen(modifier = modifier, currentScreenState, navController = navController)
+            LogoutScreen(modifier = modifier, currentScreenState, navController = navController,
+                loginViewModel)
         }
         composable(PlanesScreens.Register.name) {
             RegisterScreen(modifier = modifier, currentScreenState, navController = navController,

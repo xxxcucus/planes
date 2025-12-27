@@ -5,10 +5,12 @@ import com.google.gson.JsonParser
 import com.planes.android.data.DataOrError
 import com.planes.android.network.user.PlanesUserApi
 import com.planes.android.network.user.requests.LoginRequest
+import com.planes.android.network.user.requests.LogoutRequest
 import com.planes.android.network.user.requests.NoRobotRequest
 import com.planes.android.network.user.requests.RegistrationRequest
 import com.planes.android.network.user.responses.LoginResponse
 import com.planes.android.network.user.responses.LoginResponseWithAuthorization
+import com.planes.android.network.user.responses.LogoutResponse
 import com.planes.android.network.user.responses.NoRobotResponse
 import com.planes.android.network.user.responses.RegistrationResponse
 import javax.inject.Inject
@@ -21,6 +23,19 @@ class PlanesUserRepository @Inject constructor(private val api: PlanesUserApi) {
             val authorizationHeader = response.headers().get("Authorization")
             return DataOrError(LoginResponseWithAuthorization(response.body()?.m_Id!!, response.body()?.m_Username!!, authorizationHeader!!),
                 false, null)
+        } else {
+            val errorString = response.errorBody()?.string() ?: return DataOrError(null, false, null)
+            val message = JsonParser.parseString(errorString).asJsonObject["message"].asString
+            val status = response.code()
+            return DataOrError(null, false, "Error $message with status code $status")
+        }
+    }
+
+    suspend fun logout(authorization: String, username: String, userid: String): DataOrError<LogoutResponse> {
+        val response = api.logout(authorization, LogoutRequest(username, userid))
+
+        if (response.isSuccessful) {
+            return DataOrError(response.body(), false, null)
         } else {
             val errorString = response.errorBody()?.string() ?: return DataOrError(null, false, null)
             val message = JsonParser.parseString(errorString).asJsonObject["message"].asString
