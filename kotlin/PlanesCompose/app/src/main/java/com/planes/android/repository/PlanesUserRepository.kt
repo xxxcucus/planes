@@ -4,10 +4,12 @@ import android.util.Log
 import com.google.gson.JsonParser
 import com.planes.android.data.DataOrError
 import com.planes.android.network.user.PlanesUserApi
+import com.planes.android.network.user.requests.DeleteUserRequest
 import com.planes.android.network.user.requests.LoginRequest
 import com.planes.android.network.user.requests.LogoutRequest
 import com.planes.android.network.user.requests.NoRobotRequest
 import com.planes.android.network.user.requests.RegistrationRequest
+import com.planes.android.network.user.responses.DeleteUserResponse
 import com.planes.android.network.user.responses.LoginResponse
 import com.planes.android.network.user.responses.LoginResponseWithAuthorization
 import com.planes.android.network.user.responses.LogoutResponse
@@ -33,6 +35,19 @@ class PlanesUserRepository @Inject constructor(private val api: PlanesUserApi) {
 
     suspend fun logout(authorization: String, username: String, userid: String): DataOrError<LogoutResponse> {
         val response = api.logout(authorization, LogoutRequest(userid, username))
+
+        if (response.isSuccessful) {
+            return DataOrError(response.body(), false, null)
+        } else {
+            val errorString = response.errorBody()?.string() ?: return DataOrError(null, false, null)
+            val message = JsonParser.parseString(errorString).asJsonObject["message"].asString
+            val status = response.code()
+            return DataOrError(null, false, "Error $message with status code $status")
+        }
+    }
+
+    suspend fun deleteUser(authorization: String, username: String, userid: String): DataOrError<DeleteUserResponse> {
+        val response = api.deactivateUser(authorization, DeleteUserRequest(userid, username))
 
         if (response.isSuccessful) {
             return DataOrError(response.body(), false, null)

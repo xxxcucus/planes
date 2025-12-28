@@ -45,9 +45,9 @@ fun DeleteUserScreen(modifier: Modifier, currentScreenState: MutableState<String
             enabled = loginViewModel.isLoggedIn(),
             onClick = {
                 submitClickedState.value = true
-                //loginViewModel.logout()
+                loginViewModel.deleteUser()
             }) {
-            Text(text = stringResource(R.string.logout))
+            Text(text = stringResource(R.string.delete_user))
         }
 
         if (submitClickedState.value && loginViewModel.getLoading()) {

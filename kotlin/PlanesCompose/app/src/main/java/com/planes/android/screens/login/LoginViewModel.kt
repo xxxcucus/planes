@@ -137,4 +137,27 @@ class LoginViewModel @Inject constructor(private val repository: PlanesUserRepos
             m_Loading.value = result.loading!!
         }
     }
+
+    fun deleteUser() {
+        viewModelScope.launch {
+            m_Loading.value = true
+            m_Error.value = null
+            Log.d("PlanesCompose", "Delete user  ${getLoggedInToken()}, ${getLoggedInUserName()}, ${getLoggedInUserId()}")
+            val result = withContext(Dispatchers.IO) {
+                repository.deleteUser(getLoggedInToken()!!, getLoggedInUserName()!!, getLoggedInUserId()!!)
+            }
+
+            if (result.data == null) {
+                Log.d("PlanesCompose", "Delete user error ${result.e}")
+                m_Error.value = result.e
+            } else {
+                m_LoggedInUserId.value = null
+                m_LoggedInUsername.value = null
+                m_LoggedInToken.value = null
+
+                Log.d("PlanesCompose", "Delete user successfull")
+            }
+            m_Loading.value = result.loading!!
+        }
+    }
 }
