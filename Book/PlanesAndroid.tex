@@ -678,6 +678,12 @@ To display the information inside the cells according to the game model the func
 
 The control buttons of the game are also contained inside a custom layout - please see \ref{custom_layouts}. In the next version of the Android App these are not created in a custom layout anymore. Three versions of the controls are created with JetpackCompose for each of the different 3 screens of the game, this corresponds to a better app architecture. Only the game boards remain defined as custom layouts (TODO: add ref)
 
+\subsection{Login Screen}
+
+The Login screen is a simple screen with two fields: one for the username and one for the password, together with a submit button.
+
+What is special to this screen is the fact by clicking on the Submit button a network call is made to the game server. For the network call the Retrofit library. The asynchronous network calls are handled with the RxJava library.
+
 \subsection { Android Concepts }
 
 \subsubsection { Activity }
@@ -950,7 +956,7 @@ In the method onDetach() corresponding to the fragment being removed from the co
 
 In the onResume() method the method reinitializeFromState() is called. This resets the screen to the state it had before being destroyed.
 
-\subsection{Custom Views} \label{custom_views}
+\subsubsection{Custom Views} \label{custom_views}
 
 Most of the elements that appear in the XML Layout are derived from the class View, the basis of the hierarchy of displayable elements. In some cases it is required to create custom views. As an example I will sketch the implementation of the view ColouredSurfaceWithText which is one of the game control buttons.
 
@@ -999,7 +1005,7 @@ The height of the View is being calculated in the function measureHeightOneLineT
 
 A similar reasoning is used for determining the View's width. Finally with the help of the function setMeasuredDimension() the calculated dimensions of the View are set.
 
-\subsection {Custom Layouts} \label{custom_layouts}
+\subsubsection {Custom Layouts} \label{custom_layouts}
 
 When creating a custom layout one derives from ViewGroup, which is the basis class for layouts in AndroidXML.
 
@@ -1132,6 +1138,147 @@ The function for laying out the game controls looks like:
 \end{lstlisting}
 
 The game controls views were already saved in the hash map m\_GameControls. They are positioned in a grid like fashion where the row, col, rowspan, colspan are given in the xml layout. To compute the discrete steps in x and y direction the maxrows and maxcols for the given game stage are used (They were computed in the preprocessing step). The view.measure() function is called to get the actual width and height of the view. The view center position is computed from the discrete steps in the x and y directions. Based on these information the view is being layed out with the help of the function view.layout().
+
+\subsection { Other Concepts }
+
+\subsubsection { Network calls with Retrofit }
+
+Retrofit is a very popular library for network calls. In order to use it one needs to define an API corresponding to the api offered by the network service and to create an object which will be used to perform the network calls.
+
+The API for the Planes API is as follows:
+
+\begin{lstlisting}
+	interface MultiplayerCommApi {
+		@POST("status/getversion")
+		@Headers("Content-Type: application/json")
+		fun getVersion(): Observable<retrofit2.Response<VersionResponse>>
+		
+		@POST("login/")
+		@Headers("Content-Type: application/json")
+		fun login(@Body user: LoginRequest): Observable<retrofit2.Response<LoginResponse>>
+		
+		@POST("operations/logout")
+		@Headers("Content-Type: application/json")
+		fun logout(@Header("Authorization") authorization: String, @Body user: LogoutRequest): Observable<retrofit2.Response<LogoutResponse>>
+		
+		@POST("users/deactivate_user")
+		@Headers("Content-Type: application/json")
+		fun deactivateUser(@Header("Authorization") authorization: String, @Body user: DeleteUserRequest): Observable<retrofit2.Response<DeleteUserResponse>>
+		
+		@POST("users/registration_request")
+		@Headers("Content-Type: application/json")
+		fun register(@Body user: RegistrationRequest): Observable<retrofit2.Response<RegistrationResponse>>
+		
+		@POST("users/registration_confirm")
+		@Headers("Content-Type: application/json")
+		fun norobot(@Body user: NoRobotRequest): Observable<retrofit2.Response<NoRobotResponse>>
+		
+		@POST("game/status")
+		@Headers("Content-Type: application/json")
+		fun refreshGameStatus(@Header("Authorization") authorization: String, @Body game: GameStatusRequest): Observable<retrofit2.Response<GameStatusResponse>>
+		
+		@POST("game/create")
+		@Headers("Content-Type: application/json")
+		fun createGame(@Header("Authorization") authorization: String, @Body game: CreateGameRequest): Observable<retrofit2.Response<CreateGameResponse>>
+		
+		@POST("game/connect")
+		@Headers("Content-Type: application/json")
+		fun connectToGame(@Header("Authorization") authorization: String, @Body game: ConnectToGameRequest): Observable<retrofit2.Response<ConnectToGameResponse>>
+		
+		
+		@POST("round/myplanespositions")
+		@Headers("Content-Type: application/json")
+		fun sendPlanePositions(@Header("Authorization") authorization: String, @Body positions: SendPlanePositionsRequest): Observable<retrofit2.Response<SendPlanePositionsResponse>>
+		
+		@POST("round/otherplanespositions")
+		@Headers("Content-Type: application/json")
+		fun acquireOpponentPlanePositions(@Header("Authorization") authorization: String, @Body request: AcquireOpponentPositionsRequest): Observable<retrofit2.Response<AcquireOpponentPositionsResponse>>
+		
+		@POST("round/end")
+		@Headers("Content-Type: application/json")
+		fun sendWinner(@Header("Authorization") authorization: String, @Body request: SendWinnerRequest): Observable<retrofit2.Response<SendWinnerResponse>>
+		
+		@POST("round/mymove")
+		@Headers("Content-Type: application/json")
+		fun sendOwnMove(@Header("Authorization") authorization: String, @Body request: SendNotSentMovesRequest): Observable<retrofit2.Response<SendNotSentMovesResponse>>
+		
+		@POST("round/cancel")
+		@Headers("Content-Type: application/json")
+		fun cancelRound(@Header("Authorization") authorization: String, @Body request: CancelRoundRequest): Observable<retrofit2.Response<CancelRoundResponse>>
+		
+		@POST("round/start")
+		@Headers("Content-Type: application/json")
+		fun startRound(@Header("Authorization") authorization: String, @Body request: StartNewRoundRequest): Observable<retrofit2.Response<StartNewRoundResponse>>
+		
+		@POST("users/available_users")
+		@Headers("Content-Type: application/json")
+		fun getPlayersList(@Header("Authorization") authorization: String, @Body request: PlayersListRequest): Observable<retrofit2.Response<PlayersListResponse>>
+		
+		@POST("chat/get_messages")
+		@Headers("Content-Type: application/json")
+		fun getChatMessages(@Header("Authorization") authorization: String, @Body request: ReceiveChatMessagesRequest): Observable<retrofit2.Response<ReceiveChatMessagesResponse>>
+		
+		@POST("chat/send_message")
+		@Headers("Content-Type: application/json")
+		fun sendChatMessage(@Header("Authorization") authorization: String, @Body request: SendChatMessageRequest): Observable<retrofit2.Response<SendChatMessageResponse>>
+	}
+\end{lstlisting}
+
+To build the object used to perform the network calls one does as follows:
+
+\begin{lstlisting}
+	val spec = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+	.tlsVersions(TlsVersion.TLS_1_2)
+	.cipherSuites(
+	CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+	CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+	CipherSuite.TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+	)
+	.build()
+	val okHttpClient = OkHttpClient.Builder()
+	.connectTimeout(OK_HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
+	.readTimeout(OK_HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
+	.writeTimeout(OK_HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
+	.callTimeout(OK_HTTP_CLIENT_TIMEOUT, TimeUnit.SECONDS)
+	.followSslRedirects(true)
+	.retryOnConnectionFailure(true)
+	.followRedirects(true)
+	.connectionSpecs(Collections.singletonList(spec))
+	.build()
+	
+	val retrofit = Retrofit.Builder()
+	.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+	.addConverterFactory(GsonConverterFactory.create())
+	.client(okHttpClient)
+	.baseUrl("https://planes.planes-android.com:8443/planesserver/")
+	.build()
+	m_Service = retrofit.create((MultiplayerCommApi::class.java))
+\end{lstlisting}
+	
+	This specifies a configuration for building the network call object:
+
+\begin{itemize}
+	\item which TLS version is to be used : in this case 1.2
+	\item which type of client to use: in this case okhttp, another library for network calls
+	\item which are the timeouts for read, write and call
+	\item which library to use for handling the asynchronous calls: RxJava
+	\item which library to use for delivering the results: Gson
+	\item which API is to be used for the calls: MultiplayeCommApi
+\end{itemize}	
+
+After these were defined performing a network call to the network server can be as easy as:
+
+\begin{lstlisting}
+	fun login(username: String, password: String): Observable<Response<LoginResponse>> {
+		return m_Service.login(LoginRequest(username, password))
+	}
+\end{lstlisting}
+
+\subsubsection { Asynchronous calls with RxJava }
+
+As seen in the last listing of the previous section the return value of a network call for Planes Android is an object of the generic class Observable. This is a RxJava class that allows the program to react asynchronously to the network request.
+
+
 
 \section{PlanesCompose}
 
