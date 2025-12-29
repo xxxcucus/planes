@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import com.planes.android.screens.about.AboutEntryRepository
 import com.planes.android.screens.about.AboutScreen
 import com.planes.android.screens.chat.ChatScreen
+import com.planes.android.screens.createmultiplayergame.CreateMultiplayerGameScreen
 import com.planes.android.screens.deleteuser.DeleteUserScreen
 import com.planes.android.screens.login.LoginScreen
 import com.planes.android.screens.login.LoginViewModel
@@ -82,6 +83,11 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                 navController = navController, optionsViewModel = optionsViewModel,
                 planeRound = planeRound)
         }
+
+        composable(PlanesScreens.CreateMultiplayerGame.name) {
+            CreateMultiplayerGameScreen(modifier = modifier, currentScreenState, navController = navController)
+        }
+
         composable(PlanesScreens.MultiplayerGame.name) {
             MultiplayerGameScreen(modifier = modifier, currentScreenState, navController = navController)
         }

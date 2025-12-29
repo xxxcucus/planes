@@ -5,6 +5,7 @@ enum class PlanesScreens {
     SinglePlayerGame,
     SinglePlayerGameNotStarted,
     SinglePlayerGameStatistics,
+    CreateMultiplayerGame,
     MultiplayerGame,
     MultiplayerGameStatistics,
     MultiplayerConnectToGame,
@@ -27,6 +28,7 @@ enum class PlanesScreens {
                 SinglePlayerGameNotStarted.name -> SinglePlayerGameNotStarted
                 Preferences.name -> Preferences
                 SinglePlayerGameStatistics.name -> SinglePlayerGameStatistics
+                CreateMultiplayerGame.name -> CreateMultiplayerGame
                 MultiplayerGame.name -> MultiplayerGame
                 MultiplayerGameStatistics.name -> MultiplayerGameStatistics
                 MultiplayerConnectToGame.name -> MultiplayerConnectToGame

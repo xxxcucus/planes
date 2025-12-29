@@ -198,6 +198,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
                   drawerState: DrawerState,
                   planeRound: PlanesRoundInterface
                   ) {
+    //TODO: page names from resources
 
     Column(
         modifier = Modifier.padding(horizontal = 16.dp)
@@ -210,6 +211,13 @@ fun DrawerContent(modifier: Modifier = Modifier,
         )
 
         HorizontalDivider()
+
+        //TODO: Resources strings
+        Text(
+            text = "Connectivity",
+            modifier = Modifier.padding(16.dp),
+            style = MaterialTheme.typography.titleLarge
+        )
 
         DrawerMenuItemGeneric("Login", {
             drawerScope.launch {
@@ -239,6 +247,12 @@ fun DrawerContent(modifier: Modifier = Modifier,
             navController.navigate(route = PlanesScreens.Chat.name)
         })
 
+        Text(
+            text = "Various Games",
+            modifier = Modifier.padding(16.dp),
+            style = MaterialTheme.typography.titleLarge
+        )
+
         DrawerMenuItemGeneric("Single Player Game", {
             drawerScope.launch {
                 drawerState.close()
@@ -261,6 +275,12 @@ fun DrawerContent(modifier: Modifier = Modifier,
             navController.navigate(route = PlanesScreens.SinglePlayerGameStatistics.name)
         })
 
+        DrawerMenuItemGeneric("Create Multiplayer Game", {
+            drawerScope.launch {
+                drawerState.close()
+            }
+            navController.navigate(route = PlanesScreens.CreateMultiplayerGame.name)
+        })
 
         DrawerMenuItemGeneric("Multiplayer Game", {
             drawerScope.launch {
@@ -279,7 +299,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
         Text(
             text = "Info",
             modifier = Modifier.padding(16.dp),
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleLarge
         )
 
         DrawerMenuItemGeneric("About", {
