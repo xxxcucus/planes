@@ -59,8 +59,7 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
 
             Button(modifier = Modifier.padding(15.dp),
                 onClick = {
-                    //submitClickedState.value = true
-                    //loginViewModel.login()
+                    createViewModel.gameStatus(loginViewModel.getLoggedInToken()!!, loginViewModel.getLoggedInUserId()!!, loginViewModel.getLoggedInUserName()!!)
                 }) {
                 Text(text = stringResource(R.string.submit))
             }
