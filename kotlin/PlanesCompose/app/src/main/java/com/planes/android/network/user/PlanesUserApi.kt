@@ -10,6 +10,11 @@ import com.planes.android.network.user.responses.LoginResponse
 import com.planes.android.network.user.responses.LogoutResponse
 import com.planes.android.network.user.responses.NoRobotResponse
 import com.planes.android.network.user.responses.RegistrationResponse
+import com.planes.multiplayer_engine.requests.ReceiveChatMessagesRequest
+import com.planes.multiplayer_engine.requests.SendChatMessageRequest
+import com.planes.multiplayer_engine.responses.PlayersListResponse
+import com.planes.multiplayer_engine.responses.ReceiveChatMessagesResponse
+import com.planes.multiplayer_engine.responses.SendChatMessageResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Header
@@ -45,4 +50,22 @@ interface PlanesUserApi {
     @POST("users/registration_confirm")
     @Headers("Content-Type: application/json")
     suspend fun norobot(@Body user: NoRobotRequest): Response<NoRobotResponse>
+
+    @POST("users/available_users")
+    @Headers("Content-Type: application/json")
+    fun getPlayersList(@Header("Authorization") authorization: String,
+                       @Body request: Response<PlayersListResponse>)
+
+    @POST("chat/get_messages")
+    @Headers("Content-Type: application/json")
+    fun getChatMessages(@Header("Authorization") authorization: String,
+                        @Body request: ReceiveChatMessagesRequest
+    ): Response<ReceiveChatMessagesResponse>
+
+    @POST("chat/send_message")
+    @Headers("Content-Type: application/json")
+    fun sendChatMessage(@Header("Authorization") authorization: String,
+                        @Body request: SendChatMessageRequest
+    ): Response<SendChatMessageResponse>
+
 }

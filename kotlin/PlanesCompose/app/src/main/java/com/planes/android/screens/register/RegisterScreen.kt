@@ -31,10 +31,8 @@ import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.screens.norobot.NoRobotViewModel
 import com.planes.android.screens.norobot.PhotoModel
-import com.planes.android.widgets.CommonTextFieldWithLogin
-import com.planes.android.widgets.CommonTextFieldWithRegister
-import com.planes.android.widgets.PasswordInputFieldWithLogin
-import com.planes.android.widgets.PasswordInputFieldWithRegister
+import com.planes.android.widgets.CommonTextFieldWithViewModel
+import com.planes.android.widgets.PasswordInputFieldWithViewModel
 
 @Composable
 fun RegisterScreen(modifier: Modifier, currentScreenState: MutableState<String>,
@@ -59,7 +57,7 @@ fun RegisterScreen(modifier: Modifier, currentScreenState: MutableState<String>,
             modifier = Modifier.padding(15.dp),
             style = MaterialTheme.typography.titleMedium)
 
-        CommonTextFieldWithRegister(modifier = Modifier.padding(15.dp),
+        CommonTextFieldWithViewModel(modifier = Modifier.padding(15.dp),
             registerViewModel,
             { register ->  register.getUserName()},
             { register, str -> register.setUserName(str)},
@@ -75,7 +73,7 @@ fun RegisterScreen(modifier: Modifier, currentScreenState: MutableState<String>,
             mutableStateOf(false)
         }
 
-        PasswordInputFieldWithRegister(
+        PasswordInputFieldWithViewModel(
             modifier = Modifier.padding(15.dp),
             registerViewModel,
             { register -> register.getPassword() },

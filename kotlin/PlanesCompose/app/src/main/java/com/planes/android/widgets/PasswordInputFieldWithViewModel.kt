@@ -4,6 +4,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -17,13 +21,12 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.planes.android.screens.login.LoginViewModel
-import com.planes.android.screens.preferences.PreferencesViewModel
 
 @Composable
-fun PasswordInputFieldWithLogin(modifier: Modifier,
-                                loginViewModel: LoginViewModel,
-                                valueReadLambda: @Composable (LoginViewModel)->String,
-                                valueWriteLambda: (LoginViewModel, String)->Unit,
+fun <T> PasswordInputFieldWithViewModel(modifier: Modifier,
+                                viewModel: T,
+                                valueReadLambda: @Composable (T)->String,
+                                valueWriteLambda: (T, String)->Unit,
                                 placeholder: String,
                                 passwordVisibility: MutableState<Boolean>,
                                 keyboardType: KeyboardType,
@@ -34,9 +37,9 @@ fun PasswordInputFieldWithLogin(modifier: Modifier,
     else PasswordVisualTransformation()
 
     OutlinedTextField(
-        value = valueReadLambda.invoke(loginViewModel),
+        value = valueReadLambda.invoke(viewModel),
         onValueChange = {
-            valueWriteLambda.invoke(loginViewModel, it)
+            valueWriteLambda.invoke(viewModel, it)
         },
         label = {
             Text(text = placeholder)
@@ -57,4 +60,16 @@ fun PasswordInputFieldWithLogin(modifier: Modifier,
         //modifier = Modifier.fillMaxWidth().padding(start = 10.dp, end = 10.dp)
         modifier = modifier.fillMaxWidth(fraction = 0.75f)
     )
+}
+
+@Composable
+fun PasswordVisibility(passwordVisibility: MutableState<Boolean>) {
+    val visible = passwordVisibility.value
+    IconButton (onClick = {
+        passwordVisibility.value = !visible
+    }) {
+        Icon(
+            Icons.Default.Close,
+            "Password visibility icon" )
+    }
 }

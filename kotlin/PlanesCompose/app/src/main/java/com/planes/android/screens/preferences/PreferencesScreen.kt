@@ -24,8 +24,8 @@ import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.widgets.CheckBoxOption
-import com.planes.android.widgets.CommonTextFieldWithPreferencesViewModel
-import com.planes.android.widgets.PasswordInputFieldWithPreferences
+import com.planes.android.widgets.CommonTextFieldWithViewModel
+import com.planes.android.widgets.PasswordInputFieldWithViewModel
 import com.planes.singleplayerengine.PlanesRoundInterface
 
 @Composable
@@ -97,7 +97,7 @@ fun PreferencesScreen(modifier: Modifier,
         }
 
 
-        CommonTextFieldWithPreferencesViewModel(modifier = Modifier.padding(15.dp),
+        CommonTextFieldWithViewModel(modifier = Modifier.padding(15.dp),
             optionsViewModel,
             { prefs ->  prefs.getUserName()},
             { prefs, str -> prefs.setUserName(str)},
@@ -113,7 +113,7 @@ fun PreferencesScreen(modifier: Modifier,
         val passwordVisibility = rememberSaveable {
             mutableStateOf(false)
         }
-        PasswordInputFieldWithPreferences(
+        PasswordInputFieldWithViewModel(
             modifier = Modifier.padding(15.dp),
             optionsViewModel,
             { prefs -> prefs.getPassword() },

@@ -13,6 +13,7 @@ import com.planes.android.screens.about.AboutEntryRepository
 import com.planes.android.screens.about.AboutScreen
 import com.planes.android.screens.chat.ChatScreen
 import com.planes.android.screens.createmultiplayergame.CreateMultiplayerGameScreen
+import com.planes.android.screens.createmultiplayergame.CreateViewModel
 import com.planes.android.screens.deleteuser.DeleteUserScreen
 import com.planes.android.screens.login.LoginScreen
 import com.planes.android.screens.login.LoginViewModel
@@ -50,7 +51,8 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                      gameStatsViewModel: GameStatsViewModel,
                      loginViewModel: LoginViewModel,
                      registerViewModel: RegisterViewModel,
-                     noRobotViewModel: NoRobotViewModel
+                     noRobotViewModel: NoRobotViewModel,
+                     createViewModel: CreateViewModel
 ) {
 
 
@@ -85,7 +87,8 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
         }
 
         composable(PlanesScreens.CreateMultiplayerGame.name) {
-            CreateMultiplayerGameScreen(modifier = modifier, currentScreenState, navController = navController)
+            CreateMultiplayerGameScreen(modifier = modifier, currentScreenState, navController = navController,
+                loginViewModel, createViewModel)
         }
 
         composable(PlanesScreens.MultiplayerGame.name) {

@@ -29,8 +29,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
-import com.planes.android.widgets.CommonTextFieldWithLogin
-import com.planes.android.widgets.PasswordInputFieldWithLogin
+import com.planes.android.widgets.CommonTextFieldWithViewModel
+import com.planes.android.widgets.PasswordInputFieldWithViewModel
 
 @Composable
 fun LoginScreen(modifier: Modifier, currentScreenState: MutableState<String>,
@@ -55,7 +55,7 @@ fun LoginScreen(modifier: Modifier, currentScreenState: MutableState<String>,
             modifier = Modifier.padding(15.dp),
             style = MaterialTheme.typography.titleMedium)
 
-        CommonTextFieldWithLogin(modifier = Modifier.padding(15.dp),
+        CommonTextFieldWithViewModel(modifier = Modifier.padding(15.dp),
             loginViewModel,
             { login ->  login.getUserName()},
             { login, str -> login.setUserName(str)},
@@ -71,7 +71,7 @@ fun LoginScreen(modifier: Modifier, currentScreenState: MutableState<String>,
             mutableStateOf(false)
         }
 
-        PasswordInputFieldWithLogin(
+        PasswordInputFieldWithViewModel(
             modifier = Modifier.padding(15.dp),
             loginViewModel,
             { login -> login.getPassword() },

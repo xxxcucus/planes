@@ -13,23 +13,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.planes.android.screens.login.LoginViewModel
-import com.planes.android.screens.register.RegisterViewModel
+
 
 @Composable
-fun CommonTextFieldWithRegister(modifier: Modifier,
-                                registerViewModel: RegisterViewModel,
-                                valueReadLambda: @Composable (RegisterViewModel)->String,
-                                valueWriteLambda: (RegisterViewModel, String)->Unit,
-                                placeholder: String,
-                                keyboardType: KeyboardType,
-                                imeAction: ImeAction,
-                                onAction: KeyboardActions = KeyboardActions.Default
+fun <T> CommonTextFieldWithViewModel(modifier: Modifier,
+                             viewModel: T,
+                             valueReadLambda: @Composable (T)->String,
+                             valueWriteLambda: (T, String)->Unit,
+                             placeholder: String,
+                             keyboardType: KeyboardType,
+                             imeAction: ImeAction,
+                             onAction: KeyboardActions = KeyboardActions.Default
 ) {
     OutlinedTextField(
-        value = valueReadLambda.invoke(registerViewModel),
+        value = valueReadLambda.invoke(viewModel),
         onValueChange = {
-            valueWriteLambda.invoke(registerViewModel, it)
+            valueWriteLambda.invoke(viewModel, it)
         } ,
         label = {
             Text(

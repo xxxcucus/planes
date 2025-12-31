@@ -682,7 +682,24 @@ The control buttons of the game are also contained inside a custom layout - plea
 
 The Login screen is a simple screen with two fields: one for the username and one for the password, together with a submit button.
 
-What is special to this screen is the fact by clicking on the Submit button a network call is made to the game server. For the network call the Retrofit library. The asynchronous network calls are handled with the RxJava library.
+What is special to this screen is the fact by clicking on the Submit button a network call is made to the game server. For the network call we use the Retrofit library (see \ref{network_calls}). The asynchronous network calls are handled with the RxJava library (see \ref{rxjava}).
+
+Once the login is performed the corresponding callback is called:
+
+\begin{lstlisting}
+	fun finalizeLoginSuccessful() {
+		binding.creategame.isEnabled = true
+		
+		if (activity is MainActivity)
+		(activity as MainActivity).setUsernameDrawerMenuMultiplayer()
+		
+		m_PlayersListService.startPolling()
+		m_ReceiveChatMessagesService.startPolling()
+		if (activity is MainActivity)
+		(activity as MainActivity).startChatFragment()
+		
+	}
+\end{lstlisting}
 
 \subsection { Android Concepts }
 
@@ -1141,13 +1158,13 @@ The game controls views were already saved in the hash map m\_GameControls. They
 
 \subsection { Other Concepts }
 
-\subsubsection { Network calls with Retrofit }
+\subsubsection { Network calls with Retrofit } \label{network_calls}
 
 Retrofit is a very popular library for network calls. In order to use it one needs to define an API corresponding to the api offered by the network service and to create an object which will be used to perform the network calls.
 
 The API for the Planes API is as follows:
 
-\begin{lstlisting}
+\begin{lstlisting} 
 	interface MultiplayerCommApi {
 		@POST("status/getversion")
 		@Headers("Content-Type: application/json")
@@ -1274,11 +1291,25 @@ After these were defined performing a network call to the network server can be 
 	}
 \end{lstlisting}
 
-\subsubsection { Asynchronous calls with RxJava }
+\subsubsection { Asynchronous calls with RxJava } \label{rxjava}
 
 As seen in the last listing of the previous section the return value of a network call for Planes Android is an object of the generic class Observable. This is a RxJava class that allows the program to react asynchronously to the network request.
 
+To make the network call using the observable object I use the following construct:
 
+\begin{lstlisting}
+	m_RetrofitSubscription = m_Observable
+	.delay (1500, TimeUnit.MILLISECONDS ) //TODO: to remove this
+	.subscribeOn(Schedulers.io())
+	.observeOn(AndroidSchedulers.mainThread())
+	.doOnSubscribe { doOnSubscribe() }
+	.doOnTerminate { doOnTerminate() }
+	.doOnComplete { doOnTerminate() }
+	.subscribe({data -> finishedRequest(data.code(), data.errorBody()?.string(), data.headers(), data.body())}
+	, {error -> error.localizedMessage?.let { setRequestError(it) } })
+\end{lstlisting}
+
+Using this type of call one can specify the callback methods that are called when various events related to the call occur.
 
 \section{PlanesCompose}
 
@@ -2167,6 +2198,35 @@ The function to display the single cell depending on the piece it contains and o
 	}
 \end{lstlisting}
 
+\subsection{Login Screen}
+
+The Login screen is a simple screen with two fields: one for the username and one for the password, together with a submit button. This is the same as in the PlanesAndroid, Retrofit is still being used, but this time instead of RxJava coroutine calls in the ViewModel are used.
+
+\begin{lstlisting}
+fun login() {
+	viewModelScope.launch {
+		m_Loading.value = true
+		m_Error.value = null
+		val result = withContext(Dispatchers.IO) {
+			repository.login(getUserName(), getPassword())
+		}
+		
+		if (result.data == null) {
+			Log.d("PlanesCompose", "Login error ${result.e}")
+			m_Error.value = result.e
+		} else {
+			m_LoggedInUserId.value = result.data?.m_Id
+			m_LoggedInUsername.value = result.data?.m_Username
+			m_LoggedInToken.value = result.data?.m_Authorization
+			
+			Log.d("PlanesCompose", "Login successfull with id ${getLoggedInUserId()}, username ${getLoggedInUserName()} and token ${getLoggedInToken()}")
+		}
+		m_Loading.value = result.loading!!
+	}
+}
+\end{lstlisting} 
+
+There is no need to define callback methods anymore, everything is done in the coroutine call. 
 
 \subsection { Android Concepts }
 

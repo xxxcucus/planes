@@ -50,6 +50,7 @@ import androidx.navigation.compose.rememberNavController
 import com.planes.android.navigation.DrawerMenuItemGeneric
 import com.planes.android.navigation.PlanesNavigation
 import com.planes.android.navigation.PlanesScreens
+import com.planes.android.screens.createmultiplayergame.CreateViewModel
 import com.planes.android.screens.login.LoginViewModel
 import com.planes.android.screens.norobot.NoRobotViewModel
 import com.planes.android.screens.preferences.PreferencesViewModel
@@ -98,6 +99,7 @@ fun Screen(modifier: Modifier,
     val loginViewModel: LoginViewModel = hiltViewModel()
     val registerViewModel: RegisterViewModel = hiltViewModel()
     val noRobotViewModel: NoRobotViewModel = hiltViewModel()
+    val createViewModel: CreateViewModel = hiltViewModel()
 
     planeRound.setComputerSkill(optionsViewModel.getComputerSkill())
     planeRound.setShowPlaneAfterKill(optionsViewModel.getShowPlaneAfterKill())
@@ -160,7 +162,8 @@ fun Screen(modifier: Modifier,
                 gameStatsViewModel,
                 loginViewModel,
                 registerViewModel,
-                noRobotViewModel)
+                noRobotViewModel,
+                createViewModel)
         }
     }
 }
@@ -176,7 +179,9 @@ fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
                   gameStatsViewModel: GameStatsViewModel,
                   loginViewModel: LoginViewModel,
                   registerViewModel: RegisterViewModel,
-                  noRobotViewModel: NoRobotViewModel
+                  noRobotViewModel: NoRobotViewModel,
+                  createViewModel: CreateViewModel
+
 ) {
     PlanesNavigation(modifier = modifier,
         currentScreenState, topBarHeight, navController,
@@ -188,7 +193,8 @@ fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
         gameStatsViewModel,
         loginViewModel,
         registerViewModel,
-        noRobotViewModel)
+        noRobotViewModel,
+        createViewModel)
 }
 
 @Composable
