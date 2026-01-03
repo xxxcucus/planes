@@ -12,8 +12,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -37,15 +35,7 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
 ) {
 
     currentScreenState.value = PlanesScreens.CreateMultiplayerGame.name
-    val submitClickedState = rememberSaveable {
-        mutableStateOf(false)
-    }
-    val showCreateGamePopupState = rememberSaveable {
-        mutableStateOf(false)
-    }
-    val showConnectToGamePopupState = rememberSaveable {
-        mutableStateOf(false)
-    }
+
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Column(modifier = modifier.fillMaxSize(),
@@ -54,11 +44,12 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
 
         if (!loginViewModel.isLoggedIn()) {
             Text(text = stringResource(R.string.nouser))
-        } else if (!showCreateGamePopupState.value && !showConnectToGamePopupState.value) {
-            CommonTextFieldWithViewModel(modifier = Modifier.padding(15.dp),
+        } else if (createViewModel.getCreateState() == CreateGameStates.StatusNotRequested) {
+            CommonTextFieldWithViewModel(
+                modifier = Modifier.padding(15.dp),
                 createViewModel,
-                { create ->  create.getGameName()},
-                { create, str -> create.setGameName(str)},
+                { create -> create.getGameName() },
+                { create, str -> create.setGameName(str) },
                 onAction = KeyboardActions {
                     keyboardController?.hide()
                 },
@@ -67,69 +58,87 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                 placeholder = stringResource(R.string.game_name)
             )
 
-            Button(modifier = Modifier.padding(15.dp),
+            Button(
+                modifier = Modifier.padding(15.dp),
                 onClick = {
-                    submitClickedState.value = true
-                    createViewModel.gameStatus(loginViewModel.getLoggedInToken()!!, loginViewModel.getLoggedInUserId()!!, loginViewModel.getLoggedInUserName()!!)
+                    createViewModel.gameStatus(
+                        loginViewModel.getLoggedInToken()!!,
+                        loginViewModel.getLoggedInUserId()!!,
+                        loginViewModel.getLoggedInUserName()!!
+                    )
                 }) {
                 Text(text = stringResource(R.string.submit))
             }
-
-            if (submitClickedState.value && createViewModel.getLoading()) {
+        } else if (createViewModel.getCreateState() == CreateGameStates.StatusRequested) {
+            val error = createViewModel.getError()
+            if (createViewModel.getLoading()) {
                 Text(text = stringResource(R.string.loader_text))
-            } else if (submitClickedState.value) {
-                val error = createViewModel.getError()
-                if (error == null) {
-                    val gameExists = createViewModel.getStatusExists()
-                    Log.d("PlanesCompose", "Game exists $gameExists")
-                    if (gameExists == true)
-                        Log.d("Planes Compose", "Existing game between ${createViewModel.getStatusFirstPlayerName()} and ${createViewModel.getStatusSecondPlayerName()}")
-                    if (gameExists == false)
-                        showCreateGamePopupState.value = true
-                    else if (gameExists == true && createViewModel.getStatusFirstPlayerName() == createViewModel.getStatusSecondPlayerName())
-                        showConnectToGamePopupState.value = true
-                } else {
-                    Toast.makeText(
-                        LocalContext.current,
-                        createViewModel.getError(),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                submitClickedState.value = false
+            } else if (error != null) {
+                Toast.makeText(
+                    LocalContext.current,
+                    createViewModel.getError(),
+                    Toast.LENGTH_LONG
+                ).show()
+                createViewModel.setCreateState(CreateGameStates.StatusNotRequested)
             }
-        } else if (showCreateGamePopupState.value){
-            Text(text = stringResource(R.string.creategame_possible))
-            Row {
-                Button(modifier = Modifier.padding(15.dp),
-                    onClick = {
-                        showCreateGamePopupState.value = false
-                    }) {
-                    Text(text = stringResource(R.string.cancel))
-                }
+        } else if (createViewModel.getCreateState() == CreateGameStates.StatusReceived) {
+            val gameExists = createViewModel.getStatusExists()
+            Log.d("PlanesCompose", "Game exists $gameExists")
+            if (gameExists == true)
+                Log.d(
+                    "Planes Compose",
+                    "Existing game between ${createViewModel.getStatusFirstPlayerName()} and ${createViewModel.getStatusSecondPlayerName()}"
+                )
+            if (gameExists == false) {
+                Text(text = stringResource(R.string.creategame_possible))
+                Row {
+                    Button(
+                        modifier = Modifier.padding(15.dp),
+                        onClick = {
+                            createViewModel.setCreateState(CreateGameStates.StatusNotRequested)
+                        }) {
+                        Text(text = stringResource(R.string.cancel))
+                    }
 
-                Button(modifier = Modifier.padding(15.dp),
-                    onClick = {
-                        showCreateGamePopupState.value = false
-                    }) {
-                    Text(text = stringResource(R.string.create_game))
+                    Button(
+                        modifier = Modifier.padding(15.dp),
+                        onClick = {
+                            //
+                        }) {
+                        Text(text = stringResource(R.string.create_game))
+                    }
                 }
-            }
-        } else if (showConnectToGamePopupState.value) {
-            Text(text = LocalContext.current.getString(R.string.connecttogame_possible, createViewModel.getStatusFirstPlayerName()))
-            Row {
-                Button(modifier = Modifier.padding(15.dp),
-                    onClick = {
-                        showConnectToGamePopupState.value = false
-                    }) {
-                    Text(text = stringResource(R.string.cancel))
-                }
+            } else if (gameExists == true && createViewModel.getStatusFirstPlayerName() == createViewModel.getStatusSecondPlayerName()) {
+                Text(
+                    text = LocalContext.current.getString(
+                        R.string.connecttogame_possible,
+                        createViewModel.getStatusFirstPlayerName()
+                    )
+                )
+                Row {
+                    Button(
+                        modifier = Modifier.padding(15.dp),
+                        onClick = {
+                            createViewModel.setCreateState(CreateGameStates.StatusNotRequested)
+                        }) {
+                        Text(text = stringResource(R.string.cancel))
+                    }
 
-                Button(modifier = Modifier.padding(15.dp),
-                    onClick = {
-                        showConnectToGamePopupState.value = false
-                    }) {
-                    Text(text = stringResource(R.string.connectto_game))
+                    Button(
+                        modifier = Modifier.padding(15.dp),
+                        onClick = {
+                            //
+                        }) {
+                        Text(text = stringResource(R.string.connectto_game))
+                    }
                 }
+            } else if (gameExists == true) {
+                Toast.makeText(
+                    LocalContext.current,
+                    stringResource(R.string.creategame_error),
+                    Toast.LENGTH_LONG
+                ).show()
+                createViewModel.setCreateState(CreateGameStates.StatusNotRequested)
             }
         }
     }

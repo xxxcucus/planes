@@ -33,6 +33,8 @@ fun LogoutScreen(modifier: Modifier, currentScreenState: MutableState<String>,
         mutableStateOf(false)
     }
 
+    //TODO: reset round when logging out
+
     Column(modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {

@@ -46,6 +46,7 @@ fun LoginScreen(modifier: Modifier, currentScreenState: MutableState<String>,
     }
 
     //TODO: validation
+    //TODO: reset round when logging in as a different user
 
     Column(modifier = modifier.fillMaxSize().verticalScroll(state = scrollState),
         verticalArrangement = Arrangement.Center,
