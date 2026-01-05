@@ -127,7 +127,7 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                     Button(
                         modifier = Modifier.padding(15.dp),
                         onClick = {
-                            //
+                            createViewModel.connectToGame(loginViewModel.getLoggedInToken()!!, loginViewModel.getLoggedInUserId()!!, loginViewModel.getLoggedInUserName()!!)
                         }) {
                         Text(text = stringResource(R.string.connectto_game))
                     }
@@ -140,6 +140,20 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                 ).show()
                 createViewModel.setCreateState(CreateGameStates.StatusNotRequested)
             }
+        } else if (createViewModel.getCreateState() == CreateGameStates.ConnectedToGameRequested) {
+            val error = createViewModel.getError()
+            if (createViewModel.getLoading()) {
+                Text(text = stringResource(R.string.loader_text))
+            } else if (error != null) {
+                Toast.makeText(
+                    LocalContext.current,
+                    createViewModel.getError(),
+                    Toast.LENGTH_LONG
+                ).show()
+                createViewModel.setCreateState(CreateGameStates.StatusNotRequested)
+            }
+        } else if (createViewModel.getCreateState() == CreateGameStates.ConnectedComplete) {
+            Text(text = LocalContext.current.getString(R.string.connected_togame, createViewModel.getConnectedGameName()))
         }
     }
 }

@@ -53,18 +53,18 @@ interface PlanesUserApi {
 
     @POST("users/available_users")
     @Headers("Content-Type: application/json")
-    fun getPlayersList(@Header("Authorization") authorization: String,
+    suspend fun getPlayersList(@Header("Authorization") authorization: String,
                        @Body request: Response<PlayersListResponse>)
 
     @POST("chat/get_messages")
     @Headers("Content-Type: application/json")
-    fun getChatMessages(@Header("Authorization") authorization: String,
+    suspend fun getChatMessages(@Header("Authorization") authorization: String,
                         @Body request: ReceiveChatMessagesRequest
     ): Response<ReceiveChatMessagesResponse>
 
     @POST("chat/send_message")
     @Headers("Content-Type: application/json")
-    fun sendChatMessage(@Header("Authorization") authorization: String,
+    suspend fun sendChatMessage(@Header("Authorization") authorization: String,
                         @Body request: SendChatMessageRequest
     ): Response<SendChatMessageResponse>
 

@@ -31,34 +31,34 @@ interface PlanesGameApi {
 
     @POST("game/create")
     @Headers("Content-Type: application/json")
-    fun createGame(@Header("Authorization") authorization: String, @Body game: CreateGameRequest): Response<CreateGameResponse>
+    suspend fun createGame(@Header("Authorization") authorization: String, @Body game: CreateGameRequest): Response<CreateGameResponse>
 
     @POST("game/connect")
     @Headers("Content-Type: application/json")
-    fun connectToGame(@Header("Authorization") authorization: String, @Body game: ConnectToGameRequest): Response<ConnectToGameResponse>
+    suspend fun connectToGame(@Header("Authorization") authorization: String, @Body game: ConnectToGameRequest): Response<ConnectToGameResponse>
 
     @POST("round/myplanespositions")
     @Headers("Content-Type: application/json")
-    fun sendPlanePositions(@Header("Authorization") authorization: String, @Body positions: SendPlanePositionsRequest): Response<SendPlanePositionsResponse>
+    suspend fun sendPlanePositions(@Header("Authorization") authorization: String, @Body positions: SendPlanePositionsRequest): Response<SendPlanePositionsResponse>
 
     @POST("round/otherplanespositions")
     @Headers("Content-Type: application/json")
-    fun acquireOpponentPlanePositions(@Header("Authorization") authorization: String, @Body request: AcquireOpponentPositionsRequest): Response<AcquireOpponentPositionsResponse>
+    suspend fun acquireOpponentPlanePositions(@Header("Authorization") authorization: String, @Body request: AcquireOpponentPositionsRequest): Response<AcquireOpponentPositionsResponse>
 
     @POST("round/end")
     @Headers("Content-Type: application/json")
-    fun sendWinner(@Header("Authorization") authorization: String, @Body request: SendWinnerRequest): Response<SendWinnerResponse>
+    suspend fun sendWinner(@Header("Authorization") authorization: String, @Body request: SendWinnerRequest): Response<SendWinnerResponse>
 
     @POST("round/mymove")
     @Headers("Content-Type: application/json")
-    fun sendOwnMove(@Header("Authorization") authorization: String, @Body request: SendNotSentMovesRequest): Response<SendNotSentMovesResponse>
+    suspend fun sendOwnMove(@Header("Authorization") authorization: String, @Body request: SendNotSentMovesRequest): Response<SendNotSentMovesResponse>
 
     @POST("round/cancel")
     @Headers("Content-Type: application/json")
-    fun cancelRound(@Header("Authorization") authorization: String, @Body request: CancelRoundRequest): Response<CancelRoundResponse>
+    suspend fun cancelRound(@Header("Authorization") authorization: String, @Body request: CancelRoundRequest): Response<CancelRoundResponse>
 
     @POST("round/start")
     @Headers("Content-Type: application/json")
-    fun startRound(@Header("Authorization") authorization: String, @Body request: StartNewRoundRequest): Response<StartNewRoundResponse>
+    suspend fun startRound(@Header("Authorization") authorization: String, @Body request: StartNewRoundRequest): Response<StartNewRoundResponse>
 
 }

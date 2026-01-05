@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.planes.android.repository.PlanesGameRepository
+import com.planes.multiplayer_engine.requests.ConnectToGameRequest
 import com.planes.multiplayer_engine.requests.GameStatusRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +30,15 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
     private var m_StatusSecondPlayerName = mutableStateOf<String?>(null)
     private var m_StatusSecondPlayerId = mutableStateOf<String?>(null)
     private var m_StatusCurrentRoundId = mutableStateOf<String?>(null)
+
+    private var m_ConnectedGameId = mutableStateOf<String?>(null)
+    private var m_ConnectedGameName = mutableStateOf<String?>(null)
+    private var m_ConnectedExists = mutableStateOf<Boolean?>(null)
+    private var m_ConnectedFirstPlayerName = mutableStateOf<String?>(null)
+    private var m_ConnectedFirstPlayerId = mutableStateOf<String?>(null)
+    private var m_ConnectedSecondPlayerName = mutableStateOf<String?>(null)
+    private var m_ConnectedSecondPlayerId = mutableStateOf<String?>(null)
+    private var m_ConnectedCurrentRoundId = mutableStateOf<String?>(null)
 
 
     fun getGameName(): String {
@@ -119,6 +129,70 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
         m_StatusCurrentRoundId.value = value
     }
 
+    fun getConnectedExists(): Boolean? {
+        return m_ConnectedExists.value
+    }
+
+    fun setConnectedExists(value: Boolean) {
+        m_ConnectedExists.value = value
+    }
+
+    fun getConnectedGameId(): String? {
+        return m_ConnectedGameId.value
+    }
+
+    fun setConnectedGameId(value: String?) {
+        m_ConnectedGameId.value = value
+    }
+
+    fun getConnectedGameName(): String? {
+        return m_ConnectedGameName.value
+    }
+
+    fun setConnectedGameName(value: String?) {
+        m_ConnectedGameName.value = value
+    }
+
+    fun getConnectedFirstPlayerName(): String? {
+        return m_ConnectedFirstPlayerName.value
+    }
+
+    fun setConnectedFirstPlayerName(value: String?) {
+        m_ConnectedFirstPlayerName.value = value
+    }
+
+    fun getConnectedFirstPlayerId(): String? {
+        return m_ConnectedFirstPlayerId.value
+    }
+
+    fun setConnectedFirstPlayerId(value: String?) {
+        m_ConnectedFirstPlayerId.value = value
+    }
+
+    fun getConnectedSecondPlayerName(): String? {
+        return m_ConnectedSecondPlayerName.value
+    }
+
+    fun setConnectedSecondPlayerName(value: String?) {
+        m_ConnectedSecondPlayerName.value = value
+    }
+
+    fun getConnectedSecondPlayerId(): String? {
+        return m_ConnectedSecondPlayerId.value
+    }
+
+    fun setConnectedSecondPlayerId(value: String?) {
+        m_ConnectedSecondPlayerId.value = value
+    }
+
+    fun getConnectedCurrentRoundId(): String? {
+        return m_ConnectedCurrentRoundId.value
+    }
+
+    fun setConnectedCurrentRoundId(value: String?) {
+        m_ConnectedCurrentRoundId.value = value
+    }
+
 
     fun getError(): String? {
         return m_Error.value
@@ -157,6 +231,42 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
                     Log.d("PlanesCompose", "Game ${m_GameName.value} does not exist")
                 else if (m_StatusExists.value == true)
                     Log.d("PlanesCompose", "Game ${m_GameName.value} exists with id ${m_StatusGameId.value}")
+                else
+                    Log.d("PlanesCompose", "Game data not available")
+            }
+            m_Loading.value = result.loading!!
+        }
+    }
+
+    fun connectToGame(authorization: String, userid: String, username: String) {
+        viewModelScope.launch {
+            m_Loading.value = true
+            m_Error.value = null
+            val result = withContext(Dispatchers.IO) {
+                repository.connectToGame(authorization, ConnectToGameRequest(getStatusGameName()!!, username, userid, getStatusGameId()!!))
+            }
+
+            m_CreateState.value = CreateGameStates.ConnectedToGameRequested
+
+            if (result.data == null) {
+                Log.d("PlanesCompose", "Game Connect error ${result.e}")
+                m_Error.value = result.e
+            } else {
+                m_ConnectedExists.value = result.data?.m_Exists
+                m_ConnectedGameId.value = result.data?.m_GameId
+                m_ConnectedGameName.value = result.data?.m_GameName
+                m_ConnectedFirstPlayerName.value = result.data?.m_FirstPlayerName
+                m_ConnectedFirstPlayerId.value = result.data?.m_FirstPlayerId
+                m_ConnectedSecondPlayerName.value = result.data?.m_SecondPlayerName
+                m_ConnectedSecondPlayerId.value = result.data?.m_SecondPlayerId
+                m_ConnectedCurrentRoundId.value = result.data?.m_CurrentRoundId
+
+                m_CreateState.value = CreateGameStates.ConnectedComplete
+
+                if (m_ConnectedExists.value == false)
+                    Log.d("PlanesCompose", "Game ${m_GameName.value} does not exist")
+                else if (m_ConnectedExists.value == true)
+                    Log.d("PlanesCompose", "Connected to Game ${m_GameName.value}")
                 else
                     Log.d("PlanesCompose", "Game data not available")
             }
