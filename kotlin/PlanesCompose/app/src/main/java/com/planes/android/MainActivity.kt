@@ -87,6 +87,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+//TODO: stop, start polling
+
 @Composable
 fun Screen(modifier: Modifier,
            navController: NavHostController,

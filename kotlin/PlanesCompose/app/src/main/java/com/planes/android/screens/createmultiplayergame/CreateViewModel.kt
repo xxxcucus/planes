@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.planes.android.repository.PlanesGameRepository
 import com.planes.multiplayer_engine.requests.ConnectToGameRequest
+import com.planes.multiplayer_engine.requests.CreateGameRequest
 import com.planes.multiplayer_engine.requests.GameStatusRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,23 +23,7 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
 
     private var m_CreateState = mutableStateOf<CreateGameStates>(CreateGameStates.StatusNotRequested)
 
-    private var m_StatusGameId = mutableStateOf<String?>(null)
-    private var m_StatusGameName = mutableStateOf<String?>(null)
-    private var m_StatusExists = mutableStateOf<Boolean?>(null)
-    private var m_StatusFirstPlayerName = mutableStateOf<String?>(null)
-    private var m_StatusFirstPlayerId = mutableStateOf<String?>(null)
-    private var m_StatusSecondPlayerName = mutableStateOf<String?>(null)
-    private var m_StatusSecondPlayerId = mutableStateOf<String?>(null)
-    private var m_StatusCurrentRoundId = mutableStateOf<String?>(null)
-
-    private var m_ConnectedGameId = mutableStateOf<String?>(null)
-    private var m_ConnectedGameName = mutableStateOf<String?>(null)
-    private var m_ConnectedExists = mutableStateOf<Boolean?>(null)
-    private var m_ConnectedFirstPlayerName = mutableStateOf<String?>(null)
-    private var m_ConnectedFirstPlayerId = mutableStateOf<String?>(null)
-    private var m_ConnectedSecondPlayerName = mutableStateOf<String?>(null)
-    private var m_ConnectedSecondPlayerId = mutableStateOf<String?>(null)
-    private var m_ConnectedCurrentRoundId = mutableStateOf<String?>(null)
+    private var m_GameStatusMap = HashMap<String, GameStatus>()
 
 
     fun getGameName(): String {
@@ -65,132 +50,68 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
         m_CreateState.value = value
     }
 
-    fun getStatusExists(): Boolean? {
-        return m_StatusExists.value
+    fun getExists(key: String): Boolean? {
+        return m_GameStatusMap[key]?.getExists()
     }
 
-    fun setStatusExists(value: Boolean) {
-        m_StatusExists.value = value
+    fun setExists(key: String, value: Boolean?) {
+        m_GameStatusMap[key]?.setExists(value)
     }
 
-    fun getStatusGameId(): String? {
-        return m_StatusGameId.value
+    fun getGameId(key: String): String? {
+        return m_GameStatusMap[key]?.getGameId()
     }
 
-    fun setStatusGameId(value: String?) {
-        m_StatusGameId.value = value
+    fun setGameId(key: String, value: String?) {
+        m_GameStatusMap[key]?.setGameId(value)
     }
 
-    fun getStatusGameName(): String? {
-        return m_StatusGameName.value
+    fun getGameName(key: String): String? {
+        return m_GameStatusMap[key]?.getGameName()
     }
 
-    fun setStatusGameName(value: String?) {
-        m_StatusGameName.value = value
+    fun setGameName(key: String, value: String?) {
+        m_GameStatusMap[key]?.setGameName(value)
     }
 
-    fun getStatusFirstPlayerName(): String? {
-        return m_StatusFirstPlayerName.value
+    fun getFirstPlayerName(key: String): String? {
+        return m_GameStatusMap[key]?.getFirstPlayerName()
     }
 
-    fun setStatusFirstPlayerName(value: String?) {
-        m_StatusFirstPlayerName.value = value
+    fun setFirstPlayerName(key: String, value: String?) {
+        m_GameStatusMap[key]?.setFirstPlayerName(value)
     }
 
-    fun getStatusFirstPlayerId(): String? {
-        return m_StatusFirstPlayerId.value
+    fun getFirstPlayerId(key: String): String? {
+        return m_GameStatusMap[key]?.getFirstPlayerId()
     }
 
-    fun setStatusFirstPlayerId(value: String?) {
-        m_StatusFirstPlayerId.value = value
+    fun setFirstPlayerId(key: String, value: String?) {
+        m_GameStatusMap[key]?.setFirstPlayerId(value)
     }
 
-    fun getStatusSecondPlayerName(): String? {
-        return m_StatusSecondPlayerName.value
+    fun getSecondPlayerName(key: String): String? {
+        return m_GameStatusMap[key]?.getSecondPlayerName()
     }
 
-    fun setStatusSecondPlayerName(value: String?) {
-        m_StatusSecondPlayerName.value = value
+    fun setSecondPlayerName(key: String, value: String?) {
+        m_GameStatusMap[key]?.setSecondPlayerName(value)
     }
 
-    fun getStatusSecondPlayerId(): String? {
-        return m_StatusSecondPlayerId.value
+    fun getSecondPlayerId(key: String): String? {
+        return m_GameStatusMap[key]?.getSecondPlayerId()
     }
 
-    fun setStatusSecondPlayerId(value: String?) {
-        m_StatusSecondPlayerId.value = value
+    fun setSecondPlayerId(key: String, value: String?) {
+        m_GameStatusMap[key]?.setSecondPlayerId(value)
     }
 
-    fun getStatusCurrentRoundId(): String? {
-        return m_StatusCurrentRoundId.value
+    fun getCurrentRoundId(key: String): String? {
+        return m_GameStatusMap[key]?.getCurrentRoundId()
     }
 
-    fun setStatusCurrentRoundId(value: String?) {
-        m_StatusCurrentRoundId.value = value
-    }
-
-    fun getConnectedExists(): Boolean? {
-        return m_ConnectedExists.value
-    }
-
-    fun setConnectedExists(value: Boolean) {
-        m_ConnectedExists.value = value
-    }
-
-    fun getConnectedGameId(): String? {
-        return m_ConnectedGameId.value
-    }
-
-    fun setConnectedGameId(value: String?) {
-        m_ConnectedGameId.value = value
-    }
-
-    fun getConnectedGameName(): String? {
-        return m_ConnectedGameName.value
-    }
-
-    fun setConnectedGameName(value: String?) {
-        m_ConnectedGameName.value = value
-    }
-
-    fun getConnectedFirstPlayerName(): String? {
-        return m_ConnectedFirstPlayerName.value
-    }
-
-    fun setConnectedFirstPlayerName(value: String?) {
-        m_ConnectedFirstPlayerName.value = value
-    }
-
-    fun getConnectedFirstPlayerId(): String? {
-        return m_ConnectedFirstPlayerId.value
-    }
-
-    fun setConnectedFirstPlayerId(value: String?) {
-        m_ConnectedFirstPlayerId.value = value
-    }
-
-    fun getConnectedSecondPlayerName(): String? {
-        return m_ConnectedSecondPlayerName.value
-    }
-
-    fun setConnectedSecondPlayerName(value: String?) {
-        m_ConnectedSecondPlayerName.value = value
-    }
-
-    fun getConnectedSecondPlayerId(): String? {
-        return m_ConnectedSecondPlayerId.value
-    }
-
-    fun setConnectedSecondPlayerId(value: String?) {
-        m_ConnectedSecondPlayerId.value = value
-    }
-
-    fun getConnectedCurrentRoundId(): String? {
-        return m_ConnectedCurrentRoundId.value
-    }
-
-    fun setConnectedCurrentRoundId(value: String?) {
-        m_ConnectedCurrentRoundId.value = value
+    fun setCurrentRoundId(key: String, value: String?) {
+        m_GameStatusMap[key]?.setCurrentRoundId(value)
     }
 
 
@@ -216,21 +137,26 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
                 Log.d("PlanesCompose", "Game Status error ${result.e}")
                 m_Error.value = result.e
             } else {
-                m_StatusExists.value = result.data?.m_Exists
-                m_StatusGameId.value = result.data?.m_GameId
-                m_StatusGameName.value = result.data?.m_GameName
-                m_StatusFirstPlayerName.value = result.data?.m_FirstPlayerName
-                m_StatusFirstPlayerId.value = result.data?.m_FirstPlayerId
-                m_StatusSecondPlayerName.value = result.data?.m_SecondPlayerName
-                m_StatusSecondPlayerId.value = result.data?.m_SecondPlayerId
-                m_StatusCurrentRoundId.value = result.data?.m_CurrentRoundId
+                val key = "Status"
+
+                if (!m_GameStatusMap.containsKey(key))
+                    m_GameStatusMap.put(key, GameStatus())
+
+                setExists(key, result.data?.m_Exists)
+                setGameId(key, result.data?.m_GameId)
+                setGameName(key, result.data?.m_GameName)
+                setFirstPlayerName(key, result.data?.m_FirstPlayerName)
+                setFirstPlayerId(key, result.data?.m_FirstPlayerId)
+                setSecondPlayerName(key, result.data?.m_SecondPlayerName)
+                setSecondPlayerId(key, result.data?.m_SecondPlayerId)
+                setCurrentRoundId(key, result.data?.m_CurrentRoundId)
 
                 m_CreateState.value = CreateGameStates.StatusReceived
 
-                if (m_StatusExists.value == false)
+                if (getExists(key) == false)
                     Log.d("PlanesCompose", "Game ${m_GameName.value} does not exist")
-                else if (m_StatusExists.value == true)
-                    Log.d("PlanesCompose", "Game ${m_GameName.value} exists with id ${m_StatusGameId.value}")
+                else if (getExists(key) == true)
+                    Log.d("PlanesCompose", "Game ${m_GameName.value} exists with id ${getGameId("Status")}")
                 else
                     Log.d("PlanesCompose", "Game data not available")
             }
@@ -243,7 +169,7 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
             m_Loading.value = true
             m_Error.value = null
             val result = withContext(Dispatchers.IO) {
-                repository.connectToGame(authorization, ConnectToGameRequest(getStatusGameName()!!, username, userid, getStatusGameId()!!))
+                repository.connectToGame(authorization, ConnectToGameRequest(getGameName("Status")!!, username, userid, getGameId("Status")!!))
             }
 
             m_CreateState.value = CreateGameStates.ConnectedToGameRequested
@@ -252,20 +178,26 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
                 Log.d("PlanesCompose", "Game Connect error ${result.e}")
                 m_Error.value = result.e
             } else {
-                m_ConnectedExists.value = result.data?.m_Exists
-                m_ConnectedGameId.value = result.data?.m_GameId
-                m_ConnectedGameName.value = result.data?.m_GameName
-                m_ConnectedFirstPlayerName.value = result.data?.m_FirstPlayerName
-                m_ConnectedFirstPlayerId.value = result.data?.m_FirstPlayerId
-                m_ConnectedSecondPlayerName.value = result.data?.m_SecondPlayerName
-                m_ConnectedSecondPlayerId.value = result.data?.m_SecondPlayerId
-                m_ConnectedCurrentRoundId.value = result.data?.m_CurrentRoundId
+
+                val key = "Connect"
+
+                if (!m_GameStatusMap.containsKey(key))
+                    m_GameStatusMap.put(key, GameStatus())
+
+                setExists(key, result.data?.m_Exists)
+                setGameId(key, result.data?.m_GameId)
+                setGameName(key, result.data?.m_GameName)
+                setFirstPlayerName(key, result.data?.m_FirstPlayerName)
+                setFirstPlayerId(key, result.data?.m_FirstPlayerId)
+                setSecondPlayerName(key, result.data?.m_SecondPlayerName)
+                setSecondPlayerId(key, result.data?.m_SecondPlayerId)
+                setCurrentRoundId(key, result.data?.m_CurrentRoundId)
 
                 m_CreateState.value = CreateGameStates.ConnectedComplete
 
-                if (m_ConnectedExists.value == false)
+                if (getExists(key) == false)
                     Log.d("PlanesCompose", "Game ${m_GameName.value} does not exist")
-                else if (m_ConnectedExists.value == true)
+                else if (getExists(key) == true)
                     Log.d("PlanesCompose", "Connected to Game ${m_GameName.value}")
                 else
                     Log.d("PlanesCompose", "Game data not available")
@@ -274,23 +206,67 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
         }
     }
 
-    fun dataAvailable(): Boolean {
-        if (m_StatusExists.value == null)
+    fun createGame(authorization: String, userid: String, username: String) {
+        viewModelScope.launch {
+            m_Loading.value = true
+            m_Error.value = null
+            val result = withContext(Dispatchers.IO) {
+                repository.createGame(authorization, CreateGameRequest(getGameName("Status")!!, username, userid, getGameId("Status")!!))
+            }
+
+            m_CreateState.value = CreateGameStates.GameCreationRequested
+
+            if (result.data == null) {
+                Log.d("PlanesCompose", "Game Creation error ${result.e}")
+                m_Error.value = result.e
+            } else {
+                val key = "Create"
+
+                if (!m_GameStatusMap.containsKey(key))
+                    m_GameStatusMap.put(key, GameStatus())
+
+                setExists(key, result.data?.m_Exists)
+                setGameId(key, result.data?.m_GameId)
+                setGameName(key, result.data?.m_GameName)
+                setFirstPlayerName(key, result.data?.m_FirstPlayerName)
+                setFirstPlayerId(key, result.data?.m_FirstPlayerId)
+                setSecondPlayerName(key, result.data?.m_SecondPlayerName)
+                setSecondPlayerId(key, result.data?.m_SecondPlayerId)
+                setCurrentRoundId(key, result.data?.m_CurrentRoundId)
+
+
+                m_CreateState.value = CreateGameStates.ConnectedComplete
+
+                if (getExists(key) == false)
+                    Log.d("PlanesCompose", "Game ${m_GameName.value} does not exist")
+                else if (getExists(key) == true)
+                    Log.d("PlanesCompose", "Connected to Game ${m_GameName.value}")
+                else
+                    Log.d("PlanesCompose", "Game data not available")
+            }
+            m_Loading.value = result.loading!!
+        }
+    }
+
+
+
+    fun dataAvailable(key: String): Boolean {
+        if (getExists(key) == null)
             return false
 
-        if (m_StatusExists.value == false)
+        if (getExists(key) == false)
             return true
 
-        if (m_StatusGameId.value == null || m_StatusGameName.value == null)
+        if (getGameId(key) == null || getGameName(key) == null)
             return false
 
-        if (m_StatusFirstPlayerId.value == null || m_StatusFirstPlayerName.value == null)
+        if (getFirstPlayerId(key) == null || getFirstPlayerName(key) == null)
             return false
 
-        if (m_StatusSecondPlayerId.value == null || m_StatusSecondPlayerName.value == null)
+        if (getSecondPlayerId(key) == null || getSecondPlayerName(key) == null)
             return false
 
-        if (m_StatusCurrentRoundId.value == null)
+        if (getCurrentRoundId(key) == null)
             return false
 
         return true

@@ -82,12 +82,12 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                 createViewModel.setCreateState(CreateGameStates.StatusNotRequested)
             }
         } else if (createViewModel.getCreateState() == CreateGameStates.StatusReceived) {
-            val gameExists = createViewModel.getStatusExists()
+            val gameExists = createViewModel.getExists("Status")
             Log.d("PlanesCompose", "Game exists $gameExists")
             if (gameExists == true)
                 Log.d(
                     "Planes Compose",
-                    "Existing game between ${createViewModel.getStatusFirstPlayerName()} and ${createViewModel.getStatusSecondPlayerName()}"
+                    "Existing game between ${createViewModel.getFirstPlayerName("Status")} and ${createViewModel.getSecondPlayerName("Status")}"
                 )
             if (gameExists == false) {
                 Text(text = stringResource(R.string.creategame_possible))
@@ -108,11 +108,11 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                         Text(text = stringResource(R.string.create_game))
                     }
                 }
-            } else if (gameExists == true && createViewModel.getStatusFirstPlayerName() == createViewModel.getStatusSecondPlayerName()) {
+            } else if (gameExists == true && createViewModel.getFirstPlayerName("Status") == createViewModel.getSecondPlayerName("Status")) {
                 Text(
                     text = LocalContext.current.getString(
                         R.string.connecttogame_possible,
-                        createViewModel.getStatusFirstPlayerName()
+                        createViewModel.getFirstPlayerName("Status")
                     )
                 )
                 Row {
@@ -153,7 +153,7 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                 createViewModel.setCreateState(CreateGameStates.StatusNotRequested)
             }
         } else if (createViewModel.getCreateState() == CreateGameStates.ConnectedComplete) {
-            Text(text = LocalContext.current.getString(R.string.connected_togame, createViewModel.getConnectedGameName()))
+            Text(text = LocalContext.current.getString(R.string.connected_togame, createViewModel.getGameName("Connect")))
         }
     }
 }
