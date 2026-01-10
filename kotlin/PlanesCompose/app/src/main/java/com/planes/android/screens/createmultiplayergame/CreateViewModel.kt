@@ -127,11 +127,12 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
         viewModelScope.launch {
             m_Loading.value = true
             m_Error.value = null
+
+            m_CreateState.value = CreateGameStates.StatusRequested
+
             val result = withContext(Dispatchers.IO) {
                 repository.gameStatus(authorization, GameStatusRequest(getGameName(), username, userid, ""))
             }
-
-            m_CreateState.value = CreateGameStates.StatusRequested
 
             if (result.data == null) {
                 Log.d("PlanesCompose", "Game Status error ${result.e}")
@@ -141,6 +142,8 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
 
                 if (!m_GameStatusMap.containsKey(key))
                     m_GameStatusMap.put(key, GameStatus())
+
+                Log.d("PlanesCompose", "Game Status exists ${result.data?.m_Exists}")
 
                 setExists(key, result.data?.m_Exists)
                 setGameId(key, result.data?.m_GameId)
@@ -168,11 +171,12 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
         viewModelScope.launch {
             m_Loading.value = true
             m_Error.value = null
+
+            m_CreateState.value = CreateGameStates.ConnectedToGameRequested
+
             val result = withContext(Dispatchers.IO) {
                 repository.connectToGame(authorization, ConnectToGameRequest(getGameName("Status")!!, username, userid, getGameId("Status")!!))
             }
-
-            m_CreateState.value = CreateGameStates.ConnectedToGameRequested
 
             if (result.data == null) {
                 Log.d("PlanesCompose", "Game Connect error ${result.e}")
@@ -210,11 +214,14 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
         viewModelScope.launch {
             m_Loading.value = true
             m_Error.value = null
-            val result = withContext(Dispatchers.IO) {
-                repository.createGame(authorization, CreateGameRequest(getGameName("Status")!!, username, userid, getGameId("Status")!!))
-            }
 
             m_CreateState.value = CreateGameStates.GameCreationRequested
+
+            Log.d("PlanesCompose", "Create game ${getGameName()} $username $userid ${getGameId("Status")!!}")
+
+            val result = withContext(Dispatchers.IO) {
+                repository.createGame(authorization, CreateGameRequest(getGameName(), username, userid, "0"))
+            }
 
             if (result.data == null) {
                 Log.d("PlanesCompose", "Game Creation error ${result.e}")
@@ -234,13 +241,12 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
                 setSecondPlayerId(key, result.data?.m_SecondPlayerId)
                 setCurrentRoundId(key, result.data?.m_CurrentRoundId)
 
-
-                m_CreateState.value = CreateGameStates.ConnectedComplete
+                m_CreateState.value = CreateGameStates.GameCreationComplete
 
                 if (getExists(key) == false)
                     Log.d("PlanesCompose", "Game ${m_GameName.value} does not exist")
                 else if (getExists(key) == true)
-                    Log.d("PlanesCompose", "Connected to Game ${m_GameName.value}")
+                    Log.d("PlanesCompose", "Game created ${m_GameName.value}")
                 else
                     Log.d("PlanesCompose", "Game data not available")
             }

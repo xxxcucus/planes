@@ -145,7 +145,7 @@
     <string name="cancel"> Cancel</string>
     <string name="connecttogame_possible"> You may connect to the game created by %1$s</string>
     <string name="start_playing"> Start Playing</string>
-    <string name="game_created"> Game created. Waiting for opponent to connect.</string>
+    <string name="game_created"> Game %1$s created.\nWaiting for opponent to connect.</string>
     <string name="connected_togame"> Connected to game %1$s</string>
     <string name="not_connected_togame"> Not connected to a game.</string>
     <string name="opponent_connected_togame"> Opponent is connected to game</string>

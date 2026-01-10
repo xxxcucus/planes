@@ -103,7 +103,7 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                     Button(
                         modifier = Modifier.padding(15.dp),
                         onClick = {
-                            //
+                            createViewModel.createGame(loginViewModel.getLoggedInToken()!!, loginViewModel.getLoggedInUserId()!!, loginViewModel.getLoggedInUserName()!!)
                         }) {
                         Text(text = stringResource(R.string.create_game))
                     }
@@ -154,6 +154,32 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
             }
         } else if (createViewModel.getCreateState() == CreateGameStates.ConnectedComplete) {
             Text(text = LocalContext.current.getString(R.string.connected_togame, createViewModel.getGameName("Connect")))
+        } else if (createViewModel.getCreateState() == CreateGameStates.ConnectedToGameRequested) {
+            val error = createViewModel.getError()
+            if (createViewModel.getLoading()) {
+                Text(text = stringResource(R.string.loader_text))
+            } else if (error != null) {
+                Toast.makeText(
+                    LocalContext.current,
+                    createViewModel.getError(),
+                    Toast.LENGTH_LONG
+                ).show()
+                createViewModel.setCreateState(CreateGameStates.StatusNotRequested)
+            }
+        } else if (createViewModel.getCreateState() == CreateGameStates.GameCreationRequested) {
+            val error = createViewModel.getError()
+            if (createViewModel.getLoading()) {
+                Text(text = stringResource(R.string.loader_text))
+            } else if (error != null) {
+                Toast.makeText(
+                    LocalContext.current,
+                    createViewModel.getError(),
+                    Toast.LENGTH_LONG
+                ).show()
+                createViewModel.setCreateState(CreateGameStates.StatusNotRequested)
+            }
+        }  else if (createViewModel.getCreateState() == CreateGameStates.GameCreationComplete) {
+            Text(text = LocalContext.current.getString(R.string.game_created, createViewModel.getGameName("Create")))
         }
     }
 }
