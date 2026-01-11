@@ -29,6 +29,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
+import com.planes.android.screens.createmultiplayergame.CreateGameStates
 import com.planes.android.widgets.CommonTextFieldWithViewModel
 import com.planes.android.widgets.PasswordInputFieldWithViewModel
 
@@ -46,63 +47,100 @@ fun LoginScreen(modifier: Modifier, currentScreenState: MutableState<String>,
     }
 
     //TODO: validation
+    //TODO: when logged in save the last login credentials into preferences
     //TODO: reset round when logging in as a different user
 
     Column(modifier = modifier.fillMaxSize().verticalScroll(state = scrollState),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
 
-        Text(text = stringResource(R.string.login),
-            modifier = Modifier.padding(15.dp),
-            style = MaterialTheme.typography.titleMedium)
+        if (loginViewModel.isLoggedIn()) {
+            Text(text = stringResource(R.string.userloggedin) + " " + loginViewModel.getLoggedInUserName())
 
-        CommonTextFieldWithViewModel(modifier = Modifier.padding(15.dp),
-            loginViewModel,
-            { login ->  login.getUserName()},
-            { login, str -> login.setUserName(str)},
-            onAction = KeyboardActions {
-                keyboardController?.hide()
-            },
-            keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Default,
-            placeholder = stringResource(R.string.username)
-        )
+            Button(
+                modifier = Modifier.padding(15.dp),
+                onClick = {
+                    submitClickedState.value = false
+                    loginViewModel.logout()
+                }) {
+                Text(text = stringResource(R.string.logout))
+            }
 
-        val passwordVisibility = rememberSaveable {
-            mutableStateOf(false)
-        }
+            if (submitClickedState.value && loginViewModel.getLoading()) {
+                Text(text = stringResource(R.string.loader_text))
+            } else if (submitClickedState.value) {
+                val error = loginViewModel.getError()
+                if (error == null)
+                    Toast.makeText(LocalContext.current, stringResource(R.string.logoutsuccess), Toast.LENGTH_LONG).show()
+                else
+                    Toast.makeText(LocalContext.current, loginViewModel.getError(), Toast.LENGTH_LONG).show()
+                submitClickedState.value = false
+            }
+        } else {
+            Text(
+                text = stringResource(R.string.login),
+                modifier = Modifier.padding(15.dp),
+                style = MaterialTheme.typography.titleMedium
+            )
 
-        PasswordInputFieldWithViewModel(
-            modifier = Modifier.padding(15.dp),
-            loginViewModel,
-            { login -> login.getPassword() },
-            { login, str -> login.setPassword(str) },
-            onAction = KeyboardActions {
-                keyboardController?.hide()
-            },
-            keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Default,
-            placeholder = stringResource(R.string.password),
-            passwordVisibility = passwordVisibility
-        )
+            CommonTextFieldWithViewModel(
+                modifier = Modifier.padding(15.dp),
+                loginViewModel,
+                { login -> login.getUserName() },
+                { login, str -> login.setUserName(str) },
+                onAction = KeyboardActions {
+                    keyboardController?.hide()
+                },
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Default,
+                placeholder = stringResource(R.string.username)
+            )
 
-        Button(modifier = Modifier.padding(15.dp),
-            onClick = {
-                submitClickedState.value = true
-                loginViewModel.login()
-            }) {
-            Text(text = stringResource(R.string.submit))
-        }
+            val passwordVisibility = rememberSaveable {
+                mutableStateOf(false)
+            }
 
-        if (submitClickedState.value && loginViewModel.getLoading()) {
-            Text(text = stringResource(R.string.loader_text))
-        } else if (submitClickedState.value) {
-            val error = loginViewModel.getError()
-            if (error == null)
-                Toast.makeText(LocalContext.current, stringResource(R.string.loginsuccess), Toast.LENGTH_LONG).show()
-            else
-                Toast.makeText(LocalContext.current, loginViewModel.getError(), Toast.LENGTH_LONG).show()
-            submitClickedState.value = false
+            PasswordInputFieldWithViewModel(
+                modifier = Modifier.padding(15.dp),
+                loginViewModel,
+                { login -> login.getPassword() },
+                { login, str -> login.setPassword(str) },
+                onAction = KeyboardActions {
+                    keyboardController?.hide()
+                },
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Default,
+                placeholder = stringResource(R.string.password),
+                passwordVisibility = passwordVisibility
+            )
+
+            Button(
+                modifier = Modifier.padding(15.dp),
+                onClick = {
+                    submitClickedState.value = true
+                    loginViewModel.login()
+                }) {
+                Text(text = stringResource(R.string.submit))
+            }
+
+            if (submitClickedState.value && loginViewModel.getLoading()) {
+                Text(text = stringResource(R.string.loader_text))
+            } else if (submitClickedState.value) {
+                val error = loginViewModel.getError()
+                if (error == null)
+                    Toast.makeText(
+                        LocalContext.current,
+                        stringResource(R.string.loginsuccess),
+                        Toast.LENGTH_LONG
+                    ).show()
+                else
+                    Toast.makeText(
+                        LocalContext.current,
+                        loginViewModel.getError(),
+                        Toast.LENGTH_LONG
+                    ).show()
+                submitClickedState.value = false
+            }
         }
     }
 }

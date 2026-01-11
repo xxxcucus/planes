@@ -39,10 +39,6 @@ fun NoRobotScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 ) {
     currentScreenState.value = PlanesScreens.NoRobot.name
 
-    /*val noRobotEntries = remember {
-        noRobotViewModel.getImages()
-    }*/
-
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp
     val screenHeightDp = configuration.screenHeightDp
@@ -97,6 +93,7 @@ fun NoRobotScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                         Toast.LENGTH_LONG
                     ).show()
 
+                    //TODO: delete screen from history
                     navController.navigate(PlanesScreens.Login.name)
                 }
             } else {

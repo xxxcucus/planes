@@ -227,18 +227,11 @@ fun DrawerContent(modifier: Modifier = Modifier,
             style = MaterialTheme.typography.titleLarge
         )
 
-        DrawerMenuItemGeneric("Login", {
+        DrawerMenuItemGeneric("Login / Logout", {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.Login.name)
-        })
-
-        DrawerMenuItemGeneric("Logout", {
-            drawerScope.launch {
-                drawerState.close()
-            }
-            navController.navigate(route = PlanesScreens.Logout.name)
         })
 
         DrawerMenuItemGeneric("Register", {
@@ -253,6 +246,13 @@ fun DrawerContent(modifier: Modifier = Modifier,
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.Chat.name)
+        })
+
+        DrawerMenuItemGeneric("Delete User", {
+            drawerScope.launch {
+                drawerState.close()
+            }
+            navController.navigate(route = PlanesScreens.DeleteUser.name)
         })
 
         Text(
@@ -329,13 +329,6 @@ fun DrawerContent(modifier: Modifier = Modifier,
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.Preferences.name)
-        })
-
-        DrawerMenuItemGeneric("Delete User", {
-            drawerScope.launch {
-                drawerState.close()
-            }
-            navController.navigate(route = PlanesScreens.DeleteUser.name)
         })
     }
 }

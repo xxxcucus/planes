@@ -38,6 +38,8 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    //TODO: validation
+
     Column(modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {

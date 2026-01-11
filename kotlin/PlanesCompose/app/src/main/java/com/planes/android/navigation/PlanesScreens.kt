@@ -12,7 +12,6 @@ enum class PlanesScreens {
     Info,
     Tutorials,
     Login,
-    Logout,
     Register,
     NoRobot,
     DeleteUser,
@@ -33,7 +32,6 @@ enum class PlanesScreens {
                 MultiplayerGameStatistics.name -> MultiplayerGameStatistics
                 MultiplayerConnectToGame.name -> MultiplayerConnectToGame
                 Login.name -> Login
-                Logout.name -> Logout
                 Register.name -> Register
                 DeleteUser.name -> DeleteUser
                 Chat.name -> Chat
