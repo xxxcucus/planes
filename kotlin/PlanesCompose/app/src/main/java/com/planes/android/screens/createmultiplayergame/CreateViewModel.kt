@@ -10,9 +10,11 @@ import com.planes.multiplayer_engine.requests.CreateGameRequest
 import com.planes.multiplayer_engine.requests.GameStatusRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class CreateViewModel @Inject constructor(private val repository: PlanesGameRepository): ViewModel() {
@@ -182,7 +184,6 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
                 Log.d("PlanesCompose", "Game Connect error ${result.e}")
                 m_Error.value = result.e
             } else {
-
                 val key = "Connect"
 
                 if (!m_GameStatusMap.containsKey(key))
@@ -210,6 +211,7 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
         }
     }
 
+    //TODO: set maximum time for running coroutine
     fun createGame(authorization: String, userid: String, username: String) {
         viewModelScope.launch {
             m_Loading.value = true
@@ -217,15 +219,22 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
 
             m_CreateState.value = CreateGameStates.GameCreationRequested
 
-            Log.d("PlanesCompose", "Create game ${getGameName()} $username $userid ${getGameId("Status")!!}")
+            Log.d(
+                "PlanesCompose",
+                "Create game ${getGameName()} $username $userid ${getGameId("Status")!!}"
+            )
 
             val result = withContext(Dispatchers.IO) {
-                repository.createGame(authorization, CreateGameRequest(getGameName(), username, userid, "0"))
+                repository.createGame(
+                    authorization,
+                    CreateGameRequest(getGameName(), username, userid, "0")
+                )
             }
 
             if (result.data == null) {
                 Log.d("PlanesCompose", "Game Creation error ${result.e}")
                 m_Error.value = result.e
+                return@launch
             } else {
                 val key = "Create"
 
@@ -251,6 +260,55 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
                     Log.d("PlanesCompose", "Game data not available")
             }
             m_Loading.value = result.loading!!
+
+            m_CreateState.value = CreateGameStates.PollingForConnectionStarted
+            m_Loading.value = true
+
+            //TODO: stop this when pausing the app
+            //TODO: stop this when the state is different
+            //TODO: stop this when logging out or logging in again
+            //TODO: stop this when run for too long
+            withContext(Dispatchers.IO) {
+                var firstPlayerName = getFirstPlayerName("Create")
+                val secondPlayerName = getFirstPlayerName("Create")
+
+                do {
+                    delay(5.seconds)
+
+                    if (m_CreateState.value != CreateGameStates.PollingForConnectionStarted)
+                        break
+
+                    val resultPolling = repository.gameStatus(
+                        authorization,
+                        GameStatusRequest(getGameName(), username, userid, "")
+                    )
+
+                    if (resultPolling.data == null) {
+                        m_Error.value = result.e
+                        break;
+                    }
+
+                    val key = "Create"
+
+                    if (!m_GameStatusMap.containsKey(key))
+                        m_GameStatusMap.put(key, GameStatus())
+
+                    setExists(key, resultPolling.data?.m_Exists)
+                    setGameId(key, resultPolling.data?.m_GameId)
+                    setGameName(key, resultPolling.data?.m_GameName)
+                    setFirstPlayerName(key, resultPolling.data?.m_FirstPlayerName)
+                    setFirstPlayerId(key, resultPolling.data?.m_FirstPlayerId)
+                    setSecondPlayerName(key, resultPolling.data?.m_SecondPlayerName)
+                    setSecondPlayerId(key, resultPolling.data?.m_SecondPlayerId)
+                    setCurrentRoundId(key, resultPolling.data?.m_CurrentRoundId)
+
+                    Log.d("PlaneCompose", "Polling ${getFirstPlayerName("Create")} and ${getSecondPlayerName("Create")}")
+                } while (getFirstPlayerName("Create") == getSecondPlayerName("Create"))
+            }
+
+            m_CreateState.value = CreateGameStates.PollingForConnectionEnded
+
+            m_Loading.value = false
         }
     }
 

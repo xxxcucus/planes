@@ -145,7 +145,7 @@
     <string name="cancel"> Cancel</string>
     <string name="connecttogame_possible"> You may connect to the game created by %1$s</string>
     <string name="start_playing"> Start Playing</string>
-    <string name="game_created"> Game %1$s created.\nWaiting for opponent to connect.</string>
+    <string name="game_created"> Game %1$s created.\n</string>
     <string name="connected_togame"> Connected to game %1$s</string>
     <string name="not_connected_togame"> Not connected to a game.</string>
     <string name="opponent_connected_togame"> Opponent is connected to game</string>
@@ -226,6 +226,9 @@
 
     <string name="logoutsuccess"> Logout Successful</string>
     <string name="deletesuccess"> User Delete Successful</string>
+
+    <string name="wait_for_opponent">Game %1$s created.\nWaiting for opponent to connect.</string>
+    <string name="connect_another_game">Connect to another game</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">

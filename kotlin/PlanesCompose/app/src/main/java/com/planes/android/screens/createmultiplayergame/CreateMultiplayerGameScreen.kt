@@ -154,6 +154,14 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
             }
         } else if (createViewModel.getCreateState() == CreateGameStates.ConnectedComplete) {
             Text(text = LocalContext.current.getString(R.string.connected_togame, createViewModel.getGameName("Connect")))
+            Button(
+                modifier = Modifier.padding(15.dp),
+                onClick = {
+                    createViewModel.setCreateState(CreateGameStates.StatusNotRequested)
+                }) {
+                Text(text = stringResource(R.string.connect_another_game))
+            }
+
         } else if (createViewModel.getCreateState() == CreateGameStates.ConnectedToGameRequested) {
             val error = createViewModel.getError()
             if (createViewModel.getLoading()) {
@@ -179,7 +187,27 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                 createViewModel.setCreateState(CreateGameStates.StatusNotRequested)
             }
         }  else if (createViewModel.getCreateState() == CreateGameStates.GameCreationComplete) {
-            Text(text = LocalContext.current.getString(R.string.game_created, createViewModel.getGameName("Create")))
+            Text(text = stringResource(R.string.game_created))
+        } else if (createViewModel.getCreateState() == CreateGameStates.PollingForConnectionStarted) {
+            Text(text = LocalContext.current.getString(R.string.wait_for_opponent, createViewModel.getGameName("Create")))
+
+            Button(
+                modifier = Modifier.padding(15.dp),
+                onClick = {
+                    createViewModel.setCreateState(CreateGameStates.StatusNotRequested)
+                }) {
+                Text(text = stringResource(R.string.cancel))
+            }
+        } else if (createViewModel.getCreateState() == CreateGameStates.PollingForConnectionEnded) {
+            Text(text = LocalContext.current.getString(R.string.connected_togame, createViewModel.getGameName("Create")))
+            Button(
+                modifier = Modifier.padding(15.dp),
+                onClick = {
+                    createViewModel.setCreateState(CreateGameStates.StatusNotRequested)
+                }) {
+                Text(text = stringResource(R.string.connect_another_game))
+            }
+
         }
     }
 }
