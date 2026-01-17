@@ -131,7 +131,8 @@ fun Screen(modifier: Modifier,
                     navController = navController,
                     drawerScope = scope,
                     drawerState = drawerState,
-                    planeRound = planeRound
+                    planeRound = planeRound,
+                    planeRoundMultiplayer = planeRoundMultiplayer
                 )
             }
         },
@@ -219,7 +220,8 @@ fun DrawerContent(modifier: Modifier = Modifier,
                   navController: NavController,
                   drawerScope: CoroutineScope,
                   drawerState: DrawerState,
-                  planeRound: SinglePlayerRoundInterface
+                  planeRound: SinglePlayerRoundInterface,
+                  planeRoundMultiplayer: MultiPlayerRoundInterface
                   ) {
     //TODO: page names from resources
 
@@ -309,7 +311,12 @@ fun DrawerContent(modifier: Modifier = Modifier,
             drawerScope.launch {
                 drawerState.close()
             }
-            navController.navigate(route = PlanesScreens.MultiplayerGame.name)
+            if (planeRoundMultiplayer.getGameStage() == GameStages.BoardEditing)
+                navController.navigate(route = PlanesScreens.MultiplayerBoardEditing.name)
+            else if (planeRoundMultiplayer.getGameStage() == GameStages.Game)
+                navController.navigate(route = PlanesScreens.MultiplayerGame.name)
+            else
+                navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
         })
 
         DrawerMenuItemGeneric("Multiplayer Game Statistics", {

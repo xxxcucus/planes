@@ -15,27 +15,27 @@ open class PlaneRound @AssistedInject constructor(
     private var m_isComputerFirst = false
 
     //the  game statistics
-    private var m_gameStats: GameStatistics
+    var m_gameStats: GameStatistics
 
     //the player and computer's grid
-    private var m_PlayerGrid: PlaneGrid
-    private var m_ComputerGrid: PlaneGrid
+    var m_PlayerGrid: PlaneGrid
+    var m_ComputerGrid: PlaneGrid
 
     //the list of guesses for computer and player
-    private var m_computerGuessList: Vector<GuessPoint>
-    private var m_playerGuessList: Vector<GuessPoint>
-    private var m_ShowPlaneAfterKillGuessList: Vector<GuessPoint>
+    var m_computerGuessList: Vector<GuessPoint>
+    var m_playerGuessList: Vector<GuessPoint>
+    var m_ShowPlaneAfterKillGuessList: Vector<GuessPoint>
 
     //the computer's strategy
-    private var m_computerLogic: ComputerLogic
+    var m_computerLogic: ComputerLogic
     private var m_State = GameStages.GameNotStarted
     private var m_RoundEndState = RoundEndStatus.Cancelled
 
     //size of the grid and number of planes
-    private var m_rowNo = 10
-    private var m_colNo = 10
-    private var m_planeNo = 3
-    private var m_RoundOptions: PlaneRoundOptions
+    var m_rowNo = 10
+    var m_colNo = 10
+    var m_planeNo = 3
+    var m_RoundOptions: PlaneRoundOptions
 
     private var m_GuessResult = Type.Miss
     private var m_PlayerGuessReaction = PlayerGuessReaction()

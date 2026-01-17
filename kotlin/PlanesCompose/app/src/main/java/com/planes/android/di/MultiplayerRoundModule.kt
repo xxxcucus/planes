@@ -15,6 +15,6 @@ class MultiplayerRoundModule {
     @Provides
     @Singleton
     fun provideMultiplayerRound(factory: MultiplayerRound.Factory): MultiPlayerRoundInterface {
-        return factory.createPlaneRound(10, 10, 3)
+        return factory.createMultiplayerRound(10, 10, 3)
     }
 }
