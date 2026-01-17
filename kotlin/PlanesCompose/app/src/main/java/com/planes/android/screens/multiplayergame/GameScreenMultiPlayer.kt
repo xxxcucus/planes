@@ -1,4 +1,4 @@
-package com.planes.android.screens.singleplayergame
+package com.planes.android.screens.multiplayergame
 
 import android.content.res.Configuration
 import android.util.Log
@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -24,18 +23,27 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
+import com.planes.android.screens.singleplayergame.BoardSquareGame
+import com.planes.android.screens.singleplayergame.ComputerGridViewModelSinglePlayer
+import com.planes.android.screens.singleplayergame.GameBoardSinglePlayer
+import com.planes.android.screens.singleplayergame.GameStatsViewModelSinglePlayer
+import com.planes.android.screens.singleplayergame.OneLineGameButton
+import com.planes.android.screens.singleplayergame.PlayerGridViewModelSinglePlayer
+import com.planes.android.screens.singleplayergame.StatsValueField
+import com.planes.android.screens.singleplayergame.TwoLineGameButton
+import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import com.planes.singleplayerengine.GuessPoint
-import com.planes.singleplayerengine.PlanesRoundInterface
+import com.planes.singleplayerengine.SinglePlayerRoundInterface
 import com.planes.singleplayerengine.Type
 
 @Composable
-fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
-               topBarHeight: MutableState<Int>,
-               navController: NavController,
-               planeRound: PlanesRoundInterface,
-               playerGridViewModel: PlaneGridViewModel,
-               computerGridViewModel: PlaneGridViewModel,
-               gameStatsViewModel: GameStatsViewModel
+fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<String>,
+                          topBarHeight: MutableState<Int>,
+                          navController: NavController,
+                          planeRound: MultiPlayerRoundInterface,
+                          playerGridViewModel: PlayerGridViewModelMultiPlayer,
+                          computerGridViewModel: ComputerGridViewModelMultiPlayer,
+                          gameStatsViewModelSinglePlayer: GameStatsViewModelMultiPlayer
 ) {
 
     currentScreenState.value = PlanesScreens.SinglePlayerGame.name
@@ -72,8 +80,10 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
     val gameBoardViewModel = if (playerBoard.value) playerGridViewModel else computerGridViewModel
 
-    val titleOtherBoard1 = if (playerBoard.value) stringResource(R.string.view_computer_board1) else stringResource(R.string.view_player_board1)
-    val titleOtherBoard2 = if (playerBoard.value) stringResource(R.string.view_computer_board2) else stringResource(R.string.view_player_board2)
+    val titleOtherBoard1 = if (playerBoard.value) stringResource(R.string.view_computer_board1) else stringResource(
+        R.string.view_player_board1)
+    val titleOtherBoard2 = if (playerBoard.value) stringResource(R.string.view_computer_board2) else stringResource(
+        R.string.view_player_board2)
 
     val titleStats = if (!playerBoard.value) stringResource(R.string.computer_stats)
     else stringResource(R.string.player_stats)
@@ -122,11 +132,11 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                     val computerWinner = !planeRound.playerGuess_IsPlayerWinner()
                                     val isDraw = planeRound.playerGuess_IsDraw()
                                     planeRound.roundEnds(computerWinner, isDraw)
-                                    gameStatsViewModel.resetRoundStats()
+                                    gameStatsViewModelSinglePlayer.resetRoundStats()
                                     navController.popBackStack()
                                     navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
                                 } else {
-                                    gameStatsViewModel.updateFromPlaneRound()
+                                    gameStatsViewModelSinglePlayer.updateFromPlaneRound()
                                 }
                             }
                         }
@@ -134,9 +144,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
             }
 
             val lastMove = if (!playerBoard.value)
-                gameStatsViewModel.getLastComputerMove()
+                gameStatsViewModelSinglePlayer.getLastComputerMove()
             else
-                gameStatsViewModel.getLastPlayerMove()
+                gameStatsViewModelSinglePlayer.getLastPlayerMove()
 
             Column(modifier = Modifier.height(screenHeightDp.dp - boardSizeDp.dp),
                 verticalArrangement = Arrangement.Center) {
@@ -176,9 +186,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                             }
                             StatsValueField(value = if (!playerBoard.value)
-                                gameStatsViewModel.getComputerMoves()
+                                gameStatsViewModelSinglePlayer.getComputerMoves()
                             else
-                                gameStatsViewModel.getPlayerMoves(),
+                                gameStatsViewModelSinglePlayer.getPlayerMoves(),
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 4)
                                     .height(refButtonHeightDp.dp / 2),
@@ -198,9 +208,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
 
                             val misses = if (!playerBoard.value)
-                                gameStatsViewModel.getComputerMisses()
+                                gameStatsViewModelSinglePlayer.getComputerMisses()
                             else
-                                gameStatsViewModel.getPlayerMisses()
+                                gameStatsViewModelSinglePlayer.getPlayerMisses()
 
                             val hotMisses = (lastMove == Type.Miss) && (misses > 0)
 
@@ -225,7 +235,7 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                     }
                     Column(modifier = Modifier.fillMaxHeight(),
                         verticalArrangement = Arrangement.Center
-                        ) {
+                    ) {
 
                         Row() {
                             OneLineGameButton(
@@ -238,9 +248,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                             }
 
                             val hits = if (!playerBoard.value)
-                                gameStatsViewModel.getComputerHits()
+                                gameStatsViewModelSinglePlayer.getComputerHits()
                             else
-                                gameStatsViewModel.getPlayerHits()
+                                gameStatsViewModelSinglePlayer.getPlayerHits()
 
                             val hotHits = (lastMove == Type.Hit) && (hits > 0)
 
@@ -262,9 +272,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                             }
 
                             val dead = if (!playerBoard.value)
-                                gameStatsViewModel.getComputerDead()
+                                gameStatsViewModelSinglePlayer.getComputerDead()
                             else
-                                gameStatsViewModel.getPlayerDead()
+                                gameStatsViewModelSinglePlayer.getPlayerDead()
 
                             val hotDead = (lastMove == Type.Dead) && (dead > 0)
 
@@ -278,7 +288,7 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                 }
             }
         }
-        } else {  //landscape
+    } else {  //landscape
         Row() {
             GameBoardSinglePlayer(
                 gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
@@ -319,11 +329,11 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                     val computerWinner = !planeRound.playerGuess_IsPlayerWinner()
                                     val isDraw = planeRound.playerGuess_IsDraw()
                                     planeRound.roundEnds(computerWinner, isDraw)
-                                    gameStatsViewModel.resetRoundStats()
+                                    gameStatsViewModelSinglePlayer.resetRoundStats()
                                     navController.popBackStack()
                                     navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
                                 } else {
-                                    gameStatsViewModel.updateFromPlaneRound()
+                                    gameStatsViewModelSinglePlayer.updateFromPlaneRound()
                                 }
                             }
                         }
@@ -331,9 +341,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
             }
 
             val lastMove = if (!playerBoard.value)
-                gameStatsViewModel.getLastComputerMove()
+                gameStatsViewModelSinglePlayer.getLastComputerMove()
             else
-                gameStatsViewModel.getLastPlayerMove()
+                gameStatsViewModelSinglePlayer.getLastPlayerMove()
 
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
@@ -387,9 +397,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                             }
                             StatsValueField(value = if (!playerBoard.value)
-                                gameStatsViewModel.getComputerMoves()
+                                gameStatsViewModelSinglePlayer.getComputerMoves()
                             else
-                                gameStatsViewModel.getPlayerMoves(),
+                                gameStatsViewModelSinglePlayer.getPlayerMoves(),
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 4)
                                     .height(refButtonHeightDp.dp / 2),
@@ -407,9 +417,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                             }
 
                             val misses = if (!playerBoard.value)
-                                gameStatsViewModel.getComputerMisses()
+                                gameStatsViewModelSinglePlayer.getComputerMisses()
                             else
-                                gameStatsViewModel.getPlayerMisses()
+                                gameStatsViewModelSinglePlayer.getPlayerMisses()
 
                             val hotMisses = (lastMove == Type.Miss) && (misses > 0)
 
@@ -433,9 +443,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                             }
 
                             val hits = if (!playerBoard.value)
-                                gameStatsViewModel.getComputerHits()
+                                gameStatsViewModelSinglePlayer.getComputerHits()
                             else
-                                gameStatsViewModel.getPlayerHits()
+                                gameStatsViewModelSinglePlayer.getPlayerHits()
 
                             val hotHits = (lastMove == Type.Hit) && (hits > 0)
 
@@ -456,9 +466,9 @@ fun GameScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                             }
 
                             val dead = if (!playerBoard.value)
-                                gameStatsViewModel.getComputerDead()
+                                gameStatsViewModelSinglePlayer.getComputerDead()
                             else
-                                gameStatsViewModel.getPlayerDead()
+                                gameStatsViewModelSinglePlayer.getPlayerDead()
 
                             val hotDead = (lastMove == Type.Dead) && (dead > 0)
 

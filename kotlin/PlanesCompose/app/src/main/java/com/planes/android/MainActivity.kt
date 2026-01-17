@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,14 +22,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -40,9 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -52,16 +46,19 @@ import com.planes.android.navigation.PlanesNavigation
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.screens.createmultiplayergame.CreateViewModel
 import com.planes.android.screens.login.LoginViewModel
+import com.planes.android.screens.multiplayergame.ComputerGridViewModelMultiPlayer
+import com.planes.android.screens.multiplayergame.GameStatsViewModelMultiPlayer
+import com.planes.android.screens.multiplayergame.PlayerGridViewModelMultiPlayer
 import com.planes.android.screens.norobot.NoRobotViewModel
 import com.planes.android.screens.preferences.PreferencesViewModel
 import com.planes.android.screens.register.RegisterViewModel
-import com.planes.android.screens.singleplayergame.ComputerGridViewModel
-import com.planes.android.screens.singleplayergame.GameStatsViewModel
-import com.planes.android.screens.singleplayergame.PlayerGridViewModel
+import com.planes.android.screens.singleplayergame.ComputerGridViewModelSinglePlayer
+import com.planes.android.screens.singleplayergame.GameStatsViewModelSinglePlayer
+import com.planes.android.screens.singleplayergame.PlayerGridViewModelSinglePlayer
 import com.planes.android.ui.theme.PlanesComposeTheme
+import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import com.planes.singleplayerengine.GameStages
-import com.planes.singleplayerengine.PlaneRound
-import com.planes.singleplayerengine.PlanesRoundInterface
+import com.planes.singleplayerengine.SinglePlayerRoundInterface
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -70,7 +67,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject lateinit var planeRound: PlanesRoundInterface
+    @Inject lateinit var planeRound: SinglePlayerRoundInterface
+    @Inject lateinit var planeRoundMultiplayer: MultiPlayerRoundInterface
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +79,8 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 Screen(modifier = Modifier,
                     navController = navController,
-                    planeRound = planeRound)
+                    planeRound = planeRound,
+                    planeRoundMultiplayer = planeRoundMultiplayer)
             }
         }
     }
@@ -92,12 +91,16 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Screen(modifier: Modifier,
            navController: NavHostController,
-           planeRound: PlanesRoundInterface) {
+           planeRound: SinglePlayerRoundInterface,
+           planeRoundMultiplayer: MultiPlayerRoundInterface) {
 
-    val playerGridViewModel: PlayerGridViewModel = hiltViewModel()
-    val computerGridViewModel: ComputerGridViewModel = hiltViewModel()
+    val playerGridViewModelSinglePlayer: PlayerGridViewModelSinglePlayer = hiltViewModel()
+    val computerGridViewModelSinglePlayer: ComputerGridViewModelSinglePlayer = hiltViewModel()
+    val gameStatsViewModelSinglePlayer: GameStatsViewModelSinglePlayer = hiltViewModel()
+    val playerGridViewModelMultiPlayer: PlayerGridViewModelMultiPlayer = hiltViewModel()
+    val computerGridViewModelMultiPlayer: ComputerGridViewModelMultiPlayer = hiltViewModel()
+    val gameStatsViewModelMultiPlayer: GameStatsViewModelMultiPlayer = hiltViewModel()
     val optionsViewModel: PreferencesViewModel = hiltViewModel()
-    val gameStatsViewModel: GameStatsViewModel = hiltViewModel()
     val loginViewModel: LoginViewModel = hiltViewModel()
     val registerViewModel: RegisterViewModel = hiltViewModel()
     val noRobotViewModel: NoRobotViewModel = hiltViewModel()
@@ -158,10 +161,14 @@ fun Screen(modifier: Modifier,
                 topBarHeight = topBarHeight,
                 navController = navController,
                 planeRound,
+                planeRoundMultiplayer,
                 optionsViewModel,
-                playerGridViewModel,
-                computerGridViewModel,
-                gameStatsViewModel,
+                playerGridViewModelSinglePlayer,
+                computerGridViewModelSinglePlayer,
+                gameStatsViewModelSinglePlayer,
+                playerGridViewModelMultiPlayer,
+                computerGridViewModelMultiPlayer,
+                gameStatsViewModelMultiPlayer,
                 loginViewModel,
                 registerViewModel,
                 noRobotViewModel,
@@ -174,11 +181,15 @@ fun Screen(modifier: Modifier,
 fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
                   topBarHeight: MutableState<Int>,
                   navController: NavHostController,
-                  planeRound: PlanesRoundInterface,
+                  planeRound: SinglePlayerRoundInterface,
+                  planeRoundMultiplayer: MultiPlayerRoundInterface,
                   optionsViewModel: PreferencesViewModel,
-                  playerGridViewModel: PlayerGridViewModel,
-                  computerGridViewModel: ComputerGridViewModel,
-                  gameStatsViewModel: GameStatsViewModel,
+                  playerGridViewModelSinglePlayer: PlayerGridViewModelSinglePlayer,
+                  computerGridViewModelSinglePlayer: ComputerGridViewModelSinglePlayer,
+                  gameStatsViewModelSinglePlayer: GameStatsViewModelSinglePlayer,
+                  playerGridViewModelMultiPlayer: PlayerGridViewModelMultiPlayer,
+                  computerGridViewModelMultiPlayer: ComputerGridViewModelMultiPlayer,
+                  gameStatsViewModelMultiPlayer: GameStatsViewModelMultiPlayer,
                   loginViewModel: LoginViewModel,
                   registerViewModel: RegisterViewModel,
                   noRobotViewModel: NoRobotViewModel,
@@ -189,10 +200,14 @@ fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
         currentScreenState, topBarHeight, navController,
         context = LocalContext.current,
         planeRound,
+        planeRoundMultiplayer,
         optionsViewModel,
-        playerGridViewModel,
-        computerGridViewModel,
-        gameStatsViewModel,
+        playerGridViewModelSinglePlayer,
+        computerGridViewModelSinglePlayer,
+        gameStatsViewModelSinglePlayer,
+        playerGridViewModelMultiPlayer,
+        computerGridViewModelMultiPlayer,
+        gameStatsViewModelMultiPlayer,
         loginViewModel,
         registerViewModel,
         noRobotViewModel,
@@ -204,7 +219,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
                   navController: NavController,
                   drawerScope: CoroutineScope,
                   drawerState: DrawerState,
-                  planeRound: PlanesRoundInterface
+                  planeRound: SinglePlayerRoundInterface
                   ) {
     //TODO: page names from resources
 

@@ -4,7 +4,7 @@ import androidx.core.util.Pair
 import java.util.Vector
 
 //TODO: to move in common
-interface PlanesRoundInterface {
+interface SinglePlayerRoundInterface {
     //creates the PlaneRound object in the game engine
     //must be called a single time
     //fun createPlanesRound()

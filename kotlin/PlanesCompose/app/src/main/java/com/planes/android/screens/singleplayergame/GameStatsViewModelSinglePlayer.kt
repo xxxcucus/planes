@@ -2,13 +2,13 @@ package com.planes.android.screens.singleplayergame
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.planes.singleplayerengine.PlanesRoundInterface
+import com.planes.singleplayerengine.SinglePlayerRoundInterface
 import com.planes.singleplayerengine.Type
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class GameStatsViewModel  @Inject constructor(planeRound: PlanesRoundInterface): ViewModel() {
+class GameStatsViewModelSinglePlayer  @Inject constructor(planeRound: SinglePlayerRoundInterface): ViewModel() {
     var m_playerMoves = mutableStateOf(0)
     var m_playerHits = mutableStateOf(0)
     var m_playerDead = mutableStateOf(0)

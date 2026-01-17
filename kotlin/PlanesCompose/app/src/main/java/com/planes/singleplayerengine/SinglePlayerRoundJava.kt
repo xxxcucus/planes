@@ -4,7 +4,7 @@ import androidx.core.util.Pair
 import java.util.Vector
 
 //TODO: to delete this class
-class PlanesRoundJava : PlanesRoundInterface {
+class SinglePlayerRoundJava : SinglePlayerRoundInterface {
     //creates the PlaneRound object in the game engine
     //must be called a single time
     /*override fun createPlanesRound() {

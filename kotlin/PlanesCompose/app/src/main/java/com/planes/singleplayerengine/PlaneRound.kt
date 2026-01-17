@@ -5,12 +5,11 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import java.util.*
-import javax.inject.Inject
 
-class PlaneRound @AssistedInject constructor(
+open class PlaneRound @AssistedInject constructor(
     @Assisted("rowNo") rowNo: Int,
     @Assisted("colNo") colNo: Int,
-    @Assisted("planeNo") planeNo: Int) : PlanesRoundInterface {
+    @Assisted("planeNo") planeNo: Int) : SinglePlayerRoundInterface {
 
     //whether the computer or the player moves first
     private var m_isComputerFirst = false

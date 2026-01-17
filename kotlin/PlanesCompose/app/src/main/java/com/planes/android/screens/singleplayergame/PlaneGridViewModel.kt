@@ -1,6 +1,5 @@
 package com.planes.android.screens.singleplayergame
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.util.Pair
@@ -12,16 +11,13 @@ import com.planes.singleplayerengine.Orientation
 import com.planes.singleplayerengine.Plane
 import com.planes.singleplayerengine.Plane.PlaneStatic.generateRandomNumber
 import com.planes.singleplayerengine.PlanePointIterator
-import com.planes.singleplayerengine.PlaneRound
-import com.planes.singleplayerengine.PlanesRoundInterface
+import com.planes.singleplayerengine.SinglePlayerRoundInterface
 import com.planes.singleplayerengine.Type
-import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Vector
-import javax.inject.Inject
 
 
-open class PlaneGridViewModel(planeRound: PlanesRoundInterface,
-                                                  isComputer: Boolean) : ViewModel() {
+open class PlaneGridViewModel(planeRound: SinglePlayerRoundInterface,
+                              isComputer: Boolean) : ViewModel() {
 
     //number of rows and columns
     private var m_rowNo: Int = 10
@@ -46,7 +42,7 @@ open class PlaneGridViewModel(planeRound: PlanesRoundInterface,
     ///for QML
     private var m_listPlanePointsAnnotations = mutableStateListOf<Int>()
 
-    private var  m_PlaneRound: PlanesRoundInterface = planeRound
+    private var  m_PlaneRound: SinglePlayerRoundInterface = planeRound
 
     //the following annotations should exist
     //00000001 - belonging to plane 1

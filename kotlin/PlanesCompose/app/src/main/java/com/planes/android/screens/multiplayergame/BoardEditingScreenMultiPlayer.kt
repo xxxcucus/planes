@@ -1,4 +1,4 @@
-package com.planes.android.screens.singleplayergame
+package com.planes.android.screens.multiplayergame
 
 import android.content.res.Configuration
 import android.util.Log
@@ -24,19 +24,25 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
-import com.planes.singleplayerengine.PlanesRoundInterface
+import com.planes.android.screens.singleplayergame.BoardSquareBoardEditing
+import com.planes.android.screens.singleplayergame.GameBoardSinglePlayer
+import com.planes.android.screens.singleplayergame.OneLineGameButton
+import com.planes.android.screens.singleplayergame.PlaneGridViewModel
+import com.planes.android.screens.singleplayergame.TwoLineGameButton
+import com.planes.multiplayerengine.MultiPlayerRoundInterface
+import com.planes.singleplayerengine.SinglePlayerRoundInterface
 import java.util.Date
 import kotlin.math.abs
 
 @Composable
-fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<String>,
-                       topBarHeight: MutableState<Int>,
-                       navController: NavController,
-                       planeRound: PlanesRoundInterface,
-                       playerGridViewModel: PlaneGridViewModel
+fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<String>,
+                                  topBarHeight: MutableState<Int>,
+                                  navController: NavController,
+                                  planeRound: MultiPlayerRoundInterface,
+                                  playerGridViewModel: PlayerGridViewModelMultiPlayer
 ) {
 
-    currentScreenState.value = PlanesScreens.SinglePlayerGame.name
+    currentScreenState.value = PlanesScreens.MultiplayerGame.name
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp
@@ -74,33 +80,33 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
         Column() {
 
-           GameBoardSinglePlayer(playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
-               modifier = Modifier.padding(top = topBarHeight.value.dp)
-               .width(boardSizeDp.dp).height(boardSizeDp.dp)
-               .pointerInput(Unit) {
-                   detectDragGestures(
-                       onDrag = { _, dragAmount ->
-                           val tripleVal = treatSwipeVertical(swipeThresh, consecSwipeThresh, swipeLengthX,
-                               swipeLengthY, squareSizePx, curTime, dragAmount, playerGridViewModel)
-                           swipeLengthX = tripleVal.first
-                           swipeLengthY = tripleVal.second
-                           curTime = tripleVal.third
-                       }
-                   )
-               }) {
-               for (index in 0..99)
-                   BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, playerGridViewModel) {
-                       val row = index / playerGridViewModel.getColNo()
-                       val col = index % playerGridViewModel.getColNo()
+            GameBoardSinglePlayer(playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
+                modifier = Modifier.padding(top = topBarHeight.value.dp)
+                    .width(boardSizeDp.dp).height(boardSizeDp.dp)
+                    .pointerInput(Unit) {
+                        detectDragGestures(
+                            onDrag = { _, dragAmount ->
+                                val tripleVal = treatSwipeVertical(swipeThresh, consecSwipeThresh, swipeLengthX,
+                                    swipeLengthY, squareSizePx, curTime, dragAmount, playerGridViewModel)
+                                swipeLengthX = tripleVal.first
+                                swipeLengthY = tripleVal.second
+                                curTime = tripleVal.third
+                            }
+                        )
+                    }) {
+                for (index in 0..99)
+                    BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, playerGridViewModel) {
+                        val row = index / playerGridViewModel.getColNo()
+                        val col = index % playerGridViewModel.getColNo()
 
-                       playerGridViewModel.setSelectedPlane(row, col)
-                   }
-           }
+                        playerGridViewModel.setSelectedPlane(row, col)
+                    }
+            }
 
             Column(modifier = Modifier.height(screenHeightDp.dp - boardSizeDp.dp),
                 verticalArrangement = Arrangement.Center) {
                 Row(
-                   horizontalArrangement = Arrangement.Center,
+                    horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.height(buttonHeightDp.dp).fillMaxWidth()
                 ) {
                     OneLineGameButton(
@@ -123,7 +129,7 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
                 }
 
                 Row(
-                   horizontalArrangement = Arrangement.Center,
+                    horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.height(buttonHeightDp.dp).fillMaxWidth()
                 ) {
                     OneLineGameButton(
@@ -152,19 +158,19 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
 
             GameBoardSinglePlayer(playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
                 modifier = Modifier.padding(top = topBarHeight.value.dp)
-                .width(boardSizeDp.dp).height(boardSizeDp.dp)
-                .pointerInput(Unit) {
-                    detectDragGestures(
-                        onDrag = { _, dragAmount ->
-                            val tripleVal = treatSwipeHorizontal(
-                                swipeThresh, consecSwipeThresh, swipeLengthX,
-                                swipeLengthY, squareSizePx, curTime, dragAmount, playerGridViewModel
-                            )
-                            swipeLengthX = tripleVal.first
-                            swipeLengthY = tripleVal.second
-                            curTime = tripleVal.third
-                        })
-                }) {
+                    .width(boardSizeDp.dp).height(boardSizeDp.dp)
+                    .pointerInput(Unit) {
+                        detectDragGestures(
+                            onDrag = { _, dragAmount ->
+                                val tripleVal = treatSwipeHorizontal(
+                                    swipeThresh, consecSwipeThresh, swipeLengthX,
+                                    swipeLengthY, squareSizePx, curTime, dragAmount, playerGridViewModel
+                                )
+                                swipeLengthX = tripleVal.first
+                                swipeLengthY = tripleVal.second
+                                curTime = tripleVal.third
+                            })
+                    }) {
                 for (index in 0..99)
                     BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, playerGridViewModel) {
                         val row = index / playerGridViewModel.getColNo()
@@ -232,10 +238,10 @@ fun BoardEditingScreen(modifier: Modifier, currentScreenState: MutableState<Stri
 }
 
 fun treatSwipeVertical(swipeThresh: Float, consecSwipeThresh: Int,
-               swipeLengthX: Float, swipeLengthY: Float,
-               squareSizePx: Float,
-               curTime: Date, dragAmount: Offset,
-               planesGridViewModel: PlaneGridViewModel
+                       swipeLengthX: Float, swipeLengthY: Float,
+                       squareSizePx: Float,
+                       curTime: Date, dragAmount: Offset,
+                       planesGridViewModel: PlaneGridViewModel
 ) : Triple<Float, Float, Date> {
     val t = Date()
     val diff = -curTime.time + t.time
@@ -279,10 +285,10 @@ fun treatSwipeVertical(swipeThresh: Float, consecSwipeThresh: Int,
 
 
 fun treatSwipeHorizontal(swipeThresh: Float, consecSwipeThresh: Int,
-                       swipeLengthX: Float, swipeLengthY: Float,
-                       squareSizePx: Float,
-                       curTime: Date, dragAmount: Offset,
-                       planesGridViewModel: PlaneGridViewModel
+                         swipeLengthX: Float, swipeLengthY: Float,
+                         squareSizePx: Float,
+                         curTime: Date, dragAmount: Offset,
+                         planesGridViewModel: PlaneGridViewModel
 ) : Triple<Float, Float, Date> {
     val t = Date()
     val diff = -curTime.time + t.time

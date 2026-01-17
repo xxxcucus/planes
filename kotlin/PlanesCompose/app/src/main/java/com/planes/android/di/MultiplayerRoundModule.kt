@@ -1,7 +1,7 @@
 package com.planes.android.di
 
-import com.planes.singleplayerengine.PlaneRound
-import com.planes.singleplayerengine.SinglePlayerRoundInterface
+import com.planes.multiplayerengine.MultiPlayerRoundInterface
+import com.planes.multiplayerengine.MultiplayerRound
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,11 +10,11 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class PlaneRoundModule {
+class MultiplayerRoundModule {
 
     @Provides
     @Singleton
-    fun providePlaneRound(factory: PlaneRound.Factory): SinglePlayerRoundInterface {
+    fun provideMultiplayerRound(factory: MultiplayerRound.Factory): MultiPlayerRoundInterface {
         return factory.createPlaneRound(10, 10, 3)
     }
 }

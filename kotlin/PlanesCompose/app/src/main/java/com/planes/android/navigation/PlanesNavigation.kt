@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,36 +15,45 @@ import com.planes.android.screens.createmultiplayergame.CreateViewModel
 import com.planes.android.screens.deleteuser.DeleteUserScreen
 import com.planes.android.screens.login.LoginScreen
 import com.planes.android.screens.login.LoginViewModel
-import com.planes.android.screens.multiplayergame.MultiplayerGameScreen
+import com.planes.android.screens.multiplayergame.BoardEditingScreenMultiPlayer
+import com.planes.android.screens.multiplayergame.ComputerGridViewModelMultiPlayer
+import com.planes.android.screens.multiplayergame.GameNotStartedScreenMultiPlayer
+import com.planes.android.screens.multiplayergame.GameScreenMultiPlayer
+import com.planes.android.screens.multiplayergame.GameStatsViewModelMultiPlayer
+import com.planes.android.screens.multiplayergame.PlayerGridViewModelMultiPlayer
 import com.planes.android.screens.multiplayergamestatistics.MultiplayerGameStatisticsScreen
 import com.planes.android.screens.norobot.NoRobotScreen
 import com.planes.android.screens.norobot.NoRobotViewModel
 import com.planes.android.screens.register.RegisterScreen
-import com.planes.android.screens.singleplayergame.BoardEditingScreen
+import com.planes.android.screens.singleplayergame.BoardEditingScreenSinglePlayer
 import com.planes.android.screens.singleplayergamestatistics.SinglePlayerGameStatisticsScreen
 import com.planes.android.screens.preferences.PreferencesScreen
 import com.planes.android.screens.preferences.PreferencesViewModel
 import com.planes.android.screens.register.RegisterViewModel
-import com.planes.android.screens.singleplayergame.ComputerGridViewModel
-import com.planes.android.screens.singleplayergame.GameNotStartedScreen
-import com.planes.android.screens.singleplayergame.GameScreen
-import com.planes.android.screens.singleplayergame.GameStatsViewModel
-import com.planes.android.screens.singleplayergame.PlayerGridViewModel
+import com.planes.android.screens.singleplayergame.ComputerGridViewModelSinglePlayer
+import com.planes.android.screens.singleplayergame.GameNotStartedScreenSinglePlayer
+import com.planes.android.screens.singleplayergame.GameScreenSinglePlayer
+import com.planes.android.screens.singleplayergame.GameStatsViewModelSinglePlayer
+import com.planes.android.screens.singleplayergame.PlayerGridViewModelSinglePlayer
 import com.planes.android.screens.video.VideoModelRepository
 import com.planes.android.screens.video.VideoScreen
-import com.planes.singleplayerengine.PlanesRoundInterface
-import javax.inject.Inject
+import com.planes.multiplayerengine.MultiPlayerRoundInterface
+import com.planes.singleplayerengine.SinglePlayerRoundInterface
 
 @Composable
 fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String>,
                      topBarHeight: MutableState<Int>,
                      navController: NavHostController,
                      context: Context,
-                     planeRound: PlanesRoundInterface,
+                     planeRound: SinglePlayerRoundInterface,
+                     planeRoundMultiplayer: MultiPlayerRoundInterface,
                      optionsViewModel: PreferencesViewModel,
-                     playerGridViewModel: PlayerGridViewModel,
-                     computerGridViewModel: ComputerGridViewModel,
-                     gameStatsViewModel: GameStatsViewModel,
+                     playerGridViewModelSinglePlayer: PlayerGridViewModelSinglePlayer,
+                     computerGridViewModelSinglePlayer: ComputerGridViewModelSinglePlayer,
+                     gameStatsViewModelSinglePlayer: GameStatsViewModelSinglePlayer,
+                     playerGridViewModelMultiPlayer: PlayerGridViewModelMultiPlayer,
+                     computerGridViewModelMultiPlayer: ComputerGridViewModelMultiPlayer,
+                     gameStatsViewModelMultiPlayer: GameStatsViewModelMultiPlayer,
                      loginViewModel: LoginViewModel,
                      registerViewModel: RegisterViewModel,
                      noRobotViewModel: NoRobotViewModel,
@@ -58,21 +65,21 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
         navController = navController,
         startDestination = PlanesScreens.Info.name) {
         composable(PlanesScreens.SinglePlayerGame.name) {
-           GameScreen(modifier = modifier,
+           GameScreenSinglePlayer(modifier = modifier,
                currentScreenState, topBarHeight, navController = navController,
                planeRound,
-               playerGridViewModel, computerGridViewModel, gameStatsViewModel)
+               playerGridViewModelSinglePlayer, computerGridViewModelSinglePlayer, gameStatsViewModelSinglePlayer)
         }
         composable(PlanesScreens.SinglePlayerBoardEditing.name) {
-            BoardEditingScreen(modifier = modifier,
+            BoardEditingScreenSinglePlayer(modifier = modifier,
                 currentScreenState, topBarHeight, navController = navController,
-                planeRound, playerGridViewModel)
+                planeRound, playerGridViewModelSinglePlayer)
         }
         composable(PlanesScreens.SinglePlayerGameNotStarted.name) {
-            GameNotStartedScreen(modifier = modifier,
+            GameNotStartedScreenSinglePlayer(modifier = modifier,
                 currentScreenState, topBarHeight, navController = navController,
                 planeRound,
-                playerGridViewModel, computerGridViewModel)
+                playerGridViewModelSinglePlayer, computerGridViewModelSinglePlayer)
         }
         composable(PlanesScreens.SinglePlayerGameStatistics.name) {
             SinglePlayerGameStatisticsScreen(modifier = modifier, currentScreenState,
@@ -89,8 +96,22 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                 loginViewModel, createViewModel)
         }
 
+        composable(PlanesScreens.MultiplayerBoardEditing.name) {
+            BoardEditingScreenMultiPlayer(modifier = modifier,
+                currentScreenState, topBarHeight, navController = navController,
+                planeRoundMultiplayer, playerGridViewModelMultiPlayer)
+        }
         composable(PlanesScreens.MultiplayerGame.name) {
-            MultiplayerGameScreen(modifier = modifier, currentScreenState, navController = navController)
+            GameScreenMultiPlayer(modifier = modifier,
+                currentScreenState, topBarHeight, navController = navController,
+                planeRoundMultiplayer,
+                playerGridViewModelMultiPlayer, computerGridViewModelMultiPlayer, gameStatsViewModelMultiPlayer)
+        }
+        composable(PlanesScreens.MultiplayerGameNotStarted.name) {
+            GameNotStartedScreenMultiPlayer(modifier = modifier,
+                currentScreenState, topBarHeight, navController = navController,
+                planeRoundMultiplayer,
+                playerGridViewModelMultiPlayer, computerGridViewModelMultiPlayer)
         }
         composable(PlanesScreens.MultiplayerGameStatistics.name) {
             MultiplayerGameStatisticsScreen(modifier = modifier, currentScreenState, navController = navController)

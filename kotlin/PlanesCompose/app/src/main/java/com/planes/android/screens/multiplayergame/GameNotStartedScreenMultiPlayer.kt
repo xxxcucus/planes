@@ -1,4 +1,4 @@
-package com.planes.android.screens.singleplayergame
+package com.planes.android.screens.multiplayergame
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -21,16 +20,22 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
-import com.planes.singleplayerengine.PlanesRoundInterface
+import com.planes.android.screens.singleplayergame.BoardSquareGameNotStarted
+import com.planes.android.screens.singleplayergame.GameBoardSinglePlayer
+import com.planes.android.screens.singleplayergame.OneLineGameButton
+import com.planes.android.screens.singleplayergame.StatsValueField
+import com.planes.android.screens.singleplayergame.TwoLineGameButton
+import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import com.planes.singleplayerengine.RoundEndStatus
+import com.planes.singleplayerengine.SinglePlayerRoundInterface
 
 @Composable
-fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<String>,
-                         topBarHeight: MutableState<Int>,
-                         navController: NavController,
-                         planeRound: PlanesRoundInterface,
-                         playerGridViewModel: PlaneGridViewModel,
-                         computerGridViewModel: PlaneGridViewModel
+fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<String>,
+                                    topBarHeight: MutableState<Int>,
+                                    navController: NavController,
+                                    planeRound: MultiPlayerRoundInterface,
+                                    playerGridViewModel: PlayerGridViewModelMultiPlayer,
+                                    computerGridViewModel: ComputerGridViewModelMultiPlayer
 ) {
 
     currentScreenState.value = PlanesScreens.SinglePlayerGame.name
@@ -68,8 +73,10 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
 
     val gameBoardViewModel = if (playerBoard.value) playerGridViewModel else computerGridViewModel
 
-    val titleOtherBoard1 = if (playerBoard.value) stringResource(R.string.view_computer_board1) else stringResource(R.string.view_player_board1)
-    val titleOtherBoard2 = if (playerBoard.value) stringResource(R.string.view_computer_board2) else stringResource(R.string.view_player_board2)
+    val titleOtherBoard1 = if (playerBoard.value) stringResource(R.string.view_computer_board1) else stringResource(
+        R.string.view_player_board1)
+    val titleOtherBoard2 = if (playerBoard.value) stringResource(R.string.view_computer_board2) else stringResource(
+        R.string.view_player_board2)
 
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
         Column() {
@@ -302,4 +309,3 @@ fun GameNotStartedScreen(modifier: Modifier, currentScreenState: MutableState<St
         }
     }
 }
-

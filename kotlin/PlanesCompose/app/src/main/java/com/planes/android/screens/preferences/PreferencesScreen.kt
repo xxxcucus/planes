@@ -26,14 +26,14 @@ import com.planes.android.navigation.PlanesScreens
 import com.planes.android.widgets.CheckBoxOption
 import com.planes.android.widgets.CommonTextFieldWithViewModel
 import com.planes.android.widgets.PasswordInputFieldWithViewModel
-import com.planes.singleplayerengine.PlanesRoundInterface
+import com.planes.singleplayerengine.SinglePlayerRoundInterface
 
 @Composable
 fun PreferencesScreen(modifier: Modifier,
                       currentScreenState: MutableState<String>,
                       navController: NavController,
                       optionsViewModel: PreferencesViewModel,
-                      planeRound: PlanesRoundInterface
+                      planeRound: SinglePlayerRoundInterface
 ) {
 
     currentScreenState.value = PlanesScreens.Preferences.name
