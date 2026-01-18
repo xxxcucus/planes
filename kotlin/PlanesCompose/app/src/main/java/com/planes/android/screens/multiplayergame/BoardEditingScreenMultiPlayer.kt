@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
@@ -24,11 +26,15 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
+import com.planes.android.screens.singleplayergame.BoardEditingControlButtonsHorizontalLayout
+import com.planes.android.screens.singleplayergame.BoardEditingControlButtonsVerticalLayout
 import com.planes.android.screens.singleplayergame.BoardSquareBoardEditing
 import com.planes.android.screens.singleplayergame.GameBoardSinglePlayer
 import com.planes.android.screens.singleplayergame.OneLineGameButton
 import com.planes.android.screens.singleplayergame.PlaneGridViewModel
 import com.planes.android.screens.singleplayergame.TwoLineGameButton
+import com.planes.android.screens.singleplayergame.treatSwipeHorizontal
+import com.planes.android.screens.singleplayergame.treatSwipeVertical
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import com.planes.singleplayerengine.SinglePlayerRoundInterface
 import java.util.Date
@@ -103,55 +109,10 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                     }
             }
 
-            Column(modifier = Modifier.height(screenHeightDp.dp - boardSizeDp.dp),
-                verticalArrangement = Arrangement.Center) {
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.height(buttonHeightDp.dp).fillMaxWidth()
-                ) {
-                    OneLineGameButton(
-                        textLine = stringResource(R.string.rotate_button), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                        enabled = true
-                    ) { viewModel ->
-                        viewModel.rotatePlane(playerGridViewModel.getSelectedPlane())
-                    }
-                    OneLineGameButton(
-                        textLine = stringResource(R.string.done_button), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                        enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
-                    ) {
-                        playerGridViewModel.updatePlanesToPlaneRound()
-                        playerGridViewModel.doneEditing()
-                        navController.popBackStack()
-                        navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
-                    }
-                }
-
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.height(buttonHeightDp.dp).fillMaxWidth()
-                ) {
-                    OneLineGameButton(
-                        textLine = stringResource(R.string.cancel), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                        enabled = true
-                    ) {
-                        planeRound.cancelRound()
-                        navController.popBackStack()
-                        navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
-                    }
-                    TwoLineGameButton(
-                        textLine1 = stringResource(R.string.reset_board1),
-                        textLine2 = stringResource(R.string.reset_board2),
-                        playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                        enabled = true
-                    ) { viewModel ->
-                        viewModel.initGrid()
-                    }
-                }
-            }
+            BoardEditingControlButtonsVerticalLayout(screenHeightDp, boardSizeDp, buttonHeightDp,
+                buttonWidthDp, navController,
+                playerGridViewModel,
+                planeRound)
         }
     } else {  //landscape
         Row() {
@@ -180,148 +141,11 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                     }
             }
 
-            Row(modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxHeight().width(buttonWidthDp.dp)
-                        .padding(top = topBarHeight.value.dp)
-                ) {
-                    OneLineGameButton(
-                        textLine = stringResource(R.string.rotate_button), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                        enabled = true
-                    ) { viewModel ->
-                        viewModel.rotatePlane(playerGridViewModel.getSelectedPlane())
-                    }
-
-                    OneLineGameButton(
-                        textLine = stringResource(R.string.cancel), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                        enabled = true
-                    ) {
-                        planeRound.cancelRound()
-                        navController.popBackStack()
-                        navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
-                    }
-                }
-
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxHeight().width(buttonWidthDp.dp)
-                ) {
-                    Spacer(modifier = Modifier.height(topBarHeight.value.dp))
-                    OneLineGameButton(
-                        textLine = stringResource(R.string.done_button), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                        enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
-                    ) {
-                        playerGridViewModel.updatePlanesToPlaneRound()
-                        playerGridViewModel.doneEditing()
-                        navController.popBackStack()
-                        navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
-                    }
-
-                    TwoLineGameButton(
-                        textLine1 = stringResource(R.string.reset_board1),
-                        textLine2 = stringResource(R.string.reset_board2),
-                        playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                        enabled = true
-                    ) { viewModel ->
-                        viewModel.initGrid()
-                    }
-                }
-            }
+            BoardEditingControlButtonsHorizontalLayout(screenHeightDp, boardSizeDp, buttonHeightDp,
+                buttonWidthDp, topBarHeight.value, navController,
+                playerGridViewModel,
+                planeRound)
         }
     }
 }
 
-fun treatSwipeVertical(swipeThresh: Float, consecSwipeThresh: Int,
-                       swipeLengthX: Float, swipeLengthY: Float,
-                       squareSizePx: Float,
-                       curTime: Date, dragAmount: Offset,
-                       planesGridViewModel: PlaneGridViewModel
-) : Triple<Float, Float, Date> {
-    val t = Date()
-    val diff = -curTime.time + t.time
-    if (diff < consecSwipeThresh) {
-        Log.i("Tag", "Dragged $diff ms")
-        return Triple(swipeLengthX + dragAmount.x, swipeLengthY + dragAmount.y, curTime)
-    }
-
-    if (abs(swipeLengthX) > abs(swipeLengthY)) {
-
-        val steps = (abs(swipeLengthX) / squareSizePx).toInt()
-        Log.i("Tag", "Dragged ${abs(swipeLengthX)} $steps $squareSizePx")
-        //val steps = 0
-        if (swipeLengthX > swipeThresh) {
-            for (i in 0..<steps)
-                planesGridViewModel.movePlaneRight(planesGridViewModel.getSelectedPlane())
-            //down
-        } else if (swipeLengthX < -swipeThresh) {
-            for (i in 0..<steps)
-                planesGridViewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
-            //up
-        }
-    } else {
-
-        val steps = (abs(swipeLengthY) / squareSizePx).toInt()
-        Log.i("Tag", "Dragged ${abs(swipeLengthY)} $steps $squareSizePx")
-        //val steps = 0
-        if (swipeLengthY > swipeThresh) {
-            for (i in 0..<steps)
-                planesGridViewModel.movePlaneDownwards(planesGridViewModel.getSelectedPlane())
-            //right
-        } else if (swipeLengthY < -swipeThresh) {
-            for (i in 0..<steps)
-                planesGridViewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
-            //left
-        }
-    }
-
-    return Triple(0.0f, 0.0f, t)
-}
-
-
-fun treatSwipeHorizontal(swipeThresh: Float, consecSwipeThresh: Int,
-                         swipeLengthX: Float, swipeLengthY: Float,
-                         squareSizePx: Float,
-                         curTime: Date, dragAmount: Offset,
-                         planesGridViewModel: PlaneGridViewModel
-) : Triple<Float, Float, Date> {
-    val t = Date()
-    val diff = -curTime.time + t.time
-    if (diff < consecSwipeThresh) {
-        Log.i("Tag", "Dragged $diff ms")
-        return Triple(swipeLengthX + dragAmount.x, swipeLengthY + dragAmount.y, curTime)
-    }
-
-    if (abs(swipeLengthX) > abs(swipeLengthY)) {
-
-        val steps = (abs(swipeLengthX) / squareSizePx).toInt()
-        Log.i("Tag", "Dragged ${abs(swipeLengthX)} $steps $squareSizePx")
-        //val steps = 0
-        if (swipeLengthX > swipeThresh) {
-            for (i in 0..<steps)
-                planesGridViewModel.movePlaneRight(planesGridViewModel.getSelectedPlane())
-        } else if (swipeLengthX < -swipeThresh) {
-            for (i in 0..<steps)
-                planesGridViewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
-        }
-    } else {
-
-        val steps = (abs(swipeLengthY) / squareSizePx).toInt()
-        Log.i("Tag", "Dragged ${abs(swipeLengthY)} $steps $squareSizePx")
-        //val steps = 0
-        if (swipeLengthY > swipeThresh) {
-            for (i in 0..<steps)
-                planesGridViewModel.movePlaneDownwards(planesGridViewModel.getSelectedPlane())
-        } else if (swipeLengthY < -swipeThresh) {
-            for (i in 0..<steps)
-                planesGridViewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
-        }
-    }
-
-    return Triple(0.0f, 0.0f, t)
-}

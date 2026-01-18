@@ -97,55 +97,10 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentScreenState: Mutab
                    }
            }
 
-            Column(modifier = Modifier.height(screenHeightDp.dp - boardSizeDp.dp),
-                verticalArrangement = Arrangement.Center) {
-                Row(
-                   horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.height(buttonHeightDp.dp).fillMaxWidth()
-                ) {
-                    OneLineGameButton(
-                        textLine = stringResource(R.string.rotate_button), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                        enabled = true
-                    ) { viewModel ->
-                        viewModel.rotatePlane(playerGridViewModel.getSelectedPlane())
-                    }
-                    OneLineGameButton(
-                        textLine = stringResource(R.string.done_button), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                        enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
-                    ) {
-                        playerGridViewModel.updatePlanesToPlaneRound()
-                        playerGridViewModel.doneEditing()
-                        navController.popBackStack()
-                        navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
-                    }
-                }
-
-                Row(
-                   horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.height(buttonHeightDp.dp).fillMaxWidth()
-                ) {
-                    OneLineGameButton(
-                        textLine = stringResource(R.string.cancel), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                        enabled = true
-                    ) {
-                        planeRound.cancelRound()
-                        navController.popBackStack()
-                        navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
-                    }
-                    TwoLineGameButton(
-                        textLine1 = stringResource(R.string.reset_board1),
-                        textLine2 = stringResource(R.string.reset_board2),
-                        playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                        enabled = true
-                    ) { viewModel ->
-                        viewModel.initGrid()
-                    }
-                }
-            }
+            BoardEditingControlButtonsVerticalLayout(screenHeightDp, boardSizeDp, buttonHeightDp,
+                buttonWidthDp, navController,
+                playerGridViewModel,
+                planeRound)
         }
     } else {  //landscape
         Row() {
@@ -174,59 +129,10 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentScreenState: Mutab
                     }
             }
 
-            Row(modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxHeight().width(buttonWidthDp.dp)
-                        .padding(top = topBarHeight.value.dp)
-                ) {
-                    OneLineGameButton(
-                        textLine = stringResource(R.string.rotate_button), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                        enabled = true
-                    ) { viewModel ->
-                        viewModel.rotatePlane(playerGridViewModel.getSelectedPlane())
-                    }
-
-                    OneLineGameButton(
-                        textLine = stringResource(R.string.cancel), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                        enabled = true
-                    ) {
-                        planeRound.cancelRound()
-                        navController.popBackStack()
-                        navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
-                    }
-                }
-
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxHeight().width(buttonWidthDp.dp)
-                ) {
-                    Spacer(modifier = Modifier.height(topBarHeight.value.dp))
-                    OneLineGameButton(
-                        textLine = stringResource(R.string.done_button), playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                        enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
-                    ) {
-                        playerGridViewModel.updatePlanesToPlaneRound()
-                        playerGridViewModel.doneEditing()
-                        navController.popBackStack()
-                        navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
-                    }
-
-                    TwoLineGameButton(
-                        textLine1 = stringResource(R.string.reset_board1),
-                        textLine2 = stringResource(R.string.reset_board2),
-                        playerGridViewModel,
-                        modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                        enabled = true
-                    ) { viewModel ->
-                        viewModel.initGrid()
-                    }
-                }
-            }
+            BoardEditingControlButtonsHorizontalLayout(screenHeightDp, boardSizeDp, buttonHeightDp,
+                buttonWidthDp, topBarHeight.value, navController,
+                playerGridViewModel,
+                planeRound)
         }
     }
 }
@@ -318,4 +224,125 @@ fun treatSwipeHorizontal(swipeThresh: Float, consecSwipeThresh: Int,
     }
 
     return Triple(0.0f, 0.0f, t)
+}
+
+@Composable
+fun BoardEditingControlButtonsVerticalLayout(screenHeightDp: Int, boardSizeDp: Int, buttonHeightDp: Int,
+                                             buttonWidthDp: Int, navController: NavController,
+                                             playerGridViewModel: PlaneGridViewModel,
+                                             planeRound: SinglePlayerRoundInterface) {
+    Column(
+        modifier = Modifier.height(screenHeightDp.dp - boardSizeDp.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.height(buttonHeightDp.dp).fillMaxWidth()
+        ) {
+            OneLineGameButton(
+                textLine = stringResource(R.string.rotate_button), playerGridViewModel,
+                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                enabled = true
+            ) { viewModel ->
+                viewModel.rotatePlane(playerGridViewModel.getSelectedPlane())
+            }
+            OneLineGameButton(
+                textLine = stringResource(R.string.done_button), playerGridViewModel,
+                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
+            ) {
+                playerGridViewModel.updatePlanesToPlaneRound()
+                playerGridViewModel.doneEditing()
+                navController.popBackStack()
+                navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
+            }
+        }
+
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.height(buttonHeightDp.dp).fillMaxWidth()
+        ) {
+            OneLineGameButton(
+                textLine = stringResource(R.string.cancel), playerGridViewModel,
+                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                enabled = true
+            ) {
+                planeRound.cancelRound()
+                navController.popBackStack()
+                navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
+            }
+            TwoLineGameButton(
+                textLine1 = stringResource(R.string.reset_board1),
+                textLine2 = stringResource(R.string.reset_board2),
+                playerGridViewModel,
+                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                enabled = true
+            ) { viewModel ->
+                viewModel.initGrid()
+            }
+        }
+    }
+}
+
+@Composable
+fun BoardEditingControlButtonsHorizontalLayout(screenHeightDp: Int, boardSizeDp: Int, buttonHeightDp: Int,
+                                             buttonWidthDp: Int, topBarHeightDp: Int,
+                                               navController: NavController,
+                                             playerGridViewModel: PlaneGridViewModel,
+                                             planeRound: SinglePlayerRoundInterface) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxHeight().width(buttonWidthDp.dp)
+                .padding(top = topBarHeightDp.dp)
+        ) {
+            OneLineGameButton(
+                textLine = stringResource(R.string.rotate_button), playerGridViewModel,
+                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                enabled = true
+            ) { viewModel ->
+                viewModel.rotatePlane(playerGridViewModel.getSelectedPlane())
+            }
+
+            OneLineGameButton(
+                textLine = stringResource(R.string.cancel), playerGridViewModel,
+                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                enabled = true
+            ) {
+                planeRound.cancelRound()
+                navController.popBackStack()
+                navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
+            }
+        }
+
+        Column(
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxHeight().width(buttonWidthDp.dp)
+        ) {
+            Spacer(modifier = Modifier.height(topBarHeightDp.dp))
+            OneLineGameButton(
+                textLine = stringResource(R.string.done_button), playerGridViewModel,
+                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
+            ) {
+                playerGridViewModel.updatePlanesToPlaneRound()
+                playerGridViewModel.doneEditing()
+                navController.popBackStack()
+                navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
+            }
+
+            TwoLineGameButton(
+                textLine1 = stringResource(R.string.reset_board1),
+                textLine2 = stringResource(R.string.reset_board2),
+                playerGridViewModel,
+                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                enabled = true
+            ) { viewModel ->
+                viewModel.initGrid()
+            }
+        }
+    }
 }

@@ -2231,7 +2231,18 @@ There is no need to define callback methods anymore, everything is done in the c
 \subsection { Android Concepts }
 
 \subsubsection { Composable Functions }
+
+Composable functions are Kotlin functions annotated with @Composable. They describe a part of the graphical interface in a declarative way. Instead of using an XML definition file like in AndroidML, Jetpack Compose uses composable functions to define UI interfaces. These function are reusable - a graphical component can be used in multiple screens. The composable functions can make use of other composable functions themselves. 
+
 \subsubsection { Coroutines }
+
+Coroutines are asynchronous tasks which run on a pool of threads managed by the operating system. Coroutines are more lightweight as threads. 
+
+They can suspend their execution when waiting for an event (e.g. data from a network call) and allow other coroutines to run on the same thread.
+
+One important property of coroutines is that they can be bound to a scope (e.g. the lifetime of a viewmodel object) and when the scope ceases to exist the coroutines are ended. This is a good method to make sure resources are efficiently used in an Android system.
+
+
 
 \subsubsection {Custom layouts} \label{custom_layouts_compose}
 
