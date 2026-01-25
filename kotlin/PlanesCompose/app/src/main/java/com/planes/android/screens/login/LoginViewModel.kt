@@ -1,10 +1,10 @@
 package com.planes.android.screens.login
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.planes.android.network.user.requests.LoginRequest
 import com.planes.android.repository.PlanesUserRepository
 
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -56,6 +56,10 @@ class LoginViewModel @Inject constructor(private val repository: PlanesUserRepos
         m_LoggedInUserId.value = value
     }
 
+    fun getLoggedInUserIdState() : MutableState<String?> {
+        return m_LoggedInUserId
+    }
+
     fun getLoggedInUserName(): String? {
         return m_LoggedInUsername.value
     }
@@ -64,8 +68,16 @@ class LoginViewModel @Inject constructor(private val repository: PlanesUserRepos
         m_LoggedInUsername.value = value
     }
 
+    fun getLoggedInUsernameState() : MutableState<String?> {
+        return m_LoggedInUsername
+    }
+
     fun getLoggedInToken() : String? {
         return m_LoggedInToken.value
+    }
+
+    fun getLoggedInTokenState(): MutableState<String?> {
+        return m_LoggedInToken
     }
 
     fun setLoggedInToken(value: String?) {

@@ -88,8 +88,12 @@ open class PlaneGridViewModel(planeRound: SinglePlayerRoundInterface,
         return m_PlaneRound.getGameStage()
     }
 
-    fun doneEditing() {
+    open fun doneEditing() {
         m_PlaneRound.doneClicked()
+    }
+
+    open fun cancelRound() {
+        m_PlaneRound.cancelRound()
     }
 
     fun isComputer():Boolean {

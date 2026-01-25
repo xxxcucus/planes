@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
@@ -68,6 +70,7 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentScreenState: Mutab
     var swipeLengthX = 0.0f
     var swipeLengthY = 0.0f
     var curTime = Date()
+
 
     //Log.d("Planes", "planes no ${planesGridViewModel.getPlaneNo()}")
 
@@ -250,11 +253,14 @@ fun BoardEditingControlButtonsVerticalLayout(screenHeightDp: Int, boardSizeDp: I
                 textLine = stringResource(R.string.done_button), playerGridViewModel,
                 modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                 enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
-            ) {
-                playerGridViewModel.updatePlanesToPlaneRound()
-                playerGridViewModel.doneEditing()
-                navController.popBackStack()
-                navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
+            ) { viewModel ->
+                viewModel.updatePlanesToPlaneRound()
+                viewModel.doneEditing()
+
+                if (viewModel is PlayerGridViewModelSinglePlayer) {
+                    navController.popBackStack()
+                    navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
+                }
             }
         }
 
@@ -266,10 +272,13 @@ fun BoardEditingControlButtonsVerticalLayout(screenHeightDp: Int, boardSizeDp: I
                 textLine = stringResource(R.string.cancel), playerGridViewModel,
                 modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                 enabled = true
-            ) {
-                planeRound.cancelRound()
+            ) { viewModel ->
+                viewModel.cancelRound()
                 navController.popBackStack()
-                navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
+                if (viewModel is PlayerGridViewModelSinglePlayer)
+                    navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
+                else
+                    navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
             }
             TwoLineGameButton(
                 textLine1 = stringResource(R.string.reset_board1),
@@ -311,10 +320,15 @@ fun BoardEditingControlButtonsHorizontalLayout(screenHeightDp: Int, boardSizeDp:
                 textLine = stringResource(R.string.cancel), playerGridViewModel,
                 modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                 enabled = true
-            ) {
-                planeRound.cancelRound()
-                navController.popBackStack()
-                navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
+            ) { viewModel ->
+                    viewModel.cancelRound()
+
+                    navController.popBackStack()
+                    if (viewModel is PlayerGridViewModelSinglePlayer)
+                        navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
+                    else
+                        navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
+
             }
         }
 
@@ -327,11 +341,13 @@ fun BoardEditingControlButtonsHorizontalLayout(screenHeightDp: Int, boardSizeDp:
                 textLine = stringResource(R.string.done_button), playerGridViewModel,
                 modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
                 enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
-            ) {
-                playerGridViewModel.updatePlanesToPlaneRound()
-                playerGridViewModel.doneEditing()
-                navController.popBackStack()
-                navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
+            ) { viewModel ->
+                viewModel.updatePlanesToPlaneRound()
+                viewModel.doneEditing()
+                if (viewModel is PlayerGridViewModelSinglePlayer) {
+                    navController.popBackStack()
+                    navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
+                }
             }
 
             TwoLineGameButton(

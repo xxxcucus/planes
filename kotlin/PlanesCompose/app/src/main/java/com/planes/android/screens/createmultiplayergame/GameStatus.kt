@@ -1,5 +1,6 @@
 package com.planes.android.screens.createmultiplayergame
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 
 class GameStatus {
@@ -24,12 +25,20 @@ class GameStatus {
         return m_GameId.value
     }
 
+    fun getGameIdState(): MutableState<String?> {
+        return m_GameId
+    }
+
     fun setGameId(value: String?) {
         m_GameId.value = value
     }
 
     fun getGameName(): String? {
         return m_GameName.value
+    }
+
+    fun getGameNameState(): MutableState<String?> {
+        return m_GameName
     }
 
     fun setGameName(value: String?) {
@@ -40,12 +49,20 @@ class GameStatus {
         return m_FirstPlayerName.value
     }
 
+    fun getFirstPlayerNameState(): MutableState<String?> {
+        return m_FirstPlayerName
+    }
+
     fun setFirstPlayerName(value: String?) {
         m_FirstPlayerName.value = value
     }
 
     fun getFirstPlayerId(): String? {
         return m_FirstPlayerId.value
+    }
+
+    fun getFirstPlayerIdState(): MutableState<String?> {
+        return m_FirstPlayerId
     }
 
     fun setFirstPlayerId(value: String?) {
@@ -56,6 +73,10 @@ class GameStatus {
         return m_SecondPlayerName.value
     }
 
+    fun getSecondPlayerNameState(): MutableState<String?> {
+        return m_SecondPlayerName
+    }
+
     fun setSecondPlayerName(value: String?) {
         m_SecondPlayerName.value = value
     }
@@ -64,12 +85,20 @@ class GameStatus {
         return m_SecondPlayerId.value
     }
 
+    fun getSecondPlayerIdState(): MutableState<String?> {
+        return m_SecondPlayerId
+    }
+
     fun setSecondPlayerId(value: String?) {
         m_SecondPlayerId.value = value
     }
 
     fun getCurrentRoundId(): String? {
         return m_CurrentRoundId.value
+    }
+
+    fun getCurrentRoundIdState(): MutableState<String?> {
+        return m_CurrentRoundId
     }
 
     fun setCurrentRoundId(value: String?) {
