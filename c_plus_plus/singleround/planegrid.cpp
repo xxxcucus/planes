@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "planegrid.h"
 #include "planeiterators.h"
+#include "planepointiterator.h"
 #include "coordinate2d.h"
 
 PlaneGrid::PlaneGrid(int row, int col, int planesNo, bool isComputer):

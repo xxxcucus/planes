@@ -2,6 +2,7 @@
 #include <QTest>
 #include "planeiterators.h"
 #include "plane.h"
+#include "planepointiterator.h"
 
 
 

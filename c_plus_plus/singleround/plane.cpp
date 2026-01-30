@@ -1,31 +1,33 @@
 #include "plane.h"
 #include "planeiterators.h"
+#include "planepointiterator.h"
 #include "coordinate2d.h"
 
 //Various constructors
-Plane::Plane() {
+/*constexpr Plane::Plane() {
     m_row = 0;
     m_col = 0;
     m_orient = NorthSouth;
 }
 
-Plane::Plane(int row, int col, Orientation orient) {
+constexpr Plane::Plane(int row, int col, Orientation orient) {
     m_row = row;
     m_col = col;
     m_orient = orient;
 }
 
-Plane::Plane(const PlanesCommonTools::Coordinate2D& qp, Orientation orient) {
+constexpr Plane::Plane(const PlanesCommonTools::Coordinate2D& qp, Orientation orient) {
     m_row = qp.x();
     m_col = qp.y();
     m_orient = orient;
 }
 
-Plane::Plane(const Plane& pl) {
+constexpr Plane::Plane(const Plane& pl) {
     m_row = pl.m_row;
     m_col = pl.m_col;
     m_orient = pl.m_orient;
-}
+}*/
+
 
 //equality operator
 bool Plane::operator==(const Plane& pl1) const {
@@ -68,6 +70,7 @@ bool Plane::containsPoint(const PlanesCommonTools::Coordinate2D& qp) const {
 
     return false;
 }
+
 
 //Checks to see if the plane is
 //in its totality inside a grid

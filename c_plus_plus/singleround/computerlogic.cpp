@@ -1,5 +1,6 @@
 #include <algorithm>
 #include "computerlogic.h"
+#include "planepointiterator.h"
 
 //constructs a computer logic object
 //m_row, m_col give the size of the grid

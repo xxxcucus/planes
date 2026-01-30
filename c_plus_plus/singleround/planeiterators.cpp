@@ -1,7 +1,9 @@
 #include "planeiterators.h"
+#include "planepointiterator.h"
 #include "coordinate2d.h"
 #include <algorithm>
 
+/*
 //constructor
 PlanePointIterator::PlanePointIterator(const Plane& pl):
     PlanesCommonTools::VectorIterator<PlanesCommonTools::Coordinate2D>(),
@@ -55,11 +57,11 @@ void PlanePointIterator::generateList()
                 ;
         }
     }
-}
+} */
 
 //constructor for the iterator giving all the planes
 //passing through the point (0,0)
-PlaneIntersectingPointIterator::PlaneIntersectingPointIterator(const PlanesCommonTools::Coordinate2D& qp):
+/*PlaneIntersectingPointIterator::PlaneIntersectingPointIterator(const PlanesCommonTools::Coordinate2D& qp) :
     PlanesCommonTools::VectorIterator<Plane>(),
     m_point(qp)
 {
@@ -94,7 +96,7 @@ void PlaneIntersectingPointIterator::generateList()
         }
         ++it;
     }
-}
+}*/
 
 PointInfluenceIterator::PointInfluenceIterator(const PlanesCommonTools::Coordinate2D& qp):
     PlanesCommonTools::VectorIterator<PlanesCommonTools::Coordinate2D>(),

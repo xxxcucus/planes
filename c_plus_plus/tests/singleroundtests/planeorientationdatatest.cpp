@@ -2,6 +2,7 @@
 #include <QTest>
 #include "planeorientationdata.h"
 #include "planeiterators.h"
+#include "planepointiterator.h"
 
 void PlaneOrientationDataTest::initTestCase()
 {

@@ -3,6 +3,7 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include "planeiterators.h"
+#include "planepointiterator.h"
 
 //constructs the object
 //m_currentOperation is the current operation in player editor mode

@@ -10,17 +10,23 @@ namespace PlanesCommonTools {
         int m_y = 0;
 
     public:
-        Coordinate2D() {}
-        Coordinate2D(int x, int y) : m_x(x), m_y(y) { }
-        int x() const {
+        constexpr Coordinate2D() {}
+        constexpr Coordinate2D(int x, int y) : m_x(x), m_y(y) { }
+        constexpr int x() const {
             return m_x;
         }
-        int y() const {
+        constexpr int y() const {
             return m_y;
         }
 
-    friend Coordinate2D operator+(const Coordinate2D& c1, const Coordinate2D& c2);
-    friend bool operator==(const Coordinate2D& c1, const Coordinate2D& c2);
+    friend constexpr  Coordinate2D operator+(const Coordinate2D& c1, const Coordinate2D& c2) {
+        return Coordinate2D(c1.m_x + c2.m_x, c1.m_y + c2.m_y);
+    }
+
+    friend constexpr bool operator==(const Coordinate2D& c1, const Coordinate2D& c2) {
+        return (c1.m_x == c2.m_x) && (c1.m_y == c2.m_y);
+    }
+
     };
 
 } //namespace
