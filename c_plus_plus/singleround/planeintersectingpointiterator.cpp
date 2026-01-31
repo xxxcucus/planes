@@ -12,7 +12,7 @@ PlaneIntersectingPointIterator::PlaneIntersectingPointIterator(const PlanesCommo
     m_point(qp)
 {
     //generates the list of planes
-    generateList();
+    generateListOptimized();
 }
 
 //builds the list of planes that intersect (0,0)
@@ -41,5 +41,18 @@ void PlaneIntersectingPointIterator::generateList()
             continue;
         }
         ++it;
+    }
+}
+
+
+void PlaneIntersectingPointIterator::generateListOptimized() {
+
+
+    m_internalList.clear();
+
+    for (int i = 0; i < generatorCount; i++) {
+        Plane pl = generatorList[i];
+        Plane transPl = pl + m_point;
+        m_internalList.push_back(transPl);
     }
 }

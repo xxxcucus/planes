@@ -71,8 +71,8 @@ if (NOT UNIX)
 	install(DIRECTORY ${ROOT_PATH}/plugins/tls DESTINATION bin)
 	install(DIRECTORY ${ROOT_PATH}/plugins/sqldrivers DESTINATION bin)
 
-	install(FILES $ENV{OPENSSL_HOME}/bin/libcrypto-1_1-x64.dll DESTINATION bin)
-	install(FILES $ENV{OPENSSL_HOME}/bin/libssl-1_1-x64.dll DESTINATION  bin)
+	#install(FILES $ENV{OPENSSL_HOME}/bin/libcrypto-1_1-x64.dll DESTINATION bin)
+	#install(FILES $ENV{OPENSSL_HOME}/bin/libssl-1_1-x64.dll DESTINATION  bin)
 
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/planes.db PERMISSIONS OWNER_WRITE OWNER_READ DESTINATION bin)
 
