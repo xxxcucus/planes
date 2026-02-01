@@ -10,7 +10,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 
-find_package(Qt6 COMPONENTS Core Widgets Quick Network Test WebSockets Sql)
+find_package(Qt6 COMPONENTS Core Widgets Quick Network Test Sql)
 
 option(With_Asan "Compile with Address Sanitizer support" OFF)
 
@@ -54,7 +54,7 @@ if (NOT UNIX)
 	install(FILES ${ROOT_PATH}/bin/Qt6QuickDialogs2.dll DESTINATION bin)
 	install(FILES ${ROOT_PATH}/bin/Qt6QuickDialogs2QuickImpl.dll DESTINATION bin)
 	install(FILES ${ROOT_PATH}/bin/Qt6QuickDialogs2Utils.dll DESTINATION bin)
-	install(FILES ${ROOT_PATH}/bin/Qt6WebSockets.dll DESTINATION bin)
+	#install(FILES ${ROOT_PATH}/bin/Qt6WebSockets.dll DESTINATION bin)
 	install(FILES ${ROOT_PATH}/bin/Qt6Sql.dll DESTINATION bin)
 
 	install(FILES ${ROOT_PATH}/qml/QtQuick/qtquick2plugin.dll DESTINATION bin/QtQuick/)
@@ -71,8 +71,8 @@ if (NOT UNIX)
 	install(DIRECTORY ${ROOT_PATH}/plugins/tls DESTINATION bin)
 	install(DIRECTORY ${ROOT_PATH}/plugins/sqldrivers DESTINATION bin)
 
-	#install(FILES $ENV{OPENSSL_HOME}/bin/libcrypto-1_1-x64.dll DESTINATION bin)
-	#install(FILES $ENV{OPENSSL_HOME}/bin/libssl-1_1-x64.dll DESTINATION  bin)
+	install(FILES $ENV{OPENSSL_HOME}/bin/libcrypto-1_1-x64.dll DESTINATION bin)
+	install(FILES $ENV{OPENSSL_HOME}/bin/libssl-1_1-x64.dll DESTINATION  bin)
 
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/planes.db PERMISSIONS OWNER_WRITE OWNER_READ DESTINATION bin)
 
@@ -113,7 +113,7 @@ if (UNIX)
 	install(FILES ${ROOT_PATH}/lib/libQt6QuickDialogs2.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6QuickDialogs2QuickImpl.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6QuickDialogs2Utils.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
-	install(FILES ${ROOT_PATH}/lib/libQt6WebSockets.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
+	#install(FILES ${ROOT_PATH}/lib/libQt6WebSockets.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6Sql.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	
 
@@ -137,7 +137,7 @@ if (UNIX)
 	install(FILES ${ROOT_PATH}/lib/libQt6QuickDialogs2QuickImpl.so.${QT_MAJOR} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6QuickDialogs2Utils.so.${QT_MAJOR} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6QuickLayouts.so.${QT_MAJOR} DESTINATION lib)
-	install(FILES ${ROOT_PATH}/lib/libQt6WebSockets.so.${QT_MAJOR} DESTINATION lib)
+	#install(FILES ${ROOT_PATH}/lib/libQt6WebSockets.so.${QT_MAJOR} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6Sql.so.${QT_MAJOR} DESTINATION lib)
 
 	install(FILES ${ROOT_PATH}/lib/libicuuc.so.56.1 DESTINATION lib)

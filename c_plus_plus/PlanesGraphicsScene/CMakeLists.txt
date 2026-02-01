@@ -12,7 +12,7 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../stomp
 	${Qt6Widgets_INCLUDE_DIRS}
 	${Qt6Core_INCLUDE_DIRS}
-	${Qt6WebSockets_INCLUDE_DIRS}
+	#${Qt6WebSockets_INCLUDE_DIRS}
 	${Qt6Sql_INCLUDE_DIRS})
 
 set(GS_SRCS 	
