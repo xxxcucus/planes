@@ -4,7 +4,6 @@
 #include <vector>
 #include "plane.h"
 #include "guesspoint.h"
-#include "planeiterators.h"
 #include "coordinate2d.h"
 #include "planeorientationdata.h"
 #include "planeintersectingpointiterator.h"

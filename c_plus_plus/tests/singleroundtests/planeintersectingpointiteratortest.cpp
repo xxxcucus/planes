@@ -1,7 +1,6 @@
 #include "planeintersectingpointiteratortest.h"
 #include <QTest>
 #include "coordinate2d.h"
-#include "planeiterators.h"
 #include "planeintersectingpointiterator.h"
 
 

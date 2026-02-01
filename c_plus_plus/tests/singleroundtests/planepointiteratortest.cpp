@@ -1,6 +1,5 @@
 #include "planepointiteratortest.h"
 #include <QTest>
-#include "planeiterators.h"
 #include "plane.h"
 #include "planepointiterator.h"
 

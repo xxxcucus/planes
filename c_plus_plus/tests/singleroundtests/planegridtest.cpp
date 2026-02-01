@@ -3,7 +3,6 @@
 #include "planegrid.h"
 #include "plane.h"
 #include "coordinate2d.h"
-#include "planeiterators.h"
 #include "planepointiterator.h"
 
 

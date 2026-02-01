@@ -28,9 +28,9 @@ set(COMMON_HEADR
 	abstractplaneround.h
 	computerlogic.h
 	guesspoint.h
-	planeiterators.h
 	planepointiterator.h
 	planeintersectingpointiterator.h
+	pointinfluenceiterator.h
 	coordinate2d.h
 	vectoriterator.h
 	planeorientationdata.h
@@ -45,9 +45,9 @@ set(COMMON_SRCS
 	abstractplaneround.cpp
     computerlogic.cpp
 	guesspoint.cpp
-	planeiterators.cpp
 	planepointiterator.cpp
 	planeintersectingpointiterator.cpp
+	pointinfluenceiterator.cpp
 	gamestatistics.cpp
 	coordinate2d.cpp
 	planeorientationdata.cpp

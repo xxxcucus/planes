@@ -1,4 +1,4 @@
-#include "planeiterators.h"
+
 #include "planepointiterator.h"
 #include "planeintersectingpointiterator.h"
 #include "coordinate2d.h"

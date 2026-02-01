@@ -1,5 +1,4 @@
 #include "planeorientationdata.h"
-#include "planeiterators.h"
 #include "planepointiterator.h"
 
 #include <algorithm>

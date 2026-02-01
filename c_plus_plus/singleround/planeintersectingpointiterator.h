@@ -33,7 +33,7 @@ private:
             size_t i = ints / N / P;
             size_t j = (ints - i * N * P) / P;
             size_t k = (ints - i * N * P - j * P);
-            Plane pl = Plane(i - M / 2, j - M / 2, (Plane::Orientation)k);
+            Plane pl = Plane((int)i - M / 2, (int)j - M / 2, (Plane::Orientation)k);
             if (pl.containsPointConstExpr(PlanesCommonTools::Coordinate2D(0, 0)))
                 count++;
             }(), ...);
@@ -51,7 +51,7 @@ private:
             size_t i = ints / N / P;
             size_t j = (ints - i * N * P) / P;
             size_t k = (ints - i * N * P - j * P);
-            Plane pl = Plane(i - M / 2, j - M / 2, (Plane::Orientation)k);
+            Plane pl = Plane((int)i - M / 2, (int)j - M / 2, (Plane::Orientation)k);
             if (pl.containsPointConstExpr(PlanesCommonTools::Coordinate2D(0, 0))) {
                 retVal[count] = pl;
                 count++;
