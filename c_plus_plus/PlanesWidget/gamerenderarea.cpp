@@ -2,7 +2,6 @@
 #include "coordinate2d.h"
 #include <QPainter>
 #include <QMouseEvent>
-#include "planeiterators.h"
 #include "planepointiterator.h"
 
 //constructs the object
