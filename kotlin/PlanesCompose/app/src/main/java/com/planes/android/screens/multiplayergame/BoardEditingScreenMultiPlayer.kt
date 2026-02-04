@@ -241,12 +241,41 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                         }
                 }
 
-                BoardEditingControlButtonsHorizontalLayout(
-                    screenHeightDp, boardSizeDp, buttonHeightDp,
-                    buttonWidthDp, topBarHeight.value, navController,
-                    playerGridViewModel,
-                    planeRound
-                )
+                if (playerGridViewModel.getBoardEditingState() == BoardEditingStates.EditPlanePositions) {
+
+                    var otherPlayerIdState = createViewModel.getSecondPlayerIdState()
+                    if (otherPlayerIdState.value == loginViewModel.getLoggedInUserIdState().value) {
+                        otherPlayerIdState = createViewModel.getFirstPlayerIdState()
+                    }
+
+                    playerGridViewModel.setCredentials(loginViewModel.getLoggedInTokenState(),
+                        createViewModel.getGameNameState(), createViewModel.getGameIdState(),
+                        createViewModel.getCurrentRoundIdState(), loginViewModel.getLoggedInUsernameState(),
+                        loginViewModel.getLoggedInUserIdState(), otherPlayerIdState
+                    )
+                    BoardEditingControlButtonsHorizontalLayout(
+                        screenHeightDp, boardSizeDp, buttonHeightDp,
+                        buttonWidthDp, topBarHeight.value, navController,
+                        playerGridViewModel,
+                        planeRound
+                    )
+                } else if (playerGridViewModel.getBoardEditingState() == BoardEditingStates.Cancel) {
+                    playerGridViewModel.cancelRound()
+                    navController.popBackStack()
+                    navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
+                    //TODO: toast
+                } else if (playerGridViewModel.getBoardEditingState() == BoardEditingStates.OpponentPlanePositionsReceived) {
+                    //TODO: save the received plane positions to round and computerViewModel
+                    //TODO: toast
+                    navController.popBackStack()
+                    navController.navigate(route = PlanesScreens.MultiplayerGame.name)
+                } else {
+                    TransferPlanePositionsHorizontalLayout(
+                        screenWidthDp, boardSizeDp, buttonHeightDp,
+                        buttonWidthDp, topBarHeight.value, navController,
+                        playerGridViewModel
+                    )
+                }
             }
         }
     }
@@ -303,7 +332,60 @@ fun TransferPlanePositionsVerticalLayout(screenHeightDp: Int, boardSizeDp: Int, 
                 playerGridViewModel.cancelRound()
             }
         }
+    }
+}
+
+@Composable
+fun TransferPlanePositionsHorizontalLayout(screenWidthDp: Int, boardSizeDp: Int, buttonHeightDp: Int,
+                                         buttonWidthDp: Int, topBarHeightDp: Int, navController: NavController,
+                                         playerGridViewModel: PlayerGridViewModelMultiPlayer
+) {
+    Column(
+        modifier = Modifier.fillMaxHeight()
+            .padding(top = topBarHeightDp.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+
+            val boardEditingState = playerGridViewModel.getBoardEditingState()
+            var infoText = "Send own plane\n positions to opponent"
+
+            if (boardEditingState == BoardEditingStates.WaitForOpponentPlanePositions)
+                infoText = "Planes Positions\n sent to Opponent"
+
+            OneLineGameButton(
+                textLine = infoText, playerGridViewModel,
+                modifier = Modifier.width((buttonWidthDp * 2).dp).height(buttonHeightDp.dp),
+                enabled = true
+            ) {
+            }
+        }
 
 
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+
+            //TODO: Loader
+            OneLineGameButton(
+                textLine = "", playerGridViewModel,
+                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                enabled = true
+            ) {
+
+            }
+            OneLineGameButton(
+                textLine = stringResource(R.string.cancel), playerGridViewModel,
+                modifier = Modifier.width((buttonWidthDp).dp).height(buttonHeightDp.dp),
+                enabled = true
+            ) {
+                playerGridViewModel.cancelRound()
+            }
+        }
     }
 }
