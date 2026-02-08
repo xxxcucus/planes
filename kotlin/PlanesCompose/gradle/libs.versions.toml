@@ -1,6 +1,6 @@
 [versions]
-agp = "8.10.1"
-kotlin = "2.1.20"
+agp = "9.0.0"
+kotlin = "2.2.10"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -10,7 +10,7 @@ activityCompose = "1.10.1"
 composeBom = "2024.04.01"
 androidxNavigation = "2.9.0"
 
-ksp = "2.1.20-2.0.0"
+ksp = "2.3.2"
 hilt = "2.56.2"
 androidx_media3 = '1.7.1'
 

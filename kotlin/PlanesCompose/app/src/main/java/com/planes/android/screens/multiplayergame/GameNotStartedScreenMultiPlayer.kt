@@ -38,7 +38,7 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
                                     computerGridViewModel: ComputerGridViewModelMultiPlayer
 ) {
 
-    currentScreenState.value = PlanesScreens.SinglePlayerGame.name
+    currentScreenState.value = PlanesScreens.MultiplayerGameNotStarted.name
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp

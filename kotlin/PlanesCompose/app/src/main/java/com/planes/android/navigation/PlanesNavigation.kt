@@ -93,14 +93,16 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
 
         composable(PlanesScreens.CreateMultiplayerGame.name) {
             CreateMultiplayerGameScreen(modifier = modifier, currentScreenState, navController = navController,
-                loginViewModel, createViewModel)
+                loginViewModel, createViewModel, planeRoundMultiplayer, playerGridViewModelMultiPlayer,
+                computerGridViewModelMultiPlayer)
         }
 
         composable(PlanesScreens.MultiplayerBoardEditing.name) {
             BoardEditingScreenMultiPlayer(modifier = modifier,
                 currentScreenState, topBarHeight, navController = navController,
                 loginViewModel, createViewModel,
-                planeRoundMultiplayer, playerGridViewModelMultiPlayer)
+                planeRoundMultiplayer, playerGridViewModelMultiPlayer,
+                computerGridViewModelMultiPlayer)
         }
         composable(PlanesScreens.MultiplayerGame.name) {
             GameScreenMultiPlayer(modifier = modifier,

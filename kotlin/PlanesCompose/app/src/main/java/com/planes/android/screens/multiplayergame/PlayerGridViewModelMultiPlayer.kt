@@ -44,16 +44,16 @@ class PlayerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlayer
     private var m_SendPositionsOtherExists = mutableStateOf<Boolean?>(null)
     private var m_SendPositionsPlaneList = mutableStateListOf<Plane>()
 
-    private var m_PollForPositionsCancelled = mutableStateOf<Boolean?>(null)
-    private var m_PollForPositionsOtherExists = mutableStateOf<Boolean?>(null)
-    private var m_PollForPositionsPlaneList = mutableStateListOf<Plane>()
-
     fun getBoardEditingState(): BoardEditingStates {
         return m_BoardEditingState.value
     }
 
     fun setBoardEditingState(value: BoardEditingStates) {
         m_BoardEditingState.value = value
+    }
+
+    fun getReceivedPlaneList(): List<Plane> {
+        return m_SendPositionsPlaneList.toList()
     }
 
     fun setCredentials(authorization: MutableState<String?>, gameName: MutableState<String?>,
@@ -121,8 +121,6 @@ class PlayerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlayer
 
                     if (m_SendPositionsOtherExists.value == true) {
 
-                        m_BoardEditingState.value = BoardEditingStates.OpponentPlanePositionsReceived
-
                         m_SendPositionsPlaneList.clear()
                         val firstPlane = Plane(result.data!!.m_Plane1X, result.data!!.m_Plane1Y, Orientation.fromInt(result.data!!.m_Plane1Orient))
                         m_SendPositionsPlaneList.add(firstPlane)
@@ -130,6 +128,8 @@ class PlayerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlayer
                         m_SendPositionsPlaneList.add(secondPlane)
                         val thirdPlane = Plane(result.data!!.m_Plane3X, result.data!!.m_Plane3Y, Orientation.fromInt(result.data!!.m_Plane3Orient))
                         m_SendPositionsPlaneList.add(thirdPlane)
+
+                        m_BoardEditingState.value = BoardEditingStates.OpponentPlanePositionsReceived
                     } else {
                         m_BoardEditingState.value = BoardEditingStates.WaitForOpponentPlanePositions
                     }
@@ -159,27 +159,27 @@ class PlayerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlayer
                         break;
                     }
 
-                    m_PollForPositionsCancelled.value = resultPolling.data!!.m_Cancelled
+                    m_SendPositionsCancelled.value = resultPolling.data!!.m_Cancelled
 
-                    if (m_PollForPositionsCancelled.value == false) {
-                        m_PollForPositionsOtherExists.value = resultPolling.data!!.m_OtherExist
+                    if (m_SendPositionsCancelled.value == false) {
+                        m_SendPositionsOtherExists.value = resultPolling.data!!.m_OtherExist
 
-                        if (m_PollForPositionsOtherExists.value == true) {
+                        if (m_SendPositionsOtherExists.value == true) {
+
+                            m_SendPositionsPlaneList.clear()
+                            val firstPlane = Plane(resultPolling.data!!.m_Plane1X, resultPolling.data!!.m_Plane1Y, Orientation.fromInt(resultPolling.data!!.m_Plane1Orient))
+                            m_SendPositionsPlaneList.add(firstPlane)
+                            val secondPlane = Plane(resultPolling.data!!.m_Plane2X, resultPolling.data!!.m_Plane2Y, Orientation.fromInt(resultPolling.data!!.m_Plane2Orient))
+                            m_SendPositionsPlaneList.add(secondPlane)
+                            val thirdPlane = Plane(resultPolling.data!!.m_Plane3X, resultPolling.data!!.m_Plane3Y, Orientation.fromInt(resultPolling.data!!.m_Plane3Orient))
+                            m_SendPositionsPlaneList.add(thirdPlane)
 
                             m_BoardEditingState.value = BoardEditingStates.OpponentPlanePositionsReceived
-
-                            m_PollForPositionsPlaneList.clear()
-                            val firstPlane = Plane(resultPolling.data!!.m_Plane1X, resultPolling.data!!.m_Plane1Y, Orientation.fromInt(resultPolling.data!!.m_Plane1Orient))
-                            m_PollForPositionsPlaneList.add(firstPlane)
-                            val secondPlane = Plane(resultPolling.data!!.m_Plane2X, resultPolling.data!!.m_Plane2Y, Orientation.fromInt(resultPolling.data!!.m_Plane2Orient))
-                            m_PollForPositionsPlaneList.add(secondPlane)
-                            val thirdPlane = Plane(resultPolling.data!!.m_Plane3X, resultPolling.data!!.m_Plane3Y, Orientation.fromInt(resultPolling.data!!.m_Plane3Orient))
-                            m_PollForPositionsPlaneList.add(thirdPlane)
                         }
-                    } else if (m_PollForPositionsCancelled.value == true) {
+                    } else if (m_SendPositionsCancelled.value == true) {
                         m_BoardEditingState.value = BoardEditingStates.Cancel
                     }
-                    Log.d("PlaneCompose", "Polling for planes positions ${m_PollForPositionsOtherExists.value}")
+                    Log.d("PlaneCompose", "Polling for planes positions ${m_SendPositionsOtherExists.value}")
                 } while (m_BoardEditingState.value == BoardEditingStates.WaitForOpponentPlanePositions)
             }
         }

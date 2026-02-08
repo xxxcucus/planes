@@ -142,12 +142,15 @@ open class PlaneGridViewModel(planeRound: SinglePlayerRoundInterface,
     }
 
     fun updatePlanesToPlaneRound() {
-        if (!m_isComputer) {
+        //if (!m_isComputer) {
             val vplanes = Vector<Plane>()
             for (i in 0 .. m_planeNo - 1)
                 vplanes.add(m_planeList[i])
-            m_PlaneRound.setPlayerPlanes(vplanes)
-        }
+            if (!m_isComputer)
+                m_PlaneRound.setPlayerPlanes(vplanes)
+            else
+                m_PlaneRound.setComputerPlanes(vplanes);
+        //}
     }
 
     //searches a plane in the list of planes

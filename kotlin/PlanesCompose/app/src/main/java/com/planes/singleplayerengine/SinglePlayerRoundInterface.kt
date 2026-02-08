@@ -19,6 +19,8 @@ interface SinglePlayerRoundInterface {
     fun getComputerPlanes(): Vector<Plane>
     fun setPlayerPlanes(planes: Vector<Plane>)
 
+    fun setComputerPlanes(planes: Vector<Plane>)
+
     //edit the board
     fun movePlaneLeft(idx: Int): Boolean
     fun movePlaneRight(idx: Int): Boolean

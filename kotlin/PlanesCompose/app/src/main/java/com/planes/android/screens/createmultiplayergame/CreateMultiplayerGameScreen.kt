@@ -24,14 +24,21 @@ import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.screens.login.LoginViewModel
+import com.planes.android.screens.multiplayergame.BoardEditingStates
+import com.planes.android.screens.multiplayergame.ComputerGridViewModelMultiPlayer
+import com.planes.android.screens.multiplayergame.PlayerGridViewModelMultiPlayer
 import com.planes.android.widgets.CommonTextFieldWithViewModel
+import com.planes.multiplayerengine.MultiPlayerRoundInterface
 
 @Composable
 fun CreateMultiplayerGameScreen(modifier: Modifier,
                           currentScreenState: MutableState<String>,
                           navController: NavController,
                           loginViewModel: LoginViewModel,
-                          createViewModel: CreateViewModel
+                          createViewModel: CreateViewModel,
+                          planeRound: MultiPlayerRoundInterface,
+                          playerGridViewModel: PlayerGridViewModelMultiPlayer,
+                          computerGridViewModel: ComputerGridViewModelMultiPlayer
 ) {
 
     currentScreenState.value = PlanesScreens.CreateMultiplayerGame.name
@@ -155,6 +162,11 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                 createViewModel.setCreateState(CreateGameStates.StatusNotRequested)
             }
         } else if (createViewModel.getCreateState() == CreateGameStates.ConnectedComplete) {
+
+            planeRound.initRound()
+            playerGridViewModel.resetFromPlaneRound()
+            playerGridViewModel.setBoardEditingState(BoardEditingStates.EditPlanePositions)
+            computerGridViewModel.resetFromPlaneRound()
             Text(text = LocalContext.current.getString(R.string.connected_togame, createViewModel.getGameName("Connect")))
             Button(
                 modifier = Modifier.padding(15.dp),
@@ -163,6 +175,7 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                 }) {
                 Text(text = stringResource(R.string.connect_another_game))
             }
+
 
         } else if (createViewModel.getCreateState() == CreateGameStates.ConnectedToGameRequested) {
             val error = createViewModel.getError()
@@ -201,6 +214,10 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                 Text(text = stringResource(R.string.cancel))
             }
         } else if (createViewModel.getCreateState() == CreateGameStates.PollingForConnectionEnded) {
+            planeRound.initRound()
+            playerGridViewModel.resetFromPlaneRound()
+            playerGridViewModel.setBoardEditingState(BoardEditingStates.EditPlanePositions)
+            computerGridViewModel.resetFromPlaneRound()
             Text(text = LocalContext.current.getString(R.string.connected_togame, createViewModel.getGameName("Create")))
             Button(
                 modifier = Modifier.padding(15.dp),
@@ -209,7 +226,6 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                 }) {
                 Text(text = stringResource(R.string.connect_another_game))
             }
-
         }
     }
 }

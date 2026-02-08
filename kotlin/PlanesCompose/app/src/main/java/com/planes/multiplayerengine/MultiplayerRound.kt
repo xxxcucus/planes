@@ -57,6 +57,10 @@ class MultiplayerRound @AssistedInject constructor(
         return m_PlaneRound.setPlayerPlanes(planes)
     }
 
+    override fun setComputerPlanes(planes: Vector<Plane>) {
+        return m_PlaneRound.setComputerPlanes(planes)
+    }
+
     override fun movePlaneLeft(idx: Int): Boolean {
         return m_PlaneRound.movePlaneLeft(idx)
     }

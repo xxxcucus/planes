@@ -308,6 +308,10 @@ open class PlaneRound @AssistedInject constructor(
         m_PlayerGrid.setPlanes(planes)
     }
 
+    override fun setComputerPlanes(planes: Vector<Plane>) {
+        m_ComputerGrid.setPlanes(planes)
+    }
+
     /*
 	-2 - plane head
 	-1 - plane intersection

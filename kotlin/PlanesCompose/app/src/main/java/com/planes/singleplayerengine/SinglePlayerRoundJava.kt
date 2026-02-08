@@ -38,6 +38,10 @@ class SinglePlayerRoundJava : SinglePlayerRoundInterface {
         global_Round!!.setPlayerPlanes(planes)
     }
 
+    override fun setComputerPlanes(planes: Vector<Plane>) {
+        global_Round!!.setComputerPlanes(planes)
+    }
+
     override fun getPlaneSquareType(row: Int, col: Int, isComputer: Boolean): Int {
         return global_Round!!.getPlaneSquareType(row, col, isComputer)
     }

@@ -1,6 +1,7 @@
 package com.planes.android.screens.multiplayergame
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -44,10 +45,11 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                                   loginViewModel: LoginViewModel,
                                   createViewModel: CreateViewModel,
                                   planeRound: MultiPlayerRoundInterface,
-                                  playerGridViewModel: PlayerGridViewModelMultiPlayer
+                                  playerGridViewModel: PlayerGridViewModelMultiPlayer,
+                                  computerGridViewModel: ComputerGridViewModelMultiPlayer
 ) {
 
-    currentScreenState.value = PlanesScreens.MultiplayerGame.name
+    currentScreenState.value = PlanesScreens.MultiplayerBoardEditing.name
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp
@@ -169,7 +171,16 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                     navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
                     //TODO: toast
                 } else if (playerGridViewModel.getBoardEditingState() == BoardEditingStates.OpponentPlanePositionsReceived) {
-                    //TODO: save the received plane positions to round and computerViewModel
+                    //TODO: to optimize this
+                    computerGridViewModel.resetGrid()
+                    val receivedPlanes = playerGridViewModel.getReceivedPlaneList()
+                    receivedPlanes.forEach {
+
+                        Log.d("Planes", "Plane  ${it.row()},${it.col} with ${it.orientation().value}")
+                        computerGridViewModel.savePlane(it)
+                    }
+                    computerGridViewModel.computePlanePointsList()
+                    computerGridViewModel.updatePlanesToPlaneRound()
                     //TODO: toast
                     navController.popBackStack()
                     navController.navigate(route = PlanesScreens.MultiplayerGame.name)
@@ -265,7 +276,16 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                     navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
                     //TODO: toast
                 } else if (playerGridViewModel.getBoardEditingState() == BoardEditingStates.OpponentPlanePositionsReceived) {
-                    //TODO: save the received plane positions to round and computerViewModel
+                    //TODO: to optimize this
+
+                    computerGridViewModel.resetGrid()
+                    val receivedPlanes = playerGridViewModel.getReceivedPlaneList()
+                    receivedPlanes.forEach {
+                        computerGridViewModel.savePlane(it)
+                    }
+                    computerGridViewModel.computePlanePointsList()
+                    computerGridViewModel.updatePlanesToPlaneRound()
+
                     //TODO: toast
                     navController.popBackStack()
                     navController.navigate(route = PlanesScreens.MultiplayerGame.name)
