@@ -110,12 +110,14 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
 
                             Log.d("Planes", "Guess at $row and $col")
 
+                            //TODO: and if not all planes discovered or game end
                             if (!planeRound.playerGuessAlreadyMade(row, col)) {
                                 planeRound.playerGuess(row, col)
                                 val pgp = GuessPoint(col, row, planeRound.playerGuess_GuessResult())
                                 gameBoardViewModel.addGuess(pgp)
 
                                 gameStatsViewModelMultiPlayer.updateFromPlaneRound()
+                                //TODO: send the move to the other player
                             }
                         }
                     }

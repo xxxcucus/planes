@@ -9,6 +9,7 @@ import com.planes.android.repository.PlanesGameRepository
 import com.planes.android.screens.createmultiplayergame.CreateGameStates
 import com.planes.android.screens.createmultiplayergame.GameStatus
 import com.planes.android.screens.singleplayergame.PlaneGridViewModel
+import com.planes.multiplayer_engine.requests.AcquireOpponentPositionsRequest
 import com.planes.multiplayer_engine.requests.GameStatusRequest
 import com.planes.multiplayer_engine.requests.SendPlanePositionsRequest
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
@@ -85,6 +86,13 @@ class PlayerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlayer
             )
     }
 
+    fun createAcquireOpponentPositionsRequest() : AcquireOpponentPositionsRequest {
+
+        return AcquireOpponentPositionsRequest(m_GameId.value!!, m_RoundId.value!!, m_OpponentId.value!!,
+            m_UserName.value!!, m_UserId.value!!
+        )
+    }
+
     override fun cancelRound() {
         super.cancelRound()
 
@@ -148,15 +156,15 @@ class PlayerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlayer
                     if (m_BoardEditingState.value != BoardEditingStates.WaitForOpponentPlanePositions)
                         break
 
-                    val resultPolling = repository.sendPlanePositions(
+                    val resultPolling = repository.acquireOpponentPlanePositions(
                         m_Authorization.value!!,
-                        createSendPlanePositionsRequest()
+                        createAcquireOpponentPositionsRequest()
                     )
 
                     if (resultPolling.data == null) {
                         Log.d("PlanesCompose", "Error when polling for opponent plane positions ${result.e}")
                         m_Error.value = result.e
-                        break;
+                        break
                     }
 
                     m_SendPositionsCancelled.value = resultPolling.data!!.m_Cancelled
