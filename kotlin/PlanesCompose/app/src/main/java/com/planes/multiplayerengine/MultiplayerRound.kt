@@ -89,6 +89,10 @@ class MultiplayerRound @AssistedInject constructor(
         return m_PlaneRound.playerGuessAlreadyMade(row, col)
     }
 
+    override fun computerGuessAlreadyMade(row: Int, col: Int): Boolean {
+        return m_PlaneRound.computerGuessAlreadyMade(row, col)
+    }
+
     override fun playerGuess(row: Int, col: Int) {
         return m_PlaneRound.playerGuess(row, col)
     }
@@ -171,6 +175,10 @@ class MultiplayerRound @AssistedInject constructor(
 
     override fun playerGuess_StatLastPlayerUpdate(): Type {
         return m_PlaneRound.playerGuess_StatLastPlayerUpdate()
+    }
+
+    override fun addComputerMove(row: Int, col: Int) {
+        m_PlaneRound.addComputerMove(row, col)
     }
 
     override fun roundEnds(isComputerWinner: Boolean, isDraw: Boolean) {

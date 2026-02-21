@@ -31,6 +31,7 @@ interface SinglePlayerRoundInterface {
 
     //play the game
     fun playerGuessAlreadyMade(row: Int, col: Int): Boolean
+    fun computerGuessAlreadyMade(row: Int, col: Int): Boolean
     fun playerGuess(row: Int, col: Int)
     fun playerGuess(gp: GuessPoint): PlayerGuessReaction
     fun playerGuessIncomplete(row: Int, col: Int): Pair<Type, PlayerGuessReaction>
@@ -52,6 +53,9 @@ interface SinglePlayerRoundInterface {
     fun playerGuess_GuessResult(): Type
     fun playerGuess_StatLastComputeUpdate(): Type
     fun playerGuess_StatLastPlayerUpdate(): Type
+
+    public fun addComputerMove(row: Int, col: Int)
+
     fun roundEnds(isComputerWinner: Boolean, isDraw : Boolean)
     fun initRound()
 

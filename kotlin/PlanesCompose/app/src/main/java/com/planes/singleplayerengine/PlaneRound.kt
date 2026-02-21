@@ -145,6 +145,14 @@ open class PlaneRound @AssistedInject constructor(
         return false
     }
 
+    override fun computerGuessAlreadyMade(row: Int, col: Int): Boolean {
+        for (guess in m_computerGuessList) {
+            if (guess.row() == col && guess.col() == row)
+                return true
+        }
+        return false
+    }
+
     override fun playerGuess(row: Int, col: Int) {
         val result = playerGuessIncomplete(row, col)
         m_GuessResult = result.first
@@ -443,6 +451,16 @@ open class PlaneRound @AssistedInject constructor(
         //update the computer guess list
         m_computerGuessList.add(gp)
         return gp
+    }
+
+    //opponent move in multiplayer game
+    override public fun addComputerMove(row: Int, col: Int) {
+        //use the player grid to see the result of the grid
+        val tp = m_PlayerGrid.getGuessResult(Coordinate2D(row, col))
+        val gp = GuessPoint(row, col, tp)
+
+        //update the computer guess list
+        m_computerGuessList.add(gp)
     }
 
     /**

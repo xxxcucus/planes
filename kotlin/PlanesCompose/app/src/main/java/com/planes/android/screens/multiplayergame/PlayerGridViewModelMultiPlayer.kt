@@ -11,8 +11,11 @@ import com.planes.android.screens.createmultiplayergame.GameStatus
 import com.planes.android.screens.singleplayergame.PlaneGridViewModel
 import com.planes.multiplayer_engine.requests.AcquireOpponentPositionsRequest
 import com.planes.multiplayer_engine.requests.GameStatusRequest
+import com.planes.multiplayer_engine.requests.SendNotSentMovesRequest
 import com.planes.multiplayer_engine.requests.SendPlanePositionsRequest
+import com.planes.multiplayer_engine.requests.SingleMoveRequest
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
+import com.planes.singleplayerengine.GuessPoint
 import com.planes.singleplayerengine.Orientation
 import com.planes.singleplayerengine.Plane
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Vector
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
@@ -32,7 +36,6 @@ class PlayerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlayer
 
     private var m_Error = mutableStateOf<String?>("");
 
-    //TODO: transform these into mutablestate
     private var m_Authorization = mutableStateOf<String?>(null)
     private var m_GameName = mutableStateOf<String?>(null)
     private var m_GameId = mutableStateOf<String?>(null)
@@ -44,6 +47,8 @@ class PlayerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlayer
     private var m_SendPositionsCancelled = mutableStateOf<Boolean?>(null)
     private var m_SendPositionsOtherExists = mutableStateOf<Boolean?>(null)
     private var m_SendPositionsPlaneList = mutableStateListOf<Plane>()
+
+
 
     fun getBoardEditingState(): BoardEditingStates {
         return m_BoardEditingState.value
@@ -192,5 +197,4 @@ class PlayerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlayer
             }
         }
     }
-
 }

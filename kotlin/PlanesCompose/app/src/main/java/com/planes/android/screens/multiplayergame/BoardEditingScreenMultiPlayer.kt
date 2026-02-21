@@ -159,6 +159,11 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                         createViewModel.getCurrentRoundIdState(), loginViewModel.getLoggedInUsernameState(),
                         loginViewModel.getLoggedInUserIdState(), otherPlayerIdState
                         )
+                    computerGridViewModel.setCredentials(loginViewModel.getLoggedInTokenState(),
+                        createViewModel.getGameNameState(), createViewModel.getGameIdState(),
+                        createViewModel.getCurrentRoundIdState(), loginViewModel.getLoggedInUsernameState(),
+                        loginViewModel.getLoggedInUserIdState(), otherPlayerIdState
+                    )
                     BoardEditingControlButtonsVerticalLayout(
                         screenHeightDp, boardSizeDp, buttonHeightDp,
                         buttonWidthDp, navController,
@@ -176,7 +181,7 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                     val receivedPlanes = playerGridViewModel.getReceivedPlaneList()
                     receivedPlanes.forEach {
 
-                        Log.d("Planes", "Plane  ${it.row()},${it.col} with ${it.orientation().value}")
+                        //Log.d("Planes", "Plane  ${it.row()},${it.col} with ${it.orientation().value}")
                         computerGridViewModel.savePlane(it)
                     }
                     computerGridViewModel.computePlanePointsList()
@@ -260,6 +265,11 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                     }
 
                     playerGridViewModel.setCredentials(loginViewModel.getLoggedInTokenState(),
+                        createViewModel.getGameNameState(), createViewModel.getGameIdState(),
+                        createViewModel.getCurrentRoundIdState(), loginViewModel.getLoggedInUsernameState(),
+                        loginViewModel.getLoggedInUserIdState(), otherPlayerIdState
+                    )
+                    computerGridViewModel.setCredentials(loginViewModel.getLoggedInTokenState(),
                         createViewModel.getGameNameState(), createViewModel.getGameIdState(),
                         createViewModel.getCurrentRoundIdState(), loginViewModel.getLoggedInUsernameState(),
                         loginViewModel.getLoggedInUserIdState(), otherPlayerIdState

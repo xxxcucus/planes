@@ -42,7 +42,7 @@ open class PlaneGridViewModel(planeRound: SinglePlayerRoundInterface,
     ///for QML
     private var m_listPlanePointsAnnotations = mutableStateListOf<Int>()
 
-    private var  m_PlaneRound: SinglePlayerRoundInterface = planeRound
+    var  m_PlaneRound: SinglePlayerRoundInterface = planeRound
 
     //the following annotations should exist
     //00000001 - belonging to plane 1
@@ -51,10 +51,14 @@ open class PlaneGridViewModel(planeRound: SinglePlayerRoundInterface,
     //00001000 - head of plane 2
     //00010000 - belonging to plane 3
     //00100000 - head of plane 3
-    private var guesses = mutableStateListOf<GuessPoint>()
+    private var m_guesses = mutableStateListOf<GuessPoint>()
+
+    fun getGuessesCount(): Int {
+        return m_guesses.size
+    }
 
     fun isGuessAtPosition(row: Int, col: Int) : Boolean {
-        val guessList = guesses.toList()
+        val guessList = m_guesses.toList()
         val filteredList = guessList.filter {
             it.row == row && it.col == col
         }
@@ -62,7 +66,7 @@ open class PlaneGridViewModel(planeRound: SinglePlayerRoundInterface,
     }
 
     fun getGuessAtPosition(row: Int, col: Int): GuessPoint? {
-        val guessList = guesses.toList()
+        val guessList = m_guesses.toList()
         val filteredList = guessList.filter {
             it.row == row && it.col == col
         }
@@ -70,6 +74,13 @@ open class PlaneGridViewModel(planeRound: SinglePlayerRoundInterface,
             return filteredList.first()
 
         return null
+    }
+
+    fun getGuessAtIndex(idx: Int): GuessPoint? {
+        if (idx < 0 || idx >= m_guesses.size)
+            return null
+
+        return m_guesses.get(idx)
     }
 
     fun getRowNo(): Int {
@@ -184,7 +195,7 @@ open class PlaneGridViewModel(planeRound: SinglePlayerRoundInterface,
         m_planeList.clear()
         m_listPlanePointsAnnotations.clear()
         m_listPlanePoints.clear()
-        guesses.clear()
+        m_guesses.clear()
     }
 
     //returns whether a point is on a plane or not
@@ -449,7 +460,7 @@ open class PlaneGridViewModel(planeRound: SinglePlayerRoundInterface,
     }
 
     fun addGuess(gp: GuessPoint) {
-        guesses.add(gp.clone() as GuessPoint)
+        m_guesses.add(gp.clone() as GuessPoint)
     }
 
     //gets the plane at a given position in the list of planes

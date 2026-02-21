@@ -114,10 +114,10 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
                             if (!planeRound.playerGuessAlreadyMade(row, col)) {
                                 planeRound.playerGuess(row, col)
                                 val pgp = GuessPoint(col, row, planeRound.playerGuess_GuessResult())
-                                gameBoardViewModel.addGuess(pgp)
+                                computerGridViewModel.addGuess(pgp)
 
                                 gameStatsViewModelMultiPlayer.updateFromPlaneRound()
-                                //TODO: send the move to the other player
+                                computerGridViewModel.sendMoves()
                             }
                         }
                     }
@@ -153,6 +153,7 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
                         modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
+                        //TODO: move received moves from PlaneRound to computerGridViewModel
                         playerBoard.value = !playerBoard.value
                     }
                     Column() {
@@ -319,6 +320,7 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
                         modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
+                        //TODO: move received moves from PlaneRound to computerGridViewModel
                         playerBoard.value = !playerBoard.value
                     }
                     OneLineGameButton(

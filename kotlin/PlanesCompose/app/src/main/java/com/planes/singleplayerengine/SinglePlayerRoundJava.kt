@@ -76,6 +76,10 @@ class SinglePlayerRoundJava : SinglePlayerRoundInterface {
         return global_Round!!.playerGuessAlreadyMade(row, col)
     }
 
+    override fun computerGuessAlreadyMade(row: Int, col: Int): Boolean {
+        return global_Round!!.computerGuessAlreadyMade(row, col)
+    }
+
     override fun playerGuess(row: Int, col: Int) {
         val result = global_Round!!.playerGuessIncomplete(row, col)
         global_Guess_Result = result.first
@@ -160,6 +164,10 @@ class SinglePlayerRoundJava : SinglePlayerRoundInterface {
 
     override fun playerGuess_StatLastPlayerUpdate(): Type {
         return global_Player_Guess_Reaction.m_GameStats.lastPlayerUpdated()
+    }
+
+    override fun addComputerMove(row: Int, col: Int) {
+        global_Round!!.addComputerMove(row, col)
     }
 
     override fun roundEnds(isComputerWinner: Boolean, isDraw: Boolean) {
