@@ -18,7 +18,7 @@ class DeleteUserFragmentTest {
     @Test
     fun testOnAttach() {
         var fragmentScenario = launchFragment<DeleteUserFragment>(
-            initialState = Lifecycle.State.INITIALIZED
+            initialState = Lifecycle.State.CREATED
         )
         fragmentScenario.onFragment { fragment ->
             Truth.assertThat(fragment.m_Context).isNotNull()

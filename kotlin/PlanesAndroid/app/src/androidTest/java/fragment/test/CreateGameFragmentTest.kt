@@ -20,7 +20,7 @@ class CreateGameFragmentTest {
     @Test
     fun testOnAttach() {
         var fragmentScenario = launchFragment<CreateGameFragment>(
-            initialState = Lifecycle.State.INITIALIZED
+            initialState = Lifecycle.State.CREATED
         )
         fragmentScenario.onFragment { fragment ->
             Truth.assertThat(fragment.m_CreateGameSettingsService).isNotNull()

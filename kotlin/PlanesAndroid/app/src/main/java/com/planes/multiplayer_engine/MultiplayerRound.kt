@@ -780,8 +780,9 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     }
 
     fun cancelRound(gameId: Long, roundId: Long): Observable<Response<CancelRoundResponse>> {
-        return m_Service.cancelRound(m_UserData.authToken, CancelRoundRequest(gameId.toString(), roundId.toString(), m_UserData.userId.toString(),
-        m_UserData.userName))
+        return m_Service.cancelRound(m_UserData.authToken,
+            CancelRoundRequest(gameId.toString(), roundId.toString(), m_UserData.userName ,
+                m_UserData.userId.toString()))
     }
 
     fun startNewRound(gameId: Long, userId: Long, opponentId: Long): Observable<Response<StartNewRoundResponse>> {

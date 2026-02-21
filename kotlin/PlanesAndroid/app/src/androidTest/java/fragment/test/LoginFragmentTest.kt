@@ -19,7 +19,7 @@ class LoginFragmentTest {
     @Test
     fun testOnAttach() {
         var fragmentScenario = launchFragment<LoginFragment>(
-            initialState = Lifecycle.State.INITIALIZED
+            initialState = Lifecycle.State.CREATED
         )
         fragmentScenario.onFragment { fragment ->
             Truth.assertThat(fragment.m_PreferencesService).isNotNull()

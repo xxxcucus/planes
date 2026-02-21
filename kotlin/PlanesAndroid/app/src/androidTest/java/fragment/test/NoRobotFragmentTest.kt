@@ -24,7 +24,7 @@ class NoRobotFragmentTest {
 
         var fragmentScenario = launchFragment<NoRobotFragment>(
             fragmentArgs = bundle,
-            initialState = Lifecycle.State.INITIALIZED
+            initialState = Lifecycle.State.CREATED
         )
         fragmentScenario.onFragment { fragment ->
             Truth.assertThat(fragment.m_RequestId == 1L).isTrue()
