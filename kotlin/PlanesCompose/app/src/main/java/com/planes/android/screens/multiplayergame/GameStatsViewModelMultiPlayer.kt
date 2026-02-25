@@ -29,6 +29,8 @@ class GameStatsViewModelMultiPlayer  @Inject constructor(planeRound: MultiPlayer
     var m_PlaneRound = planeRound
 
     fun updateFromPlaneRound() {
+
+        //TODO: get the stats from the m_gameStats in PlaneRound
         m_playerMoves.value = m_PlaneRound.playerGuess_StatNoPlayerMoves()
         m_playerHits.value = m_PlaneRound.playerGuess_StatNoPlayerHits()
         m_playerDead.value = m_PlaneRound.playerGuess_StatNoPlayerDead()

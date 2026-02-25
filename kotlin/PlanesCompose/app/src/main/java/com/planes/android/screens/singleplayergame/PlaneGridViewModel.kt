@@ -1,5 +1,6 @@
 package com.planes.android.screens.singleplayergame
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.util.Pair
@@ -16,6 +17,7 @@ import com.planes.singleplayerengine.Type
 import java.util.Vector
 
 
+//TODO: why do we mirror so many methods from PlaneGrid ?
 open class PlaneGridViewModel(planeRound: SinglePlayerRoundInterface,
                               isComputer: Boolean) : ViewModel() {
 
@@ -162,6 +164,24 @@ open class PlaneGridViewModel(planeRound: SinglePlayerRoundInterface,
             else
                 m_PlaneRound.setComputerPlanes(vplanes);
         //}
+    }
+
+    fun updateGuessesFromPlaneRound() {
+        val viewModelCount = getGuessesCount()
+        val roundCount = if (m_isComputer) m_PlaneRound.getPlayerGuessesNo() else m_PlaneRound.getComputerGuessesNo()
+
+        Log.d("Planes", "UpdateGuessesFromPlaneRound $m_isComputer $viewModelCount $roundCount")
+
+        if (roundCount > viewModelCount) {
+            for (i in viewModelCount..roundCount-1) {
+                val gp = if (m_isComputer) GuessPoint(m_PlaneRound.getPlayerGuessRow(i),
+                    m_PlaneRound.getPlayerGuessCol(i), m_PlaneRound.getPlayerGuessType(i))
+                else GuessPoint(m_PlaneRound.getComputerGuessRow(i), m_PlaneRound.getComputerGuessCol(i),
+                    m_PlaneRound.getComputerGuessType(i))
+                Log.d("Planes", "Add guess ${gp.row} ${gp.col}")
+                m_guesses.add(gp)
+            }
+        }
     }
 
     //searches a plane in the list of planes

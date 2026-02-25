@@ -86,7 +86,7 @@ class MultiplayerRound @AssistedInject constructor(
     }
 
     override fun playerGuessAlreadyMade(row: Int, col: Int): Boolean {
-        return m_PlaneRound.playerGuessAlreadyMade(row, col)
+        return m_PlaneRound.playerGuessAlreadyMade(col, row)
     }
 
     override fun computerGuessAlreadyMade(row: Int, col: Int): Boolean {
@@ -94,11 +94,13 @@ class MultiplayerRound @AssistedInject constructor(
     }
 
     override fun playerGuess(row: Int, col: Int) {
-        return m_PlaneRound.playerGuess(row, col)
+        playerGuess(GuessPoint(row, col))
     }
 
+
     override fun playerGuess(gp: GuessPoint): PlayerGuessReaction {
-        return m_PlaneRound.playerGuess(gp)
+        m_PlaneRound.addPlayerMove(gp.row, gp.col)
+        return PlayerGuessReaction() //TODO: to improve this
     }
 
     override fun playerGuessIncomplete(row: Int, col: Int): Pair<Type, PlayerGuessReaction> {
@@ -181,6 +183,10 @@ class MultiplayerRound @AssistedInject constructor(
         m_PlaneRound.addComputerMove(row, col)
     }
 
+    override fun addPlayerMove(row: Int, col: Int) {
+        m_PlaneRound.addPlayerMove(row, col)
+    }
+
     override fun roundEnds(isComputerWinner: Boolean, isDraw: Boolean) {
         return m_PlaneRound.roundEnds(isComputerWinner, isDraw)
     }
@@ -214,15 +220,15 @@ class MultiplayerRound @AssistedInject constructor(
     }
 
     override fun getComputerGuessRow(idx: Int): Int {
-        return m_PlaneRound.getPlayerGuessRow(idx)
+        return m_PlaneRound.getComputerGuessRow(idx)
     }
 
     override fun getComputerGuessCol(idx: Int): Int {
-        return m_PlaneRound.getPlayerGuessCol(idx)
+        return m_PlaneRound.getComputerGuessCol(idx)
     }
 
     override fun getComputerGuessType(idx: Int): Type {
-        return m_PlaneRound.getPlayerGuessType(idx)
+        return m_PlaneRound.getComputerGuessType(idx)
     }
 
     override fun getLastComputerGuess(): GuessPoint? {

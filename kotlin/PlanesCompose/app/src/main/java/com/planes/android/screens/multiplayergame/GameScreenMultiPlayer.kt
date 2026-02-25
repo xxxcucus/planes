@@ -153,7 +153,9 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
                         modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
-                        //TODO: move received moves from PlaneRound to computerGridViewModel
+                        //TODO: move received moves from PlaneRound to playerGridViewModel
+                        if (playerBoard.value == false)
+                            playerGridViewModel.updateGuessesFromPlaneRound()
                         playerBoard.value = !playerBoard.value
                     }
                     Column() {
@@ -320,7 +322,9 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
                         modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
-                        //TODO: move received moves from PlaneRound to computerGridViewModel
+                        //TODO: move received moves from PlaneRound to playerGridViewModel
+                        if (playerBoard.value == false)
+                            playerGridViewModel.updateGuessesFromPlaneRound()
                         playerBoard.value = !playerBoard.value
                     }
                     OneLineGameButton(

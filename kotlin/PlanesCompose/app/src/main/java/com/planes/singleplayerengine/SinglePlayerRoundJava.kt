@@ -170,6 +170,10 @@ class SinglePlayerRoundJava : SinglePlayerRoundInterface {
         global_Round!!.addComputerMove(row, col)
     }
 
+    override fun addPlayerMove(row: Int, col: Int) {
+        global_Round!!.addPlayerMove(row, col)
+    }
+
     override fun roundEnds(isComputerWinner: Boolean, isDraw: Boolean) {
         global_Round!!.setRoundEnd(isComputerWinner, isDraw)
     }

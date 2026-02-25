@@ -55,6 +55,7 @@ interface SinglePlayerRoundInterface {
     fun playerGuess_StatLastPlayerUpdate(): Type
 
     public fun addComputerMove(row: Int, col: Int)
+    public fun addPlayerMove(row: Int, col: Int)
 
     fun roundEnds(isComputerWinner: Boolean, isDraw : Boolean)
     fun initRound()

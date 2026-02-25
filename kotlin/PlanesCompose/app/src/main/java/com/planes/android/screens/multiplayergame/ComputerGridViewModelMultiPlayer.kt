@@ -120,11 +120,19 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
                     m_SentMoves.add(it)
                 }
 
-                for (move in result.data!!.m_ListMoves) {
-                    val gp = GuessPoint(move.m_MoveX, move.m_MoveY)
-                    val moveIdx = move.m_MoveIndex
-                    if (!m_PlaneRound.computerGuessAlreadyMade(move.m_MoveX, move.m_MoveY)) {
-                        m_PlaneRound.addComputerMove(move.m_MoveX, move.m_MoveY)
+                if (result.data!!.m_ListMoves.isNotEmpty()) {
+                    for (move in result.data!!.m_ListMoves) {
+                        //val gp = GuessPoint(move.m_MoveX, move.m_MoveY)
+                        //val moveIdx = move.m_MoveIndex
+                        Log.d(
+                            "Planes",
+                            "Received move ${move.m_MoveIndex} ${move.m_MoveX} ${move.m_MoveY}"
+                        )
+
+                        //TODO: and if not game ended
+                        if (!m_PlaneRound.computerGuessAlreadyMade(move.m_MoveX, move.m_MoveY)) {
+                            m_PlaneRound.addComputerMove(move.m_MoveX, move.m_MoveY)
+                        }
                     }
                 }
             }

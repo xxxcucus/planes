@@ -461,6 +461,22 @@ open class PlaneRound @AssistedInject constructor(
 
         //update the computer guess list
         m_computerGuessList.add(gp)
+        m_PlayerGrid.addGuess(gp)
+
+        updateGameStats(gp, true)
+    }
+
+    override public fun addPlayerMove(row: Int, col: Int) {
+        //use the player grid to see the result of the grid
+        val tp = m_ComputerGrid.getGuessResult(Coordinate2D(col, row))
+        m_GuessResult = tp
+        val gp = GuessPoint(col, row, tp)
+
+        //update the computer guess list
+        m_playerGuessList.add(gp)
+        m_ComputerGrid.addGuess(gp)
+
+        updateGameStats(gp, false)
     }
 
     /**
