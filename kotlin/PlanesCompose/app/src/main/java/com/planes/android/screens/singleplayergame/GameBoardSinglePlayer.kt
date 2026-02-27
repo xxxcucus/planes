@@ -11,11 +11,11 @@ fun GameBoardSinglePlayer(rows: Int, cols: Int, modifier: Modifier = Modifier,
     Layout(
         modifier = modifier,
         content = content,
-        measurePolicy = gameBoardSinglePlayerMeasurePolicy(rows, cols)
+        measurePolicy = gameBoardSinglePlayerMeasurePolicyCol(rows, cols)
     )
 }
 
-fun gameBoardSinglePlayerMeasurePolicy(rows: Int, cols: Int): MeasurePolicy =
+fun gameBoardSinglePlayerMeasurePolicyRow(rows: Int, cols: Int): MeasurePolicy =
     MeasurePolicy { measurables, constraints ->
         val placeables = measurables.map { measurable ->
             measurable.measure(constraints.copy(
@@ -48,6 +48,44 @@ fun gameBoardSinglePlayerMeasurePolicy(rows: Int, cols: Int): MeasurePolicy =
 
                 if (maxY < placeable.height) {
                     maxY = placeable.height
+                }
+            }
+        }
+    }
+
+fun gameBoardSinglePlayerMeasurePolicyCol(rows: Int, cols: Int): MeasurePolicy =
+    MeasurePolicy { measurables, constraints ->
+        val placeables = measurables.map { measurable ->
+            measurable.measure(constraints.copy(
+                maxWidth = constraints.maxWidth / cols,
+                maxHeight = constraints.maxHeight / rows,
+                minWidth = constraints.maxWidth / cols,
+                minHeight = constraints.maxHeight / rows))
+        }
+
+
+        layout(constraints.maxWidth, constraints.maxHeight) {
+            var yPos = 0
+            var xPos = 0
+            var maxX = 0
+
+            placeables.forEachIndexed { index, placeable ->
+                //if (xPos + placeable.width >= constraints.maxWidth) {
+                if (index % rows == 0) {
+                    yPos = 0
+                    xPos += maxX
+                    maxX = 0
+                }
+
+                placeable.placeRelative(
+                    x = xPos,
+                    y = yPos
+                )
+
+                yPos += placeable.height
+
+                if (maxX < placeable.width) {
+                    maxX = placeable.width
                 }
             }
         }

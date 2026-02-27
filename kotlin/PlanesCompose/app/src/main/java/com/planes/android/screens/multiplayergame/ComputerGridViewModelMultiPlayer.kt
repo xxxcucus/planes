@@ -96,8 +96,6 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
                 }
             }
 
-
-
             //TODO: build request
 
             val request = createSendNotSentMovesRequest(notSentMoves, notReceivedMoves)
@@ -132,8 +130,11 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
                         //TODO: and if not game ended
                         if (!m_PlaneRound.computerGuessAlreadyMade(move.m_MoveX, move.m_MoveY)) {
                             m_PlaneRound.addComputerMove(move.m_MoveX, move.m_MoveY)
+                            m_ReceivedMoves.add(move.m_MoveIndex)
                         }
                     }
+
+                    m_ReceivedMoves.sort()
                 }
             }
 

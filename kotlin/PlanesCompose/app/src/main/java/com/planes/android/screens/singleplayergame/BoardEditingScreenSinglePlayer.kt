@@ -160,11 +160,11 @@ fun treatSwipeVertical(swipeThresh: Float, consecSwipeThresh: Int,
         //val steps = 0
         if (swipeLengthX > swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneRight(planesGridViewModel.getSelectedPlane())
+                planesGridViewModel.movePlaneDownwards(planesGridViewModel.getSelectedPlane())
             //down
         } else if (swipeLengthX < -swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
+                planesGridViewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
             //up
         }
     } else {
@@ -174,11 +174,11 @@ fun treatSwipeVertical(swipeThresh: Float, consecSwipeThresh: Int,
         //val steps = 0
         if (swipeLengthY > swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneDownwards(planesGridViewModel.getSelectedPlane())
+                planesGridViewModel.movePlaneRight(planesGridViewModel.getSelectedPlane())
             //right
         } else if (swipeLengthY < -swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
+                planesGridViewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
             //left
         }
     }
@@ -207,10 +207,10 @@ fun treatSwipeHorizontal(swipeThresh: Float, consecSwipeThresh: Int,
         //val steps = 0
         if (swipeLengthX > swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneRight(planesGridViewModel.getSelectedPlane())
+                planesGridViewModel.movePlaneDownwards(planesGridViewModel.getSelectedPlane())
         } else if (swipeLengthX < -swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
+                planesGridViewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
         }
     } else {
 
@@ -219,10 +219,10 @@ fun treatSwipeHorizontal(swipeThresh: Float, consecSwipeThresh: Int,
         //val steps = 0
         if (swipeLengthY > swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneDownwards(planesGridViewModel.getSelectedPlane())
+                planesGridViewModel.movePlaneRight(planesGridViewModel.getSelectedPlane())
         } else if (swipeLengthY < -swipeThresh) {
             for (i in 0..<steps)
-                planesGridViewModel.movePlaneUpwards(planesGridViewModel.getSelectedPlane())
+                planesGridViewModel.movePlaneLeft(planesGridViewModel.getSelectedPlane())
         }
     }
 
