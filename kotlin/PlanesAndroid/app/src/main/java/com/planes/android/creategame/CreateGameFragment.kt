@@ -14,13 +14,16 @@ import androidx.fragment.app.Fragment
 import com.planes.android.*
 import com.planes.android.databinding.FragmentCreateGameBinding
 import com.planes.multiplayer_engine.MultiplayerRoundJava
+import com.planes.multiplayer_engine.commobj.LoginWithoutLoadingCommObj
 import com.planes.multiplayer_engine.responses.ConnectToGameResponse
 import com.planes.multiplayer_engine.responses.CreateGameResponse
 import com.planes.multiplayer_engine.responses.GameStatusResponse
+import com.planes.multiplayer_engine.responses.LoginResponse
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import retrofit2.Response
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
@@ -36,6 +39,8 @@ class CreateGameFragment: Fragment() {
     private lateinit var m_ConnectToGameSubscription: Disposable
     private lateinit var m_RefreshGameStatusSubscription: Disposable
     private lateinit var m_PollForOpponentSubscription: Disposable
+
+    private lateinit var m_LoginWhenTokenExpiredCommObj: LoginWithoutLoadingCommObj
     var m_CreateGameSettingsService = CreateGameSettingsGlobal()
     lateinit var m_Context: Context
     private lateinit var m_MainLayout: RelativeLayout
@@ -101,6 +106,7 @@ class CreateGameFragment: Fragment() {
 
         m_MainLayout = binding.rootCreategame
 
+        performLoginWhenTokenExpired()
         reinitializeFromState()
 
         if (activity is MainActivity) {
@@ -414,5 +420,30 @@ class CreateGameFragment: Fragment() {
     private fun switchToGameFragment() {
         if (activity is MainActivity)
             (activity as MainActivity).startGameFragment()
+    }
+
+    private fun saveCredentialsTokenExpired(username: String, password: String, authorizationHeader: String, body: LoginResponse?) {
+        m_MultiplayerRound.setUserData(username, password, authorizationHeader)
+        if (body != null)
+            m_MultiplayerRound.setUserId(body.m_Id.toLong())
+    }
+
+    private fun createObservableTokenExpired() : Observable<Response<LoginResponse>> {
+        return m_MultiplayerRound.login(m_MultiplayerRound.getUsername(), m_MultiplayerRound.getPassword())
+    }
+
+    private fun performLoginWhenTokenExpired() {
+        if (m_MultiplayerRound.authTokenExpired()) {
+            m_LoginWhenTokenExpiredCommObj = LoginWithoutLoadingCommObj(
+                ::createObservableTokenExpired,
+                getString(R.string.loginerror),
+                getString(R.string.unknownerror),
+                m_MultiplayerRound.getUsername(),
+                m_MultiplayerRound.getPassword(),
+                ::saveCredentialsTokenExpired,
+                requireActivity()
+            )
+            m_LoginWhenTokenExpiredCommObj.makeRequest()
+        }
     }
 }
