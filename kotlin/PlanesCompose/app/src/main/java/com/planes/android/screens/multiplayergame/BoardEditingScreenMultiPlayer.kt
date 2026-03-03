@@ -174,18 +174,13 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                     playerGridViewModel.cancelRound()
                     navController.popBackStack()
                     navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
+                    //navController.navigate(route = PlanesScreens.MultiplayerGame.name)
                     //TODO: toast
                 } else if (playerGridViewModel.getBoardEditingState() == BoardEditingStates.OpponentPlanePositionsReceived) {
                     //TODO: to optimize this
-                    computerGridViewModel.resetGrid()
-                    val receivedPlanes = playerGridViewModel.getReceivedPlaneList()
-                    receivedPlanes.forEach {
-
-                        //Log.d("Planes", "Plane  ${it.row()},${it.col} with ${it.orientation().value}")
-                        computerGridViewModel.savePlane(it)
-                    }
-                    computerGridViewModel.computePlanePointsList()
-                    computerGridViewModel.updatePlanesToPlaneRound()
+                    Log.d("Planes", "ComputerGridViewModel prepare for game starts")
+                   computerGridViewModel.prepareForGame(playerGridViewModel.getReceivedPlaneList())
+                    Log.d("Planes", "ComputerGridViewModel prepare for game ends")
                     //TODO: toast
                     navController.popBackStack()
                     navController.navigate(route = PlanesScreens.MultiplayerGame.name)

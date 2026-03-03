@@ -6,18 +6,24 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.planes.android.repository.PlanesGameRepository
+import com.planes.android.screens.createmultiplayergame.CreateGameStates
+import com.planes.android.screens.createmultiplayergame.GameStatus
 import com.planes.android.screens.singleplayergame.PlaneGridViewModel
+import com.planes.multiplayer_engine.requests.GameStatusRequest
 import com.planes.multiplayer_engine.requests.SendNotSentMovesRequest
 import com.planes.multiplayer_engine.requests.SingleMoveRequest
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import com.planes.singleplayerengine.GuessPoint
+import com.planes.singleplayerengine.Plane
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Vector
 import javax.inject.Inject
 import kotlin.text.get
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlayerRoundInterface,
@@ -41,6 +47,12 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
 
     private var m_SendingMoveState = mutableStateOf(false)
 
+    private var m_PollingForComputerMoves = mutableStateOf(false)
+
+    private var m_PreparedForGame = mutableStateOf(false)
+
+    private var m_PlaneRoundMultiplayer = planeRound
+
     fun setCredentials(authorization: MutableState<String?>, gameName: MutableState<String?>,
                        gameId : MutableState<String?>, roundId: MutableState<String?>,
                        username: MutableState<String?>, userid: MutableState<String?>,
@@ -57,10 +69,31 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
     }
 
 
+    fun savePlanes(planes: List<Plane>) {
+        planes.forEach {
+
+            //Log.d("Planes", "Plane  ${it.row()},${it.col} with ${it.orientation().value}")
+            savePlane(it)
+        }
+    }
+
+    fun prepareForGame(planes: List<Plane>) {
+        if (m_PreparedForGame.value == true)
+            return
+
+        m_PreparedForGame.value = true
+
+        resetGrid()
+        savePlanes(planes)
+
+        computePlanePointsList()
+        updatePlanesToPlaneRound()
+    }
+
     fun sendMoves() {
 
         Log.d("Planes", "Send player moves")
-        //TODO: set state sending move
+        //set state sending move
         if (m_SendingMoveState.value == true || m_SendMovesCancelled.value == true) {
             Log.d("Planes", "Send moves not possible ${m_SendingMoveState.value} ${m_SendMovesCancelled.value} ")
             return;
@@ -72,7 +105,7 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
 
             val guessCount = getGuessesCount()
 
-            //TODO: compute list of not sent moves
+            //compute list of not sent moves
             var notSentMoves = Vector<Int>()
 
             for (i in 0..guessCount - 1) {
@@ -86,7 +119,7 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
                 return@launch
             }
 
-            //TODO: compute moves not received moves
+            //compute moves not received moves
             var notReceivedMoves = Vector<Int>()
 
             if (m_ReceivedMoves.isNotEmpty()) {
@@ -96,18 +129,18 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
                 }
             }
 
-            //TODO: build request
+            //build request
 
             val request = createSendNotSentMovesRequest(notSentMoves, notReceivedMoves)
 
-            //TODO: call repository method
+            //call repository method
             val result = withContext(Dispatchers.IO) {
                 repository.sendOwnMove(
                     m_Authorization.value!!, request
                 )
             }
 
-            //TODO: check it was sent
+            //check it was sent
             if (result.data != null) {
                 m_SendMovesCancelled.value = result.data!!.m_Cancelled
 
@@ -140,6 +173,72 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
 
             m_SendingMoveState.value = false
         }
+    }
+
+    fun pollForComputerMoves() {
+
+        val winners = m_PlaneRound.checkIfRoundEnds()
+
+        if (winners.first == false)
+            return
+
+        if (m_PollingForComputerMoves.value == true)
+            return;
+
+        m_PollingForComputerMoves.value = true
+
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+
+                do {
+                    delay(5.seconds)
+
+                    val notSentMoves = Vector<Int>()
+
+                    //compute moves not received moves
+                    val notReceivedMoves = Vector<Int>()
+
+                    if (m_ReceivedMoves.isNotEmpty()) {
+                        for (i in 0..m_ReceivedMoves.get(m_ReceivedMoves.size - 1)) {
+                            if (!m_ReceivedMoves.contains(i))
+                                notReceivedMoves.add(i)
+                        }
+                    }
+
+                    val request = createSendNotSentMovesRequest(notSentMoves, notReceivedMoves)
+
+                    val result = repository.sendOwnMove(
+                        m_Authorization.value!!, request
+                    )
+
+                    if (result.data != null) {
+                        m_SendMovesCancelled.value = result.data!!.m_Cancelled
+                        if (result.data!!.m_ListMoves.isNotEmpty()) {
+                            for (move in result.data!!.m_ListMoves) {
+                                //val gp = GuessPoint(move.m_MoveX, move.m_MoveY)
+                                //val moveIdx = move.m_MoveIndex
+                                Log.d(
+                                    "Planes",
+                                    "Received move ${move.m_MoveIndex} ${move.m_MoveX} ${move.m_MoveY}"
+                                )
+
+                                if (!m_PlaneRound.computerGuessAlreadyMade(move.m_MoveX, move.m_MoveY)) {
+                                    m_PlaneRound.addComputerMove(move.m_MoveX, move.m_MoveY)
+                                    m_ReceivedMoves.add(move.m_MoveIndex)
+                                }
+                            }
+                            m_ReceivedMoves.sort()
+                        }
+                    }
+
+                    val pgr = m_PlaneRoundMultiplayer.checkRoundEndAsync()
+
+                } while (m_SendMovesCancelled.value == false && !pgr.m_RoundEnds)
+
+                m_PollingForComputerMoves.value = false
+            }
+        }
+
     }
 
     fun createSendNotSentMovesRequest(notSentMoves: Vector<Int>, notReceivedMoves: Vector<Int>): SendNotSentMovesRequest {

@@ -191,6 +191,61 @@ class MultiplayerRound @AssistedInject constructor(
         return m_PlaneRound.roundEnds(isComputerWinner, isDraw)
     }
 
+    override fun checkIfRoundEnds(): Pair<Boolean, Boolean> {
+        return m_PlaneRound.checkIfRoundEnds()
+    }
+
+    override fun checkRoundEndAsync(): PlayerGuessReaction {
+        val pgr = PlayerGuessReaction()
+        val winners = m_PlaneRound.checkIfRoundEnds()
+
+        if (winners.first && winners.second) {
+            if (!m_PlaneRound.playerHasMoreMoves() && !m_PlaneRound.computerHasMoreMoves()) {
+                pgr.m_RoundEnds = true
+                pgr.m_IsDraw = true
+            } else if (m_PlaneRound.playerHasMoreMoves()) {
+                pgr.m_RoundEnds = true
+                pgr.m_IsDraw = false
+                pgr.m_isPlayerWinner = false
+            } else {
+                pgr.m_RoundEnds = true
+                pgr.m_IsDraw = false
+                pgr.m_isPlayerWinner = true
+            }
+        } else if (winners.first) {
+            if (m_PlaneRound.computerHasMoreMoves()) {
+                pgr.m_RoundEnds = true
+                pgr.m_IsDraw = false
+                pgr.m_isPlayerWinner = true
+            } else {
+                pgr.m_RoundEnds = false
+                pgr.m_IsDraw = false
+                pgr.m_isPlayerWinner = false
+                pgr.m_PlayerFinishedStartPolling = true
+            }
+        } else if (winners.second) {
+            if (m_PlaneRound.playerHasMoreMoves()) {
+                pgr.m_RoundEnds = true
+                pgr.m_IsDraw = false
+                pgr.m_isPlayerWinner = false
+            } else {
+                pgr.m_RoundEnds = false
+                pgr.m_IsDraw = false
+                pgr.m_isPlayerWinner = false
+            }
+        }
+
+        return pgr
+    }
+
+    override fun playerHasMoreMoves(): Boolean {
+        return m_PlaneRound.playerHasMoreMoves()
+    }
+
+    override fun computerHasMoreMoves(): Boolean {
+        return m_PlaneRound.computerHasMoreMoves()
+    }
+
     override fun initRound() {
         return m_PlaneRound.initRound()
     }

@@ -553,11 +553,17 @@ open class PlaneRound @AssistedInject constructor(
     }
 
     //check to see if there is a winner
-    private fun checkIfRoundEnds(): Pair<Boolean, Boolean> {
+    override fun checkIfRoundEnds(): Pair<Boolean, Boolean> {
         val computerFinished = enoughGuesses(m_PlayerGrid, m_computerGuessList)
         val playerFinished = enoughGuesses(m_ComputerGrid, m_playerGuessList)
         return Pair.create(playerFinished, computerFinished)
     }
 
+    override fun playerHasMoreMoves(): Boolean {
+        return m_playerGuessList.size > m_computerGuessList.size
+    }
 
+    override fun computerHasMoreMoves(): Boolean {
+        return m_computerGuessList.size > m_playerGuessList.size
+    }
 }

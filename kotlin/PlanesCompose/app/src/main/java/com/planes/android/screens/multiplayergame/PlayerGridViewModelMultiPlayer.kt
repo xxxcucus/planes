@@ -156,10 +156,11 @@ class PlayerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlayer
 
             withContext(Dispatchers.IO) {
                 do {
-                    delay(5.seconds)
 
                     if (m_BoardEditingState.value != BoardEditingStates.WaitForOpponentPlanePositions)
                         break
+
+                    delay(5.seconds)
 
                     val resultPolling = repository.acquireOpponentPlanePositions(
                         m_Authorization.value!!,
@@ -194,7 +195,9 @@ class PlayerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlayer
                     }
                     Log.d("PlaneCompose", "Polling for planes positions ${m_SendPositionsOtherExists.value}")
                 } while (m_BoardEditingState.value == BoardEditingStates.WaitForOpponentPlanePositions)
+                Log.d("PlaneCompose", "End of polling for plane positions")
             }
+
         }
     }
 }

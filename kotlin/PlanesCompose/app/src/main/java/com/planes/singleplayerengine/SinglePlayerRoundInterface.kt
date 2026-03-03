@@ -58,6 +58,13 @@ interface SinglePlayerRoundInterface {
     public fun addPlayerMove(row: Int, col: Int)
 
     fun roundEnds(isComputerWinner: Boolean, isDraw : Boolean)
+
+    fun playerHasMoreMoves(): Boolean
+
+    fun computerHasMoreMoves(): Boolean
+
+    fun checkIfRoundEnds(): Pair<Boolean, Boolean>
+
     fun initRound()
 
     fun cancelRound()

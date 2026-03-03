@@ -110,14 +110,26 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
 
                             Log.d("Planes", "Guess at $row and $col")
 
-                            //TODO: and if not all planes discovered or game end
-                            if (!planeRound.playerGuessAlreadyMade(row, col)) {
+                            val pgr = planeRound.checkRoundEndAsync()
+                            val winners = planeRound.checkIfRoundEnds()
+
+                            Log.d("Planes", "CheckRoundEndAsync ${pgr.m_RoundEnds}")
+
+                            if (!winners.first && !pgr.m_RoundEnds && !planeRound.playerGuessAlreadyMade(col, row)) {
                                 planeRound.playerGuess(row, col)
                                 val pgp = GuessPoint(col, row, planeRound.playerGuess_GuessResult())
                                 computerGridViewModel.addGuess(pgp)
 
                                 gameStatsViewModelMultiPlayer.updateFromPlaneRound()
                                 computerGridViewModel.sendMoves()
+                                computerGridViewModel.pollForComputerMoves()
+                            } else if (pgr.m_RoundEnds) {
+                                val computerWinner = !pgr.m_isPlayerWinner
+                                val isDraw = pgr.m_IsDraw
+                                planeRound.roundEnds(computerWinner, isDraw)
+                                gameStatsViewModelMultiPlayer.resetRoundStats()
+                                navController.popBackStack()
+                                navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
                             }
                         }
                     }
@@ -153,7 +165,6 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
                         modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
-                        //TODO: move received moves from PlaneRound to playerGridViewModel
                         if (playerBoard.value == false)
                             playerGridViewModel.updateGuessesFromPlaneRound()
                         playerBoard.value = !playerBoard.value

@@ -178,6 +178,18 @@ class SinglePlayerRoundJava : SinglePlayerRoundInterface {
         global_Round!!.setRoundEnd(isComputerWinner, isDraw)
     }
 
+    override fun checkIfRoundEnds(): Pair<Boolean, Boolean> {
+        return global_Round!!.checkIfRoundEnds()
+    }
+
+    override fun playerHasMoreMoves(): Boolean {
+        return global_Round!!.playerHasMoreMoves()
+    }
+
+    override fun computerHasMoreMoves(): Boolean {
+        return global_Round!!.computerHasMoreMoves()
+    }
+
     override fun cancelRound() {
         global_Round!!.cancelRound()
     }
