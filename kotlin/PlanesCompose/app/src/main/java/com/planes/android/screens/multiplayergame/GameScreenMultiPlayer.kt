@@ -90,6 +90,20 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
 
     //Log.d("Planes", "planes no ${planesGridViewModel.getPlaneNo()}")
 
+    if (computerGridViewModel.getRoundEnds()) {
+        val pgr = planeRound.checkRoundEndAsync()
+        val computerWinner = !pgr.m_isPlayerWinner
+        val isDraw = pgr.m_IsDraw
+        planeRound.roundEnds(computerWinner, isDraw)
+        gameStatsViewModelMultiPlayer.resetRoundStats()
+
+        computerGridViewModel.sendWinner(pgr.m_isPlayerWinner, pgr.m_IsDraw)
+
+        navController.popBackStack()
+        navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
+    }
+
+
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
         Column() {
             GameBoardSinglePlayer(
@@ -123,13 +137,6 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
                                 gameStatsViewModelMultiPlayer.updateFromPlaneRound()
                                 computerGridViewModel.sendMoves()
                                 computerGridViewModel.pollForComputerMoves()
-                            } else if (pgr.m_RoundEnds) {
-                                val computerWinner = !pgr.m_isPlayerWinner
-                                val isDraw = pgr.m_IsDraw
-                                planeRound.roundEnds(computerWinner, isDraw)
-                                gameStatsViewModelMultiPlayer.resetRoundStats()
-                                navController.popBackStack()
-                                navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
                             }
                         }
                     }

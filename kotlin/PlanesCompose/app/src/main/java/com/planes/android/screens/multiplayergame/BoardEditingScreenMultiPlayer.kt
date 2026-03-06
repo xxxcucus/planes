@@ -154,16 +154,31 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                         otherPlayerIdState = createViewModel.getFirstPlayerIdState()
                     }
 
-                    playerGridViewModel.setCredentials(loginViewModel.getLoggedInTokenState(),
-                        createViewModel.getGameNameState(), createViewModel.getGameIdState(),
-                        createViewModel.getCurrentRoundIdState(), loginViewModel.getLoggedInUsernameState(),
-                        loginViewModel.getLoggedInUserIdState(), otherPlayerIdState
+                    if (createViewModel.getGameNameState().value != computerGridViewModel.getGameName()) {
+                        playerGridViewModel.setCredentials(
+                            loginViewModel.getLoggedInTokenState(),
+                            createViewModel.getGameNameState(),
+                            createViewModel.getGameIdState(),
+                            createViewModel.getCurrentRoundIdState(),
+                            loginViewModel.getLoggedInUsernameState(),
+                            loginViewModel.getLoggedInUserIdState(),
+                            otherPlayerIdState
                         )
-                    computerGridViewModel.setCredentials(loginViewModel.getLoggedInTokenState(),
-                        createViewModel.getGameNameState(), createViewModel.getGameIdState(),
-                        createViewModel.getCurrentRoundIdState(), loginViewModel.getLoggedInUsernameState(),
-                        loginViewModel.getLoggedInUserIdState(), otherPlayerIdState
-                    )
+                        computerGridViewModel.setCredentials(
+                            loginViewModel.getLoggedInTokenState(),
+                            createViewModel.getGameNameState(),
+                            createViewModel.getGameIdState(),
+                            createViewModel.getCurrentRoundIdState(),
+                            loginViewModel.getLoggedInUsernameState(),
+                            loginViewModel.getLoggedInUserIdState(),
+                            otherPlayerIdState
+                        )
+                    } else {
+                        val roundId = computerGridViewModel.getRoundId()
+                        playerGridViewModel.setRoundId(roundId)
+                        createViewModel.setCurrentRoundId("Connect", roundId)
+                        createViewModel.setCurrentRoundId("Create", roundId)
+                    }
                     BoardEditingControlButtonsVerticalLayout(
                         screenHeightDp, boardSizeDp, buttonHeightDp,
                         buttonWidthDp, navController,

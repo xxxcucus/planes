@@ -11,7 +11,9 @@ import com.planes.android.screens.createmultiplayergame.GameStatus
 import com.planes.android.screens.singleplayergame.PlaneGridViewModel
 import com.planes.multiplayer_engine.requests.GameStatusRequest
 import com.planes.multiplayer_engine.requests.SendNotSentMovesRequest
+import com.planes.multiplayer_engine.requests.SendWinnerRequest
 import com.planes.multiplayer_engine.requests.SingleMoveRequest
+import com.planes.multiplayer_engine.requests.StartNewRoundRequest
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import com.planes.singleplayerengine.GuessPoint
 import com.planes.singleplayerengine.Plane
@@ -41,7 +43,6 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
     private var m_OpponentId = mutableStateOf<String?>(null)
 
     private var m_SentMoves = mutableStateListOf<Int>()
-    private var m_LastSentMoves = mutableStateListOf<Int>()
     private var m_ReceivedMoves = mutableStateListOf<Int>()
     private var m_SendMovesCancelled = mutableStateOf(false)
 
@@ -51,8 +52,25 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
 
     private var m_PreparedForGame = mutableStateOf(false)
 
+    private var m_RoundEnds = mutableStateOf(false)
+
+    private var m_StartNewRound = mutableStateOf(false)
+
     private var m_PlaneRoundMultiplayer = planeRound
 
+
+    fun updateRoundEnds() {
+        val pgr = m_PlaneRoundMultiplayer.checkRoundEndAsync()
+        m_RoundEnds.value = pgr.m_RoundEnds
+    }
+
+    fun getRoundEnds() : Boolean {
+        return m_RoundEnds.value
+    }
+
+    fun getStartNewRound() : Boolean {
+        return m_StartNewRound.value
+    }
     fun setCredentials(authorization: MutableState<String?>, gameName: MutableState<String?>,
                        gameId : MutableState<String?>, roundId: MutableState<String?>,
                        username: MutableState<String?>, userid: MutableState<String?>,
@@ -64,10 +82,15 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
         m_UserName = username
         m_UserId = userid
         m_OpponentId = opponnentid
-
-        //TODO: reset states
     }
 
+    fun getGameName() : String? {
+        return m_GameName.value
+    }
+
+    fun getRoundId() : String? {
+        return m_RoundId.value
+    }
 
     fun savePlanes(planes: List<Plane>) {
         planes.forEach {
@@ -75,6 +98,17 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
             //Log.d("Planes", "Plane  ${it.row()},${it.col} with ${it.orientation().value}")
             savePlane(it)
         }
+    }
+
+    fun resetState() {
+        m_SentMoves.clear()
+        m_ReceivedMoves.clear()
+        m_SendMovesCancelled.value = false
+        m_SendingMoveState.value = false
+        m_PollingForComputerMoves.value = false
+        m_PreparedForGame.value = false
+        m_RoundEnds.value = false
+        m_StartNewRound.value = false
     }
 
     fun prepareForGame(planes: List<Plane>) {
@@ -98,6 +132,8 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
             Log.d("Planes", "Send moves not possible ${m_SendingMoveState.value} ${m_SendMovesCancelled.value} ")
             return;
         }
+
+        updateRoundEnds()
 
         viewModelScope.launch {
 
@@ -164,6 +200,7 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
                         if (!m_PlaneRound.computerGuessAlreadyMade(move.m_MoveX, move.m_MoveY)) {
                             m_PlaneRound.addComputerMove(move.m_MoveX, move.m_MoveY)
                             m_ReceivedMoves.add(move.m_MoveIndex)
+                            updateRoundEnds()
                         }
                     }
 
@@ -225,6 +262,7 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
                                 if (!m_PlaneRound.computerGuessAlreadyMade(move.m_MoveX, move.m_MoveY)) {
                                     m_PlaneRound.addComputerMove(move.m_MoveX, move.m_MoveY)
                                     m_ReceivedMoves.add(move.m_MoveIndex)
+                                    updateRoundEnds()
                                 }
                             }
                             m_ReceivedMoves.sort()
@@ -241,9 +279,43 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
 
     }
 
+    fun sendWinner(isPlayerWinner: Boolean, isDraw: Boolean) {
+
+        viewModelScope.launch {
+            val request = createSendWinnerRequest(isPlayerWinner, isDraw)
+
+            val result = withContext(Dispatchers.IO) {
+                repository.sendWinner(
+                    m_Authorization.value!!, request
+                )
+            }
+        }
+    }
+
+    fun startNewRound() {
+        viewModelScope.launch {
+            val request = createStartNewRoundRequest()
+
+            val result = withContext(Dispatchers.IO) {
+                repository.startNewRound(
+                    m_Authorization.value!!, request
+                )
+            }
+
+            if (result.data != null) {
+                if (result.data!!.m_NewRoundCreated) {
+                    m_RoundId.value = result.data!!.m_RoundId
+                    m_StartNewRound.value = true
+                } else {
+                    Log.d("Planes", "New round was not created")
+                }
+            }
+        }
+    }
+
     fun createSendNotSentMovesRequest(notSentMoves: Vector<Int>, notReceivedMoves: Vector<Int>): SendNotSentMovesRequest {
 
-        var notSentMovesWithPositions = Vector<SingleMoveRequest>()
+        val notSentMovesWithPositions = Vector<SingleMoveRequest>()
 
         notSentMoves.forEach {
             val guess = getGuessAtIndex(it)
@@ -260,5 +332,15 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
             notReceivedMoves,
             m_UserId.value!!, m_UserName.value!!
         )
+    }
+
+    fun createSendWinnerRequest(isPlayerWiner: Boolean, isDraw: Boolean) : SendWinnerRequest {
+        val winnerId = if (isPlayerWiner) m_UserId.value!! else m_OpponentId.value!!
+        return SendWinnerRequest(m_GameId.value!!, m_RoundId.value!!,
+            winnerId, isDraw, m_UserId.value!!, m_UserName.value!!)
+    }
+
+    fun createStartNewRoundRequest(): StartNewRoundRequest {
+        return StartNewRoundRequest(m_GameId.value!!, m_OpponentId.value!!, m_UserId.value!!, m_UserName.value!!)
     }
 }

@@ -73,8 +73,14 @@ class PlayerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlayer
         m_UserName = username
         m_UserId = userid
         m_OpponentId = opponnentid
+    }
 
-        //TODO: reset states
+    fun resetState() {
+        m_BoardEditingState.value = BoardEditingStates.EditPlanePositions
+    }
+
+    fun setRoundId(roundId : String?) {
+        m_RoundId.value = roundId
     }
 
     fun createSendPlanePositionsRequest() : SendPlanePositionsRequest {

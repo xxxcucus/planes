@@ -78,6 +78,16 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
     val titleOtherBoard2 = if (playerBoard.value) stringResource(R.string.view_computer_board2) else stringResource(
         R.string.view_player_board2)
 
+    if (computerGridViewModel.getStartNewRound()) {
+        planeRound.initRound()
+        playerGridViewModel.resetFromPlaneRound()
+        computerGridViewModel.resetFromPlaneRound()
+        computerGridViewModel.resetState()
+        playerGridViewModel.resetState()
+        navController.popBackStack()
+        navController.navigate(route = PlanesScreens.MultiplayerBoardEditing.name)
+    }
+
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
         Column() {
             GameBoardSinglePlayer(gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
@@ -146,11 +156,7 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
                         modifier = Modifier.width(refButtonWidthDp.dp * 2 / 3).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
-                        planeRound.initRound()
-                        playerGridViewModel.resetFromPlaneRound()
-                        computerGridViewModel.resetFromPlaneRound()
-                        navController.popBackStack()
-                        navController.navigate(route = PlanesScreens.SinglePlayerBoardEditing.name)
+                        computerGridViewModel.startNewRound()
                     }
                     Column() {
                         Row() {
@@ -227,8 +233,10 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
                         planeRound.initRound()
                         playerGridViewModel.resetFromPlaneRound()
                         computerGridViewModel.resetFromPlaneRound()
+                        computerGridViewModel.resetState()
+                        playerGridViewModel.resetState()
                         navController.popBackStack()
-                        navController.navigate(route = PlanesScreens.SinglePlayerBoardEditing.name)
+                        navController.navigate(route = PlanesScreens.MultiplayerBoardEditing.name)
                     }
                 }
 

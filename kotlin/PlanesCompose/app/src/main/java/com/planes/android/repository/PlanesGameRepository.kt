@@ -12,12 +12,19 @@ import com.planes.multiplayer_engine.requests.CreateGameRequest
 import com.planes.multiplayer_engine.requests.GameStatusRequest
 import com.planes.multiplayer_engine.requests.SendNotSentMovesRequest
 import com.planes.multiplayer_engine.requests.SendPlanePositionsRequest
+import com.planes.multiplayer_engine.requests.SendWinnerRequest
+import com.planes.multiplayer_engine.requests.StartNewRoundRequest
 import com.planes.multiplayer_engine.responses.AcquireOpponentPositionsResponse
 import com.planes.multiplayer_engine.responses.ConnectToGameResponse
 import com.planes.multiplayer_engine.responses.CreateGameResponse
 import com.planes.multiplayer_engine.responses.GameStatusResponse
 import com.planes.multiplayer_engine.responses.SendNotSentMovesResponse
 import com.planes.multiplayer_engine.responses.SendPlanePositionsResponse
+import com.planes.multiplayer_engine.responses.SendWinnerResponse
+import com.planes.multiplayer_engine.responses.StartNewRoundResponse
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.Header
 import javax.inject.Inject
 
 class PlanesGameRepository @Inject constructor(private val api: PlanesGameApi) {
@@ -100,4 +107,29 @@ class PlanesGameRepository @Inject constructor(private val api: PlanesGameApi) {
         }
     }
 
+    suspend fun sendWinner(authorization: String, sendWinnerRequest: SendWinnerRequest): DataOrError<SendWinnerResponse> {
+        val response = api.sendWinner(authorization, sendWinnerRequest)
+
+        if (response.isSuccessful) {
+            return DataOrError(response.body(), false, null)
+        } else {
+            val errorString = response.errorBody()?.string() ?: return DataOrError(null, false, null)
+            val message = JsonParser.parseString(errorString).asJsonObject["message"].asString
+            val status = response.code()
+            return DataOrError(null, false, "Error $message with status code $status")
+        }
+    }
+
+    suspend fun startNewRound(authorization: String, startNewRoundRequest: StartNewRoundRequest): DataOrError<StartNewRoundResponse> {
+        val response = api.startRound(authorization, startNewRoundRequest)
+
+        if (response.isSuccessful) {
+            return DataOrError(response.body(), false, null)
+        } else {
+            val errorString = response.errorBody()?.string() ?: return DataOrError(null, false, null)
+            val message = JsonParser.parseString(errorString).asJsonObject["message"].asString
+            val status = response.code()
+            return DataOrError(null, false, "Error $message with status code $status")
+        }
+    }
 }
