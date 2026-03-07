@@ -192,9 +192,8 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                     //navController.navigate(route = PlanesScreens.MultiplayerGame.name)
                     //TODO: toast
                 } else if (playerGridViewModel.getBoardEditingState() == BoardEditingStates.OpponentPlanePositionsReceived) {
-                    //TODO: to optimize this
                     Log.d("Planes", "ComputerGridViewModel prepare for game starts")
-                   computerGridViewModel.prepareForGame(playerGridViewModel.getReceivedPlaneList())
+                    computerGridViewModel.prepareForGame(playerGridViewModel.getReceivedPlaneList())
                     Log.d("Planes", "ComputerGridViewModel prepare for game ends")
                     //TODO: toast
                     navController.popBackStack()
@@ -269,21 +268,37 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
 
                 if (playerGridViewModel.getBoardEditingState() == BoardEditingStates.EditPlanePositions) {
 
+                    //TODO: stack this into a function
                     var otherPlayerIdState = createViewModel.getSecondPlayerIdState()
                     if (otherPlayerIdState.value == loginViewModel.getLoggedInUserIdState().value) {
                         otherPlayerIdState = createViewModel.getFirstPlayerIdState()
                     }
 
-                    playerGridViewModel.setCredentials(loginViewModel.getLoggedInTokenState(),
-                        createViewModel.getGameNameState(), createViewModel.getGameIdState(),
-                        createViewModel.getCurrentRoundIdState(), loginViewModel.getLoggedInUsernameState(),
-                        loginViewModel.getLoggedInUserIdState(), otherPlayerIdState
-                    )
-                    computerGridViewModel.setCredentials(loginViewModel.getLoggedInTokenState(),
-                        createViewModel.getGameNameState(), createViewModel.getGameIdState(),
-                        createViewModel.getCurrentRoundIdState(), loginViewModel.getLoggedInUsernameState(),
-                        loginViewModel.getLoggedInUserIdState(), otherPlayerIdState
-                    )
+                    if (createViewModel.getGameNameState().value != computerGridViewModel.getGameName()) {
+                        playerGridViewModel.setCredentials(
+                            loginViewModel.getLoggedInTokenState(),
+                            createViewModel.getGameNameState(),
+                            createViewModel.getGameIdState(),
+                            createViewModel.getCurrentRoundIdState(),
+                            loginViewModel.getLoggedInUsernameState(),
+                            loginViewModel.getLoggedInUserIdState(),
+                            otherPlayerIdState
+                        )
+                        computerGridViewModel.setCredentials(
+                            loginViewModel.getLoggedInTokenState(),
+                            createViewModel.getGameNameState(),
+                            createViewModel.getGameIdState(),
+                            createViewModel.getCurrentRoundIdState(),
+                            loginViewModel.getLoggedInUsernameState(),
+                            loginViewModel.getLoggedInUserIdState(),
+                            otherPlayerIdState
+                        )
+                    } else {
+                        val roundId = computerGridViewModel.getRoundId()
+                        playerGridViewModel.setRoundId(roundId)
+                        createViewModel.setCurrentRoundId("Connect", roundId)
+                        createViewModel.setCurrentRoundId("Create", roundId)
+                    }
                     BoardEditingControlButtonsHorizontalLayout(
                         screenHeightDp, boardSizeDp, buttonHeightDp,
                         buttonWidthDp, topBarHeight.value, navController,
@@ -294,18 +309,12 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                     playerGridViewModel.cancelRound()
                     navController.popBackStack()
                     navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
+                    //navController.navigate(route = PlanesScreens.MultiplayerGame.name)
                     //TODO: toast
                 } else if (playerGridViewModel.getBoardEditingState() == BoardEditingStates.OpponentPlanePositionsReceived) {
-                    //TODO: to optimize this
-
-                    computerGridViewModel.resetGrid()
-                    val receivedPlanes = playerGridViewModel.getReceivedPlaneList()
-                    receivedPlanes.forEach {
-                        computerGridViewModel.savePlane(it)
-                    }
-                    computerGridViewModel.computePlanePointsList()
-                    computerGridViewModel.updatePlanesToPlaneRound()
-
+                    Log.d("Planes", "ComputerGridViewModel prepare for game starts")
+                    computerGridViewModel.prepareForGame(playerGridViewModel.getReceivedPlaneList())
+                    Log.d("Planes", "ComputerGridViewModel prepare for game ends")
                     //TODO: toast
                     navController.popBackStack()
                     navController.navigate(route = PlanesScreens.MultiplayerGame.name)

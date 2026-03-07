@@ -166,6 +166,50 @@ class SinglePlayerRoundJava : SinglePlayerRoundInterface {
         return global_Player_Guess_Reaction.m_GameStats.lastPlayerUpdated()
     }
 
+    override fun stats_NoPlayerMoves(): Int {
+        return global_Round!!.stats_NoPlayerMoves()
+    }
+
+    override fun stats_NoPlayerHits(): Int {
+        return global_Round!!.stats_NoPlayerHits()
+    }
+
+    override fun stats_NoPlayerMisses(): Int {
+        return global_Round!!.stats_NoPlayerMisses()
+    }
+
+    override fun stats_NoPlayerDead(): Int {
+        return global_Round!!.stats_NoPlayerDead()
+    }
+
+    override fun stats_NoPlayerWins(): Int {
+        return global_Round!!.stats_NoPlayerWins()
+    }
+
+    override fun stats_NoComputerMoves(): Int {
+        return global_Round!!.stats_NoComputerMoves()
+    }
+
+    override fun stats_NoComputerHits(): Int {
+        return global_Round!!.stats_NoComputerHits()
+    }
+
+    override fun stats_NoComputerMisses(): Int {
+        return global_Round!!.stats_NoComputerMisses()
+    }
+
+    override fun stats_NoComputerDead(): Int {
+        return global_Round!!.stats_NoComputerDead()
+    }
+
+    override fun stats_NoComputerWins(): Int {
+        return global_Round!!.stats_NoComputerWins()
+    }
+
+    override fun stats_NoDraws(): Int {
+        return global_Round!!.stats_NoDraws()
+    }
+
     override fun addComputerMove(row: Int, col: Int) {
         global_Round!!.addComputerMove(row, col)
     }
@@ -188,6 +232,14 @@ class SinglePlayerRoundJava : SinglePlayerRoundInterface {
 
     override fun computerHasMoreMoves(): Boolean {
         return global_Round!!.computerHasMoreMoves()
+    }
+
+    override fun playerHasMoreConsideringDeadMoves(): Boolean {
+        return global_Round!!.playerHasMoreConsideringDeadMoves()
+    }
+
+    override fun computerHasMoreConsideringDeadMoves(): Boolean {
+        return global_Round!!.computerHasMoreConsideringDeadMoves()
     }
 
     override fun cancelRound() {

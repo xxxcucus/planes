@@ -179,6 +179,51 @@ class MultiplayerRound @AssistedInject constructor(
         return m_PlaneRound.playerGuess_StatLastPlayerUpdate()
     }
 
+    override fun stats_NoPlayerMoves(): Int {
+        return m_PlaneRound.stats_NoPlayerMoves()
+    }
+
+    override fun stats_NoPlayerHits(): Int {
+        return m_PlaneRound.stats_NoPlayerHits()
+    }
+
+    override fun stats_NoPlayerMisses(): Int {
+        return m_PlaneRound.stats_NoPlayerMisses()
+    }
+
+    override fun stats_NoPlayerDead(): Int {
+        return m_PlaneRound.stats_NoPlayerDead()
+    }
+
+    override fun stats_NoPlayerWins(): Int {
+        return m_PlaneRound.stats_NoPlayerWins()
+    }
+
+    override fun stats_NoComputerMoves(): Int {
+        return m_PlaneRound.stats_NoComputerMoves()
+    }
+
+    override fun stats_NoComputerHits(): Int {
+        return m_PlaneRound.stats_NoComputerHits()
+    }
+
+    override fun stats_NoComputerMisses(): Int {
+        return m_PlaneRound.stats_NoComputerMisses()
+    }
+
+    override fun stats_NoComputerDead(): Int {
+        return m_PlaneRound.stats_NoComputerDead()
+    }
+
+    override fun stats_NoComputerWins(): Int {
+        return m_PlaneRound.stats_NoComputerWins()
+    }
+
+    override fun stats_NoDraws(): Int {
+        return m_PlaneRound.stats_NoDraws()
+    }
+
+
     override fun addComputerMove(row: Int, col: Int) {
         m_PlaneRound.addComputerMove(row, col)
     }
@@ -213,7 +258,7 @@ class MultiplayerRound @AssistedInject constructor(
                 pgr.m_isPlayerWinner = true
             }
         } else if (winners.first) {
-            if (m_PlaneRound.computerHasMoreMoves()) {
+            if (m_PlaneRound.computerHasMoreConsideringDeadMoves()) {
                 pgr.m_RoundEnds = true
                 pgr.m_IsDraw = false
                 pgr.m_isPlayerWinner = true
@@ -224,7 +269,7 @@ class MultiplayerRound @AssistedInject constructor(
                 pgr.m_PlayerFinishedStartPolling = true
             }
         } else if (winners.second) {
-            if (m_PlaneRound.playerHasMoreMoves()) {
+            if (m_PlaneRound.playerHasMoreConsideringDeadMoves()) {
                 pgr.m_RoundEnds = true
                 pgr.m_IsDraw = false
                 pgr.m_isPlayerWinner = false
@@ -244,6 +289,14 @@ class MultiplayerRound @AssistedInject constructor(
 
     override fun computerHasMoreMoves(): Boolean {
         return m_PlaneRound.computerHasMoreMoves()
+    }
+
+    override fun playerHasMoreConsideringDeadMoves(): Boolean {
+        return m_PlaneRound.playerHasMoreConsideringDeadMoves()
+    }
+
+    override fun computerHasMoreConsideringDeadMoves(): Boolean {
+        return m_PlaneRound.computerHasMoreConsideringDeadMoves()
     }
 
     override fun initRound() {

@@ -30,21 +30,21 @@ class GameStatsViewModelMultiPlayer  @Inject constructor(planeRound: MultiPlayer
 
     fun updateFromPlaneRound() {
 
-        //TODO: get the stats from the m_gameStats in PlaneRound
-        m_playerMoves.value = m_PlaneRound.playerGuess_StatNoPlayerMoves()
-        m_playerHits.value = m_PlaneRound.playerGuess_StatNoPlayerHits()
-        m_playerDead.value = m_PlaneRound.playerGuess_StatNoPlayerDead()
-        m_playerMisses.value = m_PlaneRound.playerGuess_StatNoPlayerMisses()
+        m_playerMoves.value = m_PlaneRound.stats_NoPlayerMoves()
+        m_playerHits.value = m_PlaneRound.stats_NoPlayerHits()
+        m_playerDead.value = m_PlaneRound.stats_NoPlayerDead()
+        m_playerMisses.value = m_PlaneRound.stats_NoPlayerMisses()
 
-        m_computerMoves.value = m_PlaneRound.playerGuess_StatNoComputerMoves()
-        m_computerHits.value = m_PlaneRound.playerGuess_StatNoComputerHits()
-        m_computerDead.value = m_PlaneRound.playerGuess_StatNoComputerDead()
-        m_computerMisses.value = m_PlaneRound.playerGuess_StatNoComputerMisses()
+        m_computerMoves.value = m_PlaneRound.stats_NoComputerMoves()
+        m_computerHits.value = m_PlaneRound.stats_NoComputerHits()
+        m_computerDead.value = m_PlaneRound.stats_NoComputerDead()
+        m_computerMisses.value = m_PlaneRound.stats_NoComputerMisses()
 
-        m_playerWins.value = m_PlaneRound.playerGuess_StatNoPlayerWins()
-        m_computerWins.value = m_PlaneRound.playerGuess_StatNoComputerWins()
-        m_draws.value = m_PlaneRound.playerGuess_StatNoDraws()
+        m_playerWins.value = m_PlaneRound.stats_NoPlayerWins()
+        m_computerWins.value = m_PlaneRound.stats_NoComputerWins()
+        m_draws.value = m_PlaneRound.stats_NoDraws()
 
+        //TODO:
         m_lastComputerUpdate.value = m_PlaneRound.playerGuess_StatLastComputeUpdate()
         m_lastPlayerUpdate.value = m_PlaneRound.playerGuess_StatLastPlayerUpdate()
     }

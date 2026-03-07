@@ -54,6 +54,28 @@ interface SinglePlayerRoundInterface {
     fun playerGuess_StatLastComputeUpdate(): Type
     fun playerGuess_StatLastPlayerUpdate(): Type
 
+    fun stats_NoPlayerMoves(): Int
+
+    fun stats_NoPlayerHits(): Int
+
+    fun stats_NoPlayerMisses(): Int
+
+    fun stats_NoPlayerDead(): Int
+
+    fun stats_NoPlayerWins(): Int
+
+    fun stats_NoComputerMoves(): Int
+
+    fun stats_NoComputerHits(): Int
+
+    fun stats_NoComputerMisses(): Int
+
+    fun stats_NoComputerDead(): Int
+
+    fun stats_NoComputerWins(): Int
+
+    fun stats_NoDraws(): Int
+
     public fun addComputerMove(row: Int, col: Int)
     public fun addPlayerMove(row: Int, col: Int)
 
@@ -62,6 +84,10 @@ interface SinglePlayerRoundInterface {
     fun playerHasMoreMoves(): Boolean
 
     fun computerHasMoreMoves(): Boolean
+
+    fun playerHasMoreConsideringDeadMoves(): Boolean
+
+    fun computerHasMoreConsideringDeadMoves(): Boolean
 
     fun checkIfRoundEnds(): Pair<Boolean, Boolean>
 

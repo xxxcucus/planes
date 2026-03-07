@@ -56,6 +56,8 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
 
     private var m_StartNewRound = mutableStateOf(false)
 
+    private var m_StopPolling = mutableStateOf(false)
+
     private var m_PlaneRoundMultiplayer = planeRound
 
 
@@ -109,6 +111,7 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
         m_PreparedForGame.value = false
         m_RoundEnds.value = false
         m_StartNewRound.value = false
+        m_StopPolling.value = false
     }
 
     fun prepareForGame(planes: List<Plane>) {
@@ -244,6 +247,8 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
 
                     val request = createSendNotSentMovesRequest(notSentMoves, notReceivedMoves)
 
+                    Log.d("Planes", "Poll for computer moves")
+
                     val result = repository.sendOwnMove(
                         m_Authorization.value!!, request
                     )
@@ -260,9 +265,12 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
                                 )
 
                                 if (!m_PlaneRound.computerGuessAlreadyMade(move.m_MoveX, move.m_MoveY)) {
+                                    Log.d("Planes", "Adding guess")
                                     m_PlaneRound.addComputerMove(move.m_MoveX, move.m_MoveY)
                                     m_ReceivedMoves.add(move.m_MoveIndex)
                                     updateRoundEnds()
+                                } else {
+                                    Log.d("Planes", "Guess already made")
                                 }
                             }
                             m_ReceivedMoves.sort()
@@ -271,7 +279,7 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
 
                     val pgr = m_PlaneRoundMultiplayer.checkRoundEndAsync()
 
-                } while (m_SendMovesCancelled.value == false && !pgr.m_RoundEnds)
+                } while (m_SendMovesCancelled.value == false && !pgr.m_RoundEnds && !m_StopPolling.value)
 
                 m_PollingForComputerMoves.value = false
             }
@@ -279,11 +287,16 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
 
     }
 
+    fun stopPolling() {
+        m_StopPolling.value = true
+    }
+
     fun sendWinner(isPlayerWinner: Boolean, isDraw: Boolean) {
 
         viewModelScope.launch {
             val request = createSendWinnerRequest(isPlayerWinner, isDraw)
 
+            //TODO: treat error
             val result = withContext(Dispatchers.IO) {
                 repository.sendWinner(
                     m_Authorization.value!!, request
@@ -302,6 +315,7 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
                 )
             }
 
+            //TODO: error treatment
             if (result.data != null) {
                 if (result.data!!.m_NewRoundCreated) {
                     m_RoundId.value = result.data!!.m_RoundId

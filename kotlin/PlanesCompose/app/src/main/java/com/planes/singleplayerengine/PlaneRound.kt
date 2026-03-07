@@ -147,7 +147,7 @@ open class PlaneRound @AssistedInject constructor(
 
     override fun computerGuessAlreadyMade(row: Int, col: Int): Boolean {
         for (guess in m_computerGuessList) {
-            if (guess.row() == col && guess.col() == row)
+            if (guess.row() == row && guess.col() == col)
                 return true
         }
         return false
@@ -243,6 +243,52 @@ open class PlaneRound @AssistedInject constructor(
     override fun playerGuess_RoundEnds(): Boolean {
         return m_PlayerGuessReaction.m_RoundEnds
     }
+
+    override fun stats_NoPlayerMoves(): Int {
+        return m_gameStats.playerMoves()
+    }
+
+    override fun stats_NoPlayerHits(): Int {
+        return m_gameStats.playerHits()
+    }
+
+    override fun stats_NoPlayerMisses(): Int {
+        return m_gameStats.playerMisses()
+    }
+
+    override fun stats_NoPlayerDead(): Int {
+        return m_gameStats.playerDead()
+    }
+
+    override fun stats_NoPlayerWins(): Int {
+        return m_gameStats.playerWins()
+    }
+
+    override fun stats_NoComputerMoves(): Int {
+        return m_gameStats.computerMoves()
+    }
+
+    override fun stats_NoComputerHits(): Int {
+        return m_gameStats.computerHits()
+    }
+
+    override fun stats_NoComputerMisses(): Int {
+        return m_gameStats.computerMisses()
+    }
+
+    override fun stats_NoComputerDead(): Int {
+        return m_gameStats.computerDead()
+    }
+
+    override fun stats_NoComputerWins(): Int {
+        return m_gameStats.computerWins()
+    }
+
+    override fun stats_NoDraws(): Int {
+        return m_gameStats.draws()
+    }
+
+
 
     /**
      * Rotate the plane and return false if the current plane configuration is valid.
@@ -565,5 +611,43 @@ open class PlaneRound @AssistedInject constructor(
 
     override fun computerHasMoreMoves(): Boolean {
         return m_computerGuessList.size > m_playerGuessList.size
+    }
+
+    override fun playerHasMoreConsideringDeadMoves(): Boolean {
+
+        var playerDead = 0
+
+        m_playerGuessList.forEach { guess ->
+            if (guess.isDead)
+                playerDead++
+        }
+
+        var computerDead = 0
+
+        m_computerGuessList.forEach { guess ->
+            if (guess.isDead)
+                computerDead++
+        }
+
+        return m_playerGuessList.size - playerDead > m_computerGuessList.size - computerDead
+    }
+
+    override fun computerHasMoreConsideringDeadMoves(): Boolean {
+
+        var playerDead = 0
+
+        m_playerGuessList.forEach { guess ->
+            if (guess.isDead)
+                playerDead++
+        }
+
+        var computerDead = 0
+
+        m_computerGuessList.forEach { guess ->
+            if (guess.isDead)
+                computerDead++
+        }
+
+        return m_computerGuessList.size - computerDead > m_playerGuessList.size - playerDead
     }
 }

@@ -96,7 +96,7 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
         val isDraw = pgr.m_IsDraw
         planeRound.roundEnds(computerWinner, isDraw)
         gameStatsViewModelMultiPlayer.resetRoundStats()
-
+        computerGridViewModel.stopPolling()
         computerGridViewModel.sendWinner(pgr.m_isPlayerWinner, pgr.m_IsDraw)
 
         navController.popBackStack()
@@ -229,6 +229,7 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
                         enabled = true
                     ) {
                         planeRound.cancelRound()
+                        computerGridViewModel.stopPolling()
                         navController.popBackStack()
                         navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
                     }
@@ -307,12 +308,20 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
 
                             Log.d("Planes", "Guess at $row and $col")
 
-                            if (!planeRound.playerGuessAlreadyMade(row, col)) {
+                            val pgr = planeRound.checkRoundEndAsync()
+                            val winners = planeRound.checkIfRoundEnds()
+
+                            Log.d("Planes", "CheckRoundEndAsync ${pgr.m_RoundEnds}")
+
+                            //TODO: to check this
+                            if (!winners.first && !pgr.m_RoundEnds && !planeRound.playerGuessAlreadyMade(col, row)) {
                                 planeRound.playerGuess(row, col)
-                                val gp = GuessPoint(col, row, planeRound.playerGuess_GuessResult())
-                                gameBoardViewModel.addGuess(gp)
+                                val pgp = GuessPoint(col, row, planeRound.playerGuess_GuessResult())
+                                computerGridViewModel.addGuess(pgp)
 
                                 gameStatsViewModelMultiPlayer.updateFromPlaneRound()
+                                computerGridViewModel.sendMoves()
+                                computerGridViewModel.pollForComputerMoves()
                             }
                         }
                     }
