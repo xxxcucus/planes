@@ -360,6 +360,7 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
                         enabled = true
                     ) {
                         planeRound.cancelRound()
+                        computerGridViewModel.stopPolling()
                         navController.popBackStack()
                         navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
                     }

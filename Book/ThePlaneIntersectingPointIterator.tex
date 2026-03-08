@@ -1,0 +1,112 @@
+\section{PlaneIntersectingPointIterator Class}
+
+The PlaneIntersectingPointIterator, the same as the PlanePointIterator shown in the previous section, is a derivation of the VectorIterator class. The class is used in the computer strategy algorithm. I would like to use this class to illustrate the concept of compile-time computation in C++.
+
+This was inspired to me by the reading of the very interesting book \cite{morales2025}
+
+Let us first give the header part of the class definition:
+
+\begin{lstlisting}
+	class PlaneIntersectingPointIterator: public PlanesCommonTools::VectorIterator<Plane>
+	{
+		PlanesCommonTools::Coordinate2D m_point;
+		
+		public:
+		PlaneIntersectingPointIterator(const PlanesCommonTools::Coordinate2D& qp = PlanesCommonTools::Coordinate2D(0,0));
+		
+		
+		
+		private:
+		void generateList();
+		void generateListOptimized();
+		
+		static constexpr int generatorCount = computeGeneratorCount<11, 11, 4, size_t>(std::make_index_sequence<11 * 11 * 4>());
+		static constexpr std::array<Plane, generatorCount> generatorList = generatePlaneList<11, 11, 4, generatorCount, size_t>(std::make_index_sequence<11 * 11 * 4>());
+	};
+\end{lstlisting}
+
+As we can see from the definition this class is practically a list of Plane objects on which we define an iteration method that will be used by the computer strategy. This list of Plane objects are all planes which have one point with the coordinate given by the member m\_point. As private methods there are the generateList() and the generateListOptimized() methods which generate the list of planes, the first method without compile-time computation and the second with compile-time computation.
+
+Then at the end of the class declaration we have two elements marked static constexpr: generatorCount and generatorList.
+
+First let us just review the generateList() method:
+
+\begin{lstlisting} [label  = generateList]
+	void PlaneIntersectingPointIterator::generateList()
+	{
+		m_internalList.clear();
+		
+		for(int i = -5 + m_point.x(); i < 6 + m_point.x(); i++)
+		for(int j = -5 + m_point.y(); j < 6 + m_point.y(); j++)
+		for(int k = 0; k < 4; k++)
+		{
+			Plane pl(i, j, (Plane::Orientation)k);
+			m_internalList.push_back(pl);
+		}
+		
+		auto it = m_internalList.begin();
+		
+		while(it != m_internalList.end())
+		{
+			if (!it->containsPoint(m_point))
+			{
+				it = m_internalList.erase(it);
+				continue;
+			}
+			++it;
+		}
+	}
+\end{lstlisting}
+
+In the triple for loop one generates all possible planes which have the head coordinate in a rectangle around the m\_point coordinate and all possible plane orientations. In the while loop on this preliminary list of planes, we eliminate the planes that do not contain the coordinate m\_point. The function generateList() is called in the constructor of the PlaneIntersectingPointIterator class. So every time the iterator class is instantiated we run the triple for loop and the while loop. 
+
+By using the compile-time computation ability of C++ I was able to optimize this as follows:
+
+\begin{lstlisting} [label = generateListOptimized]
+	void PlaneIntersectingPointIterator::generateListOptimized() {
+		m_internalList.clear();
+		
+		for (int i = 0; i < generatorCount; i++) {
+			Plane pl = generatorList[i];
+			Plane transPl = pl + m_point;
+			m_internalList.push_back(transPl);
+		}
+	}
+\end{lstlisting}
+
+This is a much simple code which does the same. It uses the two static constexpr variables generatorCount and generatorList. generatorCount is the compile-time calculated number of planes containing the (0,0) coordinate. generatorList is the compile-time calculated list of all planes containing (0,0). So basically the triple for loop was eliminated by using compile-time calculated functions.
+
+
+\subsection {C++ Concepts}
+\subsubsection {Constexpr Variables and Functions}
+
+Let us have a look on how are the two static constexpr variables from \ref{generateListOptimized} are calculated.
+
+First of all what is a constexpr variable ? A constexpr variable is an variable that can be evaluated at compile - time. In order to evaluate variable at compile time in non-trivial fashion one uses constexpr function. These are functions that can be evaluated at compile time. Let us give the example of the constexpr variable generatorCount. The definition is as follows:
+
+\begin{lstlisting}
+	static constexpr int generatorCount = computeGeneratorCount<11, 11, 4, size_t>(std::make_index_sequence<11 * 11 * 4>());
+\end{lstlisting}
+
+It uses the constexpr function:
+
+\begin{lstlisting}
+	template <unsigned int M, unsigned int N, unsigned int P, typename T, T... ints>
+	static constexpr int computeGeneratorCount(std::integer_sequence<T, ints...> int_seq)
+	{
+		int count = 0;
+		
+		([&count]() {
+			size_t i = ints / N / P;
+			size_t j = (ints - i * N * P) / P;
+			size_t k = (ints - i * N * P - j * P);
+			Plane pl = Plane((int)i - M / 2, (int)j - M / 2, (Plane::Orientation)k);
+			if (pl.containsPointConstExpr(PlanesCommonTools::Coordinate2D(0, 0)))
+			count++;
+		}(), ...);
+		
+		return count;
+	}
+\end{lstlisting}
+
+This is the triple for loop and the while loop \ref{generateList} for the coordinate (0,0) but defined as a compile time calculation.
