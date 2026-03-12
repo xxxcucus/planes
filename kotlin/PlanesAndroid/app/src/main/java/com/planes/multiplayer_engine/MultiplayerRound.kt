@@ -533,6 +533,20 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
         val pgr = PlayerGuessReaction()
 
+        var computerKill = 0;
+
+        m_computerGuessList.forEach { guess ->
+            if (guess.isDead)
+                computerKill++
+        }
+
+        var playerKill = 0
+
+        m_playerGuessList.forEach { guess ->
+            if (guess.isDead)
+                playerKill++
+        }
+
         if (m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
             if (m_ComputerMoveIndex > m_PlayerMoveIndex) {
                 //player winner
@@ -567,7 +581,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
         if (m_gameStats.computerFinished(m_planeNo) && !m_gameStats.playerFinished(m_planeNo)) {
             //qDebug() << "Computer finished and player not finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
-            if (m_ComputerMoveIndex <= m_PlayerMoveIndex) {
+            if (m_ComputerMoveIndex - computerKill <= m_PlayerMoveIndex - playerKill) {
                 //computer winner
                 if (!m_WinnerFound)
                     m_gameStats.updateWins(true)
@@ -581,7 +595,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
         if (!m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
             //qDebug() << "Computer not finished and player finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
-            if (m_ComputerMoveIndex >= m_PlayerMoveIndex) {
+            if (m_ComputerMoveIndex - computerKill >= m_PlayerMoveIndex - playerKill) {
                 //player winner
                 if (!m_WinnerFound)
                     m_gameStats.updateWins(false)

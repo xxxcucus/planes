@@ -82,7 +82,7 @@ This is a much simple code which does the same. It uses the two static constexpr
 
 Let us have a look on how are the two static constexpr variables from \ref{generateListOptimized} are calculated.
 
-First of all what is a constexpr variable ? A constexpr variable is an variable that can be evaluated at compile - time. In order to evaluate variable at compile time in non-trivial fashion one uses constexpr function. These are functions that can be evaluated at compile time. Let us give the example of the constexpr variable generatorCount. The definition is as follows:
+First of all what is a constexpr variable ? A constexpr variable is a variable that can be evaluated at compile time. In order to evaluate a variable at compile time in non-trivial fashion one uses constexpr functions. These are functions that can be evaluated at compile time. Let us give the example of the constexpr variable generatorCount. The definition is as follows:
 
 \begin{lstlisting}
 	static constexpr int generatorCount = computeGeneratorCount<11, 11, 4, size_t>(std::make_index_sequence<11 * 11 * 4>());
@@ -90,7 +90,7 @@ First of all what is a constexpr variable ? A constexpr variable is an variable 
 
 It uses the constexpr function:
 
-\begin{lstlisting}
+\begin{lstlisting} [label = computeGeneratorCount]
 	template <unsigned int M, unsigned int N, unsigned int P, typename T, T... ints>
 	static constexpr int computeGeneratorCount(std::integer_sequence<T, ints...> int_seq)
 	{
@@ -109,4 +109,4 @@ It uses the constexpr function:
 	}
 \end{lstlisting}
 
-This is the triple for loop and the while loop \ref{generateList} for the coordinate (0,0) but defined as a compile time calculation.
+This is the triple for loop and the while loop \ref{generateList} for the coordinate (0,0) but defined as a compile time calculation. In C++ standard versions that are newer and depending on the used compiler one can directly write the triple for loop in the lambda function call \ref{computeGeneratorCount}. So there is really no need to explain the somewhat complicated syntax in the code above.
