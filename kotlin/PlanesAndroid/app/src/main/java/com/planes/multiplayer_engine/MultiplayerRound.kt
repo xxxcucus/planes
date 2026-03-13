@@ -60,8 +60,8 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
     private var m_colNo = 10
     private var m_planeNo = 3
 
-    private var m_PlayerMoveIndex = 0
-    private var m_ComputerMoveIndex = 0
+    //private var m_PlayerMoveIndex = 0
+    //private var m_ComputerMoveIndex = 0
     private var m_WinnerFound: Boolean = false
     private var m_WinnerSent: Boolean = false
 
@@ -308,8 +308,8 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         m_computerGuessList.clear()
         m_gameStats.reset()
 
-        m_PlayerMoveIndex = 0
-        m_ComputerMoveIndex = 0
+        //m_PlayerMoveIndex = 0
+        //m_ComputerMoveIndex = 0
         m_WinnerFound = false
         m_WinnerSent = false
         m_GameData.reset()
@@ -327,8 +327,8 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
         m_WinnerFound = false
         m_WinnerSent = false
-        m_PlayerMoveIndex = 0
-        m_ComputerMoveIndex = 0
+        //m_PlayerMoveIndex = 0
+        //m_ComputerMoveIndex = 0
         m_NotSentMoves.clear()
         m_ReceivedMoves.clear()
 
@@ -489,9 +489,9 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
             m_ComputerGrid.addGuess(gp)
 
             //GuessPoint::Type guessResult =  m_ComputerGrid->getGuessResult(PlanesCommonTools::Coordinate2D(gp.m_row, gp.m_col));
-            m_PlayerMoveIndex++
+            //m_PlayerMoveIndex++
             if (this::m_GameFragmentMultiplayer.isInitialized) {
-                m_GameFragmentMultiplayer.sendMove(gp, m_PlayerMoveIndex)
+                m_GameFragmentMultiplayer.sendMove(gp, m_playerGuessList.size)
             }
         //TODO
         } else {
@@ -548,7 +548,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         }
 
         if (m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
-            if (m_ComputerMoveIndex > m_PlayerMoveIndex) {
+            if (m_computerGuessList.size > m_playerGuessList.size)  {
                 //player winner
                 if (!m_WinnerFound)
                     m_gameStats.updateWins(false)
@@ -557,7 +557,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
                 pgr.m_isPlayerWinner = true
                 m_WinnerFound = true
                 return pgr
-            } else if (m_ComputerMoveIndex < m_PlayerMoveIndex) {
+            } else if (m_computerGuessList.size < m_playerGuessList.size) {
                 //computer winner
                 if (!m_WinnerFound)
                     m_gameStats.updateWins(true)
@@ -581,7 +581,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
         if (m_gameStats.computerFinished(m_planeNo) && !m_gameStats.playerFinished(m_planeNo)) {
             //qDebug() << "Computer finished and player not finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
-            if (m_ComputerMoveIndex - computerKill < m_PlayerMoveIndex - playerKill) {
+            if (m_computerGuessList.size - computerKill < m_playerGuessList.size - playerKill) {
                 //computer winner
                 if (!m_WinnerFound)
                     m_gameStats.updateWins(true)
@@ -595,7 +595,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
         if (!m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
             //qDebug() << "Computer not finished and player finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
-            if (m_ComputerMoveIndex - computerKill > m_PlayerMoveIndex - playerKill) {
+            if (m_computerGuessList.size - computerKill > m_playerGuessList.size - playerKill) {
                 //player winner
                 if (!m_WinnerFound)
                     m_gameStats.updateWins(false)
@@ -743,7 +743,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
         if (updateGameStats(gp, true)) {
             m_computerGuessList.add(gp)
             m_PlayerGrid.addGuess(gp)
-            m_ComputerMoveIndex = max(m_ComputerMoveIndex, idx)
+            //m_ComputerMoveIndex = max(m_ComputerMoveIndex, idx)
         } else {
             //qDebug() << "computer has already found all planes";
         }
