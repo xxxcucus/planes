@@ -581,7 +581,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
         if (m_gameStats.computerFinished(m_planeNo) && !m_gameStats.playerFinished(m_planeNo)) {
             //qDebug() << "Computer finished and player not finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
-            if (m_ComputerMoveIndex - computerKill <= m_PlayerMoveIndex - playerKill) {
+            if (m_ComputerMoveIndex - computerKill < m_PlayerMoveIndex - playerKill) {
                 //computer winner
                 if (!m_WinnerFound)
                     m_gameStats.updateWins(true)
@@ -595,7 +595,7 @@ class MultiplayerRound(rowNo: Int, colNo: Int, planeNo: Int) {
 
         if (!m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
             //qDebug() << "Computer not finished and player finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
-            if (m_ComputerMoveIndex - computerKill >= m_PlayerMoveIndex - playerKill) {
+            if (m_ComputerMoveIndex - computerKill > m_PlayerMoveIndex - playerKill) {
                 //player winner
                 if (!m_WinnerFound)
                     m_gameStats.updateWins(false)

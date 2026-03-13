@@ -8,7 +8,7 @@ android {
         applicationId "com.planes.android"
         minSdkVersion 21
         targetSdkVersion 36
-        compileSdk 36
+        compileSdkVersion 36
         multiDexEnabled true
         versionCode 34
         versionName "0.4.5"
