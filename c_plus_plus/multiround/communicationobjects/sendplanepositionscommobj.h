@@ -22,7 +22,7 @@ public:
     bool validateReply(const QJsonObject& retJson) override;
    
 protected:
-    SendPlanePositionsCommObj() {}
+    SendPlanePositionsCommObj(): m_MultiRound(nullptr) {}
 
 public slots:
     void finishedRequest() override;       
@@ -38,7 +38,7 @@ private:
 
 private:
     QString m_GameName;
-    MultiplayerRound* m_MultiRound;
+    MultiplayerRound* m_MultiRound = nullptr;
 
     friend class SendPlanePositionsCommObjTest;
 };

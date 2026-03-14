@@ -36,7 +36,7 @@ private:
 
     
 private:
-    MultiplayerRound* m_MultiRound;
+    MultiplayerRound* m_MultiRound = nullptr;
     
     friend class CancelRoundCommObjTest;
 

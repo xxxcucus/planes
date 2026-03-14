@@ -24,7 +24,7 @@ public:
     bool validateReply(const QJsonObject& retJson) override;
     
 protected:
-    RequestOpponentMovesCommObj() {}
+    RequestOpponentMovesCommObj(): m_MultiRound(nullptr) {}
 
 public slots:
     void finishedRequest() override;       
@@ -38,7 +38,7 @@ private:
     void processResponse(const QJsonObject& retJson);
 
 protected:
-    MultiplayerRound* m_MultiRound;
+    MultiplayerRound* m_MultiRound = nullptr;
 
     friend class RequestOpponentMovesCommObjTest;
 };

@@ -3,7 +3,7 @@
 
 struct BasisRequestViewModel {
     QString m_Username;
-    long int m_UserId;
+    long int m_UserId = 0L;
 
     QJsonObject toJson() {
         QJsonObject retVal;

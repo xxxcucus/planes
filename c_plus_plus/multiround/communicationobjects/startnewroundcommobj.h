@@ -22,7 +22,7 @@ public:
     bool validateReply(const QJsonObject& retJson) override;
     
 protected:
-    StartNewRoundCommObj() {}
+    StartNewRoundCommObj(): m_MultiRound(nullptr) {}
 
 public slots:
     void finishedRequest() override;       
@@ -35,7 +35,7 @@ private:
     StartNewRoundViewModel prepareViewModel();
     
 private:
-    MultiplayerRound* m_MultiRound;
+    MultiplayerRound* m_MultiRound = nullptr;
 
     friend class StartNewRoundCommObjTest;
     

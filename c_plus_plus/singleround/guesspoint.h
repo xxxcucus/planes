@@ -8,9 +8,10 @@ public:
     enum Type {Miss = 0, Hit = 1, Dead = 2};
 
     //the coordinates of the guess
-    int m_row, m_col;
+    int m_row = 0;
+    int m_col = 0;
     //the result of the guess
-    Type m_type;
+    Type m_type = Type::Miss;
 
 public:
     //various constructors

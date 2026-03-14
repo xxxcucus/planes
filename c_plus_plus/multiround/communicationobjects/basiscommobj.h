@@ -49,11 +49,11 @@ protected:
     QString m_ActionName;
     QJsonObject m_RequestData;
     
-    QWidget* m_ParentWidget;
-    QNetworkAccessManager* m_NetworkManager;
-    QSettings* m_Settings;
+    QWidget* m_ParentWidget = nullptr;
+    QNetworkAccessManager* m_NetworkManager = nullptr;
+    QSettings* m_Settings = nullptr;
     bool m_IsSinglePlayer = true;
-    GlobalData* m_GlobalData;    
+    GlobalData* m_GlobalData = nullptr;    
 };
 
 

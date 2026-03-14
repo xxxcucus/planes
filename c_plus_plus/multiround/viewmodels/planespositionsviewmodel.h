@@ -6,18 +6,18 @@
 #include "basisrequestviewmodel.h"
 
 struct PlanesPositionsViewModel: public BasisRequestViewModel {
-    long int m_GameId;
-    long int m_RoundId;
-    long int m_OpponentUserId;
-    int m_Plane1X;
-    int m_Plane1Y;
-    Plane::Orientation m_Plane1Orient;
-    int m_Plane2X;
-    int m_Plane2Y;
-    Plane::Orientation m_Plane2Orient;
-    int m_Plane3X;
-    int m_Plane3Y;
-    Plane::Orientation m_Plane3Orient;
+    long int m_GameId = 0L;
+    long int m_RoundId = 0L;
+    long int m_OpponentUserId = 0L;
+    int m_Plane1X = 0;
+    int m_Plane1Y = 0;
+    Plane::Orientation m_Plane1Orient = Plane::Orientation::EastWest;
+    int m_Plane2X = 0;
+    int m_Plane2Y = 0;
+    Plane::Orientation m_Plane2Orient = Plane::Orientation::EastWest;
+    int m_Plane3X = 0;
+    int m_Plane3Y = 0;
+    Plane::Orientation m_Plane3Orient = Plane::Orientation::EastWest;
     
     QJsonObject toJson() {
         QJsonObject retVal = BasisRequestViewModel::toJson();

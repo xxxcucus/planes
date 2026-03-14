@@ -153,8 +153,8 @@ protected:
 	GameStatistics m_gameStats;
 
 	//the player and computer's grid
-	PlaneGrid* m_PlayerGrid;
-	PlaneGrid* m_ComputerGrid;
+	PlaneGrid* m_PlayerGrid = nullptr;
+	PlaneGrid* m_ComputerGrid = nullptr;
 
 	//the list of guesses for computer and player
 	std::vector<GuessPoint> m_computerGuessList;

@@ -23,7 +23,7 @@ public:
     bool validateReply(const QJsonObject& retJson) override;
 
 protected:
-    SendMoveCommObj() {}
+    SendMoveCommObj(): m_MultiRound(nullptr) {}
 
 public slots:
     void finishedRequest() override;       
@@ -41,7 +41,7 @@ private:
     void processResponse(const QJsonObject& retJson);
     
 private:
-    MultiplayerRound* m_MultiRound;
+    MultiplayerRound* m_MultiRound = nullptr;
     std::vector<int> m_LastNotSentMoveIndexSucces;  //Not sent moves sent when the controller method on the server was called
     std::vector<int> m_LastNotSentMoveIndexError; //Not sent moves when  the controller method on the server was not called (called too fast after previous call)
 

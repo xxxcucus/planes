@@ -29,7 +29,7 @@ signals:
     
 private:
     QString m_GameName;
-    MultiplayerRound* m_MultiRound;
+    MultiplayerRound* m_MultiRound = nullptr;
 };
 
 
