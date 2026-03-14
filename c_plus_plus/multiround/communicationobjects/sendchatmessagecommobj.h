@@ -11,8 +11,8 @@
 #include "viewmodels/basisrequestviewmodel.h"
 #include "viewmodels/sendchatmessageviewmodel.h"
 
-
-class  MULTIPLAYER_EXPORT SendChatMessageCommObj : public BasisCommObj {
+//class  MULTIPLAYER_EXPORT SendChatMessageCommObj : public BasisCommObj {
+class  SendChatMessageCommObj : public BasisCommObj {
     Q_OBJECT
 
 public:

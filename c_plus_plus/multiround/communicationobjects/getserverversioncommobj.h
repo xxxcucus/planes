@@ -9,7 +9,8 @@
 
 #include "basiscommobj.h"
 
-class MULTIPLAYER_EXPORT GetServerVersionCommObj : public BasisCommObj {
+//class MULTIPLAYER_EXPORT GetServerVersionCommObj : public BasisCommObj {
+class GetServerVersionCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

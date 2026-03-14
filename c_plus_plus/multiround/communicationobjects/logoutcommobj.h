@@ -12,7 +12,8 @@
 #include <QMessageBox>
 #include "viewmodels/logoutviewmodel.h"
 
-class MULTIPLAYER_EXPORT LogoutCommObj : public BasisCommObj {
+//class MULTIPLAYER_EXPORT LogoutCommObj : public BasisCommObj {
+class  LogoutCommObj : public BasisCommObj {
     Q_OBJECT
 
 public:

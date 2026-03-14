@@ -11,7 +11,8 @@
 #include "viewmodels/planespositionsviewmodel.h"
 class MultiplayerRound;
 
-class MULTIPLAYER_EXPORT SendPlanePositionsCommObj : public BasisCommObj {
+//class MULTIPLAYER_EXPORT SendPlanePositionsCommObj : public BasisCommObj
+class SendPlanePositionsCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

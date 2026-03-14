@@ -10,7 +10,8 @@
 #include "basiscommobj.h"
 #include "viewmodels/gameviewmodel.h"
 
-class  MULTIPLAYER_EXPORT RefreshGameStatusCommObj : public BasisCommObj {
+//class  MULTIPLAYER_EXPORT RefreshGameStatusCommObj : public BasisCommObj {
+class RefreshGameStatusCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

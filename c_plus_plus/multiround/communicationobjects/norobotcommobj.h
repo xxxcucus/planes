@@ -11,7 +11,8 @@
 #include "viewmodels/norobotviewmodel.h"
 #include <QMessageBox>
 
-class MULTIPLAYER_EXPORT NoRobotCommObj : public BasisCommObj {
+//class MULTIPLAYER_EXPORT NoRobotCommObj : public BasisCommObj {
+class NoRobotCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

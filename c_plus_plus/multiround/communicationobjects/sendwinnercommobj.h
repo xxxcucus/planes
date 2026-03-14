@@ -10,7 +10,8 @@
 #include "basiscommobj.h"
 #include "viewmodels/sendwinnerviewmodel.h"
 
-class MULTIPLAYER_EXPORT SendWinnerCommObj : public BasisCommObj {
+//class MULTIPLAYER_EXPORT SendWinnerCommObj : public BasisCommObj {
+class SendWinnerCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

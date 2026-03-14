@@ -12,7 +12,8 @@
 #include "basiscommobj.h"
 class MultiplayerRound;
 
-class MULTIPLAYER_EXPORT SendMoveCommObj : public BasisCommObj {
+//class MULTIPLAYER_EXPORT SendMoveCommObj : public BasisCommObj {
+class SendMoveCommObj : public BasisCommObj {
     Q_OBJECT
 
 public:

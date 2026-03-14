@@ -11,7 +11,8 @@
 #include "viewmodels/cancelroundviewmodel.h"
 class MultiplayerRound;
 
-class MULTIPLAYER_EXPORT CancelRoundCommObj : public BasisCommObj {
+//class MULTIPLAYER_EXPORT CancelRoundCommObj : public BasisCommObj {
+class CancelRoundCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

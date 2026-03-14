@@ -16,7 +16,8 @@
 #include <QWidget>
 #include "global/globaldata.h"
 
-class MULTIPLAYER_EXPORT BasisCommObj : public QObject {
+//class MULTIPLAYER_EXPORT BasisCommObj : public QObject {
+class BasisCommObj : public QObject {
     Q_OBJECT
     
 public:

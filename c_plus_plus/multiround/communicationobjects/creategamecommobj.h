@@ -10,7 +10,8 @@
 #include "basiscommobj.h"
 #include "viewmodels/gameviewmodel.h"
 
-class MULTIPLAYER_EXPORT CreateGameCommObj : public BasisCommObj {
+//class MULTIPLAYER_EXPORT CreateGameCommObj : public BasisCommObj {
+class CreateGameCommObj: public BasisCommObj {
     Q_OBJECT
     
 public:

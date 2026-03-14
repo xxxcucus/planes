@@ -10,7 +10,8 @@
 #include "basiscommobj.h"
 #include "viewmodels/deactivateuserviewmodel.h"
 
-class MULTIPLAYER_EXPORT DeactivateUserCommObj : public BasisCommObj {
+//class MULTIPLAYER_EXPORT DeactivateUserCommObj : public BasisCommObj {
+class DeactivateUserCommObj : public BasisCommObj {
     Q_OBJECT
 
 public:

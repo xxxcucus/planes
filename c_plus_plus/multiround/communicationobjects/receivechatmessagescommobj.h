@@ -15,7 +15,8 @@
 
 class MultiplayerRound;
 
-class MULTIPLAYER_EXPORT ReceiveChatMessagesCommObj : public BasisCommObj {
+//class MULTIPLAYER_EXPORT ReceiveChatMessagesCommObj : public BasisCommObj {
+class ReceiveChatMessagesCommObj : public BasisCommObj {
     Q_OBJECT
 
 public:

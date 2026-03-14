@@ -13,7 +13,8 @@
 #include "viewmodels/getopponentemovesviewmodel.h"
 class MultiplayerRound;
 
-class MULTIPLAYER_EXPORT RequestOpponentMovesCommObj : public BasisCommObj {
+//class MULTIPLAYER_EXPORT RequestOpponentMovesCommObj : public BasisCommObj {
+class RequestOpponentMovesCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

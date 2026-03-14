@@ -13,7 +13,8 @@
 #include "viewmodels/userwithlastloginviewmodel.h"
 #include <vector>
 
-class  MULTIPLAYER_EXPORT PlayersListCommObj : public BasisCommObj {
+//class  MULTIPLAYER_EXPORT PlayersListCommObj : public BasisCommObj {
+class PlayersListCommObj : public BasisCommObj {
     Q_OBJECT
 
 public:

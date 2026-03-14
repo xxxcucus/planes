@@ -11,7 +11,8 @@
 #include <QMessageBox>
 #include "viewmodels/loginviewmodel.h"
 
-class MULTIPLAYER_EXPORT LoginCommObj : public BasisCommObj {
+//class MULTIPLAYER_EXPORT LoginCommObj : public BasisCommObj {
+class LoginCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

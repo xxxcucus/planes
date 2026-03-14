@@ -11,7 +11,8 @@
 #include "viewmodels/startnewroundviewmodel.h"
 class MultiplayerRound;
 
-class MULTIPLAYER_EXPORT StartNewRoundCommObj : public BasisCommObj {
+//class MULTIPLAYER_EXPORT StartNewRoundCommObj : public BasisCommObj {
+class StartNewRoundCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

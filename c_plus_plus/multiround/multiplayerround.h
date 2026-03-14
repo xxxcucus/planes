@@ -39,7 +39,7 @@
 #include <vector>
 #include "viewmodels/userwithlastloginviewmodel.h"
 
-class MULTIPLAYER_EXPORT MultiplayerRound : public QObject, public AbstractPlaneRound  {
+class MULTIPLAYER_EXPORT MultiplayerRound : public QObject, public AbstractPlaneRound {
     Q_OBJECT
     
 private:

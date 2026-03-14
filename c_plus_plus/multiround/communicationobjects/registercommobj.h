@@ -12,7 +12,8 @@
 #include "viewmodels/loginviewmodel.h"
 
 
-class MULTIPLAYER_EXPORT RegisterCommObj : public BasisCommObj {
+//class MULTIPLAYER_EXPORT RegisterCommObj : public BasisCommObj {
+class RegisterCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

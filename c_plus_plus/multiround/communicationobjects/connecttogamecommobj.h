@@ -10,7 +10,9 @@
 #include "basiscommobj.h"
 #include "viewmodels/gameviewmodel.h"
 
-class MULTIPLAYER_EXPORT ConnectToGameCommObj : public BasisCommObj {
+//TODO: is this maybe needed for Linux
+//class MULTIPLAYER_EXPORT ConnectToGameCommObj : public BasisCommObj {
+class  ConnectToGameCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:

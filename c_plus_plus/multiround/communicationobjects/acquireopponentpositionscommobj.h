@@ -10,7 +10,8 @@
 #include "basiscommobj.h"
 class MultiplayerRound;
 
-class MULTIPLAYER_EXPORT AcquireOpponentPositionsCommObj : public BasisCommObj {
+//class MULTIPLAYER_EXPORT AcquireOpponentPositionsCommObj : public BasisCommObj {
+class AcquireOpponentPositionsCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:
