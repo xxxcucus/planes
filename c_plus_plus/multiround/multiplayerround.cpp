@@ -81,8 +81,8 @@ MultiplayerRound::~MultiplayerRound() {
 //resets the PlaneRound object
 void MultiplayerRound::reset() {
     AbstractPlaneRound::reset();
-    m_PlayerMoveIndex = 0;
-    m_ComputerMoveIndex = 0;
+    //m_PlayerMoveIndex = 0;
+    //m_ComputerMoveIndex = 0;
     m_WinnerFound = false;
     m_GlobalData->m_GameData.reset();
     m_GlobalData->m_UserData.reset();
@@ -91,8 +91,8 @@ void MultiplayerRound::reset() {
 void MultiplayerRound::initRound() {
     AbstractPlaneRound::initRound();
     m_WinnerFound = false;
-    m_PlayerMoveIndex = 0;
-    m_ComputerMoveIndex = 0;
+    //m_PlayerMoveIndex = 0;
+    //m_ComputerMoveIndex = 0;
     m_NotSentMoves.clear();
     m_ReceivedMoves.clear();
  
@@ -117,8 +117,8 @@ void MultiplayerRound::playerGuess(const GuessPoint& gp, PlayerGuessReaction& pg
         m_ComputerGrid->addGuess(gp);
 
         //GuessPoint::Type guessResult =  m_ComputerGrid->getGuessResult(PlanesCommonTools::Coordinate2D(gp.m_row, gp.m_col));
-        m_PlayerMoveIndex++; 
-        sendMove(gp, m_PlayerMoveIndex);
+        //m_PlayerMoveIndex++; 
+        sendMove(gp, getPlayerGuessesNo());
     } else {
         //qDebug() << "Player has already found all planes";
     }
@@ -231,19 +231,32 @@ void MultiplayerRound::sendMove(const GuessPoint& gp, int ownMoveIndex) {
 }
 
 bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPlayerWinner) {
+    
+    int playerKill = 0;
 
+    for (GuessPoint gp : m_playerGuessList) {
+        if (gp.isDead())
+            playerKill++;
+    }
+
+    int computerKill = 0;
+
+    for (GuessPoint gp : m_computerGuessList) {
+        if (gp.isDead())
+            computerKill++;
+    }
 
     isPlayerWinner = false;
 
     if (m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
-        if (m_ComputerMoveIndex > m_PlayerMoveIndex) {
+        if (getComputerGuessesNo() > getPlayerGuessesNo()) {
             //player winner 
             m_gameStats.updateWins(false);
             winnerId = m_GlobalData->m_GameData.m_UserId;
             isPlayerWinner = true;
             m_WinnerFound = true;
             return true;
-        } else if (m_ComputerMoveIndex < m_PlayerMoveIndex) {
+        } else if (getComputerGuessesNo() < getPlayerGuessesNo()) {
             //computer winner
             m_gameStats.updateWins(true);
             winnerId = m_GlobalData->m_GameData.m_OtherUserId;
@@ -261,7 +274,7 @@ bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPla
     
     if (m_gameStats.computerFinished(m_planeNo) && !m_gameStats.playerFinished(m_planeNo)) {
         //qDebug() << "Computer finished and player not finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
-        if (m_ComputerMoveIndex <= m_PlayerMoveIndex) {
+        if (getComputerGuessesNo() - computerKill < getPlayerGuessesNo() - playerKill) {
             //computer winner
             m_gameStats.updateWins(true);
             winnerId = m_GlobalData->m_GameData.m_OtherUserId;
@@ -272,7 +285,7 @@ bool MultiplayerRound::checkRoundEnd(bool& draw, long int& winnerId, bool& isPla
 
     if (!m_gameStats.computerFinished(m_planeNo) && m_gameStats.playerFinished(m_planeNo)) {
         //qDebug() << "Computer not finished and player finished " << m_ComputerMoveIndex << " " << m_PlayerMoveIndex;
-        if (m_ComputerMoveIndex >= m_PlayerMoveIndex) {
+        if (getComputerGuessesNo() - computerKill > getPlayerGuessesNo() - playerKill) {
             //player winner
             m_gameStats.updateWins(false);
             winnerId = m_GlobalData->m_GameData.m_UserId;
@@ -293,7 +306,7 @@ void MultiplayerRound::addOpponentMove(GuessPoint& gp, int moveIndex) {
     if (updateGameStats(gp, true)) {
         m_computerGuessList.push_back(gp);
         m_PlayerGrid->addGuess(gp);
-        m_ComputerMoveIndex++;
+        //m_ComputerMoveIndex++;
     } else {
         //qDebug() << "computer has already found all planes";
     }

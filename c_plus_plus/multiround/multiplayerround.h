@@ -44,8 +44,8 @@ class MULTIPLAYER_EXPORT MultiplayerRound : public QObject, public AbstractPlane
     
 private:
     
-    int m_PlayerMoveIndex = 0;
-    int m_ComputerMoveIndex = 0;
+    //int m_PlayerMoveIndex = 0;
+    //int m_ComputerMoveIndex = 0;
     bool m_WinnerFound = false;
     QWidget* m_ParentWidget;
     QNetworkAccessManager* m_NetworkManager;
