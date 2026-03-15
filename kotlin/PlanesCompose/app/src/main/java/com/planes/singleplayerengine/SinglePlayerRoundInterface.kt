@@ -81,6 +81,8 @@ interface SinglePlayerRoundInterface {
 
     fun roundEnds(isComputerWinner: Boolean, isDraw : Boolean)
 
+    fun updateStatsWhenRoundEnds(isComputerWinner: Boolean, isDraw: Boolean)
+
     fun playerHasMoreMoves(): Boolean
 
     fun computerHasMoreMoves(): Boolean

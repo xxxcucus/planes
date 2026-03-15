@@ -108,6 +108,9 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
                         modifier = Modifier.width(refButtonWidthDp.dp * 2 / 3).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
+
+                        if (playerBoard.value == false)
+                            playerGridViewModel.updateGuessesFromPlaneRound()
                         playerBoard.value = !playerBoard.value
                     }
                     Column() {
@@ -138,7 +141,7 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
 
                             }
 
-                            StatsValueField(value = planeRound.playerGuess_StatNoComputerWins(),
+                            StatsValueField(value = planeRound.stats_NoComputerWins(),
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 3)
                                     .height(refButtonHeightDp.dp / 2),
@@ -169,7 +172,7 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
 
                             }
 
-                            StatsValueField(value = planeRound.playerGuess_StatNoPlayerWins(),
+                            StatsValueField(value = planeRound.stats_NoPlayerWins(),
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 3)
                                     .height(refButtonHeightDp.dp / 2),
@@ -186,7 +189,7 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
 
                             }
 
-                            StatsValueField(value = planeRound.playerGuess_StatNoDraws(),
+                            StatsValueField(value = planeRound.stats_NoDraws(),
                                 enabled = true,
                                 modifier = Modifier.width(refButtonWidthDp.dp / 3)
                                     .height(refButtonHeightDp.dp / 2),
@@ -221,6 +224,8 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
                         modifier = Modifier.width(refButtonWidthDp.dp * 2 / 3).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
+                        if (playerBoard.value == false)
+                            playerGridViewModel.updateGuessesFromPlaneRound()
                         playerBoard.value = !playerBoard.value
                     }
                     TwoLineGameButton(
@@ -272,7 +277,7 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
 
                         }
 
-                        StatsValueField(value = planeRound.playerGuess_StatNoComputerWins(),
+                        StatsValueField(value = planeRound.stats_NoComputerWins(),
                             enabled = true,
                             modifier = Modifier.width(refButtonWidthDp.dp / 3)
                                 .height(refButtonHeightDp.dp / 2),
@@ -289,7 +294,7 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
 
                         }
 
-                        StatsValueField(value = planeRound.playerGuess_StatNoPlayerWins(),
+                        StatsValueField(value = planeRound.stats_NoPlayerWins(),
                             enabled = true,
                             modifier = Modifier.width(refButtonWidthDp.dp / 3)
                                 .height(refButtonHeightDp.dp / 2),
@@ -306,7 +311,7 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
 
                         }
 
-                        StatsValueField(value = planeRound.playerGuess_StatNoDraws(),
+                        StatsValueField(value = planeRound.stats_NoDraws(),
                             enabled = true,
                             modifier = Modifier.width(refButtonWidthDp.dp / 3)
                                 .height(refButtonHeightDp.dp / 2),

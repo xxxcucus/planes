@@ -97,7 +97,6 @@ class MultiplayerRound @AssistedInject constructor(
         playerGuess(GuessPoint(row, col))
     }
 
-
     override fun playerGuess(gp: GuessPoint): PlayerGuessReaction {
         m_PlaneRound.addPlayerMove(gp.row, gp.col)
         return PlayerGuessReaction() //TODO: to improve this
@@ -233,7 +232,11 @@ class MultiplayerRound @AssistedInject constructor(
     }
 
     override fun roundEnds(isComputerWinner: Boolean, isDraw: Boolean) {
-        return m_PlaneRound.roundEnds(isComputerWinner, isDraw)
+        m_PlaneRound.roundEnds(isComputerWinner, isDraw)
+    }
+
+    override fun updateStatsWhenRoundEnds(isComputerWinner: Boolean, isDraw: Boolean) {
+        m_PlaneRound.updateStatsWhenRoundEnds(isComputerWinner, isDraw)
     }
 
     override fun checkIfRoundEnds(): Pair<Boolean, Boolean> {

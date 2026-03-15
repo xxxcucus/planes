@@ -94,7 +94,10 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
         val pgr = planeRound.checkRoundEndAsync()
         val computerWinner = !pgr.m_isPlayerWinner
         val isDraw = pgr.m_IsDraw
+
+        planeRound.updateStatsWhenRoundEnds(computerWinner, isDraw)
         planeRound.roundEnds(computerWinner, isDraw)
+
         gameStatsViewModelMultiPlayer.resetRoundStats()
         computerGridViewModel.stopPolling()
         computerGridViewModel.sendWinner(pgr.m_isPlayerWinner, pgr.m_IsDraw)
@@ -349,7 +352,6 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
                         modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
-                        //TODO: move received moves from PlaneRound to playerGridViewModel
                         if (playerBoard.value == false)
                             playerGridViewModel.updateGuessesFromPlaneRound()
                         playerBoard.value = !playerBoard.value

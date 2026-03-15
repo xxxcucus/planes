@@ -222,6 +222,10 @@ class SinglePlayerRoundJava : SinglePlayerRoundInterface {
         global_Round!!.setRoundEnd(isComputerWinner, isDraw)
     }
 
+    override fun updateStatsWhenRoundEnds(isComputerWinner: Boolean, isDraw: Boolean) {
+        global_Round!!.updateStatsWhenRoundEnds(isComputerWinner, isDraw)
+    }
+
     override fun checkIfRoundEnds(): Pair<Boolean, Boolean> {
         return global_Round!!.checkIfRoundEnds()
     }

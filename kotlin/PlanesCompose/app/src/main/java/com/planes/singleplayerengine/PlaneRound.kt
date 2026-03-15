@@ -404,6 +404,17 @@ open class PlaneRound @AssistedInject constructor(
         setRoundEnd(isComputerWinner, isDraw)
     }
 
+    override fun updateStatsWhenRoundEnds(isComputerWinner: Boolean, isDraw: Boolean) {
+        if (m_State != GameStages.Game)
+            return
+
+        if (isDraw) {
+            m_gameStats.addDrawResult()
+        } else {
+            m_gameStats.updateWins(isComputerWinner)
+        }
+    }
+
     override fun getPlayerGuessesNo(): Int {
         return m_playerGuessList.size
     }
