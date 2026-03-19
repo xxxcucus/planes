@@ -229,6 +229,7 @@
 
     <string name="wait_for_opponent">Game %1$s created.\nWaiting for opponent to connect.</string>
     <string name="connect_another_game">Connect to another game</string>
+    <string name="start_game">Start Game</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">

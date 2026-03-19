@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -365,20 +367,22 @@ fun TransferPlanePositionsVerticalLayout(screenHeightDp: Int, boardSizeDp: Int, 
             horizontalArrangement = Arrangement.Center
         ) {
 
-            //TODO: Loader
-            OneLineGameButton(
-                textLine = "", playerGridViewModel,
-                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                enabled = true
-            ) {
+            CircularProgressIndicator(
+                modifier = Modifier.width((buttonWidthDp).dp)
+                    .height((buttonHeightDp).dp)
+                    .padding((buttonWidthDp / 4).dp, (buttonHeightDp / 4).dp),
+                color = MaterialTheme.colorScheme.secondary,
+                trackColor = MaterialTheme.colorScheme.surfaceVariant,
+            )
 
-            }
             OneLineGameButton(
                 textLine = stringResource(R.string.cancel), playerGridViewModel,
                 modifier = Modifier.width((buttonWidthDp).dp).height(buttonHeightDp.dp),
                 enabled = true
             ) {
                 playerGridViewModel.cancelRound()
+                navController.popBackStack()
+                navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
             }
         }
     }
@@ -420,20 +424,22 @@ fun TransferPlanePositionsHorizontalLayout(screenWidthDp: Int, boardSizeDp: Int,
             horizontalArrangement = Arrangement.Center
         ) {
 
-            //TODO: Loader
-            OneLineGameButton(
-                textLine = "", playerGridViewModel,
-                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                enabled = true
-            ) {
+            CircularProgressIndicator(
+                modifier = Modifier.width((buttonWidthDp).dp)
+                    .height((buttonHeightDp).dp)
+                    .padding((buttonWidthDp / 4).dp, (buttonHeightDp / 4).dp),
+                color = MaterialTheme.colorScheme.secondary,
+                trackColor = MaterialTheme.colorScheme.surfaceVariant,
+            )
 
-            }
             OneLineGameButton(
                 textLine = stringResource(R.string.cancel), playerGridViewModel,
                 modifier = Modifier.width((buttonWidthDp).dp).height(buttonHeightDp.dp),
                 enabled = true
             ) {
                 playerGridViewModel.cancelRound()
+                navController.popBackStack()
+                navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
             }
         }
     }
