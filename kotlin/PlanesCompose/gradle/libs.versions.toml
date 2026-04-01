@@ -23,6 +23,7 @@ gson-version = "2.9.0"
 okhttp = "5.0.0-alpha.10"
 
 bcrypt = "0.4"
+runtimeSaveable = "1.10.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -45,6 +46,9 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 androidx_media3_exoplayer      = { module = "androidx.media3:media3-exoplayer",      version.ref = "androidx_media3" }
 androidx_media3_exoplayer_dash = { module = "androidx.media3:media3-exoplayer-dash", version.ref = "androidx_media3" }
 androidx_media3_ui             = { module = "androidx.media3:media3-ui",   version.ref = "androidx_media3" }
+androidx_media3_ui_compose = { module = "androidx.media3:media3-ui-compose", version.ref = "androidx_media3" }
+androidx_media3_ui_datasource = { module = "androidx.media3:media3-datasource", version.ref = "androidx_media3" }
+androidx_media3_ui_okhttp = { module = "androidx.media3:media3-datasource-okhttp", version.ref = "androidx_media3" }
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
@@ -60,6 +64,7 @@ retrofit-gson = { module = "com.squareup.retrofit2:converter-gson", name = "retr
 gson = { module = "com.google.code.gson:gson", version.ref = "gson-version" }
 
 bcrypt = { module = "org.mindrot:jbcrypt", name = "bcrypt", version.ref = "bcrypt"}
+androidx-compose-runtime-saveable = { group = "androidx.compose.runtime", name = "runtime-saveable", version.ref = "runtimeSaveable" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

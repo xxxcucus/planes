@@ -61,8 +61,12 @@ dependencies {
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.exoplayer.dash)
     implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.media3.ui.compose)
+    implementation(libs.androidx.media3.ui.datasource)
+    implementation(libs.androidx.media3.ui.okhttp)
 
     implementation(libs.hilt.android)
+    implementation(libs.androidx.compose.runtime.saveable)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.datastore.preferences)

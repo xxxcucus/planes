@@ -20,12 +20,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
@@ -43,13 +45,17 @@ import com.planes.android.navigation.PlanesScreens
 
 @Composable
 fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
-                navController: NavController, videoModelList: List<VideoModel>) {
+                navController: NavController, viewModel: VideoViewModel = hiltViewModel()) {
 
     currentScreenState.value = PlanesScreens.Tutorials.name
     val configuration = LocalConfiguration.current
-    val currentVideoState = remember {
+    val currentVideoState = rememberSaveable {
         mutableStateOf(R.raw.guessing)
     }
+
+    val context = LocalContext.current
+    viewModel.setVideoRepository(context)
+    viewModel.setPlayerState(context)
 
     Column(
         modifier = modifier,
@@ -60,14 +66,14 @@ fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
             Configuration.ORIENTATION_PORTRAIT -> {
 
                 Column(verticalArrangement = Arrangement.spacedBy(1.dp)) {
-                    VideoPlayer(currentVideoState.value)
+                    VideoPlayer(currentVideoState.value, viewModel)
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         verticalArrangement = Arrangement.spacedBy(1.dp),
                         horizontalArrangement = Arrangement.spacedBy(1.dp),
                         contentPadding = PaddingValues(1.dp)
                     ) {
-                        items(items = videoModelList) { entry ->
+                        items(items = viewModel.getVideoModelList()) { entry ->
                             VideoButton(entry, currentVideoState, Modifier.width(200.dp).height(100.dp))
                         }
                     }
@@ -84,13 +90,13 @@ fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                                 bottom = 1.dp
                             )
                         ) {
-                            items(items = videoModelList) { entry ->
+                            items(items = viewModel.getVideoModelList()) { entry ->
                                 VideoButton(entry, currentVideoState, Modifier.width(200.dp).height(100.dp))
                             }
                         }
                     }
 
-                    VideoPlayer(currentVideoState.value)
+                    VideoPlayer(currentVideoState.value, viewModel)
                 }
             }
         }
@@ -99,28 +105,12 @@ fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
 @OptIn(UnstableApi::class)
 @Composable
-fun VideoPlayer(videoId : Int) {
-    val context = LocalContext.current
-
-    val exoPlayer = remember(context) {
-        ExoPlayer.Builder(context).build().apply {
-            val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(context, DefaultHttpDataSource.Factory())
-            val uriSource = Uri.parse(
-                "android.resource://"
-                        + context.packageName + "/" + videoId)
-            val source = ProgressiveMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(
-                    MediaItem.fromUri(uriSource))
-            this.setMediaSource(source)
-            this.prepare()
-        }
-    }
-
+fun VideoPlayer(videoId : Int, viewModel: VideoViewModel) {
 
     AndroidView(
         factory = { ctxt ->
             PlayerView(ctxt).apply {
-                player = exoPlayer
+                player = viewModel.getPlayerState()
                 layoutParams = ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT

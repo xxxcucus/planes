@@ -39,6 +39,7 @@ import com.planes.android.screens.video.VideoModelRepository
 import com.planes.android.screens.video.VideoScreen
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import com.planes.singleplayerengine.SinglePlayerRoundInterface
+import com.sg.exoplayerlearning.ui.screens.PlayerRoute
 
 @Composable
 fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String>,
@@ -125,8 +126,8 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                 aboutEntryList = AboutEntryRepository.create("0.1", context = context))
         }
         composable(PlanesScreens.Tutorials.name) {
-            VideoScreen(modifier = modifier, currentScreenState, navController = navController,
-                videoModelList = VideoModelRepository.create(context = context))
+            VideoScreen(modifier = modifier, currentScreenState, navController = navController)
+            //PlayerRoute(modifier = modifier)
         }
         composable(PlanesScreens.Login.name) {
             LoginScreen(modifier = modifier, currentScreenState, navController = navController,
