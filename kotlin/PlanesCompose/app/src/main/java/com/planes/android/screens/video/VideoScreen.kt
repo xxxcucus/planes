@@ -2,6 +2,7 @@ package com.planes.android.screens.video
 
 import android.content.res.Configuration
 import android.net.Uri
+import android.util.Log
 import android.view.ViewGroup
 import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +18,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,6 +30,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
@@ -40,21 +45,36 @@ import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 
-//TODO: stop video player when leaving screen. save state in view model
-//TODO: when rotating screen stop player/ do not create another player
-
 @Composable
 fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                 navController: NavController, viewModel: VideoViewModel = hiltViewModel()) {
 
     currentScreenState.value = PlanesScreens.Tutorials.name
     val configuration = LocalConfiguration.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_PAUSE -> viewModel.pausePlayer()
+                Lifecycle.Event.ON_RESUME -> viewModel.resumePlayer()
+                else -> Unit
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
     val currentVideoState = rememberSaveable {
         mutableStateOf(R.raw.guessing)
     }
 
     val context = LocalContext.current
-    viewModel.setVideoRepository(context)
+    Log.d("Planes", "Video: Repository set ${viewModel.isVideoRepositorySet()}")
     viewModel.setPlayerState(context)
 
     Column(
@@ -106,6 +126,8 @@ fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 @OptIn(UnstableApi::class)
 @Composable
 fun VideoPlayer(videoId : Int, viewModel: VideoViewModel) {
+
+    viewModel.setCurrentVideoId(videoId)
 
     AndroidView(
         factory = { ctxt ->

@@ -1,6 +1,7 @@
 package com.planes.android.screens.video
 
 import android.content.Context
+import android.util.Log
 import androidx.annotation.OptIn
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
@@ -12,16 +13,15 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
-import com.planes.android.R
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class VideoViewModel  @Inject constructor(): ViewModel() {
+class VideoViewModel  @Inject constructor(videoRepository: VideoModelRepositoryInterface): ViewModel() {
 
     val m_PlayerState = mutableStateOf<ExoPlayer?>(null)
-    val m_VideoModelRepositoryState = mutableStateOf<VideoModelRepository?>(null)
+    val m_VideoModelRepositoryState = mutableStateOf<VideoModelRepositoryInterface?>(videoRepository)
+    val m_CurrentVideoIdState = mutableStateOf<Int?>(null)
 
     @OptIn(UnstableApi::class)
     fun setPlayerState(context: Context) {
@@ -37,12 +37,6 @@ class VideoViewModel  @Inject constructor(): ViewModel() {
             MediaItem.Builder().setUri(("android.resource://" + context.packageName + "/" + videoItem.getVideoId()).toUri()).setMediaId("Video_$idx").setTag("Video_$idx").build()
         }
 
-        // Create hashmap with video items to persist current playing position when shifting between videos
-        /*mediaItems.forEach {
-            hashMapVideoStates[it.mediaId] = VideoItem()
-        }*/
-
-        // Create the player instance and update it to UI via stateFlow
         m_PlayerState.value =
             ExoPlayer.Builder(context)
                 .setMediaSourceFactory(ProgressiveMediaSource.Factory(dataSourceFactory))
@@ -54,18 +48,24 @@ class VideoViewModel  @Inject constructor(): ViewModel() {
 
     }
 
+    fun pausePlayer() {
+        m_VideoModelRepositoryState.value?.setResumePosition(m_CurrentVideoIdState.value!!, m_PlayerState.value!!.currentPosition)
+        m_PlayerState.value?.stop()
+    }
+
+    fun resumePlayer() {
+        m_PlayerState.value?.play()
+        val resumePosition = m_VideoModelRepositoryState.value!!.getResumePosition(m_CurrentVideoIdState.value!!)
+        Log.d("Planes", "Tutorials go to $resumePosition")
+        m_PlayerState.value?.seekTo(resumePosition)
+    }
+
     fun getPlayerState(): ExoPlayer? {
         return m_PlayerState.value
     }
 
-    fun setVideoRepository(context: Context) {
-        if (m_VideoModelRepositoryState.value != null)
-            return
-
-        val repository = VideoModelRepository()
-        repository.create(context)
-
-        m_VideoModelRepositoryState.value = repository
+    fun isVideoRepositorySet(): Boolean {
+        return m_VideoModelRepositoryState.value != null
     }
 
     fun getVideoModelList() : List<VideoModel> {
@@ -73,6 +73,10 @@ class VideoViewModel  @Inject constructor(): ViewModel() {
             return emptyList()
 
         return m_VideoModelRepositoryState.value!!.getPlayList()
+    }
+
+    fun setCurrentVideoId(videoId: Int) {
+        m_CurrentVideoIdState.value = videoId
     }
 
 }

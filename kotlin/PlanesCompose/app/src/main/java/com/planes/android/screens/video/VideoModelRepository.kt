@@ -3,13 +3,12 @@ package com.planes.android.screens.video
 import android.content.Context
 import androidx.core.content.ContextCompat.getString
 import com.planes.android.R
-import com.planes.android.screens.about.AboutEntryModel
 
-class VideoModelRepository {
+class VideoModelRepository : VideoModelRepositoryInterface {
 
     var m_PlayList = mutableListOf<VideoModel>()
 
-    fun create(context: Context) {
+    override fun create(context: Context) {
         val videoModel_guessing = VideoModel(getString(context, R.string.guessingplanestutorial), R.raw.guessing, "00:01:49",
             0,1.42f, "https://youtu.be/CAxSPp2h_Vo")
         val videoModel_positioning = VideoModel(getString(context, R.string.positioningplanestutorial), R.raw.positioning, "00:01:22",
@@ -22,8 +21,22 @@ class VideoModelRepository {
         m_PlayList = mutableListOf(videoModel_guessing, videoModel_positioning, videoModel_single, videoModel_multi)
     }
 
-    fun getPlayList(): List<VideoModel> {
+    override fun getPlayList(): List<VideoModel> {
         return m_PlayList.toList()
+    }
+
+    override fun setResumePosition(videoId: Int, position: Long) {
+        val videoModel = m_PlayList.find { it.getVideoId() == videoId }
+        if (videoModel == null)
+            return
+        videoModel.setCurrentPosition(position)
+    }
+
+    override fun getResumePosition(videoId: Int): Long {
+        val videoModel = m_PlayList.find { it.getVideoId() == videoId }
+        if (videoModel == null)
+            return 0L
+        return videoModel.getCurrentPosition()
     }
 
 }

@@ -1,14 +1,14 @@
 package com.planes.android.screens.video
 
 
-class VideoModel(videoname: String, videoId: Int, videoDuration: String, currentPosition: Int,
+class VideoModel(videoname: String, videoId: Int, videoDuration: String, currentPosition: Long,
                  videoRatio: Float, youtubeLink: String) {
 
     private var m_VideoName: String
     private var m_VideoId: Int
     private var m_VideoRatio: Float
     private var m_VideoDuration: String
-    private var m_CurrentPosition: Int
+    private var m_CurrentPosition: Long
     private var m_YoutubeLink: String
 
     init {
@@ -32,7 +32,7 @@ class VideoModel(videoname: String, videoId: Int, videoDuration: String, current
         return m_VideoDuration
     }
 
-    fun getCurrentPosition(): Int {
+    fun getCurrentPosition(): Long {
         return m_CurrentPosition
     }
 
@@ -40,7 +40,7 @@ class VideoModel(videoname: String, videoId: Int, videoDuration: String, current
         return m_YoutubeLink
     }
 
-    fun setCurrentPosition(position: Int) {
+    fun setCurrentPosition(position: Long) {
         m_CurrentPosition = position
     }
 }

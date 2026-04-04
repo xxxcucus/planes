@@ -39,7 +39,7 @@ import com.planes.android.screens.video.VideoModelRepository
 import com.planes.android.screens.video.VideoScreen
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import com.planes.singleplayerengine.SinglePlayerRoundInterface
-import com.sg.exoplayerlearning.ui.screens.PlayerRoute
+
 
 @Composable
 fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String>,
@@ -60,7 +60,6 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                      noRobotViewModel: NoRobotViewModel,
                      createViewModel: CreateViewModel
 ) {
-
 
     NavHost(
         navController = navController,
