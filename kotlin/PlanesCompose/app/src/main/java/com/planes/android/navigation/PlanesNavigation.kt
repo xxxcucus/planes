@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -47,19 +48,20 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                      navController: NavHostController,
                      context: Context,
                      planeRound: SinglePlayerRoundInterface,
-                     planeRoundMultiplayer: MultiPlayerRoundInterface,
-                     optionsViewModel: PreferencesViewModel,
-                     playerGridViewModelSinglePlayer: PlayerGridViewModelSinglePlayer,
-                     computerGridViewModelSinglePlayer: ComputerGridViewModelSinglePlayer,
-                     gameStatsViewModelSinglePlayer: GameStatsViewModelSinglePlayer,
-                     playerGridViewModelMultiPlayer: PlayerGridViewModelMultiPlayer,
-                     computerGridViewModelMultiPlayer: ComputerGridViewModelMultiPlayer,
-                     gameStatsViewModelMultiPlayer: GameStatsViewModelMultiPlayer,
-                     loginViewModel: LoginViewModel,
-                     registerViewModel: RegisterViewModel,
-                     noRobotViewModel: NoRobotViewModel,
-                     createViewModel: CreateViewModel
+                     planeRoundMultiplayer: MultiPlayerRoundInterface
 ) {
+
+    val playerGridViewModelSinglePlayer: PlayerGridViewModelSinglePlayer = hiltViewModel()
+    val computerGridViewModelSinglePlayer: ComputerGridViewModelSinglePlayer = hiltViewModel()
+    val gameStatsViewModelSinglePlayer: GameStatsViewModelSinglePlayer = hiltViewModel()
+    val playerGridViewModelMultiPlayer: PlayerGridViewModelMultiPlayer = hiltViewModel()
+    val computerGridViewModelMultiPlayer: ComputerGridViewModelMultiPlayer = hiltViewModel()
+    val gameStatsViewModelMultiPlayer: GameStatsViewModelMultiPlayer = hiltViewModel()
+    val optionsViewModel: PreferencesViewModel = hiltViewModel()
+    val loginViewModel: LoginViewModel = hiltViewModel()
+    val registerViewModel: RegisterViewModel = hiltViewModel()
+    val noRobotViewModel: NoRobotViewModel = hiltViewModel()
+    val createViewModel: CreateViewModel = hiltViewModel()
 
     NavHost(
         navController = navController,
@@ -149,20 +151,3 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
         }
     }
 }
-
-/*
-
- SinglePlayerGame,
-    SinglePlayerPreferences,
-    SinglePlayerGameStatistics,
-    MultiplayerGame,
-    MultiplayerPreferences,
-    MultiplayerGameStatistics,
-    MultiplayerConnectToGame,
-    Info,
-    Tutorials,
-    Login,
-    Logout,
-    Register,
-    DeleteUser;
- */

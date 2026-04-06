@@ -84,6 +84,9 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    //TODO onResume, onPause
+
 }
 
 //TODO: stop, start polling
@@ -94,18 +97,7 @@ fun Screen(modifier: Modifier,
            planeRound: SinglePlayerRoundInterface,
            planeRoundMultiplayer: MultiPlayerRoundInterface) {
 
-    val playerGridViewModelSinglePlayer: PlayerGridViewModelSinglePlayer = hiltViewModel()
-    val computerGridViewModelSinglePlayer: ComputerGridViewModelSinglePlayer = hiltViewModel()
-    val gameStatsViewModelSinglePlayer: GameStatsViewModelSinglePlayer = hiltViewModel()
-    val playerGridViewModelMultiPlayer: PlayerGridViewModelMultiPlayer = hiltViewModel()
-    val computerGridViewModelMultiPlayer: ComputerGridViewModelMultiPlayer = hiltViewModel()
-    val gameStatsViewModelMultiPlayer: GameStatsViewModelMultiPlayer = hiltViewModel()
     val optionsViewModel: PreferencesViewModel = hiltViewModel()
-    val loginViewModel: LoginViewModel = hiltViewModel()
-    val registerViewModel: RegisterViewModel = hiltViewModel()
-    val noRobotViewModel: NoRobotViewModel = hiltViewModel()
-    val createViewModel: CreateViewModel = hiltViewModel()
-
     planeRound.setComputerSkill(optionsViewModel.getComputerSkill())
     planeRound.setShowPlaneAfterKill(optionsViewModel.getShowPlaneAfterKill())
 
@@ -162,18 +154,7 @@ fun Screen(modifier: Modifier,
                 topBarHeight = topBarHeight,
                 navController = navController,
                 planeRound,
-                planeRoundMultiplayer,
-                optionsViewModel,
-                playerGridViewModelSinglePlayer,
-                computerGridViewModelSinglePlayer,
-                gameStatsViewModelSinglePlayer,
-                playerGridViewModelMultiPlayer,
-                computerGridViewModelMultiPlayer,
-                gameStatsViewModelMultiPlayer,
-                loginViewModel,
-                registerViewModel,
-                noRobotViewModel,
-                createViewModel)
+                planeRoundMultiplayer)
         }
     }
 }
@@ -183,36 +164,13 @@ fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
                   topBarHeight: MutableState<Int>,
                   navController: NavHostController,
                   planeRound: SinglePlayerRoundInterface,
-                  planeRoundMultiplayer: MultiPlayerRoundInterface,
-                  optionsViewModel: PreferencesViewModel,
-                  playerGridViewModelSinglePlayer: PlayerGridViewModelSinglePlayer,
-                  computerGridViewModelSinglePlayer: ComputerGridViewModelSinglePlayer,
-                  gameStatsViewModelSinglePlayer: GameStatsViewModelSinglePlayer,
-                  playerGridViewModelMultiPlayer: PlayerGridViewModelMultiPlayer,
-                  computerGridViewModelMultiPlayer: ComputerGridViewModelMultiPlayer,
-                  gameStatsViewModelMultiPlayer: GameStatsViewModelMultiPlayer,
-                  loginViewModel: LoginViewModel,
-                  registerViewModel: RegisterViewModel,
-                  noRobotViewModel: NoRobotViewModel,
-                  createViewModel: CreateViewModel
-
-) {
+                  planeRoundMultiplayer: MultiPlayerRoundInterface
+                  ) {
     PlanesNavigation(modifier = modifier,
         currentScreenState, topBarHeight, navController,
         context = LocalContext.current,
         planeRound,
-        planeRoundMultiplayer,
-        optionsViewModel,
-        playerGridViewModelSinglePlayer,
-        computerGridViewModelSinglePlayer,
-        gameStatsViewModelSinglePlayer,
-        playerGridViewModelMultiPlayer,
-        computerGridViewModelMultiPlayer,
-        gameStatsViewModelMultiPlayer,
-        loginViewModel,
-        registerViewModel,
-        noRobotViewModel,
-        createViewModel)
+        planeRoundMultiplayer)
 }
 
 @Composable
