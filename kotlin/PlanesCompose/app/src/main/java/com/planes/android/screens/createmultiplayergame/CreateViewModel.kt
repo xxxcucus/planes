@@ -23,7 +23,6 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
     private var m_GameName = mutableStateOf("")
     private var m_Loading = mutableStateOf(false)
     private var m_Error = mutableStateOf<String?>(null)
-
     private var m_CreateState = mutableStateOf<CreateGameStates>(CreateGameStates.StatusNotRequested)
 
     private var m_GameStatusMap = HashMap<String, GameStatus>()
@@ -421,7 +420,8 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
                 } while (getFirstPlayerName("Create") == getSecondPlayerName("Create"))
             }
 
-            m_CreateState.value = CreateGameStates.PollingForConnectionEnded
+            if (m_CreateState.value == CreateGameStates.PollingForConnectionStarted)
+                m_CreateState.value = CreateGameStates.PollingForConnectionEnded
 
             m_Loading.value = false
         }

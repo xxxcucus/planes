@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
+import com.planes.android.screens.createmultiplayergame.CreateGameStates
 import com.planes.singleplayerengine.SinglePlayerRoundInterface
 import java.util.Date
 import kotlin.math.abs
@@ -102,8 +103,7 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentScreenState: Mutab
 
             BoardEditingControlButtonsVerticalLayout(screenHeightDp, boardSizeDp, buttonHeightDp,
                 buttonWidthDp, navController,
-                playerGridViewModel,
-                planeRound)
+                playerGridViewModel, !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap())
         }
     } else {  //landscape
         Row() {
@@ -132,10 +132,10 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentScreenState: Mutab
                     }
             }
 
-            BoardEditingControlButtonsHorizontalLayout(screenHeightDp, boardSizeDp, buttonHeightDp,
+            BoardEditingControlButtonsHorizontalLayout(buttonHeightDp,
                 buttonWidthDp, topBarHeight.value, navController,
                 playerGridViewModel,
-                planeRound)
+                !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap())
         }
     }
 }
@@ -233,7 +233,7 @@ fun treatSwipeHorizontal(swipeThresh: Float, consecSwipeThresh: Int,
 fun BoardEditingControlButtonsVerticalLayout(screenHeightDp: Int, boardSizeDp: Int, buttonHeightDp: Int,
                                              buttonWidthDp: Int, navController: NavController,
                                              playerGridViewModel: PlaneGridViewModel,
-                                             planeRound: SinglePlayerRoundInterface) {
+                                             doneEnabled: Boolean) {
     Column(
         modifier = Modifier.height(screenHeightDp.dp - boardSizeDp.dp),
         verticalArrangement = Arrangement.Center
@@ -252,7 +252,7 @@ fun BoardEditingControlButtonsVerticalLayout(screenHeightDp: Int, boardSizeDp: I
             OneLineGameButton(
                 textLine = stringResource(R.string.done_button), playerGridViewModel,
                 modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
+                enabled = doneEnabled
             ) { viewModel ->
                 viewModel.updatePlanesToPlaneRound()
                 viewModel.doneEditing()
@@ -294,11 +294,11 @@ fun BoardEditingControlButtonsVerticalLayout(screenHeightDp: Int, boardSizeDp: I
 }
 
 @Composable
-fun BoardEditingControlButtonsHorizontalLayout(screenHeightDp: Int, boardSizeDp: Int, buttonHeightDp: Int,
+fun BoardEditingControlButtonsHorizontalLayout(buttonHeightDp: Int,
                                              buttonWidthDp: Int, topBarHeightDp: Int,
                                                navController: NavController,
                                              playerGridViewModel: PlaneGridViewModel,
-                                             planeRound: SinglePlayerRoundInterface) {
+                                               doneEnabled: Boolean) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
@@ -340,7 +340,7 @@ fun BoardEditingControlButtonsHorizontalLayout(screenHeightDp: Int, boardSizeDp:
             OneLineGameButton(
                 textLine = stringResource(R.string.done_button), playerGridViewModel,
                 modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
+                enabled = doneEnabled
             ) { viewModel ->
                 viewModel.updatePlanesToPlaneRound()
                 viewModel.doneEditing()

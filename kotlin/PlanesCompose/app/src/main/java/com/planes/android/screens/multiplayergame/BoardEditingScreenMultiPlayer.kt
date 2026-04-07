@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
+import com.planes.android.screens.createmultiplayergame.CreateGameStates
 import com.planes.android.screens.createmultiplayergame.CreateViewModel
 import com.planes.android.screens.login.LoginViewModel
 import com.planes.android.screens.singleplayergame.BoardEditingControlButtonsHorizontalLayout
@@ -185,7 +186,8 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                         screenHeightDp, boardSizeDp, buttonHeightDp,
                         buttonWidthDp, navController,
                         playerGridViewModel,
-                        planeRound
+                        !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap() &&
+                                (createViewModel.getCreateState() == CreateGameStates.ConnectedComplete || createViewModel.getCreateState() == CreateGameStates.PollingForConnectionEnded)
                     )
                 } else if (playerGridViewModel.getBoardEditingState() == BoardEditingStates.Cancel) {
                     playerGridViewModel.cancelRound()
@@ -301,11 +303,11 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                         createViewModel.setCurrentRoundId("Connect", roundId)
                         createViewModel.setCurrentRoundId("Create", roundId)
                     }
-                    BoardEditingControlButtonsHorizontalLayout(
-                        screenHeightDp, boardSizeDp, buttonHeightDp,
+                    BoardEditingControlButtonsHorizontalLayout(buttonHeightDp,
                         buttonWidthDp, topBarHeight.value, navController,
                         playerGridViewModel,
-                        planeRound
+                        !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap() &&
+                                (createViewModel.getCreateState() == CreateGameStates.ConnectedComplete || createViewModel.getCreateState() == CreateGameStates.PollingForConnectionEnded)
                     )
                 } else if (playerGridViewModel.getBoardEditingState() == BoardEditingStates.Cancel) {
                     playerGridViewModel.cancelRound()
