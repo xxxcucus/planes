@@ -38,6 +38,7 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
                                     computerGridViewModel: ComputerGridViewModelMultiPlayer
 ) {
 
+    //TODO: replace computer with opponent
     currentScreenState.value = PlanesScreens.MultiplayerGameNotStarted.name
 
     val configuration = LocalConfiguration.current
@@ -235,13 +236,7 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
                         modifier = Modifier.width(refButtonWidthDp.dp * 2 / 3).height(refButtonHeightDp.dp),
                         enabled = true
                     ) {
-                        planeRound.initRound()
-                        playerGridViewModel.resetFromPlaneRound()
-                        computerGridViewModel.resetFromPlaneRound()
-                        computerGridViewModel.resetState()
-                        playerGridViewModel.resetState()
-                        navController.popBackStack()
-                        navController.navigate(route = PlanesScreens.MultiplayerBoardEditing.name)
+                        computerGridViewModel.startNewRound()
                     }
                 }
 

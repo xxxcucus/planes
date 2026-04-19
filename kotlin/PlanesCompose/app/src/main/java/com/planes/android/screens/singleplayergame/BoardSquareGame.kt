@@ -39,7 +39,7 @@ fun BoardSquareGame(index: Int, squareSizeDp: Int, squareSizePx: Float,
                guess = guess,
                widthDp = squareSizeDp,
                widthPx = squareSizePx,
-               backgroundColor = Color.Blue,
+               backgroundColor = Color.White,
                index = index,
                onClick = onClick
            )
@@ -51,10 +51,11 @@ fun BoardSquareGame(index: Int, squareSizeDp: Int, squareSizePx: Float,
                guess = guess,
                widthDp = squareSizeDp,
                widthPx = squareSizePx,
-               backgroundColor = Color.Blue,
+               backgroundColor = Color.White,
                index = index,
                onClick = onClick
            )
        }
    }
+
 }

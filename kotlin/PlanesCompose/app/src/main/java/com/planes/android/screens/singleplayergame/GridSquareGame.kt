@@ -73,25 +73,32 @@ fun GridSquareGame(isComputer: Boolean,
         val thirdPlaneColor = Color(160, 160, 160)
 
         //Log.d("Planes", "Annotation $annotation")
-        //if (isComputer) {
-        if (annotation == -1) {
-            squareColor = planeOverlapColor
-        } else if (annotation == -2) {
-            squareColor = cockpitColor
-        } else if (annotation == 1) {
-            squareColor = firstPlaneColor
-        } else if (annotation == 2) {
-            squareColor = secondPlaneColor
-        } else if (annotation == 3) {
-            squareColor = thirdPlaneColor
+        if (!isComputer) {
+            if (annotation == -1) {
+                squareColor = planeOverlapColor
+            } else if (annotation == -2) {
+                squareColor = cockpitColor
+            } else if (annotation == 1) {
+                squareColor = firstPlaneColor
+            } else if (annotation == 2) {
+                squareColor = secondPlaneColor
+            } else if (annotation == 3) {
+                squareColor = thirdPlaneColor
+            }
+        } else {
+            if (guess != null && annotation == -2) {
+                squareColor = cockpitColor
+            }
         }
 
-        //}
-
-        if (annotation != 0)
-            drawPlaneBoardSquareBackground(size.width, squareColor, this)
-        else {
+        if (isComputer) {
             drawNonPlaneBoardSquareBackground(size.width, squareColor, this)
+        } else {
+            if (annotation != 0) {
+                drawPlaneBoardSquareBackground(size.width, squareColor, this)
+            } else {
+                drawNonPlaneBoardSquareBackground(size.width, squareColor, this)
+            }
         }
 
         if (guess != null) {
