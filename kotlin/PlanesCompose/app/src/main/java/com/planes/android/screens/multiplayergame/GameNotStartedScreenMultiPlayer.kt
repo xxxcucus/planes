@@ -74,9 +74,9 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
 
     val gameBoardViewModel = if (playerBoard.value) playerGridViewModel else computerGridViewModel
 
-    val titleOtherBoard1 = if (playerBoard.value) stringResource(R.string.view_computer_board1) else stringResource(
+    val titleOtherBoard1 = if (playerBoard.value) stringResource(R.string.view_opponent_board1) else stringResource(
         R.string.view_player_board1)
-    val titleOtherBoard2 = if (playerBoard.value) stringResource(R.string.view_computer_board2) else stringResource(
+    val titleOtherBoard2 = if (playerBoard.value) stringResource(R.string.view_opponent_board2) else stringResource(
         R.string.view_player_board2)
 
     if (computerGridViewModel.getStartNewRound()) {
@@ -119,7 +119,7 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
                         var winnerTitle = stringResource(R.string.computer_winner)
                         when(planeRound.getRoundEndStatus()) {
                             RoundEndStatus.PlayerWins -> winnerTitle = stringResource(R.string.player_winner)
-                            RoundEndStatus.ComputerWins -> winnerTitle = stringResource(R.string.computer_winner)
+                            RoundEndStatus.ComputerWins -> winnerTitle = stringResource(R.string.opponent_winner)
                             RoundEndStatus.Draw -> winnerTitle = stringResource(R.string.draw_result)
                             RoundEndStatus.Cancelled -> winnerTitle = stringResource(R.string.round_cancelled)
                         }
@@ -134,7 +134,7 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
 
                         Row() {
                             OneLineGameButton(
-                                textLine = stringResource(R.string.computer_wins), gameBoardViewModel,
+                                textLine = stringResource(R.string.opponent_wins), gameBoardViewModel,
                                 modifier = Modifier.width(refButtonWidthDp.dp)
                                     .height(refButtonHeightDp.dp / 2),
                                 enabled = true
@@ -248,7 +248,7 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
                     var winnerTitle = stringResource(R.string.computer_winner)
                     when(planeRound.getRoundEndStatus()) {
                         RoundEndStatus.PlayerWins -> winnerTitle = stringResource(R.string.player_wins)
-                        RoundEndStatus.ComputerWins -> winnerTitle = stringResource(R.string.computer_winner)
+                        RoundEndStatus.ComputerWins -> winnerTitle = stringResource(R.string.opponent_winner)
                         RoundEndStatus.Draw -> winnerTitle = stringResource(R.string.draw_result)
                         RoundEndStatus.Cancelled -> winnerTitle = stringResource(R.string.round_cancelled)
                     }
@@ -264,7 +264,7 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
 
                     Row() {
                         OneLineGameButton(
-                            textLine = stringResource(R.string.computer_wins), gameBoardViewModel,
+                            textLine = stringResource(R.string.opponent_wins), gameBoardViewModel,
                             modifier = Modifier.width(refButtonWidthDp.dp)
                                 .height(refButtonHeightDp.dp / 2),
                             enabled = true

@@ -80,12 +80,12 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
 
     val gameBoardViewModel = if (playerBoard.value) playerGridViewModel else computerGridViewModel
 
-    val titleOtherBoard1 = if (playerBoard.value) stringResource(R.string.view_computer_board1) else stringResource(
+    val titleOtherBoard1 = if (playerBoard.value) stringResource(R.string.view_opponent_board1) else stringResource(
         R.string.view_player_board1)
-    val titleOtherBoard2 = if (playerBoard.value) stringResource(R.string.view_computer_board2) else stringResource(
+    val titleOtherBoard2 = if (playerBoard.value) stringResource(R.string.view_opponent_board2) else stringResource(
         R.string.view_player_board2)
 
-    val titleStats = if (!playerBoard.value) stringResource(R.string.computer_stats)
+    val titleStats = if (!playerBoard.value) stringResource(R.string.opponent_stats)
     else stringResource(R.string.player_stats)
 
     //Log.d("Planes", "planes no ${planesGridViewModel.getPlaneNo()}")
