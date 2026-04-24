@@ -317,12 +317,8 @@ class ComputerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlay
 
             //TODO: error treatment
             if (result.data != null) {
-                if (result.data!!.m_NewRoundCreated) {
-                    m_RoundId.value = result.data!!.m_RoundId
-                    m_StartNewRound.value = true
-                } else {
-                    Log.d("Planes", "New round was not created")
-                }
+                m_RoundId.value = result.data!!.m_RoundId
+                m_StartNewRound.value = true
             }
         }
     }
