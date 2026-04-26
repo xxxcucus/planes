@@ -36,7 +36,7 @@ fun PreferencesScreen(modifier: Modifier,
                       planeRound: SinglePlayerRoundInterface
 ) {
 
-    currentScreenState.value = PlanesScreens.Preferences.name
+    currentScreenState.value = stringResource(R.string.options)
     val scrollState = rememberScrollState()
 
     val keyboardController = LocalSoftwareKeyboardController.current

@@ -39,7 +39,7 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentScreenState: Mutab
                                    playerGridViewModel: PlayerGridViewModelSinglePlayer
 ) {
 
-    currentScreenState.value = PlanesScreens.SinglePlayerBoardEditing.name
+    currentScreenState.value = stringResource(R.string.game)
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp

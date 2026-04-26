@@ -15,7 +15,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.currentCompositionErrors
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import kotlinx.coroutines.CoroutineScope
 
@@ -24,7 +26,7 @@ fun AboutScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                 context: Context, navController: NavController,
                 aboutEntryList: List<AboutEntryModel>) {
 
-    currentScreenState.value = PlanesScreens.Info.name
+    currentScreenState.value = stringResource(R.string.about)
 
     Surface(modifier = modifier,
         color = MaterialTheme.colorScheme.background) {

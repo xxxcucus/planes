@@ -40,7 +40,7 @@ fun RegisterScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                    registerViewModel: RegisterViewModel,
                    noRobotViewModel: NoRobotViewModel)  {
 
-    currentScreenState.value = PlanesScreens.Register.name
+    currentScreenState.value = stringResource(R.string.register)
     val scrollState = rememberScrollState()
     val keyboardController = LocalSoftwareKeyboardController.current
 

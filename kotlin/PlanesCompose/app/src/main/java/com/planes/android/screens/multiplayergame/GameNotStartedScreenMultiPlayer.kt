@@ -38,8 +38,7 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
                                     computerGridViewModel: ComputerGridViewModelMultiPlayer
 ) {
 
-    //TODO: replace computer with opponent
-    currentScreenState.value = PlanesScreens.MultiplayerGameNotStarted.name
+    currentScreenState.value = stringResource(R.string.game)
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp

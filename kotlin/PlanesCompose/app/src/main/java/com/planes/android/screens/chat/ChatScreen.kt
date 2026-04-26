@@ -8,14 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 
 @Composable
 fun ChatScreen(modifier: Modifier,
                currentScreenState: MutableState<String>, navController: NavController) {
 
-    currentScreenState.value = PlanesScreens.Chat.name
+    currentScreenState.value = stringResource(R.string.chat)
 
     Column(modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,

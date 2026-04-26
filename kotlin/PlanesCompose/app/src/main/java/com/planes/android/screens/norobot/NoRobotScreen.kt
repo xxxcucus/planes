@@ -37,7 +37,7 @@ import com.planes.android.screens.register.RegisterViewModel
 fun NoRobotScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                  navController: NavController, noRobotViewModel: NoRobotViewModel
 ) {
-    currentScreenState.value = PlanesScreens.NoRobot.name
+    currentScreenState.value = stringResource(R.string.register)
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp

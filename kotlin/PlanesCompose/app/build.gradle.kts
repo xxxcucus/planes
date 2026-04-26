@@ -67,6 +67,7 @@ dependencies {
 
     implementation(libs.hilt.android)
     implementation(libs.androidx.compose.runtime.saveable)
+    implementation(libs.androidx.compose.ui)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.datastore.preferences)

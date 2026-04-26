@@ -32,7 +32,7 @@ fun GameNotStartedScreenSinglePlayer(modifier: Modifier, currentScreenState: Mut
                                      computerGridViewModel: ComputerGridViewModelSinglePlayer
 ) {
 
-    currentScreenState.value = PlanesScreens.SinglePlayerGameNotStarted.name
+    currentScreenState.value = stringResource(R.string.game)
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp

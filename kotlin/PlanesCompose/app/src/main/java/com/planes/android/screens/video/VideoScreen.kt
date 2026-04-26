@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -49,7 +50,7 @@ import com.planes.android.navigation.PlanesScreens
 fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                 navController: NavController, viewModel: VideoViewModel = hiltViewModel()) {
 
-    currentScreenState.value = PlanesScreens.Tutorials.name
+    currentScreenState.value = stringResource(R.string.videos)
     val configuration = LocalConfiguration.current
     val lifecycleOwner = LocalLifecycleOwner.current
 

@@ -24,6 +24,7 @@ okhttp = "5.0.0-alpha.10"
 
 bcrypt = "0.4"
 runtimeSaveable = "1.10.6"
+ui = "1.11.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -65,6 +66,7 @@ gson = { module = "com.google.code.gson:gson", version.ref = "gson-version" }
 
 bcrypt = { module = "org.mindrot:jbcrypt", name = "bcrypt", version.ref = "bcrypt"}
 androidx-compose-runtime-saveable = { group = "androidx.compose.runtime", name = "runtime-saveable", version.ref = "runtimeSaveable" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -46,7 +46,7 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
                           gameStatsViewModelMultiPlayer: GameStatsViewModelMultiPlayer
 ) {
 
-    currentScreenState.value = PlanesScreens.MultiplayerGame.name
+    currentScreenState.value = stringResource(R.string.game)
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp

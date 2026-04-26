@@ -37,7 +37,7 @@ fun GameScreenSinglePlayer(modifier: Modifier, currentScreenState: MutableState<
                            gameStatsViewModelSinglePlayer: GameStatsViewModelSinglePlayer
 ) {
 
-    currentScreenState.value = PlanesScreens.SinglePlayerGame.name
+    currentScreenState.value = stringResource(R.string.game)
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp

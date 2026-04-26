@@ -52,7 +52,7 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                                   computerGridViewModel: ComputerGridViewModelMultiPlayer
 ) {
 
-    currentScreenState.value = PlanesScreens.MultiplayerBoardEditing.name
+    currentScreenState.value = stringResource(R.string.game)
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp

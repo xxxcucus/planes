@@ -41,7 +41,7 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                           computerGridViewModel: ComputerGridViewModelMultiPlayer
 ) {
 
-    currentScreenState.value = PlanesScreens.CreateMultiplayerGame.name
+    currentScreenState.value = stringResource(R.string.create_connectto_game)
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
