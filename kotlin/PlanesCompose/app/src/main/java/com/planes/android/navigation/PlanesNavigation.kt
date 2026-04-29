@@ -147,7 +147,8 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
                 loginViewModel)
         }
         composable(PlanesScreens.Chat.name) {
-            ChatScreen(modifier = modifier, currentScreenState, navController = navController)
+            ChatScreen(modifier = modifier, currentScreenState, navController = navController,
+                loginViewModel)
         }
     }
 }
