@@ -22,6 +22,7 @@ import com.planes.android.navigation.PlanesScreens
 import com.planes.android.screens.about.AboutEntryRow
 import com.planes.android.screens.login.LoginViewModel
 import com.planes.android.screens.video.VideoViewModel
+import com.planes.android.utils.DateTimeUtils
 
 @Composable
 fun ChatScreen(modifier: Modifier, currentScreenState: MutableState<String>,
@@ -31,6 +32,7 @@ fun ChatScreen(modifier: Modifier, currentScreenState: MutableState<String>,
     currentScreenState.value = stringResource(R.string.chat)
 
     //TODO: if not logged in show not logged in
+    //TODO: viewModel should be parameter for login screen
 
     if (!loginViewModel.isLoggedIn()) {
 
@@ -55,8 +57,8 @@ fun ChatScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                 //TODO: loader
                 if (users != null) {
                     LazyColumn {
-                        items(items = users!!) {
-                            Text(text = it.m_UserName)
+                        items(items = users) {
+                            ChatEntryRow(it)
                         }
                     }
                 }
@@ -64,3 +66,4 @@ fun ChatScreen(modifier: Modifier, currentScreenState: MutableState<String>,
         }
     }
 }
+
