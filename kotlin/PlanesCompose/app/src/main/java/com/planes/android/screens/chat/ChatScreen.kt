@@ -56,8 +56,13 @@ fun ChatScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                 //TODO: loader
                 if (users != null) {
+
+                    val filteredUsers = users.filter {
+                        it.m_UserId != loginViewModel.getLoggedInUserId()
+                    }
+
                     LazyColumn {
-                        items(items = users) {
+                        items(items = filteredUsers) {
                             ChatEntryRow(it)
                         }
                     }

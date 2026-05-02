@@ -1,9 +1,9 @@
 package com.planes.android.screens.chat
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,9 +36,16 @@ fun isPlayerOnline(user: UserWithLastLoginResponse): Boolean {
     val date = DateTimeUtils.parseDate(user.m_LastLogin)
     if (date == null)
         return false
-    return getDateDiff(date, Date.from(Instant.now()), TimeUnit.MINUTES) < 30L;
+
+    val diff = getDateDiff(date, Date.from(Instant.now()), TimeUnit.MINUTES)
+
+    if (user.m_UserName.startsWith("test")) {
+        Log.d("PLanes", "User ${user.m_UserName} last login ${user.m_LastLogin} diff $diff")
+    }
+
+    return diff < 30L;
 }
 fun getDateDiff(date1: Date, date2: Date, timeUnit: TimeUnit): Long {
-    val diffInMillies: Long = date2.time - date1.time
-    return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS)
+    val diffInMillis: Long = date2.time - date1.time
+    return timeUnit.convert(diffInMillis, TimeUnit.MILLISECONDS)
 }

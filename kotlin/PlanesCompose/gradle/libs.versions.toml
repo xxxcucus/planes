@@ -26,6 +26,8 @@ bcrypt = "0.4"
 runtimeSaveable = "1.10.6"
 ui = "1.11.0"
 
+room = "2.7.1"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -67,6 +69,11 @@ gson = { module = "com.google.code.gson:gson", version.ref = "gson-version" }
 bcrypt = { module = "org.mindrot:jbcrypt", name = "bcrypt", version.ref = "bcrypt"}
 androidx-compose-runtime-saveable = { group = "androidx.compose.runtime", name = "runtime-saveable", version.ref = "runtimeSaveable" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
+
+#Database
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

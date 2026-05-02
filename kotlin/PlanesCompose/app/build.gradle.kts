@@ -40,6 +40,11 @@ android {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
+
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+    }
+
     buildFeatures {
         compose = true
     }
@@ -78,6 +83,10 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.okhttp)
     implementation(libs.bcrypt)
+
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
 
     //implementation ("com.google.android.exoplayer:exoplayer:2.19.1")
 
