@@ -27,7 +27,7 @@ import com.planes.android.utils.DateTimeUtils
 @Composable
 fun ChatScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                navController: NavController, loginViewModel: LoginViewModel,
-               viewModel: ChatUserListViewModel = hiltViewModel()) {
+               viewModel: ChatUserListViewModel) {
 
     currentScreenState.value = stringResource(R.string.chat)
 
@@ -37,11 +37,6 @@ fun ChatScreen(modifier: Modifier, currentScreenState: MutableState<String>,
     if (!loginViewModel.isLoggedIn()) {
 
     } else {
-
-        viewModel.pollForPlayersList(
-            loginViewModel.getLoggedInToken()!!,
-            loginViewModel.getLoggedInUserId()!!, loginViewModel.getLoggedInUserName()!!
-        )
 
         Surface(
             modifier = modifier,

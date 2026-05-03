@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import com.planes.android.screens.about.AboutEntryRepository
 import com.planes.android.screens.about.AboutScreen
 import com.planes.android.screens.chat.ChatScreen
+import com.planes.android.screens.chat.ChatUserListViewModel
 import com.planes.android.screens.createmultiplayergame.CreateMultiplayerGameScreen
 import com.planes.android.screens.createmultiplayergame.CreateViewModel
 import com.planes.android.screens.deleteuser.DeleteUserScreen
@@ -62,6 +63,7 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
     val registerViewModel: RegisterViewModel = hiltViewModel()
     val noRobotViewModel: NoRobotViewModel = hiltViewModel()
     val createViewModel: CreateViewModel = hiltViewModel()
+    val chatUserListViewModel: ChatUserListViewModel = hiltViewModel()
 
     NavHost(
         navController = navController,
@@ -132,7 +134,7 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
         }
         composable(PlanesScreens.Login.name) {
             LoginScreen(modifier = modifier, currentScreenState, navController = navController,
-                loginViewModel)
+                loginViewModel, chatUserListViewModel)
         }
         composable(PlanesScreens.Register.name) {
             RegisterScreen(modifier = modifier, currentScreenState, navController = navController,
@@ -148,7 +150,7 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
         }
         composable(PlanesScreens.Chat.name) {
             ChatScreen(modifier = modifier, currentScreenState, navController = navController,
-                loginViewModel)
+                loginViewModel, chatUserListViewModel)
         }
     }
 }

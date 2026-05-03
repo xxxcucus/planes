@@ -49,6 +49,7 @@ class ChatUserListViewModel @Inject constructor(private val repository: PlanesUs
             return
 
         m_PollingStartedState.value = true
+        m_StopPollingState.value = false
 
         viewModelScope.launch {
             do {
@@ -66,6 +67,8 @@ class ChatUserListViewModel @Inject constructor(private val repository: PlanesUs
                 }
 
             } while (!m_StopPollingState.value)
+
+            m_PollingStartedState.value = false
         }
 
     }

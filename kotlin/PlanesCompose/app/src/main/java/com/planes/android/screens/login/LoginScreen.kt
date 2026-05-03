@@ -29,6 +29,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
+import com.planes.android.screens.chat.ChatUserListViewModel
 import com.planes.android.screens.createmultiplayergame.CreateGameStates
 import com.planes.android.widgets.CommonTextFieldWithViewModel
 import com.planes.android.widgets.PasswordInputFieldWithViewModel
@@ -36,7 +37,8 @@ import com.planes.android.widgets.PasswordInputFieldWithViewModel
 @Composable
 fun LoginScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                 navController: NavController,
-                loginViewModel: LoginViewModel) {
+                loginViewModel: LoginViewModel,
+                chatUserListViewModel: ChatUserListViewModel) {
 
     currentScreenState.value = PlanesScreens.Login.name
     val scrollState = rememberScrollState()
@@ -62,6 +64,7 @@ fun LoginScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                 onClick = {
                     submitClickedState.value = false
                     loginViewModel.logout()
+                    chatUserListViewModel.setPollingStop(true)
                 }) {
                 Text(text = stringResource(R.string.logout))
             }
@@ -70,10 +73,22 @@ fun LoginScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                 Text(text = stringResource(R.string.loader_text))
             } else if (submitClickedState.value) {
                 val error = loginViewModel.getError()
-                if (error == null)
-                    Toast.makeText(LocalContext.current, stringResource(R.string.logoutsuccess), Toast.LENGTH_LONG).show()
-                else
-                    Toast.makeText(LocalContext.current, loginViewModel.getError(), Toast.LENGTH_LONG).show()
+                if (error == null) {
+                    Toast.makeText(
+                        LocalContext.current,
+                        stringResource(R.string.loginsuccess),
+                        Toast.LENGTH_LONG
+                    ).show()
+                    chatUserListViewModel.pollForPlayersList(loginViewModel.getLoggedInToken()!!,
+                        loginViewModel.getLoggedInUserId()!!, loginViewModel.getLoggedInUserName()!!)
+
+                } else {
+                    Toast.makeText(
+                        LocalContext.current,
+                        loginViewModel.getError(),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
                 submitClickedState.value = false
             }
         } else {
@@ -123,23 +138,26 @@ fun LoginScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                 Text(text = stringResource(R.string.submit))
             }
 
+
+
             if (submitClickedState.value && loginViewModel.getLoading()) {
                 Text(text = stringResource(R.string.loader_text))
             } else if (submitClickedState.value) {
                 val error = loginViewModel.getError()
-                if (error == null)
+                if (error == null) {
                     Toast.makeText(
                         LocalContext.current,
-                        stringResource(R.string.loginsuccess),
+                        stringResource(R.string.logoutsuccess),
                         Toast.LENGTH_LONG
                     ).show()
-                else
+                } else {
                     Toast.makeText(
                         LocalContext.current,
                         loginViewModel.getError(),
                         Toast.LENGTH_LONG
                     ).show()
-                submitClickedState.value = false
+                    submitClickedState.value = false
+                }
             }
         }
     }
