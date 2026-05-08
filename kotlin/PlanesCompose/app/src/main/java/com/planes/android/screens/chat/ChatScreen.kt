@@ -58,7 +58,7 @@ fun ChatScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                     LazyColumn {
                         items(items = filteredUsers) {
-                            ChatEntryRow(it)
+                            ChatEntryRow(it, navController)
                         }
                     }
                 }

@@ -12,6 +12,7 @@ import com.planes.android.screens.about.AboutEntryRepository
 import com.planes.android.screens.about.AboutScreen
 import com.planes.android.screens.chat.ChatScreen
 import com.planes.android.screens.chat.ChatUserListViewModel
+import com.planes.android.screens.conversation.ConversationScreen
 import com.planes.android.screens.createmultiplayergame.CreateMultiplayerGameScreen
 import com.planes.android.screens.createmultiplayergame.CreateViewModel
 import com.planes.android.screens.deleteuser.DeleteUserScreen
@@ -151,6 +152,9 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
         composable(PlanesScreens.Chat.name) {
             ChatScreen(modifier = modifier, currentScreenState, navController = navController,
                 loginViewModel, chatUserListViewModel)
+        }
+        composable(PlanesScreens.Conversation.name) {
+            ConversationScreen(modifier = modifier, currentScreenState, navController = navController)
         }
     }
 }

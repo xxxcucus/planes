@@ -18,6 +18,7 @@ enum class PlanesScreens {
     NoRobot,
     DeleteUser,
     Chat,
+    Conversation,
     Preferences;
     companion object {
         fun fromRoute(route: String?) : PlanesScreens  =

@@ -73,7 +73,6 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
         refButtonWidthDp = (screenWidthDp - boardSizeDp) / 3
     }
 
-
     val playerBoard = rememberSaveable {
         mutableStateOf(false)
     }
