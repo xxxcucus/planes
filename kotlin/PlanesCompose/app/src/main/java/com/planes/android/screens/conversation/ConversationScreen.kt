@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -19,47 +20,69 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
+import com.planes.android.screens.login.LoginViewModel
 import com.planes.android.widgets.ChatMessageInputFieldWithViewModel
 
 @Composable
 fun ConversationScreen(modifier: Modifier,
                                     currentScreenState: MutableState<String>,
                                     navController: NavController,
+                       chatPartnerId: String, chatPartnerUsername: String,
+                       loginViewModel: LoginViewModel,
                        conversationViewModel: ConversationViewModel = hiltViewModel()
 ) {
 
     //TODO: conversation with
-    currentScreenState.value = PlanesScreens.Conversation.name
+    currentScreenState.value = "${PlanesScreens.Conversation.name} with $chatPartnerUsername "
 
-    Column(modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally) {
+    //TODO: if not logged in
 
-        val keyboardController = LocalSoftwareKeyboardController.current
+    if (loginViewModel.isLoggedIn()) {
 
-        LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth()) {
+        conversationViewModel.setCredentials(loginViewModel.getLoggedInTokenState(),
+            loginViewModel.getLoggedInUsernameState(), loginViewModel.getLoggedInUserIdState(),
+            chatPartnerId, chatPartnerUsername)
 
-        }
+        Column(
+            modifier = modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-        ChatMessageInputFieldWithViewModel(modifier = Modifier.padding(15.dp).fillMaxWidth(),
-            conversationViewModel,
-            { conversation -> conversation.getTextToSend() },
-            { conversation, str -> conversation.setTextToSend(str) },
-            onAction = KeyboardActions {
-                keyboardController?.hide()
-            },
-            keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Default,
-            placeholder = stringResource(R.string.inputmessage))
+            val keyboardController = LocalSoftwareKeyboardController.current
 
-        Button(
-            modifier = Modifier.padding(15.dp).fillMaxWidth(),
-            onClick = {
-            }) {
-            Text(text = stringResource(R.string.sendmessage))
+            val messages = conversationViewModel.getMessagesList().collectAsStateWithLifecycle().value
+
+            LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth()) {
+                items(items = messages) {
+                    ConversationEntryRow(it)
+                }
+            }
+
+            ChatMessageInputFieldWithViewModel(
+                modifier = Modifier.padding(15.dp).fillMaxWidth(),
+                conversationViewModel,
+                { conversation -> conversation.getTextToSend() },
+                { conversation, str -> conversation.setTextToSend(str) },
+                onAction = KeyboardActions {
+                    keyboardController?.hide()
+                },
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Default,
+                placeholder = stringResource(R.string.inputmessage)
+            )
+
+            Button(
+                modifier = Modifier.padding(15.dp).fillMaxWidth(),
+                onClick = {
+                    //TODO: add message to room db
+                }) {
+                Text(text = stringResource(R.string.sendmessage))
+            }
         }
     }
 }

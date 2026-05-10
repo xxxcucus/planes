@@ -6,8 +6,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.planes.android.screens.about.AboutEntryRepository
 import com.planes.android.screens.about.AboutScreen
 import com.planes.android.screens.chat.ChatScreen
@@ -149,12 +151,22 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
             DeleteUserScreen(modifier = modifier, currentScreenState, navController = navController,
                 loginViewModel)
         }
-        composable(PlanesScreens.Chat.name) {
+        composable(route = PlanesScreens.Chat.name) {
             ChatScreen(modifier = modifier, currentScreenState, navController = navController,
                 loginViewModel, chatUserListViewModel)
         }
-        composable(PlanesScreens.Conversation.name) {
-            ConversationScreen(modifier = modifier, currentScreenState, navController = navController)
+        composable(route = "${PlanesScreens.Conversation.name}/{userId}/{username}",
+            arguments = listOf(
+                navArgument("userId") { type = NavType.StringType },
+                navArgument("username") { type = NavType.StringType })) { entry ->
+
+            val userId = entry.arguments?.getString("userId")!!
+            val username = entry.arguments?.getString("username")!!
+
+            ConversationScreen(modifier = modifier, currentScreenState,
+                navController = navController,
+                userId, username,
+                loginViewModel)
         }
     }
 }
