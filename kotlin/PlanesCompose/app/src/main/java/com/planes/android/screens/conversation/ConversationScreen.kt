@@ -47,6 +47,8 @@ fun ConversationScreen(modifier: Modifier,
             loginViewModel.getLoggedInUsernameState(), loginViewModel.getLoggedInUserIdState(),
             chatPartnerId, chatPartnerUsername)
 
+        conversationViewModel.updateChatMessagesFromDb()
+
         Column(
             modifier = modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -79,7 +81,9 @@ fun ConversationScreen(modifier: Modifier,
             Button(
                 modifier = Modifier.padding(15.dp).fillMaxWidth(),
                 onClick = {
-                    //TODO: add message to room db
+                    conversationViewModel.sendMessage()
+                    conversationViewModel.resetMessage()
+                    conversationViewModel.updateChatMessagesFromDb()
                 }) {
                 Text(text = stringResource(R.string.sendmessage))
             }
