@@ -48,6 +48,7 @@ fun ConversationScreen(modifier: Modifier,
             chatPartnerId, chatPartnerUsername)
 
         conversationViewModel.updateChatMessagesFromDb()
+        conversationViewModel.pollForChatMessages()
 
         Column(
             modifier = modifier.fillMaxSize(),
@@ -61,7 +62,8 @@ fun ConversationScreen(modifier: Modifier,
 
             LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth()) {
                 items(items = messages) {
-                    ConversationEntryRow(it)
+                    ConversationEntryRow(it, it.m_SenderName == loginViewModel.getLoggedInUsernameState().value,
+                        chatPartnerUsername)
                 }
             }
 

@@ -16,7 +16,11 @@ import com.planes.android.network.user.responses.LogoutResponse
 import com.planes.android.network.user.responses.NoRobotResponse
 import com.planes.android.network.user.responses.RegistrationResponse
 import com.planes.multiplayer_engine.requests.PlayersListRequest
+import com.planes.multiplayer_engine.requests.ReceiveChatMessagesRequest
+import com.planes.multiplayer_engine.requests.SendChatMessageRequest
 import com.planes.multiplayer_engine.responses.PlayersListResponse
+import com.planes.multiplayer_engine.responses.ReceiveChatMessagesResponse
+import com.planes.multiplayer_engine.responses.SendChatMessageResponse
 import javax.inject.Inject
 
 class PlanesUserRepository @Inject constructor(private val api: PlanesUserApi) {
@@ -99,4 +103,31 @@ class PlanesUserRepository @Inject constructor(private val api: PlanesUserApi) {
             return DataOrError(null, false, "Error $message with status code $status")
         }
     }
+
+    suspend fun getChatMessages(authorization: String, request: ReceiveChatMessagesRequest): DataOrError<ReceiveChatMessagesResponse> {
+        val response = api.getChatMessages(authorization, request)
+
+        if (response.isSuccessful) {
+            return DataOrError(response.body(),false, null)
+        } else {
+            val errorString = response.errorBody()?.string() ?: return DataOrError(null, false, null)
+            val message = JsonParser.parseString(errorString).asJsonObject["message"].asString
+            val status = response.code()
+            return DataOrError(null, false, "Error $message with status code $status")
+        }
+    }
+
+    suspend fun sendChatMessage(authorization: String, request: SendChatMessageRequest): DataOrError<SendChatMessageResponse> {
+        val response = api.sendChatMessage(authorization, request)
+
+        if (response.isSuccessful) {
+            return DataOrError(response.body(),false, null)
+        } else {
+            val errorString = response.errorBody()?.string() ?: return DataOrError(null, false, null)
+            val message = JsonParser.parseString(errorString).asJsonObject["message"].asString
+            val status = response.code()
+            return DataOrError(null, false, "Error $message with status code $status")
+        }
+    }
 }
+

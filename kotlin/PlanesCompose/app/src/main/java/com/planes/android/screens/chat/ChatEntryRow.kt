@@ -27,7 +27,7 @@ fun ChatEntryRow(user: UserWithLastLoginResponse,
 
     Column(modifier = Modifier.padding(4.dp).fillMaxWidth()
         .clickable {
-            navController.navigate(route = "${PlanesScreens.Conversation.name}/${user.m_UserId}/${user.m_UserName} ")
+            navController.navigate(route = "${PlanesScreens.Conversation.name}/${user.m_UserId}/${user.m_UserName}")
         })
     {
         Text(text = user.m_UserName,

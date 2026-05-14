@@ -68,6 +68,8 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
     val createViewModel: CreateViewModel = hiltViewModel()
     val chatUserListViewModel: ChatUserListViewModel = hiltViewModel()
 
+    //TODO: to use viewmodels local to the screens
+
     NavHost(
         navController = navController,
         startDestination = PlanesScreens.Info.name) {
