@@ -2,6 +2,7 @@ package com.planes.android.data
 
 import androidx.room.Dao
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NewMessagesDao {
@@ -16,6 +17,6 @@ interface NewMessagesDao {
     suspend fun insertNewMessage(senderName: String, senderId: Long, receiverName: String, receiverId: Long, newMessages: Boolean)
 
     @Query("SELECT id, new_messages, sender_id, sender_name, receiver_name, receiver_id FROM NewMessages")
-    suspend fun getNewMessagesFlags() : List<NewMessagesFlag>
+    fun getNewMessagesFlags() : Flow<List<NewMessagesFlag>>
 
 }

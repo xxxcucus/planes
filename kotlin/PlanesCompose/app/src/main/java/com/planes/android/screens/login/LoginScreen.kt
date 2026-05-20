@@ -80,7 +80,10 @@ fun LoginScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                         Toast.LENGTH_LONG
                     ).show()
                     chatUserListViewModel.pollForPlayersList(loginViewModel.getLoggedInToken()!!,
+                    loginViewModel.getLoggedInUserId()!!, loginViewModel.getLoggedInUserName()!!)
+                    chatUserListViewModel.pollForChatMessages(loginViewModel.getLoggedInToken()!!,
                         loginViewModel.getLoggedInUserId()!!, loginViewModel.getLoggedInUserName()!!)
+                    chatUserListViewModel.pollForNewMessagesFlags()
 
                 } else {
                     Toast.makeText(

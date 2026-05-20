@@ -48,6 +48,7 @@ import com.planes.singleplayerengine.SinglePlayerRoundInterface
 
 @Composable
 fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String>,
+                     newMessagesState: MutableState<Boolean>,
                      topBarHeight: MutableState<Int>,
                      navController: NavHostController,
                      context: Context,
@@ -69,6 +70,7 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
     val chatUserListViewModel: ChatUserListViewModel = hiltViewModel()
 
     //TODO: to use viewmodels local to the screens
+    //TODO: newMessagesState
 
     NavHost(
         navController = navController,

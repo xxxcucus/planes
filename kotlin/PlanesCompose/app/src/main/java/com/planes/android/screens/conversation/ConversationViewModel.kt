@@ -1,22 +1,18 @@
 package com.planes.android.screens.conversation
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.planes.android.data.ChatMessage
 import com.planes.android.repository.ChatDbRepository
+import com.planes.android.repository.NewMessagesDbRepository
 import com.planes.android.repository.PlanesUserRepository
-import com.planes.android.utils.DateTimeUtils
-import com.planes.multiplayer_engine.requests.PlayersListRequest
-import com.planes.multiplayer_engine.requests.ReceiveChatMessagesRequest
 import com.planes.multiplayer_engine.requests.SendChatMessageRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.util.Date
@@ -25,7 +21,9 @@ import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class ConversationViewModel @Inject constructor(private val chatRepository: ChatDbRepository,
-    private val userRepository: PlanesUserRepository): ViewModel() {
+    private val newMessagesDbRepository: NewMessagesDbRepository,
+    private val userRepository: PlanesUserRepository
+    ): ViewModel() {
 
     val m_TextToSend : MutableState<String> = mutableStateOf("")
     private var m_Authorization = mutableStateOf<String?>(null)
@@ -118,7 +116,7 @@ class ConversationViewModel @Inject constructor(private val chatRepository: Chat
 
     }
 
-    //TODO: poll for messages from chat partner
+
 
     fun pollForChatMessages() {
         if (m_PollForChatMessages.value == true)
@@ -126,40 +124,11 @@ class ConversationViewModel @Inject constructor(private val chatRepository: Chat
 
         m_PollForChatMessages.value = true
 
-        val receiveChatMessagesRequest = ReceiveChatMessagesRequest(m_UserId.value!!, m_UserName.value!!)
-
         viewModelScope.launch {
             do {
                 delay(5.seconds)
-
-                val resultPolling = userRepository.getChatMessages(m_Authorization.value!!,
-                    receiveChatMessagesRequest
-                    )
-
-                if (resultPolling.data != null) {
-                    val receiveChatMessagesResponse = resultPolling.data!!
-
-                    for (message in receiveChatMessagesResponse.m_Messages) {
-
-                        var msgDate = DateTimeUtils.parseDate(message.m_CreatedAt)
-                        if (msgDate == null)
-                            msgDate = Date.from(Instant.now())
-
-                        chatRepository.addChatMessage(
-                            message.m_SenderId.toLong() , message.m_SenderName,
-                            message.m_Message, msgDate,
-                            m_UserId.value?.toLong()!!, m_UserName.value!!,
-                            m_UserId.value?.toLong()!! , m_UserName.value!!,
-                        )
-
-                        //TODO: update displayed messages
-                    }
-
-                }
-
+                updateChatMessagesFromDb()
             } while (m_PollForChatMessages.value)
         }
     }
-
-
 }

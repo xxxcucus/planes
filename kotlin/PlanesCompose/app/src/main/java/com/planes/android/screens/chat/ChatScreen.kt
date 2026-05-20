@@ -48,17 +48,26 @@ fun ChatScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                 verticalArrangement = Arrangement.Center
             ) {
                 val users = viewModel.getPlayersList().collectAsStateWithLifecycle().value
+                val messagesFlags = viewModel.getNewMessagesFlags().collectAsStateWithLifecycle().value
 
                 //TODO: loader
                 if (users != null) {
 
                     val filteredUsers = users.filter {
                         it.m_UserId != loginViewModel.getLoggedInUserId()
+                    }.map {
+                        user ->
+                        UserWithLastLoginAndNewMessagesFlag(user.m_UserName, user.m_UserId, user.m_LastLogin,
+                            messagesFlags.firstOrNull { it.m_SenderId == user.m_UserId.toInt() }?.m_NewMessages == true
+                        )
                     }
+
+                    //TODO: enrich with new messages flag
 
                     LazyColumn {
                         items(items = filteredUsers) {
-                            ChatEntryRow(it, navController)
+                            ChatEntryRow(it, loginViewModel.getLoggedInUserId()?.toLong()!!,
+                                loginViewModel.getLoggedInUserName()!!,navController, viewModel)
                         }
                     }
                 }

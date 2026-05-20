@@ -14,6 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.DrawerState
@@ -89,8 +90,6 @@ class MainActivity : ComponentActivity() {
 
 }
 
-
-
 @Composable
 fun Screen(modifier: Modifier,
            navController: NavHostController,
@@ -107,6 +106,10 @@ fun Screen(modifier: Modifier,
 
     val currentScreenState = remember {
         mutableStateOf("About")
+    }
+
+    val newMessagesState = remember {
+        mutableStateOf(false)
     }
 
     val topBarHeight = remember {
@@ -145,12 +148,14 @@ fun Screen(modifier: Modifier,
                             }
                         }
                     },
-                    currentScreenName = currentScreenState.value
+                    currentScreenName = currentScreenState.value,
+                    newMessages = newMessagesState.value
                 )
             }
         ) { padding ->
             ScreenContent(modifier = Modifier.padding(padding),
                 currentScreenState = currentScreenState,
+                newMessagesState = newMessagesState,
                 topBarHeight = topBarHeight,
                 navController = navController,
                 planeRound,
@@ -161,13 +166,14 @@ fun Screen(modifier: Modifier,
 
 @Composable
 fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
+                  newMessagesState : MutableState<Boolean>,
                   topBarHeight: MutableState<Int>,
                   navController: NavHostController,
                   planeRound: SinglePlayerRoundInterface,
                   planeRoundMultiplayer: MultiPlayerRoundInterface
                   ) {
     PlanesNavigation(modifier = modifier,
-        currentScreenState, topBarHeight, navController,
+        currentScreenState, newMessagesState, topBarHeight, navController,
         context = LocalContext.current,
         planeRound,
         planeRoundMultiplayer)
@@ -317,7 +323,8 @@ fun DrawerContent(modifier: Modifier = Modifier,
 @Composable
 fun TopBar(modifier: Modifier = Modifier,
     onOpenDrawer: () -> Unit = {},
-    currentScreenName: String
+    currentScreenName: String,
+    newMessages: Boolean
 ) {
     TopAppBar(
         modifier = modifier,
@@ -337,6 +344,14 @@ fun TopBar(modifier: Modifier = Modifier,
             Text(text = currentScreenName)
         },
         actions = {
+            if (newMessages) {
+                Icon(
+                    imageVector = Icons.Default.Email,
+                    contentDescription = "Navigation Icon",
+                    modifier = Modifier.padding(start = 16.dp, end = 8.dp)
+                        .size(28.dp)
+                )
+            }
             Icon(
                 imageVector = Icons.Default.AccountBox,
                 contentDescription = "Navigation Icon",
@@ -347,6 +362,7 @@ fun TopBar(modifier: Modifier = Modifier,
                 contentDescription = "Navigation Icon",
                 modifier = Modifier.padding(start = 16.dp, end = 8.dp)
                     .size(28.dp))
+
         }
     )
 }
