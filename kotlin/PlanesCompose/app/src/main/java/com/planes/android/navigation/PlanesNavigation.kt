@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -70,7 +71,16 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
     val chatUserListViewModel: ChatUserListViewModel = hiltViewModel()
 
     //TODO: to use viewmodels local to the screens
-    //TODO: newMessagesState
+
+    val messagesFlags = chatUserListViewModel.getNewMessagesFlags().collectAsStateWithLifecycle().value
+    if (!loginViewModel.isLoggedIn()) {
+        newMessagesState.value = false
+    } else {
+        newMessagesState.value =
+        messagesFlags.firstOrNull {
+            it.m_ReceiverId == loginViewModel.getLoggedInUserId()?.toInt()!! && it.m_NewMessages
+        } != null
+    }
 
     NavHost(
         navController = navController,

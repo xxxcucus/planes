@@ -47,9 +47,6 @@ fun ChatEntryRow(user: UserWithLastLoginAndNewMessagesFlag,
             style = MaterialTheme.typography.titleMedium)
 
         if (user.m_NewMessagesFlag) {
-            /*Text(text = "New messages",
-                textAlign = TextAlign.Center,
-                modifier = Modifier.weight(1f))*/
             Icon(
                 imageVector = Icons.Default.Email,
                 contentDescription = "New Messages Icon",

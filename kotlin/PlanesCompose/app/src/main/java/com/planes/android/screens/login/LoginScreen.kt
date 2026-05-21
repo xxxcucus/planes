@@ -141,8 +141,6 @@ fun LoginScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                 Text(text = stringResource(R.string.submit))
             }
 
-
-
             if (submitClickedState.value && loginViewModel.getLoading()) {
                 Text(text = stringResource(R.string.loader_text))
             } else if (submitClickedState.value) {

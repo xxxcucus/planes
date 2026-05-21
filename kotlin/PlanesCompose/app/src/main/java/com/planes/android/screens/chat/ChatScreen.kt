@@ -58,7 +58,10 @@ fun ChatScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                     }.map {
                         user ->
                         UserWithLastLoginAndNewMessagesFlag(user.m_UserName, user.m_UserId, user.m_LastLogin,
-                            messagesFlags.firstOrNull { it.m_SenderId == user.m_UserId.toInt() }?.m_NewMessages == true
+                            messagesFlags.firstOrNull {
+                                it.m_SenderId == user.m_UserId.toInt() &&
+                                it.m_ReceiverId == loginViewModel.getLoggedInUserId()?.toInt()!!
+                            }?.m_NewMessages == true
                         )
                     }
 
