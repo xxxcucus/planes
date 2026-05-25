@@ -84,7 +84,7 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
 
     NavHost(
         navController = navController,
-        startDestination = PlanesScreens.Info.name) {
+        startDestination = PlanesScreens.Login.name) {
         composable(PlanesScreens.SinglePlayerGame.name) {
            GameScreenSinglePlayer(modifier = modifier,
                currentScreenState, topBarHeight, navController = navController,

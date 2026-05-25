@@ -57,6 +57,8 @@ import com.planes.android.screens.singleplayergame.ComputerGridViewModelSinglePl
 import com.planes.android.screens.singleplayergame.GameStatsViewModelSinglePlayer
 import com.planes.android.screens.singleplayergame.PlayerGridViewModelSinglePlayer
 import com.planes.android.ui.theme.PlanesComposeTheme
+import com.planes.android.widgets.HelpPopupBox
+import com.planes.android.widgets.PopupBox
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import com.planes.singleplayerengine.GameStages
 import com.planes.singleplayerengine.SinglePlayerRoundInterface
@@ -108,6 +110,10 @@ fun Screen(modifier: Modifier,
         mutableStateOf("About")
     }
 
+    val showPopupState = remember {
+        mutableStateOf(false)
+    }
+
     val newMessagesState = remember {
         mutableStateOf(false)
     }
@@ -149,29 +155,35 @@ fun Screen(modifier: Modifier,
                         }
                     },
                     currentScreenName = currentScreenState.value,
-                    newMessages = newMessagesState.value
+                    newMessages = newMessagesState.value,
+                    showPopupState = showPopupState
                 )
             }
         ) { padding ->
             ScreenContent(modifier = Modifier.padding(padding),
                 currentScreenState = currentScreenState,
+                showPopupState = showPopupState,
                 newMessagesState = newMessagesState,
                 topBarHeight = topBarHeight,
                 navController = navController,
                 planeRound,
                 planeRoundMultiplayer)
+
+            HelpPopupBox(currentScreenState, showPopupState)
         }
     }
 }
 
 @Composable
 fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
+                  showPopupState: MutableState<Boolean>,
                   newMessagesState : MutableState<Boolean>,
                   topBarHeight: MutableState<Int>,
                   navController: NavHostController,
                   planeRound: SinglePlayerRoundInterface,
                   planeRoundMultiplayer: MultiPlayerRoundInterface
                   ) {
+
     PlanesNavigation(modifier = modifier,
         currentScreenState, newMessagesState, topBarHeight, navController,
         context = LocalContext.current,
@@ -324,7 +336,8 @@ fun DrawerContent(modifier: Modifier = Modifier,
 fun TopBar(modifier: Modifier = Modifier,
     onOpenDrawer: () -> Unit = {},
     currentScreenName: String,
-    newMessages: Boolean
+    newMessages: Boolean,
+    showPopupState: MutableState<Boolean>
 ) {
     TopAppBar(
         modifier = modifier,
@@ -361,8 +374,9 @@ fun TopBar(modifier: Modifier = Modifier,
                 imageVector = Icons.Default.Notifications,
                 contentDescription = "Navigation Icon",
                 modifier = Modifier.padding(start = 16.dp, end = 8.dp)
-                    .size(28.dp))
-
+                    .size(28.dp).clickable {
+                    showPopupState.value = true
+            })
         }
     )
 }
