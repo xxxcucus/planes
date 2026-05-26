@@ -5,7 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,7 +37,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -122,6 +126,10 @@ fun Screen(modifier: Modifier,
         mutableStateOf(70)
     }
 
+    val configuration = LocalConfiguration.current
+    val screenWidthDp = configuration.screenWidthDp
+    val screenHeightDp = configuration.screenHeightDp
+
     val scope = rememberCoroutineScope()
 
     ModalNavigationDrawer(
@@ -160,16 +168,27 @@ fun Screen(modifier: Modifier,
                 )
             }
         ) { padding ->
-            ScreenContent(modifier = Modifier.padding(padding),
-                currentScreenState = currentScreenState,
-                showPopupState = showPopupState,
-                newMessagesState = newMessagesState,
-                topBarHeight = topBarHeight,
-                navController = navController,
-                planeRound,
-                planeRoundMultiplayer)
 
-            HelpPopupBox(currentScreenState, showPopupState)
+            Box(modifier = Modifier.fillMaxSize().padding(padding)) {
+                ScreenContent(
+                    modifier = Modifier.align(Alignment.Center),
+                    currentScreenState = currentScreenState,
+                    showPopupState = showPopupState,
+                    newMessagesState = newMessagesState,
+                    topBarHeight = topBarHeight,
+                    navController = navController,
+                    planeRound,
+                    planeRoundMultiplayer
+                )
+
+                HelpPopupBox(
+                    modifier = Modifier.align(Alignment.Center),
+                    currentScreenState = currentScreenState,
+                    showPopupState = showPopupState,
+                    screenWidth = screenWidthDp.toFloat(),
+                    screenHeight = screenHeightDp.toFloat()
+                )
+            }
         }
     }
 }

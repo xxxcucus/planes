@@ -4,7 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,18 +21,22 @@ import androidx.compose.ui.window.PopupProperties
 import androidx.compose.ui.zIndex
 
 @Composable
-fun PopupBox(popupWidth: Float,
-             popupHeight:Float,
-             showPopup: Boolean,
-             onClickOutside: () -> Unit,
-             content: @Composable() () -> Unit) {
+fun PopupBox(
+    modifier: Modifier,
+    popupWidth: Double,
+    popupHeight: Double,
+    showPopup: Boolean,
+    onClickOutside: () -> Unit,
+    content: @Composable (() -> Unit)
+) {
 
     if (showPopup) {
         // full screen background
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Green)
+            modifier = modifier
+                .widthIn(max = popupWidth.dp)
+                .heightIn(max = popupHeight.dp)
+                .background(Color.Transparent)
                 .zIndex(10F),
             contentAlignment = Alignment.Center
         ) {
@@ -43,8 +51,8 @@ fun PopupBox(popupWidth: Float,
             ) {
                 Box(
                     Modifier
-                        .width(popupWidth.dp)
-                        .height(popupHeight.dp)
+                        .wrapContentHeight()
+                        .widthIn(max = popupWidth.dp)
                         .background(Color.White)
                         .clip(RoundedCornerShape(4.dp)),
                     contentAlignment = Alignment.Center
