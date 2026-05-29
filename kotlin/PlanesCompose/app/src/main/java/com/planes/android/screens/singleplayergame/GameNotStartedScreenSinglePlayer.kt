@@ -24,7 +24,9 @@ import com.planes.singleplayerengine.SinglePlayerRoundInterface
 import com.planes.singleplayerengine.RoundEndStatus
 
 @Composable
-fun GameNotStartedScreenSinglePlayer(modifier: Modifier, currentScreenState: MutableState<String>,
+fun GameNotStartedScreenSinglePlayer(modifier: Modifier, currentTitleState: MutableState<String>,
+                                     currentScreenState: MutableState<String>,
+                                     showPopupState: MutableState<Boolean>,
                                      topBarHeight: MutableState<Int>,
                                      navController: NavController,
                                      planeRound: SinglePlayerRoundInterface,
@@ -32,7 +34,9 @@ fun GameNotStartedScreenSinglePlayer(modifier: Modifier, currentScreenState: Mut
                                      computerGridViewModel: ComputerGridViewModelSinglePlayer
 ) {
 
-    currentScreenState.value = stringResource(R.string.game)
+    currentTitleState.value = stringResource(R.string.game)
+    currentScreenState.value = PlanesScreens.SinglePlayerGameNotStarted.name
+    showPopupState.value = false
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp

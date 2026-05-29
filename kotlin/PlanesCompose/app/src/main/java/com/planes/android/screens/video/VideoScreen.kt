@@ -21,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,21 +35,21 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.datasource.DataSource
-import androidx.media3.datasource.DefaultDataSource
-import androidx.media3.datasource.DefaultHttpDataSource
-import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.PlayerView
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 
 @Composable
-fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
+fun VideoScreen(modifier: Modifier, currentTitleState: MutableState<String>,
+                currentScreenState: MutableState<String>,
+                showPopupState: MutableState<Boolean>,
                 navController: NavController, viewModel: VideoViewModel = hiltViewModel()) {
 
-    currentScreenState.value = stringResource(R.string.videos)
+    currentTitleState.value = stringResource(R.string.videos)
+    currentScreenState.value = PlanesScreens.Tutorials.name
+    showPopupState.value = false
+
     val configuration = LocalConfiguration.current
     val lifecycleOwner = LocalLifecycleOwner.current
 

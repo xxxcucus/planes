@@ -5,21 +5,15 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,14 +24,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
-import com.planes.android.screens.about.AboutEntryRow
-import com.planes.android.screens.register.RegisterViewModel
 
 @Composable
-fun NoRobotScreen(modifier: Modifier, currentScreenState: MutableState<String>,
-                 navController: NavController, noRobotViewModel: NoRobotViewModel
+fun NoRobotScreen(modifier: Modifier, currentTitleState: MutableState<String>,
+                  currentScreenState: MutableState<String>,
+                  showPopupState: MutableState<Boolean>,
+                  navController: NavController, noRobotViewModel: NoRobotViewModel
 ) {
-    currentScreenState.value = stringResource(R.string.register)
+    currentTitleState.value = stringResource(R.string.register)
+    currentScreenState.value = PlanesScreens.NoRobot.name
+    showPopupState.value = false
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp

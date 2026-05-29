@@ -32,16 +32,20 @@ import com.planes.multiplayerengine.MultiPlayerRoundInterface
 
 @Composable
 fun CreateMultiplayerGameScreen(modifier: Modifier,
-                          currentScreenState: MutableState<String>,
-                          navController: NavController,
-                          loginViewModel: LoginViewModel,
-                          createViewModel: CreateViewModel,
-                          planeRound: MultiPlayerRoundInterface,
-                          playerGridViewModel: PlayerGridViewModelMultiPlayer,
-                          computerGridViewModel: ComputerGridViewModelMultiPlayer
+                                currentTitleState: MutableState<String>,
+                                currentScreenState: MutableState<String>,
+                                showPopupState: MutableState<Boolean>,
+                                navController: NavController,
+                                loginViewModel: LoginViewModel,
+                                createViewModel: CreateViewModel,
+                                planeRound: MultiPlayerRoundInterface,
+                                playerGridViewModel: PlayerGridViewModelMultiPlayer,
+                                computerGridViewModel: ComputerGridViewModelMultiPlayer
 ) {
 
-    currentScreenState.value = stringResource(R.string.create_connectto_game)
+    currentTitleState.value = stringResource(R.string.create_connectto_game)
+    currentScreenState.value = PlanesScreens.CreateMultiplayerGame.name
+    showPopupState.value = false
 
     val keyboardController = LocalSoftwareKeyboardController.current
 

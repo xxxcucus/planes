@@ -28,7 +28,9 @@ import com.planes.singleplayerengine.SinglePlayerRoundInterface
 import com.planes.singleplayerengine.Type
 
 @Composable
-fun GameScreenSinglePlayer(modifier: Modifier, currentScreenState: MutableState<String>,
+fun GameScreenSinglePlayer(modifier: Modifier, currentTitleState: MutableState<String>,
+                           currentScreenState: MutableState<String>,
+                           showPopupState: MutableState<Boolean>,
                            topBarHeight: MutableState<Int>,
                            navController: NavController,
                            planeRound: SinglePlayerRoundInterface,
@@ -37,7 +39,9 @@ fun GameScreenSinglePlayer(modifier: Modifier, currentScreenState: MutableState<
                            gameStatsViewModelSinglePlayer: GameStatsViewModelSinglePlayer
 ) {
 
-    currentScreenState.value = stringResource(R.string.game)
+    currentTitleState.value = stringResource(R.string.game)
+    currentScreenState.value = PlanesScreens.SinglePlayerGame.name
+    showPopupState.value = false
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp

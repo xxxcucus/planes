@@ -29,15 +29,19 @@ import com.planes.android.widgets.ChatMessageInputFieldWithViewModel
 
 @Composable
 fun ConversationScreen(modifier: Modifier,
-                                    currentScreenState: MutableState<String>,
-                                    navController: NavController,
+                       currentTitleState: MutableState<String>,
+                       currentScreenState: MutableState<String>,
+                       showPopupState: MutableState<Boolean>,
+                       navController: NavController,
                        chatPartnerId: String, chatPartnerUsername: String,
                        loginViewModel: LoginViewModel,
                        conversationViewModel: ConversationViewModel = hiltViewModel()
 ) {
 
     //TODO: conversation with
-    currentScreenState.value = "${PlanesScreens.Conversation.name} with $chatPartnerUsername "
+    currentTitleState.value = "${stringResource(R.string.conversation)} with $chatPartnerUsername "
+    currentScreenState.value = PlanesScreens.Conversation.name
+    showPopupState.value = false
 
     //TODO: if not logged in
 

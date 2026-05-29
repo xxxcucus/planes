@@ -49,20 +49,9 @@ import androidx.navigation.compose.rememberNavController
 import com.planes.android.navigation.DrawerMenuItemGeneric
 import com.planes.android.navigation.PlanesNavigation
 import com.planes.android.navigation.PlanesScreens
-import com.planes.android.screens.createmultiplayergame.CreateViewModel
-import com.planes.android.screens.login.LoginViewModel
-import com.planes.android.screens.multiplayergame.ComputerGridViewModelMultiPlayer
-import com.planes.android.screens.multiplayergame.GameStatsViewModelMultiPlayer
-import com.planes.android.screens.multiplayergame.PlayerGridViewModelMultiPlayer
-import com.planes.android.screens.norobot.NoRobotViewModel
 import com.planes.android.screens.preferences.PreferencesViewModel
-import com.planes.android.screens.register.RegisterViewModel
-import com.planes.android.screens.singleplayergame.ComputerGridViewModelSinglePlayer
-import com.planes.android.screens.singleplayergame.GameStatsViewModelSinglePlayer
-import com.planes.android.screens.singleplayergame.PlayerGridViewModelSinglePlayer
 import com.planes.android.ui.theme.PlanesComposeTheme
 import com.planes.android.widgets.HelpPopupBox
-import com.planes.android.widgets.PopupBox
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import com.planes.singleplayerengine.GameStages
 import com.planes.singleplayerengine.SinglePlayerRoundInterface
@@ -110,8 +99,12 @@ fun Screen(modifier: Modifier,
         initialValue = DrawerValue.Closed
     )
 
-    val currentScreenState = remember {
+    val currentTitleState = remember {
         mutableStateOf("About")
+    }
+
+    val currentScreenState = remember {
+        mutableStateOf(PlanesScreens.Info.name)
     }
 
     val showPopupState = remember {
@@ -162,16 +155,18 @@ fun Screen(modifier: Modifier,
                             }
                         }
                     },
-                    currentScreenName = currentScreenState.value,
+                    title = currentTitleState.value,
+                    currentScreen = currentScreenState.value,
                     newMessages = newMessagesState.value,
                     showPopupState = showPopupState
                 )
             }
         ) { padding ->
 
-            Box(modifier = Modifier.fillMaxSize().padding(padding)) {
+            Box(modifier = Modifier.fillMaxSize()) {
                 ScreenContent(
                     modifier = Modifier.align(Alignment.Center),
+                    currentTitleState = currentTitleState,
                     currentScreenState = currentScreenState,
                     showPopupState = showPopupState,
                     newMessagesState = newMessagesState,
@@ -181,6 +176,7 @@ fun Screen(modifier: Modifier,
                     planeRoundMultiplayer
                 )
 
+
                 HelpPopupBox(
                     modifier = Modifier.align(Alignment.Center),
                     currentScreenState = currentScreenState,
@@ -188,13 +184,17 @@ fun Screen(modifier: Modifier,
                     screenWidth = screenWidthDp.toFloat(),
                     screenHeight = screenHeightDp.toFloat()
                 )
+
             }
         }
     }
 }
 
+
+
 @Composable
-fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
+fun ScreenContent(modifier: Modifier, currentTitleState: MutableState<String>,
+                  currentScreenState: MutableState<String>,
                   showPopupState: MutableState<Boolean>,
                   newMessagesState : MutableState<Boolean>,
                   topBarHeight: MutableState<Int>,
@@ -204,7 +204,9 @@ fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
                   ) {
 
     PlanesNavigation(modifier = modifier,
-        currentScreenState, newMessagesState, topBarHeight, navController,
+        currentTitleState, currentScreenState,
+        showPopupState,newMessagesState,
+        topBarHeight, navController,
         context = LocalContext.current,
         planeRound,
         planeRoundMultiplayer)
@@ -353,10 +355,11 @@ fun DrawerContent(modifier: Modifier = Modifier,
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(modifier: Modifier = Modifier,
-    onOpenDrawer: () -> Unit = {},
-    currentScreenName: String,
-    newMessages: Boolean,
-    showPopupState: MutableState<Boolean>
+           onOpenDrawer: () -> Unit = {},
+           title: String,
+           currentScreen: String,
+           newMessages: Boolean,
+           showPopupState: MutableState<Boolean>
 ) {
     TopAppBar(
         modifier = modifier,
@@ -373,7 +376,7 @@ fun TopBar(modifier: Modifier = Modifier,
                     .size(28.dp))
         },
         title = {
-            Text(text = currentScreenName)
+            Text(text = title)
         },
         actions = {
             if (newMessages) {
@@ -394,6 +397,11 @@ fun TopBar(modifier: Modifier = Modifier,
                 contentDescription = "Navigation Icon",
                 modifier = Modifier.padding(start = 16.dp, end = 8.dp)
                     .size(28.dp).clickable {
+                    if (currentScreen in listOf(PlanesScreens.SinglePlayerBoardEditing.name,
+                            PlanesScreens.MultiplayerBoardEditing.name, PlanesScreens.SinglePlayerGame.name,
+                        PlanesScreens.MultiplayerGame.name, PlanesScreens.SinglePlayerGameNotStarted,
+                        PlanesScreens.MultiplayerGameNotStarted, PlanesScreens.Tutorials.name,
+                        PlanesScreens.Chat.name, PlanesScreens.Conversation.name))
                     showPopupState.value = true
             })
         }

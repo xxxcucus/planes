@@ -24,20 +24,18 @@ import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.screens.singleplayergame.BoardSquareGame
-import com.planes.android.screens.singleplayergame.ComputerGridViewModelSinglePlayer
 import com.planes.android.screens.singleplayergame.GameBoardSinglePlayer
-import com.planes.android.screens.singleplayergame.GameStatsViewModelSinglePlayer
 import com.planes.android.screens.singleplayergame.OneLineGameButton
-import com.planes.android.screens.singleplayergame.PlayerGridViewModelSinglePlayer
 import com.planes.android.screens.singleplayergame.StatsValueField
 import com.planes.android.screens.singleplayergame.TwoLineGameButton
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import com.planes.singleplayerengine.GuessPoint
-import com.planes.singleplayerengine.SinglePlayerRoundInterface
 import com.planes.singleplayerengine.Type
 
 @Composable
-fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<String>,
+fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<String>,
+                          currentScreenState: MutableState<String>,
+                          showPopupState: MutableState<Boolean>,
                           topBarHeight: MutableState<Int>,
                           navController: NavController,
                           planeRound: MultiPlayerRoundInterface,
@@ -46,7 +44,9 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
                           gameStatsViewModelMultiPlayer: GameStatsViewModelMultiPlayer
 ) {
 
-    currentScreenState.value = stringResource(R.string.game)
+    currentTitleState.value = stringResource(R.string.game)
+    currentScreenState.value = PlanesScreens.MultiplayerGame.name
+    showPopupState.value = false
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp

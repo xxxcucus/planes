@@ -41,14 +41,15 @@ import com.planes.android.screens.singleplayergame.GameNotStartedScreenSinglePla
 import com.planes.android.screens.singleplayergame.GameScreenSinglePlayer
 import com.planes.android.screens.singleplayergame.GameStatsViewModelSinglePlayer
 import com.planes.android.screens.singleplayergame.PlayerGridViewModelSinglePlayer
-import com.planes.android.screens.video.VideoModelRepository
 import com.planes.android.screens.video.VideoScreen
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import com.planes.singleplayerengine.SinglePlayerRoundInterface
 
 
 @Composable
-fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String>,
+fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>,
+                     currentScreenState: MutableState<String>,
+                     showPopupState: MutableState<Boolean>,
                      newMessagesState: MutableState<Boolean>,
                      topBarHeight: MutableState<Int>,
                      navController: NavHostController,
@@ -87,86 +88,108 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
         startDestination = PlanesScreens.Login.name) {
         composable(PlanesScreens.SinglePlayerGame.name) {
            GameScreenSinglePlayer(modifier = modifier,
-               currentScreenState, topBarHeight, navController = navController,
+               currentTitleState, currentScreenState, showPopupState,
+               topBarHeight, navController = navController,
                planeRound,
                playerGridViewModelSinglePlayer, computerGridViewModelSinglePlayer, gameStatsViewModelSinglePlayer)
         }
         composable(PlanesScreens.SinglePlayerBoardEditing.name) {
             BoardEditingScreenSinglePlayer(modifier = modifier,
-                currentScreenState, topBarHeight, navController = navController,
+                currentTitleState, currentScreenState, showPopupState,
+                topBarHeight, navController = navController,
                 planeRound, playerGridViewModelSinglePlayer)
         }
         composable(PlanesScreens.SinglePlayerGameNotStarted.name) {
             GameNotStartedScreenSinglePlayer(modifier = modifier,
-                currentScreenState, topBarHeight, navController = navController,
+                currentTitleState, currentScreenState, showPopupState,
+                topBarHeight, navController = navController,
                 planeRound,
                 playerGridViewModelSinglePlayer, computerGridViewModelSinglePlayer)
         }
         composable(PlanesScreens.SinglePlayerGameStatistics.name) {
-            SinglePlayerGameStatisticsScreen(modifier = modifier, currentScreenState,
-                navController = navController)
+            SinglePlayerGameStatisticsScreen(modifier = modifier, currentTitleState,
+                currentScreenState,
+                showPopupState, navController = navController)
         }
         composable(PlanesScreens.Preferences.name) {
-            PreferencesScreen(modifier = modifier, currentScreenState,
+            PreferencesScreen(modifier = modifier, currentTitleState,
+                currentScreenState, showPopupState,
                 navController = navController, optionsViewModel = optionsViewModel,
                 planeRound = planeRound)
         }
 
         composable(PlanesScreens.CreateMultiplayerGame.name) {
-            CreateMultiplayerGameScreen(modifier = modifier, currentScreenState, navController = navController,
+            CreateMultiplayerGameScreen(modifier = modifier, currentTitleState,
+                currentScreenState, showPopupState, navController = navController,
                 loginViewModel, createViewModel, planeRoundMultiplayer, playerGridViewModelMultiPlayer,
                 computerGridViewModelMultiPlayer)
         }
 
         composable(PlanesScreens.MultiplayerBoardEditing.name) {
             BoardEditingScreenMultiPlayer(modifier = modifier,
-                currentScreenState, topBarHeight, navController = navController,
+                currentTitleState, currentScreenState, showPopupState,
+                topBarHeight, navController = navController,
                 loginViewModel, createViewModel,
                 planeRoundMultiplayer, playerGridViewModelMultiPlayer,
                 computerGridViewModelMultiPlayer)
         }
         composable(PlanesScreens.MultiplayerGame.name) {
             GameScreenMultiPlayer(modifier = modifier,
-                currentScreenState, topBarHeight, navController = navController,
+                currentTitleState, currentScreenState, showPopupState,
+                topBarHeight, navController = navController,
                 planeRoundMultiplayer,
                 playerGridViewModelMultiPlayer, computerGridViewModelMultiPlayer, gameStatsViewModelMultiPlayer)
         }
         composable(PlanesScreens.MultiplayerGameNotStarted.name) {
             GameNotStartedScreenMultiPlayer(modifier = modifier,
-                currentScreenState, topBarHeight, navController = navController,
+                currentTitleState, currentScreenState, showPopupState,
+                topBarHeight, navController = navController,
                 planeRoundMultiplayer,
                 playerGridViewModelMultiPlayer, computerGridViewModelMultiPlayer)
         }
         composable(PlanesScreens.MultiplayerGameStatistics.name) {
-            MultiplayerGameStatisticsScreen(modifier = modifier, currentScreenState, navController = navController)
+            MultiplayerGameStatisticsScreen(modifier = modifier, currentTitleState,
+                currentScreenState, showPopupState, navController = navController)
         }
         composable(PlanesScreens.Info.name) {
-            AboutScreen(modifier = modifier, currentScreenState, navController = navController,
+            AboutScreen(modifier = modifier, currentTitleState, currentScreenState,
+                showPopupState,
+                navController = navController,
                 context = context,
                 aboutEntryList = AboutEntryRepository.create("0.1", context = context))
         }
         composable(PlanesScreens.Tutorials.name) {
-            VideoScreen(modifier = modifier, currentScreenState, navController = navController)
+            VideoScreen(modifier = modifier, currentTitleState, currentScreenState,
+                showPopupState, navController = navController)
             //PlayerRoute(modifier = modifier)
         }
         composable(PlanesScreens.Login.name) {
-            LoginScreen(modifier = modifier, currentScreenState, navController = navController,
+            LoginScreen(modifier = modifier, currentTitleState, currentScreenState,
+                showPopupState, navController = navController,
                 loginViewModel, chatUserListViewModel)
         }
         composable(PlanesScreens.Register.name) {
-            RegisterScreen(modifier = modifier, currentScreenState, navController = navController,
+            RegisterScreen(modifier = modifier, currentTitleState, currentScreenState,
+                showPopupState,
+                navController = navController,
                 registerViewModel, noRobotViewModel)
         }
         composable(PlanesScreens.NoRobot.name) {
-            NoRobotScreen(modifier = modifier, currentScreenState, navController = navController,
+            NoRobotScreen(modifier = modifier, currentTitleState, currentScreenState,
+                showPopupState,
+                navController = navController,
                 noRobotViewModel)
         }
         composable(PlanesScreens.DeleteUser.name) {
-            DeleteUserScreen(modifier = modifier, currentScreenState, navController = navController,
+            DeleteUserScreen(modifier = modifier, currentTitleState, currentScreenState,
+                showPopupState,
+                navController = navController,
                 loginViewModel)
         }
         composable(route = PlanesScreens.Chat.name) {
-            ChatScreen(modifier = modifier, currentScreenState, navController = navController,
+            ChatScreen(modifier = modifier, currentTitleState, currentScreenState,
+                showPopupState,
+                navController = navController,
                 loginViewModel, chatUserListViewModel)
         }
         composable(route = "${PlanesScreens.Conversation.name}/{userId}/{username}",
@@ -177,7 +200,9 @@ fun PlanesNavigation(modifier: Modifier, currentScreenState: MutableState<String
             val userId = entry.arguments?.getString("userId")!!
             val username = entry.arguments?.getString("username")!!
 
-            ConversationScreen(modifier = modifier, currentScreenState,
+            ConversationScreen(modifier = modifier, currentTitleState,
+                currentScreenState,
+                showPopupState,
                 navController = navController,
                 userId, username,
                 loginViewModel)

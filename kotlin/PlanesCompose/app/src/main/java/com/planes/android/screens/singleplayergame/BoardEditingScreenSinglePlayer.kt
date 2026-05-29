@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
@@ -26,20 +24,23 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
-import com.planes.android.screens.createmultiplayergame.CreateGameStates
 import com.planes.singleplayerengine.SinglePlayerRoundInterface
 import java.util.Date
 import kotlin.math.abs
 
 @Composable
-fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentScreenState: MutableState<String>,
+fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: MutableState<String>,
+                                   currentScreenState: MutableState<String>,
+                                   showPopupState: MutableState<Boolean>,
                                    topBarHeight: MutableState<Int>,
                                    navController: NavController,
                                    planeRound: SinglePlayerRoundInterface,
                                    playerGridViewModel: PlayerGridViewModelSinglePlayer
 ) {
 
-    currentScreenState.value = stringResource(R.string.game)
+    currentTitleState.value = stringResource(R.string.game)
+    currentScreenState.value = PlanesScreens.SinglePlayerBoardEditing.name
+    showPopupState.value = false
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp

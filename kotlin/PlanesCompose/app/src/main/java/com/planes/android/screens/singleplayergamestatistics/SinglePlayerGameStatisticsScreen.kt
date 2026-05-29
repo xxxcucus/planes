@@ -8,14 +8,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 
 @Composable
-fun SinglePlayerGameStatisticsScreen(modifier: Modifier, currentScreenState: MutableState<String>,
+fun SinglePlayerGameStatisticsScreen(modifier: Modifier, currentTitleState: MutableState<String>,
+                                     currentScreenState: MutableState<String>,
+                                     showPopupState: MutableState<Boolean>,
                                      navController: NavController) {
 
+    currentTitleState.value = stringResource(R.string.game_stats)
     currentScreenState.value = PlanesScreens.SinglePlayerGameStatistics.name
+    showPopupState.value = false
 
     Column(modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,

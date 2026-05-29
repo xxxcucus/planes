@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,10 +22,14 @@ import com.planes.android.navigation.PlanesScreens
 import com.planes.android.screens.login.LoginViewModel
 
 @Composable
-fun DeleteUserScreen(modifier: Modifier, currentScreenState: MutableState<String>,
+fun DeleteUserScreen(modifier: Modifier, currentTitleState: MutableState<String>,
+                     currentScreenState: MutableState<String>,
+                     showPopupState: MutableState<Boolean>,
                      navController: NavController, loginViewModel: LoginViewModel) {
 
+    currentTitleState.value = stringResource(R.string.delete_user)
     currentScreenState.value = PlanesScreens.DeleteUser.name
+    showPopupState.value = false
 
     val submitClickedState = rememberSaveable {
         mutableStateOf(false)

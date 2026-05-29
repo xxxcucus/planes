@@ -33,16 +33,15 @@ import com.planes.android.screens.singleplayergame.BoardEditingControlButtonsVer
 import com.planes.android.screens.singleplayergame.BoardSquareBoardEditing
 import com.planes.android.screens.singleplayergame.GameBoardSinglePlayer
 import com.planes.android.screens.singleplayergame.OneLineGameButton
-import com.planes.android.screens.singleplayergame.PlaneGridViewModel
-import com.planes.android.screens.singleplayergame.PlayerGridViewModelSinglePlayer
 import com.planes.android.screens.singleplayergame.treatSwipeHorizontal
 import com.planes.android.screens.singleplayergame.treatSwipeVertical
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
-import com.planes.singleplayerengine.SinglePlayerRoundInterface
 import java.util.Date
 
 @Composable
-fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<String>,
+fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<String>,
+                                  currentScreenState: MutableState<String>,
+                                  showPopupState: MutableState<Boolean>,
                                   topBarHeight: MutableState<Int>,
                                   navController: NavController,
                                   loginViewModel: LoginViewModel,
@@ -52,7 +51,9 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                                   computerGridViewModel: ComputerGridViewModelMultiPlayer
 ) {
 
-    currentScreenState.value = stringResource(R.string.game)
+    currentTitleState.value = stringResource(R.string.game)
+    currentScreenState.value = PlanesScreens.MultiplayerBoardEditing.name
+    showPopupState.value = false
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp

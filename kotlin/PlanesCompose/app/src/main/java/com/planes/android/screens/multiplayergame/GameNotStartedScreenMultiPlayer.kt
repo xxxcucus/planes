@@ -27,10 +27,11 @@ import com.planes.android.screens.singleplayergame.StatsValueField
 import com.planes.android.screens.singleplayergame.TwoLineGameButton
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import com.planes.singleplayerengine.RoundEndStatus
-import com.planes.singleplayerengine.SinglePlayerRoundInterface
 
 @Composable
-fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<String>,
+fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<String>,
+                                    currentScreenState: MutableState<String>,
+                                    showPopupState: MutableState<Boolean>,
                                     topBarHeight: MutableState<Int>,
                                     navController: NavController,
                                     planeRound: MultiPlayerRoundInterface,
@@ -38,7 +39,9 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentScreenState: Muta
                                     computerGridViewModel: ComputerGridViewModelMultiPlayer
 ) {
 
-    currentScreenState.value = stringResource(R.string.game)
+    currentTitleState.value = stringResource(R.string.game)
+    currentScreenState.value = PlanesScreens.MultiplayerGameNotStarted.name
+    showPopupState.value = false
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp

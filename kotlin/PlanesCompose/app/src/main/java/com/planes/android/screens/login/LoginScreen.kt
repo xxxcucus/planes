@@ -14,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,23 +23,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.screens.chat.ChatUserListViewModel
-import com.planes.android.screens.createmultiplayergame.CreateGameStates
 import com.planes.android.widgets.CommonTextFieldWithViewModel
 import com.planes.android.widgets.PasswordInputFieldWithViewModel
 
 @Composable
-fun LoginScreen(modifier: Modifier, currentScreenState: MutableState<String>,
+fun LoginScreen(modifier: Modifier, currentTitleState: MutableState<String>,
+                currentScreenState: MutableState<String>,
+                showPopupState: MutableState<Boolean>,
                 navController: NavController,
                 loginViewModel: LoginViewModel,
                 chatUserListViewModel: ChatUserListViewModel) {
 
-    currentScreenState.value = PlanesScreens.Login.name
+    currentTitleState.value = stringResource(R.string.login)
+    currentScreenState.value  = PlanesScreens.Login.name
+    showPopupState.value = false
     val scrollState = rememberScrollState()
     val keyboardController = LocalSoftwareKeyboardController.current
 

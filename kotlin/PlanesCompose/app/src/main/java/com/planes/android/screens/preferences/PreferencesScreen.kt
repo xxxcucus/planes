@@ -30,13 +30,17 @@ import com.planes.singleplayerengine.SinglePlayerRoundInterface
 
 @Composable
 fun PreferencesScreen(modifier: Modifier,
+                      currentTitleState: MutableState<String>,
                       currentScreenState: MutableState<String>,
+                      showPopupState: MutableState<Boolean>,
                       navController: NavController,
                       optionsViewModel: PreferencesViewModel,
                       planeRound: SinglePlayerRoundInterface
 ) {
 
-    currentScreenState.value = stringResource(R.string.options)
+    currentTitleState.value = stringResource(R.string.options)
+    currentScreenState.value = PlanesScreens.Preferences.name
+    showPopupState.value = false
     val scrollState = rememberScrollState()
 
     val keyboardController = LocalSoftwareKeyboardController.current
