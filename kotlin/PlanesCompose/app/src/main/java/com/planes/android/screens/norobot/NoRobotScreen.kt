@@ -41,7 +41,6 @@ fun NoRobotScreen(modifier: Modifier, currentTitleState: MutableState<String>,
     var squareSizeDp = screenWidthDp / 2
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        //squareSizeDp = (screenHeightDp - topBarHeight.value) / playerGridViewModel.getRowNo()
         squareSizeDp = screenHeightDp / 2
     }
 

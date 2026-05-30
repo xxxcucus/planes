@@ -36,7 +36,6 @@ import com.planes.singleplayerengine.Type
 fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<String>,
                           currentScreenState: MutableState<String>,
                           showPopupState: MutableState<Boolean>,
-                          topBarHeight: MutableState<Int>,
                           navController: NavController,
                           planeRound: MultiPlayerRoundInterface,
                           playerGridViewModel: PlayerGridViewModelMultiPlayer,
@@ -54,7 +53,6 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
     var squareSizeDp = screenWidthDp / playerGridViewModel.getColNo()
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        //squareSizeDp = (screenHeightDp - topBarHeight.value) / playerGridViewModel.getRowNo()
         squareSizeDp = screenHeightDp / playerGridViewModel.getRowNo()
     }
 
@@ -110,8 +108,8 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
         Column() {
             GameBoardSinglePlayer(
                 gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
-                modifier = Modifier.padding(top = topBarHeight.value.dp)
-                    .width(boardSizeDp.dp).height(boardSizeDp.dp)
+                modifier = Modifier.width(boardSizeDp.dp)
+                    .height(boardSizeDp.dp)
             ) {
                 for (index in 0..99)
                     BoardSquareGame(
@@ -294,8 +292,8 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
         Row() {
             GameBoardSinglePlayer(
                 gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
-                modifier = Modifier.padding(top = topBarHeight.value.dp)
-                    .width(boardSizeDp.dp).height(boardSizeDp.dp)
+                modifier = Modifier.width(boardSizeDp.dp)
+                    .height(boardSizeDp.dp)
             ) {
                 for (index in 0..99)
                     BoardSquareGame(
@@ -337,8 +335,7 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                Column(modifier = Modifier.padding(top = topBarHeight.value.dp)
-                    .height(boardSizeDp.dp)
+                Column(modifier = Modifier.height(boardSizeDp.dp)
                     .width(refButtonWidthDp.dp),
                     verticalArrangement = Arrangement.Center) {
                     Spacer(
@@ -367,8 +364,7 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
                     }
                 }
 
-                Column(modifier = Modifier.padding(top = topBarHeight.value.dp)
-                    .height(boardSizeDp.dp)
+                Column(modifier = Modifier.height(boardSizeDp.dp)
                     .width(refButtonWidthDp.dp),
                     verticalArrangement = Arrangement.Center) {
                     OneLineGameButton(

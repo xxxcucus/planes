@@ -32,7 +32,6 @@ import kotlin.math.abs
 fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: MutableState<String>,
                                    currentScreenState: MutableState<String>,
                                    showPopupState: MutableState<Boolean>,
-                                   topBarHeight: MutableState<Int>,
                                    navController: NavController,
                                    planeRound: SinglePlayerRoundInterface,
                                    playerGridViewModel: PlayerGridViewModelSinglePlayer
@@ -48,7 +47,6 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: Mutabl
     var squareSizeDp = screenWidthDp / playerGridViewModel.getColNo()
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        //squareSizeDp = (screenHeightDp - topBarHeight.value) / playerGridViewModel.getRowNo()
         squareSizeDp = screenHeightDp / playerGridViewModel.getRowNo()
     }
 
@@ -80,8 +78,8 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: Mutabl
         Column() {
 
            GameBoardSinglePlayer(playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
-               modifier = Modifier.padding(top = topBarHeight.value.dp)
-               .width(boardSizeDp.dp).height(boardSizeDp.dp)
+               modifier = Modifier.width(boardSizeDp.dp)
+                   .height(boardSizeDp.dp)
                .pointerInput(Unit) {
                    detectDragGestures(
                        onDrag = { _, dragAmount ->
@@ -110,8 +108,8 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: Mutabl
         Row() {
 
             GameBoardSinglePlayer(playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
-                modifier = Modifier.padding(top = topBarHeight.value.dp)
-                .width(boardSizeDp.dp).height(boardSizeDp.dp)
+                modifier = Modifier.width(boardSizeDp.dp)
+                    .height(boardSizeDp.dp)
                 .pointerInput(Unit) {
                     detectDragGestures(
                         onDrag = { _, dragAmount ->
@@ -134,7 +132,7 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: Mutabl
             }
 
             BoardEditingControlButtonsHorizontalLayout(buttonHeightDp,
-                buttonWidthDp, topBarHeight.value, navController,
+                buttonWidthDp, navController,
                 playerGridViewModel,
                 !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap())
         }
@@ -296,7 +294,7 @@ fun BoardEditingControlButtonsVerticalLayout(screenHeightDp: Int, boardSizeDp: I
 
 @Composable
 fun BoardEditingControlButtonsHorizontalLayout(buttonHeightDp: Int,
-                                             buttonWidthDp: Int, topBarHeightDp: Int,
+                                             buttonWidthDp: Int,
                                                navController: NavController,
                                              playerGridViewModel: PlaneGridViewModel,
                                                doneEnabled: Boolean) {
@@ -307,8 +305,7 @@ fun BoardEditingControlButtonsHorizontalLayout(buttonHeightDp: Int,
         Column(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxHeight().width(buttonWidthDp.dp)
-                .padding(top = topBarHeightDp.dp)
-        ) {
+                ) {
             OneLineGameButton(
                 textLine = stringResource(R.string.rotate_button), playerGridViewModel,
                 modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
@@ -337,7 +334,7 @@ fun BoardEditingControlButtonsHorizontalLayout(buttonHeightDp: Int,
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxHeight().width(buttonWidthDp.dp)
         ) {
-            Spacer(modifier = Modifier.height(topBarHeightDp.dp))
+
             OneLineGameButton(
                 textLine = stringResource(R.string.done_button), playerGridViewModel,
                 modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),

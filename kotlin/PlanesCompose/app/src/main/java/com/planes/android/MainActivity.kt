@@ -7,11 +7,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -115,10 +117,6 @@ fun Screen(modifier: Modifier,
         mutableStateOf(false)
     }
 
-    val topBarHeight = remember {
-        mutableStateOf(70)
-    }
-
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp
     val screenHeightDp = configuration.screenHeightDp
@@ -143,8 +141,7 @@ fun Screen(modifier: Modifier,
         Scaffold(
             topBar = {
                 TopBar(
-                    modifier = Modifier.padding(0.dp)
-                        .height(topBarHeight.value.dp).fillMaxWidth(),
+                    modifier = Modifier.padding(0.dp).fillMaxWidth(),
                     onOpenDrawer = {
                         scope.launch {
                             drawerState.apply {
@@ -163,14 +160,13 @@ fun Screen(modifier: Modifier,
             }
         ) { padding ->
 
-            Box(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier.padding(padding).fillMaxSize()) {
                 ScreenContent(
                     modifier = Modifier.align(Alignment.Center),
                     currentTitleState = currentTitleState,
                     currentScreenState = currentScreenState,
                     showPopupState = showPopupState,
                     newMessagesState = newMessagesState,
-                    topBarHeight = topBarHeight,
                     navController = navController,
                     planeRound,
                     planeRoundMultiplayer
@@ -197,7 +193,6 @@ fun ScreenContent(modifier: Modifier, currentTitleState: MutableState<String>,
                   currentScreenState: MutableState<String>,
                   showPopupState: MutableState<Boolean>,
                   newMessagesState : MutableState<Boolean>,
-                  topBarHeight: MutableState<Int>,
                   navController: NavHostController,
                   planeRound: SinglePlayerRoundInterface,
                   planeRoundMultiplayer: MultiPlayerRoundInterface
@@ -206,7 +201,7 @@ fun ScreenContent(modifier: Modifier, currentTitleState: MutableState<String>,
     PlanesNavigation(modifier = modifier,
         currentTitleState, currentScreenState,
         showPopupState,newMessagesState,
-        topBarHeight, navController,
+        navController,
         context = LocalContext.current,
         planeRound,
         planeRoundMultiplayer)
@@ -404,7 +399,8 @@ fun TopBar(modifier: Modifier = Modifier,
                         PlanesScreens.Chat.name, PlanesScreens.Conversation.name))
                     showPopupState.value = true
             })
-        }
+        },
+        windowInsets = WindowInsets.statusBars
     )
 }
 

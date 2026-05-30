@@ -27,7 +27,6 @@ import com.planes.singleplayerengine.RoundEndStatus
 fun GameNotStartedScreenSinglePlayer(modifier: Modifier, currentTitleState: MutableState<String>,
                                      currentScreenState: MutableState<String>,
                                      showPopupState: MutableState<Boolean>,
-                                     topBarHeight: MutableState<Int>,
                                      navController: NavController,
                                      planeRound: SinglePlayerRoundInterface,
                                      playerGridViewModel: PlayerGridViewModelSinglePlayer,
@@ -44,7 +43,6 @@ fun GameNotStartedScreenSinglePlayer(modifier: Modifier, currentTitleState: Muta
     var squareSizeDp = screenWidthDp / playerGridViewModel.getColNo()
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        //squareSizeDp = (screenHeightDp - topBarHeight.value) / playerGridViewModel.getRowNo()
         squareSizeDp = screenHeightDp / playerGridViewModel.getRowNo()
     }
 
@@ -77,8 +75,8 @@ fun GameNotStartedScreenSinglePlayer(modifier: Modifier, currentTitleState: Muta
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
         Column() {
             GameBoardSinglePlayer(gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
-                modifier = Modifier.padding(top = topBarHeight.value.dp)
-                    .width(boardSizeDp.dp).height(boardSizeDp.dp)) {
+                modifier = Modifier.width(boardSizeDp.dp)
+                    .height(boardSizeDp.dp)) {
                 for (index in 0..99)
                     BoardSquareGameNotStarted(index, squareSizeDp, squareSizePx, gameBoardViewModel)
             }
@@ -189,8 +187,8 @@ fun GameNotStartedScreenSinglePlayer(modifier: Modifier, currentTitleState: Muta
     } else { //landscape
         Row() {
             GameBoardSinglePlayer(gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
-                modifier = Modifier.padding(top = topBarHeight.value.dp)
-                    .width(boardSizeDp.dp).height(boardSizeDp.dp)) {
+                modifier = Modifier.width(boardSizeDp.dp)
+                    .height(boardSizeDp.dp)) {
                 for (index in 0..99)
                     BoardSquareGameNotStarted(index, squareSizeDp, squareSizePx, gameBoardViewModel)
             }
@@ -199,8 +197,7 @@ fun GameNotStartedScreenSinglePlayer(modifier: Modifier, currentTitleState: Muta
                 horizontalArrangement = Arrangement.Center
             ) {
                 Column(
-                    modifier = Modifier.padding(top = topBarHeight.value.dp)
-                        .height(boardSizeDp.dp)
+                    modifier = Modifier.height(boardSizeDp.dp)
                         .width(refButtonWidthDp.dp * 2 / 3),
                     verticalArrangement = Arrangement.Center
                 ) {
@@ -228,8 +225,7 @@ fun GameNotStartedScreenSinglePlayer(modifier: Modifier, currentTitleState: Muta
                     }
                 }
 
-                Column( Modifier.padding(top = topBarHeight.value.dp)
-                    .height(boardSizeDp.dp)
+                Column( Modifier.height(boardSizeDp.dp)
                     .width(refButtonWidthDp.dp * 4 / 3),
                     verticalArrangement = Arrangement.Center) {
 

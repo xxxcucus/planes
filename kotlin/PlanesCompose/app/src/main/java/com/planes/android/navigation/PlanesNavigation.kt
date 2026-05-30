@@ -51,7 +51,6 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
                      currentScreenState: MutableState<String>,
                      showPopupState: MutableState<Boolean>,
                      newMessagesState: MutableState<Boolean>,
-                     topBarHeight: MutableState<Int>,
                      navController: NavHostController,
                      context: Context,
                      planeRound: SinglePlayerRoundInterface,
@@ -89,20 +88,20 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
         composable(PlanesScreens.SinglePlayerGame.name) {
            GameScreenSinglePlayer(modifier = modifier,
                currentTitleState, currentScreenState, showPopupState,
-               topBarHeight, navController = navController,
+               navController = navController,
                planeRound,
                playerGridViewModelSinglePlayer, computerGridViewModelSinglePlayer, gameStatsViewModelSinglePlayer)
         }
         composable(PlanesScreens.SinglePlayerBoardEditing.name) {
             BoardEditingScreenSinglePlayer(modifier = modifier,
                 currentTitleState, currentScreenState, showPopupState,
-                topBarHeight, navController = navController,
+                navController = navController,
                 planeRound, playerGridViewModelSinglePlayer)
         }
         composable(PlanesScreens.SinglePlayerGameNotStarted.name) {
             GameNotStartedScreenSinglePlayer(modifier = modifier,
                 currentTitleState, currentScreenState, showPopupState,
-                topBarHeight, navController = navController,
+                navController = navController,
                 planeRound,
                 playerGridViewModelSinglePlayer, computerGridViewModelSinglePlayer)
         }
@@ -128,7 +127,7 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
         composable(PlanesScreens.MultiplayerBoardEditing.name) {
             BoardEditingScreenMultiPlayer(modifier = modifier,
                 currentTitleState, currentScreenState, showPopupState,
-                topBarHeight, navController = navController,
+                navController = navController,
                 loginViewModel, createViewModel,
                 planeRoundMultiplayer, playerGridViewModelMultiPlayer,
                 computerGridViewModelMultiPlayer)
@@ -136,14 +135,14 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
         composable(PlanesScreens.MultiplayerGame.name) {
             GameScreenMultiPlayer(modifier = modifier,
                 currentTitleState, currentScreenState, showPopupState,
-                topBarHeight, navController = navController,
+                navController = navController,
                 planeRoundMultiplayer,
                 playerGridViewModelMultiPlayer, computerGridViewModelMultiPlayer, gameStatsViewModelMultiPlayer)
         }
         composable(PlanesScreens.MultiplayerGameNotStarted.name) {
             GameNotStartedScreenMultiPlayer(modifier = modifier,
                 currentTitleState, currentScreenState, showPopupState,
-                topBarHeight, navController = navController,
+                navController = navController,
                 planeRoundMultiplayer,
                 playerGridViewModelMultiPlayer, computerGridViewModelMultiPlayer)
         }

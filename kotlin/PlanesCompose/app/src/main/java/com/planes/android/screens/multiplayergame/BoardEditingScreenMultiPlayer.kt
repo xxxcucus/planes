@@ -42,7 +42,6 @@ import java.util.Date
 fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<String>,
                                   currentScreenState: MutableState<String>,
                                   showPopupState: MutableState<Boolean>,
-                                  topBarHeight: MutableState<Int>,
                                   navController: NavController,
                                   loginViewModel: LoginViewModel,
                                   createViewModel: CreateViewModel,
@@ -61,7 +60,6 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: Mutable
     var squareSizeDp = screenWidthDp / playerGridViewModel.getColNo()
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        //squareSizeDp = (screenHeightDp - topBarHeight.value) / playerGridViewModel.getRowNo()
         squareSizeDp = screenHeightDp / playerGridViewModel.getRowNo()
     }
 
@@ -109,15 +107,15 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: Mutable
 
                         Text(
                             text = errorText,
-                            modifier = Modifier.padding(top = topBarHeight.value.dp)
+                            modifier = Modifier
                         )
                     }
                 }
             } else {
                 GameBoardSinglePlayer(
                     playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
-                    modifier = Modifier.padding(top = topBarHeight.value.dp)
-                        .width(boardSizeDp.dp).height(boardSizeDp.dp)
+                    modifier = Modifier.width(boardSizeDp.dp)
+                        .height(boardSizeDp.dp)
                         .pointerInput(Unit) {
                             detectDragGestures(
                                 onDrag = { _, dragAmount ->
@@ -230,15 +228,15 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: Mutable
                         }
                         Text(
                             text = errorText,
-                            modifier = Modifier.padding(top = topBarHeight.value.dp)
+                            modifier = Modifier
                         )
                     }
                 }
             } else {
                 GameBoardSinglePlayer(
                     playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
-                    modifier = Modifier.padding(top = topBarHeight.value.dp)
-                        .width(boardSizeDp.dp).height(boardSizeDp.dp)
+                    modifier = Modifier.width(boardSizeDp.dp)
+                        .height(boardSizeDp.dp)
                         .pointerInput(Unit) {
                             detectDragGestures(
                                 onDrag = { _, dragAmount ->
@@ -305,7 +303,7 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: Mutable
                         createViewModel.setCurrentRoundId("Create", roundId)
                     }
                     BoardEditingControlButtonsHorizontalLayout(buttonHeightDp,
-                        buttonWidthDp, topBarHeight.value, navController,
+                        buttonWidthDp,  navController,
                         playerGridViewModel,
                         !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap() &&
                                 (createViewModel.getCreateState() == CreateGameStates.ConnectedComplete || createViewModel.getCreateState() == CreateGameStates.PollingForConnectionEnded)
@@ -326,7 +324,7 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: Mutable
                 } else {
                     TransferPlanePositionsHorizontalLayout(
                         screenWidthDp, boardSizeDp, buttonHeightDp,
-                        buttonWidthDp, topBarHeight.value, navController,
+                        buttonWidthDp,  navController,
                         playerGridViewModel
                     )
                 }
@@ -393,12 +391,11 @@ fun TransferPlanePositionsVerticalLayout(screenHeightDp: Int, boardSizeDp: Int, 
 
 @Composable
 fun TransferPlanePositionsHorizontalLayout(screenWidthDp: Int, boardSizeDp: Int, buttonHeightDp: Int,
-                                         buttonWidthDp: Int, topBarHeightDp: Int, navController: NavController,
+                                         buttonWidthDp: Int, navController: NavController,
                                          playerGridViewModel: PlayerGridViewModelMultiPlayer
 ) {
     Column(
-        modifier = Modifier.fillMaxHeight()
-            .padding(top = topBarHeightDp.dp),
+        modifier = Modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.Center
     ) {
 
