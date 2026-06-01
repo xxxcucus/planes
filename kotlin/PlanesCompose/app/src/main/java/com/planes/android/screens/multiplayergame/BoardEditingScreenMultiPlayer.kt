@@ -3,6 +3,7 @@ package com.planes.android.screens.multiplayergame
 import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -117,6 +118,10 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: Mutable
                     modifier = Modifier.width(boardSizeDp.dp)
                         .height(boardSizeDp.dp)
                         .pointerInput(Unit) {
+                            detectTapGestures(
+                                onLongPress = { _ -> playerGridViewModel.rotatePlane(playerGridViewModel.getSelectedPlane()) }
+                            )}
+                        .pointerInput(Unit) {
                             detectDragGestures(
                                 onDrag = { _, dragAmount ->
                                     val tripleVal = treatSwipeVertical(
@@ -140,8 +145,7 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: Mutable
                             index,
                             squareSizeDp,
                             squareSizePx,
-                            playerGridViewModel
-                        ) {
+                            playerGridViewModel) {
                             val row = index / playerGridViewModel.getColNo()
                             val col = index % playerGridViewModel.getColNo()
 
@@ -238,6 +242,10 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: Mutable
                     modifier = Modifier.width(boardSizeDp.dp)
                         .height(boardSizeDp.dp)
                         .pointerInput(Unit) {
+                            detectTapGestures(
+                                onLongPress = { _ -> playerGridViewModel.rotatePlane(playerGridViewModel.getSelectedPlane()) }
+                            )}
+                        .pointerInput(Unit) {
                             detectDragGestures(
                                 onDrag = { _, dragAmount ->
                                     val tripleVal = treatSwipeHorizontal(
@@ -260,8 +268,7 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: Mutable
                             index,
                             squareSizeDp,
                             squareSizePx,
-                            playerGridViewModel
-                        ) {
+                            playerGridViewModel) {
                             val row = index / playerGridViewModel.getColNo()
                             val col = index % playerGridViewModel.getColNo()
 

@@ -2,6 +2,7 @@ package com.planes.android.screens.singleplayergame
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -13,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -29,10 +31,11 @@ fun GridSquareBoardEditing(selectedPlane: Int,
                            backgroundColor: Color,
                            index: Int,
                            onClick: (Int) -> Unit) {
-    Canvas(modifier = Modifier.width(widthDp.dp).height(widthDp.dp).
-            clickable {
+    Canvas(modifier = Modifier.width(widthDp.dp).height(widthDp.dp)
+            .clickable {
                 onClick.invoke(index)
-            }) {
+            })
+     {
         val selected = 0
 
         val planeOverlapColor = Color.Red

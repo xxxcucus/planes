@@ -394,8 +394,8 @@ fun TopBar(modifier: Modifier = Modifier,
                     .size(28.dp).clickable {
                     if (currentScreen in listOf(PlanesScreens.SinglePlayerBoardEditing.name,
                             PlanesScreens.MultiplayerBoardEditing.name, PlanesScreens.SinglePlayerGame.name,
-                        PlanesScreens.MultiplayerGame.name, PlanesScreens.SinglePlayerGameNotStarted,
-                        PlanesScreens.MultiplayerGameNotStarted, PlanesScreens.Tutorials.name,
+                        PlanesScreens.MultiplayerGame.name, PlanesScreens.SinglePlayerGameNotStarted.name,
+                        PlanesScreens.MultiplayerGameNotStarted.name, PlanesScreens.Tutorials.name,
                         PlanesScreens.Chat.name, PlanesScreens.Conversation.name))
                     showPopupState.value = true
             })

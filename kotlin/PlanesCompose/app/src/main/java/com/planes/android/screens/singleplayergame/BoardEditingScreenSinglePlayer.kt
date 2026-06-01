@@ -3,6 +3,7 @@ package com.planes.android.screens.singleplayergame
 import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -80,24 +81,28 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: Mutabl
            GameBoardSinglePlayer(playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
                modifier = Modifier.width(boardSizeDp.dp)
                    .height(boardSizeDp.dp)
-               .pointerInput(Unit) {
-                   detectDragGestures(
-                       onDrag = { _, dragAmount ->
-                           val tripleVal = treatSwipeVertical(swipeThresh, consecSwipeThresh, swipeLengthX,
-                               swipeLengthY, squareSizePx, curTime, dragAmount, playerGridViewModel)
-                           swipeLengthX = tripleVal.first
-                           swipeLengthY = tripleVal.second
-                           curTime = tripleVal.third
-                       }
-                   )
-               }) {
-               for (index in 0..99)
+                   .pointerInput(Unit) {
+                       detectTapGestures(
+                           onLongPress = { _ -> playerGridViewModel.rotatePlane(playerGridViewModel.getSelectedPlane()) }
+                       )}
+                   .pointerInput(Unit) {
+                       detectDragGestures(
+                           onDrag = { _, dragAmount ->
+                               val tripleVal = treatSwipeVertical(swipeThresh, consecSwipeThresh, swipeLengthX,
+                                   swipeLengthY, squareSizePx, curTime, dragAmount, playerGridViewModel)
+                               swipeLengthX = tripleVal.first
+                               swipeLengthY = tripleVal.second
+                               curTime = tripleVal.third
+                           }
+                       )
+                   })
+           {
+               for (index in 0..99) {
                    BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, playerGridViewModel) {
                        val row = index / playerGridViewModel.getColNo()
                        val col = index % playerGridViewModel.getColNo()
-
-                       playerGridViewModel.setSelectedPlane(row, col)
-                   }
+                       playerGridViewModel.setSelectedPlane(row, col)}
+               }
            }
 
             BoardEditingControlButtonsVerticalLayout(screenHeightDp, boardSizeDp, buttonHeightDp,
@@ -110,23 +115,27 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: Mutabl
             GameBoardSinglePlayer(playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
                 modifier = Modifier.width(boardSizeDp.dp)
                     .height(boardSizeDp.dp)
-                .pointerInput(Unit) {
-                    detectDragGestures(
-                        onDrag = { _, dragAmount ->
-                            val tripleVal = treatSwipeHorizontal(
-                                swipeThresh, consecSwipeThresh, swipeLengthX,
-                                swipeLengthY, squareSizePx, curTime, dragAmount, playerGridViewModel
-                            )
-                            swipeLengthX = tripleVal.first
-                            swipeLengthY = tripleVal.second
-                            curTime = tripleVal.third
-                        })
-                }) {
+                    .pointerInput(Unit) {
+                        detectTapGestures(
+                            onLongPress = { _ -> playerGridViewModel.rotatePlane(playerGridViewModel.getSelectedPlane()) }
+                        )}
+                    .pointerInput(Unit) {
+                        detectDragGestures(
+                            onDrag = { _, dragAmount ->
+                                val tripleVal = treatSwipeHorizontal(
+                                    swipeThresh, consecSwipeThresh, swipeLengthX,
+                                    swipeLengthY, squareSizePx, curTime, dragAmount, playerGridViewModel
+                                )
+                                swipeLengthX = tripleVal.first
+                                swipeLengthY = tripleVal.second
+                                curTime = tripleVal.third
+                            })
+                    })
+            {
                 for (index in 0..99)
                     BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, playerGridViewModel) {
                         val row = index / playerGridViewModel.getColNo()
                         val col = index % playerGridViewModel.getColNo()
-
                         playerGridViewModel.setSelectedPlane(row, col)
                     }
             }

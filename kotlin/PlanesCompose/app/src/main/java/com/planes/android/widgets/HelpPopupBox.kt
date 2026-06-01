@@ -14,28 +14,54 @@ fun HelpPopupBox(modifier: Modifier,
                  screenWidth: Float, screenHeight: Float) {
 
     var title = ""
+    var description = ""
 
     if (currentScreenState.value == PlanesScreens.SinglePlayerBoardEditing.name) {
         title = stringResource(R.string.board_editing_stage)
+        description = """
+                ${stringResource(R.string.helptext_boardediting_1)}
+                ${stringResource(R.string.helptext_boardediting_3)}
+                ${stringResource(R.string.helptext_game_3)}
+                """.trimIndent()
+
     } else if (currentScreenState.value == PlanesScreens.MultiplayerBoardEditing.name) {
         title = stringResource(R.string.board_editing_stage)
+        description = """
+                ${stringResource(R.string.helptext_boardediting_1)}
+                ${stringResource(R.string.helptext_boardediting_3)}
+                ${stringResource(R.string.helptext_game_3)}
+                """.trimIndent()
     } else if (currentScreenState.value == PlanesScreens.SinglePlayerGame.name) {
         title = stringResource(R.string.game_stage)
+        description = stringResource(R.string.helptext_game_1)
     } else if (currentScreenState.value == PlanesScreens.MultiplayerGame.name) {
         title = stringResource(R.string.game_stage)
+        description = stringResource(R.string.helptext_game_1_opponent)
     } else if (currentScreenState.value == PlanesScreens.SinglePlayerGameNotStarted.name) {
         title = stringResource(R.string.game_not_started_stage)
+        description = stringResource(R.string.helptext_startnewgame_1)
     } else if (currentScreenState.value == PlanesScreens.MultiplayerGameNotStarted.name) {
         title = stringResource(R.string.game_not_started_stage)
+        description = stringResource(R.string.helptext_startnewgame_1)
     } else if (currentScreenState.value == PlanesScreens.Tutorials.name) {
         title = stringResource(R.string.videos)
+        description = """
+                ${stringResource(R.string.helptext_videos1)}
+                ${stringResource(R.string.helptext_videos2)}
+                ${stringResource(R.string.helptext_videos3)}
+                """.trimIndent()
     } else if (currentScreenState.value == PlanesScreens.Chat.name) {
         title = stringResource(R.string.chat)
+        description = stringResource(R.string.helptext_chat)
     } else if (currentScreenState.value == PlanesScreens.Conversation.name) {
         title = stringResource(R.string.conversation)
+        description = """
+                ${stringResource(R.string.helptext_conversation1)}
+                ${stringResource(R.string.helptext_conversation2)}
+                """.trimIndent()
     }
 
-    var description = ""
+
 
     PopupBox(modifier,
         popupWidth = screenWidth * 3.0 / 4.0, popupHeight = screenHeight / 2.0, showPopup = showPopupState.value,
