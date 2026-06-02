@@ -15,6 +15,7 @@ fun HelpPopupBox(modifier: Modifier,
 
     var title = ""
     var description = ""
+    var showVideoButton = false
 
     if (currentScreenState.value == PlanesScreens.SinglePlayerBoardEditing.name) {
         title = stringResource(R.string.board_editing_stage)
@@ -23,6 +24,7 @@ fun HelpPopupBox(modifier: Modifier,
                 ${stringResource(R.string.helptext_boardediting_3)}
                 ${stringResource(R.string.helptext_game_3)}
                 """.trimIndent()
+        showVideoButton = true
 
     } else if (currentScreenState.value == PlanesScreens.MultiplayerBoardEditing.name) {
         title = stringResource(R.string.board_editing_stage)
@@ -31,18 +33,23 @@ fun HelpPopupBox(modifier: Modifier,
                 ${stringResource(R.string.helptext_boardediting_3)}
                 ${stringResource(R.string.helptext_game_3)}
                 """.trimIndent()
+        showVideoButton = true
     } else if (currentScreenState.value == PlanesScreens.SinglePlayerGame.name) {
         title = stringResource(R.string.game_stage)
         description = stringResource(R.string.helptext_game_1)
+        showVideoButton = true
     } else if (currentScreenState.value == PlanesScreens.MultiplayerGame.name) {
         title = stringResource(R.string.game_stage)
         description = stringResource(R.string.helptext_game_1_opponent)
+        showVideoButton = true
     } else if (currentScreenState.value == PlanesScreens.SinglePlayerGameNotStarted.name) {
         title = stringResource(R.string.game_not_started_stage)
         description = stringResource(R.string.helptext_startnewgame_1)
+        showVideoButton = false
     } else if (currentScreenState.value == PlanesScreens.MultiplayerGameNotStarted.name) {
         title = stringResource(R.string.game_not_started_stage)
         description = stringResource(R.string.helptext_startnewgame_1)
+        showVideoButton = false
     } else if (currentScreenState.value == PlanesScreens.Tutorials.name) {
         title = stringResource(R.string.videos)
         description = """
@@ -50,15 +57,18 @@ fun HelpPopupBox(modifier: Modifier,
                 ${stringResource(R.string.helptext_videos2)}
                 ${stringResource(R.string.helptext_videos3)}
                 """.trimIndent()
+        showVideoButton = false
     } else if (currentScreenState.value == PlanesScreens.Chat.name) {
         title = stringResource(R.string.chat)
         description = stringResource(R.string.helptext_chat)
+        showVideoButton = false
     } else if (currentScreenState.value == PlanesScreens.Conversation.name) {
         title = stringResource(R.string.conversation)
         description = """
                 ${stringResource(R.string.helptext_conversation1)}
                 ${stringResource(R.string.helptext_conversation2)}
                 """.trimIndent()
+        showVideoButton = false
     }
 
 
@@ -66,9 +76,13 @@ fun HelpPopupBox(modifier: Modifier,
     PopupBox(modifier,
         popupWidth = screenWidth * 3.0 / 4.0, popupHeight = screenHeight / 2.0, showPopup = showPopupState.value,
         onClickOutside = { showPopupState.value = false }
-        ) { TextPopupWithButton(title = title,
-        description = description,
-            "See More")}
+        ) {
+        if (showVideoButton)
+            TextPopupWithButton(title = title, description = description,
+            stringResource(R.string.popup_help_button_text))
+        else
+            TextPopupWithoutButton(title = title, description = description)
+    }
 }
 
 /*
