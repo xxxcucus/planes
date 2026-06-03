@@ -178,7 +178,8 @@ fun Screen(modifier: Modifier,
                     currentScreenState = currentScreenState,
                     showPopupState = showPopupState,
                     screenWidth = screenWidthDp.toFloat(),
-                    screenHeight = screenHeightDp.toFloat()
+                    screenHeight = screenHeightDp.toFloat(),
+                    navController = navController
                 )
 
             }

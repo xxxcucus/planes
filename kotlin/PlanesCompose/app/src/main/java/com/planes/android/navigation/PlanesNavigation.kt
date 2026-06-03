@@ -157,9 +157,15 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
                 context = context,
                 aboutEntryList = AboutEntryRepository.create("0.1", context = context))
         }
-        composable(PlanesScreens.Tutorials.name) {
+        composable("${PlanesScreens.Tutorials.name}/{videoId}/{time}",
+            arguments = listOf(
+                navArgument("videoId") { type = NavType.IntType },
+                navArgument("time") { type = NavType.IntType })) { entry ->
+
+            val videoId = entry.arguments?.getInt("videoId")!!
+            val time = entry.arguments?.getInt("time")!!
             VideoScreen(modifier = modifier, currentTitleState, currentScreenState,
-                showPopupState, navController = navController)
+                showPopupState, videoId, time, navController = navController)
             //PlayerRoute(modifier = modifier)
         }
         composable(PlanesScreens.Login.name) {

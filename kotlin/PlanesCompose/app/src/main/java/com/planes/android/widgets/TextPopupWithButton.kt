@@ -12,9 +12,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.planes.android.navigation.PlanesScreens
 
 @Composable
-fun TextPopupWithButton(title: String, description: String, buttonText: String) {
+fun TextPopupWithButton(title: String, description: String, buttonText: String,
+                        videoId: Int, navController: NavHostController) {
     Column( modifier = Modifier.wrapContentHeight().
     fillMaxWidth().padding(15.dp)) {
         Text(text = title,
@@ -28,7 +31,8 @@ fun TextPopupWithButton(title: String, description: String, buttonText: String) 
         )
         Button(
             onClick = {
-                //TODO:
+                val time = 0
+                navController.navigate(route = "${PlanesScreens.Tutorials.name}/${videoId}/${time}")
             },
             modifier = Modifier.align(Alignment.End)
         ) {

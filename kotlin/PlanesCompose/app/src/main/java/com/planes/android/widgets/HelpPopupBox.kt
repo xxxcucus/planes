@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavHostController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 
@@ -11,11 +12,14 @@ import com.planes.android.navigation.PlanesScreens
 fun HelpPopupBox(modifier: Modifier,
                  currentScreenState: MutableState<String>,
                  showPopupState: MutableState<Boolean>,
-                 screenWidth: Float, screenHeight: Float) {
+                 screenWidth: Float, screenHeight: Float,
+                 navController: NavHostController
+) {
 
     var title = ""
     var description = ""
     var showVideoButton = false
+    var videoId = 0
 
     if (currentScreenState.value == PlanesScreens.SinglePlayerBoardEditing.name) {
         title = stringResource(R.string.board_editing_stage)
@@ -25,6 +29,7 @@ fun HelpPopupBox(modifier: Modifier,
                 ${stringResource(R.string.helptext_game_3)}
                 """.trimIndent()
         showVideoButton = true
+        videoId = R.raw.positioning
 
     } else if (currentScreenState.value == PlanesScreens.MultiplayerBoardEditing.name) {
         title = stringResource(R.string.board_editing_stage)
@@ -34,14 +39,17 @@ fun HelpPopupBox(modifier: Modifier,
                 ${stringResource(R.string.helptext_game_3)}
                 """.trimIndent()
         showVideoButton = true
+        videoId = R.raw.positioning
     } else if (currentScreenState.value == PlanesScreens.SinglePlayerGame.name) {
         title = stringResource(R.string.game_stage)
         description = stringResource(R.string.helptext_game_1)
         showVideoButton = true
+        videoId = R.raw.guessing
     } else if (currentScreenState.value == PlanesScreens.MultiplayerGame.name) {
         title = stringResource(R.string.game_stage)
         description = stringResource(R.string.helptext_game_1_opponent)
         showVideoButton = true
+        videoId = R.raw.guessing
     } else if (currentScreenState.value == PlanesScreens.SinglePlayerGameNotStarted.name) {
         title = stringResource(R.string.game_not_started_stage)
         description = stringResource(R.string.helptext_startnewgame_1)
@@ -79,7 +87,7 @@ fun HelpPopupBox(modifier: Modifier,
         ) {
         if (showVideoButton)
             TextPopupWithButton(title = title, description = description,
-            stringResource(R.string.popup_help_button_text))
+            stringResource(R.string.popup_help_button_text), videoId, navController)
         else
             TextPopupWithoutButton(title = title, description = description)
     }

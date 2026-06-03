@@ -44,6 +44,7 @@ import com.planes.android.navigation.PlanesScreens
 fun VideoScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                 currentScreenState: MutableState<String>,
                 showPopupState: MutableState<Boolean>,
+                videoId: Int, time: Int,
                 navController: NavController, viewModel: VideoViewModel = hiltViewModel()) {
 
     currentTitleState.value = stringResource(R.string.videos)
@@ -70,7 +71,7 @@ fun VideoScreen(modifier: Modifier, currentTitleState: MutableState<String>,
     }
 
     val currentVideoState = rememberSaveable {
-        mutableStateOf(R.raw.guessing)
+        mutableStateOf(videoId)
     }
 
     val context = LocalContext.current
