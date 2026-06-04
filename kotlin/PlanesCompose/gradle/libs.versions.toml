@@ -29,6 +29,7 @@ ui = "1.11.0"
 room = "2.7.1"
 foundationLayout = "1.11.2"
 
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

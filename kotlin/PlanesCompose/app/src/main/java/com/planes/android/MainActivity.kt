@@ -336,7 +336,9 @@ fun DrawerContent(modifier: Modifier = Modifier,
             drawerScope.launch {
                 drawerState.close()
             }
-            navController.navigate(route = PlanesScreens.Tutorials.name)
+            val videoId = R.raw.guessing
+            val time = 0
+            navController.navigate(route = "${PlanesScreens.Tutorials.name}/${videoId}/${time}")
         })
 
         DrawerMenuItemGeneric("Preferences", {

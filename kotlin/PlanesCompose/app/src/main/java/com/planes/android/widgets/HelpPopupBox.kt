@@ -62,7 +62,6 @@ fun HelpPopupBox(modifier: Modifier,
         title = stringResource(R.string.videos)
         description = """
                 ${stringResource(R.string.helptext_videos1)}
-                ${stringResource(R.string.helptext_videos2)}
                 ${stringResource(R.string.helptext_videos3)}
                 """.trimIndent()
         showVideoButton = false
