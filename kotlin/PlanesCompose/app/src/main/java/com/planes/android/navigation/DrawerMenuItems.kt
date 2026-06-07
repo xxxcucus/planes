@@ -11,18 +11,28 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.planes.android.R
 
 @Composable
-fun DrawerMenuItemGeneric(name: String, onClickAction: () -> Unit) {
+fun DrawerMenuItemGeneric(name: String, iconId: Int, onClickAction: () -> Unit) {
     NavigationDrawerItem(
         icon = {
-            Icon(
+            /*Icon(
                 imageVector = Icons.Default.Notifications,
                 contentDescription = "Navigation Icon",
                 modifier = Modifier.padding(start = 16.dp, end = 8.dp)
                     .size(28.dp)
+            )*/
+
+            Icon(
+                painter = painterResource(id = iconId),
+                contentDescription = "Star",
+                Modifier
+                    .size(50.dp)
+                    .padding(start = 16.dp, end = 8.dp)
             )
         },
         label = {

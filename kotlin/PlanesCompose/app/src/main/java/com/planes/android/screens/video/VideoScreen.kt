@@ -6,11 +6,14 @@ import android.util.Log
 import android.view.ViewGroup
 import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -53,6 +56,8 @@ fun VideoScreen(modifier: Modifier, currentTitleState: MutableState<String>,
 
     val configuration = LocalConfiguration.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    val screenWidthDp = configuration.screenWidthDp
+    val buttonWidth = screenWidthDp / 3
 
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
@@ -88,14 +93,28 @@ fun VideoScreen(modifier: Modifier, currentTitleState: MutableState<String>,
 
                 Column(verticalArrangement = Arrangement.spacedBy(1.dp)) {
                     VideoPlayer(currentVideoState.value, viewModel)
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        verticalArrangement = Arrangement.spacedBy(1.dp),
-                        horizontalArrangement = Arrangement.spacedBy(1.dp),
-                        contentPadding = PaddingValues(1.dp)
+
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)              // Take all remaining space
+                            .fillMaxWidth(0.83f).
+                        padding(start = (buttonWidth / 2).dp),
+                        contentAlignment = Alignment.Center,
                     ) {
-                        items(items = viewModel.getVideoModelList()) { entry ->
-                            VideoButton(entry, currentVideoState, Modifier.width(200.dp).height(100.dp))
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(2),
+                            verticalArrangement = Arrangement.spacedBy(1.dp),
+                            horizontalArrangement = Arrangement.spacedBy(1.dp),
+                            contentPadding = PaddingValues(1.dp)
+                        ) {
+                            items(items = viewModel.getVideoModelList()) { entry ->
+                                VideoButton(
+                                    entry,
+                                    currentVideoState,
+                                    modifier = Modifier.width(buttonWidth.dp).
+                                    height(100.dp)
+                                )
+                            }
                         }
                     }
                 }
@@ -103,7 +122,6 @@ fun VideoScreen(modifier: Modifier, currentTitleState: MutableState<String>,
             else -> {
                 Row() {
                     Column(verticalArrangement = Arrangement.spacedBy(1.dp)) {
-                        Spacer(modifier = Modifier)
                         LazyColumn(
                             verticalArrangement = Arrangement.spacedBy(1.dp),
                             contentPadding = PaddingValues(

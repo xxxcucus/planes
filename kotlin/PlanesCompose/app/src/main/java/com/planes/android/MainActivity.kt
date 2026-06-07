@@ -43,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -237,28 +238,32 @@ fun DrawerContent(modifier: Modifier = Modifier,
             style = MaterialTheme.typography.titleLarge
         )
 
-        DrawerMenuItemGeneric("Login / Logout", {
+        DrawerMenuItemGeneric("Login / Logout", R.drawable.ic_baseline_login_24,
+            {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.Login.name)
         })
 
-        DrawerMenuItemGeneric("Register", {
+        DrawerMenuItemGeneric("Register", R.drawable.ic_baseline_recent_actors_24,
+            {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.Register.name)
         })
 
-        DrawerMenuItemGeneric("Chat", {
+        DrawerMenuItemGeneric("Chat", R.drawable.ic_baseline_toc_24,
+            {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.Chat.name)
         })
 
-        DrawerMenuItemGeneric("Delete User", {
+        DrawerMenuItemGeneric("Delete User", R.drawable.baseline_delete_24,
+            {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -271,7 +276,8 @@ fun DrawerContent(modifier: Modifier = Modifier,
             style = MaterialTheme.typography.titleLarge
         )
 
-        DrawerMenuItemGeneric("Single Player Game", {
+        DrawerMenuItemGeneric("Single Player Game", R.drawable.ic_baseline_sports_basketball_24,
+            {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -286,21 +292,24 @@ fun DrawerContent(modifier: Modifier = Modifier,
 
 
 
-        DrawerMenuItemGeneric("Single Player Game Statistics", {
+        DrawerMenuItemGeneric("Single Player Game Statistics", R.drawable.ic_baseline_assessment_24,
+            {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.SinglePlayerGameStatistics.name)
         })
 
-        DrawerMenuItemGeneric("Create Multiplayer Game", {
+        DrawerMenuItemGeneric("Create Multiplayer Game",  R.drawable.ic_baseline_add_circle_24,
+            {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.CreateMultiplayerGame.name)
         })
 
-        DrawerMenuItemGeneric("Multiplayer Game", {
+        DrawerMenuItemGeneric("Multiplayer Game", R.drawable.ic_baseline_sports_basketball_24,
+            {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -312,7 +321,8 @@ fun DrawerContent(modifier: Modifier = Modifier,
                 navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
         })
 
-        DrawerMenuItemGeneric("Multiplayer Game Statistics", {
+        DrawerMenuItemGeneric("Multiplayer Game Statistics", R.drawable.ic_baseline_assessment_24,
+            {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -325,14 +335,16 @@ fun DrawerContent(modifier: Modifier = Modifier,
             style = MaterialTheme.typography.titleLarge
         )
 
-        DrawerMenuItemGeneric("About", {
+        DrawerMenuItemGeneric("About", R.drawable.ic_baseline_toc_24,
+            {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.Info.name)
         })
 
-        DrawerMenuItemGeneric("Tutorials", {
+        DrawerMenuItemGeneric("Tutorials", R.drawable.ic_baseline_video_library_24,
+            {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -341,7 +353,8 @@ fun DrawerContent(modifier: Modifier = Modifier,
             navController.navigate(route = "${PlanesScreens.Tutorials.name}/${videoId}/${time}")
         })
 
-        DrawerMenuItemGeneric("Preferences", {
+        DrawerMenuItemGeneric("Preferences", R.drawable.ic_baseline_app_settings_alt_24,
+            {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -386,22 +399,30 @@ fun TopBar(modifier: Modifier = Modifier,
                 )
             }
             Icon(
-                imageVector = Icons.Default.AccountBox,
-                contentDescription = "Navigation Icon",
-                modifier = Modifier.padding(start = 16.dp, end = 8.dp).size(28.dp)
+                painter = painterResource(id = R.drawable.ic_baseline_assessment_24),
+                contentDescription = "Star",
+                Modifier
+                    .size(50.dp)
+                    .padding(start = 16.dp, end = 8.dp)
+                    .clickable {
+                    }
             )
+
             Icon(
-                imageVector = Icons.Default.Notifications,
-                contentDescription = "Navigation Icon",
-                modifier = Modifier.padding(start = 16.dp, end = 8.dp)
-                    .size(28.dp).clickable {
-                    if (currentScreen in listOf(PlanesScreens.SinglePlayerBoardEditing.name,
-                            PlanesScreens.MultiplayerBoardEditing.name, PlanesScreens.SinglePlayerGame.name,
-                        PlanesScreens.MultiplayerGame.name, PlanesScreens.SinglePlayerGameNotStarted.name,
-                        PlanesScreens.MultiplayerGameNotStarted.name, PlanesScreens.Tutorials.name,
-                        PlanesScreens.Chat.name, PlanesScreens.Conversation.name))
-                    showPopupState.value = true
-            })
+                painter = painterResource(id = R.drawable.ic_menu_help),
+                contentDescription = "Star",
+                Modifier
+                    .size(50.dp)
+                    .padding(start = 16.dp, end = 8.dp)
+                    .clickable {
+                        if (currentScreen in listOf(PlanesScreens.SinglePlayerBoardEditing.name,
+                                PlanesScreens.MultiplayerBoardEditing.name, PlanesScreens.SinglePlayerGame.name,
+                                PlanesScreens.MultiplayerGame.name, PlanesScreens.SinglePlayerGameNotStarted.name,
+                                PlanesScreens.MultiplayerGameNotStarted.name, PlanesScreens.Tutorials.name,
+                                PlanesScreens.Chat.name, PlanesScreens.Conversation.name))
+                            showPopupState.value = true
+                    }
+            )
         },
         windowInsets = WindowInsets.statusBars
     )

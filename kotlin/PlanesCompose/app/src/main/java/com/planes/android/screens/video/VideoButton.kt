@@ -36,7 +36,7 @@ fun VideoButton(entry: VideoModel, currentVideoState: MutableState<Int>, modifie
     val context = LocalContext.current
 
     Card(
-        modifier.padding(1.dp).combinedClickable(
+        modifier.combinedClickable(
             onClick = { currentVideoState.value = entry.getVideoId() },
             onLongClick = { playLinkInYoutube(entry.getYoutubeLink(), context)}
         ).wrapContentHeight(),
