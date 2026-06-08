@@ -51,6 +51,7 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
                      currentScreenState: MutableState<String>,
                      showPopupState: MutableState<Boolean>,
                      newMessagesState: MutableState<Boolean>,
+                     userLoggedInState: MutableState<Boolean>,
                      navController: NavHostController,
                      context: Context,
                      planeRound: SinglePlayerRoundInterface,
@@ -170,7 +171,7 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
         }
         composable(PlanesScreens.Login.name) {
             LoginScreen(modifier = modifier, currentTitleState, currentScreenState,
-                showPopupState, navController = navController,
+                showPopupState, userLoggedInState, navController = navController,
                 loginViewModel, chatUserListViewModel)
         }
         composable(PlanesScreens.Register.name) {

@@ -39,6 +39,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -102,19 +103,23 @@ fun Screen(modifier: Modifier,
         initialValue = DrawerValue.Closed
     )
 
-    val currentTitleState = remember {
+    val currentTitleState = rememberSaveable {
         mutableStateOf("About")
     }
 
-    val currentScreenState = remember {
+    val currentScreenState = rememberSaveable {
         mutableStateOf(PlanesScreens.Info.name)
     }
 
-    val showPopupState = remember {
+    val showPopupState = rememberSaveable {
         mutableStateOf(false)
     }
 
-    val newMessagesState = remember {
+    val newMessagesState = rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    val userLoggedInState = rememberSaveable {
         mutableStateOf(false)
     }
 
@@ -133,7 +138,8 @@ fun Screen(modifier: Modifier,
                     drawerScope = scope,
                     drawerState = drawerState,
                     planeRound = planeRound,
-                    planeRoundMultiplayer = planeRoundMultiplayer
+                    planeRoundMultiplayer = planeRoundMultiplayer,
+                    userLoggedInState = userLoggedInState
                 )
             }
         },
@@ -168,6 +174,7 @@ fun Screen(modifier: Modifier,
                     currentScreenState = currentScreenState,
                     showPopupState = showPopupState,
                     newMessagesState = newMessagesState,
+                    userLoggedInState = userLoggedInState,
                     navController = navController,
                     planeRound,
                     planeRoundMultiplayer
@@ -195,6 +202,7 @@ fun ScreenContent(modifier: Modifier, currentTitleState: MutableState<String>,
                   currentScreenState: MutableState<String>,
                   showPopupState: MutableState<Boolean>,
                   newMessagesState : MutableState<Boolean>,
+                  userLoggedInState : MutableState<Boolean>,
                   navController: NavHostController,
                   planeRound: SinglePlayerRoundInterface,
                   planeRoundMultiplayer: MultiPlayerRoundInterface
@@ -202,7 +210,7 @@ fun ScreenContent(modifier: Modifier, currentTitleState: MutableState<String>,
 
     PlanesNavigation(modifier = modifier,
         currentTitleState, currentScreenState,
-        showPopupState,newMessagesState,
+        showPopupState,newMessagesState, userLoggedInState,
         navController,
         context = LocalContext.current,
         planeRound,
@@ -215,7 +223,8 @@ fun DrawerContent(modifier: Modifier = Modifier,
                   drawerScope: CoroutineScope,
                   drawerState: DrawerState,
                   planeRound: SinglePlayerRoundInterface,
-                  planeRoundMultiplayer: MultiPlayerRoundInterface
+                  planeRoundMultiplayer: MultiPlayerRoundInterface,
+                  userLoggedInState: MutableState<Boolean>
                   ) {
     //TODO: page names from resources
 
@@ -239,7 +248,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
         )
 
         DrawerMenuItemGeneric("Login / Logout", R.drawable.ic_baseline_login_24,
-            {
+            true, {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -247,7 +256,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
         })
 
         DrawerMenuItemGeneric("Register", R.drawable.ic_baseline_recent_actors_24,
-            {
+            true, {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -255,7 +264,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
         })
 
         DrawerMenuItemGeneric("Chat", R.drawable.ic_baseline_toc_24,
-            {
+            userLoggedInState.value, {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -263,7 +272,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
         })
 
         DrawerMenuItemGeneric("Delete User", R.drawable.baseline_delete_24,
-            {
+            userLoggedInState.value, {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -277,7 +286,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
         )
 
         DrawerMenuItemGeneric("Single Player Game", R.drawable.ic_baseline_sports_basketball_24,
-            {
+            true, {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -293,7 +302,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
 
 
         DrawerMenuItemGeneric("Single Player Game Statistics", R.drawable.ic_baseline_assessment_24,
-            {
+            true, {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -301,7 +310,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
         })
 
         DrawerMenuItemGeneric("Create Multiplayer Game",  R.drawable.ic_baseline_add_circle_24,
-            {
+            userLoggedInState.value, {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -309,7 +318,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
         })
 
         DrawerMenuItemGeneric("Multiplayer Game", R.drawable.ic_baseline_sports_basketball_24,
-            {
+            userLoggedInState.value, {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -322,7 +331,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
         })
 
         DrawerMenuItemGeneric("Multiplayer Game Statistics", R.drawable.ic_baseline_assessment_24,
-            {
+            userLoggedInState.value, {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -336,7 +345,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
         )
 
         DrawerMenuItemGeneric("About", R.drawable.ic_baseline_toc_24,
-            {
+            true, {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -344,7 +353,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
         })
 
         DrawerMenuItemGeneric("Tutorials", R.drawable.ic_baseline_video_library_24,
-            {
+            true, {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -354,7 +363,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
         })
 
         DrawerMenuItemGeneric("Preferences", R.drawable.ic_baseline_app_settings_alt_24,
-            {
+            true,{
             drawerScope.launch {
                 drawerState.close()
             }
@@ -400,7 +409,7 @@ fun TopBar(modifier: Modifier = Modifier,
             }
             Icon(
                 painter = painterResource(id = R.drawable.ic_baseline_assessment_24),
-                contentDescription = "Star",
+                contentDescription = "Statistics",
                 Modifier
                     .size(50.dp)
                     .padding(start = 16.dp, end = 8.dp)
@@ -410,7 +419,7 @@ fun TopBar(modifier: Modifier = Modifier,
 
             Icon(
                 painter = painterResource(id = R.drawable.ic_menu_help),
-                contentDescription = "Star",
+                contentDescription = "Help",
                 Modifier
                     .size(50.dp)
                     .padding(start = 16.dp, end = 8.dp)

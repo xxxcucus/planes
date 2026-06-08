@@ -34,6 +34,7 @@ import com.planes.android.widgets.PasswordInputFieldWithViewModel
 fun LoginScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                 currentScreenState: MutableState<String>,
                 showPopupState: MutableState<Boolean>,
+                userLoginState: MutableState<Boolean>,
                 navController: NavController,
                 loginViewModel: LoginViewModel,
                 chatUserListViewModel: ChatUserListViewModel) {
@@ -47,6 +48,8 @@ fun LoginScreen(modifier: Modifier, currentTitleState: MutableState<String>,
     val submitClickedState = rememberSaveable {
         mutableStateOf(false)
     }
+
+    userLoginState.value = loginViewModel.isLoggedIn()
 
     //TODO: validation
     //TODO: when logged in save the last login credentials into preferences
