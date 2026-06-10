@@ -45,6 +45,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -104,11 +105,11 @@ fun Screen(modifier: Modifier,
     )
 
     val currentTitleState = rememberSaveable {
-        mutableStateOf("About")
+        mutableStateOf(PlanesScreens.Login.name)
     }
 
     val currentScreenState = rememberSaveable {
-        mutableStateOf(PlanesScreens.Info.name)
+        mutableStateOf(PlanesScreens.Login.name)
     }
 
     val showPopupState = rememberSaveable {
@@ -121,6 +122,10 @@ fun Screen(modifier: Modifier,
 
     val userLoggedInState = rememberSaveable {
         mutableStateOf(false)
+    }
+
+    val splashScreenState = rememberSaveable() {
+        mutableStateOf(true)
     }
 
     val configuration = LocalConfiguration.current
@@ -146,24 +151,27 @@ fun Screen(modifier: Modifier,
         gesturesEnabled = true
     ) {
         Scaffold(
+
             topBar = {
-                TopBar(
-                    modifier = Modifier.padding(0.dp).fillMaxWidth(),
-                    onOpenDrawer = {
-                        scope.launch {
-                            drawerState.apply {
-                                if (isClosed)
-                                    open()
-                                else
-                                    close()
+                if (!splashScreenState.value) {
+                    TopBar(
+                        modifier = Modifier.padding(0.dp).fillMaxWidth(),
+                        onOpenDrawer = {
+                            scope.launch {
+                                drawerState.apply {
+                                    if (isClosed)
+                                        open()
+                                    else
+                                        close()
+                                }
                             }
-                        }
-                    },
-                    title = currentTitleState.value,
-                    currentScreen = currentScreenState.value,
-                    newMessages = newMessagesState.value,
-                    showPopupState = showPopupState
-                )
+                        },
+                        title = currentTitleState.value,
+                        currentScreen = currentScreenState.value,
+                        newMessages = newMessagesState.value,
+                        showPopupState = showPopupState
+                    )
+                }
             }
         ) { padding ->
 
@@ -175,6 +183,7 @@ fun Screen(modifier: Modifier,
                     showPopupState = showPopupState,
                     newMessagesState = newMessagesState,
                     userLoggedInState = userLoggedInState,
+                    splashScreenState = splashScreenState,
                     navController = navController,
                     planeRound,
                     planeRoundMultiplayer
@@ -203,6 +212,7 @@ fun ScreenContent(modifier: Modifier, currentTitleState: MutableState<String>,
                   showPopupState: MutableState<Boolean>,
                   newMessagesState : MutableState<Boolean>,
                   userLoggedInState : MutableState<Boolean>,
+                  splashScreenState: MutableState<Boolean>,
                   navController: NavHostController,
                   planeRound: SinglePlayerRoundInterface,
                   planeRoundMultiplayer: MultiPlayerRoundInterface
@@ -211,6 +221,7 @@ fun ScreenContent(modifier: Modifier, currentTitleState: MutableState<String>,
     PlanesNavigation(modifier = modifier,
         currentTitleState, currentScreenState,
         showPopupState,newMessagesState, userLoggedInState,
+        splashScreenState,
         navController,
         context = LocalContext.current,
         planeRound,

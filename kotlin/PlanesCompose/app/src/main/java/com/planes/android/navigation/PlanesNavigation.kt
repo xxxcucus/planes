@@ -41,6 +41,7 @@ import com.planes.android.screens.singleplayergame.GameNotStartedScreenSinglePla
 import com.planes.android.screens.singleplayergame.GameScreenSinglePlayer
 import com.planes.android.screens.singleplayergame.GameStatsViewModelSinglePlayer
 import com.planes.android.screens.singleplayergame.PlayerGridViewModelSinglePlayer
+import com.planes.android.screens.splash.SplashScreen
 import com.planes.android.screens.video.VideoScreen
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import com.planes.singleplayerengine.SinglePlayerRoundInterface
@@ -52,6 +53,7 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
                      showPopupState: MutableState<Boolean>,
                      newMessagesState: MutableState<Boolean>,
                      userLoggedInState: MutableState<Boolean>,
+                     splashScreenState: MutableState<Boolean>,
                      navController: NavHostController,
                      context: Context,
                      planeRound: SinglePlayerRoundInterface,
@@ -85,7 +87,12 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
 
     NavHost(
         navController = navController,
-        startDestination = PlanesScreens.Login.name) {
+        startDestination = PlanesScreens.SplashScreen.name) {
+
+        composable(PlanesScreens.SplashScreen.name) {
+            SplashScreen(navController = navController, splashScreenState)
+        }
+
         composable(PlanesScreens.SinglePlayerGame.name) {
            GameScreenSinglePlayer(modifier = modifier,
                currentTitleState, currentScreenState, showPopupState,
