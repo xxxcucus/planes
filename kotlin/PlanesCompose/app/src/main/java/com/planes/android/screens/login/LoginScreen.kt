@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -27,8 +28,10 @@ import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.screens.chat.ChatUserListViewModel
+import com.planes.android.screens.preferences.PreferencesViewModel
 import com.planes.android.widgets.CommonTextFieldWithViewModel
 import com.planes.android.widgets.PasswordInputFieldWithViewModel
+import kotlinx.coroutines.delay
 
 @Composable
 fun LoginScreen(modifier: Modifier, currentTitleState: MutableState<String>,
@@ -37,7 +40,17 @@ fun LoginScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                 userLoginState: MutableState<Boolean>,
                 navController: NavController,
                 loginViewModel: LoginViewModel,
-                chatUserListViewModel: ChatUserListViewModel) {
+                chatUserListViewModel: ChatUserListViewModel,
+                optionsViewModel: PreferencesViewModel,
+                autologin: Boolean) {
+
+    LaunchedEffect(Unit) {
+        if (autologin) {
+            loginViewModel.setPassword(optionsViewModel.getPassword())
+            loginViewModel.setUserName(optionsViewModel.getUserName())
+            loginViewModel.login()
+        }
+    }
 
     currentTitleState.value = stringResource(R.string.login)
     currentScreenState.value  = PlanesScreens.Login.name
@@ -49,10 +62,13 @@ fun LoginScreen(modifier: Modifier, currentTitleState: MutableState<String>,
         mutableStateOf(false)
     }
 
+    val savedCredentialsState = rememberSaveable {
+        mutableStateOf(false)
+    }
+
     userLoginState.value = loginViewModel.isLoggedIn()
 
     //TODO: validation
-    //TODO: when logged in save the last login credentials into preferences
     //TODO: reset round when logging in as a different user
 
     Column(modifier = modifier.fillMaxSize().verticalScroll(state = scrollState),
@@ -60,6 +76,14 @@ fun LoginScreen(modifier: Modifier, currentTitleState: MutableState<String>,
         horizontalAlignment = Alignment.CenterHorizontally) {
 
         if (loginViewModel.isLoggedIn()) {
+
+            if (!savedCredentialsState.value) {
+                optionsViewModel.setUserName(loginViewModel.getUserName())
+                optionsViewModel.setPassword(loginViewModel.getPassword())
+                savedCredentialsState.value = true
+            }
+
+
             Text(text = stringResource(R.string.userloggedin) + " " + loginViewModel.getLoggedInUserName())
 
             Button(
@@ -72,9 +96,9 @@ fun LoginScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                 Text(text = stringResource(R.string.logout))
             }
 
-            if (submitClickedState.value && loginViewModel.getLoading()) {
+            if ((autologin || submitClickedState.value) && loginViewModel.getLoading()) {
                 Text(text = stringResource(R.string.loader_text))
-            } else if (submitClickedState.value) {
+            } else if ((autologin || submitClickedState.value)) {
                 val error = loginViewModel.getError()
                 if (error == null) {
                     Toast.makeText(
@@ -87,6 +111,8 @@ fun LoginScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                     chatUserListViewModel.pollForChatMessages(loginViewModel.getLoggedInToken()!!,
                         loginViewModel.getLoggedInUserId()!!, loginViewModel.getLoggedInUserName()!!)
                     chatUserListViewModel.pollForNewMessagesFlags()
+
+                    navController.navigate(route = PlanesScreens.Chat.name)
 
                 } else {
                     Toast.makeText(

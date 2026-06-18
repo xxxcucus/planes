@@ -23,7 +23,9 @@ import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import javax.inject.Singleton
 
+@Singleton
 interface PlanesGameApi {
     @POST("game/status")
     @Headers("Content-Type: application/json")

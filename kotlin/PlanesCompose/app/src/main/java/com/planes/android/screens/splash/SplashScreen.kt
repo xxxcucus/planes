@@ -9,6 +9,9 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,16 +22,33 @@ import com.planes.android.navigation.PlanesScreens
 import kotlinx.coroutines.delay
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import com.planes.android.R
+import com.planes.android.screens.preferences.PreferencesViewModel
 
 
 @Composable
-fun SplashScreen(navController: NavController, splashScreenState: MutableState<Boolean>) {
+fun SplashScreen(navController: NavController, splashScreenState: MutableState<Boolean>,
+                 optionsViewModel: PreferencesViewModel,
+                 viewModel: SplashScreenViewModel = hiltViewModel()
+) {
 
     LaunchedEffect(Unit) {
         delay(2000)
+        viewModel.checkPlanesVersion()
+    }
+
+    if (viewModel.isCheckEnded()) {
         splashScreenState.value = false
-        navController.navigate(PlanesScreens.Login.name)
+        if (viewModel.isServerOnline()) {
+            var autologin = false
+            if (!optionsViewModel.getPassword().trim().isEmpty() && !optionsViewModel.getUserName().trim().isEmpty())
+                autologin = true
+            navController.navigate(route = "${PlanesScreens.Login.name}/${autologin}")
+        } else {
+            navController.navigate(PlanesScreens.SinglePlayerBoardEditing.name)
+        }
     }
 
     val configuration = LocalConfiguration.current

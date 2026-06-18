@@ -32,6 +32,9 @@ class PreferencesViewModel @Inject constructor(
     private var m_UserName = mutableStateOf("")
     private var m_Password = mutableStateOf("")
 
+    private var m_UsernameSaved = mutableStateOf(false)
+    private var m_PasswordSaved = mutableStateOf(false)
+
     fun getComputerSkill(): Int {
         return m_ComputerSkill.value
     }
@@ -64,13 +67,20 @@ class PreferencesViewModel @Inject constructor(
         return m_UserName.value
     }
 
+    fun getUsernameSaved(): Boolean {
+        return m_UsernameSaved.value
+    }
     fun setUserName(value: String) {
         m_UserName.value = value
 
+
+
         viewModelScope.launch {
+            m_UsernameSaved.value = false
             dataStore.edit { prefs ->
                 prefs[USERNAME] = value
             }
+            m_UsernameSaved.value = true
         }
     }
 
@@ -78,13 +88,19 @@ class PreferencesViewModel @Inject constructor(
         return m_Password.value
     }
 
+    fun getPasswordSaved(): Boolean {
+        return m_PasswordSaved.value
+    }
+
     fun setPassword(value: String) {
         m_Password.value = value
 
         viewModelScope.launch {
+            m_PasswordSaved.value = false
             dataStore.edit { prefs ->
                 prefs[PASSWORD] = value
             }
+            m_PasswordSaved.value = true
         }
     }
 

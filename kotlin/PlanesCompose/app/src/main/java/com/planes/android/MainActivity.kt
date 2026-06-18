@@ -263,7 +263,8 @@ fun DrawerContent(modifier: Modifier = Modifier,
             drawerScope.launch {
                 drawerState.close()
             }
-            navController.navigate(route = PlanesScreens.Login.name)
+            val autologin = false
+            navController.navigate(route = "${PlanesScreens.Login.name}/$autologin")
         })
 
         DrawerMenuItemGeneric("Register", R.drawable.ic_baseline_recent_actors_24,

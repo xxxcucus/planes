@@ -90,7 +90,7 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
         startDestination = PlanesScreens.SplashScreen.name) {
 
         composable(PlanesScreens.SplashScreen.name) {
-            SplashScreen(navController = navController, splashScreenState)
+            SplashScreen(navController = navController, splashScreenState, optionsViewModel)
         }
 
         composable(PlanesScreens.SinglePlayerGame.name) {
@@ -176,10 +176,15 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
                 showPopupState, videoId, time, navController = navController)
             //PlayerRoute(modifier = modifier)
         }
-        composable(PlanesScreens.Login.name) {
+        composable("${PlanesScreens.Login.name}/{autologin}",
+            arguments = listOf(
+                navArgument("autologin") { type = NavType.BoolType })) { entry ->
+
+            val autologin = entry.arguments?.getBoolean("autologin")!!
+
             LoginScreen(modifier = modifier, currentTitleState, currentScreenState,
                 showPopupState, userLoggedInState, navController = navController,
-                loginViewModel, chatUserListViewModel)
+                loginViewModel, chatUserListViewModel, optionsViewModel, autologin)
         }
         composable(PlanesScreens.Register.name) {
             RegisterScreen(modifier = modifier, currentTitleState, currentScreenState,
