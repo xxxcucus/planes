@@ -18,6 +18,7 @@ import com.planes.multiplayer_engine.responses.AcquireOpponentPositionsResponse
 import com.planes.multiplayer_engine.responses.ConnectToGameResponse
 import com.planes.multiplayer_engine.responses.CreateGameResponse
 import com.planes.multiplayer_engine.responses.GameStatusResponse
+import com.planes.multiplayer_engine.responses.SendChatMessageResponse
 import com.planes.multiplayer_engine.responses.SendNotSentMovesResponse
 import com.planes.multiplayer_engine.responses.SendPlanePositionsResponse
 import com.planes.multiplayer_engine.responses.SendWinnerResponse
@@ -30,7 +31,14 @@ import javax.inject.Inject
 class PlanesGameRepository @Inject constructor(private val api: PlanesGameApi) {
 
     suspend fun gameStatus(authorization: String, gameStatusRequest: GameStatusRequest): DataOrError<GameStatusResponse> {
-        val response = api.refreshGameStatus(authorization, gameStatusRequest)
+
+        var response: Response<GameStatusResponse>? = null
+
+        try {
+            response = api.refreshGameStatus(authorization, gameStatusRequest)
+        } catch (e: Exception) {
+            return DataOrError<GameStatusResponse>(null, false, e.message)
+        }
 
         if (response.isSuccessful) {
             return DataOrError(response.body(), false, null)
@@ -43,7 +51,15 @@ class PlanesGameRepository @Inject constructor(private val api: PlanesGameApi) {
     }
 
     suspend fun connectToGame(authorization: String, connectToGameRequest: ConnectToGameRequest): DataOrError<ConnectToGameResponse> {
-        val response = api.connectToGame(authorization, connectToGameRequest)
+
+        var response: Response<ConnectToGameResponse>? = null
+
+        try {
+            response = api.connectToGame(authorization, connectToGameRequest)
+        } catch (e: Exception) {
+            return DataOrError<ConnectToGameResponse>(null, false, e.message)
+        }
+
 
         if (response.isSuccessful) {
             return DataOrError(response.body(), false, null)
@@ -56,7 +72,14 @@ class PlanesGameRepository @Inject constructor(private val api: PlanesGameApi) {
     }
 
     suspend fun createGame(authorization: String, createGameRequest: CreateGameRequest): DataOrError<CreateGameResponse> {
-        val response = api.createGame(authorization, createGameRequest)
+
+        var response: Response<CreateGameResponse>? = null
+
+        try {
+            response = api.createGame(authorization, createGameRequest)
+        } catch (e: Exception) {
+            return DataOrError<CreateGameResponse>(null, false, e.message)
+        }
 
         if (response.isSuccessful) {
             return DataOrError(response.body(), false, null)
@@ -69,7 +92,14 @@ class PlanesGameRepository @Inject constructor(private val api: PlanesGameApi) {
     }
 
     suspend fun sendPlanePositions(authorization: String, sendPlanePositionsRequest: SendPlanePositionsRequest): DataOrError<SendPlanePositionsResponse> {
-        val response = api.sendPlanePositions(authorization, sendPlanePositionsRequest)
+
+        var response: Response<SendPlanePositionsResponse>? = null
+
+        try {
+            response = api.sendPlanePositions(authorization, sendPlanePositionsRequest)
+        } catch (e: Exception) {
+            return DataOrError<SendPlanePositionsResponse>(null, false, e.message)
+        }
 
         if (response.isSuccessful) {
             return DataOrError(response.body(), false, null)
@@ -82,7 +112,15 @@ class PlanesGameRepository @Inject constructor(private val api: PlanesGameApi) {
     }
 
     suspend fun acquireOpponentPlanePositions(authorization: String, acquireOpponentPositionsRequest: AcquireOpponentPositionsRequest): DataOrError<AcquireOpponentPositionsResponse> {
-        val response = api.acquireOpponentPlanePositions(authorization, acquireOpponentPositionsRequest)
+
+        var response: Response<AcquireOpponentPositionsResponse>? = null
+
+        try {
+            response = api.acquireOpponentPlanePositions(authorization, acquireOpponentPositionsRequest)
+        } catch (e: Exception) {
+            return DataOrError<AcquireOpponentPositionsResponse>(null, false, e.message)
+        }
+
 
         if (response.isSuccessful) {
             return DataOrError(response.body(), false, null)
@@ -95,7 +133,14 @@ class PlanesGameRepository @Inject constructor(private val api: PlanesGameApi) {
     }
 
     suspend fun sendOwnMove(authorization: String, sendNotSentMovesRequest: SendNotSentMovesRequest): DataOrError<SendNotSentMovesResponse> {
-        val response = api.sendOwnMove(authorization, sendNotSentMovesRequest)
+
+        var response: Response<SendNotSentMovesResponse>? = null
+
+        try {
+            response = api.sendOwnMove(authorization, sendNotSentMovesRequest)
+        } catch (e: Exception) {
+            return DataOrError<SendNotSentMovesResponse>(null, false, e.message)
+        }
 
         if (response.isSuccessful) {
             return DataOrError(response.body(), false, null)
@@ -108,7 +153,15 @@ class PlanesGameRepository @Inject constructor(private val api: PlanesGameApi) {
     }
 
     suspend fun sendWinner(authorization: String, sendWinnerRequest: SendWinnerRequest): DataOrError<SendWinnerResponse> {
-        val response = api.sendWinner(authorization, sendWinnerRequest)
+
+        var response: Response<SendWinnerResponse>? = null
+
+        try {
+            response = api.sendWinner(authorization, sendWinnerRequest)
+        } catch (e: Exception) {
+            return DataOrError<SendWinnerResponse>(null, false, e.message)
+        }
+
 
         if (response.isSuccessful) {
             return DataOrError(response.body(), false, null)
@@ -121,7 +174,14 @@ class PlanesGameRepository @Inject constructor(private val api: PlanesGameApi) {
     }
 
     suspend fun startNewRound(authorization: String, startNewRoundRequest: StartNewRoundRequest): DataOrError<StartNewRoundResponse> {
-        val response = api.startRound(authorization, startNewRoundRequest)
+
+        var response: Response<StartNewRoundResponse>? = null
+
+        try {
+            response = api.startRound(authorization, startNewRoundRequest)
+        } catch (e: Exception) {
+            return DataOrError<StartNewRoundResponse>(null, false, e.message)
+        }
 
         if (response.isSuccessful) {
             return DataOrError(response.body(), false, null)
