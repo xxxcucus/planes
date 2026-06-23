@@ -17,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
+import com.planes.android.screens.login.validationUsernamePasswordLogin
 import com.planes.android.screens.norobot.NoRobotViewModel
 import com.planes.android.screens.norobot.PhotoModel
 import com.planes.android.widgets.CommonTextFieldWithViewModel
@@ -89,12 +91,25 @@ fun RegisterScreen(modifier: Modifier, currentTitleState: MutableState<String>,
             passwordVisibility = passwordVisibility
         )
 
+        val validationTest = validationUsernamePasswordRegister(registerViewModel.getUserName(),
+            registerViewModel.getPassword(), stringResource(R.string.validation_toolong_login_username),
+            stringResource(R.string.validation_startsendswithempty_register_username),
+            stringResource(R.string.validation_tooshort_register_username),
+            stringResource(R.string.validation_toolong_login_password),
+            stringResource(R.string.validation_tooshort_register_password))
+
         Button(modifier = Modifier.padding(15.dp),
             onClick = {
                 submitClickedState.value = true
                 registerViewModel.register()
-            }) {
+            },
+            enabled = validationTest.trim().isEmpty()) {
             Text(text = stringResource(R.string.submit))
+        }
+
+        if (!validationTest.trim().isEmpty()) {
+            Text(color = Color.Red,
+                text = validationTest)
         }
 
         if (submitClickedState.value && registerViewModel.getLoading()) {
@@ -173,4 +188,33 @@ fun RegisterScreen(modifier: Modifier, currentTitleState: MutableState<String>,
         }
 
     }
+}
+
+fun validationUsernamePasswordRegister(username: String, password: String,
+                                       tooLongUsernameError: String, startsEndsEmptyUsernameError: String,
+                                       tooShortUsernameError: String,
+                                       tooLongPasswordError: String, tooShortPasswordError: String) : String {
+    var retString = ""
+
+    if (username.length > 30) {
+        retString += " $tooLongUsernameError"
+    }
+
+    if (username != username.trim()) {
+        retString += " $startsEndsEmptyUsernameError"
+    }
+
+    if (username.length < 5) {
+        retString += " $tooShortUsernameError"
+    }
+
+    if (password.length > 30) {
+        retString += " $tooLongPasswordError"
+    }
+
+    if (password.length < 5) {
+        retString += " $tooShortPasswordError"
+    }
+
+    return retString
 }

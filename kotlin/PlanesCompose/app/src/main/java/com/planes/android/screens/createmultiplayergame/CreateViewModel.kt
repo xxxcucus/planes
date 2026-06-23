@@ -27,6 +27,8 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
 
     private var m_GameStatusMap = HashMap<String, GameStatus>()
 
+    val m_StopPollingState = mutableStateOf(false)
+
 
     fun getGameName(): String {
         return m_GameName.value
@@ -380,8 +382,10 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
 
             //TODO: stop this when pausing the app
             //TODO: stop this when the state is different
-            //TODO: stop this when logging out or logging in again
             //TODO: stop this when run for too long
+
+            m_StopPollingState.value = false
+
             withContext(Dispatchers.IO) {
                 var firstPlayerName = getFirstPlayerName("Create")
                 val secondPlayerName = getFirstPlayerName("Create")
@@ -417,7 +421,8 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
                     setCurrentRoundId(key, resultPolling.data?.m_CurrentRoundId)
 
                     Log.d("PlaneCompose", "Polling ${getFirstPlayerName("Create")} and ${getSecondPlayerName("Create")}")
-                } while (getFirstPlayerName("Create") == getSecondPlayerName("Create"))
+                } while (getFirstPlayerName("Create") == getSecondPlayerName("Create")
+                    && !m_StopPollingState.value)
             }
 
             if (m_CreateState.value == CreateGameStates.PollingForConnectionStarted)
@@ -455,4 +460,15 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
         return dataAvailable("Create") || dataAvailable("Connect")
     }
 
+    fun setPollingStop(value: Boolean) {
+        m_StopPollingState.value = value
+    }
+
+    fun resetState() {
+        m_GameName.value = ""
+        m_Loading.value = false
+        m_Error.value = null
+        m_CreateState.value = CreateGameStates.StatusNotRequested
+        m_GameStatusMap.clear()
+    }
 }

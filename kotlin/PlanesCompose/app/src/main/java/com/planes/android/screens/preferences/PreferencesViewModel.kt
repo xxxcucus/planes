@@ -73,8 +73,6 @@ class PreferencesViewModel @Inject constructor(
     fun setUserName(value: String) {
         m_UserName.value = value
 
-
-
         viewModelScope.launch {
             m_UsernameSaved.value = false
             dataStore.edit { prefs ->

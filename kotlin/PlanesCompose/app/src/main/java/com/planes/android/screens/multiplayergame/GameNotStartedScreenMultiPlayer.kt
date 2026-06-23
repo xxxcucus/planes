@@ -89,6 +89,8 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentTitleState: Mutab
         navController.navigate(route = PlanesScreens.MultiplayerBoardEditing.name)
     }
 
+    //TODO: if not connected to a game, if not logged in
+
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
         Column() {
             GameBoardSinglePlayer(gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),

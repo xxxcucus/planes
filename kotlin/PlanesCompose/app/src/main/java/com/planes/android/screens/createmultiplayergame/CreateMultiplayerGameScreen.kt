@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -29,6 +30,8 @@ import com.planes.android.screens.multiplayergame.ComputerGridViewModelMultiPlay
 import com.planes.android.screens.multiplayergame.PlayerGridViewModelMultiPlayer
 import com.planes.android.widgets.CommonTextFieldWithViewModel
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
+import kotlin.random.Random
+
 
 @Composable
 fun CreateMultiplayerGameScreen(modifier: Modifier,
@@ -48,9 +51,7 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
     showPopupState.value = false
 
     val keyboardController = LocalSoftwareKeyboardController.current
-
-    //TODO: validation
-
+    
     Column(modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
@@ -71,6 +72,10 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                 placeholder = stringResource(R.string.game_name)
             )
 
+            val validationTest = validationGameName(createViewModel.getGameName(),
+                stringResource(R.string.validation_toolong_gamename),
+                stringResource(R.string.validation_tooshort_gamename))
+
             Button(
                 modifier = Modifier.padding(15.dp),
                 onClick = {
@@ -79,9 +84,24 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                         loginViewModel.getLoggedInUserId()!!,
                         loginViewModel.getLoggedInUserName()!!
                     )
-                }) {
+                },
+                enabled = validationTest.isEmpty()) {
                 Text(text = stringResource(R.string.submit))
             }
+
+            Button(
+                modifier = Modifier.padding(15.dp),
+                onClick = {
+                    createViewModel.setGameName(generateRandomGameName())
+                }) {
+                Text(text = stringResource(R.string.random_game_name))
+            }
+
+            if (!validationTest.isEmpty()) {
+                Text(color = Color.Red,
+                    text = validationTest)
+            }
+
         } else if (createViewModel.getCreateState() == CreateGameStates.StatusRequested) {
             val error = createViewModel.getError()
             if (createViewModel.getLoading()) {
@@ -249,4 +269,32 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
             }
         }
     }
+}
+
+fun validationGameName(gameName: String, gameNameTooLongError: String,
+                       gameNameTooShortError: String) : String {
+    var retString = ""
+
+    if (gameName.length > 30) {
+        retString = gameNameTooLongError
+    }
+
+    if (gameName.length < 5) {
+        retString = gameNameTooShortError
+    }
+
+    return retString
+}
+
+fun generateRandomGameName(): String {
+    val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+    val STRING_LENGTH = 10
+
+    val time = System.currentTimeMillis()
+    var randomGenerator = Random(time)
+
+    return (1..STRING_LENGTH)
+        .map { randomGenerator.nextInt(0, charPool.size) }
+        .map(charPool::get)
+        .joinToString("")
 }

@@ -103,6 +103,7 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
         navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
     }
 
+    //TODO: if not connected to a game, if not logged in
 
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
         Column() {

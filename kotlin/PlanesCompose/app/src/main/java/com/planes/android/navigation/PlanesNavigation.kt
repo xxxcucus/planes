@@ -184,7 +184,8 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
 
             LoginScreen(modifier = modifier, currentTitleState, currentScreenState,
                 showPopupState, userLoggedInState, navController = navController,
-                loginViewModel, chatUserListViewModel, optionsViewModel, autologin)
+                loginViewModel, chatUserListViewModel, optionsViewModel,
+                createViewModel, planeRoundMultiplayer, autologin)
         }
         composable(PlanesScreens.Register.name) {
             RegisterScreen(modifier = modifier, currentTitleState, currentScreenState,

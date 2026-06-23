@@ -92,6 +92,9 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: Mutable
         Column() {
 
             if (!loginViewModel.isLoggedIn() || !createViewModel.gameConnectionExists()) {
+
+                //TODO: button connect to game
+
                 Column(
                     modifier = Modifier.fillMaxHeight(),
                     verticalArrangement = Arrangement.Center
