@@ -3,9 +3,11 @@ package com.planes.android.screens.video
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -20,8 +22,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.net.toUri
@@ -35,24 +39,43 @@ fun VideoButton(entry: VideoModel, currentVideoState: MutableState<Int>, modifie
 
     val context = LocalContext.current
 
+    val isSelected = currentVideoState.value == entry.getVideoId()
+
+    val containerColor =
+        if (isSelected) MaterialTheme.colorScheme.onSurfaceVariant
+        else MaterialTheme.colorScheme.surfaceVariant
+
+    val borderColor =
+        if (isSelected) MaterialTheme.colorScheme.tertiary
+        else Color.Transparent
+
     Card(
         modifier.combinedClickable(
             onClick = { currentVideoState.value = entry.getVideoId() },
             onLongClick = { playLinkInYoutube(entry.getYoutubeLink(), context)}
         ).wrapContentHeight(),
         shape = RectangleShape,
-        colors = CardDefaults.cardColors(
-            containerColor = color
+        border = BorderStroke(2.dp, borderColor),
+        colors = CardDefaults.cardColors(containerColor = containerColor),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = if (isSelected) 4.dp else 0.dp
         )
     ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
+            contentAlignment = Alignment.Center
         ) {
             Text(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = entry.getVideoName()
+                text = entry.getVideoName(),
+                style = MaterialTheme.typography.bodyMedium,
+                color = if (isSelected)
+                    MaterialTheme.colorScheme.onPrimaryContainer
+                else
+                    MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center
             )
         }
     }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -32,7 +33,8 @@ fun <T> CommonTextFieldWithViewModel(modifier: Modifier,
         } ,
         label = {
             Text(
-                text = placeholder
+                text = placeholder,
+                style = MaterialTheme.typography.titleMedium
             )
         },
         maxLines = 1,
@@ -40,8 +42,15 @@ fun <T> CommonTextFieldWithViewModel(modifier: Modifier,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
         keyboardActions = KeyboardActions.Default,
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = Color.Blue,
-            cursorColor = Color.Black
+            focusedBorderColor = MaterialTheme.colorScheme.tertiary,
+            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+            focusedLabelColor = MaterialTheme.colorScheme.onSurface,
+            unfocusedLabelColor = MaterialTheme.colorScheme.onSurface,
+            cursorColor = MaterialTheme.colorScheme.tertiary,
+            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+            unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+            focusedContainerColor = MaterialTheme.colorScheme.background,
+            unfocusedContainerColor = MaterialTheme.colorScheme.background
         ),
         shape = RoundedCornerShape(15.dp),
         //modifier = Modifier.fillMaxWidth().padding(start = 10.dp, end = 10.dp)

@@ -41,10 +41,10 @@ val md_theme_light_surface = White
 val md_theme_light_onSurface = Black
 
 
-val md_theme_light_surfaceVariant = colorGray200
+val md_theme_light_surfaceVariant = colorGray400
 val md_theme_light_onSurfaceVariant = colorGray800
-val md_theme_light_outline = colorGray600
-val md_theme_light_outlineVariant = colorGray400
+val md_theme_light_outline = colorGray700
+val md_theme_light_outlineVariant = colorGray600
 
 
 val md_theme_light_inverseSurface = colorGray900
