@@ -51,7 +51,7 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
     showPopupState.value = false
 
     val keyboardController = LocalSoftwareKeyboardController.current
-    
+
     Column(modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
@@ -207,8 +207,6 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                 }) {
                 Text(text = stringResource(R.string.start_game))
             }
-
-
         } else if (createViewModel.getCreateState() == CreateGameStates.ConnectedToGameRequested) {
             val error = createViewModel.getError()
             if (createViewModel.getLoading()) {

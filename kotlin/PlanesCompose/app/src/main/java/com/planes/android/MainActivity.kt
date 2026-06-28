@@ -1,10 +1,13 @@
 package com.planes.android
 
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -14,6 +17,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -30,6 +35,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -42,6 +48,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -54,6 +61,8 @@ import androidx.navigation.compose.rememberNavController
 import com.planes.android.navigation.DrawerMenuItemGeneric
 import com.planes.android.navigation.PlanesNavigation
 import com.planes.android.navigation.PlanesScreens
+import com.planes.android.screens.about.AboutEntryRepository
+import com.planes.android.screens.about.AboutEntryRow
 import com.planes.android.screens.preferences.PreferencesViewModel
 import com.planes.android.ui.theme.PlanesComposeTheme
 import com.planes.android.widgets.HelpPopupBox
@@ -134,10 +143,11 @@ fun Screen(modifier: Modifier,
 
     val scope = rememberCoroutineScope()
 
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet {
+            ModalDrawerSheet(drawerContainerColor = MaterialTheme.colorScheme.surface) {
                 DrawerContent(
                     navController = navController,
                     drawerScope = scope,
@@ -148,10 +158,12 @@ fun Screen(modifier: Modifier,
                 )
             }
         },
-        gesturesEnabled = true
+        gesturesEnabled = true,
+        scrimColor = MaterialTheme.colorScheme.scrim
     ) {
         Scaffold(
-
+            containerColor = MaterialTheme.colorScheme.background,
+            contentColor = MaterialTheme.colorScheme.onBackground,
             topBar = {
                 if (!splashScreenState.value) {
                     TopBar(
@@ -175,9 +187,11 @@ fun Screen(modifier: Modifier,
             }
         ) { padding ->
 
-            Box(modifier = Modifier.padding(padding).fillMaxSize()) {
+            Box(modifier = Modifier.padding(padding).fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)) {
                 ScreenContent(
-                    modifier = Modifier.align(Alignment.Center),
+                    modifier = Modifier.align(Alignment.Center)
+                        .background(MaterialTheme.colorScheme.background),
                     currentTitleState = currentTitleState,
                     currentScreenState = currentScreenState,
                     showPopupState = showPopupState,
@@ -218,14 +232,18 @@ fun ScreenContent(modifier: Modifier, currentTitleState: MutableState<String>,
                   planeRoundMultiplayer: MultiPlayerRoundInterface
                   ) {
 
-    PlanesNavigation(modifier = modifier,
-        currentTitleState, currentScreenState,
-        showPopupState,newMessagesState, userLoggedInState,
-        splashScreenState,
-        navController,
-        context = LocalContext.current,
-        planeRound,
-        planeRoundMultiplayer)
+
+        PlanesNavigation(
+            modifier = modifier,
+            currentTitleState, currentScreenState,
+            showPopupState, newMessagesState, userLoggedInState,
+            splashScreenState,
+            navController,
+            context = LocalContext.current,
+            planeRound,
+            planeRoundMultiplayer
+        )
+
 }
 
 @Composable
@@ -396,7 +414,7 @@ fun TopBar(modifier: Modifier = Modifier,
     TopAppBar(
         modifier = modifier,
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            //containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
         navigationIcon = {
             Icon(

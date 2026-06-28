@@ -177,6 +177,7 @@ fun RegisterScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                     noRobotViewModel.setRequestId(registerViewModel.getPendingRequestId())
 
                     navController.navigate(PlanesScreens.NoRobot.name)
+                    submitClickedState.value = false
                 }
             } else {
                 Toast.makeText(

@@ -88,7 +88,7 @@ fun NoRobotScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                         Toast.LENGTH_LONG
                     ).show()
 
-                    //TODO: delete screen from history
+                    navController.popBackStack()
                     navController.navigate(PlanesScreens.Login.name)
                 }
             } else {
@@ -97,6 +97,9 @@ fun NoRobotScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                     noRobotViewModel.getError(),
                     Toast.LENGTH_LONG
                 ).show()
+
+                navController.popBackStack()
+                navController.navigate(PlanesScreens.Register.name)
             }
         }
 

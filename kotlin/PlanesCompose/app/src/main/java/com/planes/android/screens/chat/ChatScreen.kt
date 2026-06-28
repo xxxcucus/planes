@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -32,33 +33,37 @@ fun ChatScreen(modifier: Modifier, currentTitleState: MutableState<String>,
     //TODO: if not logged in show not logged in
     //TODO: viewModel should be parameter for login screen
 
-    if (!loginViewModel.isLoggedIn()) {
 
-    } else {
 
-        Surface(
-            modifier = modifier,
-            color = MaterialTheme.colorScheme.background
+    Surface(
+        modifier = modifier,
+        color = MaterialTheme.colorScheme.background
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
+            if (!loginViewModel.isLoggedIn()) {
+                Text(text = stringResource(R.string.nouser))
+            } else {
+
                 val users = viewModel.getPlayersList().collectAsStateWithLifecycle().value
-                val messagesFlags = viewModel.getNewMessagesFlags().collectAsStateWithLifecycle().value
+                val messagesFlags =
+                    viewModel.getNewMessagesFlags().collectAsStateWithLifecycle().value
 
                 //TODO: loader
                 if (users != null) {
 
                     val filteredUsers = users.filter {
                         it.m_UserId != loginViewModel.getLoggedInUserId()
-                    }.map {
-                        user ->
-                        UserWithLastLoginAndNewMessagesFlag(user.m_UserName, user.m_UserId, user.m_LastLogin,
+                    }.map { user ->
+                        UserWithLastLoginAndNewMessagesFlag(
+                            user.m_UserName, user.m_UserId, user.m_LastLogin,
                             messagesFlags.firstOrNull {
                                 it.m_SenderId == user.m_UserId.toInt() &&
-                                it.m_ReceiverId == loginViewModel.getLoggedInUserId()?.toInt()!!
+                                        it.m_ReceiverId == loginViewModel.getLoggedInUserId()
+                                    ?.toInt()!!
                             }?.m_NewMessages == true
                         )
                     }
@@ -67,8 +72,10 @@ fun ChatScreen(modifier: Modifier, currentTitleState: MutableState<String>,
 
                     LazyColumn {
                         items(items = filteredUsers) {
-                            ChatEntryRow(it, loginViewModel.getLoggedInUserId()?.toLong()!!,
-                                loginViewModel.getLoggedInUserName()!!,navController, viewModel)
+                            ChatEntryRow(
+                                it, loginViewModel.getLoggedInUserId()?.toLong()!!,
+                                loginViewModel.getLoggedInUserName()!!, navController, viewModel
+                            )
                         }
                     }
                 }

@@ -1,10 +1,14 @@
 package com.planes.android.screens.about
 
 import android.content.Context
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,21 +24,34 @@ fun AboutEntryRow(entry: AboutEntryModel, context: Context) {
 
     val uriHandler = LocalUriHandler.current
 
-    Column(modifier = Modifier.padding(4.dp).
-    fillMaxWidth())
+
+    Column(
+        modifier = Modifier.padding(4.dp).fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background)
+    )
     {
-        Text(text = entry.getTitle(),
-            style = MaterialTheme.typography.titleMedium)
-        Text(text = entry.getText(),
-            style = MaterialTheme.typography.bodyMedium)
+        Text(
+            text = entry.getTitle(),
+            style = MaterialTheme.typography.titleMedium,
+        )
+        Text(
+            text = entry.getText(),
+            style = MaterialTheme.typography.bodyMedium
+        )
         if (entry.hasButton()) {
-            Button(modifier = Modifier.align(Alignment.End),
+            Button(
+                modifier = Modifier.align(Alignment.End),
                 onClick = {
-                uriHandler.openUri(entry.getLinkButton())
-            }) {
+                    uriHandler.openUri(entry.getLinkButton())
+                }, colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                )
+            ) {
                 Text(text = entry.getTextButton())
             }
         }
     }
+
 }
 
