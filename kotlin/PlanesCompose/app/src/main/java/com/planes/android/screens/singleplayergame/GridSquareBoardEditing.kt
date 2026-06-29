@@ -1,6 +1,7 @@
 package com.planes.android.screens.singleplayergame
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.height
@@ -19,7 +20,8 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun GridSquareBoardEditing(widthDp: Int, widthPx: Float, backgroundColor: Color) {
-    Canvas(modifier = Modifier.width(widthDp.dp).height(widthDp.dp)) {
+    Canvas(modifier = Modifier.width(widthDp.dp).height(widthDp.dp)
+        .background(backgroundColor)) {
       drawRect(color = Color.Red, style = Stroke(width = 3f))
     }
 }
@@ -32,6 +34,7 @@ fun GridSquareBoardEditing(selectedPlane: Int,
                            index: Int,
                            onClick: (Int) -> Unit) {
     Canvas(modifier = Modifier.width(widthDp.dp).height(widthDp.dp)
+        .background(backgroundColor)
             .clickable {
                 onClick.invoke(index)
             })

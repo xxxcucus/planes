@@ -217,19 +217,19 @@ public fun validationUsernamePasswordLogin(username: String, password: String,
     var retString = ""
 
     if (username.length > 30) {
-        retString += " $tooLongLoginError"
+        retString += "$tooLongLoginError\n"
     }
 
     if (username.isEmpty()) {
-        retString += " $emptyLoginError"
+        retString += "$emptyLoginError\n"
     }
 
     if (password.length > 30) {
-        retString += " $tooLongPasswordError"
+        retString += "$tooLongPasswordError\n"
     }
 
     if (password.isEmpty()) {
-        retString += " $emptyPasswordError"
+        retString += "$emptyPasswordError\n"
     }
 
     return retString

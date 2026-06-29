@@ -1,5 +1,6 @@
 package com.planes.android.screens.singleplayergame
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,11 +24,16 @@ fun StatsValueField(value: Int,
                     hot: Boolean
 ) {
     val color = if (enabled) MaterialTheme.colorScheme.surfaceVariant
-    else MaterialTheme.colorScheme.secondary
+    else MaterialTheme.colorScheme.tertiaryContainer
+
+    val borderColor =
+        if (!enabled) MaterialTheme.colorScheme.tertiary
+        else Color.Transparent
 
     Card(
         modifier = modifier.padding(1.dp),
         shape = RectangleShape,
+        border = BorderStroke(2.dp, borderColor),
         colors = CardDefaults.cardColors(
             containerColor = color
         )
@@ -40,7 +46,7 @@ fun StatsValueField(value: Int,
             Text(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 text = "$value", //TODO: compute text size dynamically
-                color = if (hot) Color.Red else Color.Black
+                color = if (hot) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
     }

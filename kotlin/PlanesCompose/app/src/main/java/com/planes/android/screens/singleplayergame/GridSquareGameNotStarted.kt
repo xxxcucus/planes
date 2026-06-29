@@ -4,6 +4,7 @@ import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -51,6 +52,7 @@ fun GridSquareGameNotStarted(isComputer: Boolean,
         delay(2000L)
     }
     Canvas(modifier = Modifier.width(widthDp.dp).height(widthDp.dp)
+        .background(backgroundColor)
         .scale(scale.value)) {
 
         val planeOverlapColor = Color.Red

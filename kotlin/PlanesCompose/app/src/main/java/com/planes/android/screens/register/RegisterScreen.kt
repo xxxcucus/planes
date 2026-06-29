@@ -198,23 +198,23 @@ fun validationUsernamePasswordRegister(username: String, password: String,
     var retString = ""
 
     if (username.length > 30) {
-        retString += " $tooLongUsernameError"
+        retString += "$tooLongUsernameError\n"
     }
 
     if (username != username.trim()) {
-        retString += " $startsEndsEmptyUsernameError"
+        retString += "$startsEndsEmptyUsernameError\n"
     }
 
     if (username.length < 5) {
-        retString += " $tooShortUsernameError"
+        retString += "$tooShortUsernameError\n"
     }
 
     if (password.length > 30) {
-        retString += " $tooLongPasswordError"
+        retString += "$tooLongPasswordError\n"
     }
 
     if (password.length < 5) {
-        retString += " $tooShortPasswordError"
+        retString +=  "$tooShortPasswordError\n"
     }
 
     return retString

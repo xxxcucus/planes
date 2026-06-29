@@ -1,5 +1,6 @@
 package com.planes.android.screens.singleplayergame
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,7 +25,7 @@ fun BoardSquareGame(index: Int, squareSizeDp: Int, squareSizePx: Float,
            guess = guess,
            widthDp = squareSizeDp,
            widthPx = squareSizePx,
-           backgroundColor = Color.White,
+           backgroundColor = MaterialTheme.colorScheme.background,
            index = index,
            onClick = onClick
        )
@@ -39,7 +40,7 @@ fun BoardSquareGame(index: Int, squareSizeDp: Int, squareSizePx: Float,
                guess = guess,
                widthDp = squareSizeDp,
                widthPx = squareSizePx,
-               backgroundColor = Color.White,
+               backgroundColor = MaterialTheme.colorScheme.background,
                index = index,
                onClick = onClick
            )
@@ -51,7 +52,7 @@ fun BoardSquareGame(index: Int, squareSizeDp: Int, squareSizePx: Float,
                guess = guess,
                widthDp = squareSizeDp,
                widthPx = squareSizePx,
-               backgroundColor = Color.White,
+               backgroundColor = MaterialTheme.colorScheme.background,
                index = index,
                onClick = onClick
            )
