@@ -37,29 +37,27 @@ fun AboutScreen(modifier: Modifier, currentTitleState: MutableState<String>,
 
     Log.d("Planes", "Background = ${MaterialTheme.colorScheme.background}")
 
-    /*CompositionLocalProvider(
-        LocalContentColor provides MaterialTheme.colorScheme.tertiary
-    ) {*/
-        Surface(
-            modifier = Modifier,
-            color = MaterialTheme.colorScheme.background,
-            tonalElevation = 0.dp
+
+    Surface(
+        modifier = Modifier,
+        color = MaterialTheme.colorScheme.background,
+        tonalElevation = 0.dp
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.background),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)
             ) {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize()
-                        .background(MaterialTheme.colorScheme.background)
-                ) {
-                    items(items = aboutEntryList) {
-                        AboutEntryRow(entry = it, context)
-                    }
+                items(items = aboutEntryList) {
+                    AboutEntryRow(entry = it, context)
                 }
             }
         }
-    //}
+    }
+
 }

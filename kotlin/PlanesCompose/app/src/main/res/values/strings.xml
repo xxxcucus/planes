@@ -224,12 +224,19 @@
 
     <string name="already_registered_login">Already registered ? Login!</string>
 
-    <string name="logoutsuccess"> Logout Successful</string>
-    <string name="deletesuccess"> User Delete Successful</string>
+    <string name="logoutsuccess">Logout Successful</string>
+    <string name="deletesuccess">User Delete Successful</string>
 
     <string name="wait_for_opponent">Game %1$s created.\nWaiting for opponent to connect.</string>
     <string name="connect_another_game">Connect to another game</string>
     <string name="start_game">Start Game</string>
+
+    <string name="connectivity">Connectivity</string>
+    <string name="various_games">Various Games</string>
+    <string name="info">Info</string>
+    <string name="tutorials">Tutorials</string>
+    <string name="multiplayer_game_statistics">Multiplayer Game Statistics</string>
+    <string name="singleplayer_game_statistics">Single Player Game Statistics</string>
 
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->

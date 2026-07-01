@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -159,11 +160,14 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
                 currentScreenState, showPopupState, navController = navController)
         }
         composable(PlanesScreens.Info.name) {
+            val context = LocalContext.current
+            val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+            val versionName = packageInfo.versionName
             AboutScreen(modifier = modifier, currentTitleState, currentScreenState,
                 showPopupState,
                 navController = navController,
                 context = context,
-                aboutEntryList = AboutEntryRepository.create("0.1", context = context))
+                aboutEntryList = AboutEntryRepository.create(versionName, context = context))
         }
         composable("${PlanesScreens.Tutorials.name}/{videoId}/{time}",
             arguments = listOf(

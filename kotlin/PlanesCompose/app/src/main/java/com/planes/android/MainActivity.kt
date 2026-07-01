@@ -147,7 +147,7 @@ fun Screen(modifier: Modifier,
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet(drawerContainerColor = MaterialTheme.colorScheme.surface) {
+            ModalDrawerSheet(drawerContainerColor = MaterialTheme.colorScheme.inversePrimary) {
                 DrawerContent(
                     navController = navController,
                     drawerScope = scope,
@@ -255,28 +255,27 @@ fun DrawerContent(modifier: Modifier = Modifier,
                   planeRoundMultiplayer: MultiPlayerRoundInterface,
                   userLoggedInState: MutableState<Boolean>
                   ) {
-    //TODO: page names from resources
-
+    
     Column(
         modifier = Modifier.padding(horizontal = 16.dp)
             .verticalScroll(rememberScrollState())
     ) {
         Text(
-            text = "Planes",
+            text = stringResource(R.string.app_name),
             modifier = Modifier.padding(16.dp),
             style = MaterialTheme.typography.titleLarge
         )
 
         HorizontalDivider()
 
-        //TODO: Resources strings
         Text(
-            text = "Connectivity",
+            text = stringResource(R.string.connectivity),
             modifier = Modifier.padding(16.dp),
             style = MaterialTheme.typography.titleLarge
         )
 
-        DrawerMenuItemGeneric("Login / Logout", R.drawable.ic_baseline_login_24,
+        DrawerMenuItemGeneric(stringResource(R.string.login) +  "/" + stringResource(R.string.logout),
+            R.drawable.ic_baseline_login_24,
             true, {
             drawerScope.launch {
                 drawerState.close()
@@ -285,7 +284,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
             navController.navigate(route = "${PlanesScreens.Login.name}/$autologin")
         })
 
-        DrawerMenuItemGeneric("Register", R.drawable.ic_baseline_recent_actors_24,
+        DrawerMenuItemGeneric(stringResource(R.string.register), R.drawable.ic_baseline_recent_actors_24,
             true, {
             drawerScope.launch {
                 drawerState.close()
@@ -293,7 +292,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
             navController.navigate(route = PlanesScreens.Register.name)
         })
 
-        DrawerMenuItemGeneric("Chat", R.drawable.ic_baseline_toc_24,
+        DrawerMenuItemGeneric(stringResource(R.string.chat), R.drawable.ic_baseline_toc_24,
             userLoggedInState.value, {
             drawerScope.launch {
                 drawerState.close()
@@ -301,7 +300,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
             navController.navigate(route = PlanesScreens.Chat.name)
         })
 
-        DrawerMenuItemGeneric("Delete User", R.drawable.baseline_delete_24,
+        DrawerMenuItemGeneric(stringResource(R.string.delete_user), R.drawable.baseline_delete_24,
             userLoggedInState.value, {
             drawerScope.launch {
                 drawerState.close()
@@ -310,12 +309,12 @@ fun DrawerContent(modifier: Modifier = Modifier,
         })
 
         Text(
-            text = "Various Games",
+            text = stringResource(R.string.various_games),
             modifier = Modifier.padding(16.dp),
             style = MaterialTheme.typography.titleLarge
         )
 
-        DrawerMenuItemGeneric("Single Player Game", R.drawable.ic_baseline_sports_basketball_24,
+        DrawerMenuItemGeneric(stringResource(R.string.singleplayergame), R.drawable.ic_baseline_sports_basketball_24,
             true, {
             drawerScope.launch {
                 drawerState.close()
@@ -331,15 +330,15 @@ fun DrawerContent(modifier: Modifier = Modifier,
 
 
 
-        DrawerMenuItemGeneric("Single Player Game Statistics", R.drawable.ic_baseline_assessment_24,
+        /*DrawerMenuItemGeneric(stringResource(R.string.singleplayer_game_statistics), R.drawable.ic_baseline_assessment_24,
             true, {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.SinglePlayerGameStatistics.name)
-        })
+        })*/
 
-        DrawerMenuItemGeneric("Create Multiplayer Game",  R.drawable.ic_baseline_add_circle_24,
+        DrawerMenuItemGeneric(stringResource(R.string.create_connectto_game),  R.drawable.ic_baseline_add_circle_24,
             userLoggedInState.value, {
             drawerScope.launch {
                 drawerState.close()
@@ -347,7 +346,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
             navController.navigate(route = PlanesScreens.CreateMultiplayerGame.name)
         })
 
-        DrawerMenuItemGeneric("Multiplayer Game", R.drawable.ic_baseline_sports_basketball_24,
+        DrawerMenuItemGeneric(stringResource(R.string.multiplayergame), R.drawable.ic_baseline_sports_basketball_24,
             userLoggedInState.value, {
             drawerScope.launch {
                 drawerState.close()
@@ -360,21 +359,21 @@ fun DrawerContent(modifier: Modifier = Modifier,
                 navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
         })
 
-        DrawerMenuItemGeneric("Multiplayer Game Statistics", R.drawable.ic_baseline_assessment_24,
+        /*DrawerMenuItemGeneric(stringResource(R.string.multiplayer_game_statistics), R.drawable.ic_baseline_assessment_24,
             userLoggedInState.value, {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.MultiplayerGameStatistics.name)
-        })
+        })*/
 
         Text(
-            text = "Info",
+            text = stringResource(R.string.info),
             modifier = Modifier.padding(16.dp),
             style = MaterialTheme.typography.titleLarge
         )
 
-        DrawerMenuItemGeneric("About", R.drawable.ic_baseline_toc_24,
+        DrawerMenuItemGeneric(stringResource(R.string.about), R.drawable.ic_baseline_toc_24,
             true, {
             drawerScope.launch {
                 drawerState.close()
@@ -382,7 +381,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
             navController.navigate(route = PlanesScreens.Info.name)
         })
 
-        DrawerMenuItemGeneric("Tutorials", R.drawable.ic_baseline_video_library_24,
+        DrawerMenuItemGeneric(stringResource(R.string.tutorials), R.drawable.ic_baseline_video_library_24,
             true, {
             drawerScope.launch {
                 drawerState.close()
@@ -392,7 +391,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
             navController.navigate(route = "${PlanesScreens.Tutorials.name}/${videoId}/${time}")
         })
 
-        DrawerMenuItemGeneric("Preferences", R.drawable.ic_baseline_app_settings_alt_24,
+        DrawerMenuItemGeneric(stringResource(R.string.options), R.drawable.ic_baseline_app_settings_alt_24,
             true,{
             drawerScope.launch {
                 drawerState.close()
