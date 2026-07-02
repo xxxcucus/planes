@@ -246,8 +246,6 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
 
             m_CreateState.value = CreateGameStates.StatusRequested
 
-            //TODO: reset m_GameStatus
-
             val result = withContext(Dispatchers.IO) {
                 repository.gameStatus(authorization, GameStatusRequest(getGameName(), username, userid, ""))
             }

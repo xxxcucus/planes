@@ -68,8 +68,6 @@ fun ChatScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                         )
                     }
 
-                    //TODO: enrich with new messages flag
-
                     LazyColumn {
                         items(items = filteredUsers) {
                             ChatEntryRow(

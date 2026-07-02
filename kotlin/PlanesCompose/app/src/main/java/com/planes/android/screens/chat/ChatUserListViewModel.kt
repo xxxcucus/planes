@@ -53,8 +53,6 @@ class ChatUserListViewModel @Inject constructor(private val userRepository: Plan
         m_StopPollingState.value = value
     }
 
-    //TODO: start on login
-    //TODO: stop on logout
     fun pollForPlayersList(authorization: String, userid: String, username: String) {
 
         if (m_PollingStartedState.value)

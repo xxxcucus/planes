@@ -436,7 +436,7 @@ fun TopBar(modifier: Modifier = Modifier,
                         .size(28.dp)
                 )
             }
-            Icon(
+            /*Icon(
                 painter = painterResource(id = R.drawable.ic_baseline_assessment_24),
                 contentDescription = "Statistics",
                 Modifier
@@ -444,23 +444,23 @@ fun TopBar(modifier: Modifier = Modifier,
                     .padding(start = 16.dp, end = 8.dp)
                     .clickable {
                     }
-            )
-
-            Icon(
-                painter = painterResource(id = R.drawable.ic_menu_help),
-                contentDescription = "Help",
-                Modifier
-                    .size(50.dp)
-                    .padding(start = 16.dp, end = 8.dp)
-                    .clickable {
-                        if (currentScreen in listOf(PlanesScreens.SinglePlayerBoardEditing.name,
-                                PlanesScreens.MultiplayerBoardEditing.name, PlanesScreens.SinglePlayerGame.name,
-                                PlanesScreens.MultiplayerGame.name, PlanesScreens.SinglePlayerGameNotStarted.name,
-                                PlanesScreens.MultiplayerGameNotStarted.name, PlanesScreens.Tutorials.name,
-                                PlanesScreens.Chat.name, PlanesScreens.Conversation.name))
+            )*/
+            if (currentScreen in listOf(PlanesScreens.SinglePlayerBoardEditing.name,
+                    PlanesScreens.MultiplayerBoardEditing.name, PlanesScreens.SinglePlayerGame.name,
+                    PlanesScreens.MultiplayerGame.name, PlanesScreens.SinglePlayerGameNotStarted.name,
+                    PlanesScreens.MultiplayerGameNotStarted.name, PlanesScreens.Tutorials.name,
+                    PlanesScreens.Chat.name, PlanesScreens.Conversation.name)) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_menu_help),
+                    contentDescription = "Help",
+                    Modifier
+                        .size(50.dp)
+                        .padding(start = 16.dp, end = 8.dp)
+                        .clickable {
                             showPopupState.value = true
-                    }
-            )
+                        }
+                )
+            }
         },
         windowInsets = WindowInsets.statusBars
     )
