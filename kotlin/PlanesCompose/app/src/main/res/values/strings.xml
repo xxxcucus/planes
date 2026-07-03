@@ -201,9 +201,9 @@
     <string name="credits_othercontributions_3">Contributions from GitHub are listed in the GitHub page of the project. </string>
     <string name="helptext_game_1_opponent">Touch on the opponent\'s board to guess where the opponent\'s planes are.</string>
 
-    <string name="error_logout"> Error when logging out.</string>
-    <string name="delete_user"> Delete User</string>
-    <string name="error_deleteuser"> Error when deleting user.</string>
+    <string name="error_logout">Error when logging out.</string>
+    <string name="delete_user">Delete User</string>
+    <string name="error_deleteuser">Error when deleting user.</string>
 
     <string name="credits_website_title">Project Website</string>
     <string name="credits_website">The website summarizing all the informations about the game and the project is https://xxxcucus.github.io/planes/.</string>
@@ -227,7 +227,7 @@
     <string name="logoutsuccess">Logout Successful</string>
     <string name="deletesuccess">User Delete Successful</string>
 
-    <string name="wait_for_opponent">Game %1$s created.\nWaiting for opponent to connect.</string>
+    <string name="wait_for_opponent">Game %1$s created. Waiting for opponent to connect.</string>
     <string name="connect_another_game">Connect to another game</string>
     <string name="start_game">Start Game</string>
 
@@ -237,6 +237,7 @@
     <string name="tutorials">Tutorials</string>
     <string name="multiplayer_game_statistics">Multiplayer Game Statistics</string>
     <string name="singleplayer_game_statistics">Single Player Game Statistics</string>
+    <string name="game_name_clipboard">Copy game name to clipboard</string>
 
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->

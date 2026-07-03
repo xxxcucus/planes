@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -234,7 +235,9 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
         }  else if (createViewModel.getCreateState() == CreateGameStates.GameCreationComplete) {
             Text(text = stringResource(R.string.game_created))
         } else if (createViewModel.getCreateState() == CreateGameStates.PollingForConnectionStarted) {
-            Text(text = LocalContext.current.getString(R.string.wait_for_opponent, createViewModel.getGameName("Create")))
+            SelectionContainer() {
+                Text(text = LocalContext.current.getString(R.string.wait_for_opponent, createViewModel.getGameName("Create")))
+            }
 
             Button(
                 modifier = Modifier.padding(15.dp),
@@ -243,6 +246,7 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                 }) {
                 Text(text = stringResource(R.string.cancel))
             }
+
         } else if (createViewModel.getCreateState() == CreateGameStates.PollingForConnectionEnded) {
 
             Text(text = LocalContext.current.getString(R.string.connected_togame, createViewModel.getGameName("Create")))
