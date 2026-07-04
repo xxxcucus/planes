@@ -7,10 +7,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,9 +41,20 @@ fun ConversationScreen(modifier: Modifier,
 ) {
 
     //TODO: conversation with
-    currentTitleState.value = "${stringResource(R.string.conversation)} with $chatPartnerUsername "
+    currentTitleState.value = "${stringResource(R.string.conversation)}  $chatPartnerUsername "
     currentScreenState.value = PlanesScreens.Conversation.name
     showPopupState.value = false
+
+
+    val listState = rememberLazyListState()
+    val messages = conversationViewModel.getMessagesList().collectAsStateWithLifecycle().value
+
+    // Scroll to bottom whenever items change
+    LaunchedEffect(messages.size) {
+        if (messages.isNotEmpty()) {
+            listState.animateScrollToItem(messages.size - 1)
+        }
+    }
 
     //TODO: if not logged in
 
@@ -62,9 +75,8 @@ fun ConversationScreen(modifier: Modifier,
 
             val keyboardController = LocalSoftwareKeyboardController.current
 
-            val messages = conversationViewModel.getMessagesList().collectAsStateWithLifecycle().value
-
-            LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth()) {
+            LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth(),
+                state = listState) {
                 items(items = messages) {
                     ConversationEntryRow(it, it.m_SenderName == loginViewModel.getLoggedInUsernameState().value,
                         chatPartnerUsername)
