@@ -11,7 +11,7 @@ The older version of the Android application in Java still exists in the reposit
 
 Starting with version 0.3.16 for the desktop version and version 0.4.0 for the Android app, a multiplayer module is included.
 
-In the releases section you will find a detailed documentation of the C++ part of the project. (TheGameOfPlanes.pdf)
+In the releases section you will find a detailed technical documentation of the project. (TheGameOfPlanes.pdf)
 
 ![alt text](https://github.com/xxxcucus/planes/blob/master/Screenshots/PlanesQML1.jpg)
 
