@@ -2,11 +2,9 @@
 Planes is a variant of battleships game implemented with Qt, C++ for desktop and with Java and Kotlin for Android.
 The current website of the project is : https://xxxcucus.github.io/planes/
 
-3 versions of the game of Planes are implemented with Qt: PlanesWidget, first naive version,
-PlanesGraphicsScene an implementation using QGraphicsScene,
-PlanesQML an implementation using QML. These use a game engine programmed in C++.
+The desktop application is programmed with Qt and C++.
 
-The Android application is currently developed in Kotlin.
+The current Android application was implemented in Kotlin with AndroidXml. Another version of the Android app with Kotlin and Jetpack Compose is being now developed.
 The older version of the Android application in Java still exists in the repository for reference.
 
 Starting with version 0.3.16 for the desktop version and version 0.4.0 for the Android app, a multiplayer module is included.
