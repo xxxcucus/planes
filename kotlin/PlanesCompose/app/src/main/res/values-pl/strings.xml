@@ -220,6 +220,18 @@
     <string name="helptext_chat">Naciśnij na nazwę użytkownika, aby rozpocząć z nim rozmowę lub kontynuować poprzednią rozmowę.</string>
     <string name="helptext_conversation1">Wpisz swoją wiadomość w obszarze na dole ekranu i naciśnij \\\'Wyślij wiadomość\\\', aby wysłać wiadomość.</string>
     <string name="helptext_conversation2">Możesz również wysyłać wiadomości do niedostępnych użytkowników. Zostaną dostarczone do użytkowników przy ich następnym zalogowaniu.</string>
+    <string name="already_registered_login">Masz już konto? Zaloguj się!</string>
+    <string name="logoutsuccess">Wylogowano pomyślnie</string>
+    <string name="deletesuccess">Pomyślnie usunięto użytkownika</string>
+    <string name="wait_for_opponent">Utworzono rozgrywkę %1$s. Oczekiwanie na połączenie przeciwnika.</string>
+    <string name="connect_another_game">Połącz z inną rozgrywką</string>
+    <string name="start_game">Rozpocznij rozgrywkę</string>
+    <string name="connectivity">Łączność</string>
+    <string name="various_games">Różne rozgrywk</string>
+    <string name="info">Informacje</string>
+    <string name="tutorials">Samouczki</string>
+    <string name="multiplayer_game_statistics">Statystyki rozgrywki wieloosobowej</string>
+    <string name="singleplayer_game_statistics">Statystyki rozgrywki jednoosobowej</string>
 
 
 </resources>

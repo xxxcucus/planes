@@ -211,5 +211,17 @@
     <string name="helptext_conversation1">Inserisci il tuo messaggio nella casella in fondo allo schermo e clicca su \"Invia messaggio\" per inviare un messaggio.</string>
     <string name="helptext_conversation2">Puoi anche inviare messaggi agli utenti offline. Saranno inviati agli utenti quando effettueranno l\'accesso la prossima volta.</string>
     <string name="credits_graphics_content1">Il logo del gioco, la grafica del negozio e l\'illustrazione del caricatore sono stati creati da Alexandru Vintilescu. Altri lavori di Alex possono essere visti su https://axa951.wixsite.com/portfolio</string>
+    <string name="already_registered_login">Già registrato! Accedi!</string>
+    <string name="logoutsuccess">Logout effettuato con successo</string>
+    <string name="deletesuccess">Eliminazione utente riuscita</string>
+    <string name="wait_for_opponent">Partita %1$s creata. In attesa che l’avversario si colleghi.</string>
+    <string name="connect_another_game">Collegati a un’altra partita</string>
+    <string name="start_game">Avvia partita</string>
+    <string name="connectivity">Connessione</string>
+    <string name="various_games">Giochi vari</string>
+    <string name="info">Informazioni</string>
+    <string name="tutorials">Tutorial</string>
+    <string name="multiplayer_game_statistics">Statistiche modalità multigiocatore</string>
+    <string name="singleplayer_game_statistics">Statistiche modalità giocatore singolo</string>
 
 </resources>

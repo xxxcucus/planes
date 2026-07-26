@@ -217,5 +217,22 @@
     <string name="helptext_chat">Toca el nombre del usuario para iniciar una conversación o continuar una anterior.</string>
     <string name="helptext_conversation1">Escribe tu mensaje en el cuadro de la parte inferior de la pantalla y haz click en \\\'Enviar mensaje\\\' para enviarlo.</string>
     <string name="helptext_conversation2">También puedes enviar mensajes a usuarios que estén desconectados. Estos serán entregados cuando se conecten la siguiente vez.</string>
+    <string name="already_registered_login">Ya estás registrado? Inicia sesión!</string>
+
+    <string name="logoutsuccess">Cierre de sesión exitoso</string>
+    <string name="deletesuccess">Usuario eliminado correctamente</string>
+    <string name="wait_for_opponent">Partida %1$s creada. Esperando a que un oponente se conecte.</string>
+
+    <string name="connect_another_game">Conectarse a otra partida</string>
+    <string name="start_game">Iniciar partida</string>
+
+    <string name="connectivity">Conectividad</string>
+    <string name="various_games">Juegos variados</string>
+    <string name="info">Información</string>
+    <string name="tutorials">Tutoriales</string>
+    <string name="multiplayer_game_statistics">Estadísticas de partidas multijugador</string>
+    <string name="singleplayer_game_statistics">Estadísticas de partidas de un jugador</string>
+
+
 
 </resources>
