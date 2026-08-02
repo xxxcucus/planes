@@ -43,7 +43,7 @@ set(COMMON_SRCS
 	planegrid.cpp
 	planeround.cpp
 	abstractplaneround.cpp
-    computerlogic.cpp
+	computerlogic.cpp
 	guesspoint.cpp
 	planepointiterator.cpp
 	planeintersectingpointiterator.cpp

@@ -9,12 +9,12 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 add_definitions(-DMAKE_MULTIPLAYERROUND_LIB)
 
 include_directories(
-	${CMAKE_CURRENT_SOURCE_DIR}
-	${CMAKE_CURRENT_SOURCE_DIR}/../singleround
-	${CMAKE_CURRENT_SOURCE_DIR}/../bcrypt
-	${CMAKE_CURRENT_SOURCE_DIR}/../stomp
-	${Qt6Widgets_INCLUDE_DIRS}
-	${Qt6Network_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/../singleround
+    ${CMAKE_CURRENT_SOURCE_DIR}/../bcrypt
+    ${CMAKE_CURRENT_SOURCE_DIR}/../stomp
+    ${Qt6Widgets_INCLUDE_DIRS}
+    ${Qt6Network_INCLUDE_DIRS}
     ${Qt6Core_INCLUDE_DIRS})
 
 set(MULTIROUND_HEADR 
@@ -23,20 +23,20 @@ set(MULTIROUND_HEADR
     global/globalgamedata.h 
     global/globaluserdata.h
     viewmodels/gameviewmodel.h
-	viewmodels/loginviewmodel.h
-	viewmodels/norobotviewmodel.h
-	viewmodels/planespositionsviewmodel.h
-	viewmodels/getopponentplanespositionsviewmodel.h
-	viewmodels/newmoveviewmodel.h
-	viewmodels/cancelroundviewmodel.h
-	viewmodels/startnewroundviewmodel.h
-	viewmodels/sendwinnerviewmodel.h
-	viewmodels/unsentmovesviewmodel.h
-	viewmodels/deactivateuserviewmodel.h
-	viewmodels/getopponentemovesviewmodel.h
-	viewmodels/sendchatmessageviewmodel.h
-	viewmodels/receivedchatmessageviewmodel.h
-	viewmodels/getchatmessagesviewmodel.h
+    viewmodels/loginviewmodel.h
+    viewmodels/norobotviewmodel.h
+    viewmodels/planespositionsviewmodel.h
+    viewmodels/getopponentplanespositionsviewmodel.h
+    viewmodels/newmoveviewmodel.h
+    viewmodels/cancelroundviewmodel.h
+    viewmodels/startnewroundviewmodel.h
+    viewmodels/sendwinnerviewmodel.h
+    viewmodels/unsentmovesviewmodel.h
+    viewmodels/deactivateuserviewmodel.h
+    viewmodels/getopponentemovesviewmodel.h
+    viewmodels/sendchatmessageviewmodel.h
+    viewmodels/receivedchatmessageviewmodel.h
+    viewmodels/getchatmessagesviewmodel.h
     communicationobjects/basiscommobj.h
     communicationobjects/creategamecommobj.h
     communicationobjects/refreshgamestatuscommobj.h
@@ -92,10 +92,10 @@ add_library(libMultiRound SHARED
 )
 
 target_link_libraries(libMultiRound
-	libSingleRound
+    libSingleRound
     libbcrypt
-	Qt6::Widgets
-	Qt6::Network
+    Qt6::Widgets
+    Qt6::Network
     Qt6::Core)
 
 set_target_properties(libMultiRound PROPERTIES
