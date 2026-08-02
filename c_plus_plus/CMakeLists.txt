@@ -36,7 +36,8 @@ add_subdirectory(tests/singleroundtests)
 #set(ROOT_PATH ${Qt6_DIR}/../../../)
 
 get_target_property(QT_LIB_DIR Qt6::Core LOCATION)
-get_filename_component(ROOT_PATH "${QT_LIB_DIR}" DIRECTORY) # path to Qt
+get_filename_component(QT_LIB_DIR "${QT_LIB_DIR}" DIRECTORY) # path to Qt
+set(ROOT_PATH ${QT_LIB_DIR}/../)
 
 if (WIN32)
 	install(FILES ${ROOT_PATH}/bin/Qt6Widgets.dll DESTINATION bin)
