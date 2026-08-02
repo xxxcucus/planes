@@ -1,5 +1,6 @@
 package com.planes.android.screens.singleplayergame
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
@@ -13,7 +14,7 @@ fun BoardSquareBoardEditing(index: Int, squareSizeDp: Int, squareSizePx: Float,
     var pointOnPlane = planesGridViewModel.isPointOnPlane(col, row)
 
     if (!pointOnPlane.first)
-        GridSquareBoardEditing(squareSizeDp, squareSizePx, Color.Blue)
+        GridSquareBoardEditing(squareSizeDp, squareSizePx, MaterialTheme.colorScheme.background)
     else {
         val annotation = planesGridViewModel.getAnnotation(pointOnPlane.second)
         val planesIdx = planesGridViewModel.decodeAnnotation(annotation)
@@ -22,7 +23,7 @@ fun BoardSquareBoardEditing(index: Int, squareSizeDp: Int, squareSizePx: Float,
                 selectedPlane = planesGridViewModel.getSelectedPlane(),
                 annotation = if (planesIdx[0] < 0) -2 else planesIdx[0] + 1,
                 widthDp = squareSizeDp,
-                backgroundColor = Color.Blue,
+                backgroundColor = MaterialTheme.colorScheme.background,
                 index = index,
                 onClick = onClick
             )
@@ -32,7 +33,7 @@ fun BoardSquareBoardEditing(index: Int, squareSizeDp: Int, squareSizePx: Float,
                 selectedPlane = planesGridViewModel.getSelectedPlane(),
                 annotation = -1,
                 widthDp = squareSizeDp,
-                backgroundColor = Color.Blue,
+                backgroundColor = MaterialTheme.colorScheme.background,
                 index = index,
                 onClick = onClick
             )

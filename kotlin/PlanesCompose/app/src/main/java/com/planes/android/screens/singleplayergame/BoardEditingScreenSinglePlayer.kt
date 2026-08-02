@@ -3,6 +3,7 @@ package com.planes.android.screens.singleplayergame
 import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,8 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
@@ -31,14 +30,17 @@ import java.util.Date
 import kotlin.math.abs
 
 @Composable
-fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentScreenState: MutableState<String>,
-                                   topBarHeight: MutableState<Int>,
+fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: MutableState<String>,
+                                   currentScreenState: MutableState<String>,
+                                   showPopupState: MutableState<Boolean>,
                                    navController: NavController,
                                    planeRound: SinglePlayerRoundInterface,
                                    playerGridViewModel: PlayerGridViewModelSinglePlayer
 ) {
 
+    currentTitleState.value = stringResource(R.string.game)
     currentScreenState.value = PlanesScreens.SinglePlayerBoardEditing.name
+    showPopupState.value = false
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp
@@ -46,7 +48,6 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentScreenState: Mutab
     var squareSizeDp = screenWidthDp / playerGridViewModel.getColNo()
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        //squareSizeDp = (screenHeightDp - topBarHeight.value) / playerGridViewModel.getRowNo()
         squareSizeDp = screenHeightDp / playerGridViewModel.getRowNo()
     }
 
@@ -78,64 +79,71 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentScreenState: Mutab
         Column() {
 
            GameBoardSinglePlayer(playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
-               modifier = Modifier.padding(top = topBarHeight.value.dp)
-               .width(boardSizeDp.dp).height(boardSizeDp.dp)
-               .pointerInput(Unit) {
-                   detectDragGestures(
-                       onDrag = { _, dragAmount ->
-                           val tripleVal = treatSwipeVertical(swipeThresh, consecSwipeThresh, swipeLengthX,
-                               swipeLengthY, squareSizePx, curTime, dragAmount, playerGridViewModel)
-                           swipeLengthX = tripleVal.first
-                           swipeLengthY = tripleVal.second
-                           curTime = tripleVal.third
-                       }
-                   )
-               }) {
-               for (index in 0..99)
+               modifier = Modifier.width(boardSizeDp.dp)
+                   .height(boardSizeDp.dp)
+                   .pointerInput(Unit) {
+                       detectTapGestures(
+                           onLongPress = { _ -> playerGridViewModel.rotatePlane(playerGridViewModel.getSelectedPlane()) }
+                       )}
+                   .pointerInput(Unit) {
+                       detectDragGestures(
+                           onDrag = { _, dragAmount ->
+                               val tripleVal = treatSwipeVertical(swipeThresh, consecSwipeThresh, swipeLengthX,
+                                   swipeLengthY, squareSizePx, curTime, dragAmount, playerGridViewModel)
+                               swipeLengthX = tripleVal.first
+                               swipeLengthY = tripleVal.second
+                               curTime = tripleVal.third
+                           }
+                       )
+                   })
+           {
+               for (index in 0..99) {
                    BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, playerGridViewModel) {
                        val row = index / playerGridViewModel.getColNo()
                        val col = index % playerGridViewModel.getColNo()
-
-                       playerGridViewModel.setSelectedPlane(row, col)
-                   }
+                       playerGridViewModel.setSelectedPlane(row, col)}
+               }
            }
 
             BoardEditingControlButtonsVerticalLayout(screenHeightDp, boardSizeDp, buttonHeightDp,
                 buttonWidthDp, navController,
-                playerGridViewModel,
-                planeRound)
+                playerGridViewModel, !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap())
         }
     } else {  //landscape
         Row() {
 
             GameBoardSinglePlayer(playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
-                modifier = Modifier.padding(top = topBarHeight.value.dp)
-                .width(boardSizeDp.dp).height(boardSizeDp.dp)
-                .pointerInput(Unit) {
-                    detectDragGestures(
-                        onDrag = { _, dragAmount ->
-                            val tripleVal = treatSwipeHorizontal(
-                                swipeThresh, consecSwipeThresh, swipeLengthX,
-                                swipeLengthY, squareSizePx, curTime, dragAmount, playerGridViewModel
-                            )
-                            swipeLengthX = tripleVal.first
-                            swipeLengthY = tripleVal.second
-                            curTime = tripleVal.third
-                        })
-                }) {
+                modifier = Modifier.width(boardSizeDp.dp)
+                    .height(boardSizeDp.dp)
+                    .pointerInput(Unit) {
+                        detectTapGestures(
+                            onLongPress = { _ -> playerGridViewModel.rotatePlane(playerGridViewModel.getSelectedPlane()) }
+                        )}
+                    .pointerInput(Unit) {
+                        detectDragGestures(
+                            onDrag = { _, dragAmount ->
+                                val tripleVal = treatSwipeHorizontal(
+                                    swipeThresh, consecSwipeThresh, swipeLengthX,
+                                    swipeLengthY, squareSizePx, curTime, dragAmount, playerGridViewModel
+                                )
+                                swipeLengthX = tripleVal.first
+                                swipeLengthY = tripleVal.second
+                                curTime = tripleVal.third
+                            })
+                    })
+            {
                 for (index in 0..99)
                     BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, playerGridViewModel) {
                         val row = index / playerGridViewModel.getColNo()
                         val col = index % playerGridViewModel.getColNo()
-
                         playerGridViewModel.setSelectedPlane(row, col)
                     }
             }
 
-            BoardEditingControlButtonsHorizontalLayout(screenHeightDp, boardSizeDp, buttonHeightDp,
-                buttonWidthDp, topBarHeight.value, navController,
+            BoardEditingControlButtonsHorizontalLayout(buttonHeightDp,
+                buttonWidthDp, navController,
                 playerGridViewModel,
-                planeRound)
+                !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap())
         }
     }
 }
@@ -233,7 +241,7 @@ fun treatSwipeHorizontal(swipeThresh: Float, consecSwipeThresh: Int,
 fun BoardEditingControlButtonsVerticalLayout(screenHeightDp: Int, boardSizeDp: Int, buttonHeightDp: Int,
                                              buttonWidthDp: Int, navController: NavController,
                                              playerGridViewModel: PlaneGridViewModel,
-                                             planeRound: SinglePlayerRoundInterface) {
+                                             doneEnabled: Boolean) {
     Column(
         modifier = Modifier.height(screenHeightDp.dp - boardSizeDp.dp),
         verticalArrangement = Arrangement.Center
@@ -252,7 +260,7 @@ fun BoardEditingControlButtonsVerticalLayout(screenHeightDp: Int, boardSizeDp: I
             OneLineGameButton(
                 textLine = stringResource(R.string.done_button), playerGridViewModel,
                 modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
+                enabled = doneEnabled
             ) { viewModel ->
                 viewModel.updatePlanesToPlaneRound()
                 viewModel.doneEditing()
@@ -294,11 +302,11 @@ fun BoardEditingControlButtonsVerticalLayout(screenHeightDp: Int, boardSizeDp: I
 }
 
 @Composable
-fun BoardEditingControlButtonsHorizontalLayout(screenHeightDp: Int, boardSizeDp: Int, buttonHeightDp: Int,
-                                             buttonWidthDp: Int, topBarHeightDp: Int,
+fun BoardEditingControlButtonsHorizontalLayout(buttonHeightDp: Int,
+                                             buttonWidthDp: Int,
                                                navController: NavController,
                                              playerGridViewModel: PlaneGridViewModel,
-                                             planeRound: SinglePlayerRoundInterface) {
+                                               doneEnabled: Boolean) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
@@ -306,8 +314,7 @@ fun BoardEditingControlButtonsHorizontalLayout(screenHeightDp: Int, boardSizeDp:
         Column(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxHeight().width(buttonWidthDp.dp)
-                .padding(top = topBarHeightDp.dp)
-        ) {
+                ) {
             OneLineGameButton(
                 textLine = stringResource(R.string.rotate_button), playerGridViewModel,
                 modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
@@ -336,11 +343,11 @@ fun BoardEditingControlButtonsHorizontalLayout(screenHeightDp: Int, boardSizeDp:
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxHeight().width(buttonWidthDp.dp)
         ) {
-            Spacer(modifier = Modifier.height(topBarHeightDp.dp))
+
             OneLineGameButton(
                 textLine = stringResource(R.string.done_button), playerGridViewModel,
                 modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
-                enabled = !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap()
+                enabled = doneEnabled
             ) { viewModel ->
                 viewModel.updatePlanesToPlaneRound()
                 viewModel.doneEditing()

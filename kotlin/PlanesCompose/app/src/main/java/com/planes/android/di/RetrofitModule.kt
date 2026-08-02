@@ -2,6 +2,7 @@ package com.planes.android.di
 
 import com.planes.android.network.game.PlanesGameApi
 import com.planes.android.network.user.PlanesUserApi
+import com.planes.android.network.version.PlanesVersionApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,6 +49,21 @@ class RetrofitModule {
             .baseUrl(baseUrl)
             .build()
         return retrofit.create(PlanesGameApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providePlanesVersionApi(): PlanesVersionApi {
+
+        val baseUrl = "https://planes.planes-android.com:8443/planesserver/"
+        val okHttpClient = buildOkHttpClient()
+
+        val retrofit = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .baseUrl(baseUrl)
+            .build()
+        return retrofit.create(PlanesVersionApi::class.java)
     }
 
     fun buildOkHttpClient() : OkHttpClient {

@@ -50,9 +50,9 @@ add_executable(singleroundtest  ${TEST_HEADR} ${TEST_SRCS})
 add_test(NAME singleroundtest COMMAND singleroundtest)
 
 target_link_libraries(singleroundtest 
-		libSingleRound
+	libSingleRound
         Qt6::Test
-		Qt6::Core)
+	Qt6::Core)
 
 if (UNIX)
 install(TARGETS singleroundtest DESTINATION tests)

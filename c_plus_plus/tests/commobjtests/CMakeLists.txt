@@ -16,11 +16,11 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../../stomp
 	${Qt6Widgets_INCLUDE_DIRS}
 	${Qt6Network_INCLUDE_DIRS}
-    ${Qt6Core_INCLUDE_DIRS}
+	${Qt6Core_INCLUDE_DIRS}
 	${Qt6Network_INCLUDE_DIRS})
 
 set(TEST_HEADR 
-    cancelroundcommobjtest.h
+	cancelroundcommobjtest.h
 	connecttogamecommobjtest.h
 	creategamecommobjtest.h
 	logincommobjtest.h
@@ -56,7 +56,7 @@ target_link_libraries(commobjtest
 		libSingleRound
 		libMultiRound
 		libbcrypt
-        Qt6::Test
+		Qt6::Test
 		Qt6::Widgets
 		Qt6::Network
 		Qt6::Core)

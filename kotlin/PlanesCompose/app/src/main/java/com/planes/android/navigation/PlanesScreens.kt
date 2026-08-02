@@ -18,7 +18,9 @@ enum class PlanesScreens {
     NoRobot,
     DeleteUser,
     Chat,
-    Preferences;
+    Conversation,
+    Preferences,
+    SplashScreen;
     companion object {
         fun fromRoute(route: String?) : PlanesScreens  =
             when(route?.substringBefore("/")) {

@@ -6,11 +6,14 @@ import android.util.Log
 import android.view.ViewGroup
 import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -21,12 +24,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,23 +38,26 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.datasource.DataSource
-import androidx.media3.datasource.DefaultDataSource
-import androidx.media3.datasource.DefaultHttpDataSource
-import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.PlayerView
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 
 @Composable
-fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
+fun VideoScreen(modifier: Modifier, currentTitleState: MutableState<String>,
+                currentScreenState: MutableState<String>,
+                showPopupState: MutableState<Boolean>,
+                videoId: Int, time: Int,
                 navController: NavController, viewModel: VideoViewModel = hiltViewModel()) {
 
+    currentTitleState.value = stringResource(R.string.videos)
     currentScreenState.value = PlanesScreens.Tutorials.name
+    showPopupState.value = false
+
     val configuration = LocalConfiguration.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    val screenWidthDp = configuration.screenWidthDp
+    val buttonWidth = screenWidthDp / 3
 
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
@@ -70,7 +76,7 @@ fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
     }
 
     val currentVideoState = rememberSaveable {
-        mutableStateOf(R.raw.guessing)
+        mutableStateOf(videoId)
     }
 
     val context = LocalContext.current
@@ -87,14 +93,28 @@ fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
 
                 Column(verticalArrangement = Arrangement.spacedBy(1.dp)) {
                     VideoPlayer(currentVideoState.value, viewModel)
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        verticalArrangement = Arrangement.spacedBy(1.dp),
-                        horizontalArrangement = Arrangement.spacedBy(1.dp),
-                        contentPadding = PaddingValues(1.dp)
+
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)              // Take all remaining space
+                            .fillMaxWidth(0.83f).
+                        padding(start = (buttonWidth / 2).dp),
+                        contentAlignment = Alignment.Center,
                     ) {
-                        items(items = viewModel.getVideoModelList()) { entry ->
-                            VideoButton(entry, currentVideoState, Modifier.width(200.dp).height(100.dp))
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(2),
+                            verticalArrangement = Arrangement.spacedBy(1.dp),
+                            horizontalArrangement = Arrangement.spacedBy(1.dp),
+                            contentPadding = PaddingValues(1.dp)
+                        ) {
+                            items(items = viewModel.getVideoModelList()) { entry ->
+                                VideoButton(
+                                    entry,
+                                    currentVideoState,
+                                    modifier = Modifier.width(buttonWidth.dp).
+                                    height(100.dp)
+                                )
+                            }
                         }
                     }
                 }
@@ -102,7 +122,6 @@ fun VideoScreen(modifier: Modifier, currentScreenState: MutableState<String>,
             else -> {
                 Row() {
                     Column(verticalArrangement = Arrangement.spacedBy(1.dp)) {
-                        Spacer(modifier = Modifier)
                         LazyColumn(
                             verticalArrangement = Arrangement.spacedBy(1.dp),
                             contentPadding = PaddingValues(

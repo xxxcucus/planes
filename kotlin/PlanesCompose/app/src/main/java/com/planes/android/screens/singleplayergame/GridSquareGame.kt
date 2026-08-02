@@ -4,6 +4,7 @@ import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -61,6 +62,7 @@ fun GridSquareGame(isComputer: Boolean,
     }
 
     Canvas(modifier = Modifier.width(widthDp.dp).height(widthDp.dp)
+        .background(backgroundColor)
         .scale(scale.value).clickable {
         onClick.invoke(index)
     }) {
@@ -73,25 +75,32 @@ fun GridSquareGame(isComputer: Boolean,
         val thirdPlaneColor = Color(160, 160, 160)
 
         //Log.d("Planes", "Annotation $annotation")
-        //if (isComputer) {
-        if (annotation == -1) {
-            squareColor = planeOverlapColor
-        } else if (annotation == -2) {
-            squareColor = cockpitColor
-        } else if (annotation == 1) {
-            squareColor = firstPlaneColor
-        } else if (annotation == 2) {
-            squareColor = secondPlaneColor
-        } else if (annotation == 3) {
-            squareColor = thirdPlaneColor
+        if (!isComputer) {
+            if (annotation == -1) {
+                squareColor = planeOverlapColor
+            } else if (annotation == -2) {
+                squareColor = cockpitColor
+            } else if (annotation == 1) {
+                squareColor = firstPlaneColor
+            } else if (annotation == 2) {
+                squareColor = secondPlaneColor
+            } else if (annotation == 3) {
+                squareColor = thirdPlaneColor
+            }
+        } else {
+            if (guess != null && annotation == -2) {
+                squareColor = cockpitColor
+            }
         }
 
-        //}
-
-        if (annotation != 0)
-            drawPlaneBoardSquareBackground(size.width, squareColor, this)
-        else {
+        if (isComputer) {
             drawNonPlaneBoardSquareBackground(size.width, squareColor, this)
+        } else {
+            if (annotation != 0) {
+                drawPlaneBoardSquareBackground(size.width, squareColor, this)
+            } else {
+                drawNonPlaneBoardSquareBackground(size.width, squareColor, this)
+            }
         }
 
         if (guess != null) {

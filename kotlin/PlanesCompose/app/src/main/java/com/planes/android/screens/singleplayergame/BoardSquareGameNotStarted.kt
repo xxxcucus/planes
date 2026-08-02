@@ -1,5 +1,6 @@
 package com.planes.android.screens.singleplayergame
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
@@ -21,7 +22,7 @@ fun BoardSquareGameNotStarted(index: Int, squareSizeDp: Int, squareSizePx: Float
             guess = guess,
             widthDp = squareSizeDp,
             widthPx = squareSizePx,
-            backgroundColor = Color.White,
+            backgroundColor = MaterialTheme.colorScheme.background,
             index = index
         )
     else {
@@ -35,7 +36,7 @@ fun BoardSquareGameNotStarted(index: Int, squareSizeDp: Int, squareSizePx: Float
                 guess = guess,
                 widthDp = squareSizeDp,
                 widthPx = squareSizePx,
-                backgroundColor = Color.Blue,
+                backgroundColor = MaterialTheme.colorScheme.background,
                 index = index
             )
             //Log.d("Planes", "plane ${planesIdx[0]}")
@@ -46,7 +47,7 @@ fun BoardSquareGameNotStarted(index: Int, squareSizeDp: Int, squareSizePx: Float
                 guess = guess,
                 widthDp = squareSizeDp,
                 widthPx = squareSizePx,
-                backgroundColor = Color.Blue,
+                backgroundColor = MaterialTheme.colorScheme.background,
                 index = index
             )
         }

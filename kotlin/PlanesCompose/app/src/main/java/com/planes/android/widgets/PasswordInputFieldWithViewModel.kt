@@ -5,9 +5,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -20,7 +22,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.planes.android.screens.login.LoginViewModel
+import androidx.lint.kotlin.metadata.Visibility
+
 
 @Composable
 fun <T> PasswordInputFieldWithViewModel(modifier: Modifier,
@@ -42,7 +45,8 @@ fun <T> PasswordInputFieldWithViewModel(modifier: Modifier,
             valueWriteLambda.invoke(viewModel, it)
         },
         label = {
-            Text(text = placeholder)
+            Text(text = placeholder,
+                style = MaterialTheme.typography.titleMedium)
         },
         maxLines = 1,
         singleLine = true,
@@ -53,8 +57,15 @@ fun <T> PasswordInputFieldWithViewModel(modifier: Modifier,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
         keyboardActions = KeyboardActions.Default,
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = Color.Blue,
-            cursorColor = Color.Black
+            focusedBorderColor = MaterialTheme.colorScheme.tertiary,
+            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+            focusedLabelColor = MaterialTheme.colorScheme.onSurface,
+            unfocusedLabelColor = MaterialTheme.colorScheme.onSurface,
+            cursorColor = MaterialTheme.colorScheme.tertiary,
+            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+            unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+            focusedContainerColor = MaterialTheme.colorScheme.background,
+            unfocusedContainerColor = MaterialTheme.colorScheme.background
         ),
         shape = RoundedCornerShape(15.dp),
         //modifier = Modifier.fillMaxWidth().padding(start = 10.dp, end = 10.dp)
@@ -69,7 +80,8 @@ fun PasswordVisibility(passwordVisibility: MutableState<Boolean>) {
         passwordVisibility.value = !visible
     }) {
         Icon(
-            Icons.Default.Close,
+            if (passwordVisibility.value) Icons.Filled.Visibility
+            else Icons.Filled.VisibilityOff,
             "Password visibility icon" )
     }
 }

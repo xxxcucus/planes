@@ -22,19 +22,19 @@ set(GS_SRCS
 	leftpane/boardediting/boardeditingwidget.cpp
 	leftpane/startnewround/startnewroundwidget.cpp
 	leftpane/startnewround/scoreframe.cpp
-    leftpane/account/clickablelabel.cpp
-    leftpane/account/loginregisterform.cpp
-    leftpane/account/mainaccountwidget.cpp
-    leftpane/account/norobotwidget.cpp
+	leftpane/account/clickablelabel.cpp
+	leftpane/account/loginregisterform.cpp
+	leftpane/account/mainaccountwidget.cpp
+	leftpane/account/norobotwidget.cpp
 	leftpane/account/norobotdialog.cpp
-    leftpane/account/userprofileframe.cpp
-    leftpane/account/userprofileform.cpp
+	leftpane/account/userprofileframe.cpp
+	leftpane/account/userprofileform.cpp
 	leftpane/game/gamewidget.cpp
 	leftpane/game/gameendwidget.cpp
 	leftpane/game/gamestatuswidget.cpp
 	leftpane/game/creategamewidget.cpp
-    rightpane/rightpane.cpp
-    rightpane/boards/computerboard.cpp
+	rightpane/rightpane.cpp
+	rightpane/boards/computerboard.cpp
 	rightpane/boards/customgraphicsscene.cpp
 	rightpane/boards/customgraphicsview.cpp
 	rightpane/boards/genericboard.cpp
@@ -48,8 +48,8 @@ set(GS_SRCS
 	rightpane/chat/chatwidget.cpp
 	rightpane/chat/userwithstatuswidget.cpp
 	main.cpp
-    animatedtextitem.cpp
-    customhorizlayout.cpp
+	animatedtextitem.cpp
+	customhorizlayout.cpp
 	planesgsview.cpp
 	planesgswindow.cpp
 	statusbarwidget.cpp
@@ -63,12 +63,12 @@ set(GS_HEADR
 	leftpane/boardediting/boardeditingwidget.h
 	leftpane/startnewround/startnewroundwidget.h
 	leftpane/startnewround/scoreframe.h
-    leftpane/account/clickablelabel.h
-    leftpane/account/loginregisterform.h
-    leftpane/account/userprofileform.h
-    leftpane/account/mainaccountwidget.h
-    leftpane/account/norobotwidget.h
-    leftpane/account/userprofileframe.h
+	leftpane/account/clickablelabel.h
+	leftpane/account/loginregisterform.h
+	leftpane/account/userprofileform.h
+	leftpane/account/mainaccountwidget.h
+	leftpane/account/norobotwidget.h
+	leftpane/account/userprofileframe.h
 	leftpane/account/norobotdialog.h
 	leftpane/game/gamewidget.h
 	leftpane/game/gameendwidget.h

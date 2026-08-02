@@ -10,6 +10,7 @@ import com.planes.android.network.user.responses.LoginResponse
 import com.planes.android.network.user.responses.LogoutResponse
 import com.planes.android.network.user.responses.NoRobotResponse
 import com.planes.android.network.user.responses.RegistrationResponse
+import com.planes.multiplayer_engine.requests.PlayersListRequest
 import com.planes.multiplayer_engine.requests.ReceiveChatMessagesRequest
 import com.planes.multiplayer_engine.requests.SendChatMessageRequest
 import com.planes.multiplayer_engine.responses.PlayersListResponse
@@ -54,7 +55,7 @@ interface PlanesUserApi {
     @POST("users/available_users")
     @Headers("Content-Type: application/json")
     suspend fun getPlayersList(@Header("Authorization") authorization: String,
-                       @Body request: Response<PlayersListResponse>)
+                       @Body request: PlayersListRequest): Response<PlayersListResponse>
 
     @POST("chat/get_messages")
     @Headers("Content-Type: application/json")

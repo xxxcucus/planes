@@ -14,33 +14,37 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
+import com.planes.android.screens.login.validationUsernamePasswordLogin
 import com.planes.android.screens.norobot.NoRobotViewModel
 import com.planes.android.screens.norobot.PhotoModel
 import com.planes.android.widgets.CommonTextFieldWithViewModel
 import com.planes.android.widgets.PasswordInputFieldWithViewModel
 
 @Composable
-fun RegisterScreen(modifier: Modifier, currentScreenState: MutableState<String>,
+fun RegisterScreen(modifier: Modifier, currentTitleState: MutableState<String>,
+                   currentScreenState: MutableState<String>,
+                   showPopupState: MutableState<Boolean>,
                    navController: NavController,
                    registerViewModel: RegisterViewModel,
                    noRobotViewModel: NoRobotViewModel)  {
 
+    currentTitleState.value = stringResource(R.string.register)
     currentScreenState.value = PlanesScreens.Register.name
+    showPopupState.value = false
+
     val scrollState = rememberScrollState()
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -87,12 +91,25 @@ fun RegisterScreen(modifier: Modifier, currentScreenState: MutableState<String>,
             passwordVisibility = passwordVisibility
         )
 
+        val validationTest = validationUsernamePasswordRegister(registerViewModel.getUserName(),
+            registerViewModel.getPassword(), stringResource(R.string.validation_toolong_login_username),
+            stringResource(R.string.validation_startsendswithempty_register_username),
+            stringResource(R.string.validation_tooshort_register_username),
+            stringResource(R.string.validation_toolong_login_password),
+            stringResource(R.string.validation_tooshort_register_password))
+
         Button(modifier = Modifier.padding(15.dp),
             onClick = {
                 submitClickedState.value = true
                 registerViewModel.register()
-            }) {
+            },
+            enabled = validationTest.trim().isEmpty()) {
             Text(text = stringResource(R.string.submit))
+        }
+
+        if (!validationTest.trim().isEmpty()) {
+            Text(color = Color.Red,
+                text = validationTest)
         }
 
         if (submitClickedState.value && registerViewModel.getLoading()) {
@@ -160,6 +177,7 @@ fun RegisterScreen(modifier: Modifier, currentScreenState: MutableState<String>,
                     noRobotViewModel.setRequestId(registerViewModel.getPendingRequestId())
 
                     navController.navigate(PlanesScreens.NoRobot.name)
+                    submitClickedState.value = false
                 }
             } else {
                 Toast.makeText(
@@ -171,4 +189,33 @@ fun RegisterScreen(modifier: Modifier, currentScreenState: MutableState<String>,
         }
 
     }
+}
+
+fun validationUsernamePasswordRegister(username: String, password: String,
+                                       tooLongUsernameError: String, startsEndsEmptyUsernameError: String,
+                                       tooShortUsernameError: String,
+                                       tooLongPasswordError: String, tooShortPasswordError: String) : String {
+    var retString = ""
+
+    if (username.length > 30) {
+        retString += "$tooLongUsernameError\n"
+    }
+
+    if (username != username.trim()) {
+        retString += "$startsEndsEmptyUsernameError\n"
+    }
+
+    if (username.length < 5) {
+        retString += "$tooShortUsernameError\n"
+    }
+
+    if (password.length > 30) {
+        retString += "$tooLongPasswordError\n"
+    }
+
+    if (password.length < 5) {
+        retString +=  "$tooShortPasswordError\n"
+    }
+
+    return retString
 }

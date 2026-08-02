@@ -1,19 +1,29 @@
 package com.planes.android
 
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.DrawerState
@@ -25,6 +35,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -34,8 +45,14 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -44,18 +61,11 @@ import androidx.navigation.compose.rememberNavController
 import com.planes.android.navigation.DrawerMenuItemGeneric
 import com.planes.android.navigation.PlanesNavigation
 import com.planes.android.navigation.PlanesScreens
-import com.planes.android.screens.createmultiplayergame.CreateViewModel
-import com.planes.android.screens.login.LoginViewModel
-import com.planes.android.screens.multiplayergame.ComputerGridViewModelMultiPlayer
-import com.planes.android.screens.multiplayergame.GameStatsViewModelMultiPlayer
-import com.planes.android.screens.multiplayergame.PlayerGridViewModelMultiPlayer
-import com.planes.android.screens.norobot.NoRobotViewModel
+import com.planes.android.screens.about.AboutEntryRepository
+import com.planes.android.screens.about.AboutEntryRow
 import com.planes.android.screens.preferences.PreferencesViewModel
-import com.planes.android.screens.register.RegisterViewModel
-import com.planes.android.screens.singleplayergame.ComputerGridViewModelSinglePlayer
-import com.planes.android.screens.singleplayergame.GameStatsViewModelSinglePlayer
-import com.planes.android.screens.singleplayergame.PlayerGridViewModelSinglePlayer
 import com.planes.android.ui.theme.PlanesComposeTheme
+import com.planes.android.widgets.HelpPopupBox
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import com.planes.singleplayerengine.GameStages
 import com.planes.singleplayerengine.SinglePlayerRoundInterface
@@ -84,9 +94,10 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
 
-//TODO: stop, start polling
+    //TODO onResume, onPause
+
+}
 
 @Composable
 fun Screen(modifier: Modifier,
@@ -94,18 +105,7 @@ fun Screen(modifier: Modifier,
            planeRound: SinglePlayerRoundInterface,
            planeRoundMultiplayer: MultiPlayerRoundInterface) {
 
-    val playerGridViewModelSinglePlayer: PlayerGridViewModelSinglePlayer = hiltViewModel()
-    val computerGridViewModelSinglePlayer: ComputerGridViewModelSinglePlayer = hiltViewModel()
-    val gameStatsViewModelSinglePlayer: GameStatsViewModelSinglePlayer = hiltViewModel()
-    val playerGridViewModelMultiPlayer: PlayerGridViewModelMultiPlayer = hiltViewModel()
-    val computerGridViewModelMultiPlayer: ComputerGridViewModelMultiPlayer = hiltViewModel()
-    val gameStatsViewModelMultiPlayer: GameStatsViewModelMultiPlayer = hiltViewModel()
     val optionsViewModel: PreferencesViewModel = hiltViewModel()
-    val loginViewModel: LoginViewModel = hiltViewModel()
-    val registerViewModel: RegisterViewModel = hiltViewModel()
-    val noRobotViewModel: NoRobotViewModel = hiltViewModel()
-    val createViewModel: CreateViewModel = hiltViewModel()
-
     planeRound.setComputerSkill(optionsViewModel.getComputerSkill())
     planeRound.setShowPlaneAfterKill(optionsViewModel.getShowPlaneAfterKill())
 
@@ -113,106 +113,137 @@ fun Screen(modifier: Modifier,
         initialValue = DrawerValue.Closed
     )
 
-    val currentScreenState = remember {
-        mutableStateOf("About")
+    val currentTitleState = rememberSaveable {
+        mutableStateOf(PlanesScreens.Login.name)
     }
 
-    val topBarHeight = remember {
-        mutableStateOf(70)
+    val currentScreenState = rememberSaveable {
+        mutableStateOf(PlanesScreens.Login.name)
     }
+
+    val showPopupState = rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    val newMessagesState = rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    val userLoggedInState = rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    val splashScreenState = rememberSaveable() {
+        mutableStateOf(true)
+    }
+
+    val configuration = LocalConfiguration.current
+    val screenWidthDp = configuration.screenWidthDp
+    val screenHeightDp = configuration.screenHeightDp
 
     val scope = rememberCoroutineScope()
+
 
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet {
+            ModalDrawerSheet(drawerContainerColor = MaterialTheme.colorScheme.inversePrimary) {
                 DrawerContent(
                     navController = navController,
                     drawerScope = scope,
                     drawerState = drawerState,
                     planeRound = planeRound,
-                    planeRoundMultiplayer = planeRoundMultiplayer
+                    planeRoundMultiplayer = planeRoundMultiplayer,
+                    userLoggedInState = userLoggedInState
                 )
             }
         },
-        gesturesEnabled = true
+        gesturesEnabled = true,
+        scrimColor = MaterialTheme.colorScheme.scrim
     ) {
         Scaffold(
+            containerColor = MaterialTheme.colorScheme.background,
+            contentColor = MaterialTheme.colorScheme.onBackground,
             topBar = {
-                TopBar(
-                    modifier = Modifier.padding(0.dp)
-                        .height(topBarHeight.value.dp).fillMaxWidth(),
-                    onOpenDrawer = {
-                        scope.launch {
-                            drawerState.apply {
-                                if (isClosed)
-                                    open()
-                                else
-                                    close()
+                if (!splashScreenState.value) {
+                    TopBar(
+                        modifier = Modifier.padding(0.dp).fillMaxWidth(),
+                        onOpenDrawer = {
+                            scope.launch {
+                                drawerState.apply {
+                                    if (isClosed)
+                                        open()
+                                    else
+                                        close()
+                                }
                             }
-                        }
-                    },
-                    currentScreenName = currentScreenState.value
-                )
+                        },
+                        title = currentTitleState.value,
+                        currentScreen = currentScreenState.value,
+                        newMessages = newMessagesState.value,
+                        showPopupState = showPopupState
+                    )
+                }
             }
         ) { padding ->
-            ScreenContent(modifier = Modifier.padding(padding),
-                currentScreenState = currentScreenState,
-                topBarHeight = topBarHeight,
-                navController = navController,
-                planeRound,
-                planeRoundMultiplayer,
-                optionsViewModel,
-                playerGridViewModelSinglePlayer,
-                computerGridViewModelSinglePlayer,
-                gameStatsViewModelSinglePlayer,
-                playerGridViewModelMultiPlayer,
-                computerGridViewModelMultiPlayer,
-                gameStatsViewModelMultiPlayer,
-                loginViewModel,
-                registerViewModel,
-                noRobotViewModel,
-                createViewModel)
+
+            Box(modifier = Modifier.padding(padding).fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)) {
+                ScreenContent(
+                    modifier = Modifier.align(Alignment.Center)
+                        .background(MaterialTheme.colorScheme.background),
+                    currentTitleState = currentTitleState,
+                    currentScreenState = currentScreenState,
+                    showPopupState = showPopupState,
+                    newMessagesState = newMessagesState,
+                    userLoggedInState = userLoggedInState,
+                    splashScreenState = splashScreenState,
+                    navController = navController,
+                    planeRound,
+                    planeRoundMultiplayer
+                )
+
+
+                HelpPopupBox(
+                    modifier = Modifier.align(Alignment.Center),
+                    currentScreenState = currentScreenState,
+                    showPopupState = showPopupState,
+                    screenWidth = screenWidthDp.toFloat(),
+                    screenHeight = screenHeightDp.toFloat(),
+                    navController = navController
+                )
+
+            }
         }
     }
 }
 
+
+
 @Composable
-fun ScreenContent(modifier: Modifier, currentScreenState: MutableState<String>,
-                  topBarHeight: MutableState<Int>,
+fun ScreenContent(modifier: Modifier, currentTitleState: MutableState<String>,
+                  currentScreenState: MutableState<String>,
+                  showPopupState: MutableState<Boolean>,
+                  newMessagesState : MutableState<Boolean>,
+                  userLoggedInState : MutableState<Boolean>,
+                  splashScreenState: MutableState<Boolean>,
                   navController: NavHostController,
                   planeRound: SinglePlayerRoundInterface,
-                  planeRoundMultiplayer: MultiPlayerRoundInterface,
-                  optionsViewModel: PreferencesViewModel,
-                  playerGridViewModelSinglePlayer: PlayerGridViewModelSinglePlayer,
-                  computerGridViewModelSinglePlayer: ComputerGridViewModelSinglePlayer,
-                  gameStatsViewModelSinglePlayer: GameStatsViewModelSinglePlayer,
-                  playerGridViewModelMultiPlayer: PlayerGridViewModelMultiPlayer,
-                  computerGridViewModelMultiPlayer: ComputerGridViewModelMultiPlayer,
-                  gameStatsViewModelMultiPlayer: GameStatsViewModelMultiPlayer,
-                  loginViewModel: LoginViewModel,
-                  registerViewModel: RegisterViewModel,
-                  noRobotViewModel: NoRobotViewModel,
-                  createViewModel: CreateViewModel
+                  planeRoundMultiplayer: MultiPlayerRoundInterface
+                  ) {
 
-) {
-    PlanesNavigation(modifier = modifier,
-        currentScreenState, topBarHeight, navController,
-        context = LocalContext.current,
-        planeRound,
-        planeRoundMultiplayer,
-        optionsViewModel,
-        playerGridViewModelSinglePlayer,
-        computerGridViewModelSinglePlayer,
-        gameStatsViewModelSinglePlayer,
-        playerGridViewModelMultiPlayer,
-        computerGridViewModelMultiPlayer,
-        gameStatsViewModelMultiPlayer,
-        loginViewModel,
-        registerViewModel,
-        noRobotViewModel,
-        createViewModel)
+
+        PlanesNavigation(
+            modifier = modifier,
+            currentTitleState, currentScreenState,
+            showPopupState, newMessagesState, userLoggedInState,
+            splashScreenState,
+            navController,
+            context = LocalContext.current,
+            planeRound,
+            planeRoundMultiplayer
+        )
+
 }
 
 @Composable
@@ -221,51 +252,56 @@ fun DrawerContent(modifier: Modifier = Modifier,
                   drawerScope: CoroutineScope,
                   drawerState: DrawerState,
                   planeRound: SinglePlayerRoundInterface,
-                  planeRoundMultiplayer: MultiPlayerRoundInterface
+                  planeRoundMultiplayer: MultiPlayerRoundInterface,
+                  userLoggedInState: MutableState<Boolean>
                   ) {
-    //TODO: page names from resources
-
+    
     Column(
         modifier = Modifier.padding(horizontal = 16.dp)
             .verticalScroll(rememberScrollState())
     ) {
         Text(
-            text = "Planes",
+            text = stringResource(R.string.app_name),
             modifier = Modifier.padding(16.dp),
             style = MaterialTheme.typography.titleLarge
         )
 
         HorizontalDivider()
 
-        //TODO: Resources strings
         Text(
-            text = "Connectivity",
+            text = stringResource(R.string.connectivity),
             modifier = Modifier.padding(16.dp),
             style = MaterialTheme.typography.titleLarge
         )
 
-        DrawerMenuItemGeneric("Login / Logout", {
+        DrawerMenuItemGeneric(stringResource(R.string.login) +  "/" + stringResource(R.string.logout),
+            R.drawable.ic_baseline_login_24,
+            true, {
             drawerScope.launch {
                 drawerState.close()
             }
-            navController.navigate(route = PlanesScreens.Login.name)
+            val autologin = false
+            navController.navigate(route = "${PlanesScreens.Login.name}/$autologin")
         })
 
-        DrawerMenuItemGeneric("Register", {
+        DrawerMenuItemGeneric(stringResource(R.string.register), R.drawable.ic_baseline_recent_actors_24,
+            true, {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.Register.name)
         })
 
-        DrawerMenuItemGeneric("Chat", {
+        DrawerMenuItemGeneric(stringResource(R.string.chat), R.drawable.ic_baseline_toc_24,
+            userLoggedInState.value, {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.Chat.name)
         })
 
-        DrawerMenuItemGeneric("Delete User", {
+        DrawerMenuItemGeneric(stringResource(R.string.delete_user), R.drawable.baseline_delete_24,
+            userLoggedInState.value, {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -273,12 +309,13 @@ fun DrawerContent(modifier: Modifier = Modifier,
         })
 
         Text(
-            text = "Various Games",
+            text = stringResource(R.string.various_games),
             modifier = Modifier.padding(16.dp),
             style = MaterialTheme.typography.titleLarge
         )
 
-        DrawerMenuItemGeneric("Single Player Game", {
+        DrawerMenuItemGeneric(stringResource(R.string.singleplayergame), R.drawable.ic_baseline_sports_basketball_24,
+            true, {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -293,21 +330,24 @@ fun DrawerContent(modifier: Modifier = Modifier,
 
 
 
-        DrawerMenuItemGeneric("Single Player Game Statistics", {
+        /*DrawerMenuItemGeneric(stringResource(R.string.singleplayer_game_statistics), R.drawable.ic_baseline_assessment_24,
+            true, {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.SinglePlayerGameStatistics.name)
-        })
+        })*/
 
-        DrawerMenuItemGeneric("Create Multiplayer Game", {
+        DrawerMenuItemGeneric(stringResource(R.string.create_connectto_game),  R.drawable.ic_baseline_add_circle_24,
+            userLoggedInState.value, {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.CreateMultiplayerGame.name)
         })
 
-        DrawerMenuItemGeneric("Multiplayer Game", {
+        DrawerMenuItemGeneric(stringResource(R.string.multiplayergame), R.drawable.ic_baseline_sports_basketball_24,
+            userLoggedInState.value, {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -319,34 +359,40 @@ fun DrawerContent(modifier: Modifier = Modifier,
                 navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
         })
 
-        DrawerMenuItemGeneric("Multiplayer Game Statistics", {
+        /*DrawerMenuItemGeneric(stringResource(R.string.multiplayer_game_statistics), R.drawable.ic_baseline_assessment_24,
+            userLoggedInState.value, {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.MultiplayerGameStatistics.name)
-        })
+        })*/
 
         Text(
-            text = "Info",
+            text = stringResource(R.string.info),
             modifier = Modifier.padding(16.dp),
             style = MaterialTheme.typography.titleLarge
         )
 
-        DrawerMenuItemGeneric("About", {
+        DrawerMenuItemGeneric(stringResource(R.string.about), R.drawable.ic_baseline_toc_24,
+            true, {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.Info.name)
         })
 
-        DrawerMenuItemGeneric("Tutorials", {
+        DrawerMenuItemGeneric(stringResource(R.string.tutorials), R.drawable.ic_baseline_video_library_24,
+            true, {
             drawerScope.launch {
                 drawerState.close()
             }
-            navController.navigate(route = PlanesScreens.Tutorials.name)
+            val videoId = R.raw.guessing
+            val time = 0
+            navController.navigate(route = "${PlanesScreens.Tutorials.name}/${videoId}/${time}")
         })
 
-        DrawerMenuItemGeneric("Preferences", {
+        DrawerMenuItemGeneric(stringResource(R.string.options), R.drawable.ic_baseline_app_settings_alt_24,
+            true,{
             drawerScope.launch {
                 drawerState.close()
             }
@@ -358,13 +404,16 @@ fun DrawerContent(modifier: Modifier = Modifier,
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(modifier: Modifier = Modifier,
-    onOpenDrawer: () -> Unit = {},
-    currentScreenName: String
+           onOpenDrawer: () -> Unit = {},
+           title: String,
+           currentScreen: String,
+           newMessages: Boolean,
+           showPopupState: MutableState<Boolean>
 ) {
     TopAppBar(
         modifier = modifier,
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            //containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
         navigationIcon = {
             Icon(
@@ -376,20 +425,44 @@ fun TopBar(modifier: Modifier = Modifier,
                     .size(28.dp))
         },
         title = {
-            Text(text = currentScreenName)
+            Text(text = title)
         },
         actions = {
-            Icon(
-                imageVector = Icons.Default.AccountBox,
-                contentDescription = "Navigation Icon",
-                modifier = Modifier.padding(start = 16.dp, end = 8.dp).size(28.dp)
-            )
-            Icon(
-                imageVector = Icons.Default.Notifications,
-                contentDescription = "Navigation Icon",
-                modifier = Modifier.padding(start = 16.dp, end = 8.dp)
-                    .size(28.dp))
-        }
+            if (newMessages) {
+                Icon(
+                    imageVector = Icons.Default.Email,
+                    contentDescription = "Navigation Icon",
+                    modifier = Modifier.padding(start = 16.dp, end = 8.dp)
+                        .size(28.dp)
+                )
+            }
+            /*Icon(
+                painter = painterResource(id = R.drawable.ic_baseline_assessment_24),
+                contentDescription = "Statistics",
+                Modifier
+                    .size(50.dp)
+                    .padding(start = 16.dp, end = 8.dp)
+                    .clickable {
+                    }
+            )*/
+            if (currentScreen in listOf(PlanesScreens.SinglePlayerBoardEditing.name,
+                    PlanesScreens.MultiplayerBoardEditing.name, PlanesScreens.SinglePlayerGame.name,
+                    PlanesScreens.MultiplayerGame.name, PlanesScreens.SinglePlayerGameNotStarted.name,
+                    PlanesScreens.MultiplayerGameNotStarted.name, PlanesScreens.Tutorials.name,
+                    PlanesScreens.Chat.name, PlanesScreens.Conversation.name)) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_menu_help),
+                    contentDescription = "Help",
+                    Modifier
+                        .size(50.dp)
+                        .padding(start = 16.dp, end = 8.dp)
+                        .clickable {
+                            showPopupState.value = true
+                        }
+                )
+            }
+        },
+        windowInsets = WindowInsets.statusBars
     )
 }
 

@@ -24,21 +24,18 @@ import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.screens.singleplayergame.BoardSquareGame
-import com.planes.android.screens.singleplayergame.ComputerGridViewModelSinglePlayer
 import com.planes.android.screens.singleplayergame.GameBoardSinglePlayer
-import com.planes.android.screens.singleplayergame.GameStatsViewModelSinglePlayer
 import com.planes.android.screens.singleplayergame.OneLineGameButton
-import com.planes.android.screens.singleplayergame.PlayerGridViewModelSinglePlayer
 import com.planes.android.screens.singleplayergame.StatsValueField
 import com.planes.android.screens.singleplayergame.TwoLineGameButton
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import com.planes.singleplayerengine.GuessPoint
-import com.planes.singleplayerengine.SinglePlayerRoundInterface
 import com.planes.singleplayerengine.Type
 
 @Composable
-fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<String>,
-                          topBarHeight: MutableState<Int>,
+fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<String>,
+                          currentScreenState: MutableState<String>,
+                          showPopupState: MutableState<Boolean>,
                           navController: NavController,
                           planeRound: MultiPlayerRoundInterface,
                           playerGridViewModel: PlayerGridViewModelMultiPlayer,
@@ -46,7 +43,9 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
                           gameStatsViewModelMultiPlayer: GameStatsViewModelMultiPlayer
 ) {
 
+    currentTitleState.value = stringResource(R.string.game)
     currentScreenState.value = PlanesScreens.MultiplayerGame.name
+    showPopupState.value = false
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp
@@ -54,7 +53,6 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
     var squareSizeDp = screenWidthDp / playerGridViewModel.getColNo()
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        //squareSizeDp = (screenHeightDp - topBarHeight.value) / playerGridViewModel.getRowNo()
         squareSizeDp = screenHeightDp / playerGridViewModel.getRowNo()
     }
 
@@ -73,19 +71,18 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
         refButtonWidthDp = (screenWidthDp - boardSizeDp) / 3
     }
 
-
     val playerBoard = rememberSaveable {
         mutableStateOf(false)
     }
 
     val gameBoardViewModel = if (playerBoard.value) playerGridViewModel else computerGridViewModel
 
-    val titleOtherBoard1 = if (playerBoard.value) stringResource(R.string.view_computer_board1) else stringResource(
+    val titleOtherBoard1 = if (playerBoard.value) stringResource(R.string.view_opponent_board1) else stringResource(
         R.string.view_player_board1)
-    val titleOtherBoard2 = if (playerBoard.value) stringResource(R.string.view_computer_board2) else stringResource(
+    val titleOtherBoard2 = if (playerBoard.value) stringResource(R.string.view_opponent_board2) else stringResource(
         R.string.view_player_board2)
 
-    val titleStats = if (!playerBoard.value) stringResource(R.string.computer_stats)
+    val titleStats = if (!playerBoard.value) stringResource(R.string.opponent_stats)
     else stringResource(R.string.player_stats)
 
     //Log.d("Planes", "planes no ${planesGridViewModel.getPlaneNo()}")
@@ -106,13 +103,14 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
         navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
     }
 
+    //TODO: if not connected to a game, if not logged in
 
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
         Column() {
             GameBoardSinglePlayer(
                 gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
-                modifier = Modifier.padding(top = topBarHeight.value.dp)
-                    .width(boardSizeDp.dp).height(boardSizeDp.dp)
+                modifier = Modifier.width(boardSizeDp.dp)
+                    .height(boardSizeDp.dp)
             ) {
                 for (index in 0..99)
                     BoardSquareGame(
@@ -295,8 +293,8 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
         Row() {
             GameBoardSinglePlayer(
                 gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
-                modifier = Modifier.padding(top = topBarHeight.value.dp)
-                    .width(boardSizeDp.dp).height(boardSizeDp.dp)
+                modifier = Modifier.width(boardSizeDp.dp)
+                    .height(boardSizeDp.dp)
             ) {
                 for (index in 0..99)
                     BoardSquareGame(
@@ -338,8 +336,7 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                Column(modifier = Modifier.padding(top = topBarHeight.value.dp)
-                    .height(boardSizeDp.dp)
+                Column(modifier = Modifier.height(boardSizeDp.dp)
                     .width(refButtonWidthDp.dp),
                     verticalArrangement = Arrangement.Center) {
                     Spacer(
@@ -368,8 +365,7 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<S
                     }
                 }
 
-                Column(modifier = Modifier.padding(top = topBarHeight.value.dp)
-                    .height(boardSizeDp.dp)
+                Column(modifier = Modifier.height(boardSizeDp.dp)
                     .width(refButtonWidthDp.dp),
                     verticalArrangement = Arrangement.Center) {
                     OneLineGameButton(

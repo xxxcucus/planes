@@ -16,32 +16,32 @@ include_directories(
 
 set (WIDGET_HEADR 	
     baserenderarea.h
-	buttons.h
- 	choicedebugwidget.h
+    buttons.h
+    choicedebugwidget.h
     debugrenderarea.h
-	editplanescontrolwidget.h
-	gamerenderarea.h
-	gamestatswidget.h
-	planeswview.h
-	planeswwindow.h
-	revertcomputerlogic.h)
+    editplanescontrolwidget.h
+    gamerenderarea.h
+    gamestatswidget.h
+    planeswview.h
+    planeswwindow.h
+    revertcomputerlogic.h)
 
 set(WIDGET_SRCS 	
     baserenderarea.cpp
-	buttons.cpp
- 	choicedebugwidget.cpp
+    buttons.cpp
+    choicedebugwidget.cpp
     debugrenderarea.cpp
-	editplanescontrolwidget.cpp
-	gamerenderarea.cpp
-	gamestatswidget.cpp
-	main.cpp
-	planeswview.cpp
-	planeswwindow.cpp
-	revertcomputerlogic.cpp)
+    editplanescontrolwidget.cpp
+    gamerenderarea.cpp
+    gamestatswidget.cpp
+    main.cpp
+    planeswview.cpp
+    planeswwindow.cpp
+    revertcomputerlogic.cpp)
 
-    qt_wrap_ui(UI_HEADERS
-        EditControl.ui
-	GameForm.ui)
+qt_wrap_ui(UI_HEADERS
+    EditControl.ui
+    GameForm.ui)
 
 add_executable(PlanesWidget ${WIDGET_SRCS} ${UI_HEADERS} ${WIDGET_HEADR})
 target_link_libraries(PlanesWidget 

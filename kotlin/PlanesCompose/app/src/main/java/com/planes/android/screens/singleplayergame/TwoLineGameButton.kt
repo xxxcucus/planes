@@ -1,5 +1,6 @@
 package com.planes.android.screens.singleplayergame
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import com.planes.android.widgets.AutoResizedText
@@ -24,7 +26,11 @@ fun TwoLineGameButton(textLine1: String,
                       onClick: (PlaneGridViewModel) -> Unit
 ) {
     val color = if (enabled) MaterialTheme.colorScheme.surfaceVariant
-    else MaterialTheme.colorScheme.secondary
+    else MaterialTheme.colorScheme.tertiaryContainer
+
+    val borderColor =
+        if (!enabled) MaterialTheme.colorScheme.tertiary
+        else Color.Transparent
 
     Card(
         modifier = modifier.padding(1.dp).clickable {
@@ -32,6 +38,7 @@ fun TwoLineGameButton(textLine1: String,
                 onClick.invoke(planesGridViewModel)
         },
         shape = RectangleShape,
+        border = BorderStroke(2.dp, borderColor),
         colors = CardDefaults.cardColors(
             containerColor = color
         )

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -30,13 +31,17 @@ import com.planes.singleplayerengine.SinglePlayerRoundInterface
 
 @Composable
 fun PreferencesScreen(modifier: Modifier,
+                      currentTitleState: MutableState<String>,
                       currentScreenState: MutableState<String>,
+                      showPopupState: MutableState<Boolean>,
                       navController: NavController,
                       optionsViewModel: PreferencesViewModel,
                       planeRound: SinglePlayerRoundInterface
 ) {
 
+    currentTitleState.value = stringResource(R.string.options)
     currentScreenState.value = PlanesScreens.Preferences.name
+    showPopupState.value = false
     val scrollState = rememberScrollState()
 
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -51,7 +56,9 @@ fun PreferencesScreen(modifier: Modifier,
         Column(modifier = Modifier.padding(start = 15.dp, top = 10.dp))  {
 
             Text(text = stringResource(R.string.computer_skill),
-                modifier = Modifier.align(alignment = Alignment.CenterHorizontally))
+                modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                    .padding(5.dp),
+                style = MaterialTheme.typography.titleMedium)
 
             CheckBoxOption(text = computerSkillsArray[0],
                 optionsViewModel.getComputerSkill() == 0,
@@ -79,7 +86,9 @@ fun PreferencesScreen(modifier: Modifier,
         Column(modifier = Modifier.padding(start = 15.dp, top = 10.dp)) {
 
             Text(text = stringResource(R.string.show_plane_after_kill),
-                modifier = Modifier.align(alignment = Alignment.CenterHorizontally))
+                modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                    .padding(5.dp),
+                style = MaterialTheme.typography.titleMedium)
 
             CheckBoxOption(text = yesNoOptionsArray[0],
                 optionsViewModel.getShowPlaneAfterKill(),

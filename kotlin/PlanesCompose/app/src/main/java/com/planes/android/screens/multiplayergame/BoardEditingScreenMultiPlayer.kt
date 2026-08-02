@@ -3,6 +3,7 @@ package com.planes.android.screens.multiplayergame
 import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
+import com.planes.android.screens.createmultiplayergame.CreateGameStates
 import com.planes.android.screens.createmultiplayergame.CreateViewModel
 import com.planes.android.screens.login.LoginViewModel
 import com.planes.android.screens.singleplayergame.BoardEditingControlButtonsHorizontalLayout
@@ -32,17 +34,15 @@ import com.planes.android.screens.singleplayergame.BoardEditingControlButtonsVer
 import com.planes.android.screens.singleplayergame.BoardSquareBoardEditing
 import com.planes.android.screens.singleplayergame.GameBoardSinglePlayer
 import com.planes.android.screens.singleplayergame.OneLineGameButton
-import com.planes.android.screens.singleplayergame.PlaneGridViewModel
-import com.planes.android.screens.singleplayergame.PlayerGridViewModelSinglePlayer
 import com.planes.android.screens.singleplayergame.treatSwipeHorizontal
 import com.planes.android.screens.singleplayergame.treatSwipeVertical
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
-import com.planes.singleplayerengine.SinglePlayerRoundInterface
 import java.util.Date
 
 @Composable
-fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: MutableState<String>,
-                                  topBarHeight: MutableState<Int>,
+fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<String>,
+                                  currentScreenState: MutableState<String>,
+                                  showPopupState: MutableState<Boolean>,
                                   navController: NavController,
                                   loginViewModel: LoginViewModel,
                                   createViewModel: CreateViewModel,
@@ -51,7 +51,9 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                                   computerGridViewModel: ComputerGridViewModelMultiPlayer
 ) {
 
+    currentTitleState.value = stringResource(R.string.game)
     currentScreenState.value = PlanesScreens.MultiplayerBoardEditing.name
+    showPopupState.value = false
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp
@@ -59,7 +61,6 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
     var squareSizeDp = screenWidthDp / playerGridViewModel.getColNo()
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        //squareSizeDp = (screenHeightDp - topBarHeight.value) / playerGridViewModel.getRowNo()
         squareSizeDp = screenHeightDp / playerGridViewModel.getRowNo()
     }
 
@@ -91,6 +92,9 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
         Column() {
 
             if (!loginViewModel.isLoggedIn() || !createViewModel.gameConnectionExists()) {
+
+                //TODO: button connect to game
+
                 Column(
                     modifier = Modifier.fillMaxHeight(),
                     verticalArrangement = Arrangement.Center
@@ -107,15 +111,19 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
 
                         Text(
                             text = errorText,
-                            modifier = Modifier.padding(top = topBarHeight.value.dp)
+                            modifier = Modifier
                         )
                     }
                 }
             } else {
                 GameBoardSinglePlayer(
                     playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
-                    modifier = Modifier.padding(top = topBarHeight.value.dp)
-                        .width(boardSizeDp.dp).height(boardSizeDp.dp)
+                    modifier = Modifier.width(boardSizeDp.dp)
+                        .height(boardSizeDp.dp)
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                onLongPress = { _ -> playerGridViewModel.rotatePlane(playerGridViewModel.getSelectedPlane()) }
+                            )}
                         .pointerInput(Unit) {
                             detectDragGestures(
                                 onDrag = { _, dragAmount ->
@@ -140,8 +148,7 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                             index,
                             squareSizeDp,
                             squareSizePx,
-                            playerGridViewModel
-                        ) {
+                            playerGridViewModel) {
                             val row = index / playerGridViewModel.getColNo()
                             val col = index % playerGridViewModel.getColNo()
 
@@ -185,7 +192,8 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                         screenHeightDp, boardSizeDp, buttonHeightDp,
                         buttonWidthDp, navController,
                         playerGridViewModel,
-                        planeRound
+                        !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap() &&
+                                (createViewModel.getCreateState() == CreateGameStates.ConnectedComplete || createViewModel.getCreateState() == CreateGameStates.PollingForConnectionEnded)
                     )
                 } else if (playerGridViewModel.getBoardEditingState() == BoardEditingStates.Cancel) {
                     playerGridViewModel.cancelRound()
@@ -227,15 +235,19 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                         }
                         Text(
                             text = errorText,
-                            modifier = Modifier.padding(top = topBarHeight.value.dp)
+                            modifier = Modifier
                         )
                     }
                 }
             } else {
                 GameBoardSinglePlayer(
                     playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
-                    modifier = Modifier.padding(top = topBarHeight.value.dp)
-                        .width(boardSizeDp.dp).height(boardSizeDp.dp)
+                    modifier = Modifier.width(boardSizeDp.dp)
+                        .height(boardSizeDp.dp)
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                onLongPress = { _ -> playerGridViewModel.rotatePlane(playerGridViewModel.getSelectedPlane()) }
+                            )}
                         .pointerInput(Unit) {
                             detectDragGestures(
                                 onDrag = { _, dragAmount ->
@@ -259,8 +271,7 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                             index,
                             squareSizeDp,
                             squareSizePx,
-                            playerGridViewModel
-                        ) {
+                            playerGridViewModel) {
                             val row = index / playerGridViewModel.getColNo()
                             val col = index % playerGridViewModel.getColNo()
 
@@ -301,11 +312,11 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                         createViewModel.setCurrentRoundId("Connect", roundId)
                         createViewModel.setCurrentRoundId("Create", roundId)
                     }
-                    BoardEditingControlButtonsHorizontalLayout(
-                        screenHeightDp, boardSizeDp, buttonHeightDp,
-                        buttonWidthDp, topBarHeight.value, navController,
+                    BoardEditingControlButtonsHorizontalLayout(buttonHeightDp,
+                        buttonWidthDp,  navController,
                         playerGridViewModel,
-                        planeRound
+                        !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap() &&
+                                (createViewModel.getCreateState() == CreateGameStates.ConnectedComplete || createViewModel.getCreateState() == CreateGameStates.PollingForConnectionEnded)
                     )
                 } else if (playerGridViewModel.getBoardEditingState() == BoardEditingStates.Cancel) {
                     playerGridViewModel.cancelRound()
@@ -323,7 +334,7 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentScreenState: Mutabl
                 } else {
                     TransferPlanePositionsHorizontalLayout(
                         screenWidthDp, boardSizeDp, buttonHeightDp,
-                        buttonWidthDp, topBarHeight.value, navController,
+                        buttonWidthDp,  navController,
                         playerGridViewModel
                     )
                 }
@@ -390,12 +401,11 @@ fun TransferPlanePositionsVerticalLayout(screenHeightDp: Int, boardSizeDp: Int, 
 
 @Composable
 fun TransferPlanePositionsHorizontalLayout(screenWidthDp: Int, boardSizeDp: Int, buttonHeightDp: Int,
-                                         buttonWidthDp: Int, topBarHeightDp: Int, navController: NavController,
+                                         buttonWidthDp: Int, navController: NavController,
                                          playerGridViewModel: PlayerGridViewModelMultiPlayer
 ) {
     Column(
-        modifier = Modifier.fillMaxHeight()
-            .padding(top = topBarHeightDp.dp),
+        modifier = Modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.Center
     ) {
 
