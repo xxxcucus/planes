@@ -58,8 +58,14 @@ set(COMMON_SRCS
 add_library(libSingleRound SHARED ${COMMON_SRCS} ${COMMON_HEADR})
 
 
-if (UNIX)
-install(TARGETS libSingleRound DESTINATION lib)
-else (UNIX)
+#if (UNIX)
+#install(TARGETS libSingleRound DESTINATION lib)
+#else (UNIX)
+#install(TARGETS libSingleRound DESTINATION bin)
+#endif (UNIX)
+
+if (WIN32)
 install(TARGETS libSingleRound DESTINATION bin)
-endif (UNIX)
+else (WIN32)
+install(TARGETS libSingleRound DESTINATION lib)
+endif (WIN32)

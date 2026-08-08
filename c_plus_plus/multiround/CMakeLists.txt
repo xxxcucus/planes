@@ -102,8 +102,14 @@ set_target_properties(libMultiRound PROPERTIES
     AUTOMOC ON
 )
 
-if (UNIX)
-install(TARGETS libMultiRound DESTINATION lib)
-else (UNIX)
+#if (UNIX)
+#install(TARGETS libMultiRound DESTINATION lib)
+#else (UNIX)
+#install(TARGETS libMultiRound DESTINATION bin)
+#endif (UNIX)
+
+if (WIN32)
 install(TARGETS libMultiRound DESTINATION bin)
-endif (UNIX)
+else (WIN32)
+install(TARGETS libMultiRound DESTINATION lib)
+endif (WIN32)

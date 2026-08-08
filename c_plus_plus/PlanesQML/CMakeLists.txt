@@ -32,4 +32,8 @@ target_link_libraries(PlanesQML
 	Qt6::Quick)
 
 
+if (APPLE)
+    set_target_properties(PlanesQML PROPERTIES MACOSX_BUNDLE FALSE)
+endif (APPLE)
+
 install(TARGETS PlanesQML DESTINATION bin)

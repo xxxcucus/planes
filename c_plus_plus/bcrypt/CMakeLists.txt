@@ -40,8 +40,15 @@ set(BCRYPT_HEADRS
 
 add_library(libbcrypt SHARED ${BCRYPT_SRCS})
 
-if (UNIX)
-install(TARGETS libbcrypt DESTINATION lib)
-else (UNIX)
+#if (UNIX)
+#install(TARGETS libbcrypt DESTINATION lib)
+#else (UNIX)
+#install(TARGETS libbcrypt DESTINATION bin)
+#endif (UNIX)
+
+if (WIN32)
 install(TARGETS libbcrypt DESTINATION bin)
-endif (UNIX)
+else (WIN32)
+install(TARGETS libbcrypt DESTINATION lib)
+endif (WIN32)
+

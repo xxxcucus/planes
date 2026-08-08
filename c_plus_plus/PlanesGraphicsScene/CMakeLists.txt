@@ -109,5 +109,8 @@ target_link_libraries(PlanesGraphicsScene
 	Qt6::Network
 	Qt6::Sql)
 
+if (APPLE)
+    set_target_properties(PlanesGraphicsScene PROPERTIES MACOSX_BUNDLE FALSE)
+endif (APPLE)
 
 install(TARGETS PlanesGraphicsScene DESTINATION bin)

@@ -48,5 +48,9 @@ target_link_libraries(PlanesWidget
 	libSingleRound
 	Qt6::Widgets)
 
+if (APPLE)
+    set_target_properties(PlanesWidget PROPERTIES MACOSX_BUNDLE FALSE)
+endif (APPLE)
+
 install(TARGETS PlanesWidget DESTINATION bin)
 

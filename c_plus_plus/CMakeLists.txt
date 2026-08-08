@@ -10,6 +10,13 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1)
 
+# Enable @rpath usage on macOS
+set(CMAKE_MACOSX_RPATH ON)
+
+if (APPLE)
+	SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+endif (APPLE)
+
 find_package(Qt6 COMPONENTS Core Widgets Quick Network Test Sql)
 
 option(With_Asan "Compile with Address Sanitizer support" OFF)
@@ -97,7 +104,61 @@ list(GET QT_VERSION_LIST 2 QT_REVISION)
 message("Used Qt Version: " ${QT_MAJOR} " " ${QT_MINOR} " " ${QT_REVISION})
 
 
-if (UNIX)
+if (APPLE)
+	install(DIRECTORY ${ROOT_PATH}/../../QtWidgets.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtGui.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtTest.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtCore.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQml.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQmlMeta.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQmlWorkerScript.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQmlModels.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtNetwork.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtDBus.framework DESTINATION lib)
+	#install(DIRECTORY ${ROOT_PATH}/../../QtXcbQpa.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtOpenGL.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQuickControls2Impl.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQuickLayouts.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQuickControls2.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQuick.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQuickTemplates2.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQuickDialogs2.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQuickDialogs2QuickImpl.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQuickDialogs2Utils.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQuickControls2Fusion.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQuickControls2FusionStyleImpl.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQuickControls2Basic.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQuickControls2BasicStyleImpl.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQuickControls2MacOSStyleImpl.framework DESTINATION lib)
+	install(DIRECTORY ${ROOT_PATH}/../../QtQuickEffects.framework DESTINATION lib)
+
+
+	install(DIRECTORY ${ROOT_PATH}/../../QtSql.framework DESTINATION lib)
+
+	install(DIRECTORY ${ROOT_PATH}/../../../plugins/platforms/ DESTINATION bin/platforms/)
+
+	install(FILES ${ROOT_PATH}/../../../qml/QtQuick/libqtquick2plugin.dylib DESTINATION bin/QtQuick/)
+	install(FILES ${ROOT_PATH}/../../../qml/QtQuick/plugins.qmltypes DESTINATION bin/QtQuick/)
+	install(FILES ${ROOT_PATH}/../../../qml/QtQuick/qmldir DESTINATION bin/QtQuick/)
+	install(DIRECTORY ${ROOT_PATH}/../../../qml/QtQuick/Controls DESTINATION bin/QtQuick/)
+	install(DIRECTORY ${ROOT_PATH}/../../../qml/QtQuick/Dialogs DESTINATION bin/QtQuick/)
+	install(DIRECTORY ${ROOT_PATH}/../../../qml/QtQuick/Layouts DESTINATION bin/QtQuick/)
+	install(DIRECTORY ${ROOT_PATH}/../../../qml/QtQuick/Templates DESTINATION bin/QtQuick/)
+	install(DIRECTORY ${ROOT_PATH}/../../../qml/QtQuick/Window DESTINATION bin/QtQuick/)
+	install(DIRECTORY ${ROOT_PATH}/../../../qml/QtQuick/NativeStyle DESTINATION bin/QtQuick/)
+	install(DIRECTORY ${ROOT_PATH}/../../../qml/QtQuick/Effects DESTINATION bin/QtQuick/)
+	install(DIRECTORY ${ROOT_PATH}/../../../qml/QtQml DESTINATION bin)
+
+	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/PlanesWidget.sh PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ DESTINATION .)
+	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/PlanesGraphicsScene.sh PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ DESTINATION .)
+	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/PlanesQML.sh PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ DESTINATION .)
+	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/runTests.sh PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ DESTINATION .)
+	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/planes.db PERMISSIONS OWNER_WRITE OWNER_READ DESTINATION bin)
+
+endif (APPLE)
+
+
+if (UNIX AND NOT APPLE)
 	install(FILES ${ROOT_PATH}/lib/libQt6Widgets.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6Gui.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
 	install(FILES ${ROOT_PATH}/lib/libQt6Test.so.${QT_MAJOR}.${QT_MINOR}.${QT_REVISION} DESTINATION lib)
@@ -187,4 +248,10 @@ if (UNIX)
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/runTests.sh PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ DESTINATION .)
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/planes.db PERMISSIONS OWNER_WRITE OWNER_READ DESTINATION bin)
 	SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
-endif (UNIX)
+endif (UNIX AND NOT APPLE)
+
+
+#install(DIRECTORY "${QT_LIB_DIR}/QtCore.framework" DESTINATION lib)
+#install(DIRECTORY "${QT_LIB_DIR}/QtWidgets.framework" DESTINATION lib)
+
+
