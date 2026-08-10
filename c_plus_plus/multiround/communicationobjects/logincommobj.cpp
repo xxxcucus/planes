@@ -78,9 +78,10 @@ void LoginCommObj::processResponse(bool successfull, const QJsonObject& retJson)
 bool LoginCommObj::searchAuthorizationInHeaders(const QList<QNetworkReply::RawHeaderPair>& headers) {
     bool successfull = false;
 
-    for (QNetworkReply::RawHeaderPair hdr : headers) {
+    for (const QNetworkReply::RawHeaderPair& hdr : headers) {
         QString hdrQString(hdr.first);
-        if (hdrQString == "Authorization") {
+
+        if (hdrQString.toLower() == "authorization") {
             m_GlobalData->m_UserData.m_AuthToken = hdr.second;
             //qDebug() << hdrQString << ":" << m_ReplyObject->rawHeader(hdr);
             successfull = true;

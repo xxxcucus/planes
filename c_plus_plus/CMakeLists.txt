@@ -132,10 +132,12 @@ if (APPLE)
 	install(DIRECTORY ${ROOT_PATH}/../../QtQuickControls2MacOSStyleImpl.framework DESTINATION lib)
 	install(DIRECTORY ${ROOT_PATH}/../../QtQuickEffects.framework DESTINATION lib)
 
-
 	install(DIRECTORY ${ROOT_PATH}/../../QtSql.framework DESTINATION lib)
 
 	install(DIRECTORY ${ROOT_PATH}/../../../plugins/platforms/ DESTINATION bin/platforms/)
+	install(DIRECTORY ${ROOT_PATH}/../../../plugins/tls DESTINATION bin)
+	install(FILES ${ROOT_PATH}/../../../plugins/sqldrivers/libqsqlite.dylib DESTINATION bin/sqldrivers)
+
 
 	install(FILES ${ROOT_PATH}/../../../qml/QtQuick/libqtquick2plugin.dylib DESTINATION bin/QtQuick/)
 	install(FILES ${ROOT_PATH}/../../../qml/QtQuick/plugins.qmltypes DESTINATION bin/QtQuick/)
@@ -148,6 +150,13 @@ if (APPLE)
 	install(DIRECTORY ${ROOT_PATH}/../../../qml/QtQuick/NativeStyle DESTINATION bin/QtQuick/)
 	install(DIRECTORY ${ROOT_PATH}/../../../qml/QtQuick/Effects DESTINATION bin/QtQuick/)
 	install(DIRECTORY ${ROOT_PATH}/../../../qml/QtQml DESTINATION bin)
+
+	install(FILES $ENV{OPENSSL_HOME}/libcrypto.3.dylib DESTINATION lib)
+	install(FILES $ENV{OPENSSL_HOME}/libssl.3.dylib DESTINATION  lib)
+	install(FILES $ENV{OPENSSL_HOME}/libcrypto.dylib DESTINATION lib)
+	install(FILES $ENV{OPENSSL_HOME}/libssl.dylib DESTINATION  lib)
+
+	install(FILES $ENV{SQLITE_HOME}/sqlite3 DESTINATION sqlite)
 
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/PlanesWidget.sh PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ DESTINATION .)
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/PlanesGraphicsScene.sh PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ DESTINATION .)
@@ -238,8 +247,8 @@ if (UNIX AND NOT APPLE)
 
 	install(FILES $ENV{OPENSSL_HOME}/libcrypto.so.3 DESTINATION lib)
 	install(FILES $ENV{OPENSSL_HOME}/libssl.so.3 DESTINATION  lib)
-	#install(FILES $ENV{OPENSSL_HOME}/libcrypto.so DESTINATION lib)
-	#install(FILES $ENV{OPENSSL_HOME}/libssl.so DESTINATION  lib)
+	install(FILES $ENV{OPENSSL_HOME}/libcrypto.so DESTINATION lib)
+	install(FILES $ENV{OPENSSL_HOME}/libssl.so DESTINATION  lib)
 	install(FILES $ENV{SQLITE_HOME}/sqlite3 DESTINATION sqlite)
 	
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/PlanesWidget.sh PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ DESTINATION .)
