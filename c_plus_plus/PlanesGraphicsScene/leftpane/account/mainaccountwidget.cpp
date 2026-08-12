@@ -4,9 +4,7 @@
 #include <QHBoxLayout>
 #include <QMessageBox>
 
-#include "customhorizlayout.h"
 #include "multiplayerround.h"
-#include "userprofileframe.h"
 #include "loginregisterform.h"
 
 

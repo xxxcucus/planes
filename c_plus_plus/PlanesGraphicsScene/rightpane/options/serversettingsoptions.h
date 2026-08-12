@@ -4,7 +4,6 @@
 #include <QFrame>
 #include <QLineEdit>
 #include <QSettings>
-#include "multiplayerround.h"
 
 class ServerSettingsOptions : public QFrame {
 	Q_OBJECT

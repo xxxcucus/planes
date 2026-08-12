@@ -22,6 +22,7 @@ set(MULTIROUND_HEADR
     global/globaldata.h 
     global/globalgamedata.h 
     global/globaluserdata.h
+    viewmodels/basisrequestviewmodel.h
     viewmodels/gameviewmodel.h
     viewmodels/loginviewmodel.h
     viewmodels/norobotviewmodel.h

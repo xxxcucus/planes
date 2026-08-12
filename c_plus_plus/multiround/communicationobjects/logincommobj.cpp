@@ -3,7 +3,6 @@
 
 #include <QMessageBox>
 #include "viewmodels/loginviewmodel.h"
-#include "communicationtools.h"
 
 LoginCommObj::~LoginCommObj()
 {

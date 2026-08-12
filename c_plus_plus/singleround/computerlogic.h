@@ -5,7 +5,6 @@
 #include "plane.h"
 #include "guesspoint.h"
 #include "coordinate2d.h"
-#include "planeorientationdata.h"
 #include "planeintersectingpointiterator.h"
 #include "headdata.h"
 

@@ -1,7 +1,6 @@
 #ifndef __POINT_INFLUENCE_ITERATOR__
 #define __POINT_INFLUENCE_ITERATOR__
 
-#include "plane.h"
 #include "coordinate2d.h"
 #include "vectoriterator.h"
 

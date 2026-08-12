@@ -1,12 +1,12 @@
 #include <QApplication>
 #include "planesgswindow.h"
-#ifdef _WIN32 || _WIN64
+#ifdef _WIN32
 #include "Windows.h"
 #endif
 
  int main(int argc, char *argv[])
  {
-#ifdef _WIN32 || _WIN64
+#ifdef _WIN32
     //FreeConsole();
 #endif
     QApplication app(argc, argv);

@@ -2,7 +2,6 @@
 
 #include <QMessageBox>
 #include <QJsonArray>
-#include "multiplayerround.h"
 #include "communicationtools.h"
 
 bool ReceiveChatMessagesCommObj::makeRequest()

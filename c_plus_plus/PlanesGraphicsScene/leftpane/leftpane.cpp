@@ -5,13 +5,7 @@
 #include <QGridLayout>
 #include <QPushButton>
 #include <QSpacerItem>
-#include "viewmodels/planespositionsviewmodel.h"
-#include "viewmodels/getopponentplanespositionsviewmodel.h"
-#include "communicationtools.h"
-#include "global/globalgamedata.h"
-#include "viewmodels/getopponentemovesviewmodel.h"
-#include "viewmodels/cancelroundviewmodel.h"
-#include "viewmodels/startnewroundviewmodel.h"
+
 
 LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, MultiplayerRound* mrd, QWidget *parent) 
     : QTabWidget(parent), m_GameInfo(gameInfo), m_NetworkManager(networkManager), m_GlobalData(globalData), m_Settings(settings), m_MultiRound(mrd)

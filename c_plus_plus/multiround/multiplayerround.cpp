@@ -3,9 +3,7 @@
 #include <QMessageBox>
 #include <QJsonArray>
 #include <QJsonDocument>
-#include "communicationtools.h"
-#include "viewmodels/newmoveviewmodel.h"
-#include "viewmodels/getopponentemovesviewmodel.h"
+
 
 
 MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo)
@@ -57,8 +55,8 @@ MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QWidget* par
     m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     m_ReceiveChatMessagesCommObj = new ReceiveChatMessagesCommObj("/chat/get_messages", "receiving chat messages", m_ParentWidget, m_NetworkManager, m_Settings, m_GameInfo->getSinglePlayer(), m_GlobalData);
     connect(m_ReceiveChatMessagesCommObj, &ReceiveChatMessagesCommObj::chatMessagesReceived, this, &MultiplayerRound::chatMessagesReceived);
-    reset();
-    initRound();
+    MultiplayerRound::reset();
+    MultiplayerRound::initRound();
 }
 
 MultiplayerRound::~MultiplayerRound() {

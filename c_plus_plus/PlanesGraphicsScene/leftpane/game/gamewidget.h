@@ -6,10 +6,8 @@
 #include <QNetworkAccessManager>
 #include <QSettings>
 
-#include "gameinfo.h"
 #include "global/globaldata.h"
 #include "multiplayerround.h"
-#include "gamestatuswidget.h"
 #include "creategamewidget.h"
 
 class GameWidget : public QFrame {

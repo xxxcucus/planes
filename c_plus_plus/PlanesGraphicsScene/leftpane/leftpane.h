@@ -16,6 +16,7 @@
 #include "boardediting/boardeditingwidget.h"
 #include "startnewround/startnewroundwidget.h"
 #include "account/mainaccountwidget.h"
+#include "account/userprofileframe.h"
 #include "game/gamewidget.h"
 
 class LeftPane : public QTabWidget

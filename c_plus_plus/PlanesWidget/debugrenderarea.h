@@ -1,7 +1,6 @@
 #ifndef DEBUGRENDERAREA_H
 #define DEBUGRENDERAREA_H
 
-#include "computerlogic.h"
 #include <QWidget>
 #include <QPainter>
 #include "baserenderarea.h"

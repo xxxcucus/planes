@@ -6,8 +6,6 @@
 #include <QFileInfoList>
 #include <QMessageBox>
 #include <QResizeEvent>
-#include "viewmodels/norobotviewmodel.h"
-#include "communicationtools.h"
 
 NoRobotWidget::NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, MultiplayerRound* mrd, QWidget* parent) 
     : QWidget(parent), m_NetworkManager(networkManager), m_Settings(settings), m_GlobalData(globalData), m_GameInfo(gameInfo), m_MultiRound(mrd) {

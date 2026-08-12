@@ -4,8 +4,7 @@
 #include <QPushButton>
 #include <QDebug>
 #include <QMessageBox>
-#include "viewmodels/gameviewmodel.h"
-#include "communicationtools.h"
+
 
 GameStatusWidget::GameStatusWidget(MultiplayerRound* mrd, QWidget* parent) 
     : QFrame(parent), m_MultiRound(mrd)

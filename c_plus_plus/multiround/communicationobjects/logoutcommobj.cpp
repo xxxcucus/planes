@@ -1,5 +1,4 @@
 #include "logoutcommobj.h"
-#include "multiplayerround.h"
 
 bool LogoutCommObj::makeRequest(const QString& username) {
     if (m_IsSinglePlayer) {

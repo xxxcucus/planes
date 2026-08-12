@@ -4,13 +4,13 @@
 #include <QTime>
 #include "planegridqml.h"
 #include "planegameqml.h"
-#ifdef _WIN32 || _WIN64
+#ifdef _WIN32
 #include "Windows.h"
 #endif
 
 int main(int argc, char *argv[])
 {
-#ifdef _WIN32 || _WIN64
+#ifdef _WIN32
     //FreeConsole();
 #endif
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);

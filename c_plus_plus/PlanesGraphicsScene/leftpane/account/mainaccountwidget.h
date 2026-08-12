@@ -8,7 +8,6 @@
 #include "global/globaldata.h"
 #include "gameinfo.h"
 #include "multiplayerround.h"
-#include "userprofileframe.h"
 #include "loginregisterform.h"
 
 class MainAccountWidget : public QWidget {

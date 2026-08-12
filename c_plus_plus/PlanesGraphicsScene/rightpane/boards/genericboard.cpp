@@ -13,7 +13,6 @@ GenericBoard::~GenericBoard()
         delete m_PropertyAnimation;
     if (m_RoundEndsAnimatedText != nullptr)
         delete m_RoundEndsAnimatedText;
-    delete m_RoundEndsAnimatedText;
     delete m_View;
     delete m_Scene;
 }

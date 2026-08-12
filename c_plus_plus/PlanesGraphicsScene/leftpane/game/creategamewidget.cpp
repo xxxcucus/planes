@@ -4,8 +4,6 @@
 #include <QGridLayout>
 #include <QMessageBox>
 
-#include "viewmodels/gameviewmodel.h"
-#include "communicationtools.h"
 #include "creategamewidget.h"
 
 CreateGameWidget::CreateGameWidget(MultiplayerRound* mrd, QWidget* parent) : QFrame(parent), m_MultiRound(mrd)

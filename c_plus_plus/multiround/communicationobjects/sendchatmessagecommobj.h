@@ -8,7 +8,6 @@
 #endif
 
 #include "basiscommobj.h"
-#include "viewmodels/basisrequestviewmodel.h"
 #include "viewmodels/sendchatmessageviewmodel.h"
 
 //class  MULTIPLAYER_EXPORT SendChatMessageCommObj : public BasisCommObj {

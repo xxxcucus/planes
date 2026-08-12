@@ -4,7 +4,6 @@
 #include "multiplayerround.h"
 #include <QListWidget>
 #include "global/globaldata.h"
-#include <set>
 #include <vector>
 #include "viewmodels/userwithlastloginviewmodel.h"
 #include "userwithstatuswidget.h"

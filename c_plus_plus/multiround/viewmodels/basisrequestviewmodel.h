@@ -1,6 +1,9 @@
 #ifndef __BASIS_REQUEST_VIEW_MODEL__
 #define __BASIS_REQUEST_VIEW_MODEL__
 
+#include <QString>
+#include <QJsonObject>
+
 struct BasisRequestViewModel {
     QString m_Username;
     long int m_UserId = 0L;

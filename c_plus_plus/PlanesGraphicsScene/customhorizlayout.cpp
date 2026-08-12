@@ -27,7 +27,7 @@ void CustomHorizLayout::addItem(QLayoutItem* item)
 CustomHorizLayout::~CustomHorizLayout()
 {
      QLayoutItem *item;
-     while ((item = takeAt(0)))
+     while ((item = CustomHorizLayout::takeAt(0)))
          delete item;
 }
 

@@ -49,7 +49,7 @@ void ChatWidget::setActive(bool active) {
         qDebug() << "Read chat messages from db";
         std::vector<ReceivedChatMessageViewModel> dbMessages = m_DatabaseService.getMessages(m_GlobalData->m_UserData.m_UserName, m_GlobalData->m_UserData.m_UserId);
 
-        for (ReceivedChatMessageViewModel m : dbMessages)
+        for (const ReceivedChatMessageViewModel& m : dbMessages)
             addChatMessageFromDb(m);
     } else {
         for (int i = m_ChatStackedWidget->count() - 1; i >= 0 ; i--) {

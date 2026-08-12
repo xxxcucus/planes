@@ -5,8 +5,7 @@
 #include <QJsonDocument>
 #include <QMessageBox>
 #include <QDebug>
-#include "viewmodels/loginviewmodel.h"
-#include "communicationtools.h"
+
 
 LoginRegisterForm::LoginRegisterForm(bool login, QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, MultiplayerRound* mrd, QWidget* parent) 
         : QFrame(parent), m_Login(login), m_NetworkManager(networkManager), m_Settings(settings), m_GlobalData(globalData), m_GameInfo(gameInfo), m_MultiRound(mrd) {

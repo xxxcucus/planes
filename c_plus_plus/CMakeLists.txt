@@ -25,8 +25,8 @@ option(With_Asan "Compile with Address Sanitizer support" OFF)
 if (UNIX)
 	#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++17 ")
 	if (With_Asan)
-		set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
-		set (CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+		set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -faddress-sanitizer")
+		set (CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -faddress-sanitizer")
 	endif (With_Asan)
 endif (UNIX)
 
@@ -260,7 +260,5 @@ if (UNIX AND NOT APPLE)
 endif (UNIX AND NOT APPLE)
 
 
-#install(DIRECTORY "${QT_LIB_DIR}/QtCore.framework" DESTINATION lib)
-#install(DIRECTORY "${QT_LIB_DIR}/QtWidgets.framework" DESTINATION lib)
 
 

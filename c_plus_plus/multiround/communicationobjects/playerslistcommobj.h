@@ -8,7 +8,6 @@
 #endif
 
 #include "basiscommobj.h"
-#include "viewmodels/basisrequestviewmodel.h"
 #include "viewmodels/getavailableusersviewmodel.h"
 #include "viewmodels/userwithlastloginviewmodel.h"
 #include <vector>

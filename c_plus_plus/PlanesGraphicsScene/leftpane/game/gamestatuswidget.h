@@ -6,8 +6,6 @@
 #include <QNetworkReply>
 #include <QSettings>
 #include <QNetworkAccessManager>
-#include "global/globaldata.h"
-#include "gameinfo.h"
 #include "multiplayerround.h"
 
 

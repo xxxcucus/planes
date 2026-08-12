@@ -1,6 +1,8 @@
 #ifndef __NEW_MOVE_VIEWMODEL__
 #define __NEW_MOVE_VIEWMODEL__
 
+#include <QJsonObject>
+
 #include "basisrequestviewmodel.h"
 
 struct NewMoveViewModel: public BasisRequestViewModel {

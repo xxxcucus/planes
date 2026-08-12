@@ -19,8 +19,8 @@ PlaneRound::PlaneRound(int rowNo, int colNo, int planeNo):
 
 	//builds the plane grid objects
 
-	reset();
-	initRound();
+    PlaneRound::reset();
+    PlaneRound::initRound();
 
 } 
 

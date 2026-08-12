@@ -1,8 +1,6 @@
 
-#include "planepointiterator.h"
 #include "planeintersectingpointiterator.h"
 #include "coordinate2d.h"
-#include <algorithm>
 
 
 //constructor for the iterator giving all the planes

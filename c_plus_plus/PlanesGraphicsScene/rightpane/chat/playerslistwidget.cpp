@@ -29,7 +29,7 @@ void PlayersListWidget::updatePlayers(const std::vector<UserWithLastLoginViewMod
     emptyPlayersListWidget();
 
     m_PlayersListFromServer.clear();
-    for (UserWithLastLoginViewModel playerModel: players) {
+    for (const UserWithLastLoginViewModel& playerModel: players) {
         QString player = playerModel.m_UserName;
         if (player != m_GlobalData->m_UserData.m_UserName) {
             addPlayer(playerModel);
@@ -37,7 +37,7 @@ void PlayersListWidget::updatePlayers(const std::vector<UserWithLastLoginViewMod
         }
     }
 
-    for (UserWithLastLoginViewModel player: m_PlayersList) {
+    for (const UserWithLastLoginViewModel& player: m_PlayersList) {
         if (findPlayerInPlayersMap(player, m_PlayersListFromServer))
             continue;
         if (player.m_UserName != m_GlobalData->m_UserData.m_UserName) {
@@ -108,13 +108,13 @@ void PlayersListWidget::itemDoubleClicked(QListWidgetItem* item) {
 void PlayersListWidget::updatePlayersFromPlayersList() {
     emptyPlayersListWidget();
 
-    for (UserWithLastLoginViewModel player: m_PlayersListFromServer) {
+    for (const UserWithLastLoginViewModel& player: m_PlayersListFromServer) {
         if (player.m_UserName != m_GlobalData->m_UserData.m_UserName) {
             addPlayer(player);
         }
     }
 
-    for (UserWithLastLoginViewModel player: m_PlayersList) {
+    for (const UserWithLastLoginViewModel& player: m_PlayersList) {
         if (findPlayerInPlayersMap(player, m_PlayersListFromServer))
             continue;
         if (player.m_UserName != m_GlobalData->m_UserData.m_UserName) {
@@ -162,14 +162,14 @@ QString PlayersListWidget::getPlayerFromEntryListWidget(QListWidgetItem* item) {
 }
 
 long int PlayersListWidget::getPlayerId(const QString& player) {
-    for (auto p : m_PlayersList) {
+    for (const UserWithLastLoginViewModel& p : m_PlayersList) {
         if (p.m_UserName == player) {
             qDebug() << "Player from players list " << player << "  " << p.m_UserId;
             return p.m_UserId;
         }
     }
 
-    for (auto p : m_PlayersListFromServer) {
+    for (const UserWithLastLoginViewModel& p : m_PlayersListFromServer) {
         if (p.m_UserName == player) {
             qDebug() << "Player from server " << player << " " << p.m_UserId;
             return p.m_UserId;

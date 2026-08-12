@@ -5,10 +5,8 @@
 #include <QPushButton>
 #include <QMessageBox>
 
-#include "customhorizlayout.h"
-#include "gamestatuswidget.h"
 #include "creategamewidget.h"
-#include "gameendwidget.h"
+
 
 GameWidget::GameWidget(GlobalData* globalData, MultiplayerRound* mrd, QWidget* parent)
     : QFrame(parent), m_GlobalData(globalData), m_MultiRound(mrd) {
