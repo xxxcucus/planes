@@ -1,7 +1,16 @@
 #include "connecttogamecommobj.h"
 
-#include <QMessageBox>
+#include <QTimer>
 #include "viewmodels/gameviewmodel.h"
+
+ConnectToGameCommObj::~ConnectToGameCommObj()
+{
+    if (m_NoUserMessageBox != nullptr)
+        delete m_NoUserMessageBox;
+
+    if (m_ConnectedMessageBox != nullptr)
+        delete m_ConnectedMessageBox;
+}
 
 bool ConnectToGameCommObj::makeRequest(const QString& gameName)
 {
@@ -12,9 +21,8 @@ bool ConnectToGameCommObj::makeRequest(const QString& gameName)
 
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         if (m_ParentWidget != nullptr) { //in test project do not show messsage box
-            QMessageBox msgBox(m_ParentWidget);
-            msgBox.setText("No user logged in");
-            msgBox.exec();
+            m_NoUserMessageBox->show();
+            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
         }
         return false;
     }
@@ -43,9 +51,8 @@ void ConnectToGameCommObj::finishedRequest()
         return;
 
     if (m_ParentWidget != nullptr) {
-        QMessageBox msgBox(m_ParentWidget);
-        msgBox.setText("Connection to game successfull!");
-        msgBox.exec();
+        m_ConnectedMessageBox->show();
+        QTimer::singleShot(2000, m_ConnectedMessageBox, &QMessageBox::hide);
     }
 
     processResponse(retJson);

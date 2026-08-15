@@ -5,12 +5,17 @@
 #include "viewmodels/getopponentplanespositionsviewmodel.h"
 #include "multiplayerround.h"
 
+AcquireOpponentPositionsCommObj::~AcquireOpponentPositionsCommObj()
+{
+    if (m_NoUserMessageBox != nullptr)
+        delete m_NoUserMessageBox;
+}
+
 bool AcquireOpponentPositionsCommObj::makeRequest()
 {
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        QMessageBox msgBox(m_ParentWidget);
-        msgBox.setText("No user logged in"); 
-        msgBox.exec();
+        m_NoUserMessageBox->show();
+        QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
         return false;
     }
     
@@ -38,7 +43,7 @@ void AcquireOpponentPositionsCommObj::finishedRequest()
     if (roundCancelled) {
         m_MultiRound->setRoundCancelled();
         //activateStartGameTab();
-        emit roundCancelled;
+        emit roundCancelled;  //TODO:
         return;
     }
     

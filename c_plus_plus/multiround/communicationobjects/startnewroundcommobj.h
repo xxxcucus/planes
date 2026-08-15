@@ -7,6 +7,8 @@
 #define MULTIPLAYER_EXPORT Q_DECL_IMPORT
 #endif
 
+#include <QMessageBox>
+
 #include "basiscommobj.h"
 #include "viewmodels/startnewroundviewmodel.h"
 class MultiplayerRound;
@@ -17,7 +19,13 @@ class StartNewRoundCommObj : public BasisCommObj {
     
 public:
     StartNewRoundCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData, MultiplayerRound* mrd):
-        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData), m_MultiRound(mrd) {}
+        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData), m_MultiRound(mrd) {
+        m_NoUserMessageBox = new QMessageBox(m_ParentWidget);
+        m_NoUserMessageBox->setText("No user logged in");
+        m_NoUserMessageBox->setStandardButtons(QMessageBox::NoButton);
+    }
+
+    virtual ~StartNewRoundCommObj();
     
     bool makeRequest();
     bool validateReply(const QJsonObject& retJson) override;
@@ -37,6 +45,7 @@ private:
     
 private:
     MultiplayerRound* m_MultiRound = nullptr;
+    QMessageBox* m_NoUserMessageBox = nullptr;
 
     friend class StartNewRoundCommObjTest;
     

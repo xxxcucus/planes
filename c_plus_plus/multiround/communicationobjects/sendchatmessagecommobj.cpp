@@ -2,7 +2,12 @@
 
 #include <QJsonValue>
 #include <QJsonArray>
-#include <QMessageBox>
+#include <QTimer>
+
+SendChatMessageCommObj::~SendChatMessageCommObj() {
+    if (m_NoUserMessageBox != nullptr)
+        delete m_NoUserMessageBox;
+}
 
 
 bool SendChatMessageCommObj::makeRequest(long int receiverId, const QString& message, long int messageId) {
@@ -13,9 +18,8 @@ bool SendChatMessageCommObj::makeRequest(long int receiverId, const QString& mes
 
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         if (m_ParentWidget != nullptr) {
-            QMessageBox msgBox(m_ParentWidget);
-            msgBox.setText("No user logged in");
-            msgBox.exec();
+            m_NoUserMessageBox->show();
+            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
         }
         return false;
     }

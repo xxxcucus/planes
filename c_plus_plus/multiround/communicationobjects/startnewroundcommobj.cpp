@@ -1,8 +1,13 @@
 #include "startnewroundcommobj.h"
 
-#include <QMessageBox>
+#include <QTimer>
 #include "multiplayerround.h"
 
+
+StartNewRoundCommObj::~StartNewRoundCommObj() {
+    if (m_NoUserMessageBox != nullptr)
+        delete m_NoUserMessageBox;
+}
 
 bool StartNewRoundCommObj::makeRequest()
 {
@@ -13,9 +18,8 @@ bool StartNewRoundCommObj::makeRequest()
 
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         if (m_ParentWidget != nullptr) {
-            QMessageBox msgBox(m_ParentWidget);
-            msgBox.setText("No user logged in");
-            msgBox.exec();
+            m_NoUserMessageBox->show();
+            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
         }
         return false;
     }

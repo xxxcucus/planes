@@ -5,6 +5,11 @@
 #include <QJsonArray>
 #include "multiplayerround.h"
 
+RequestOpponentMovesCommObj::~RequestOpponentMovesCommObj() {
+    if (m_NoUserMessageBox != nullptr)
+        delete m_NoUserMessageBox;
+}
+
 bool RequestOpponentMovesCommObj::makeRequest(int opponentMoveIndex)
 {
     if (m_IsSinglePlayer) {
@@ -14,9 +19,8 @@ bool RequestOpponentMovesCommObj::makeRequest(int opponentMoveIndex)
 
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         if (m_ParentWidget != nullptr) {
-            QMessageBox msgBox(m_ParentWidget);
-            msgBox.setText("No user logged in");
-            msgBox.exec();
+            m_NoUserMessageBox->show();
+            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
         }
         return false;
     }

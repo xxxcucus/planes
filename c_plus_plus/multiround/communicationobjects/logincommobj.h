@@ -21,6 +21,10 @@ public:
             m_LoadingMessageBox = new QMessageBox(m_ParentWidget);
             m_LoadingMessageBox->setText("Connecting to server ..");
             m_LoadingMessageBox->setStandardButtons(QMessageBox::NoButton);
+
+            m_ResponseMessageBox = new QMessageBox(m_ParentWidget);
+            m_ResponseMessageBox->setText("Connecting to server ..");
+            m_ResponseMessageBox->setStandardButtons(QMessageBox::NoButton);
         }
     virtual ~LoginCommObj();
     
@@ -45,7 +49,9 @@ private:
 
 private:
     QString m_UserName;
-    QMessageBox* m_LoadingMessageBox = nullptr; 
+    QMessageBox* m_LoadingMessageBox = nullptr;
+    QMessageBox* m_ResponseMessageBox = nullptr;
+
 
     friend class LoginCommObjTest;
 };

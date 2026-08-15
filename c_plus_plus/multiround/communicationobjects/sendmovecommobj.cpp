@@ -4,7 +4,10 @@
 #include <QJsonArray>
 #include "multiplayerround.h"
 
-
+SendMoveCommObj::~SendMoveCommObj() {
+    if (m_NoUserMessageBox != nullptr)
+        delete m_NoUserMessageBox;
+}
 
 bool SendMoveCommObj::makeRequest(const std::vector<GuessPoint>& guessList, const std::vector<int>& notSentMoves, const std::vector<int>& receivedMoves, bool fromFinishedSlot) 
 {
@@ -15,9 +18,8 @@ bool SendMoveCommObj::makeRequest(const std::vector<GuessPoint>& guessList, cons
 
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         if (m_ParentWidget != nullptr) {
-            QMessageBox msgBox(m_ParentWidget);
-            msgBox.setText("No user logged in");
-            msgBox.exec();
+            m_NoUserMessageBox->show();
+            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
         }
         return false;
     }

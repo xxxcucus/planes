@@ -2,12 +2,16 @@
 
 
 #include <QMessageBox>
+#include <QTimer>
 #include "viewmodels/loginviewmodel.h"
 
 LoginCommObj::~LoginCommObj()
 {
     if (m_LoadingMessageBox != nullptr)
         delete m_LoadingMessageBox;
+
+    if (m_ResponseMessageBox != nullptr)
+        delete m_ResponseMessageBox;
 }
 
 bool LoginCommObj::makeRequest(const QString& username, const QString& password)
@@ -20,8 +24,9 @@ bool LoginCommObj::makeRequest(const QString& username, const QString& password)
     //m_UserName = username; TODO: is this needed
    
     m_RequestData = prepareViewModel(username, password).toLoginJson();
-    if (m_LoadingMessageBox != nullptr)
+    if (m_LoadingMessageBox != nullptr) {
         m_LoadingMessageBox->show();
+    }
     
     makeRequestBasis(false);
     return true;
@@ -55,9 +60,12 @@ void LoginCommObj::processResponse(bool successfull, const QJsonObject& retJson)
     //TODO: token refresh
     if (successfull) {
         if (m_ParentWidget != nullptr) {
-            QMessageBox msgBox(m_ParentWidget);
-            msgBox.setText("Login successfull!");
-            msgBox.exec();
+
+            if (m_ResponseMessageBox != nullptr) {
+                m_ResponseMessageBox->setText("Login successfull!");
+                m_ResponseMessageBox->show();
+                QTimer::singleShot(2000, m_ResponseMessageBox, &QMessageBox::hide);
+            }
         }
         m_GlobalData->m_UserData.m_UserName = retJson.value("username").toString();
         m_GlobalData->m_UserData.m_UserId = retJson.value("id").toString().toLong();
@@ -67,9 +75,12 @@ void LoginCommObj::processResponse(bool successfull, const QJsonObject& retJson)
         emit loginCompleted();
     } else {
         if (m_ParentWidget != nullptr) {
-            QMessageBox msgBox(m_ParentWidget);
-            msgBox.setText("Login reply was not recognized");
-            msgBox.exec();
+
+            if (m_ResponseMessageBox != nullptr) {
+                m_ResponseMessageBox->setText("Login reply was not recognized");
+                m_ResponseMessageBox->show();
+                QTimer::singleShot(2000, m_ResponseMessageBox, &QMessageBox::hide);
+            }
         }
     }
 }

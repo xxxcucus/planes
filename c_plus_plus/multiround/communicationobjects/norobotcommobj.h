@@ -21,6 +21,9 @@ public:
             m_LoadingMessageBox = new QMessageBox(m_ParentWidget);
             m_LoadingMessageBox->setText("Connecting to server ..");
             m_LoadingMessageBox->setStandardButtons(QMessageBox::NoButton);
+
+            m_UserCreatedMessageBox = new QMessageBox(m_ParentWidget);
+            m_UserCreatedMessageBox->setStandardButtons(QMessageBox::NoButton);
         }
     virtual ~NoRobotCommObj();
     
@@ -45,6 +48,8 @@ private:
 
 private:
     QMessageBox* m_LoadingMessageBox = nullptr;
+    QMessageBox* m_UserCreatedMessageBox = nullptr;
+
 
     friend class NoRobotCommObjTest;
 };

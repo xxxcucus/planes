@@ -1,7 +1,16 @@
 #include "creategamecommobj.h"
 
-#include <QMessageBox>
+#include <QTimer>
 #include "viewmodels/gameviewmodel.h"
+
+
+CreateGameCommObj::~CreateGameCommObj() {
+    if (m_NoUserMessageBox != nullptr)
+        delete m_NoUserMessageBox;
+
+    if (m_CreatedMessageBox != nullptr)
+        delete m_CreatedMessageBox;
+}
 
 bool CreateGameCommObj::makeRequest(const QString& gameName) {
     if (m_IsSinglePlayer) {
@@ -11,9 +20,8 @@ bool CreateGameCommObj::makeRequest(const QString& gameName) {
 
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         if (m_ParentWidget != nullptr) {
-            QMessageBox msgBox(m_ParentWidget);
-            msgBox.setText("No user logged in");
-            msgBox.exec();
+            m_NoUserMessageBox->show();
+            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
         }
         return false;
     }
@@ -42,9 +50,8 @@ void CreateGameCommObj::finishedRequest() {
         return;
 
     if (m_ParentWidget != nullptr) {
-        QMessageBox msgBox(m_ParentWidget);
-        msgBox.setText("Game creation successful!");
-        msgBox.exec();
+        m_CreatedMessageBox->show();
+        QTimer::singleShot(2000, m_CreatedMessageBox, &QMessageBox::hide);
     }
 
     processResponse(retJson);

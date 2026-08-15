@@ -1,5 +1,12 @@
 #include "logoutcommobj.h"
 
+#include <QTimer>
+
+LogoutCommObj::~LogoutCommObj() {
+    if (m_NoUserMessageBox != nullptr)
+        delete m_NoUserMessageBox;
+}
+
 bool LogoutCommObj::makeRequest(const QString& username) {
     if (m_IsSinglePlayer) {
         //qDebug() << "makeRequestBasis in single player modus";
@@ -8,9 +15,8 @@ bool LogoutCommObj::makeRequest(const QString& username) {
 
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         if (m_ParentWidget != nullptr) { //nullptr is in tests
-            QMessageBox msgBox(m_ParentWidget);
-            msgBox.setText("No user logged in");
-            msgBox.exec();
+            m_NoUserMessageBox->show();
+            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
         }
         return false;
     }

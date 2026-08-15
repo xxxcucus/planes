@@ -7,6 +7,8 @@
 #define MULTIPLAYER_EXPORT Q_DECL_IMPORT
 #endif
 
+#include <QMessageBox>
+
 #include "basiscommobj.h"
 #include "viewmodels/getavailableusersviewmodel.h"
 #include "viewmodels/userwithlastloginviewmodel.h"
@@ -18,7 +20,13 @@ class PlayersListCommObj : public BasisCommObj {
 
 public:
     PlayersListCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
-        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {}
+        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {
+        m_NoUserMessageBox = new QMessageBox(m_ParentWidget);
+        m_NoUserMessageBox->setText("No user logged in");
+        m_NoUserMessageBox->setStandardButtons(QMessageBox::NoButton);
+    }
+
+    virtual ~PlayersListCommObj();
 
     bool makeRequest(int lastLoginDay = 0);
     bool validateReply(const QJsonObject& retJson) override;
@@ -35,6 +43,9 @@ signals:
 private:
     void processResponse(const QJsonObject& retJson);
     GetAvailableUsersViewModel prepareViewModel(int lastLoginDay = 0);
+
+private:
+    QMessageBox* m_NoUserMessageBox = nullptr;
 };
 
 //TODO:test

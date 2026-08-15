@@ -1,8 +1,14 @@
 #include "receivechatmessagescommobj.h"
 
-#include <QMessageBox>
+#include <QTimer>
 #include <QJsonArray>
 #include "communicationtools.h"
+
+ReceiveChatMessagesCommObj::~ReceiveChatMessagesCommObj() {
+    if (m_NoUserMessageBox != nullptr)
+        delete m_NoUserMessageBox;
+}
+
 
 bool ReceiveChatMessagesCommObj::makeRequest()
 {
@@ -13,9 +19,8 @@ bool ReceiveChatMessagesCommObj::makeRequest()
 
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
         if (m_ParentWidget != nullptr) {
-            QMessageBox msgBox(m_ParentWidget);
-            msgBox.setText("No user logged in");
-            msgBox.exec();
+            m_NoUserMessageBox->show();
+            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
         }
         return false;
     }

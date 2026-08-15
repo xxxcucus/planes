@@ -1,12 +1,15 @@
 #include "norobotcommobj.h"
 
-#include <QMessageBox>
+#include <QTimer>
 
 
 NoRobotCommObj::~NoRobotCommObj()
 {
     if (m_LoadingMessageBox != nullptr)
         delete m_LoadingMessageBox;
+
+    if (m_UserCreatedMessageBox != nullptr)
+        delete m_UserCreatedMessageBox;
 }
 
 
@@ -56,12 +59,12 @@ void NoRobotCommObj::finishedRequest()
 
 void NoRobotCommObj::processResponse(const QJsonObject& retJson) {
     QString username = retJson.value("username").toString();
-    long int userid = retJson.value("id").toString().toLong();
+    //long int userid = retJson.value("id").toString().toLong();
 
     if (m_ParentWidget != nullptr) {
-        QMessageBox msgBox(m_ParentWidget);
-        msgBox.setText("User " + username + " created ");
-        msgBox.exec();
+        m_UserCreatedMessageBox->setText("User " + username + " created ");
+        m_UserCreatedMessageBox->show();
+        QTimer::singleShot(2000, m_UserCreatedMessageBox, &QMessageBox::hide);
     }
 
     emit registrationComplete();

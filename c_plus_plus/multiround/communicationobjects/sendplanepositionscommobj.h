@@ -7,6 +7,8 @@
 #define MULTIPLAYER_EXPORT Q_DECL_IMPORT
 #endif
 
+#include <QMessageBox>
+
 #include "basiscommobj.h"
 #include "viewmodels/planespositionsviewmodel.h"
 class MultiplayerRound;
@@ -17,8 +19,14 @@ class SendPlanePositionsCommObj : public BasisCommObj {
     
 public:
     SendPlanePositionsCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData, MultiplayerRound* mrd):
-        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData), m_MultiRound(mrd) {}
+        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData), m_MultiRound(mrd) {
+        m_NoUserMessageBox = new QMessageBox(m_ParentWidget);
+        m_NoUserMessageBox->setText("No user logged in");
+        m_NoUserMessageBox->setStandardButtons(QMessageBox::NoButton);
+    }
     
+    virtual ~SendPlanePositionsCommObj();
+
     bool makeRequest();
     bool validateReply(const QJsonObject& retJson) override;
    
@@ -40,6 +48,8 @@ private:
 private:
     QString m_GameName;
     MultiplayerRound* m_MultiRound = nullptr;
+
+    QMessageBox* m_NoUserMessageBox = nullptr;
 
     friend class SendPlanePositionsCommObjTest;
 };
