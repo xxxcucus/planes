@@ -1,9 +1,7 @@
 #include "cancelroundcommobj.h"
 
-#include <QMessageBox>
 #include "viewmodels/cancelroundviewmodel.h"
 #include "multiplayerround.h"
-
 
 bool CancelRoundCommObj::makeRequest()
 { 

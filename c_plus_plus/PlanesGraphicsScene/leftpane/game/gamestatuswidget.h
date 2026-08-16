@@ -22,6 +22,9 @@ public slots:
     void gameConnectedToSlot(const QString& gameName, const QString& firstPlayerName, const QString& secondPlayerName, const QString& currentRoundId);
     void refreshSlot();
     void clearDataSlot();
+
+signals:
+    void logMessage(const QString& msg);
         
 public:
     QLabel* m_GameName;

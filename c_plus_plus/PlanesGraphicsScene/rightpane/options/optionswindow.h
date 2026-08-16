@@ -11,6 +11,9 @@ class OptionsWindow : public QWidget
 public:
 	OptionsWindow(PlaneRound* pr, QSettings* settings, GameInfo* gameInfo, QWidget* parent = nullptr);
 
+signals:
+    void logMessage(const QString& msg);
+
 private:
 	PlaneRound* m_PlaneRound;
 	QSettings* m_Settings;

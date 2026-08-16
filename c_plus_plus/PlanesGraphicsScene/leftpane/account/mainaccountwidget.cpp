@@ -2,7 +2,6 @@
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <QMessageBox>
 
 #include "multiplayerround.h"
 #include "loginregisterform.h"
@@ -36,10 +35,8 @@ MainAccountWidget::MainAccountWidget(QSettings* settings, GlobalData* globalData
 
 void MainAccountWidget::toGameCreationClickedSlot(bool value) {
         
-    if (m_GlobalData->m_UserData.m_UserName.isEmpty()) { 
-            QMessageBox msgBox(this);
-            msgBox.setText("Please login to game server first"); 
-            msgBox.exec();
+    if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
+            emit logMessage("Please login to game server first");
             return;
     }
     

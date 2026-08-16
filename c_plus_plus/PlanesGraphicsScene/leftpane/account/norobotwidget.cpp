@@ -4,7 +4,6 @@
 #include <QGridLayout>
 #include <QDir>
 #include <QFileInfoList>
-#include <QMessageBox>
 #include <QResizeEvent>
 
 NoRobotWidget::NoRobotWidget(QNetworkAccessManager* networkManager, QSettings* settings, GlobalData* globalData, GameInfo* gameInfo, MultiplayerRound* mrd, QWidget* parent) 

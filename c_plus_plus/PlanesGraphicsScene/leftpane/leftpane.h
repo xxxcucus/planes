@@ -4,7 +4,6 @@
 #include <QTabWidget>
 #include <QPushButton>
 #include <QNetworkAccessManager>
-#include <QMessageBox>
 #include <QNetworkReply>
 #include <QSettings>
 #include <QJsonObject>

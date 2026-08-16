@@ -1,10 +1,8 @@
 #include "multiplayerround.h"
 
-#include <QMessageBox>
+
 #include <QJsonArray>
 #include <QJsonDocument>
-
-
 
 MultiplayerRound::MultiplayerRound(int rows, int cols, int planeNo, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo)
     : AbstractPlaneRound(rows, cols, planeNo), m_NetworkManager(networkManager), m_GlobalData(globalData), m_Settings(settings), m_GameInfo(gameInfo)

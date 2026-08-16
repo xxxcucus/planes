@@ -19,8 +19,11 @@ LeftPane::LeftPane(GameInfo* gameInfo, QNetworkAccessManager* networkManager, Gl
     m_InfoWidget = new InfoWidget();
 
     connect(m_MainAccountWidget, &MainAccountWidget::toGameCreationClicked, this, &LeftPane::activateGameWidget);
+    connect(m_MainAccountWidget, &MainAccountWidget::logMessage, this, &LeftPane::showLogMessage);
+
     connect(m_GameWidget, &GameWidget::toGameButtonClicked, this, &LeftPane::activateEditingBoard);
-    
+    connect(m_GameWidget, &GameWidget::logMessage, this, &LeftPane::showLogMessage);
+
     connect(m_BoardEditingWidget, &BoardEditingWidget::selectPlaneClicked, this, &LeftPane::selectPlaneClickedSlot);
     connect(m_BoardEditingWidget, &BoardEditingWidget::rotatePlaneClicked, this, &LeftPane::rotatePlaneClickedSlot);
     connect(m_BoardEditingWidget, &BoardEditingWidget::doneClicked, this, &LeftPane::doneClickedSlot);
@@ -91,9 +94,8 @@ void LeftPane::activateGameTabDeactivateButtons()
 void LeftPane::doneClickedSlot()
 {
     if (m_MultiRound->getRoundId() == 0 && !m_GameInfo->getSinglePlayer()) {
-            QMessageBox msgBox(this);
-            msgBox.setText("No round started. Connect to game or start a round!"); 
-            msgBox.exec();
+
+            showLogMessage("No round started. Connect to game or start a round!");
             return;
     }
     
@@ -116,10 +118,7 @@ void LeftPane::submitDoneClicked()
 void LeftPane::WaitForOpponentPlanesPositionsSlot() {
     m_BoardEditingWidget->waitForOpponentPlanesPositions();
     
-    QMessageBox msgBox(this);
-    msgBox.setText("Your opponent has not decided where he wants to place the planes yet\nPlease wait or try to acquire them by clicking \n on the \"Acquired opponent positions\" button! "); 
-    msgBox.exec();    
-    
+    showLogMessage("Your opponent has not decided where he wants to place the planes yet\nPlease wait or try to acquire them by clicking \n on the \"Acquired opponent positions\" button! ");
     m_AcquireOpponentPlanesPositionsTimer->start(5000);
 }
 
@@ -146,19 +145,15 @@ void LeftPane::acquireOpponentMovesClickedSlot(bool c)
 
 void LeftPane::selectPlaneClickedSlot(bool c) {
     if (m_MultiRound->getRoundId() == 0 && !m_GameInfo->getSinglePlayer()) {
-            QMessageBox msgBox(this);
-            msgBox.setText("No round started. Connect to game or start a round!"); 
-            msgBox.exec();
-            return;
+        showLogMessage("No round started. Connect to game or start a round!");
+        return;
     }
     emit selectPlaneClicked(c);
 }
     
 void LeftPane::rotatePlaneClickedSlot(bool c) {
     if (m_MultiRound->getRoundId() == 0 && !m_GameInfo->getSinglePlayer()) {
-        QMessageBox msgBox(this);
-        msgBox.setText("No round started. Connect to game or start a round!"); 
-        msgBox.exec();
+        showLogMessage("No round started. Connect to game or start a round!");
         return;
     }
     emit rotatePlaneClicked(c);
@@ -166,9 +161,7 @@ void LeftPane::rotatePlaneClickedSlot(bool c) {
     
 void LeftPane::upPlaneClickedSlot(bool c) {
     if (m_MultiRound->getRoundId() == 0 && !m_GameInfo->getSinglePlayer()) {
-        QMessageBox msgBox;
-        msgBox.setText("No round started. Connect to game or start a round!"); 
-        msgBox.exec();
+        showLogMessage("No round started. Connect to game or start a round!");
         return;
     }
     emit upPlaneClicked(c);    
@@ -176,9 +169,7 @@ void LeftPane::upPlaneClickedSlot(bool c) {
     
 void LeftPane::downPlaneClickedSlot(bool c) {
    if (m_MultiRound->getRoundId() == 0 && !m_GameInfo->getSinglePlayer()) {
-        QMessageBox msgBox(this);
-        msgBox.setText("No round started. Connect to game or start a round!"); 
-        msgBox.exec();
+        showLogMessage("No round started. Connect to game or start a round!");
         return;
     }
     emit downPlaneClicked(c); 
@@ -186,9 +177,7 @@ void LeftPane::downPlaneClickedSlot(bool c) {
 
 void LeftPane::leftPlaneClickedSlot(bool c) {
    if (m_MultiRound->getRoundId() == 0 && !m_GameInfo->getSinglePlayer()) {
-        QMessageBox msgBox(this);
-        msgBox.setText("No round started. Connect to game or start a round!"); 
-        msgBox.exec();
+        showLogMessage("No round started. Connect to game or start a round!");
         return;
     }
     emit leftPlaneClicked(c); 
@@ -196,9 +185,7 @@ void LeftPane::leftPlaneClickedSlot(bool c) {
 
 void LeftPane::rightPlaneClickedSlot(bool c) {
    if (m_MultiRound->getRoundId() == 0 && !m_GameInfo->getSinglePlayer()) {
-        QMessageBox msgBox(this);
-        msgBox.setText("No round started. Connect to game or start a round!"); 
-        msgBox.exec();
+        showLogMessage("No round started. Connect to game or start a round!");
         return;
     }
     emit rightPlaneClicked(c);     

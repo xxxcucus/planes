@@ -10,6 +10,7 @@ OptionsWindow::OptionsWindow(PlaneRound* pr,  QSettings* settings, GameInfo* gam
 
 	QHBoxLayout* hlayout1 = new QHBoxLayout();
 	GameDifficultyOptions* gameDifficulty = new GameDifficultyOptions(m_PlaneRound, m_Settings);
+    connect(gameDifficulty, &GameDifficultyOptions::logMessage, this, &OptionsWindow::logMessage);
 	hlayout1->addWidget(gameDifficulty);
 	hlayout1->addStretch(5);
 

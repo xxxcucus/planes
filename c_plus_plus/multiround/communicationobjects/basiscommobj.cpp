@@ -2,7 +2,6 @@
 
 #include <cmath>
 
-#include <QMessageBox>
 #include <QDebug>
 #include <QJsonValue>
 #include "communicationtools.h"

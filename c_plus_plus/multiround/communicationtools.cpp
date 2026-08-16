@@ -1,7 +1,6 @@
 #include "communicationtools.h"
 
 #include <QJsonDocument>
-#include <QMessageBox>
 #include <QTimeZone>
 
 
@@ -67,17 +66,6 @@ QJsonObject CommunicationTools::objectFromString(const QString& in)
     }
 
     return obj;
-}
-
-void CommunicationTools::treatCommunicationError(const QString& actionName, QNetworkReply* reply/*, QWidget* parentWidget*/) {
-    QByteArray replyBA = reply->readAll();
-    QString registrationReplyQString(replyBA);
-    
-    //TODO: to replace with a signal
-
-    /*QMessageBox msgBox(parentWidget);
-    msgBox.setText("Error when " + actionName + " " + reply->errorString() + "\n" +  registrationReplyQString); 
-    msgBox.exec();*/
 }
 
 /**

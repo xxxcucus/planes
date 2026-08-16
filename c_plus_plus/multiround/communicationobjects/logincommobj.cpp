@@ -1,7 +1,6 @@
 #include "logincommobj.h"
 
 
-#include <QMessageBox>
 #include <QTimer>
 #include "viewmodels/loginviewmodel.h"
 

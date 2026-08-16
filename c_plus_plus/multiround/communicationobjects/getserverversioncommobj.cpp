@@ -1,6 +1,5 @@
 #include "getserverversioncommobj.h"
 
-#include <QMessageBox>
 #include <QJsonObject>
 #include <QApplication>
 

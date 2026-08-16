@@ -1,7 +1,6 @@
 #include "requestopponentmovescommobj.h"
 
 
-#include <QMessageBox>
 #include <QJsonArray>
 #include "multiplayerround.h"
 

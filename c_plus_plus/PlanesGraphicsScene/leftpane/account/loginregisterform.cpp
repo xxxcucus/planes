@@ -3,7 +3,6 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QJsonDocument>
-#include <QMessageBox>
 #include <QDebug>
 
 

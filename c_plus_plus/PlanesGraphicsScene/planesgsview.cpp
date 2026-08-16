@@ -18,6 +18,8 @@ PlanesGSView::PlanesGSView(PlaneRound *rd, MultiplayerRound* mrd, GlobalData* gl
     m_RightPane = new RightPane(m_round, m_MultiRound, m_Settings, m_GlobalData, m_NetworkManager, m_GameInfo, this);
     m_RightPane->setMinWidth();
 
+    connect(m_RightPane, &RightPane::logMessage, m_LeftPane, &LeftPane::showLogMessage);
+
     hLayout->addWidget(m_LeftPane);
     hLayout->addWidget(m_RightPane);
     controlsAndBoardsWidget->setLayout(hLayout);

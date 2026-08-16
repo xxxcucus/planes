@@ -59,8 +59,9 @@ public slots:
     
 signals:
     void planePositionNotValid(bool);
-
     void guessMade(const GuessPoint& gp);
+    void logMessage(const QString& msg);
+
 private:
     PlayerBoard* m_PlayerBoard;
     ComputerBoard* m_ComputerBoard;

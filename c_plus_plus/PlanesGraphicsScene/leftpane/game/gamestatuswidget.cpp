@@ -3,7 +3,6 @@
 #include <QGridLayout>
 #include <QPushButton>
 #include <QDebug>
-#include <QMessageBox>
 
 
 GameStatusWidget::GameStatusWidget(MultiplayerRound* mrd, QWidget* parent) 
@@ -67,10 +66,7 @@ void GameStatusWidget::refreshSlot()
 {
     QString gameName = m_GameName->text().trimmed();
     if (gameName.isEmpty()) {
-        QMessageBox msgBox(this);
-        msgBox.setText("Game name cannot be empty"); 
-        msgBox.exec();
-
+        emit logMessage("Game name cannot be empty");
         return;
     }
 

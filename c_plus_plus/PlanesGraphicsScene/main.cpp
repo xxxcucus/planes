@@ -4,6 +4,8 @@
 #include "Windows.h"
 #endif
 
+#include <QMessageBox>
+
  int main(int argc, char *argv[])
  {
 #ifdef _WIN32
@@ -13,7 +15,7 @@
 
     QMessageBox msgBox;
     msgBox.setText("Single player / Multiplayer game?"); 
-    QPushButton* singlePlayerButton = msgBox.addButton("Single player", QMessageBox::YesRole);
+    /*QPushButton* singlePlayerButton =*/ msgBox.addButton("Single player", QMessageBox::YesRole);
     QPushButton* multiplayerButton = msgBox.addButton("Multiplayer", QMessageBox::NoRole);
     msgBox.exec();
     bool isMultiplayer = msgBox.clickedButton() == multiplayerButton;

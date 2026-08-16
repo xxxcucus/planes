@@ -19,6 +19,7 @@ public:
     
 signals:
     void toGameCreationClicked(bool value);
+    void logMessage(const QString& msg);
     
 public slots:
     void toGameCreationClickedSlot(bool value);

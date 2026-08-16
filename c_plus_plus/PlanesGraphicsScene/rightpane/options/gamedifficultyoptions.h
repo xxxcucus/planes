@@ -16,6 +16,9 @@ private slots:
 	void setComputerSkill(int idx);
 	void setShowAfterKill(int state);
 
+signals:
+    void logMessage(const QString& msg);
+
 private:
 	PlaneRound* m_PlaneRound;
 	int m_CurrentSkill = 0;

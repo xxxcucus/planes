@@ -30,6 +30,7 @@ public slots:
 
 signals:
     void toGameButtonClicked(bool value);
+    void logMessage(const QString& msg);
     
 private:    
     GlobalData* m_GlobalData;
