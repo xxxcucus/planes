@@ -53,7 +53,7 @@ void CustomHorizLayout::setGeometry(const QRect &r)
         int htemp = r.height();
         if (i == 0) {
             wtemp = std::max(wtemp, o->minimumSize().width());
-            htemp = std::max(r.height() / 2, o->minimumSize().height());
+            //htemp = std::max(r.height() / 2, o->minimumSize().height());
         } else {
             wtemp = std::max(r.width() - curX - spacing(), o->minimumSize().width());
         }
