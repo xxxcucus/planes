@@ -5,12 +5,6 @@
 #include "multiplayerround.h"
 
 
-CancelRoundCommObj::~CancelRoundCommObj()
-{
-    if (m_NoUserMessageBox != nullptr)
-        delete m_NoUserMessageBox;
-}
-
 bool CancelRoundCommObj::makeRequest()
 { 
     if (m_IsSinglePlayer) {
@@ -18,10 +12,7 @@ bool CancelRoundCommObj::makeRequest()
         return false;
     }
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        if (m_ParentWidget != nullptr) { //nullptr is in tests
-            m_NoUserMessageBox->show();
-            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
-        }
+        emit logMessage("No user logged in!");
         return false;
     }
 

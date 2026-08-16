@@ -22,6 +22,7 @@ set(GS_SRCS
 	leftpane/boardediting/boardeditingwidget.cpp
 	leftpane/startnewround/startnewroundwidget.cpp
 	leftpane/startnewround/scoreframe.cpp
+	leftpane/info/infowidget.cpp
 	leftpane/account/clickablelabel.cpp
 	leftpane/account/loginregisterform.cpp
 	leftpane/account/mainaccountwidget.cpp
@@ -63,6 +64,7 @@ set(GS_HEADR
 	leftpane/boardediting/boardeditingwidget.h
 	leftpane/startnewround/startnewroundwidget.h
 	leftpane/startnewround/scoreframe.h
+	leftpane/info/infowidget.h
 	leftpane/account/clickablelabel.h
 	leftpane/account/loginregisterform.h
 	leftpane/account/userprofileform.h

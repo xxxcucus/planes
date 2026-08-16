@@ -7,8 +7,6 @@
 #define MULTIPLAYER_EXPORT Q_DECL_IMPORT
 #endif
 
-#include <QMessageBox>
-
 #include "guesspoint.h"
 #include "viewmodels/unsentmovesviewmodel.h"
 #include "basiscommobj.h"
@@ -19,14 +17,9 @@ class SendMoveCommObj : public BasisCommObj {
     Q_OBJECT
 
 public:
-    SendMoveCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData, MultiplayerRound* mrd) :
-        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData), m_MultiRound(mrd) {
-        m_NoUserMessageBox = new QMessageBox(m_ParentWidget);
-        m_NoUserMessageBox->setText("No user logged in");
-        m_NoUserMessageBox->setStandardButtons(QMessageBox::NoButton);
+    SendMoveCommObj(const QString& requestPath, const QString& actionName, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData, MultiplayerRound* mrd) :
+        BasisCommObj(requestPath, actionName, networkManager, settings, isSinglePlayer, globalData), m_MultiRound(mrd) {
     }
-
-    virtual ~SendMoveCommObj();
 
     bool makeRequest(const std::vector<GuessPoint>& guessList, const std::vector<int>& notSentMoves, const std::vector<int>& receivedMoves, bool fromFinishedSlot = false);
     bool validateReply(const QJsonObject& retJson) override;
@@ -53,8 +46,6 @@ private:
     MultiplayerRound* m_MultiRound = nullptr;
     std::vector<int> m_LastNotSentMoveIndexSucces;  //Not sent moves sent when the controller method on the server was called
     std::vector<int> m_LastNotSentMoveIndexError; //Not sent moves when  the controller method on the server was not called (called too fast after previous call)
-
-    QMessageBox* m_NoUserMessageBox = nullptr;
 
     friend class SendMoveCommObjTest;
 };

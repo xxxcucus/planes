@@ -4,11 +4,6 @@
 #include <QJsonArray>
 #include "communicationtools.h"
 
-ReceiveChatMessagesCommObj::~ReceiveChatMessagesCommObj() {
-    if (m_NoUserMessageBox != nullptr)
-        delete m_NoUserMessageBox;
-}
-
 
 bool ReceiveChatMessagesCommObj::makeRequest()
 {
@@ -18,10 +13,7 @@ bool ReceiveChatMessagesCommObj::makeRequest()
     }
 
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        if (m_ParentWidget != nullptr) {
-            m_NoUserMessageBox->show();
-            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
-        }
+        emit logMessage("No user logged in!");
         return false;
     }
 

@@ -4,11 +4,6 @@
 #include <QJsonArray>
 #include <QTimer>
 
-SendChatMessageCommObj::~SendChatMessageCommObj() {
-    if (m_NoUserMessageBox != nullptr)
-        delete m_NoUserMessageBox;
-}
-
 
 bool SendChatMessageCommObj::makeRequest(long int receiverId, const QString& message, long int messageId) {
     if (m_IsSinglePlayer) {
@@ -17,10 +12,7 @@ bool SendChatMessageCommObj::makeRequest(long int receiverId, const QString& mes
     }
 
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        if (m_ParentWidget != nullptr) {
-            m_NoUserMessageBox->show();
-            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
-        }
+        emit logMessage("No user logged in!");
         return false;
     }
 

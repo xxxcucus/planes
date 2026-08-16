@@ -17,9 +17,10 @@
 #include "startnewround/startnewroundwidget.h"
 #include "account/mainaccountwidget.h"
 #include "account/userprofileframe.h"
+#include "info/infowidget.h"
 #include "game/gamewidget.h"
 
-class LeftPane : public QTabWidget
+class LeftPane : public QWidget
 {
     Q_OBJECT
 public:
@@ -127,17 +128,20 @@ public slots:
     void currentTabChangedSlot();
     void logoutCompleted();
 
+    void showLogMessage(const QString& msg);
+
 private:
     void submitDoneClicked();    
     
 private:
-    
+    QTabWidget* m_LeftPaneTabs;
     PlayRoundWidget* m_PlayRoundWidget;
     BoardEditingWidget* m_BoardEditingWidget;
     StartNewRoundWidget* m_StartNewRoundWidget;
     MainAccountWidget* m_MainAccountWidget;
     UserProfileFrame* m_UserProfileFrame;
     GameWidget* m_GameWidget;
+    InfoWidget* m_InfoWidget;
 
     int m_MainAccountWidgetIndex = -1;
     int m_GameWidgetIndex = -1;

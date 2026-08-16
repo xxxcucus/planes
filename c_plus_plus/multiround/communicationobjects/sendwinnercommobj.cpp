@@ -4,10 +4,6 @@
 #include <QTimer>
 #include "viewmodels/sendwinnerviewmodel.h"
 
-SendWinnerCommObj::~SendWinnerCommObj() {
-    if (m_NoUserMessageBox != nullptr)
-        delete m_NoUserMessageBox;
-}
 
 bool SendWinnerCommObj::makeRequest(bool draw, long int winnerId)
 {
@@ -17,10 +13,7 @@ bool SendWinnerCommObj::makeRequest(bool draw, long int winnerId)
     }
 
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        if (m_ParentWidget != nullptr) {
-            m_NoUserMessageBox->show();
-            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
-        }
+        emit logMessage("No user logged in!");
         return false;
     }
 

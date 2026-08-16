@@ -2,11 +2,6 @@
 
 #include <QTimer>
 
-DeactivateUserCommObj::~DeactivateUserCommObj() {
-    if (m_NoUserMessageBox != nullptr)
-        delete m_NoUserMessageBox;
-}
-
 bool DeactivateUserCommObj::makeRequest(const QString& username) {
     if (m_IsSinglePlayer) {
         //qDebug() << "makeRequestBasis in single player modus";
@@ -14,10 +9,7 @@ bool DeactivateUserCommObj::makeRequest(const QString& username) {
     }
 
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        if (m_ParentWidget != nullptr) {
-            m_NoUserMessageBox->show();
-            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
-        }
+        emit logMessage("No user logged in");
         return false;
     }
 

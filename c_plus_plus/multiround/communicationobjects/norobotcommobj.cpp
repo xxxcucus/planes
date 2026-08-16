@@ -3,16 +3,6 @@
 #include <QTimer>
 
 
-NoRobotCommObj::~NoRobotCommObj()
-{
-    if (m_LoadingMessageBox != nullptr)
-        delete m_LoadingMessageBox;
-
-    if (m_UserCreatedMessageBox != nullptr)
-        delete m_UserCreatedMessageBox;
-}
-
-
 bool NoRobotCommObj::makeRequest(const QString& requestId, const QString& answer)
 {
     if (m_IsSinglePlayer) {
@@ -21,8 +11,7 @@ bool NoRobotCommObj::makeRequest(const QString& requestId, const QString& answer
     }
 
     m_RequestData = prepareViewModel(requestId, answer).toJson();
-    if (m_LoadingMessageBox != nullptr)
-        m_LoadingMessageBox->show();
+    emit logMessage("Connecting to server ..");
 
     makeRequestBasis(false);
     return true;
@@ -37,9 +26,6 @@ NoRobotViewModel NoRobotCommObj::prepareViewModel(const QString& requestId, cons
 
 void NoRobotCommObj::errorRequest(QNetworkReply::NetworkError code)
 {
-    if (m_LoadingMessageBox != nullptr && m_LoadingMessageBox->isVisible())
-        m_LoadingMessageBox->hide();
-
     BasisCommObj::errorRequest(code);
     emit registrationFailed();
     //qDebug() << "registration failed";
@@ -47,9 +33,6 @@ void NoRobotCommObj::errorRequest(QNetworkReply::NetworkError code)
 
 void NoRobotCommObj::finishedRequest()
 {
-    if (m_LoadingMessageBox != nullptr && m_LoadingMessageBox->isVisible())
-        m_LoadingMessageBox->hide();
-
     QJsonObject retJson;
     if (!finishRequestHelper(retJson)) 
         return;
@@ -60,13 +43,7 @@ void NoRobotCommObj::finishedRequest()
 void NoRobotCommObj::processResponse(const QJsonObject& retJson) {
     QString username = retJson.value("username").toString();
     //long int userid = retJson.value("id").toString().toLong();
-
-    if (m_ParentWidget != nullptr) {
-        m_UserCreatedMessageBox->setText("User " + username + " created ");
-        m_UserCreatedMessageBox->show();
-        QTimer::singleShot(2000, m_UserCreatedMessageBox, &QMessageBox::hide);
-    }
-
+    emit logMessage("User " + username + " created ");
     emit registrationComplete();
     //qDebug() << "registration completed";
 }

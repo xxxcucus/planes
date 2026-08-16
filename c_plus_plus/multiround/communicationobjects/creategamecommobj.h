@@ -7,7 +7,6 @@
 #define MULTIPLAYER_EXPORT Q_DECL_IMPORT
 #endif
 
-#include <QMessageBox>
 #include "basiscommobj.h"
 #include "viewmodels/gameviewmodel.h"
 
@@ -16,18 +15,9 @@ class CreateGameCommObj: public BasisCommObj {
     Q_OBJECT
     
 public:
-    CreateGameCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
-        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {
-        m_NoUserMessageBox = new QMessageBox(m_ParentWidget);
-        m_NoUserMessageBox->setText("No user logged in");
-        m_NoUserMessageBox->setStandardButtons(QMessageBox::NoButton);
-
-        m_CreatedMessageBox = new QMessageBox(m_ParentWidget);
-        m_CreatedMessageBox->setText("Game creation successful!");
-        m_CreatedMessageBox->setStandardButtons(QMessageBox::NoButton);
+    CreateGameCommObj(const QString& requestPath, const QString& actionName, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
+        BasisCommObj(requestPath, actionName, networkManager, settings, isSinglePlayer, globalData) {
     }
-
-    virtual ~CreateGameCommObj();
     
     bool makeRequest(const QString& gameName);
     bool validateReply(const QJsonObject& retJson) override;
@@ -47,9 +37,6 @@ private:
 
 private:
     QString m_GameName;
-
-    QMessageBox* m_NoUserMessageBox = nullptr;
-    QMessageBox* m_CreatedMessageBox = nullptr;
 
     friend class CreateGameCommObjTest;
 };

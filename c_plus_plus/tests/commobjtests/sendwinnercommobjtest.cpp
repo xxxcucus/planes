@@ -17,7 +17,6 @@ void SendWinnerCommObjTest::SinglePlayerTest()
 void SendWinnerCommObjTest::NoUserLoggedInTest()
 {
     m_CommObj.m_IsSinglePlayer = false;
-    m_CommObj.m_ParentWidget = nullptr;
     GlobalData* gd = new GlobalData();
     gd->m_UserData.m_UserName = "";
     m_CommObj.m_GlobalData = gd;

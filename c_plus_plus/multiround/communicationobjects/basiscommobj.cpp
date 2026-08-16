@@ -55,7 +55,10 @@ void BasisCommObj::errorRequest(QNetworkReply::NetworkError code)
         return;
     }
 
-    CommunicationTools::treatCommunicationError(m_ActionName, m_ReplyObject, m_ParentWidget);
+    QByteArray replyBA = m_ReplyObject->readAll();
+    QString replyQString(replyBA);
+
+    emit logMessage(replyQString);
 }
 
 
@@ -87,10 +90,7 @@ bool BasisCommObj::finishRequestHelper(QJsonObject& retJson)
     retJson = CommunicationTools::objectFromString(replyQString);
  
     if (!validateReply(retJson)) {
-        QMessageBox msgBox(m_ParentWidget);
-        msgBox.setText(m_ActionName + " reply was not recognized"); 
-        msgBox.exec();
-
+        emit logMessage(m_ActionName + " reply was not recognized");
         return false;
     }
 
@@ -116,7 +116,7 @@ bool BasisCommObj::checkLong(const QString& stringVal)
 void BasisCommObj::sslErrorOccured(QNetworkReply* reply, const QList<QSslError>& errors)
 {
     qDebug() << "Ssl errors";
-    for (auto error : errors) {
+    for (const QSslError& error : errors) {
         qDebug() << error.errorString();
     }    
 }

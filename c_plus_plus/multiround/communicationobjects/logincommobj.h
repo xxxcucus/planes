@@ -8,7 +8,6 @@
 #endif
 
 #include "basiscommobj.h"
-#include <QMessageBox>
 #include "viewmodels/loginviewmodel.h"
 
 //class MULTIPLAYER_EXPORT LoginCommObj : public BasisCommObj {
@@ -16,17 +15,9 @@ class LoginCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:
-    LoginCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
-        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {
-            m_LoadingMessageBox = new QMessageBox(m_ParentWidget);
-            m_LoadingMessageBox->setText("Connecting to server ..");
-            m_LoadingMessageBox->setStandardButtons(QMessageBox::NoButton);
-
-            m_ResponseMessageBox = new QMessageBox(m_ParentWidget);
-            m_ResponseMessageBox->setText("Connecting to server ..");
-            m_ResponseMessageBox->setStandardButtons(QMessageBox::NoButton);
+    LoginCommObj(const QString& requestPath, const QString& actionName, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
+        BasisCommObj(requestPath, actionName, networkManager, settings, isSinglePlayer, globalData) {
         }
-    virtual ~LoginCommObj();
     
     bool makeRequest(const QString& username, const QString& password);
     bool validateReply(const QJsonObject& retJson) override;
@@ -49,9 +40,6 @@ private:
 
 private:
     QString m_UserName;
-    QMessageBox* m_LoadingMessageBox = nullptr;
-    QMessageBox* m_ResponseMessageBox = nullptr;
-
 
     friend class LoginCommObjTest;
 };

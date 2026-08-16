@@ -8,12 +8,6 @@
 #include "viewmodels/userwithlastloginviewmodel.h"
 
 
-PlayersListCommObj::~PlayersListCommObj() {
-    if (m_NoUserMessageBox != nullptr)
-        delete m_NoUserMessageBox;
-}
-
-
 bool PlayersListCommObj::makeRequest(int lastLoginDay) {
     if (m_IsSinglePlayer) {
         //qDebug() << "makeRequestBasis in single player modus";
@@ -21,10 +15,7 @@ bool PlayersListCommObj::makeRequest(int lastLoginDay) {
     }
 
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        if (m_ParentWidget != nullptr) {
-            m_NoUserMessageBox->show();
-            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
-        }
+        emit logMessage("No user logged in!");
         return false;
     }
 

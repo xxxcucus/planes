@@ -5,17 +5,11 @@
 #include "viewmodels/getopponentplanespositionsviewmodel.h"
 #include "multiplayerround.h"
 
-AcquireOpponentPositionsCommObj::~AcquireOpponentPositionsCommObj()
-{
-    if (m_NoUserMessageBox != nullptr)
-        delete m_NoUserMessageBox;
-}
 
 bool AcquireOpponentPositionsCommObj::makeRequest()
 {
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        m_NoUserMessageBox->show();
-        QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
+        emit logMessage("No user logged in!");
         return false;
     }
     
@@ -71,9 +65,7 @@ void AcquireOpponentPositionsCommObj::finishedRequest()
         //qDebug() << "Plane 3 from opponent" << plane3_x << " " << plane3_y << " " << plane3_orient;
         bool setOk = m_MultiRound->setComputerPlanes(plane1_x, plane1_y, (Plane::Orientation)plane1_orient, plane2_x, plane2_y, (Plane::Orientation)plane2_orient, plane3_x, plane3_y, (Plane::Orientation)plane3_orient);
         if (!setOk) {
-            QMessageBox msgBox(m_ParentWidget);
-            msgBox.setText("Planes positions from opponent are not valid"); 
-            msgBox.exec();
+            emit logMessage("Planes positions from opponent are not valid");
             return;            
         }
         emit opponentPlanePositionsReceived();

@@ -2,11 +2,6 @@
 
 #include <QTimer>
 
-RefreshGameStatusCommObj::~RefreshGameStatusCommObj() {
-    if (m_NoUserMessageBox != nullptr)
-        delete m_NoUserMessageBox;
-}
-
 bool RefreshGameStatusCommObj::makeRequest(const QString& gameName)
 {
     if (m_IsSinglePlayer) {
@@ -15,10 +10,7 @@ bool RefreshGameStatusCommObj::makeRequest(const QString& gameName)
     }
 
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        if (m_ParentWidget != nullptr) {
-            m_NoUserMessageBox->show();
-            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
-        }
+        emit logMessage("No user logged in!");
         return false;
     }
 

@@ -3,14 +3,6 @@
 #include <QTimer>
 #include "viewmodels/gameviewmodel.h"
 
-ConnectToGameCommObj::~ConnectToGameCommObj()
-{
-    if (m_NoUserMessageBox != nullptr)
-        delete m_NoUserMessageBox;
-
-    if (m_ConnectedMessageBox != nullptr)
-        delete m_ConnectedMessageBox;
-}
 
 bool ConnectToGameCommObj::makeRequest(const QString& gameName)
 {
@@ -20,10 +12,7 @@ bool ConnectToGameCommObj::makeRequest(const QString& gameName)
     }
 
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        if (m_ParentWidget != nullptr) { //in test project do not show messsage box
-            m_NoUserMessageBox->show();
-            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
-        }
+        emit logMessage("No user logged in!");
         return false;
     }
 
@@ -50,11 +39,7 @@ void ConnectToGameCommObj::finishedRequest()
     if (!finishRequestHelper(retJson)) 
         return;
 
-    if (m_ParentWidget != nullptr) {
-        m_ConnectedMessageBox->show();
-        QTimer::singleShot(2000, m_ConnectedMessageBox, &QMessageBox::hide);
-    }
-
+    emit logMessage("User connected to game!");
     processResponse(retJson);
 }
 

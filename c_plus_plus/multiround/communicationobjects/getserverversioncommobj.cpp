@@ -26,7 +26,7 @@ void GetServerVersionCommObj::finishedRequest()
         return;
     
     if (retJson.value("versionString").toString() != knownServerVersion) {
-        m_ServerUpdatedMessageBox->show();
+        emit logMessage("Game server was updated. Please update your application as well!");
         QApplication::quit();
     }
 }

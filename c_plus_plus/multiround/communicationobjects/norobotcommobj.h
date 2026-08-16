@@ -9,23 +9,15 @@
 
 #include "basiscommobj.h"
 #include "viewmodels/norobotviewmodel.h"
-#include <QMessageBox>
 
 //class MULTIPLAYER_EXPORT NoRobotCommObj : public BasisCommObj {
 class NoRobotCommObj : public BasisCommObj {
     Q_OBJECT
     
 public:
-    NoRobotCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
-        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {
-            m_LoadingMessageBox = new QMessageBox(m_ParentWidget);
-            m_LoadingMessageBox->setText("Connecting to server ..");
-            m_LoadingMessageBox->setStandardButtons(QMessageBox::NoButton);
-
-            m_UserCreatedMessageBox = new QMessageBox(m_ParentWidget);
-            m_UserCreatedMessageBox->setStandardButtons(QMessageBox::NoButton);
+    NoRobotCommObj(const QString& requestPath, const QString& actionName, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
+        BasisCommObj(requestPath, actionName, networkManager, settings, isSinglePlayer, globalData) {
         }
-    virtual ~NoRobotCommObj();
     
     bool makeRequest(const QString& requestId, const QString& answer);
     bool validateReply(const QJsonObject& retJson) override;
@@ -47,10 +39,6 @@ private:
     void processResponse(const QJsonObject& retJson);
 
 private:
-    QMessageBox* m_LoadingMessageBox = nullptr;
-    QMessageBox* m_UserCreatedMessageBox = nullptr;
-
-
     friend class NoRobotCommObjTest;
 };
 

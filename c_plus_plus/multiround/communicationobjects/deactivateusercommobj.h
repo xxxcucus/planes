@@ -7,7 +7,6 @@
 #define MULTIPLAYER_EXPORT Q_DECL_IMPORT
 #endif
 
-#include <QMessageBox>
 
 #include "basiscommobj.h"
 #include "viewmodels/deactivateuserviewmodel.h"
@@ -17,14 +16,9 @@ class DeactivateUserCommObj : public BasisCommObj {
     Q_OBJECT
 
 public:
-    DeactivateUserCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
-        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {
-        m_NoUserMessageBox = new QMessageBox(m_ParentWidget);
-        m_NoUserMessageBox->setText("No user logged in");
-        m_NoUserMessageBox->setStandardButtons(QMessageBox::NoButton);
+    DeactivateUserCommObj(const QString& requestPath, const QString& actionName, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
+        BasisCommObj(requestPath, actionName, networkManager, settings, isSinglePlayer, globalData) {
     }
-
-    virtual ~DeactivateUserCommObj();
 
     bool makeRequest(const QString& gameName);
     bool validateReply(const QJsonObject& retJson) override;
@@ -43,7 +37,6 @@ private:
     void processResponse(const QJsonObject& retJson);
 
 private:
-    QMessageBox* m_NoUserMessageBox = nullptr;
 
     //TODO: test
 };

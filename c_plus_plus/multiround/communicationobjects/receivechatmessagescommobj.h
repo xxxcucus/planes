@@ -7,8 +7,6 @@
 #define MULTIPLAYER_EXPORT Q_DECL_IMPORT
 #endif
 
-#include <QMessageBox>
-
 #include "basiscommobj.h"
 #include "viewmodels/getchatmessagesviewmodel.h"
 #include "viewmodels/receivedchatmessageviewmodel.h"
@@ -21,14 +19,9 @@ class ReceiveChatMessagesCommObj : public BasisCommObj {
     Q_OBJECT
 
 public:
-    ReceiveChatMessagesCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
-        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {
-        m_NoUserMessageBox = new QMessageBox(m_ParentWidget);
-        m_NoUserMessageBox->setText("No user logged in");
-        m_NoUserMessageBox->setStandardButtons(QMessageBox::NoButton);
+    ReceiveChatMessagesCommObj(const QString& requestPath, const QString& actionName, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
+        BasisCommObj(requestPath, actionName, networkManager, settings, isSinglePlayer, globalData) {
     }
-
-    virtual ~ReceiveChatMessagesCommObj();
 
     bool makeRequest();
     bool validateReply(const QJsonObject& retJson) override;
@@ -47,7 +40,6 @@ private:
     void processResponse(const QJsonObject& retJson);
 
 private:
-    QMessageBox* m_NoUserMessageBox = nullptr;
 
 };
 

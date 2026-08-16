@@ -4,14 +4,6 @@
 #include "viewmodels/gameviewmodel.h"
 
 
-CreateGameCommObj::~CreateGameCommObj() {
-    if (m_NoUserMessageBox != nullptr)
-        delete m_NoUserMessageBox;
-
-    if (m_CreatedMessageBox != nullptr)
-        delete m_CreatedMessageBox;
-}
-
 bool CreateGameCommObj::makeRequest(const QString& gameName) {
     if (m_IsSinglePlayer) {
         //qDebug() << "makeRequestBasis in single player modus";
@@ -19,10 +11,7 @@ bool CreateGameCommObj::makeRequest(const QString& gameName) {
     }
 
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        if (m_ParentWidget != nullptr) {
-            m_NoUserMessageBox->show();
-            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
-        }
+        emit logMessage("No user logged in!");
         return false;
     }
 
@@ -49,11 +38,7 @@ void CreateGameCommObj::finishedRequest() {
     if (!finishRequestHelper(retJson))
         return;
 
-    if (m_ParentWidget != nullptr) {
-        m_CreatedMessageBox->show();
-        QTimer::singleShot(2000, m_CreatedMessageBox, &QMessageBox::hide);
-    }
-
+    emit logMessage("Game created!");
     processResponse(retJson);
 }
 

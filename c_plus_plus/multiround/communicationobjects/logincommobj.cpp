@@ -5,14 +5,6 @@
 #include <QTimer>
 #include "viewmodels/loginviewmodel.h"
 
-LoginCommObj::~LoginCommObj()
-{
-    if (m_LoadingMessageBox != nullptr)
-        delete m_LoadingMessageBox;
-
-    if (m_ResponseMessageBox != nullptr)
-        delete m_ResponseMessageBox;
-}
 
 bool LoginCommObj::makeRequest(const QString& username, const QString& password)
 {
@@ -24,9 +16,7 @@ bool LoginCommObj::makeRequest(const QString& username, const QString& password)
     //m_UserName = username; TODO: is this needed
    
     m_RequestData = prepareViewModel(username, password).toLoginJson();
-    if (m_LoadingMessageBox != nullptr) {
-        m_LoadingMessageBox->show();
-    }
+    emit logMessage("Connecting to server..");
     
     makeRequestBasis(false);
     return true;
@@ -41,11 +31,6 @@ LoginViewModel LoginCommObj::prepareViewModel(const QString& username, const QSt
 
 void LoginCommObj::finishedRequest()
 {
-    if (m_LoadingMessageBox != nullptr) {
-        if (m_LoadingMessageBox->isVisible())
-            m_LoadingMessageBox->hide();
-    }
-
     QJsonObject retJson;
     if (!finishRequestHelper(retJson)) 
         return;
@@ -59,14 +44,7 @@ void LoginCommObj::finishedRequest()
 void LoginCommObj::processResponse(bool successfull, const QJsonObject& retJson) {
     //TODO: token refresh
     if (successfull) {
-        if (m_ParentWidget != nullptr) {
-
-            if (m_ResponseMessageBox != nullptr) {
-                m_ResponseMessageBox->setText("Login successfull!");
-                m_ResponseMessageBox->show();
-                QTimer::singleShot(2000, m_ResponseMessageBox, &QMessageBox::hide);
-            }
-        }
+        emit logMessage("Login successfull!");
         m_GlobalData->m_UserData.m_UserName = retJson.value("username").toString();
         m_GlobalData->m_UserData.m_UserId = retJson.value("id").toString().toLong();
         m_GlobalData->m_UserData.m_UserPassword.clear();
@@ -74,14 +52,7 @@ void LoginCommObj::processResponse(bool successfull, const QJsonObject& retJson)
         //qDebug() << "Login successfull " << m_GlobalData->m_UserData.m_UserName << " " << m_GlobalData->m_UserData.m_UserId;
         emit loginCompleted();
     } else {
-        if (m_ParentWidget != nullptr) {
-
-            if (m_ResponseMessageBox != nullptr) {
-                m_ResponseMessageBox->setText("Login reply was not recognized");
-                m_ResponseMessageBox->show();
-                QTimer::singleShot(2000, m_ResponseMessageBox, &QMessageBox::hide);
-            }
-        }
+        emit logMessage("Login reply was not recognized");
     }
 }
 
@@ -112,10 +83,6 @@ bool LoginCommObj::validateReply(const QJsonObject& reply) {
 
 void LoginCommObj::errorRequest(QNetworkReply::NetworkError code)
 {
-    if (m_LoadingMessageBox != nullptr) {
-        if (m_LoadingMessageBox->isVisible())
-            m_LoadingMessageBox->hide();
-    }
     BasisCommObj::errorRequest(code);
     emit loginFailed();
 }

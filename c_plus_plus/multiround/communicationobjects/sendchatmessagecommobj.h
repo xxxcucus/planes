@@ -7,8 +7,6 @@
 #define MULTIPLAYER_EXPORT Q_DECL_IMPORT
 #endif
 
-#include <QMessageBox>
-
 #include "basiscommobj.h"
 #include "viewmodels/sendchatmessageviewmodel.h"
 
@@ -17,14 +15,9 @@ class  SendChatMessageCommObj : public BasisCommObj {
     Q_OBJECT
 
 public:
-    SendChatMessageCommObj(const QString& requestPath, const QString& actionName, QWidget* parentWidget, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
-        BasisCommObj(requestPath, actionName, parentWidget, networkManager, settings, isSinglePlayer, globalData) {
-        m_NoUserMessageBox = new QMessageBox(m_ParentWidget);
-        m_NoUserMessageBox->setText("No user logged in");
-        m_NoUserMessageBox->setStandardButtons(QMessageBox::NoButton);
+    SendChatMessageCommObj(const QString& requestPath, const QString& actionName, QNetworkAccessManager* networkManager, QSettings* settings, bool isSinglePlayer, GlobalData* globalData):
+        BasisCommObj(requestPath, actionName, networkManager, settings, isSinglePlayer, globalData) {
     }
-
-    virtual ~SendChatMessageCommObj();
 
     bool makeRequest(long int receiverId, const QString& message, long int messageId);
     bool validateReply(const QJsonObject& retJson) override;
@@ -42,8 +35,6 @@ private:
     void processResponse(const QJsonObject& retJson);
     SendChatMessageViewModel prepareViewModel(long int receiverId, const QString& message, long int messageId);
     const int m_MaxMessageLength = 128;
-
-    QMessageBox* m_NoUserMessageBox = nullptr;
 
 };
 #endif

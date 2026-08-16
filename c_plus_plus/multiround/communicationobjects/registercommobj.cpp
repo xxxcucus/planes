@@ -1,13 +1,6 @@
 #include "registercommobj.h"
 
 
-RegisterCommObj::~RegisterCommObj()
-{
-    if (m_LoadingMessageBox != nullptr)
-        delete m_LoadingMessageBox;
-}
-
-
 bool RegisterCommObj::makeRequest(const QString& username, const QString& password)
 {
     if (m_IsSinglePlayer) {
@@ -18,8 +11,7 @@ bool RegisterCommObj::makeRequest(const QString& username, const QString& passwo
     m_UserName = username;
     m_RequestData = prepareViewModel(username, password).toRegisterJson();
     
-    if (m_LoadingMessageBox != nullptr)
-        m_LoadingMessageBox->show();
+    emit logMessage("Connecting to server ...");
     
     makeRequestBasis(false);
     return true;
@@ -34,8 +26,6 @@ LoginViewModel RegisterCommObj::prepareViewModel(const QString& username, const 
 
 void RegisterCommObj::finishedRequest()
 {
-    if (m_LoadingMessageBox != nullptr && m_LoadingMessageBox->isVisible())
-        m_LoadingMessageBox->hide();
 
     QJsonObject retJson;
     if (!finishRequestHelper(retJson)) 
@@ -73,7 +63,5 @@ bool RegisterCommObj::validateReply(const QJsonObject& reply) {
 
 void RegisterCommObj::errorRequest(QNetworkReply::NetworkError code)
 {
-    if (m_LoadingMessageBox != nullptr && m_LoadingMessageBox->isVisible())
-        m_LoadingMessageBox->hide();
     BasisCommObj::errorRequest(code);
 }

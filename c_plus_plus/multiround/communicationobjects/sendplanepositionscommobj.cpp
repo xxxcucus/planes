@@ -4,11 +4,6 @@
 #include "multiplayerround.h"
 
 
-SendPlanePositionsCommObj::~SendPlanePositionsCommObj() {
-    if (m_NoUserMessageBox != nullptr)
-        delete m_NoUserMessageBox;
-}
-
 bool SendPlanePositionsCommObj::makeRequest()
 {
     if (m_IsSinglePlayer) {
@@ -17,10 +12,7 @@ bool SendPlanePositionsCommObj::makeRequest()
     }
 
     if (m_GlobalData->m_UserData.m_UserName.isEmpty()) {
-        if (m_ParentWidget != nullptr) {
-            m_NoUserMessageBox->show();
-            QTimer::singleShot(2000, m_NoUserMessageBox, &QMessageBox::hide);
-        }
+        emit logMessage("No user logged in!");
         return false;
     }
     
@@ -97,12 +89,8 @@ void SendPlanePositionsCommObj::processResponse(const QJsonObject& retJson) {
         //qDebug() << "Plane 3 from opponent" << plane3_x << " " << plane3_y << " " << plane3_orient;
         bool setOk = m_MultiRound->setComputerPlanes(plane1_x, plane1_y, (Plane::Orientation)plane1_orient, plane2_x, plane2_y, (Plane::Orientation)plane2_orient, plane3_x, plane3_y, (Plane::Orientation)plane3_orient);
         if (!setOk) {
-            if (m_ParentWidget != nullptr) {
-                QMessageBox msgBox(m_ParentWidget);
-                msgBox.setText("Planes positions from opponent are not valid");
-                msgBox.exec();
-                return;
-            }
+            emit logMessage("Planes positions from opponent are not valid");
+            return;
         }
         emit opponentPlanePositionsReceived();
     }

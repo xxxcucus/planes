@@ -47,7 +47,6 @@ private:
     //int m_PlayerMoveIndex = 0;
     //int m_ComputerMoveIndex = 0;
     bool m_WinnerFound = false;
-    QWidget* m_ParentWidget = nullptr;
     QNetworkAccessManager* m_NetworkManager = nullptr;
     GlobalData* m_GlobalData = nullptr;
     QSettings* m_Settings = nullptr;
@@ -126,8 +125,10 @@ signals:
     void chatMessageReceived(const ReceivedChatMessageViewModel& message);
     void chatConnectionError(const QString& error);
 
+    void logMessage(const QString& msg);
+
 public:
-    MultiplayerRound(int rows, int cols, int planeNo, QWidget* parentWidget, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo);
+    MultiplayerRound(int rows, int cols, int planeNo, QNetworkAccessManager* networkManager, GlobalData* globalData, QSettings* settings, GameInfo* gameInfo);
     virtual ~MultiplayerRound();
     void reset() override;
     virtual void initRound() override;
