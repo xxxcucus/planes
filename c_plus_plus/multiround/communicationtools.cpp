@@ -19,7 +19,7 @@ QNetworkReply * CommunicationTools::buildPostRequestWithAuth(const QString& rout
     request.setRawHeader("Content-Type", "application/fhir+json");
     request.setRawHeader(QByteArray("Authorization"), authToken);
     QSslConfiguration config = QSslConfiguration::defaultConfiguration();
-    config.setProtocol(QSsl::SecureProtocols);
+    config.setProtocol(QSsl::TlsV1_3);
     request.setSslConfiguration(config);
     
     //qDebug() << "prepare request" ;
@@ -39,7 +39,7 @@ QNetworkReply * CommunicationTools::buildPostRequest(const QString& routePath, c
     QNetworkRequest request(loginRequestUrl);
     request.setRawHeader("Content-Type", "application/fhir+json");
     QSslConfiguration config = QSslConfiguration::defaultConfiguration();
-    config.setProtocol(QSsl::SecureProtocols);
+    config.setProtocol(QSsl::TlsV1_3);
     request.setSslConfiguration(config);
     
     //qDebug() << "prepare request" ;

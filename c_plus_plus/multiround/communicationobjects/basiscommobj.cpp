@@ -117,6 +117,28 @@ void BasisCommObj::sslErrorOccured(QNetworkReply* reply, const QList<QSslError>&
     qDebug() << "Ssl errors";
     for (const QSslError& error : errors) {
         qDebug() << error.errorString();
+
+        if (error.error() == QSslError::SelfSignedCertificate ||
+            error.error() == QSslError::CertificateUntrusted) {
+
+            qDebug() << "Allowing trusted self-signed certificate...";
+            reply->ignoreSslErrors(); // Tell Qt to proceed with the request
+            return;
+        }
     }    
 }
-    
+
+
+/*
+ * for (const QSslError &error : errors) {
+        // Check if the error is specifically about self-signed certificates
+        if (error.error() == QSslError::SelfSignedCertificate ||
+            error.error() == QSslError::CertificateUntrusted) {
+
+            qDebug() << "Allowing trusted self-signed certificate...";
+            reply->ignoreSslErrors(); // Tell Qt to proceed with the request
+            return;
+        }
+    }
+ *
+*/
