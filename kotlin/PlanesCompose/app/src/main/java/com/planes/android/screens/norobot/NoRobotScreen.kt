@@ -53,9 +53,9 @@ fun NoRobotScreen(modifier: Modifier, currentTitleState: MutableState<String>,
         horizontalAlignment = Alignment.CenterHorizontally) {
 
         Text(
-            text = LocalContext.current.getString(
+            text = stringResource(
                 R.string.norobot_question,
-                noRobotViewModel.getQuestion()
+                noRobotViewModel.getQuestion()!!
             )
         )
         Button(
@@ -89,7 +89,8 @@ fun NoRobotScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                     ).show()
 
                     navController.popBackStack()
-                    navController.navigate(PlanesScreens.Login.name)
+                    val autologin = false
+                    navController.navigate(route = "${PlanesScreens.Login.name}/${autologin}")
                 }
             } else {
                 Toast.makeText(
