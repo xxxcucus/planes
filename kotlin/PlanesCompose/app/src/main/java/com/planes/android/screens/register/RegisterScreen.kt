@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
-import com.planes.android.screens.login.validationUsernamePasswordLogin
 import com.planes.android.screens.norobot.NoRobotViewModel
 import com.planes.android.screens.norobot.PhotoModel
 import com.planes.android.widgets.CommonTextFieldWithViewModel
@@ -126,7 +125,7 @@ fun RegisterScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
-                    var imagesMapping = mapOf(
+                    val imagesMapping = mapOf(
                         "2b36ea33-9c99-46dd-9f80-3bc648881c9b" to R.raw.image1,
                         "2e2379c7-cfcf-49a2-b47b-ed8d1a0c353a" to R.raw.image2,
                         "3debe3a5-cb77-4074-8759-908944b4ad5b" to R.raw.image3,
@@ -169,7 +168,7 @@ fun RegisterScreen(modifier: Modifier, currentTitleState: MutableState<String>,
 
                     val noRobotImages = registerViewModel.getPhotoItems()
                     val noRobotEntries = noRobotImages.map {
-                        PhotoModel(imagesMapping.get(it)!!, false)
+                        PhotoModel(imagesMapping[it]!!, false)
                     }
 
                     noRobotViewModel.setImages(noRobotEntries)

@@ -6,9 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.planes.android.data.ChatMessage
 import com.planes.android.repository.ChatDbRepository
-import com.planes.android.repository.NewMessagesDbRepository
 import com.planes.android.repository.PlanesUserRepository
-import com.planes.multiplayer_engine.requests.SendChatMessageRequest
+import com.planes.android.network.user.requests.SendChatMessageRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +20,6 @@ import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class ConversationViewModel @Inject constructor(private val chatRepository: ChatDbRepository,
-    private val newMessagesDbRepository: NewMessagesDbRepository,
     private val userRepository: PlanesUserRepository
     ): ViewModel() {
 

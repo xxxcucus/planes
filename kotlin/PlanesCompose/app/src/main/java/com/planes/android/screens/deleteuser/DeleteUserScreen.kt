@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.screens.login.LoginViewModel
@@ -25,7 +24,7 @@ import com.planes.android.screens.login.LoginViewModel
 fun DeleteUserScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                      currentScreenState: MutableState<String>,
                      showPopupState: MutableState<Boolean>,
-                     navController: NavController, loginViewModel: LoginViewModel) {
+                     loginViewModel: LoginViewModel) {
 
     currentTitleState.value = stringResource(R.string.delete_user)
     currentScreenState.value = PlanesScreens.DeleteUser.name

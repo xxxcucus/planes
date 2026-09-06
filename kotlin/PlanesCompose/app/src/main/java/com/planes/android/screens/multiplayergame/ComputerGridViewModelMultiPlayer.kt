@@ -6,16 +6,12 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.planes.android.repository.PlanesGameRepository
-import com.planes.android.screens.createmultiplayergame.CreateGameStates
-import com.planes.android.screens.createmultiplayergame.GameStatus
 import com.planes.android.screens.singleplayergame.PlaneGridViewModel
-import com.planes.multiplayer_engine.requests.GameStatusRequest
-import com.planes.multiplayer_engine.requests.SendNotSentMovesRequest
-import com.planes.multiplayer_engine.requests.SendWinnerRequest
-import com.planes.multiplayer_engine.requests.SingleMoveRequest
-import com.planes.multiplayer_engine.requests.StartNewRoundRequest
+import com.planes.android.network.game.requests.SendNotSentMovesRequest
+import com.planes.android.network.game.requests.SendWinnerRequest
+import com.planes.android.network.game.requests.SingleMoveRequest
+import com.planes.android.network.game.requests.StartNewRoundRequest
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
-import com.planes.singleplayerengine.GuessPoint
 import com.planes.singleplayerengine.Plane
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +20,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Vector
 import javax.inject.Inject
-import kotlin.text.get
 import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel

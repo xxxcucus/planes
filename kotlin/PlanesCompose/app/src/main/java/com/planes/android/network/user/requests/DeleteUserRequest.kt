@@ -8,4 +8,4 @@ class DeleteUserRequest (
 
     @SerializedName("userName")
     override var m_UserName: String
-): BasisRequest(m_UserName, m_UserId);
+): BasisRequest(m_UserName, m_UserId)

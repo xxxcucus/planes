@@ -1,10 +1,9 @@
 package com.planes.singleplayerengine
 
 class PlanePointIterator(pl: Plane) : VectorIterator<Coordinate2D>() {
-    private val m_plane: Plane
+    private val m_plane: Plane = pl.clone() as Plane
 
     init {
-        m_plane = pl.clone() as Plane
         generateList()
     }
 

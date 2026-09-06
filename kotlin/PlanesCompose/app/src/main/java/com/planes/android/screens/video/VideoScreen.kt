@@ -1,7 +1,6 @@
 package com.planes.android.screens.video
 
 import android.content.res.Configuration
-import android.net.Uri
 import android.util.Log
 import android.view.ViewGroup
 import androidx.annotation.OptIn
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,12 +21,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -39,16 +39,16 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.PlayerView
-import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
+import androidx.core.net.toUri
 
 @Composable
 fun VideoScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                 currentScreenState: MutableState<String>,
                 showPopupState: MutableState<Boolean>,
-                videoId: Int, time: Int,
-                navController: NavController, viewModel: VideoViewModel = hiltViewModel()) {
+                videoId: Int,
+                viewModel: VideoViewModel = hiltViewModel()) {
 
     currentTitleState.value = stringResource(R.string.videos)
     currentScreenState.value = PlanesScreens.Tutorials.name
@@ -56,7 +56,8 @@ fun VideoScreen(modifier: Modifier, currentTitleState: MutableState<String>,
 
     val configuration = LocalConfiguration.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val screenWidthDp = configuration.screenWidthDp
+    val containerSize = LocalWindowInfo.current.containerSize
+    val screenWidthDp = with(LocalDensity.current) { containerSize.width.toDp() }
     val buttonWidth = screenWidthDp / 3
 
     DisposableEffect(lifecycleOwner) {
@@ -76,7 +77,7 @@ fun VideoScreen(modifier: Modifier, currentTitleState: MutableState<String>,
     }
 
     val currentVideoState = rememberSaveable {
-        mutableStateOf(videoId)
+        mutableIntStateOf(videoId)
     }
 
     val context = LocalContext.current
@@ -92,13 +93,13 @@ fun VideoScreen(modifier: Modifier, currentTitleState: MutableState<String>,
             Configuration.ORIENTATION_PORTRAIT -> {
 
                 Column(verticalArrangement = Arrangement.spacedBy(1.dp)) {
-                    VideoPlayer(currentVideoState.value, viewModel)
+                    VideoPlayer(currentVideoState.intValue, viewModel)
 
                     Box(
                         modifier = Modifier
                             .weight(1f)              // Take all remaining space
                             .fillMaxWidth(0.83f).
-                        padding(start = (buttonWidth / 2).dp),
+                        padding(start = buttonWidth / 2),
                         contentAlignment = Alignment.Center,
                     ) {
                         LazyVerticalGrid(
@@ -111,7 +112,7 @@ fun VideoScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                                 VideoButton(
                                     entry,
                                     currentVideoState,
-                                    modifier = Modifier.width(buttonWidth.dp).
+                                    modifier = Modifier.width(buttonWidth).
                                     height(100.dp)
                                 )
                             }
@@ -120,7 +121,7 @@ fun VideoScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                 }
             }
             else -> {
-                Row() {
+                Row {
                     Column(verticalArrangement = Arrangement.spacedBy(1.dp)) {
                         LazyColumn(
                             verticalArrangement = Arrangement.spacedBy(1.dp),
@@ -135,7 +136,7 @@ fun VideoScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                         }
                     }
 
-                    VideoPlayer(currentVideoState.value, viewModel)
+                    VideoPlayer(currentVideoState.intValue, viewModel)
                 }
             }
         }
@@ -162,9 +163,8 @@ fun VideoPlayer(videoId : Int, viewModel: VideoViewModel) {
             pview.apply {
                 val player = this.player!!
                 //player.stop()
-                val uriSource = Uri.parse(
-                    "android.resource://"
-                            + context.packageName + "/" + videoId)
+                val uriSource = ("android.resource://"
+                        + context.packageName + "/" + videoId).toUri()
                 player.setMediaItem(MediaItem.fromUri(uriSource))
                 player.prepare()
                 //player.playWhenReady = true

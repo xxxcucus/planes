@@ -25,14 +25,14 @@ class ComputerLogic(//gets the number of rows
 
     //gets the number of planes
     //number of planes that need to be guessed
-    private var m_planeNo: Int
+    private var m_planeNo: Int = planeno
 
 
     //list of already guessed planes
     private var m_guessedPlaneList: Vector<Plane>
 
     //list of available data for each head in m_guessHeadList
-    public var m_headDataList: Vector<HeadData>
+    var m_headDataList: Vector<HeadData>
 
     //gets the list of guesses
     //list of guesses made until this moment
@@ -41,7 +41,7 @@ class ComputerLogic(//gets the number of rows
 
     //list of extended guesses; when the position of a plane is decided
     //all the points on this plane are considered as misses
-    public var m_extendedListGuesses: Vector<GuessPoint>
+    var m_extendedListGuesses: Vector<GuessPoint>
 
 
     //gets the choices
@@ -50,7 +50,9 @@ class ComputerLogic(//gets the number of rows
     //choice is -1 means that plane position is there impossible
     //choice 0 means no data about the choice is available
     //choice = k means that k data exist that support this choice
-    public var choicesArray: Vector<Int>
+
+    //creates the tables of choices
+    var choicesArray: Vector<Int> = Vector(m_maxChoiceNo)
 
     //array keeping the number of points with positive m_choice influenced by a given point
     //contains:
@@ -64,10 +66,6 @@ class ComputerLogic(//gets the number of rows
     private var m_pipi: PlaneIntersectingPointIterator
 
     init {
-        m_planeNo = planeno
-
-        //creates the tables of choices
-        choicesArray = Vector(m_maxChoiceNo)
         for (i in 0 until m_maxChoiceNo) {
             choicesArray.add(-1)
         }
@@ -113,7 +111,7 @@ class ComputerLogic(//gets the number of rows
         val test1 = makeChoiceFindHeadMode()
         val test2 = makeChoiceFindPositionMode()
         val test3 = makeChoiceRandomMode()
-        val skill = if (computerSkillLevel < 0 || computerSkillLevel > 2) 0 else computerSkillLevel
+        val skill = if (computerSkillLevel !in 0..2) 0 else computerSkillLevel
         val thresholds = arrayOf(intArrayOf(2, 4), intArrayOf(4, 6), intArrayOf(6, 8))
 
         //if there are no more choices to be tested return false
@@ -167,7 +165,7 @@ class ComputerLogic(//gets the number of rows
             //append to the list of found planes
             val hd = it.next()
             if (hd.m_correctOrient != -1) {
-                val pl = Plane(hd.m_headRow, hd.m_headCol, Orientation.values()[hd.m_correctOrient])
+                val pl = Plane(hd.m_headRow, hd.m_headCol, Orientation.entries[hd.m_correctOrient])
                 updateChoiceMapPlaneData(pl)
                 m_guessedPlaneList.add(pl)
                 it.remove()
@@ -182,7 +180,7 @@ class ComputerLogic(//gets the number of rows
 
     //computes the plane corresponding to a given position in the choices array
     fun mapIndexToPlane(idx: Int): Plane {
-        val o = Orientation.values()[idx % 4]
+        val o = Orientation.entries[idx % 4]
         val temp = idx / 4
         val row = temp % rowNo
         val col = temp / rowNo
@@ -310,7 +308,7 @@ class ComputerLogic(//gets the number of rows
     private fun updateChoiceMap(gp: GuessPoint) {
         //marks all the 4 positions in the choice map as guessed -2
         for (i in 0..3) {
-            val plane = Plane(gp.row(), gp.col(), Orientation.values()[i])
+            val plane = Plane(gp.row(), gp.col(), Orientation.entries[i])
             val idx = mapPlaneToIndex(plane)
             choicesArray[idx] = -2
         }

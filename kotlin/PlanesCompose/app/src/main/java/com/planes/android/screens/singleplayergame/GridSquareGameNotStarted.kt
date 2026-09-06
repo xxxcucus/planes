@@ -13,17 +13,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.planes.singleplayerengine.GuessPoint
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
-fun GridSquareGameNotStarted(isComputer: Boolean,
-                   annotation: Int,
-                   guess: GuessPoint?,
-                   widthDp: Int, widthPx: Float,
-                   backgroundColor: Color,
-                   index: Int) {
+fun GridSquareGameNotStarted(
+    annotation: Int,
+    guess: GuessPoint?,
+    widthDp: Dp,
+    backgroundColor: Color
+) {
 
     val scale = remember {
         Animatable(1f)
@@ -49,9 +51,9 @@ fun GridSquareGameNotStarted(isComputer: Boolean,
             )
         }
 
-        delay(2000L)
+        delay(2000L.milliseconds)
     }
-    Canvas(modifier = Modifier.width(widthDp.dp).height(widthDp.dp)
+    Canvas(modifier = Modifier.width(widthDp).height(widthDp)
         .background(backgroundColor)
         .scale(scale.value)) {
 
@@ -62,16 +64,22 @@ fun GridSquareGameNotStarted(isComputer: Boolean,
         val secondPlaneColor = Color(120, 120, 120)
         val thirdPlaneColor = Color(160, 160, 160)
 
-        if (annotation == -1) {
-            squareColor = planeOverlapColor
-        } else if (annotation == -2) {
-            squareColor = cockpitColor
-        } else if (annotation == 1) {
-            squareColor = firstPlaneColor
-        } else if (annotation == 2) {
-            squareColor = secondPlaneColor
-        } else if (annotation == 3) {
-            squareColor = thirdPlaneColor
+        when (annotation) {
+            -1 -> {
+                squareColor = planeOverlapColor
+            }
+            -2 -> {
+                squareColor = cockpitColor
+            }
+            1 -> {
+                squareColor = firstPlaneColor
+            }
+            2 -> {
+                squareColor = secondPlaneColor
+            }
+            3 -> {
+                squareColor = thirdPlaneColor
+            }
         }
 
         if (annotation != 0)

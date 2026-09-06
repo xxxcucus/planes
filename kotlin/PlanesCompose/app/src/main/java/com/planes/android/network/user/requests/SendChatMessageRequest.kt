@@ -1,7 +1,6 @@
-package com.planes.multiplayer_engine.requests
+package com.planes.android.network.user.requests
 
 import com.google.gson.annotations.SerializedName
-import com.planes.android.network.user.requests.BasisRequest
 
 class SendChatMessageRequest (
     @SerializedName("receiverId")

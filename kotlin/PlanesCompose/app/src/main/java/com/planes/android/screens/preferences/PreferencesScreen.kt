@@ -21,7 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.widgets.CheckBoxOption
@@ -34,7 +33,6 @@ fun PreferencesScreen(modifier: Modifier,
                       currentTitleState: MutableState<String>,
                       currentScreenState: MutableState<String>,
                       showPopupState: MutableState<Boolean>,
-                      navController: NavController,
                       optionsViewModel: PreferencesViewModel,
                       planeRound: SinglePlayerRoundInterface
 ) {

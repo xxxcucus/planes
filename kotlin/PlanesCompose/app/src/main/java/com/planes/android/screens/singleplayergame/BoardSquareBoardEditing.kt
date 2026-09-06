@@ -2,19 +2,21 @@ package com.planes.android.screens.singleplayergame
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 
 @Composable
-fun BoardSquareBoardEditing(index: Int, squareSizeDp: Int, squareSizePx: Float,
-                            planesGridViewModel: PlaneGridViewModel,
-                            onClick: (Int) -> Unit) {
+fun BoardSquareBoardEditing(
+    index: Int, squareSizeDp: Dp, squareSizePx: Float,
+    planesGridViewModel: PlaneGridViewModel,
+    onClick: (Int) -> Unit
+) {
     val row = index / planesGridViewModel.getColNo()
     val col = index % planesGridViewModel.getColNo()
 
-    var pointOnPlane = planesGridViewModel.isPointOnPlane(col, row)
+    val pointOnPlane = planesGridViewModel.isPointOnPlane(col, row)
 
     if (!pointOnPlane.first)
-        GridSquareBoardEditing(squareSizeDp, squareSizePx, MaterialTheme.colorScheme.background)
+        GridSquareBoardEditing(squareSizeDp, MaterialTheme.colorScheme.background)
     else {
         val annotation = planesGridViewModel.getAnnotation(pointOnPlane.second)
         val planesIdx = planesGridViewModel.decodeAnnotation(annotation)

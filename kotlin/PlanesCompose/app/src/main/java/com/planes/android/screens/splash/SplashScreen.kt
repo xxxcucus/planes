@@ -9,9 +9,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,9 +20,9 @@ import kotlinx.coroutines.delay
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import com.planes.android.R
 import com.planes.android.screens.preferences.PreferencesViewModel
+import kotlin.time.Duration.Companion.milliseconds
 
 
 @Composable
@@ -35,7 +32,7 @@ fun SplashScreen(navController: NavController, splashScreenState: MutableState<B
 ) {
 
     LaunchedEffect(Unit) {
-        delay(2000)
+        delay(2000.milliseconds)
         viewModel.checkPlanesVersion()
     }
 

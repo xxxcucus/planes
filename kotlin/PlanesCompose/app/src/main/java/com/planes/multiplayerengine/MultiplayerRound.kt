@@ -14,7 +14,7 @@ import dagger.assisted.AssistedInject
 import java.util.Vector
 
 class MultiplayerRound @AssistedInject constructor(
-    private val planeRoundFactory: PlaneRound.Factory,
+    planeRoundFactory: PlaneRound.Factory,
     @Assisted("rowNo") rowNo: Int,
     @Assisted("colNo") colNo: Int,
     @Assisted("planeNo") planeNo: Int): MultiPlayerRoundInterface {

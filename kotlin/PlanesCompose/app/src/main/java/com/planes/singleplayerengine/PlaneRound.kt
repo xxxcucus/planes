@@ -85,12 +85,12 @@ open class PlaneRound @AssistedInject constructor(
     //switches to the state GameNotStarted
     fun setRoundEnd(isComputerWinner: Boolean, isDraw: Boolean) {
         m_State = GameStages.GameNotStarted
-        if (isDraw) {
-            m_RoundEndState = RoundEndStatus.Draw
+        m_RoundEndState = if (isDraw) {
+            RoundEndStatus.Draw
         } else if (isComputerWinner) {
-            m_RoundEndState = RoundEndStatus.ComputerWins
+            RoundEndStatus.ComputerWins
         } else {
-            m_RoundEndState = RoundEndStatus.PlayerWins
+            RoundEndStatus.PlayerWins
         }
     }
 
@@ -351,11 +351,11 @@ open class PlaneRound @AssistedInject constructor(
     }
 
     override fun getPlayerPlanes(): Vector<Plane> {
-        return m_PlayerGrid.getPlanes();
+        return m_PlayerGrid.getPlanes()
     }
 
     override fun getComputerPlanes(): Vector<Plane> {
-        return m_ComputerGrid.getPlanes();
+        return m_ComputerGrid.getPlanes()
     }
 
     override fun setPlayerPlanes(planes: Vector<Plane>) {
@@ -511,7 +511,7 @@ open class PlaneRound @AssistedInject constructor(
     }
 
     //opponent move in multiplayer game
-    override public fun addComputerMove(row: Int, col: Int) {
+    override fun addComputerMove(row: Int, col: Int) {
         //use the player grid to see the result of the grid
         val tp = m_PlayerGrid.getGuessResult(Coordinate2D(row, col))
         val gp = GuessPoint(row, col, tp)
@@ -523,7 +523,7 @@ open class PlaneRound @AssistedInject constructor(
         updateGameStats(gp, true)
     }
 
-    override public fun addPlayerMove(row: Int, col: Int) {
+    override fun addPlayerMove(row: Int, col: Int) {
         //use the player grid to see the result of the grid
         val tp = m_ComputerGrid.getGuessResult(Coordinate2D(col, row))
         m_GuessResult = tp

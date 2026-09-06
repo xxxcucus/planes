@@ -5,17 +5,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.planes.android.network.game.requests.AcquireOpponentPositionsRequest
 import com.planes.android.repository.PlanesGameRepository
-import com.planes.android.screens.createmultiplayergame.CreateGameStates
-import com.planes.android.screens.createmultiplayergame.GameStatus
 import com.planes.android.screens.singleplayergame.PlaneGridViewModel
-import com.planes.multiplayer_engine.requests.AcquireOpponentPositionsRequest
-import com.planes.multiplayer_engine.requests.GameStatusRequest
-import com.planes.multiplayer_engine.requests.SendNotSentMovesRequest
-import com.planes.multiplayer_engine.requests.SendPlanePositionsRequest
-import com.planes.multiplayer_engine.requests.SingleMoveRequest
+import com.planes.android.network.game.requests.SendPlanePositionsRequest
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
-import com.planes.singleplayerengine.GuessPoint
 import com.planes.singleplayerengine.Orientation
 import com.planes.singleplayerengine.Plane
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +17,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.Vector
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
@@ -32,9 +25,9 @@ class PlayerGridViewModelMultiPlayer @Inject constructor(planeRound: MultiPlayer
                                                          private val repository: PlanesGameRepository
 ): PlaneGridViewModel(planeRound,false) {
 
-    private var m_BoardEditingState = mutableStateOf<BoardEditingStates>(BoardEditingStates.EditPlanePositions)
+    private var m_BoardEditingState = mutableStateOf(BoardEditingStates.EditPlanePositions)
 
-    private var m_Error = mutableStateOf<String?>("");
+    private var m_Error = mutableStateOf<String?>("")
 
     private var m_Authorization = mutableStateOf<String?>(null)
     private var m_GameName = mutableStateOf<String?>(null)

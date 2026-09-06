@@ -6,9 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.planes.android.repository.PlanesGameRepository
-import com.planes.multiplayer_engine.requests.ConnectToGameRequest
-import com.planes.multiplayer_engine.requests.CreateGameRequest
-import com.planes.multiplayer_engine.requests.GameStatusRequest
+import com.planes.android.network.game.requests.ConnectToGameRequest
+import com.planes.android.network.game.requests.CreateGameRequest
+import com.planes.android.network.game.requests.GameStatusRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -23,7 +23,7 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
     private var m_GameName = mutableStateOf("")
     private var m_Loading = mutableStateOf(false)
     private var m_Error = mutableStateOf<String?>(null)
-    private var m_CreateState = mutableStateOf<CreateGameStates>(CreateGameStates.StatusNotRequested)
+    private var m_CreateState = mutableStateOf(CreateGameStates.StatusNotRequested)
 
     private var m_GameStatusMap = HashMap<String, GameStatus>()
 
@@ -67,19 +67,19 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
     }
 
     fun getGameIdState(key: String): MutableState<String?> {
-        if (m_GameStatusMap.containsKey(key))
-            return m_GameStatusMap[key]?.getGameIdState()!!
+        return if (m_GameStatusMap.containsKey(key))
+            m_GameStatusMap[key]?.getGameIdState()!!
         else
-            return mutableStateOf<String?>(null)
+            mutableStateOf(null)
     }
 
     fun getGameIdState(): MutableState<String?> {
-        if (dataAvailable("Create"))
-            return getGameIdState("Create");
+        return if (dataAvailable("Create"))
+            getGameIdState("Create")
         else if (dataAvailable("Connect"))
-            return getGameIdState("Connect")
+            getGameIdState("Connect")
         else
-            return mutableStateOf<String?>(null);
+            mutableStateOf(null)
     }
 
     fun setGameId(key: String, value: String?) {
@@ -91,19 +91,19 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
     }
 
     fun getGameNameState(key: String): MutableState<String?> {
-        if (m_GameStatusMap.containsKey(key))
-            return m_GameStatusMap[key]?.getGameNameState()!!
+        return if (m_GameStatusMap.containsKey(key))
+            m_GameStatusMap[key]?.getGameNameState()!!
         else
-            return mutableStateOf<String?>(null)
+            mutableStateOf(null)
     }
 
     fun getGameNameState(): MutableState<String?> {
-        if (dataAvailable("Create"))
-            return getGameNameState("Create");
+        return if (dataAvailable("Create"))
+            getGameNameState("Create")
         else if (dataAvailable("Connect"))
-            return getGameNameState("Connect")
+            getGameNameState("Connect")
         else
-            return mutableStateOf<String?>(null);
+            mutableStateOf(null)
     }
 
     fun setGameName(key: String, value: String?) {
@@ -115,19 +115,19 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
     }
 
     fun getFirstPlayerNameState(): MutableState<String?> {
-        if (dataAvailable("Create"))
-            return getFirstPlayerNameState("Create");
+        return if (dataAvailable("Create"))
+            getFirstPlayerNameState("Create")
         else if (dataAvailable("Connect"))
-            return getFirstPlayerNameState("Connect")
+            getFirstPlayerNameState("Connect")
         else
-            return mutableStateOf<String?>(null);
+            mutableStateOf(null)
     }
 
     fun getFirstPlayerNameState(key: String): MutableState<String?> {
-        if (m_GameStatusMap.containsKey(key))
-            return m_GameStatusMap[key]?.getFirstPlayerNameState()!!
+        return if (m_GameStatusMap.containsKey(key))
+            m_GameStatusMap[key]?.getFirstPlayerNameState()!!
         else
-            return mutableStateOf<String?>(null)
+            mutableStateOf(null)
     }
 
     fun setFirstPlayerName(key: String, value: String?) {
@@ -139,19 +139,19 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
     }
 
     fun getFirstPlayerIdState(): MutableState<String?> {
-        if (dataAvailable("Create"))
-            return getFirstPlayerIdState("Create");
+        return if (dataAvailable("Create"))
+            getFirstPlayerIdState("Create")
         else if (dataAvailable("Connect"))
-            return getFirstPlayerIdState("Connect")
+            getFirstPlayerIdState("Connect")
         else
-            return mutableStateOf<String?>(null);
+            mutableStateOf(null)
     }
 
     fun getFirstPlayerIdState(key: String): MutableState<String?> {
-        if (m_GameStatusMap.containsKey(key))
-            return m_GameStatusMap[key]?.getFirstPlayerIdState()!!
+        return if (m_GameStatusMap.containsKey(key))
+            m_GameStatusMap[key]?.getFirstPlayerIdState()!!
         else
-            return mutableStateOf<String?>(null)
+            mutableStateOf(null)
     }
 
     fun setFirstPlayerId(key: String, value: String?) {
@@ -163,19 +163,19 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
     }
 
     fun getSecondPlayerNameState(): MutableState<String?> {
-        if (dataAvailable("Create"))
-            return getSecondPlayerNameState("Create");
+        return if (dataAvailable("Create"))
+            getSecondPlayerNameState("Create")
         else if (dataAvailable("Connect"))
-            return getSecondPlayerNameState("Connect")
+            getSecondPlayerNameState("Connect")
         else
-            return mutableStateOf<String?>(null);
+            mutableStateOf(null)
     }
 
     fun getSecondPlayerNameState(key: String): MutableState<String?> {
-        if (m_GameStatusMap.containsKey(key))
-            return m_GameStatusMap[key]?.getSecondPlayerNameState()!!
+        return if (m_GameStatusMap.containsKey(key))
+            m_GameStatusMap[key]?.getSecondPlayerNameState()!!
         else
-            return mutableStateOf<String?>(null)
+            mutableStateOf(null)
     }
 
     fun setSecondPlayerName(key: String, value: String?) {
@@ -187,19 +187,19 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
     }
 
     fun getSecondPlayerIdState(): MutableState<String?> {
-        if (dataAvailable("Create"))
-            return getSecondPlayerIdState("Create");
+        return if (dataAvailable("Create"))
+            getSecondPlayerIdState("Create")
         else if (dataAvailable("Connect"))
-            return getSecondPlayerIdState("Connect")
+            getSecondPlayerIdState("Connect")
         else
-            return mutableStateOf<String?>(null);
+            mutableStateOf(null)
     }
 
     fun getSecondPlayerIdState(key: String): MutableState<String?> {
-        if (m_GameStatusMap.containsKey(key))
-            return m_GameStatusMap[key]?.getSecondPlayerIdState()!!
+        return if (m_GameStatusMap.containsKey(key))
+            m_GameStatusMap[key]?.getSecondPlayerIdState()!!
         else
-            return mutableStateOf<String?>(null)
+            mutableStateOf(null)
     }
 
     fun setSecondPlayerId(key: String, value: String?) {
@@ -211,19 +211,19 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
     }
 
     fun getCurrentRoundIdState(): MutableState<String?> {
-        if (dataAvailable("Create"))
-            return getCurrentRoundIdState("Create");
+        return if (dataAvailable("Create"))
+            getCurrentRoundIdState("Create")
         else if (dataAvailable("Connect"))
-            return getCurrentRoundIdState("Connect")
+            getCurrentRoundIdState("Connect")
         else
-            return mutableStateOf<String?>(null);
+            mutableStateOf(null)
     }
 
     fun getCurrentRoundIdState(key: String): MutableState<String?> {
-        if (m_GameStatusMap.containsKey(key))
-            return m_GameStatusMap[key]?.getCurrentRoundIdState()!!
+        return if (m_GameStatusMap.containsKey(key))
+            m_GameStatusMap[key]?.getCurrentRoundIdState()!!
         else
-            return mutableStateOf<String?>(null)
+            mutableStateOf(null)
     }
 
     fun setCurrentRoundId(key: String, value: String?) {
@@ -257,7 +257,7 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
                 val key = "Status"
 
                 if (!m_GameStatusMap.containsKey(key))
-                    m_GameStatusMap.put(key, GameStatus())
+                    m_GameStatusMap[key] = GameStatus()
 
                 Log.d("PlanesCompose", "Game Status exists ${result.data?.m_Exists}")
 
@@ -301,7 +301,7 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
                 val key = "Connect"
 
                 if (!m_GameStatusMap.containsKey(key))
-                    m_GameStatusMap.put(key, GameStatus())
+                    m_GameStatusMap[key] = GameStatus()
 
                 setExists(key, result.data?.m_Exists)
                 setGameId(key, result.data?.m_GameId)
@@ -353,7 +353,7 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
                 val key = "Create"
 
                 if (!m_GameStatusMap.containsKey(key))
-                    m_GameStatusMap.put(key, GameStatus())
+                    m_GameStatusMap[key] = GameStatus()
 
                 setExists(key, result.data?.m_Exists)
                 setGameId(key, result.data?.m_GameId)
@@ -385,9 +385,6 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
             m_StopPollingState.value = false
 
             withContext(Dispatchers.IO) {
-                var firstPlayerName = getFirstPlayerName("Create")
-                val secondPlayerName = getFirstPlayerName("Create")
-
                 do {
                     delay(5.seconds)
 
@@ -401,13 +398,13 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
 
                     if (resultPolling.data == null) {
                         m_Error.value = result.e
-                        break;
+                        break
                     }
 
                     val key = "Create"
 
                     if (!m_GameStatusMap.containsKey(key))
-                        m_GameStatusMap.put(key, GameStatus())
+                        m_GameStatusMap[key] = GameStatus()
 
                     setExists(key, resultPolling.data?.m_Exists)
                     setGameId(key, resultPolling.data?.m_GameId)

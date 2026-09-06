@@ -13,7 +13,7 @@ class HeadData(//size of the grid
         m_correctOrient = -1
         m_options = Array(4) { PlaneOrientationData()  }
         for (i in 0..3) {
-            val pl = Plane(m_headRow, m_headCol, Orientation.values()[i])
+            val pl = Plane(m_headRow, m_headCol, Orientation.entries[i])
             //create the four planes for each head position
             m_options[i] = PlaneOrientationData(pl, false)
             if (!pl.isPositionValid(m_row, m_col)) m_options[i].m_discarded = true

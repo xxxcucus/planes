@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -18,8 +17,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
@@ -48,16 +47,17 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
     showPopupState.value = false
 
     val configuration = LocalConfiguration.current
-    val screenWidthDp = configuration.screenWidthDp
-    val screenHeightDp = configuration.screenHeightDp
+    val containerSize = LocalWindowInfo.current.containerSize
+    val screenWidthDp = with(LocalDensity.current) { containerSize.width.toDp() }
+    val screenHeightDp = with(LocalDensity.current) { containerSize.height.toDp() }
     var squareSizeDp = screenWidthDp / playerGridViewModel.getColNo()
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
         squareSizeDp = screenHeightDp / playerGridViewModel.getRowNo()
     }
 
-    var boardSizeDp = squareSizeDp * playerGridViewModel.getRowNo()
-    val squareSizePx = with(LocalDensity.current) { squareSizeDp.dp.toPx() }
+    val boardSizeDp = squareSizeDp * playerGridViewModel.getRowNo()
+    val squareSizePx = with(LocalDensity.current) { squareSizeDp.toPx() }
 
     var refButtonHeightDp = (screenHeightDp - boardSizeDp) / 4
 
@@ -106,11 +106,11 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
     //TODO: if not connected to a game, if not logged in
 
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-        Column() {
+        Column {
             GameBoardSinglePlayer(
                 gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
-                modifier = Modifier.width(boardSizeDp.dp)
-                    .height(boardSizeDp.dp)
+                modifier = Modifier.width(boardSizeDp)
+                    .height(boardSizeDp)
             ) {
                 for (index in 0..99)
                     BoardSquareGame(
@@ -148,41 +148,41 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
             else
                 gameStatsViewModelMultiPlayer.getLastPlayerMove()
 
-            Column(modifier = Modifier.height(screenHeightDp.dp - boardSizeDp.dp),
+            Column(modifier = Modifier.height(screenHeightDp - boardSizeDp),
                 verticalArrangement = Arrangement.Center) {
                 Row(horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.height(refButtonHeightDp.dp / 2).fillMaxWidth()) {
+                    modifier = Modifier.height(refButtonHeightDp / 2).fillMaxWidth()) {
                     Spacer(
-                        modifier = Modifier.width(refButtonWidthDp.dp)
-                            .height(refButtonHeightDp.dp / 2)
+                        modifier = Modifier.width(refButtonWidthDp)
+                            .height(refButtonHeightDp / 2)
                     )
                     OneLineGameButton(
                         textLine = titleStats, gameBoardViewModel,
-                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
+                        modifier = Modifier.width(refButtonWidthDp).height(refButtonHeightDp),
                         enabled = true
                     ) {
 
                     }
                 }
                 Row(horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.height(refButtonHeightDp.dp).fillMaxWidth()) {
+                    modifier = Modifier.height(refButtonHeightDp).fillMaxWidth()) {
                     TwoLineGameButton(
                         textLine1 = titleOtherBoard1,
                         textLine2 = titleOtherBoard2,
                         gameBoardViewModel,
-                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
+                        modifier = Modifier.width(refButtonWidthDp).height(refButtonHeightDp),
                         enabled = true
                     ) {
-                        if (playerBoard.value == false)
+                        if (!playerBoard.value)
                             playerGridViewModel.updateGuessesFromPlaneRound()
                         playerBoard.value = !playerBoard.value
                     }
-                    Column() {
-                        Row() {
+                    Column {
+                        Row {
                             OneLineGameButton(
                                 textLine = stringResource(R.string.general_moves), gameBoardViewModel,
-                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
-                                    .height(refButtonHeightDp.dp / 2),
+                                modifier = Modifier.width(refButtonWidthDp * 3 / 4)
+                                    .height(refButtonHeightDp / 2),
                                 enabled = true
                             ) {
 
@@ -192,16 +192,16 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
                             else
                                 gameStatsViewModelMultiPlayer.getPlayerMoves(),
                                 enabled = true,
-                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
-                                    .height(refButtonHeightDp.dp / 2),
+                                modifier = Modifier.width(refButtonWidthDp / 4)
+                                    .height(refButtonHeightDp / 2),
                                 hot = false)
                         }
 
-                        Row() {
+                        Row {
                             OneLineGameButton(
                                 textLine = stringResource(R.string.general_misses), gameBoardViewModel,
-                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
-                                    .height(refButtonHeightDp.dp / 2),
+                                modifier = Modifier.width(refButtonWidthDp * 3 / 4)
+                                    .height(refButtonHeightDp / 2),
                                 enabled = true
                             ) {
 
@@ -216,17 +216,17 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
 
                             StatsValueField(value = misses,
                                 enabled = true,
-                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
-                                    .height(refButtonHeightDp.dp / 2),
+                                modifier = Modifier.width(refButtonWidthDp / 4)
+                                    .height(refButtonHeightDp / 2),
                                 hot = hotMisses)
                         }
                     }
                 }
                 Row(horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.height(refButtonHeightDp.dp).fillMaxWidth()) {
+                    modifier = Modifier.height(refButtonHeightDp).fillMaxWidth()) {
                     OneLineGameButton(
                         textLine = stringResource(R.string.cancel), gameBoardViewModel,
-                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
+                        modifier = Modifier.width(refButtonWidthDp).height(refButtonHeightDp),
                         enabled = true
                     ) {
                         planeRound.cancelRound()
@@ -238,11 +238,11 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
                         verticalArrangement = Arrangement.Center
                     ) {
 
-                        Row() {
+                        Row {
                             OneLineGameButton(
                                 textLine = stringResource(R.string.general_hits), gameBoardViewModel,
-                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
-                                    .height(refButtonHeightDp.dp / 2),
+                                modifier = Modifier.width(refButtonWidthDp * 3 / 4)
+                                    .height(refButtonHeightDp / 2),
                                 enabled = true
                             ) {
 
@@ -257,16 +257,16 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
 
                             StatsValueField(value = hits,
                                 enabled = true,
-                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
-                                    .height(refButtonHeightDp.dp / 2),
+                                modifier = Modifier.width(refButtonWidthDp / 4)
+                                    .height(refButtonHeightDp / 2),
                                 hot = hotHits)
                         }
 
-                        Row() {
+                        Row {
                             OneLineGameButton(
                                 textLine = stringResource(R.string.general_dead), gameBoardViewModel,
-                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
-                                    .height(refButtonHeightDp.dp / 2),
+                                modifier = Modifier.width(refButtonWidthDp * 3 / 4)
+                                    .height(refButtonHeightDp / 2),
                                 enabled = true
                             ) {
 
@@ -281,8 +281,8 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
 
                             StatsValueField(value = dead,
                                 enabled = true,
-                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
-                                    .height(refButtonHeightDp.dp / 2),
+                                modifier = Modifier.width(refButtonWidthDp / 4)
+                                    .height(refButtonHeightDp / 2),
                                 hot = hotDead)
                         }
                     }
@@ -290,11 +290,11 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
             }
         }
     } else {  //landscape
-        Row() {
+        Row {
             GameBoardSinglePlayer(
                 gameBoardViewModel.getRowNo(), gameBoardViewModel.getColNo(),
-                modifier = Modifier.width(boardSizeDp.dp)
-                    .height(boardSizeDp.dp)
+                modifier = Modifier.width(boardSizeDp)
+                    .height(boardSizeDp)
             ) {
                 for (index in 0..99)
                     BoardSquareGame(
@@ -336,26 +336,26 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                Column(modifier = Modifier.height(boardSizeDp.dp)
-                    .width(refButtonWidthDp.dp),
+                Column(modifier = Modifier.height(boardSizeDp)
+                    .width(refButtonWidthDp),
                     verticalArrangement = Arrangement.Center) {
                     Spacer(
-                        modifier = Modifier.width(refButtonWidthDp.dp)
-                            .height(refButtonHeightDp.dp / 2))
+                        modifier = Modifier.width(refButtonWidthDp)
+                            .height(refButtonHeightDp / 2))
                     TwoLineGameButton(
                         textLine1 = titleOtherBoard1,
                         textLine2 = titleOtherBoard2,
                         gameBoardViewModel,
-                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
+                        modifier = Modifier.width(refButtonWidthDp).height(refButtonHeightDp),
                         enabled = true
                     ) {
-                        if (playerBoard.value == false)
+                        if (!playerBoard.value)
                             playerGridViewModel.updateGuessesFromPlaneRound()
                         playerBoard.value = !playerBoard.value
                     }
                     OneLineGameButton(
                         textLine = stringResource(R.string.cancel), gameBoardViewModel,
-                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp),
+                        modifier = Modifier.width(refButtonWidthDp).height(refButtonHeightDp),
                         enabled = true
                     ) {
                         planeRound.cancelRound()
@@ -365,22 +365,22 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
                     }
                 }
 
-                Column(modifier = Modifier.height(boardSizeDp.dp)
-                    .width(refButtonWidthDp.dp),
+                Column(modifier = Modifier.height(boardSizeDp)
+                    .width(refButtonWidthDp),
                     verticalArrangement = Arrangement.Center) {
                     OneLineGameButton(
                         textLine = titleStats, gameBoardViewModel,
-                        modifier = Modifier.width(refButtonWidthDp.dp).height(refButtonHeightDp.dp / 2),
+                        modifier = Modifier.width(refButtonWidthDp).height(refButtonHeightDp / 2),
                         enabled = true
                     ) {
 
                     }
-                    Column() {
-                        Row() {
+                    Column {
+                        Row {
                             OneLineGameButton(
                                 textLine = stringResource(R.string.general_moves), gameBoardViewModel,
-                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
-                                    .height(refButtonHeightDp.dp / 2),
+                                modifier = Modifier.width(refButtonWidthDp * 3 / 4)
+                                    .height(refButtonHeightDp / 2),
                                 enabled = true
                             ) {
 
@@ -390,16 +390,16 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
                             else
                                 gameStatsViewModelMultiPlayer.getPlayerMoves(),
                                 enabled = true,
-                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
-                                    .height(refButtonHeightDp.dp / 2),
+                                modifier = Modifier.width(refButtonWidthDp / 4)
+                                    .height(refButtonHeightDp / 2),
                                 hot = false)
                         }
 
-                        Row() {
+                        Row {
                             OneLineGameButton(
                                 textLine = stringResource(R.string.general_misses), gameBoardViewModel,
-                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
-                                    .height(refButtonHeightDp.dp / 2),
+                                modifier = Modifier.width(refButtonWidthDp * 3 / 4)
+                                    .height(refButtonHeightDp / 2),
                                 enabled = true
                             ) {
 
@@ -414,18 +414,18 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
 
                             StatsValueField(value = misses,
                                 enabled = true,
-                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
-                                    .height(refButtonHeightDp.dp / 2),
+                                modifier = Modifier.width(refButtonWidthDp / 4)
+                                    .height(refButtonHeightDp / 2),
                                 hot = hotMisses)
                         }
                     }
 
-                    Column() {
-                        Row() {
+                    Column {
+                        Row {
                             OneLineGameButton(
                                 textLine = stringResource(R.string.general_hits), gameBoardViewModel,
-                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
-                                    .height(refButtonHeightDp.dp / 2),
+                                modifier = Modifier.width(refButtonWidthDp * 3 / 4)
+                                    .height(refButtonHeightDp / 2),
                                 enabled = true
                             ) {
 
@@ -440,15 +440,15 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
 
                             StatsValueField(value = hits,
                                 enabled = true,
-                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
-                                    .height(refButtonHeightDp.dp / 2),
+                                modifier = Modifier.width(refButtonWidthDp / 4)
+                                    .height(refButtonHeightDp / 2),
                                 hot = hotHits)
                         }
-                        Row() {
+                        Row {
                             OneLineGameButton(
                                 textLine = stringResource(R.string.general_dead), gameBoardViewModel,
-                                modifier = Modifier.width(refButtonWidthDp.dp * 3 / 4)
-                                    .height(refButtonHeightDp.dp / 2),
+                                modifier = Modifier.width(refButtonWidthDp * 3 / 4)
+                                    .height(refButtonHeightDp / 2),
                                 enabled = true
                             ) {
 
@@ -463,8 +463,8 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
 
                             StatsValueField(value = dead,
                                 enabled = true,
-                                modifier = Modifier.width(refButtonWidthDp.dp / 4)
-                                    .height(refButtonHeightDp.dp / 2),
+                                modifier = Modifier.width(refButtonWidthDp / 4)
+                                    .height(refButtonHeightDp / 2),
                                 hot = hotDead)
                         }
                     }

@@ -16,7 +16,7 @@ class PlaneOrientationData {
 
     //default constructor
     constructor() {
-        m_plane = Plane(0, 0, Orientation.values()[0])
+        m_plane = Plane(0, 0, Orientation.entries[0])
         m_discarded = true
         m_pointsNotTested = Vector()
     }

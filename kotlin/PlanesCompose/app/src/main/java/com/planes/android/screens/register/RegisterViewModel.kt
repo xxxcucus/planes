@@ -147,7 +147,7 @@ class RegisterViewModel @Inject constructor(private val repository: PlanesUserRe
 
     fun getPhotoItems(): List<String> {
         if (!noRobotDataAvailable())
-            return emptyList<String>()
+            return emptyList()
 
         val retVal = mutableListOf<String>()
 

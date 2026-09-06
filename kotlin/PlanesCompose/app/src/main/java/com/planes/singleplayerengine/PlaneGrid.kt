@@ -1,6 +1,5 @@
 package com.planes.singleplayerengine
 
-import android.util.Log
 import androidx.core.util.Pair
 import com.planes.singleplayerengine.Plane.PlaneStatic.generateRandomNumber
 import java.util.*

@@ -23,7 +23,7 @@ class AboutEntryModel(title: String, text: String,
     }
 
     fun hasButton(): Boolean {
-        return m_ButtonPresent;
+        return m_ButtonPresent
     }
 
     fun getLinkButton(): String {

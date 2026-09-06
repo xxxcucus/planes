@@ -34,7 +34,7 @@ import com.planes.android.screens.preferences.PreferencesViewModel
 import com.planes.android.widgets.CommonTextFieldWithViewModel
 import com.planes.android.widgets.PasswordInputFieldWithViewModel
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
-import kotlinx.coroutines.delay
+
 
 @Composable
 fun LoginScreen(modifier: Modifier, currentTitleState: MutableState<String>,
@@ -211,7 +211,7 @@ fun LoginScreen(modifier: Modifier, currentTitleState: MutableState<String>,
     }
 }
 
-public fun validationUsernamePasswordLogin(username: String, password: String,
+fun validationUsernamePasswordLogin(username: String, password: String,
                                            tooLongLoginError: String, emptyLoginError: String,
                                            tooLongPasswordError: String, emptyPasswordError: String) : String {
     var retString = ""

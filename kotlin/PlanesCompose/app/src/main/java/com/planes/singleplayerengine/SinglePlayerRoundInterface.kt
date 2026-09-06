@@ -76,8 +76,8 @@ interface SinglePlayerRoundInterface {
 
     fun stats_NoDraws(): Int
 
-    public fun addComputerMove(row: Int, col: Int)
-    public fun addPlayerMove(row: Int, col: Int)
+    fun addComputerMove(row: Int, col: Int)
+    fun addPlayerMove(row: Int, col: Int)
 
     fun roundEnds(isComputerWinner: Boolean, isDraw : Boolean)
 

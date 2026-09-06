@@ -2,11 +2,12 @@ package com.planes.android.screens.singleplayergame
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 
 @Composable
-fun BoardSquareGameNotStarted(index: Int, squareSizeDp: Int, squareSizePx: Float,
-                    planesGridViewModel: PlaneGridViewModel
+fun BoardSquareGameNotStarted(
+    index: Int, squareSizeDp: Dp, squareSizePx: Float,
+    planesGridViewModel: PlaneGridViewModel
 ) {
     val row = index / planesGridViewModel.getColNo()
     val col = index % planesGridViewModel.getColNo()
@@ -17,13 +18,10 @@ fun BoardSquareGameNotStarted(index: Int, squareSizeDp: Int, squareSizePx: Float
 
     if (!pointOnPlane.first)
         GridSquareGameNotStarted(
-            isComputer = planesGridViewModel.isComputer(),
             annotation = 0,
             guess = guess,
             widthDp = squareSizeDp,
-            widthPx = squareSizePx,
-            backgroundColor = MaterialTheme.colorScheme.background,
-            index = index
+            backgroundColor = MaterialTheme.colorScheme.background
         )
     else {
         val annotation = planesGridViewModel.getAnnotation(pointOnPlane.second)
@@ -31,24 +29,18 @@ fun BoardSquareGameNotStarted(index: Int, squareSizeDp: Int, squareSizePx: Float
 
         if (planesIdx.size == 1) {
             GridSquareGameNotStarted(
-                isComputer = planesGridViewModel.isComputer(),
                 annotation = if (planesIdx[0] < 0) -2 else planesIdx[0] + 1,
                 guess = guess,
                 widthDp = squareSizeDp,
-                widthPx = squareSizePx,
-                backgroundColor = MaterialTheme.colorScheme.background,
-                index = index
+                backgroundColor = MaterialTheme.colorScheme.background
             )
             //Log.d("Planes", "plane ${planesIdx[0]}")
         } else {
             GridSquareGameNotStarted(
-                isComputer = planesGridViewModel.isComputer(),
                 annotation = -1,
                 guess = guess,
                 widthDp = squareSizeDp,
-                widthPx = squareSizePx,
-                backgroundColor = MaterialTheme.colorScheme.background,
-                index = index
+                backgroundColor = MaterialTheme.colorScheme.background
             )
         }
     }

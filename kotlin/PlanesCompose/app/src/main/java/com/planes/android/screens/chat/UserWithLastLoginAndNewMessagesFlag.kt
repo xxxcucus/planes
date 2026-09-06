@@ -1,6 +1,5 @@
 package com.planes.android.screens.chat
 
-import com.google.gson.annotations.SerializedName
 
 data class UserWithLastLoginAndNewMessagesFlag(
     val m_UserName : String,

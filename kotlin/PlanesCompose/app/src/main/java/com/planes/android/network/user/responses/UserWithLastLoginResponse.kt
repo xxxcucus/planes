@@ -1,4 +1,4 @@
-package com.planes.multiplayer_engine.responses
+package com.planes.android.network.user.responses
 
 import com.google.gson.annotations.SerializedName
 

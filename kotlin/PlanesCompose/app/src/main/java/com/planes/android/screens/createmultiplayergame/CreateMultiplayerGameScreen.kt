@@ -33,7 +33,6 @@ import com.planes.android.widgets.CommonTextFieldWithViewModel
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import kotlin.random.Random
 
-
 @Composable
 fun CreateMultiplayerGameScreen(modifier: Modifier,
                                 currentTitleState: MutableState<String>,
@@ -144,9 +143,9 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                 }
             } else if (gameExists == true && createViewModel.getFirstPlayerName("Status") == createViewModel.getSecondPlayerName("Status")) {
                 Text(
-                    text = LocalContext.current.getString(
+                    text = stringResource(
                         R.string.connecttogame_possible,
-                        createViewModel.getFirstPlayerName("Status")
+                        createViewModel.getFirstPlayerName("Status")!!
                     )
                 )
                 Row {
@@ -188,7 +187,9 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
             }
         } else if (createViewModel.getCreateState() == CreateGameStates.ConnectedComplete) {
 
-            Text(text = LocalContext.current.getString(R.string.connected_togame, createViewModel.getGameName("Connect")))
+            Text(text = stringResource(R.string.connected_togame,
+                createViewModel.getGameName("Connect")!!
+            ))
             Button(
                 modifier = Modifier.padding(15.dp),
                 onClick = {
@@ -236,7 +237,9 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
             Text(text = stringResource(R.string.game_created))
         } else if (createViewModel.getCreateState() == CreateGameStates.PollingForConnectionStarted) {
             SelectionContainer() {
-                Text(text = LocalContext.current.getString(R.string.wait_for_opponent, createViewModel.getGameName("Create")))
+                Text(text = stringResource(R.string.wait_for_opponent,
+                    createViewModel.getGameName("Create")!!
+                ))
             }
 
             Button(
@@ -249,7 +252,9 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
 
         } else if (createViewModel.getCreateState() == CreateGameStates.PollingForConnectionEnded) {
 
-            Text(text = LocalContext.current.getString(R.string.connected_togame, createViewModel.getGameName("Create")))
+            Text(text = stringResource(R.string.connected_togame,
+                createViewModel.getGameName("Create")!!
+            ))
             Button(
                 modifier = Modifier.padding(15.dp),
                 onClick = {
@@ -293,7 +298,7 @@ fun generateRandomGameName(): String {
     val STRING_LENGTH = 10
 
     val time = System.currentTimeMillis()
-    var randomGenerator = Random(time)
+    val randomGenerator = Random(time)
 
     return (1..STRING_LENGTH)
         .map { randomGenerator.nextInt(0, charPool.size) }

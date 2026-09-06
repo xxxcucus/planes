@@ -1,4 +1,4 @@
-package com.planes.multiplayer_engine.requests
+package com.planes.android.network.game.requests
 
 import com.google.gson.annotations.SerializedName
 

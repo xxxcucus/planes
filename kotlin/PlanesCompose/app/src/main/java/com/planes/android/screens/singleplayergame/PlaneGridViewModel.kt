@@ -1,6 +1,7 @@
 package com.planes.android.screens.singleplayergame
 
 import android.util.Log
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.util.Pair
@@ -27,7 +28,7 @@ open class PlaneGridViewModel(planeRound: SinglePlayerRoundInterface,
     //number of planes
     private var m_planeNo: Int = 3
     private var m_isComputer = isComputer
-    private val m_SelectedPlane = mutableStateOf(0)
+    private val m_SelectedPlane = mutableIntStateOf(0)
 
     //list of plane objects for the grid
     private var m_planeList = mutableStateListOf<Plane>()
@@ -82,15 +83,15 @@ open class PlaneGridViewModel(planeRound: SinglePlayerRoundInterface,
         if (idx < 0 || idx >= m_guesses.size)
             return null
 
-        return m_guesses.get(idx)
+        return m_guesses[idx]
     }
 
     fun getRowNo(): Int {
-        return m_rowNo;
+        return m_rowNo
     }
 
     fun getColNo(): Int {
-        return m_colNo;
+        return m_colNo
     }
 
     fun getPlaneNo(): Int {
@@ -157,12 +158,12 @@ open class PlaneGridViewModel(planeRound: SinglePlayerRoundInterface,
     fun updatePlanesToPlaneRound() {
         //if (!m_isComputer) {
             val vplanes = Vector<Plane>()
-            for (i in 0 .. m_planeNo - 1)
+            for (i in 0..< m_planeNo)
                 vplanes.add(m_planeList[i])
             if (!m_isComputer)
                 m_PlaneRound.setPlayerPlanes(vplanes)
             else
-                m_PlaneRound.setComputerPlanes(vplanes);
+                m_PlaneRound.setComputerPlanes(vplanes)
         //}
     }
 
@@ -173,7 +174,7 @@ open class PlaneGridViewModel(planeRound: SinglePlayerRoundInterface,
         Log.d("Planes", "UpdateGuessesFromPlaneRound $m_isComputer $viewModelCount $roundCount")
 
         if (roundCount > viewModelCount) {
-            for (i in viewModelCount..roundCount-1) {
+            for (i in viewModelCount..< roundCount) {
                 val gp = if (m_isComputer) GuessPoint(m_PlaneRound.getPlayerGuessRow(i),
                     m_PlaneRound.getPlayerGuessCol(i), m_PlaneRound.getPlayerGuessType(i))
                 else GuessPoint(m_PlaneRound.getComputerGuessRow(i), m_PlaneRound.getComputerGuessCol(i),
@@ -350,7 +351,7 @@ open class PlaneGridViewModel(planeRound: SinglePlayerRoundInterface,
         //build a list of all possible positions
         //enum Orientation {NorthSouth=0, SouthNorth=1, WestEast=2, EastWest=3};
         for (i in 0 until m_rowNo) for (j in 0 until m_colNo) for (k in 0..3) {
-            val pl = Plane(i, j, Orientation.values()[k])
+            val pl = Plane(i, j, Orientation.entries[k])
             listPossiblePositions.add(pl)
         }
         while (count < m_planeNo) {
@@ -406,9 +407,9 @@ open class PlaneGridViewModel(planeRound: SinglePlayerRoundInterface,
             planes = m_PlaneRound.getComputerPlanes()
         }
 
-        for (i in 0..m_planeNo - 1)
+        for (i in 0..< m_planeNo)
             if (savePlane(planes[i])) {
-                //Log.d("Planes", "Saved plane ${planes[i].col()} vs ${planes[i].row()} " )
+                Log.d("Planes", "Saved plane ${planes[i].col()} vs ${planes[i].row()} " )
             }
     }
 

@@ -23,7 +23,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.screens.login.LoginViewModel
@@ -34,7 +33,6 @@ fun ConversationScreen(modifier: Modifier,
                        currentTitleState: MutableState<String>,
                        currentScreenState: MutableState<String>,
                        showPopupState: MutableState<Boolean>,
-                       navController: NavController,
                        chatPartnerId: String, chatPartnerUsername: String,
                        loginViewModel: LoginViewModel,
                        conversationViewModel: ConversationViewModel = hiltViewModel()

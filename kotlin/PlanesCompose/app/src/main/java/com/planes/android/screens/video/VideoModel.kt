@@ -1,24 +1,15 @@
 package com.planes.android.screens.video
 
 
-class VideoModel(videoname: String, videoId: Int, videoDuration: String, currentPosition: Long,
+class VideoModel(videoName: String, videoId: Int, videoDuration: String, currentPosition: Long,
                  videoRatio: Float, youtubeLink: String) {
 
-    private var m_VideoName: String
-    private var m_VideoId: Int
-    private var m_VideoRatio: Float
-    private var m_VideoDuration: String
-    private var m_CurrentPosition: Long
-    private var m_YoutubeLink: String
-
-    init {
-        m_VideoName = videoname
-        m_VideoId = videoId
-        m_VideoRatio = videoRatio
-        m_VideoDuration = videoDuration
-        m_CurrentPosition = currentPosition
-        m_YoutubeLink = youtubeLink
-    }
+    private var m_VideoName: String = videoName
+    private var m_VideoId: Int = videoId
+    private var m_VideoRatio: Float = videoRatio
+    private var m_VideoDuration: String = videoDuration
+    private var m_CurrentPosition: Long = currentPosition
+    private var m_YoutubeLink: String = youtubeLink
 
     fun getVideoName(): String {
         return m_VideoName

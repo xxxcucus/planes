@@ -19,6 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -36,8 +38,9 @@ fun NoRobotScreen(modifier: Modifier, currentTitleState: MutableState<String>,
     showPopupState.value = false
 
     val configuration = LocalConfiguration.current
-    val screenWidthDp = configuration.screenWidthDp
-    val screenHeightDp = configuration.screenHeightDp
+    val containerSize = LocalWindowInfo.current.containerSize
+    val screenWidthDp = with(LocalDensity.current) { containerSize.width.toDp() }
+    val screenHeightDp = with(LocalDensity.current) { containerSize.height.toDp() }
     var squareSizeDp = screenWidthDp / 2
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -107,7 +110,7 @@ fun NoRobotScreen(modifier: Modifier, currentTitleState: MutableState<String>,
         if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             LazyVerticalGrid(
                 modifier = Modifier,
-                columns = GridCells.Adaptive(minSize = squareSizeDp.dp)
+                columns = GridCells.Adaptive(minSize = squareSizeDp)
             ) {
                 itemsIndexed(items = noRobotViewModel.getImages()) { index, item ->
                     NoRobotEntryRow(noRobotViewModel, index, squareSizeDp,false)
@@ -116,7 +119,7 @@ fun NoRobotScreen(modifier: Modifier, currentTitleState: MutableState<String>,
         } else {
             LazyHorizontalGrid(
                 modifier = Modifier,
-                rows = GridCells.Adaptive(minSize = squareSizeDp.dp)
+                rows = GridCells.Adaptive(minSize = squareSizeDp)
             ) {
                 itemsIndexed(items = noRobotViewModel.getImages()) { index, item ->
                     NoRobotEntryRow(noRobotViewModel, index, squareSizeDp, true)

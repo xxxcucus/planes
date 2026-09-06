@@ -1,8 +1,6 @@
 package com.planes.android.repository
 
-import com.planes.android.data.ChatDao
 import com.planes.android.data.NewMessagesDao
-import com.planes.android.data.NewMessagesFlag
 import javax.inject.Inject
 
 class NewMessagesDbRepository @Inject constructor (private val newMessagesDao: NewMessagesDao) {

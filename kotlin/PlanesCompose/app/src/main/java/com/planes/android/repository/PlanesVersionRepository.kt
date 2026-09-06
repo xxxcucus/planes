@@ -10,12 +10,12 @@ import javax.inject.Inject
 class PlanesVersionRepository @Inject constructor(private val api: PlanesVersionApi) {
     suspend fun getVersion(): DataOrError<VersionResponse> {
 
-        var response: Response<VersionResponse>? = null
+        var response: Response<VersionResponse>?
 
         try {
             response = api.getVersion()
         } catch (e: Exception) {
-            return DataOrError<VersionResponse>(null, false, e.message)
+            return DataOrError(null, false, e.message)
         }
 
         if (response.isSuccessful) {

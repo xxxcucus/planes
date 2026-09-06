@@ -5,7 +5,7 @@ enum class GameStages(val value: Int) {
     SendRemainingMoves(5);
 
     companion object {
-        private val map = values().associateBy(GameStages::value)
+        private val map = entries.associateBy(GameStages::value)
         operator fun get(value: Int) = map[value]
     }
 

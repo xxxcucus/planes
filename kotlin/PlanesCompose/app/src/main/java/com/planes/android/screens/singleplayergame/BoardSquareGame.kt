@@ -2,15 +2,14 @@ package com.planes.android.screens.singleplayergame
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.Color
-import com.planes.singleplayerengine.GuessPoint
+import androidx.compose.ui.unit.Dp
 
 @Composable
-fun BoardSquareGame(index: Int, squareSizeDp: Int, squareSizePx: Float,
-                    planesGridViewModel: PlaneGridViewModel,
-                    onClick: (Int) -> Unit) {
+fun BoardSquareGame(
+    index: Int, squareSizeDp: Dp, squareSizePx: Float,
+    planesGridViewModel: PlaneGridViewModel,
+    onClick: (Int) -> Unit
+) {
     val row = index / planesGridViewModel.getColNo()
     val col = index % planesGridViewModel.getColNo()
 
@@ -24,7 +23,6 @@ fun BoardSquareGame(index: Int, squareSizeDp: Int, squareSizePx: Float,
            annotation = 0,
            guess = guess,
            widthDp = squareSizeDp,
-           widthPx = squareSizePx,
            backgroundColor = MaterialTheme.colorScheme.background,
            index = index,
            onClick = onClick
@@ -39,7 +37,6 @@ fun BoardSquareGame(index: Int, squareSizeDp: Int, squareSizePx: Float,
                annotation = if (planesIdx[0] < 0) -2 else planesIdx[0] + 1,
                guess = guess,
                widthDp = squareSizeDp,
-               widthPx = squareSizePx,
                backgroundColor = MaterialTheme.colorScheme.background,
                index = index,
                onClick = onClick
@@ -51,7 +48,6 @@ fun BoardSquareGame(index: Int, squareSizeDp: Int, squareSizePx: Float,
                annotation = -1,
                guess = guess,
                widthDp = squareSizeDp,
-               widthPx = squareSizePx,
                backgroundColor = MaterialTheme.colorScheme.background,
                index = index,
                onClick = onClick

@@ -7,11 +7,9 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -20,12 +18,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
-import com.planes.singleplayerengine.SinglePlayerRoundInterface
 import java.util.Date
 import kotlin.math.abs
 
@@ -34,7 +32,6 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: Mutabl
                                    currentScreenState: MutableState<String>,
                                    showPopupState: MutableState<Boolean>,
                                    navController: NavController,
-                                   planeRound: SinglePlayerRoundInterface,
                                    playerGridViewModel: PlayerGridViewModelSinglePlayer
 ) {
 
@@ -43,15 +40,16 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: Mutabl
     showPopupState.value = false
 
     val configuration = LocalConfiguration.current
-    val screenWidthDp = configuration.screenWidthDp
-    val screenHeightDp = configuration.screenHeightDp
+    val containerSize = LocalWindowInfo.current.containerSize
+    val screenWidthDp = with(LocalDensity.current) { containerSize.width.toDp() }
+    val screenHeightDp = with(LocalDensity.current) { containerSize.height.toDp() }
     var squareSizeDp = screenWidthDp / playerGridViewModel.getColNo()
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
         squareSizeDp = screenHeightDp / playerGridViewModel.getRowNo()
     }
 
-    var boardSizeDp = squareSizeDp * playerGridViewModel.getRowNo()
+    val boardSizeDp = squareSizeDp * playerGridViewModel.getRowNo()
 
     var buttonHeightDp = (screenHeightDp - boardSizeDp) / 4
 
@@ -65,7 +63,7 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: Mutabl
         buttonWidthDp = (screenWidthDp - boardSizeDp) / 3
     }
 
-    val squareSizePx = with(LocalDensity.current) { squareSizeDp.dp.toPx() }
+    val squareSizePx = with(LocalDensity.current) { squareSizeDp.toPx() }
     val swipeThresh = 20.0f
     val consecSwipeThresh = 100
     var swipeLengthX = 0.0f
@@ -76,11 +74,11 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: Mutabl
     //Log.d("Planes", "planes no ${planesGridViewModel.getPlaneNo()}")
 
     if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-        Column() {
+        Column {
 
            GameBoardSinglePlayer(playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
-               modifier = Modifier.width(boardSizeDp.dp)
-                   .height(boardSizeDp.dp)
+               modifier = Modifier.width(boardSizeDp)
+                   .height(boardSizeDp)
                    .pointerInput(Unit) {
                        detectTapGestures(
                            onLongPress = { _ -> playerGridViewModel.rotatePlane(playerGridViewModel.getSelectedPlane()) }
@@ -110,11 +108,11 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: Mutabl
                 playerGridViewModel, !playerGridViewModel.isPlaneOutsideGrid() && !playerGridViewModel.doPlanesOverlap())
         }
     } else {  //landscape
-        Row() {
+        Row {
 
             GameBoardSinglePlayer(playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
-                modifier = Modifier.width(boardSizeDp.dp)
-                    .height(boardSizeDp.dp)
+                modifier = Modifier.width(boardSizeDp)
+                    .height(boardSizeDp)
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onLongPress = { _ -> playerGridViewModel.rotatePlane(playerGridViewModel.getSelectedPlane()) }
@@ -238,28 +236,30 @@ fun treatSwipeHorizontal(swipeThresh: Float, consecSwipeThresh: Int,
 }
 
 @Composable
-fun BoardEditingControlButtonsVerticalLayout(screenHeightDp: Int, boardSizeDp: Int, buttonHeightDp: Int,
-                                             buttonWidthDp: Int, navController: NavController,
-                                             playerGridViewModel: PlaneGridViewModel,
-                                             doneEnabled: Boolean) {
+fun BoardEditingControlButtonsVerticalLayout(
+    screenHeightDp: Dp, boardSizeDp: Dp, buttonHeightDp: Dp,
+    buttonWidthDp: Dp, navController: NavController,
+    playerGridViewModel: PlaneGridViewModel,
+    doneEnabled: Boolean
+) {
     Column(
-        modifier = Modifier.height(screenHeightDp.dp - boardSizeDp.dp),
+        modifier = Modifier.height(screenHeightDp - boardSizeDp),
         verticalArrangement = Arrangement.Center
     ) {
         Row(
             horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.height(buttonHeightDp.dp).fillMaxWidth()
+            modifier = Modifier.height(buttonHeightDp).fillMaxWidth()
         ) {
             OneLineGameButton(
                 textLine = stringResource(R.string.rotate_button), playerGridViewModel,
-                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                modifier = Modifier.width(buttonWidthDp).height(buttonHeightDp),
                 enabled = true
             ) { viewModel ->
                 viewModel.rotatePlane(playerGridViewModel.getSelectedPlane())
             }
             OneLineGameButton(
                 textLine = stringResource(R.string.done_button), playerGridViewModel,
-                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                modifier = Modifier.width(buttonWidthDp).height(buttonHeightDp),
                 enabled = doneEnabled
             ) { viewModel ->
                 viewModel.updatePlanesToPlaneRound()
@@ -274,11 +274,11 @@ fun BoardEditingControlButtonsVerticalLayout(screenHeightDp: Int, boardSizeDp: I
 
         Row(
             horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.height(buttonHeightDp.dp).fillMaxWidth()
+            modifier = Modifier.height(buttonHeightDp).fillMaxWidth()
         ) {
             OneLineGameButton(
                 textLine = stringResource(R.string.cancel), playerGridViewModel,
-                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                modifier = Modifier.width(buttonWidthDp).height(buttonHeightDp),
                 enabled = true
             ) { viewModel ->
                 viewModel.cancelRound()
@@ -292,7 +292,7 @@ fun BoardEditingControlButtonsVerticalLayout(screenHeightDp: Int, boardSizeDp: I
                 textLine1 = stringResource(R.string.reset_board1),
                 textLine2 = stringResource(R.string.reset_board2),
                 playerGridViewModel,
-                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                modifier = Modifier.width(buttonWidthDp).height(buttonHeightDp),
                 enabled = true
             ) { viewModel ->
                 viewModel.initGrid()
@@ -302,22 +302,24 @@ fun BoardEditingControlButtonsVerticalLayout(screenHeightDp: Int, boardSizeDp: I
 }
 
 @Composable
-fun BoardEditingControlButtonsHorizontalLayout(buttonHeightDp: Int,
-                                             buttonWidthDp: Int,
-                                               navController: NavController,
-                                             playerGridViewModel: PlaneGridViewModel,
-                                               doneEnabled: Boolean) {
+fun BoardEditingControlButtonsHorizontalLayout(
+    buttonHeightDp: Dp,
+    buttonWidthDp: Dp,
+    navController: NavController,
+    playerGridViewModel: PlaneGridViewModel,
+    doneEnabled: Boolean
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxHeight().width(buttonWidthDp.dp)
+            modifier = Modifier.fillMaxHeight().width(buttonWidthDp)
                 ) {
             OneLineGameButton(
                 textLine = stringResource(R.string.rotate_button), playerGridViewModel,
-                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                modifier = Modifier.width(buttonWidthDp).height(buttonHeightDp),
                 enabled = true
             ) { viewModel ->
                 viewModel.rotatePlane(playerGridViewModel.getSelectedPlane())
@@ -325,7 +327,7 @@ fun BoardEditingControlButtonsHorizontalLayout(buttonHeightDp: Int,
 
             OneLineGameButton(
                 textLine = stringResource(R.string.cancel), playerGridViewModel,
-                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                modifier = Modifier.width(buttonWidthDp).height(buttonHeightDp),
                 enabled = true
             ) { viewModel ->
                     viewModel.cancelRound()
@@ -341,12 +343,12 @@ fun BoardEditingControlButtonsHorizontalLayout(buttonHeightDp: Int,
 
         Column(
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxHeight().width(buttonWidthDp.dp)
+            modifier = Modifier.fillMaxHeight().width(buttonWidthDp)
         ) {
 
             OneLineGameButton(
                 textLine = stringResource(R.string.done_button), playerGridViewModel,
-                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                modifier = Modifier.width(buttonWidthDp).height(buttonHeightDp),
                 enabled = doneEnabled
             ) { viewModel ->
                 viewModel.updatePlanesToPlaneRound()
@@ -361,7 +363,7 @@ fun BoardEditingControlButtonsHorizontalLayout(buttonHeightDp: Int,
                 textLine1 = stringResource(R.string.reset_board1),
                 textLine2 = stringResource(R.string.reset_board2),
                 playerGridViewModel,
-                modifier = Modifier.width(buttonWidthDp.dp).height(buttonHeightDp.dp),
+                modifier = Modifier.width(buttonWidthDp).height(buttonHeightDp),
                 enabled = true
             ) { viewModel ->
                 viewModel.initGrid()

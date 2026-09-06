@@ -21,18 +21,21 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
 import com.planes.singleplayerengine.GuessPoint
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
-fun GridSquareGame(isComputer: Boolean,
-                   annotation: Int,
-                   guess: GuessPoint?,
-                   widthDp: Int, widthPx: Float,
-                   backgroundColor: Color,
-                   index: Int,
-                   onClick: (Int) -> Unit) {
+fun GridSquareGame(
+    isComputer: Boolean,
+    annotation: Int,
+    guess: GuessPoint?,
+    widthDp: Dp,
+    backgroundColor: Color,
+    index: Int,
+    onClick: (Int) -> Unit
+) {
 
     val scale = remember {
         Animatable(1f)
@@ -58,10 +61,10 @@ fun GridSquareGame(isComputer: Boolean,
             )
         }
 
-        delay(2000L)
+        delay(2000L.milliseconds)
     }
 
-    Canvas(modifier = Modifier.width(widthDp.dp).height(widthDp.dp)
+    Canvas(modifier = Modifier.width(widthDp).height(widthDp)
         .background(backgroundColor)
         .scale(scale.value).clickable {
         onClick.invoke(index)
@@ -76,16 +79,22 @@ fun GridSquareGame(isComputer: Boolean,
 
         //Log.d("Planes", "Annotation $annotation")
         if (!isComputer) {
-            if (annotation == -1) {
-                squareColor = planeOverlapColor
-            } else if (annotation == -2) {
-                squareColor = cockpitColor
-            } else if (annotation == 1) {
-                squareColor = firstPlaneColor
-            } else if (annotation == 2) {
-                squareColor = secondPlaneColor
-            } else if (annotation == 3) {
-                squareColor = thirdPlaneColor
+            when (annotation) {
+                -1 -> {
+                    squareColor = planeOverlapColor
+                }
+                -2 -> {
+                    squareColor = cockpitColor
+                }
+                1 -> {
+                    squareColor = firstPlaneColor
+                }
+                2 -> {
+                    squareColor = secondPlaneColor
+                }
+                3 -> {
+                    squareColor = thirdPlaneColor
+                }
             }
         } else {
             if (guess != null && annotation == -2) {

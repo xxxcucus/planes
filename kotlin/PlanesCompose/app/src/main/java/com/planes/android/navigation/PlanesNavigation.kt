@@ -1,6 +1,5 @@
 package com.planes.android.navigation
 
-import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
@@ -56,7 +55,6 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
                      userLoggedInState: MutableState<Boolean>,
                      splashScreenState: MutableState<Boolean>,
                      navController: NavHostController,
-                     context: Context,
                      planeRound: SinglePlayerRoundInterface,
                      planeRoundMultiplayer: MultiPlayerRoundInterface
 ) {
@@ -105,7 +103,7 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
             BoardEditingScreenSinglePlayer(modifier = modifier,
                 currentTitleState, currentScreenState, showPopupState,
                 navController = navController,
-                planeRound, playerGridViewModelSinglePlayer)
+                playerGridViewModelSinglePlayer)
         }
         composable(PlanesScreens.SinglePlayerGameNotStarted.name) {
             GameNotStartedScreenSinglePlayer(modifier = modifier,
@@ -122,7 +120,7 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
         composable(PlanesScreens.Preferences.name) {
             PreferencesScreen(modifier = modifier, currentTitleState,
                 currentScreenState, showPopupState,
-                navController = navController, optionsViewModel = optionsViewModel,
+                optionsViewModel = optionsViewModel,
                 planeRound = planeRound)
         }
 
@@ -138,7 +136,7 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
                 currentTitleState, currentScreenState, showPopupState,
                 navController = navController,
                 loginViewModel, createViewModel,
-                planeRoundMultiplayer, playerGridViewModelMultiPlayer,
+                playerGridViewModelMultiPlayer,
                 computerGridViewModelMultiPlayer)
         }
         composable(PlanesScreens.MultiplayerGame.name) {
@@ -165,8 +163,6 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
             val versionName = packageInfo.versionName
             AboutScreen(modifier = modifier, currentTitleState, currentScreenState,
                 showPopupState,
-                navController = navController,
-                context = context,
                 aboutEntryList = AboutEntryRepository.create(versionName, context = context))
         }
         composable("${PlanesScreens.Tutorials.name}/{videoId}/{time}",
@@ -177,7 +173,8 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
             val videoId = entry.arguments?.getInt("videoId")!!
             val time = entry.arguments?.getInt("time")!!
             VideoScreen(modifier = modifier, currentTitleState, currentScreenState,
-                showPopupState, videoId, time, navController = navController)
+                showPopupState, videoId
+            )
             //PlayerRoute(modifier = modifier)
         }
         composable("${PlanesScreens.Login.name}/{autologin}",
@@ -206,7 +203,6 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
         composable(PlanesScreens.DeleteUser.name) {
             DeleteUserScreen(modifier = modifier, currentTitleState, currentScreenState,
                 showPopupState,
-                navController = navController,
                 loginViewModel)
         }
         composable(route = PlanesScreens.Chat.name) {
@@ -226,7 +222,6 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
             ConversationScreen(modifier = modifier, currentTitleState,
                 currentScreenState,
                 showPopupState,
-                navController = navController,
                 userId, username,
                 loginViewModel)
         }

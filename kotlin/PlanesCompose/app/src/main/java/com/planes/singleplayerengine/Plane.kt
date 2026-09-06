@@ -84,10 +84,10 @@ class Plane(val row: Int, val col: Int, orient: Orientation) : Cloneable {
     //translation with given offset in a grid with row and col rows and columns
     //if the future head position is not valid do not translate
     fun translateWhenHeadPosValid(offsetX: Int, offsetY: Int, row: Int, col: Int) {
-        if (m_row + offsetX < 0 || m_row + offsetX >= row) {
+        if (m_row + offsetX !in 0..<row) {
             return
         }
-        if (m_col + offsetY < 0 || m_col + offsetY >= col) {
+        if (m_col + offsetY !in 0..<col) {
             return
         }
         m_row += offsetX
@@ -97,7 +97,7 @@ class Plane(val row: Int, val col: Int, orient: Orientation) : Cloneable {
     //other utility functions
     //tests whether a point is a plane's head
     fun isHead(qp: Coordinate2D): Boolean {
-        return qp.equals(head())
+        return qp == head()
     }
 
     //checks if a certain point on the grid is on the plane
@@ -105,7 +105,7 @@ class Plane(val row: Int, val col: Int, orient: Orientation) : Cloneable {
         val ppi = PlanePointIterator(this)
         while (ppi.hasNext()) {
             val qp1 = ppi.next()
-            if (qp.equals(qp1)) return true
+            if (qp == qp1) return true
         }
         return false
     }
@@ -115,8 +115,8 @@ class Plane(val row: Int, val col: Int, orient: Orientation) : Cloneable {
         val ppi = PlanePointIterator(this)
         while (ppi.hasNext()) {
             val qp = ppi.next()
-            if (qp.x() < 0 || qp.x() >= row) return false
-            if (qp.y() < 0 || qp.y() >= col) return false
+            if (qp.x() !in 0..<row) return false
+            if (qp.y() !in 0..<col) return false
         }
         return true
     }
@@ -124,10 +124,10 @@ class Plane(val row: Int, val col: Int, orient: Orientation) : Cloneable {
     //displays the plane
     override fun toString(): String {
         var toReturn = ""
-        toReturn = toReturn + "Plane head: "
-        toReturn = toReturn + m_row
+        toReturn += "Plane head: "
+        toReturn += m_row
         toReturn = "$toReturn-"
-        toReturn = toReturn + m_col
+        toReturn += m_col
         toReturn = "$toReturn oriented: "
         toReturn = when (m_orient) {
             Orientation.NorthSouth -> toReturn + "NorthSouth"

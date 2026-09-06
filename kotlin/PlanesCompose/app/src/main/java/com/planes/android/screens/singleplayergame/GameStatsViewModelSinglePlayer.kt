@@ -1,5 +1,6 @@
 package com.planes.android.screens.singleplayergame
 
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.planes.singleplayerengine.SinglePlayerRoundInterface
@@ -9,38 +10,38 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GameStatsViewModelSinglePlayer  @Inject constructor(planeRound: SinglePlayerRoundInterface): ViewModel() {
-    var m_playerMoves = mutableStateOf(0)
-    var m_playerHits = mutableStateOf(0)
-    var m_playerDead = mutableStateOf(0)
-    var m_playerMisses = mutableStateOf(0)
-    var m_computerMoves = mutableStateOf(0)
-    var m_computerHits = mutableStateOf(0)
-    var m_computerDead = mutableStateOf(0)
-    var m_computerMisses = mutableStateOf(0)
+    var m_playerMoves = mutableIntStateOf(0)
+    var m_playerHits = mutableIntStateOf(0)
+    var m_playerDead = mutableIntStateOf(0)
+    var m_playerMisses = mutableIntStateOf(0)
+    var m_computerMoves = mutableIntStateOf(0)
+    var m_computerHits = mutableIntStateOf(0)
+    var m_computerDead = mutableIntStateOf(0)
+    var m_computerMisses = mutableIntStateOf(0)
     var m_lastComputerUpdate = mutableStateOf(Type.Miss)
     var m_lastPlayerUpdate = mutableStateOf(Type.Miss)
 
     //keeps the score
-    var m_playerWins = mutableStateOf(0)
-    var m_computerWins = mutableStateOf(0)
-    var m_draws = mutableStateOf(0)
+    var m_playerWins = mutableIntStateOf(0)
+    var m_computerWins = mutableIntStateOf(0)
+    var m_draws = mutableIntStateOf(0)
 
     var m_PlaneRound = planeRound
 
     fun updateFromPlaneRound() {
-        m_playerMoves.value = m_PlaneRound.playerGuess_StatNoPlayerMoves()
-        m_playerHits.value = m_PlaneRound.playerGuess_StatNoPlayerHits()
-        m_playerDead.value = m_PlaneRound.playerGuess_StatNoPlayerDead()
-        m_playerMisses.value = m_PlaneRound.playerGuess_StatNoPlayerMisses()
+        m_playerMoves.intValue = m_PlaneRound.playerGuess_StatNoPlayerMoves()
+        m_playerHits.intValue = m_PlaneRound.playerGuess_StatNoPlayerHits()
+        m_playerDead.intValue = m_PlaneRound.playerGuess_StatNoPlayerDead()
+        m_playerMisses.intValue = m_PlaneRound.playerGuess_StatNoPlayerMisses()
 
-        m_computerMoves.value = m_PlaneRound.playerGuess_StatNoComputerMoves()
-        m_computerHits.value = m_PlaneRound.playerGuess_StatNoComputerHits()
-        m_computerDead.value = m_PlaneRound.playerGuess_StatNoComputerDead()
-        m_computerMisses.value = m_PlaneRound.playerGuess_StatNoComputerMisses()
+        m_computerMoves.intValue = m_PlaneRound.playerGuess_StatNoComputerMoves()
+        m_computerHits.intValue = m_PlaneRound.playerGuess_StatNoComputerHits()
+        m_computerDead.intValue = m_PlaneRound.playerGuess_StatNoComputerDead()
+        m_computerMisses.intValue = m_PlaneRound.playerGuess_StatNoComputerMisses()
 
-        m_playerWins.value = m_PlaneRound.playerGuess_StatNoPlayerWins()
-        m_computerWins.value = m_PlaneRound.playerGuess_StatNoComputerWins()
-        m_draws.value = m_PlaneRound.playerGuess_StatNoDraws()
+        m_playerWins.intValue = m_PlaneRound.playerGuess_StatNoPlayerWins()
+        m_computerWins.intValue = m_PlaneRound.playerGuess_StatNoComputerWins()
+        m_draws.intValue = m_PlaneRound.playerGuess_StatNoDraws()
 
         m_lastComputerUpdate.value = m_PlaneRound.playerGuess_StatLastComputeUpdate()
         m_lastPlayerUpdate.value = m_PlaneRound.playerGuess_StatLastPlayerUpdate()
@@ -59,91 +60,91 @@ class GameStatsViewModelSinglePlayer  @Inject constructor(planeRound: SinglePlay
     }
 
     fun setPlayerMoves(moves: Int) {
-        m_playerMoves.value = moves
+        m_playerMoves.intValue = moves
     }
 
     fun getPlayerMoves(): Int {
-        return m_playerMoves.value
+        return m_playerMoves.intValue
     }
 
     fun setComputerMoves(moves: Int) {
-        m_computerMoves.value = moves
+        m_computerMoves.intValue = moves
     }
 
     fun getComputerMoves(): Int {
-        return m_computerMoves.value
+        return m_computerMoves.intValue
     }
 
     fun setPlayerHits(hits: Int) {
-        m_playerHits.value = hits
+        m_playerHits.intValue = hits
     }
 
     fun getPlayerHits(): Int {
-        return m_playerHits.value
+        return m_playerHits.intValue
     }
 
     fun setComputerHits(hits: Int) {
-        m_computerHits.value = hits
+        m_computerHits.intValue = hits
     }
 
     fun getComputerHits(): Int {
-        return m_computerHits.value
+        return m_computerHits.intValue
     }
 
     fun setPlayerDead(dead : Int) {
-        m_playerDead.value = dead
+        m_playerDead.intValue = dead
     }
 
     fun getPlayerDead() : Int {
-        return m_playerDead.value
+        return m_playerDead.intValue
     }
 
     fun setComputerDead(dead: Int) {
-        m_computerDead.value = dead
+        m_computerDead.intValue = dead
     }
 
     fun getComputerDead() : Int {
-        return m_computerDead.value
+        return m_computerDead.intValue
     }
 
     fun setPlayerMisses(misses: Int) {
-        m_playerMisses.value = misses
+        m_playerMisses.intValue = misses
     }
 
     fun getPlayerMisses(): Int {
-        return m_playerMisses.value
+        return m_playerMisses.intValue
     }
 
     fun setComputerMisses(misses: Int) {
-        m_computerMisses.value = misses
+        m_computerMisses.intValue = misses
     }
 
     fun getComputerMisses(): Int {
-        return m_computerMisses.value
+        return m_computerMisses.intValue
     }
 
     fun setPlayerWins(wins: Int) {
-        m_playerWins.value = wins
+        m_playerWins.intValue = wins
     }
 
     fun getPlayerWins(): Int {
-        return m_playerWins.value
+        return m_playerWins.intValue
     }
 
     fun setComputerWins(wins: Int) {
-        m_computerWins.value = wins
+        m_computerWins.intValue = wins
     }
 
     fun getComputerWins() : Int {
-        return m_computerWins.value
+        return m_computerWins.intValue
     }
 
     fun setDraws(draws: Int) {
-        m_draws.value = draws
+        m_draws.intValue = draws
     }
     
     fun getDraws() : Int {
-        return m_draws.value
+        return m_draws.intValue
     }
 
     fun getLastComputerMove(): Type {

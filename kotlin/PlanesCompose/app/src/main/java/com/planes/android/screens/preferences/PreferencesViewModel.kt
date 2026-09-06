@@ -1,6 +1,7 @@
 package com.planes.android.screens.preferences
 
 
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -27,7 +28,7 @@ class PreferencesViewModel @Inject constructor(
         val PASSWORD = stringPreferencesKey("password")
     }
 
-    private var m_ComputerSkill = mutableStateOf(2)
+    private var m_ComputerSkill = mutableIntStateOf(2)
     private var m_ShowPlaneAfterKill = mutableStateOf(false)
     private var m_UserName = mutableStateOf("")
     private var m_Password = mutableStateOf("")
@@ -36,11 +37,11 @@ class PreferencesViewModel @Inject constructor(
     private var m_PasswordSaved = mutableStateOf(false)
 
     fun getComputerSkill(): Int {
-        return m_ComputerSkill.value
+        return m_ComputerSkill.intValue
     }
 
     fun setComputerSkill(value: Int) {
-        m_ComputerSkill.value = value
+        m_ComputerSkill.intValue = value
 
         viewModelScope.launch {
             dataStore.edit { prefs ->
@@ -117,7 +118,7 @@ class PreferencesViewModel @Inject constructor(
                     password = prefs[PASSWORD] ?: "")
 
             }.collect { userprefs ->
-                m_ComputerSkill.value = userprefs.computerSkill
+                m_ComputerSkill.intValue = userprefs.computerSkill
                 m_ShowPlaneAfterKill.value = userprefs.showPlaneAfterKill
                 m_UserName.value = userprefs.userName
                 m_Password.value = userprefs.password
@@ -129,7 +130,7 @@ class PreferencesViewModel @Inject constructor(
     fun savePreferences() {
         viewModelScope.launch {
             dataStore.edit { prefs ->
-                prefs[COMPUTER_SKILL] = m_ComputerSkill.value
+                prefs[COMPUTER_SKILL] = m_ComputerSkill.intValue
                 prefs[SHOW_PLANE] = m_ShowPlaneAfterKill.value
                 prefs[USERNAME] = m_UserName.value
                 prefs[PASSWORD] = m_Password.value
