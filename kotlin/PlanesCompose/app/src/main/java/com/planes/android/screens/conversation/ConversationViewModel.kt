@@ -61,7 +61,6 @@ class ConversationViewModel @Inject constructor(private val chatRepository: Chat
 
         m_ChatPartnerId.value = chatPartnerId
         m_ChatPartnerUsername.value = chatPartnerUsername
-
     }
 
     fun sendMessage() {
