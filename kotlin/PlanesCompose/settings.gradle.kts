@@ -21,5 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "PlanesCompose"
 include(":app")
-include(":app:baselineprofile")
-include(":macrobenchmark")
+

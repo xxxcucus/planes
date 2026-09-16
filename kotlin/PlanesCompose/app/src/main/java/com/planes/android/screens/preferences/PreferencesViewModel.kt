@@ -28,8 +28,8 @@ class PreferencesViewModel @Inject constructor(
         val PASSWORD = stringPreferencesKey("password")
     }
 
-    private var m_ComputerSkill = mutableIntStateOf(2)
-    private var m_ShowPlaneAfterKill = mutableStateOf(false)
+    private var m_ComputerSkill = mutableIntStateOf(0)
+    private var m_ShowPlaneAfterKill = mutableStateOf(true)
     private var m_UserName = mutableStateOf("")
     private var m_Password = mutableStateOf("")
 
@@ -112,8 +112,8 @@ class PreferencesViewModel @Inject constructor(
         viewModelScope.launch {
             dataStore.data.map { prefs ->
                 UserPreferences(
-                    computerSkill = prefs[COMPUTER_SKILL] ?: 2,
-                    showPlaneAfterKill = prefs[SHOW_PLANE] ?: false,
+                    computerSkill = prefs[COMPUTER_SKILL] ?: 0,
+                    showPlaneAfterKill = prefs[SHOW_PLANE] ?: true,
                     userName = prefs[USERNAME] ?: "",
                     password = prefs[PASSWORD] ?: "")
 
