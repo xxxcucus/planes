@@ -13,7 +13,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,30 +23,21 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 
 @Composable
-fun VideoButton(entry: VideoModel, currentVideoState: MutableState<Int>, modifier: Modifier) {
+fun VideoYouTubeButton(entry: VideoModel, modifier: Modifier) {
 
     val context = LocalContext.current
-
-    val isSelected = currentVideoState.value == entry.getVideoId()
-
-    val containerColor =
-        if (isSelected) MaterialTheme.colorScheme.onSurfaceVariant
-        else MaterialTheme.colorScheme.surfaceVariant
-
-    val borderColor =
-        if (isSelected) MaterialTheme.colorScheme.tertiary
-        else Color.Transparent
+    val containerColor = MaterialTheme.colorScheme.surfaceVariant
+    val borderColor = Color.Transparent
 
     Card(
         modifier.combinedClickable(
-            onClick = { currentVideoState.value = entry.getVideoId() },
-            onLongClick = { playLinkInYoutube(entry.getYoutubeLink(), context)}
+            onClick = { playLinkInYoutube(entry.getYoutubeLink(), context)}
         ).wrapContentHeight(),
         shape = RectangleShape,
         border = BorderStroke(2.dp, borderColor),
         colors = CardDefaults.cardColors(containerColor = containerColor),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = if (isSelected) 4.dp else 0.dp
+            defaultElevation = 0.dp
         )
     ) {
 
@@ -60,17 +50,14 @@ fun VideoButton(entry: VideoModel, currentVideoState: MutableState<Int>, modifie
             Text(
                 text = entry.getVideoName(),
                 style = MaterialTheme.typography.bodyMedium,
-                color = if (isSelected)
-                    MaterialTheme.colorScheme.onPrimaryContainer
-                else
-                    MaterialTheme.colorScheme.onSurfaceVariant,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center
             )
         }
     }
 }
 
-/*fun playLinkInYoutube(link: String, context: Context) {
+fun playLinkInYoutube(link: String, context: Context) {
     val intent = Intent(Intent.ACTION_VIEW, link.toUri()).apply {
         // Force the link to open directly in the YouTube app
         setPackage("com.google.android.youtube")
@@ -83,4 +70,4 @@ fun VideoButton(entry: VideoModel, currentVideoState: MutableState<Int>, modifie
         val browserIntent = Intent(Intent.ACTION_VIEW, link.toUri())
         context.startActivity(browserIntent)
     }
-}*/
+}

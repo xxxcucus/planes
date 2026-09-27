@@ -40,7 +40,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -121,13 +122,13 @@ fun Screen(modifier: Modifier,
         mutableStateOf(false)
     }
 
-    val splashScreenState = rememberSaveable() {
+    val splashScreenState = rememberSaveable {
         mutableStateOf(true)
     }
 
-    val configuration = LocalConfiguration.current
-    val screenWidthDp = configuration.screenWidthDp
-    val screenHeightDp = configuration.screenHeightDp
+    val containerSize = LocalWindowInfo.current.containerSize
+    val screenWidthDp = with(LocalDensity.current) { containerSize.width.toDp() }
+    val screenHeightDp = with(LocalDensity.current) { containerSize.height.toDp() }
 
     val scope = rememberCoroutineScope()
 
@@ -196,8 +197,8 @@ fun Screen(modifier: Modifier,
                     modifier = Modifier.align(Alignment.Center),
                     currentScreenState = currentScreenState,
                     showPopupState = showPopupState,
-                    screenWidth = screenWidthDp.toFloat(),
-                    screenHeight = screenHeightDp.toFloat(),
+                    screenWidth = screenWidthDp.value,
+                    screenHeight = screenHeightDp.value,
                     navController = navController
                 )
 
@@ -263,37 +264,37 @@ fun DrawerContent(modifier: Modifier = Modifier,
 
         DrawerMenuItemGeneric(stringResource(R.string.login) +  "/" + stringResource(R.string.logout),
             R.drawable.ic_baseline_login_24,
-            true, {
+            true) {
             drawerScope.launch {
                 drawerState.close()
             }
             val autologin = false
             navController.navigate(route = "${PlanesScreens.Login.name}/$autologin")
-        })
+        }
 
         DrawerMenuItemGeneric(stringResource(R.string.register), R.drawable.ic_baseline_recent_actors_24,
-            true, {
+            true) {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.Register.name)
-        })
+        }
 
         DrawerMenuItemGeneric(stringResource(R.string.chat), R.drawable.ic_baseline_toc_24,
-            userLoggedInState.value, {
+            userLoggedInState.value) {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.Chat.name)
-        })
+        }
 
         DrawerMenuItemGeneric(stringResource(R.string.delete_user), R.drawable.baseline_delete_24,
-            userLoggedInState.value, {
+            userLoggedInState.value) {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.DeleteUser.name)
-        })
+        }
 
         Text(
             text = stringResource(R.string.various_games),
@@ -302,7 +303,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
         )
 
         DrawerMenuItemGeneric(stringResource(R.string.singleplayergame), R.drawable.ic_baseline_sports_basketball_24,
-            true, {
+            true) {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -313,8 +314,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
                 navController.navigate(route = PlanesScreens.SinglePlayerGame.name)
             else
                 navController.navigate(route = PlanesScreens.SinglePlayerGameNotStarted.name)
-        })
-
+        }
 
 
         /*DrawerMenuItemGeneric(stringResource(R.string.singleplayer_game_statistics), R.drawable.ic_baseline_assessment_24,
@@ -326,15 +326,15 @@ fun DrawerContent(modifier: Modifier = Modifier,
         })*/
 
         DrawerMenuItemGeneric(stringResource(R.string.create_connectto_game),  R.drawable.ic_baseline_add_circle_24,
-            userLoggedInState.value, {
+            userLoggedInState.value) {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.CreateMultiplayerGame.name)
-        })
+        }
 
         DrawerMenuItemGeneric(stringResource(R.string.multiplayergame), R.drawable.ic_baseline_sports_basketball_24,
-            userLoggedInState.value, {
+            userLoggedInState.value) {
             drawerScope.launch {
                 drawerState.close()
             }
@@ -344,7 +344,7 @@ fun DrawerContent(modifier: Modifier = Modifier,
                 navController.navigate(route = PlanesScreens.MultiplayerGame.name)
             else
                 navController.navigate(route = PlanesScreens.MultiplayerGameNotStarted.name)
-        })
+        }
 
         /*DrawerMenuItemGeneric(stringResource(R.string.multiplayer_game_statistics), R.drawable.ic_baseline_assessment_24,
             userLoggedInState.value, {
@@ -361,30 +361,31 @@ fun DrawerContent(modifier: Modifier = Modifier,
         )
 
         DrawerMenuItemGeneric(stringResource(R.string.about), R.drawable.ic_baseline_toc_24,
-            true, {
+            true) {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.Info.name)
-        })
+        }
 
         DrawerMenuItemGeneric(stringResource(R.string.tutorials), R.drawable.ic_baseline_video_library_24,
-            true, {
+            true) {
             drawerScope.launch {
                 drawerState.close()
             }
             val videoId = R.raw.guessing
             val time = 0
-            navController.navigate(route = "${PlanesScreens.Tutorials.name}/${videoId}/${time}")
-        })
+            //navController.navigate(route = "${PlanesScreens.Tutorials.name}/${videoId}/${time}")
+            navController.navigate(PlanesScreens.YouTubeTutorials.name)
+        }
 
         DrawerMenuItemGeneric(stringResource(R.string.options), R.drawable.ic_baseline_app_settings_alt_24,
-            true,{
+            true) {
             drawerScope.launch {
                 drawerState.close()
             }
             navController.navigate(route = PlanesScreens.Preferences.name)
-        })
+        }
     }
 }
 

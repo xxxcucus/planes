@@ -1,7 +1,8 @@
 package com.planes.android.screens.video
 
 
-class VideoModel(videoName: String, videoId: Int, videoDuration: String, currentPosition: Long,
+class VideoModel(videoName: String, videoId: Int, videoDescription: String,
+                 videoDuration: String, currentPosition: Long,
                  videoRatio: Float, youtubeLink: String) {
 
     private var m_VideoName: String = videoName
@@ -11,12 +12,18 @@ class VideoModel(videoName: String, videoId: Int, videoDuration: String, current
     private var m_CurrentPosition: Long = currentPosition
     private var m_YoutubeLink: String = youtubeLink
 
+    private var m_VideoDescription: String = videoDescription
+
     fun getVideoName(): String {
         return m_VideoName
     }
 
     fun getVideoId(): Int {
         return m_VideoId
+    }
+
+    fun getVideoDescription(): String {
+        return m_VideoDescription
     }
 
     fun getVideoDuration(): String {

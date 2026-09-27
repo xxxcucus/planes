@@ -13,6 +13,7 @@ enum class PlanesScreens {
     MultiplayerConnectToGame,
     Info,
     Tutorials,
+    YouTubeTutorials,
     Login,
     Register,
     NoRobot,
@@ -26,6 +27,7 @@ enum class PlanesScreens {
             when(route?.substringBefore("/")) {
                 Info.name -> Info
                 Tutorials.name -> Tutorials
+                YouTubeTutorials.name -> YouTubeTutorials
                 SinglePlayerGame.name -> SinglePlayerGame
                 SinglePlayerBoardEditing.name -> SinglePlayerBoardEditing
                 SinglePlayerGameNotStarted.name -> SinglePlayerGameNotStarted
