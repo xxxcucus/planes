@@ -39,7 +39,7 @@ fun GridSquareBoardEditing(
             })
      {
 
-         val planeOverlapColor = Color.Red
+        val planeOverlapColor = Color.Red
         var squareColor = backgroundColor
         val cockpitColor = Color.Blue
         val selectedPlaneColor = Color.Black

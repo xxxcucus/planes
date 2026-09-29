@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
@@ -56,8 +57,11 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: Mutable
 
     val configuration = LocalConfiguration.current
     val containerSize = LocalWindowInfo.current.containerSize
-    val screenWidthDp = with(LocalDensity.current) { containerSize.width.toDp() }
-    val screenHeightDp = with(LocalDensity.current) { containerSize.height.toDp() }
+    //val screenWidthDp = with(LocalDensity.current) { containerSize.width.toDp() }
+    //val screenHeightDp = with(LocalDensity.current) { containerSize.height.toDp() }
+
+    val screenWidthDp = configuration.screenWidthDp.dp
+    val screenHeightDp = configuration.screenHeightDp.dp
 
     var squareSizeDp = screenWidthDp / playerGridViewModel.getColNo()
 

@@ -70,8 +70,8 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var planeRoundMultiplayer: MultiPlayerRoundInterface
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        super.onCreate(savedInstanceState)
 
         setContent {
             PlanesComposeTheme {
