@@ -40,6 +40,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
@@ -132,9 +133,9 @@ fun Screen(modifier: Modifier,
         mutableStateOf(true)
     }
 
-    val containerSize = LocalWindowInfo.current.containerSize
-    val screenWidthDp = with(LocalDensity.current) { containerSize.width.toDp() }
-    val screenHeightDp = with(LocalDensity.current) { containerSize.height.toDp() }
+    val configuration = LocalConfiguration.current
+    val screenWidthDp = configuration.screenWidthDp.dp
+    val screenHeightDp = configuration.screenHeightDp.dp
 
     val scope = rememberCoroutineScope()
 

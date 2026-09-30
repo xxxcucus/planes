@@ -38,9 +38,8 @@ fun NoRobotScreen(modifier: Modifier, currentTitleState: MutableState<String>,
     showPopupState.value = false
 
     val configuration = LocalConfiguration.current
-    val containerSize = LocalWindowInfo.current.containerSize
-    val screenWidthDp = with(LocalDensity.current) { containerSize.width.toDp() }
-    val screenHeightDp = with(LocalDensity.current) { containerSize.height.toDp() }
+    val screenWidthDp = configuration.screenWidthDp.dp
+    val screenHeightDp = configuration.screenHeightDp.dp
     var squareSizeDp = screenWidthDp / 2
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
