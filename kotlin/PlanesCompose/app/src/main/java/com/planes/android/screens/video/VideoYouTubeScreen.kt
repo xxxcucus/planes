@@ -37,8 +37,7 @@ fun VideoYouTubeScreen(modifier: Modifier, currentTitleState: MutableState<Strin
     val videoEntryList: List<VideoModel> = videoModelRepository.getPlayList()
     
     val configuration = LocalConfiguration.current
-    val containerSize = LocalWindowInfo.current.containerSize
-    val screenWidthDp = with(LocalDensity.current) { containerSize.width.toDp() }
+    val screenWidthDp = configuration.screenWidthDp.dp
     val buttonWidth = screenWidthDp / 3
 
     Column(

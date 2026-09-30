@@ -43,7 +43,7 @@ import com.planes.android.screens.singleplayergame.GameStatsViewModelSinglePlaye
 import com.planes.android.screens.singleplayergame.PlayerGridViewModelSinglePlayer
 import com.planes.android.screens.splash.SplashScreen
 import com.planes.android.screens.video.VideoModelRepository
-import com.planes.android.screens.video.VideoScreen
+import com.planes.android.screens.video.VideoModelRepositoryInterface
 import com.planes.android.screens.video.VideoYouTubeScreen
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
 import com.planes.singleplayerengine.SinglePlayerRoundInterface
@@ -58,7 +58,8 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
                      splashScreenState: MutableState<Boolean>,
                      navController: NavHostController,
                      planeRound: SinglePlayerRoundInterface,
-                     planeRoundMultiplayer: MultiPlayerRoundInterface
+                     planeRoundMultiplayer: MultiPlayerRoundInterface,
+                     videoModelRepository: VideoModelRepositoryInterface
 ) {
 
     val playerGridViewModelSinglePlayer: PlayerGridViewModelSinglePlayer = hiltViewModel()
@@ -167,7 +168,7 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
                 showPopupState,
                 aboutEntryList = AboutEntryRepository.create(versionName, context = context))
         }
-        composable("${PlanesScreens.Tutorials.name}/{videoId}/{time}",
+        /*composable("${PlanesScreens.Tutorials.name}/{videoId}/{time}",
             arguments = listOf(
                 navArgument("videoId") { type = NavType.IntType },
                 navArgument("time") { type = NavType.IntType })) { entry ->
@@ -178,14 +179,8 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
                 showPopupState, videoId
             )
             //PlayerRoute(modifier = modifier)
-        }
+        }*/
         composable(PlanesScreens.YouTubeTutorials.name) {
-            val context = LocalContext.current
-            val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-            val videoModelRepository = VideoModelRepository()
-            videoModelRepository.create(context)
-            //TODO: to optimize with DI
-
             VideoYouTubeScreen(modifier = modifier, currentTitleState, currentScreenState,
                 showPopupState, videoModelRepository)
         }

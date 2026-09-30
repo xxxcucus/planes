@@ -8,7 +8,4 @@ interface VideoModelRepositoryInterface {
 
     fun getPlayList(): List<VideoModel>
 
-    fun setResumePosition(videoId: Int, position: Long)
-
-    fun getResumePosition(videoId: Int): Long
 }

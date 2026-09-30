@@ -10,14 +10,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.planes.android.navigation.PlanesScreens
+import com.planes.android.screens.video.VideoModelRepository
+import com.planes.android.screens.video.VideoModelRepositoryInterface
+import com.planes.android.utils.YouTubeUtils
 
 @Composable
 fun TextPopupWithButton(title: String, description: String, buttonText: String,
-                        videoId: Int, navController: NavHostController) {
+                        videoId: Int, navController: NavHostController,
+                        videoModelRepository: VideoModelRepositoryInterface
+) {
+    val context = LocalContext.current
+
     Column( modifier = Modifier.wrapContentHeight().
     fillMaxWidth().padding(15.dp)) {
         Text(text = title,
@@ -31,8 +39,9 @@ fun TextPopupWithButton(title: String, description: String, buttonText: String,
         )
         Button(
             onClick = {
-                val time = 0
-                navController.navigate(route = "${PlanesScreens.Tutorials.name}/${videoId}/${time}")
+                val videos = videoModelRepository.getPlayList()
+                if (videoId < videos.size)
+                    YouTubeUtils.playLinkInYoutube(videos[videoId].getYoutubeLink(), context)
             },
             modifier = Modifier.align(Alignment.End)
         ) {

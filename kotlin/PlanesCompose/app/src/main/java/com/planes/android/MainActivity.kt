@@ -53,6 +53,8 @@ import com.planes.android.navigation.DrawerMenuItemGeneric
 import com.planes.android.navigation.PlanesNavigation
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.screens.preferences.PreferencesViewModel
+import com.planes.android.screens.video.VideoModelRepository
+import com.planes.android.screens.video.VideoModelRepositoryInterface
 import com.planes.android.ui.theme.PlanesComposeTheme
 import com.planes.android.widgets.HelpPopupBox
 import com.planes.multiplayerengine.MultiPlayerRoundInterface
@@ -69,6 +71,8 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var planeRound: SinglePlayerRoundInterface
     @Inject lateinit var planeRoundMultiplayer: MultiPlayerRoundInterface
 
+    @Inject lateinit var videoModelRepository: VideoModelRepositoryInterface
+
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
@@ -79,7 +83,8 @@ class MainActivity : ComponentActivity() {
                 Screen(modifier = Modifier,
                     navController = navController,
                     planeRound = planeRound,
-                    planeRoundMultiplayer = planeRoundMultiplayer)
+                    planeRoundMultiplayer = planeRoundMultiplayer,
+                    videoModelRepository = videoModelRepository)
             }
         }
     }
@@ -92,7 +97,8 @@ class MainActivity : ComponentActivity() {
 fun Screen(modifier: Modifier,
            navController: NavHostController,
            planeRound: SinglePlayerRoundInterface,
-           planeRoundMultiplayer: MultiPlayerRoundInterface) {
+           planeRoundMultiplayer: MultiPlayerRoundInterface,
+           videoModelRepository: VideoModelRepositoryInterface) {
 
     val optionsViewModel: PreferencesViewModel = hiltViewModel()
     planeRound.setComputerSkill(optionsViewModel.getComputerSkill())
@@ -188,8 +194,9 @@ fun Screen(modifier: Modifier,
                     userLoggedInState = userLoggedInState,
                     splashScreenState = splashScreenState,
                     navController = navController,
-                    planeRound,
-                    planeRoundMultiplayer
+                    planeRound = planeRound,
+                    planeRoundMultiplayer = planeRoundMultiplayer,
+                    videoModelRepository = videoModelRepository
                 )
 
 
@@ -199,7 +206,8 @@ fun Screen(modifier: Modifier,
                     showPopupState = showPopupState,
                     screenWidth = screenWidthDp.value,
                     screenHeight = screenHeightDp.value,
-                    navController = navController
+                    navController = navController,
+                    videoModelRepository = videoModelRepository
                 )
 
             }
@@ -218,7 +226,8 @@ fun ScreenContent(modifier: Modifier, currentTitleState: MutableState<String>,
                   splashScreenState: MutableState<Boolean>,
                   navController: NavHostController,
                   planeRound: SinglePlayerRoundInterface,
-                  planeRoundMultiplayer: MultiPlayerRoundInterface
+                  planeRoundMultiplayer: MultiPlayerRoundInterface,
+                  videoModelRepository: VideoModelRepositoryInterface
                   ) {
 
 
@@ -229,7 +238,8 @@ fun ScreenContent(modifier: Modifier, currentTitleState: MutableState<String>,
             splashScreenState,
             navController,
             planeRound,
-            planeRoundMultiplayer
+            planeRoundMultiplayer,
+            videoModelRepository
         )
 
 }
@@ -373,8 +383,8 @@ fun DrawerContent(modifier: Modifier = Modifier,
             drawerScope.launch {
                 drawerState.close()
             }
-            val videoId = R.raw.guessing
-            val time = 0
+            //val videoId = R.raw.guessing
+            //val time = 0
             //navController.navigate(route = "${PlanesScreens.Tutorials.name}/${videoId}/${time}")
             navController.navigate(PlanesScreens.YouTubeTutorials.name)
         }

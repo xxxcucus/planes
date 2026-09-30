@@ -1,7 +1,5 @@
 package com.planes.android.screens.video
 
-import android.content.Context
-import android.content.Intent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
@@ -20,7 +18,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
+import com.planes.android.utils.YouTubeUtils
+
 
 @Composable
 fun VideoYouTubeButton(entry: VideoModel, modifier: Modifier) {
@@ -31,7 +30,7 @@ fun VideoYouTubeButton(entry: VideoModel, modifier: Modifier) {
 
     Card(
         modifier.combinedClickable(
-            onClick = { playLinkInYoutube(entry.getYoutubeLink(), context)}
+            onClick = { YouTubeUtils.playLinkInYoutube(entry.getYoutubeLink(), context)}
         ).wrapContentHeight(),
         shape = RectangleShape,
         border = BorderStroke(2.dp, borderColor),
@@ -57,17 +56,3 @@ fun VideoYouTubeButton(entry: VideoModel, modifier: Modifier) {
     }
 }
 
-fun playLinkInYoutube(link: String, context: Context) {
-    val intent = Intent(Intent.ACTION_VIEW, link.toUri()).apply {
-        // Force the link to open directly in the YouTube app
-        setPackage("com.google.android.youtube")
-    }
-
-    // Fallback to a web browser if the YouTube app is uninstalled
-    if (context.packageManager.resolveActivity(intent, 0) != null) {
-        context.startActivity(intent)
-    } else {
-        val browserIntent = Intent(Intent.ACTION_VIEW, link.toUri())
-        context.startActivity(browserIntent)
-    }
-}
