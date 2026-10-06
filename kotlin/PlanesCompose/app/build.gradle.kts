@@ -26,7 +26,7 @@ android {
     buildTypes {
         getByName("release") {
             optimization {
-                enable = false // Enables code and resource optimizations.
+                enable = true // Enables code and resource optimizations.
             }
 
             proguardFiles(

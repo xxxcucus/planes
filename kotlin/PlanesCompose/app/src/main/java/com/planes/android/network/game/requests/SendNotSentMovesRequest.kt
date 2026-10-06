@@ -1,9 +1,11 @@
 package com.planes.android.network.game.requests
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import com.planes.android.network.user.requests.BasisRequest
 import java.util.*
 
+@Keep
 class SendNotSentMovesRequest (
 
     @SerializedName("gameId")

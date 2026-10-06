@@ -1,8 +1,10 @@
 package com.planes.android.network.user.responses
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
 
+@Keep
 data class NoRobotResponse (
     @SerializedName("id")
     var m_UserId: String,

@@ -1,8 +1,10 @@
 package com.planes.android.network.user.responses
 
 import android.util.Log
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 class LoginResponseWithAuthorization(
     @SerializedName("id")
     override var m_Id: String,

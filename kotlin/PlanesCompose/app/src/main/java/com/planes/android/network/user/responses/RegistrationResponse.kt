@@ -1,9 +1,11 @@
 package com.planes.android.network.user.responses
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import java.util.Date
 
 
+@Keep
 data class RegistrationResponse (
     @SerializedName("id")
     var m_Id: String,

@@ -1,9 +1,11 @@
 package com.planes.android.network.game.responses
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import com.planes.android.network.game.requests.SingleMoveRequest
 import java.util.*
 
+@Keep
 class SendNotSentMovesResponse (
 
     @SerializedName("roundId")

@@ -1,7 +1,9 @@
 package com.planes.android.network.user.requests
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 class SendChatMessageRequest (
     @SerializedName("receiverId")
     val m_ReceiverId: String,
