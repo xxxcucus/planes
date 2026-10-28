@@ -103,64 +103,64 @@ fun GridSquareGame(
         }
 
         if (isComputer) {
-            drawNonPlaneBoardSquareBackground(size.width, squareColor, this)
+            drawNonPlaneBoardSquareBackground(size.width, size.height, squareColor, this)
         } else {
             if (annotation != 0) {
-                drawPlaneBoardSquareBackground(size.width, squareColor, this)
+                drawPlaneBoardSquareBackground(size.width, size.height, squareColor, this)
             } else {
-                drawNonPlaneBoardSquareBackground(size.width, squareColor, this)
+                drawNonPlaneBoardSquareBackground(size.width, size.height, squareColor, this)
             }
         }
 
         if (guess != null) {
-            drawPlaneBoardSquareGuess(size.width, guess, this)
+            drawPlaneBoardSquareGuess(size.width, size.height, guess, this)
         }
     }
 
 
 }
 
-fun drawPlaneBoardSquareBackground(dim: Float,
+fun drawPlaneBoardSquareBackground(dimX: Float, dimY: Float,
                                    squareColor: Color,
                                    drawScope: DrawScope) {
     drawScope.drawRect(brush = Brush.linearGradient(
         colors = listOf(squareColor, Color(0xFF81C784)), // dark to light green
         start = Offset.Zero,
-        end = Offset(dim, dim)
+        end = Offset(dimX, dimY)
     ), style = Fill)
 }
 
-fun drawNonPlaneBoardSquareBackground(dim: Float,
+fun drawNonPlaneBoardSquareBackground(dimX: Float, dimY: Float,
                                    squareColor: Color,
                                    drawScope: DrawScope) {
     drawScope.drawRect(color = squareColor,
         topLeft = Offset.Zero,
-        size = Size(dim, dim),
+        size = Size(dimX, dimY),
         style = Fill
     )
 
     drawScope.drawRect(color = Color.Red,
         topLeft = Offset.Zero,
-        size = Size(dim, dim),
+        size = Size(dimX, dimY),
         style = Stroke(width = 4f)
     )
 }
 
-fun drawPlaneBoardSquareGuess(dim: Float, guess: GuessPoint, drawScope: DrawScope) {
+fun drawPlaneBoardSquareGuess(dimX: Float, dimY: Float, guess: GuessPoint, drawScope: DrawScope) {
     if (guess.isMiss) {
         drawScope.drawOval(color = Color.Red,
-            topLeft = Offset(dim / 4, dim / 4),
-            size = Size(dim / 2, dim / 2),
+            topLeft = Offset(dimX / 4, dimY / 4),
+            size = Size(dimX / 2, dimY / 2),
             style = Fill)
     }
 
     if (guess.isHit) {
         val path = Path().apply {
-            moveTo(0f, dim / 2)
-            lineTo(dim / 2, 0f)
-            lineTo(dim, dim / 2)
-            lineTo(dim / 2, dim)
-            lineTo(0f, dim / 2)
+            moveTo(0f, dimY / 2)
+            lineTo(dimX / 2, 0f)
+            lineTo(dimX, dimY / 2)
+            lineTo(dimX / 2, dimY)
+            lineTo(0f, dimY / 2)
             close()
         }
         drawScope.drawPath(
@@ -173,11 +173,11 @@ fun drawPlaneBoardSquareGuess(dim: Float, guess: GuessPoint, drawScope: DrawScop
     if (guess.isDead) {
         drawScope.drawLine(color = Color.Red,
             start = Offset (0f, 0f),
-            end = Offset(dim, dim),
+            end = Offset(dimX, dimY),
             strokeWidth = 4f)
         drawScope.drawLine(color = Color.Red,
-            start = Offset(0f, dim),
-            end = Offset(dim, 0f),
+            start = Offset(0f, dimY),
+            end = Offset(dimX, 0f),
             strokeWidth = 4f)
     }
 }

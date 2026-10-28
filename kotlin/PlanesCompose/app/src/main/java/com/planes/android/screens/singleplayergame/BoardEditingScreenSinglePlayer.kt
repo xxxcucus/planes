@@ -112,7 +112,6 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: Mutabl
         }
     } else {  //landscape
         Row {
-
             GameBoardSinglePlayer(playerGridViewModel.getRowNo(), playerGridViewModel.getColNo(),
                 modifier = Modifier.width(boardSizeDp)
                     .height(boardSizeDp)

@@ -83,13 +83,13 @@ fun GridSquareGameNotStarted(
         }
 
         if (annotation != 0)
-            drawPlaneBoardSquareBackground(size.width, squareColor, this)
+            drawPlaneBoardSquareBackground(size.width, size.height,squareColor, this)
         else {
-            drawNonPlaneBoardSquareBackground(size.width, squareColor, this)
+            drawNonPlaneBoardSquareBackground(size.width, size.height,squareColor, this)
         }
 
         if (guess != null) {
-            drawPlaneBoardSquareGuess(size.width, guess, this)
+            drawPlaneBoardSquareGuess(size.width, size.height, guess, this)
         }
     }
 }
