@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.planes.singleplayerengine.GuessPoint
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds

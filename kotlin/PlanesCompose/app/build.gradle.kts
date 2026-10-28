@@ -17,8 +17,8 @@ android {
         applicationId = "com.planes.android"
         minSdk = 26
         targetSdk = 37
-        versionCode = 40
-        versionName = "0.5.0.5"
+        versionCode = 41
+        versionName = "0.5.0.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
