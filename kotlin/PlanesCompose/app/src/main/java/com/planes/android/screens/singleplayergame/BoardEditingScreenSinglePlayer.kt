@@ -33,7 +33,8 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: Mutabl
                                    currentScreenState: MutableState<String>,
                                    showPopupState: MutableState<Boolean>,
                                    navController: NavController,
-                                   playerGridViewModel: PlayerGridViewModelSinglePlayer
+                                   playerGridViewModel: PlayerGridViewModelSinglePlayer,
+                                   topPadding: Dp
 ) {
 
     currentTitleState.value = stringResource(R.string.game)
@@ -41,15 +42,22 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: Mutabl
     showPopupState.value = false
 
     val configuration = LocalConfiguration.current
-    val containerSize = LocalWindowInfo.current.containerSize
     val screenWidthDp = configuration.screenWidthDp.dp
     val screenHeightDp = configuration.screenHeightDp.dp
-    //val screenWidthDp = with(LocalDensity.current) { containerSize.width.toDp() }
-    //val screenHeightDp = with(LocalDensity.current) { containerSize.height.toDp() }
+
     var squareSizeDp = screenWidthDp / playerGridViewModel.getColNo()
 
+    /*if (screenWidthDp >= 600.dp) {
+        squareSizeDp = screenWidthDp * 6 / 10 / playerGridViewModel.getColNo()
+    }*/
+
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        squareSizeDp = screenHeightDp / playerGridViewModel.getRowNo()
+        squareSizeDp = (screenHeightDp - topPadding) / playerGridViewModel.getRowNo()
+
+        /*if (screenHeightDp >= 600.dp) {
+            squareSizeDp = screenHeightDp * 6 / 10 / playerGridViewModel.getRowNo()
+        }*/
+
     }
 
     val boardSizeDp = squareSizeDp * playerGridViewModel.getRowNo()
@@ -99,7 +107,7 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: Mutabl
                    })
            {
                for (index in 0..99) {
-                   BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, playerGridViewModel) {
+                   BoardSquareBoardEditing(index, squareSizeDp, playerGridViewModel) {
                        val row = index / playerGridViewModel.getColNo()
                        val col = index % playerGridViewModel.getColNo()
                        playerGridViewModel.setSelectedPlane(row, col)}
@@ -133,7 +141,7 @@ fun BoardEditingScreenSinglePlayer(modifier: Modifier, currentTitleState: Mutabl
                     })
             {
                 for (index in 0..99)
-                    BoardSquareBoardEditing(index, squareSizeDp, squareSizePx, playerGridViewModel) {
+                    BoardSquareBoardEditing(index, squareSizeDp,  playerGridViewModel) {
                         val row = index / playerGridViewModel.getColNo()
                         val col = index % playerGridViewModel.getColNo()
                         playerGridViewModel.setSelectedPlane(row, col)

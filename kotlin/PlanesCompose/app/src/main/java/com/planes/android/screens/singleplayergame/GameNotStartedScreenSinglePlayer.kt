@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.planes.android.R
@@ -30,7 +31,8 @@ fun GameNotStartedScreenSinglePlayer(modifier: Modifier, currentTitleState: Muta
                                      navController: NavController,
                                      planeRound: SinglePlayerRoundInterface,
                                      playerGridViewModel: PlayerGridViewModelSinglePlayer,
-                                     computerGridViewModel: ComputerGridViewModelSinglePlayer
+                                     computerGridViewModel: ComputerGridViewModelSinglePlayer,
+                                     topPadding: Dp
 ) {
 
     currentTitleState.value = stringResource(R.string.game)
@@ -48,7 +50,7 @@ fun GameNotStartedScreenSinglePlayer(modifier: Modifier, currentTitleState: Muta
     var squareSizeDp = screenWidthDp / playerGridViewModel.getColNo()
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        squareSizeDp = screenHeightDp / playerGridViewModel.getRowNo()
+        squareSizeDp = (screenHeightDp - topPadding) / playerGridViewModel.getRowNo()
     }
 
     val boardSizeDp = squareSizeDp * playerGridViewModel.getRowNo()

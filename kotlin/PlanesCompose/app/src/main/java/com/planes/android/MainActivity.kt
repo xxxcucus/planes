@@ -2,6 +2,7 @@ package com.planes.android
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -45,6 +46,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -105,6 +107,8 @@ fun Screen(modifier: Modifier,
     planeRound.setComputerSkill(optionsViewModel.getComputerSkill())
     planeRound.setShowPlaneAfterKill(optionsViewModel.getShowPlaneAfterKill())
 
+
+
     val drawerState = rememberDrawerState(
         initialValue = DrawerValue.Closed
     )
@@ -137,8 +141,8 @@ fun Screen(modifier: Modifier,
     val screenWidthDp = configuration.screenWidthDp.dp
     val screenHeightDp = configuration.screenHeightDp.dp
 
+    //val isTablet = screenWidthDp >= 600.dp || screenHeightDp >= 600.dp
     val scope = rememberCoroutineScope()
-
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -163,7 +167,9 @@ fun Screen(modifier: Modifier,
             topBar = {
                 if (!splashScreenState.value) {
                     TopBar(
-                        modifier = Modifier.padding(0.dp).fillMaxWidth(),
+                        modifier = Modifier
+                            .padding(0.dp)
+                            .fillMaxWidth(),
                         onOpenDrawer = {
                             scope.launch {
                                 drawerState.apply {
@@ -183,10 +189,20 @@ fun Screen(modifier: Modifier,
             }
         ) { padding ->
 
-            Box(modifier = Modifier.padding(padding).fillMaxSize()
+            val topPadding = padding.calculateTopPadding()
+
+            /*val topPadding = paddingValues.calculateTopPadding()
+            val bottomPadding = paddingValues.calculateBottomPadding()
+            val leftPadding = paddingValues.calculateLeftPadding(LayoutDirection.Ltr)
+            val rightPadding = paddingValues.calculateRightPadding(LayoutDirection.Ltr)*/
+
+            Box(modifier = Modifier
+                .padding(padding)
+                .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)) {
                 ScreenContent(
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier
+                        .align(Alignment.Center)
                         .background(MaterialTheme.colorScheme.background),
                     currentTitleState = currentTitleState,
                     currentScreenState = currentScreenState,
@@ -197,7 +213,8 @@ fun Screen(modifier: Modifier,
                     navController = navController,
                     planeRound = planeRound,
                     planeRoundMultiplayer = planeRoundMultiplayer,
-                    videoModelRepository = videoModelRepository
+                    videoModelRepository = videoModelRepository,
+                    topPadding = topPadding
                 )
 
 
@@ -228,7 +245,8 @@ fun ScreenContent(modifier: Modifier, currentTitleState: MutableState<String>,
                   navController: NavHostController,
                   planeRound: SinglePlayerRoundInterface,
                   planeRoundMultiplayer: MultiPlayerRoundInterface,
-                  videoModelRepository: VideoModelRepositoryInterface
+                  videoModelRepository: VideoModelRepositoryInterface,
+                  topPadding: Dp
                   ) {
 
 
@@ -240,7 +258,8 @@ fun ScreenContent(modifier: Modifier, currentTitleState: MutableState<String>,
             navController,
             planeRound,
             planeRoundMultiplayer,
-            videoModelRepository
+            videoModelRepository,
+            topPadding
         )
 
 }
@@ -256,7 +275,8 @@ fun DrawerContent(modifier: Modifier = Modifier,
                   ) {
     
     Column(
-        modifier = Modifier.padding(horizontal = 16.dp)
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
             .verticalScroll(rememberScrollState())
     ) {
         Text(
@@ -418,9 +438,11 @@ fun TopBar(modifier: Modifier = Modifier,
             Icon(
                 imageVector = Icons.Default.Menu,
                 contentDescription = "Navigation Icon",
-                modifier = Modifier.clickable {
-                    onOpenDrawer()
-                }. padding(start = 16.dp, end = 8.dp)
+                modifier = Modifier
+                    .clickable {
+                        onOpenDrawer()
+                    }
+                    .padding(start = 16.dp, end = 8.dp)
                     .size(28.dp))
         },
         title = {
@@ -431,7 +453,8 @@ fun TopBar(modifier: Modifier = Modifier,
                 Icon(
                     imageVector = Icons.Default.Email,
                     contentDescription = "Navigation Icon",
-                    modifier = Modifier.padding(start = 16.dp, end = 8.dp)
+                    modifier = Modifier
+                        .padding(start = 16.dp, end = 8.dp)
                         .size(28.dp)
                 )
             }

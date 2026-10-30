@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.Dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -59,7 +60,8 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
                      navController: NavHostController,
                      planeRound: SinglePlayerRoundInterface,
                      planeRoundMultiplayer: MultiPlayerRoundInterface,
-                     videoModelRepository: VideoModelRepositoryInterface
+                     videoModelRepository: VideoModelRepositoryInterface,
+                     topPadding: Dp
 ) {
 
     val playerGridViewModelSinglePlayer: PlayerGridViewModelSinglePlayer = hiltViewModel()
@@ -100,20 +102,24 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
                currentTitleState, currentScreenState, showPopupState,
                navController = navController,
                planeRound,
-               playerGridViewModelSinglePlayer, computerGridViewModelSinglePlayer, gameStatsViewModelSinglePlayer)
+               playerGridViewModelSinglePlayer, computerGridViewModelSinglePlayer,
+               gameStatsViewModelSinglePlayer,
+               topPadding)
         }
         composable(PlanesScreens.SinglePlayerBoardEditing.name) {
             BoardEditingScreenSinglePlayer(modifier = modifier,
                 currentTitleState, currentScreenState, showPopupState,
                 navController = navController,
-                playerGridViewModelSinglePlayer)
+                playerGridViewModelSinglePlayer,
+                topPadding)
         }
         composable(PlanesScreens.SinglePlayerGameNotStarted.name) {
             GameNotStartedScreenSinglePlayer(modifier = modifier,
                 currentTitleState, currentScreenState, showPopupState,
                 navController = navController,
                 planeRound,
-                playerGridViewModelSinglePlayer, computerGridViewModelSinglePlayer)
+                playerGridViewModelSinglePlayer, computerGridViewModelSinglePlayer,
+                topPadding)
         }
         composable(PlanesScreens.SinglePlayerGameStatistics.name) {
             SinglePlayerGameStatisticsScreen(modifier = modifier, currentTitleState,
@@ -140,21 +146,25 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
                 navController = navController,
                 loginViewModel, createViewModel,
                 playerGridViewModelMultiPlayer,
-                computerGridViewModelMultiPlayer)
+                computerGridViewModelMultiPlayer,
+                topPadding)
         }
         composable(PlanesScreens.MultiplayerGame.name) {
             GameScreenMultiPlayer(modifier = modifier,
                 currentTitleState, currentScreenState, showPopupState,
                 navController = navController,
                 planeRoundMultiplayer,
-                playerGridViewModelMultiPlayer, computerGridViewModelMultiPlayer, gameStatsViewModelMultiPlayer)
+                playerGridViewModelMultiPlayer, computerGridViewModelMultiPlayer,
+                gameStatsViewModelMultiPlayer,
+                topPadding)
         }
         composable(PlanesScreens.MultiplayerGameNotStarted.name) {
             GameNotStartedScreenMultiPlayer(modifier = modifier,
                 currentTitleState, currentScreenState, showPopupState,
                 navController = navController,
                 planeRoundMultiplayer,
-                playerGridViewModelMultiPlayer, computerGridViewModelMultiPlayer)
+                playerGridViewModelMultiPlayer, computerGridViewModelMultiPlayer,
+                topPadding)
         }
         composable(PlanesScreens.MultiplayerGameStatistics.name) {
             MultiplayerGameStatisticsScreen(modifier = modifier, currentTitleState,

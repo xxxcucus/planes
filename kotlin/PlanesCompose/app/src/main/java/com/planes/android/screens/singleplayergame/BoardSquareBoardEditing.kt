@@ -6,7 +6,7 @@ import androidx.compose.ui.unit.Dp
 
 @Composable
 fun BoardSquareBoardEditing(
-    index: Int, squareSizeDp: Dp, squareSizePx: Float,
+    index: Int, squareSizeDp: Dp,
     planesGridViewModel: PlaneGridViewModel,
     onClick: (Int) -> Unit
 ) {

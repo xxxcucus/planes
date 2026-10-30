@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.planes.android.R
@@ -40,7 +41,8 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
                           planeRound: MultiPlayerRoundInterface,
                           playerGridViewModel: PlayerGridViewModelMultiPlayer,
                           computerGridViewModel: ComputerGridViewModelMultiPlayer,
-                          gameStatsViewModelMultiPlayer: GameStatsViewModelMultiPlayer
+                          gameStatsViewModelMultiPlayer: GameStatsViewModelMultiPlayer,
+                          topPadding: Dp
 ) {
 
     currentTitleState.value = stringResource(R.string.game)
@@ -58,7 +60,7 @@ fun GameScreenMultiPlayer(modifier: Modifier, currentTitleState: MutableState<St
     var squareSizeDp = screenWidthDp / playerGridViewModel.getColNo()
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        squareSizeDp = screenHeightDp / playerGridViewModel.getRowNo()
+        squareSizeDp = (screenHeightDp - topPadding) / playerGridViewModel.getRowNo()
     }
 
     val boardSizeDp = squareSizeDp * playerGridViewModel.getRowNo()

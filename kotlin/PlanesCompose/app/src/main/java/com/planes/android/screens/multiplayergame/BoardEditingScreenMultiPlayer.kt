@@ -48,7 +48,8 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: Mutable
                                   loginViewModel: LoginViewModel,
                                   createViewModel: CreateViewModel,
                                   playerGridViewModel: PlayerGridViewModelMultiPlayer,
-                                  computerGridViewModel: ComputerGridViewModelMultiPlayer
+                                  computerGridViewModel: ComputerGridViewModelMultiPlayer,
+                                  topPadding: Dp
 ) {
 
     currentTitleState.value = stringResource(R.string.game)
@@ -66,7 +67,7 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: Mutable
     var squareSizeDp = screenWidthDp / playerGridViewModel.getColNo()
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        squareSizeDp = screenHeightDp / playerGridViewModel.getRowNo()
+        squareSizeDp = (screenHeightDp - topPadding) / playerGridViewModel.getRowNo()
     }
 
     val boardSizeDp = squareSizeDp * playerGridViewModel.getRowNo()
@@ -152,7 +153,6 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: Mutable
                         BoardSquareBoardEditing(
                             index,
                             squareSizeDp,
-                            squareSizePx,
                             playerGridViewModel) {
                             val row = index / playerGridViewModel.getColNo()
                             val col = index % playerGridViewModel.getColNo()
@@ -275,7 +275,6 @@ fun BoardEditingScreenMultiPlayer(modifier: Modifier, currentTitleState: Mutable
                         BoardSquareBoardEditing(
                             index,
                             squareSizeDp,
-                            squareSizePx,
                             playerGridViewModel) {
                             val row = index / playerGridViewModel.getColNo()
                             val col = index % playerGridViewModel.getColNo()
