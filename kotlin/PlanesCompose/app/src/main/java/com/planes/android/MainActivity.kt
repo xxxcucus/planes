@@ -2,7 +2,6 @@ package com.planes.android
 
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -42,8 +41,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
@@ -56,7 +53,6 @@ import com.planes.android.navigation.DrawerMenuItemGeneric
 import com.planes.android.navigation.PlanesNavigation
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.screens.preferences.PreferencesViewModel
-import com.planes.android.screens.video.VideoModelRepository
 import com.planes.android.screens.video.VideoModelRepositoryInterface
 import com.planes.android.ui.theme.PlanesComposeTheme
 import com.planes.android.widgets.HelpPopupBox
