@@ -7,7 +7,7 @@ import java.util.*
 /**Implements the logic of planes in a grid.
  * Manages a list of plane positions and orientations.
  */
-class PlaneGrid(//gets the size of the grid
+open class PlaneGrid(//gets the size of the grid
         //number of rows and columns
     private var rowNo: Int,
     private var colNo: Int,
@@ -52,7 +52,7 @@ class PlaneGrid(//gets the size of the grid
     }
 
     //initializes the grid - open for tests
-   fun initGrid() {
+    open fun initGrid() {
         resetGrid()
         initGridByAutomaticGeneration()
         //compute list of plane points - needed for the guessing process

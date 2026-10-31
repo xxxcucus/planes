@@ -37,6 +37,8 @@ androidBuiltInKotlin = "9.3.2"
 baselineprofile = "1.2.4"
 profileinstaller = "1.3.1"
 
+google-truth = "1.4.5"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -91,6 +93,9 @@ androidx-compose-material3-lint = { group = "androidx.compose.material3", name =
 androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
 androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "profileinstaller" }
+
+google-truth = { group = "com.google.truth", name = "truth", version.ref = "google-truth" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

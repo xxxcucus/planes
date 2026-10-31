@@ -114,6 +114,8 @@ dependencies {
     //implementation ("com.google.android.exoplayer:exoplayer:2.19.1")
 
     testImplementation(libs.junit)
+    testImplementation(libs.google.truth)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
