@@ -230,7 +230,7 @@ open class PlaneGrid(//gets the size of the grid
         //build a list of all possible positions
         //enum Orientation {NorthSouth=0, SouthNorth=1, WestEast=2, EastWest=3};
         for (i in 0 until rowNo) for (j in 0 until colNo) for (k in 0..3) {
-            val pl = Plane(i, j, Orientation.values()[k])
+            val pl = Plane(i, j, Orientation.entries[k])
             listPossiblePositions.add(pl)
         }
         while (count < planeNo) {
