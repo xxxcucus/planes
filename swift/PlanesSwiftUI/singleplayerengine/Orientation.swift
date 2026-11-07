@@ -5,14 +5,14 @@
 //  Created by Cristian Cucu on 30.10.26.
 //
 
-enum Orientation: Int {
-    case NorthSouth = 0
-    case SouthNorth = 1
-    case WestEast = 2
-    case EastWest = 3
+enum Orientation: Int, CaseIterable {
+    case northSouth = 0
+    case southNorth = 1
+    case westEast = 2
+    case eastWest = 3
     
     static func fromInt(_ value: Int) -> Orientation {
-        return Orientation(rawValue: value) ?? .NorthSouth
+        return Orientation(rawValue: value) ?? .northSouth
     }
 }
 

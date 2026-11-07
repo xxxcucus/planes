@@ -6,7 +6,7 @@
 //
 
 enum GuessType: Int, CaseIterable {
-    case Miss = 0
-    case Hit = 1
-    case Dead = 2
+    case miss = 0
+    case hit = 1
+    case dead = 2
 }
