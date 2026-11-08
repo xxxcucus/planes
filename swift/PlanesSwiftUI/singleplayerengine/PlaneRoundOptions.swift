@@ -1,9 +1,3 @@
-//
-//  PlaneRoundOptions.swift
-//  PlanesSwiftUI
-//
-//  Created by Cristian Cucu on 07.11.26.
-//
 
 struct PlaneRoundOptions {
     

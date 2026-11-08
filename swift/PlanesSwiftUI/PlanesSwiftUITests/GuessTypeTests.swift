@@ -1,9 +1,3 @@
-//
-//  GuessTypeTests.swift
-//  PlanesSwiftUI
-//
-//  Created by Cristian Cucu on 01.11.26.
-//
 
 import Testing
 

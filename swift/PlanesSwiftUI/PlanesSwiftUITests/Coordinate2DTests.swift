@@ -1,9 +1,3 @@
-//
-//  Coordinate2DTests.swift
-//  PlanesSwiftUI
-//
-//  Created by Cristian Cucu on 02.11.26.
-//
 
 import Testing
 

@@ -23,8 +23,7 @@ class GameStatistics {
     //constructor
     init {
         reset()
-        m_computerWins = 0
-        m_playerWins = 0
+        resetGameScore()
     }
     //resets the fields related to one round of the game
     fun reset() {

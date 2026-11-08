@@ -1,9 +1,3 @@
-//
-//  Coordinate2D.swift
-//  PlanesSwiftUI
-//
-//  Created by Cristian Cucu on 02.11.26.
-//
 
 struct Coordinate2D : Equatable {
 

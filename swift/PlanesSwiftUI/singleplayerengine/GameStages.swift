@@ -1,9 +1,3 @@
-//
-//  GameStages.swift
-//  PlanesSwiftUI
-//
-//  Created by Cristian Cucu on 02.11.26.
-//
 
 enum GameStages: Int {
     case gameNotStarted = 0

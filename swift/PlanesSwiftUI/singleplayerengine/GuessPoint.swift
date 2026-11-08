@@ -1,9 +1,3 @@
-//
-//  GuessPoint.swift
-//  PlanesSwiftUI
-//
-//  Created by Cristian Cucu on 07.11.26.
-//
 
 struct GuessPoint : Equatable {
     var row: Int
