@@ -101,6 +101,10 @@ class ConversationViewModel @Inject constructor(private val chatRepository: Chat
 
         viewModelScope.launch {
 
+            if (m_UserId.value == null || m_UserName.value == null
+                || m_ChatPartnerId.value == null || m_ChatPartnerUsername.value == null)
+                return@launch
+
             chatRepository.getMessages(
                 m_UserName.value!!, m_UserId.value?.toLong()!!,
                 m_ChatPartnerUsername.value!!, m_ChatPartnerId.value?.toLong()!!,
