@@ -70,6 +70,10 @@ class ConversationViewModel @Inject constructor(private val chatRepository: Chat
 
         val message = m_TextToSend.value.trim()
 
+        if (m_UserId.value == null || m_UserName.value == null
+            || m_ChatPartnerId.value == null || m_ChatPartnerUsername.value == null)
+            return
+
         val sendChatMessageRequest = SendChatMessageRequest(m_ChatPartnerId.value!!,
             message, m_MessageIdx.value.toString(),m_UserId.value!!, m_UserName.value!!
             )
