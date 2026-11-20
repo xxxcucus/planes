@@ -17,6 +17,7 @@ import com.planes.android.screens.about.AboutScreen
 import com.planes.android.screens.chat.ChatScreen
 import com.planes.android.screens.chat.ChatUserListViewModel
 import com.planes.android.screens.conversation.ConversationScreen
+import com.planes.android.screens.conversation.ConversationViewModel
 import com.planes.android.screens.createmultiplayergame.CreateMultiplayerGameScreen
 import com.planes.android.screens.createmultiplayergame.CreateViewModel
 import com.planes.android.screens.deleteuser.DeleteUserScreen
@@ -76,6 +77,7 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
     val noRobotViewModel: NoRobotViewModel = hiltViewModel()
     val createViewModel: CreateViewModel = hiltViewModel()
     val chatUserListViewModel: ChatUserListViewModel = hiltViewModel()
+    val conversationViewModel: ConversationViewModel = hiltViewModel()
 
     //TODO: to use viewmodels local to the screens
 
@@ -203,7 +205,8 @@ fun PlanesNavigation(modifier: Modifier, currentTitleState: MutableState<String>
             LoginScreen(modifier = modifier, currentTitleState, currentScreenState,
                 showPopupState, userLoggedInState, navController = navController,
                 loginViewModel, chatUserListViewModel, optionsViewModel,
-                createViewModel, planeRoundMultiplayer, autologin)
+                createViewModel, conversationViewModel,
+                planeRoundMultiplayer, autologin)
         }
         composable(PlanesScreens.Register.name) {
             RegisterScreen(modifier = modifier, currentTitleState, currentScreenState,

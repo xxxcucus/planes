@@ -140,4 +140,8 @@ class ConversationViewModel @Inject constructor(private val chatRepository: Chat
             } while (m_PollForChatMessages.value)
         }
     }
+
+    fun stopPolling() {
+        m_PollForChatMessages.value = false
+    }
 }

@@ -29,6 +29,7 @@ import androidx.navigation.NavController
 import com.planes.android.R
 import com.planes.android.navigation.PlanesScreens
 import com.planes.android.screens.chat.ChatUserListViewModel
+import com.planes.android.screens.conversation.ConversationViewModel
 import com.planes.android.screens.createmultiplayergame.CreateViewModel
 import com.planes.android.screens.preferences.PreferencesViewModel
 import com.planes.android.widgets.CommonTextFieldWithViewModel
@@ -46,6 +47,7 @@ fun LoginScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                 chatUserListViewModel: ChatUserListViewModel,
                 optionsViewModel: PreferencesViewModel,
                 createViewModel: CreateViewModel,
+                conversationViewModel: ConversationViewModel,
                 planeRoundMultiplayer: MultiPlayerRoundInterface,
                 autologin: Boolean) {
 
@@ -96,6 +98,7 @@ fun LoginScreen(modifier: Modifier, currentTitleState: MutableState<String>,
                     chatUserListViewModel.setPollingStop(true)
                     createViewModel.setPollingStop(true)
                     createViewModel.resetState()
+                    conversationViewModel.stopPolling()
                     planeRoundMultiplayer.initRound()
                     loginViewModel.logout()
                 }) {
