@@ -29,6 +29,7 @@ open class VectorIterator<T> {
 
     open func setInternalList(_ list: [T]) {
         m_internalList = list
+        reset()
     }
 }
 
