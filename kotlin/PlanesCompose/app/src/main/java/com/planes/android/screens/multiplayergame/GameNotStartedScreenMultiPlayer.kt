@@ -254,7 +254,7 @@ fun GameNotStartedScreenMultiPlayer(modifier: Modifier, currentTitleState: Mutab
                     verticalArrangement = Arrangement.Center) {
 
                     val winnerTitle: String = when(planeRound.getRoundEndStatus()) {
-                        RoundEndStatus.PlayerWins -> stringResource(R.string.player_wins)
+                        RoundEndStatus.PlayerWins -> stringResource(R.string.player_winner)
                         RoundEndStatus.ComputerWins -> stringResource(R.string.opponent_winner)
                         RoundEndStatus.Draw -> stringResource(R.string.draw_result)
                         RoundEndStatus.Cancelled -> stringResource(R.string.round_cancelled)
