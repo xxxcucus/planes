@@ -15,15 +15,15 @@ class HeadDataTest {
 
     @Test
     fun HeadData_UpdateCorrectOrientSet() {
-        var hd = HeadData(10, 10, 5, 5)
+        val hd = HeadData(10, 10, 5, 5)
         hd.m_correctOrient = 0
         Truth.assertThat(hd.update(GuessPoint(0, 0))).isTrue()
     }
 
     @Test
     fun HeadData_UpdateOneOrientationCompletAndNotDiscarded() {
-        var hd = HeadData(10, 10, 5, 5)
-        var pod = PlaneOrientationData()  //already correct orientation found
+        val hd = HeadData(10, 10, 5, 5)
+        val pod = PlaneOrientationData()  //already correct orientation found
         pod.m_discarded = false
         hd.m_options[0] = pod
         Truth.assertThat(hd.update(GuessPoint(0, 0))).isTrue()
@@ -32,7 +32,7 @@ class HeadDataTest {
 
     @Test
     fun HeadData_UpdateThreeOrientationsDiscardedAndOneNotDiscarded() {
-        var hd = HeadData(10, 10, 5, 5)
+        val hd = HeadData(10, 10, 5, 5)
         hd.m_options[0].m_discarded = true
         hd.m_options[1].m_discarded = true
         hd.m_options[2].m_discarded = true
@@ -43,7 +43,7 @@ class HeadDataTest {
 
     @Test
     fun HeadData_UpdateFourOrientationsDiscarded() {
-        var hd = HeadData(10, 10, 5, 5)
+        val hd = HeadData(10, 10, 5, 5)
         hd.m_options[0].m_discarded = true
         hd.m_options[1].m_discarded = true
         hd.m_options[2].m_discarded = true
@@ -53,7 +53,7 @@ class HeadDataTest {
 
     @Test
     fun HeadData_UpdateTwoOrientationsDiscardedAndTwoNotDiscarded() {
-        var hd = HeadData(10, 10, 5, 5)
+        val hd = HeadData(10, 10, 5, 5)
         hd.m_options[0].m_discarded = true
         hd.m_options[1].m_discarded = true
         hd.m_options[2].m_discarded = false

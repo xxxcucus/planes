@@ -110,7 +110,9 @@ class Plane(val row: Int, val col: Int, orient: Orientation) : Cloneable {
         return false
     }
 
-    //returns whether a plane position is valid (the plane is completely contained inside the grid) in a grid with row and col
+    //returns whether a plane position is valid
+    // (the plane is completely contained inside the grid)
+    // in a grid with row and col
     fun isPositionValid(row: Int, col: Int): Boolean {
         val ppi = PlanePointIterator(this)
         while (ppi.hasNext()) {

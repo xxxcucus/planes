@@ -93,6 +93,7 @@ class PlanePointIteratorTest {
                 retVal[value] = 1
             }
         }
+
         return retVal
     }
 }

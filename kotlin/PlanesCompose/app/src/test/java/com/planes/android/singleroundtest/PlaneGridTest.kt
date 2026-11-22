@@ -59,7 +59,7 @@ class PlaneGridTest {
         val rows = 10
         val cols = 10
         val grid = PlaneGridStubNoPlanes(rows, cols, 3, false)
-        var coordinateVector = Vector<Coordinate2D>()
+        val coordinateVector = Vector<Coordinate2D>()
         coordinateVector.addAll(listOf(Coordinate2D(0,0), Coordinate2D(0, 1)))
         grid.setPlanePoints(coordinateVector);
         Truth.assertThat(grid.isPointOnPlane(0, 0).first).isTrue()
@@ -146,7 +146,7 @@ class PlaneGridTest {
         val rows = 10
         val cols = 10
         val grid = PlaneGridStubNoPlanes(rows, cols, 3, false)
-        var result = Vector<Int>()
+        val result = Vector<Int>()
         result.addAll(listOf(0));
         Truth.assertThat(grid.decodeAnnotation(1)).isEqualTo(result)
         result.clear()

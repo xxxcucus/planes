@@ -8,6 +8,8 @@ class PlanePointIterator(pl: Plane) : VectorIterator<Coordinate2D>() {
     }
 
     private fun generateList() {
+        m_internalList.clear()
+
         val pointsNorthSouth = arrayOf(
             Coordinate2D(0, 0), Coordinate2D(0, 1), Coordinate2D(-1, 1),
                 Coordinate2D(1, 1), Coordinate2D(-2, 1), Coordinate2D(2, 1),
