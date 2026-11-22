@@ -24,7 +24,7 @@ struct Plane : Equatable {
     }
     
     //translates a plane by a 2d translation vector
-    func add(qp: Coordinate2D) -> Plane {
+    func adding(qp: Coordinate2D) -> Plane {
         return Plane(row: self.row + qp.x, col: self.col + qp.y, orient: self.orient)
     }
     
@@ -60,4 +60,59 @@ struct Plane : Equatable {
         qp == head
     }
     
+    //checks if a certain point on the grid is on the plane
+    func containsPoint(qp: Coordinate2D) -> Bool {
+        let ppi = PlanePointIterator(pl: self)
+        while (ppi.hasNext()) {
+            let qp1 = ppi.next()
+            if qp == qp1 {
+                return true
+            }
+        }
+        return false
+    }
+    
+    //returns whether a plane position is valid
+    // (the plane is completely contained inside the grid)
+    // in a grid with row and col
+    func isPositionValid(row: Int, col: Int) -> Bool {
+        let ppi = PlanePointIterator(pl: self)
+        while (ppi.hasNext()) {
+            let qp = ppi.next()
+            if !(0..<row).contains(qp.x) {
+                return false
+            }
+            if !(0..<col).contains(qp.y) {
+                return false
+            }
+        }
+        return true
+    }
+
+    //displays the plane
+    func toString() -> String {
+        let orientationText: String
+        switch self.orient {
+            case .northSouth:
+                orientationText = "NorthSouth"
+            case .southNorth:
+                orientationText = "SouthNorth"
+            case .eastWest:
+                orientationText = "EastWest"
+            case .westEast:
+                orientationText = "WestEast"
+        }
+        return "Plane head: \(self.row)-\(self.col) oriented: \(orientationText)"
+    }
+    
+    // do not return the head
+    func planePoints() -> [Coordinate2D] {
+        let ppi = PlanePointIterator(pl: self)
+        var retVal: [Coordinate2D] = []
+        _ = ppi.next() // do not return the head
+        while ppi.hasNext() {
+            retVal.append(ppi.next())
+        }
+        return retVal
+    }
 }
