@@ -123,7 +123,8 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                     "Existing game between ${createViewModel.getFirstPlayerName("Status")} and ${createViewModel.getSecondPlayerName("Status")}"
                 )
             if (gameExists == false) {
-                Text(text = stringResource(R.string.creategame_possible))
+                Text(text = stringResource(R.string.creategame_possible),
+                    modifier = Modifier.padding(15.dp))
                 Row {
                     Button(
                         modifier = Modifier.padding(15.dp),
@@ -146,7 +147,8 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
                     text = stringResource(
                         R.string.connecttogame_possible,
                         createViewModel.getFirstPlayerName("Status")!!
-                    )
+                    ),
+                    modifier = Modifier.padding(15.dp)
                 )
                 Row {
                     Button(
