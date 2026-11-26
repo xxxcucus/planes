@@ -191,7 +191,8 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
 
             Text(text = stringResource(R.string.connected_togame,
                 createViewModel.getGameName("Connect")!!
-            ))
+            ),
+                modifier = Modifier.padding(15.dp))
             Button(
                 modifier = Modifier.padding(15.dp),
                 onClick = {
@@ -241,7 +242,8 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
             SelectionContainer() {
                 Text(text = stringResource(R.string.wait_for_opponent,
                     createViewModel.getGameName("Create")!!
-                ))
+                ),
+                    modifier = Modifier.padding(15.dp))
             }
 
             Button(
@@ -256,7 +258,8 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
 
             Text(text = stringResource(R.string.connected_togame,
                 createViewModel.getGameName("Create")!!
-            ))
+            ),
+                modifier = Modifier.padding(15.dp))
             Button(
                 modifier = Modifier.padding(15.dp),
                 onClick = {
