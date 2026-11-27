@@ -465,5 +465,6 @@ class CreateViewModel @Inject constructor(private val repository: PlanesGameRepo
         m_Error.value = null
         m_CreateState.value = CreateGameStates.StatusNotRequested
         m_GameStatusMap.clear()
+        m_StopPollingState.value = true
     }
 }

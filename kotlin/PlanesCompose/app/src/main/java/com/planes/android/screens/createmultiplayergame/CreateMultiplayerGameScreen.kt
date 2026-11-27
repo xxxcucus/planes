@@ -263,7 +263,7 @@ fun CreateMultiplayerGameScreen(modifier: Modifier,
             Button(
                 modifier = Modifier.padding(15.dp),
                 onClick = {
-                    createViewModel.setCreateState(CreateGameStates.StatusNotRequested)
+                    createViewModel.resetState()
                 }) {
                 Text(text = stringResource(R.string.connect_another_game))
             }
