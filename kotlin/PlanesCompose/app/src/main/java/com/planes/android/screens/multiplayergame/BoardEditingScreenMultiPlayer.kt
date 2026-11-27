@@ -364,10 +364,10 @@ fun TransferPlanePositionsVerticalLayout(
         ) {
 
             val boardEditingState = playerGridViewModel.getBoardEditingState()
-            var infoText = "Send own plane\n positions to opponent"
+            var infoText = stringResource(R.string.send_own_planepositions)
 
             if (boardEditingState == BoardEditingStates.WaitForOpponentPlanePositions)
-                infoText = "Planes Positions\n sent to Opponent"
+                infoText = stringResource(R.string.plane_positions_sent)
 
             OneLineGameButton(
                 textLine = infoText, playerGridViewModel,

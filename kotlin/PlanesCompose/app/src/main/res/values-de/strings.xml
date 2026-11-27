@@ -223,4 +223,6 @@
     <string name="tutorials">Tutorials</string>
     <string name="multiplayer_game_statistics">Statisk des Multiplayer Spiels</string>
     <string name="singleplayer_game_statistics">Statistik des Singleplayer Spiels</string>
+    <string name="send_own_planepositions">Eigene Flugzeugpositionen \n an den Gegner senden</string>
+    <string name="plane_positions_sent">Flugzeugpositionen \n wurden abgesendet</string>
 </resources>

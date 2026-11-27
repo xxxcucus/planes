@@ -239,6 +239,8 @@
     <string name="singleplayer_game_statistics">Single Player Game Statistics</string>
     <string name="game_name_clipboard">Copy game name to clipboard</string>
 
+    <string name="send_own_planepositions">Sending own plane  \n positions to opponent</string>
+    <string name="plane_positions_sent">"Planes positions\n sent to opponent"</string>
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
     <string name="appbar_scrolling_view_behavior" translatable="false">

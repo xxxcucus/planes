@@ -224,4 +224,6 @@
     <string name="tutorials">Tutorials</string>
     <string name="multiplayer_game_statistics">Statistic pentru Joc Multiplayer</string>
     <string name="singleplayer_game_statistics">Statistici pentru Joc Simplu</string>
+    <string name="send_own_planepositions">Trimit pozitiile avioanelor \n catre oponent</string>
+    <string name="plane_positions_sent">Pozitiile avioanelor \n au fost trimise</string>
 </resources>
